@@ -1,0 +1,18 @@
+
+- KouChat
+
+To compile the source:
+javac kouchat/KouChat.java
+
+To run the program:
+java kouchat.KouChat
+
+To make a jar file;
+jar cvmf manifest.txt KouChat.jar kouchat/*.class kouchat/*/*.class icons/kou_* README COPYING
+
+To run the jar file:
+java -jar KouChat.jar
+
+
+In Windows, you might need to change '/' with '\' and ':' with ';'
+and possibly more ;)

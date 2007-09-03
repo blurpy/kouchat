@@ -1,0 +1,25 @@
+
+- KouChat ChangeLog
+
+* version 0.6.1 (29.08.2007):
+  - Fixed charset issues
+  - Fixed Windows bug where text could not be selected in the chat
+  - Fixed Windows bug where right clicking the systray icon would hide and show the window
+  - Refactored a lot of the GUI code
+
+
+* version 0.6.0 (08.08.2007):
+  - Translated application to English
+  - Added support for sending files
+  - Replaced external systray library with Java 1.6 systray
+  - Fixed focus issues with the settings window
+
+
+* version 0.5.1 (15.03.2006):
+  - Fixed focus on the textfield
+  - Added a temporary fix to make the gui update after being hidden in systray, when using jdk 1.6.0 betas
+  - Added GPL license notes
+  - Made my own icons
+  - Made the systray tooltip and window title update at the same time
+  - Added compile instructions
+  - Fixed a bug where the wrong ip address was added to a nickname when joining
