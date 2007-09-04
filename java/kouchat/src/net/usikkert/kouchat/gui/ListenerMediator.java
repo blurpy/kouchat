@@ -2,7 +2,6 @@
 package net.usikkert.kouchat.gui;
 
 import javax.swing.JOptionPane;
-
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.*;
 import net.usikkert.kouchat.net.MessageListener;

@@ -22,9 +22,7 @@
 package net.usikkert.kouchat.gui;
 
 import javax.swing.*;
-
 import net.usikkert.kouchat.Constants;
-
 import java.awt.*;
 import java.awt.event.*;
 

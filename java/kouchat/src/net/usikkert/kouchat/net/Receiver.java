@@ -24,7 +24,6 @@ package net.usikkert.kouchat.net;
 import java.io.IOException;
 import java.net.*;
 import java.util.*;
-
 import net.usikkert.kouchat.Constants;
 
 public class Receiver extends Thread

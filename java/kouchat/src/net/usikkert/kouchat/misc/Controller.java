@@ -1,9 +1,7 @@
 
 package net.usikkert.kouchat.misc;
 
-import net.usikkert.kouchat.net.MessageListener;
-import net.usikkert.kouchat.net.MessageParser;
-import net.usikkert.kouchat.net.MessageSender;
+import net.usikkert.kouchat.net.*;
 
 public class Controller
 {

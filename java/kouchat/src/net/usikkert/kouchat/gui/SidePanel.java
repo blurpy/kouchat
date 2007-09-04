@@ -24,7 +24,6 @@ package net.usikkert.kouchat.gui;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.Nick;
 

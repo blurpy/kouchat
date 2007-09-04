@@ -22,10 +22,7 @@
 package net.usikkert.kouchat.gui;
 
 import javax.swing.AbstractListModel;
-
-import net.usikkert.kouchat.misc.Nick;
-import net.usikkert.kouchat.misc.NickList;
-import net.usikkert.kouchat.misc.NickListListener;
+import net.usikkert.kouchat.misc.*;
 
 public class NickListModel extends AbstractListModel implements NickListListener
 {

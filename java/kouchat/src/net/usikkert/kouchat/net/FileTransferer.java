@@ -23,7 +23,6 @@ package net.usikkert.kouchat.net;
 
 import java.io.*;
 import java.net.*;
-
 import net.usikkert.kouchat.gui.FileStatus;
 import net.usikkert.kouchat.misc.Nick;
 

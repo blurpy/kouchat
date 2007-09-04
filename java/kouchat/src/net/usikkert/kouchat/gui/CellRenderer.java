@@ -23,7 +23,6 @@ package net.usikkert.kouchat.gui;
 
 import java.awt.*;
 import javax.swing.*;
-
 import net.usikkert.kouchat.misc.Nick;
 
 public class CellRenderer extends JLabel implements ListCellRenderer

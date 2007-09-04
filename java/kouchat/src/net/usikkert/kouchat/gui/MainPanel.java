@@ -22,15 +22,11 @@
 package net.usikkert.kouchat.gui;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
+import javax.swing.event.*;
 import javax.swing.text.*;
-
-import net.usikkert.kouchat.misc.Settings;
-import net.usikkert.kouchat.misc.Tools;
+import net.usikkert.kouchat.misc.*;
 
 public class MainPanel extends JPanel implements ActionListener, CaretListener
 {

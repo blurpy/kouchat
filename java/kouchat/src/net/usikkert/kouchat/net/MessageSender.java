@@ -1,9 +1,7 @@
 
 package net.usikkert.kouchat.net;
 
-import net.usikkert.kouchat.misc.Nick;
-import net.usikkert.kouchat.misc.Settings;
-import net.usikkert.kouchat.misc.Topic;
+import net.usikkert.kouchat.misc.*;
 
 public class MessageSender
 {

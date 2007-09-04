@@ -23,7 +23,6 @@ package net.usikkert.kouchat.net;
 
 import java.io.IOException;
 import java.net.*;
-
 import net.usikkert.kouchat.Constants;
 
 public class Sender

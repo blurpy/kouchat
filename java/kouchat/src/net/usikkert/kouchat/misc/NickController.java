@@ -2,7 +2,6 @@
 package net.usikkert.kouchat.misc;
 
 import javax.swing.JOptionPane;
-
 import net.usikkert.kouchat.Constants;
 
 public class NickController
