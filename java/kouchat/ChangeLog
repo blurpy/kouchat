@@ -6,6 +6,7 @@
   - Fixed Windows bug where text could not be selected in the chat
   - Fixed Windows bug where right clicking the systray icon would hide and show the window
   - Refactored a lot of the GUI code
+  - New package structure
 
 
 * version 0.6.0 (08.08.2007):
