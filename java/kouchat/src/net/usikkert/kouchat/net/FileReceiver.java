@@ -22,146 +22,18 @@
 package net.usikkert.kouchat.net;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
-import net.usikkert.kouchat.gui.FileStatus;
+//import net.usikkert.kouchat.gui.FileStatus;
 import net.usikkert.kouchat.misc.Nick;
 
-public class FileTransferer
-{
-	public boolean send( Nick nick, int port, File file )
-	{
-		boolean sent = false;
-		
-		FileInputStream fis = null;
-		OutputStream os = null;
-		Socket sock = null;
-		FileStatus fs = null;
-		
-		try
-		{
-			int counter = 0;
-			
-			while ( sock == null && counter < 10 )
-			{
-				counter++;
-				
-				try
-				{
-					sock = new Socket( InetAddress.getByName( nick.getIpAddress() ), port );
-				}
-				
-				catch ( UnknownHostException e1 )
-				{
-					e1.printStackTrace();
-				}
-				
-				catch ( IOException e1 )
-				{
-					e1.printStackTrace();
-				}
-				
-				try
-				{
-					Thread.sleep( 100 );
-				}
-				
-				catch ( InterruptedException e ) {}
-			}
-		
-			if ( sock != null )
-			{
-				fis = new FileInputStream( file );
-				os = sock.getOutputStream();
-				
-				byte b[] = new byte[1024];
-				long transferred = 0;
-				int tmpTransferred = 0;
-				int percent = 0;
-				int tmpPercent = 0;
-				
-				fs = new FileStatus( "Sending " + file.getName() + " to " + nick.getNick() + "...",
-						( transferred / 1024 ) + "KB of " + ( file.length() / 1024 ) + "KB are transferred..." );
-				
-				while ( ( tmpTransferred = fis.read( b ) ) != -1 && !fs.isCancel() )
-				{
-					os.write( b, 0, tmpTransferred );
-					transferred += tmpTransferred;
-					percent = (int) ( ( transferred * 100 ) / file.length() );
-					
-					if ( percent > tmpPercent )
-					{
-						tmpPercent = percent;
-						fs.setStatus( percent );
-						fs.setSendingLabelText( ( transferred / 1024 ) + "KB of " + ( file.length() / 1024 )
-								+ "KB are transferred..." );
-					}
-				}
-				
-				if ( !fs.isCancel() && transferred == file.length() )
-					sent = true;
-			}
-		}
-		
-		catch ( UnknownHostException e )
-		{
-			e.printStackTrace();
-		}
-		
-		catch ( IOException e )
-		{
-			e.printStackTrace();
-		}
-		
-		finally
-		{
-			try
-			{
-				if ( fis != null )
-					fis.close();
-			}
-			
-			catch ( IOException e ) {}
-			
-			try
-			{
-				if ( os != null )
-					os.flush();
-			}
-			
-			catch ( IOException e ) {}
-			
-			try
-			{
-				if ( os != null )
-					os.close();
-			}
-			
-			catch ( IOException e ) {}
-			
-			try
-			{
-				if ( sock != null )
-					sock.close();
-			}
-			catch ( IOException e ) {}
-			
-			if ( fs != null )
-				fs.close();
-		}
-		
-		return sent;
-	}
-	
+public class FileReceiver
+{	
 	public boolean receive( Nick nick, int port, File file, long size )
 	{
 		boolean received = false;
@@ -170,7 +42,7 @@ public class FileTransferer
 		Socket sock = null;
 		FileOutputStream fos = null;
 		InputStream is = null;
-		FileStatus fs = null;
+		//FileStatus fs = null;
 		
 		try
 		{
@@ -189,10 +61,10 @@ public class FileTransferer
 			int percent = 0;
 			int tmpPercent = 0;
 			
-			fs = new FileStatus( "Receiving " + file.getName() + " from " + nick.getNick() + "...",
-					( transferred / 1024 ) + "KB of " + ( size / 1024 ) + "KB are transferred..." );
+//			fs = new FileStatus( "Receiving " + file.getName() + " from " + nick.getNick() + "...",
+//					( transferred / 1024 ) + "KB of " + ( size / 1024 ) + "KB are transferred..." );
 			
-			while ( ( tmpTransferred = is.read( b ) ) != -1 && !fs.isCancel())
+			while ( ( tmpTransferred = is.read( b ) ) != -1 /*&& !fs.isCancel()*/ )
 			{
 				fos.write( b, 0, tmpTransferred );
 				transferred += tmpTransferred;
@@ -201,13 +73,13 @@ public class FileTransferer
 				if ( percent > tmpPercent )
 				{
 					tmpPercent = percent;
-					fs.setStatus( percent );
-					fs.setSendingLabelText( ( transferred / 1024 ) + "KB of " + ( size / 1024 ) + "KB are transferred..." );
+//					fs.setStatus( percent );
+//					fs.setSendingLabelText( ( transferred / 1024 ) + "KB of " + ( size / 1024 ) + "KB are transferred..." );
 				}
 			}
 			
-			if ( !fs.isCancel() && transferred == size )
-				received = true;
+//			if ( !fs.isCancel() && transferred == size )
+//				received = true;
 		}
 		
 		catch ( IOException e )
@@ -257,8 +129,8 @@ public class FileTransferer
 			
 			catch ( IOException e ) {}
 			
-			if ( fs != null )
-				fs.close();
+//			if ( fs != null )
+//				fs.close();
 		}
 		
 		return received;

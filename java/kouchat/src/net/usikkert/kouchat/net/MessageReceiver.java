@@ -27,20 +27,33 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 
-import net.usikkert.kouchat.Constants;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-public class Sender
+import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.event.ReceiverEvent;
+import net.usikkert.kouchat.event.ReceiverListener;
+
+public class MessageReceiver extends Thread
 {
+	private static final int BYTESIZE = 1024;
+	
 	private MulticastSocket mcSocket;
 	private InetAddress address;
+	private boolean run;
+	private List<ReceiverListener> listeners;
 	
-	public Sender()
+	public MessageReceiver()
 	{
+		listeners = new ArrayList<ReceiverListener>();
+		
 		try
 		{
 			mcSocket = new MulticastSocket( Constants.NETWORK_PORT );
 			address = InetAddress.getByName( Constants.NETWORK_IP );
 			mcSocket.joinGroup( address );
+			run = true;
 		}
 		
 		catch ( IOException e )
@@ -49,24 +62,39 @@ public class Sender
 		}
 	}
 	
-	public void send( String message )
+	public void run()
 	{
-		try
+		while ( run )
 		{
-			DatagramPacket packet = new DatagramPacket( message.getBytes( "ISO-8859-15" ), message.length(), address, Constants.NETWORK_PORT );
-			mcSocket.send( packet );
-		}
-		
-		catch ( IOException e )
-		{
-			e.printStackTrace();
+			try
+			{
+				DatagramPacket packet = new DatagramPacket( new byte[BYTESIZE], BYTESIZE );
+				
+				mcSocket.receive( packet );
+				String ip = packet.getAddress().getHostAddress();
+				String message = new String( packet.getData(), "ISO-8859-15" ).trim();
+				ReceiverEvent event = new ReceiverEvent( this, message, ip );
+				Iterator<ReceiverListener> it = listeners.iterator();
+				
+				while ( it.hasNext() )
+				{
+					ReceiverListener listener = it.next();
+					listener.messageArrived( event );
+				}
+			}
+			
+			catch ( IOException e )
+			{
+				System.err.println( e );
+			}
 		}
 	}
 	
-	public void stopSender()
+	public void stopReceiver()
 	{
 		try
 		{
+			run = false;
 			mcSocket.leaveGroup( address );
 			mcSocket.close();
 		}
@@ -75,5 +103,15 @@ public class Sender
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	public void addReceiverListener( ReceiverListener listener )
+	{
+		listeners.add( listener );
+	}
+	
+	public void removeReceiverListener( ReceiverListener listener )
+	{
+		listeners.remove( listener );
 	}
 }
