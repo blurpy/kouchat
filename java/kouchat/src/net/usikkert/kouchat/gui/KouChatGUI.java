@@ -22,9 +22,6 @@
 package net.usikkert.kouchat.gui;
 
 import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.event.DayListener;
-import net.usikkert.kouchat.util.DayTimer;
-import net.usikkert.kouchat.util.Tools;
 
 import java.awt.BorderLayout;
 import java.awt.KeyEventDispatcher;
@@ -33,8 +30,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
-import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -109,16 +104,5 @@ public class KouChatGUI extends JFrame
 		mainP.appendSystemMessage( "*** Welcome to " + Constants.APP_NAME + " v" + Constants.APP_VERSION+ "!" );
 		mainP.getMsgTF().requestFocus();
 		listener.start();
-		
-		// TODO testing
-		DayTimer dt = new DayTimer();
-		dt.addDayListener( new DayListener()
-		{
-			@Override
-			public void dayChanged( Date date )
-			{
-				mainP.appendSystemMessage( "*** Day changed to " + Tools.dateToString( null, "EEEE, d MMMM yyyy" ) );
-			}
-		} );
 	}
 }

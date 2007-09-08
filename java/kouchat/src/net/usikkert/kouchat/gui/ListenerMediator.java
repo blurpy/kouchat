@@ -1,15 +1,19 @@
 
 package net.usikkert.kouchat.gui;
 
+import java.util.Date;
+
 import javax.swing.JOptionPane;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.event.DayListener;
 import net.usikkert.kouchat.event.MessageListener;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.Nick;
 import net.usikkert.kouchat.misc.NickList;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.Topic;
+import net.usikkert.kouchat.util.DayTimer;
 import net.usikkert.kouchat.util.Tools;
 
 public class ListenerMediator implements MessageListener
@@ -24,6 +28,7 @@ public class ListenerMediator implements MessageListener
 	//private SidePanel sideP;
 	private SettingsFrame settingsFrame;
 	private Nick me;
+	private DayTimer dayTimer;
 	
 	public ListenerMediator( KouChatGUI gui )
 	{
@@ -32,6 +37,16 @@ public class ListenerMediator implements MessageListener
 		settings = Settings.getSettings();
 		me = settings.getNick();
 		controller.addMessageListener( this );
+		
+		dayTimer = new DayTimer();
+		dayTimer.addDayListener( new DayListener()
+		{
+			@Override
+			public void dayChanged( Date date )
+			{
+				mainP.appendSystemMessage( "*** Day changed to " + Tools.dateToString( null, "EEEE, d MMMM yyyy" ) );
+			}
+		} );
 	}
 	
 	public void setMainP( MainPanel mainP )

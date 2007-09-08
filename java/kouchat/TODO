@@ -15,5 +15,3 @@
  - Fix "changed topic" message when logging on
  - Add buffer limit to the chat
  - Dont accept messages from users not logged on
-
- - Factory for loading ui

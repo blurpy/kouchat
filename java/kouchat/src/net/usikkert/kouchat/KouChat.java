@@ -21,12 +21,10 @@
 
 package net.usikkert.kouchat;
 
-import net.usikkert.kouchat.gui.KouChatGUI;
-
 public class KouChat
 {
 	public static void main( String[] args )
 	{
-		new KouChatGUI();
+		UIFactory.showUI();
 	}
 }
