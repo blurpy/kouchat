@@ -21,9 +21,20 @@
 
 package net.usikkert.kouchat.gui;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.AWTException;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.ImageIcon;
+
+import net.usikkert.kouchat.Constants;
 
 public class SysTray implements ActionListener, MouseListener
 {
@@ -52,6 +63,7 @@ public class SysTray implements ActionListener, MouseListener
 		trayIcon = new TrayIcon( cow_icon_normal, "", menu );
 		trayIcon.setImageAutoSize( true );
 		trayIcon.addMouseListener( this );
+		trayIcon.setToolTip( Constants.APP_NAME + " v" + Constants.APP_VERSION + " - (Not connected)" );
 		
 		try
 		{

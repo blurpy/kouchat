@@ -1,5 +1,5 @@
 
-package net.usikkert.kouchat.net;
+package net.usikkert.kouchat.event;
 
 import net.usikkert.kouchat.misc.Nick;
 

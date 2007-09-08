@@ -1,5 +1,5 @@
 
-package net.usikkert.kouchat.misc;
+package net.usikkert.kouchat.event;
 
 public interface NickListListener
 {

@@ -21,8 +21,14 @@
 
 package net.usikkert.kouchat.gui;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
+
 import net.usikkert.kouchat.misc.Nick;
 
 public class CellRenderer extends JLabel implements ListCellRenderer

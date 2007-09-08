@@ -1,8 +1,14 @@
 
 package net.usikkert.kouchat.net;
 
-import java.util.*;
-import net.usikkert.kouchat.misc.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import net.usikkert.kouchat.event.MessageListener;
+import net.usikkert.kouchat.event.ReceiverEvent;
+import net.usikkert.kouchat.event.ReceiverListener;
+import net.usikkert.kouchat.misc.Nick;
+import net.usikkert.kouchat.misc.Settings;
 
 public class MessageParser implements ReceiverListener
 {

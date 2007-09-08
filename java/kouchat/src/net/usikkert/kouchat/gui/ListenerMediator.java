@@ -2,9 +2,15 @@
 package net.usikkert.kouchat.gui;
 
 import javax.swing.JOptionPane;
+
 import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.misc.*;
-import net.usikkert.kouchat.net.MessageListener;
+import net.usikkert.kouchat.event.MessageListener;
+import net.usikkert.kouchat.misc.Controller;
+import net.usikkert.kouchat.misc.Nick;
+import net.usikkert.kouchat.misc.NickList;
+import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.misc.Topic;
+import net.usikkert.kouchat.util.Tools;
 
 public class ListenerMediator implements MessageListener
 {
@@ -156,6 +162,7 @@ public class ListenerMediator implements MessageListener
 	public void start()
 	{
 		controller.logOn();
+		updateTitleAndTray();
 	}
 	
 	public void quit()
@@ -474,7 +481,6 @@ public class ListenerMediator implements MessageListener
 		controller.sendExposingMessage();
 	}
 
-	//TODO uendelig loop
 	@Override
 	public void nickChanged( int userCode, String newNick )
 	{

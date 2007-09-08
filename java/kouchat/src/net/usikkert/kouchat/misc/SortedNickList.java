@@ -1,7 +1,11 @@
 
 package net.usikkert.kouchat.misc;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import net.usikkert.kouchat.event.NickListListener;
 
 public class SortedNickList implements NickList
 {

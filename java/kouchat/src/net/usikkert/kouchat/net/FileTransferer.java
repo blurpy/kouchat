@@ -21,8 +21,18 @@
 
 package net.usikkert.kouchat.net;
 
-import java.io.*;
-import java.net.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
 import net.usikkert.kouchat.gui.FileStatus;
 import net.usikkert.kouchat.misc.Nick;
 

@@ -22,9 +22,18 @@
 package net.usikkert.kouchat.net;
 
 import java.io.IOException;
-import java.net.*;
-import java.util.*;
+
+import java.net.DatagramPacket;
+import java.net.InetAddress;
+import java.net.MulticastSocket;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.event.ReceiverEvent;
+import net.usikkert.kouchat.event.ReceiverListener;
 
 public class Receiver extends Thread
 {

@@ -1,8 +1,9 @@
 
-package net.usikkert.kouchat.misc;
+package net.usikkert.kouchat.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 import java.util.Calendar;
 import java.util.Date;
 

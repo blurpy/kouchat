@@ -21,10 +21,27 @@
 
 package net.usikkert.kouchat.gui;
 
-import javax.swing.*;
 import net.usikkert.kouchat.Constants;
-import java.awt.*;
-import java.awt.event.*;
+import net.usikkert.kouchat.event.DayListener;
+import net.usikkert.kouchat.util.DayTimer;
+import net.usikkert.kouchat.util.Tools;
+
+import java.awt.BorderLayout;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import java.util.Date;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.KeyStroke;
 
 public class KouChatGUI extends JFrame
 {
@@ -42,7 +59,7 @@ public class KouChatGUI extends JFrame
 		
 		setJMenuBar( menuBar );
 		getContentPane().add( mainP, BorderLayout.CENTER );
-		setTitle( Constants.APP_NAME + " v" + Constants.APP_VERSION );
+		setTitle( Constants.APP_NAME + " v" + Constants.APP_VERSION + " - (Not connected)" );
 		setIconImage( new ImageIcon( getClass().getResource( "/icons/kou_normal.png" ) ).getImage() );
 		setSize( 650, 480 );
 		setDefaultCloseOperation( JFrame.DO_NOTHING_ON_CLOSE );
@@ -92,5 +109,16 @@ public class KouChatGUI extends JFrame
 		mainP.appendSystemMessage( "*** Welcome to " + Constants.APP_NAME + " v" + Constants.APP_VERSION+ "!" );
 		mainP.getMsgTF().requestFocus();
 		listener.start();
+		
+		// TODO testing
+		DayTimer dt = new DayTimer();
+		dt.addDayListener( new DayListener()
+		{
+			@Override
+			public void dayChanged( Date date )
+			{
+				mainP.appendSystemMessage( "*** Day changed to " + Tools.dateToString( null, "EEEE, d MMMM yyyy" ) );
+			}
+		} );
 	}
 }

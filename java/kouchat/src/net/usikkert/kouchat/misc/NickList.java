@@ -1,6 +1,8 @@
 
 package net.usikkert.kouchat.misc;
 
+import net.usikkert.kouchat.event.NickListListener;
+
 public interface NickList
 {
 	public boolean add( Nick nick );
