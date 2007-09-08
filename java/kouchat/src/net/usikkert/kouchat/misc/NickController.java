@@ -21,9 +21,6 @@
 
 package net.usikkert.kouchat.misc;
 
-import javax.swing.JOptionPane;
-import net.usikkert.kouchat.Constants;
-
 public class NickController
 {
 	private NickList nickList;
@@ -132,46 +129,22 @@ public class NickController
 		}
 	}
 	
-	//TODO fix gui stuff
-	public boolean checkIfValidNick( String tmp, boolean quiet )
+	public boolean checkIfNickInUse( String nick )
 	{
-		boolean ok = true;
-		
-		if ( tmp == null || tmp.trim().equals( "" ) )
-		{
-			ok = false;
-			
-			if ( !quiet )
-				JOptionPane.showMessageDialog( null, "You can not have an empty nick...", Constants.APP_NAME
-						+ " - Change nick", JOptionPane.WARNING_MESSAGE );
-		}
-		
-		else if ( tmp.length() > 10 )
-		{
-			ok = false;
-			
-			if ( !quiet )
-				JOptionPane.showMessageDialog( null, "Max 10 letters allowed in the nick...", Constants.APP_NAME
-						+ " - Change nick", JOptionPane.WARNING_MESSAGE );
-		}
+		boolean inUse = false;
 		
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
 			Nick temp = nickList.get( i );
 			
-			if ( temp.getNick().equalsIgnoreCase( tmp ) && !temp.isMe() )
+			if ( temp.getNick().equalsIgnoreCase( nick ) && !temp.isMe() )
 			{
-				ok = false;
-				
-				if ( !quiet )
-					JOptionPane.showMessageDialog( null, "The nick is in use by someone else...", Constants.APP_NAME
-							+ " - Change nick", JOptionPane.WARNING_MESSAGE );
-				
+				inUse = true;
 				break;
 			}
 		}
 		
-		return ok;
+		return inUse;
 	}
 	
 	public boolean checkIfNewUser( int code )

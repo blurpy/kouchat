@@ -34,9 +34,22 @@ import net.usikkert.kouchat.misc.Nick;
 
 public class FileSender
 {
-	public boolean send( Nick nick, int port, File file )
+	private Nick nick;
+	private int port;
+	private File file;
+	private boolean sent, cancel;
+	
+	public FileSender( Nick nick, int port, File file )
 	{
-		boolean sent = false;
+		this.nick = nick;
+		this.port = port;
+		this.file = file;
+	}
+	
+	public boolean send()
+	{
+		sent = false;
+		cancel = false;
 		
 		FileInputStream fis = null;
 		OutputStream os = null;
@@ -88,7 +101,7 @@ public class FileSender
 //				fs = new FileStatus( "Sending " + file.getName() + " to " + nick.getNick() + "...",
 //						( transferred / 1024 ) + "KB of " + ( file.length() / 1024 ) + "KB are transferred..." );
 				
-				while ( ( tmpTransferred = fis.read( b ) ) != -1 /*&& !fs.isCancel()*/ )
+				while ( ( tmpTransferred = fis.read( b ) ) != -1 && !cancel )
 				{
 					os.write( b, 0, tmpTransferred );
 					transferred += tmpTransferred;
@@ -103,8 +116,8 @@ public class FileSender
 					}
 				}
 				
-//				if ( !fs.isCancel() && transferred == file.length() )
-//					sent = true;
+				if ( !cancel && transferred == file.length() )
+					sent = true;
 			}
 		}
 		
@@ -155,6 +168,21 @@ public class FileSender
 //				fs.close();
 		}
 		
+		return sent;
+	}
+
+	public boolean isCanceled()
+	{
+		return cancel;
+	}
+
+	public void cancel()
+	{
+		cancel = true;
+	}
+
+	public boolean isSent()
+	{
 		return sent;
 	}
 }

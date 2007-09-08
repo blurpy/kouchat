@@ -21,6 +21,7 @@
 
 package net.usikkert.kouchat.util;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -86,5 +87,19 @@ public class Tools
 		}
 		
 		return date;
+	}
+	
+	public static String decimalFormat( String format, double number )
+	{
+		DecimalFormat formatter = new DecimalFormat( format );
+		return formatter.format( number );
+	}
+	
+	public static boolean isValidNick( String nick )
+	{
+		if ( nick == null || nick.trim().equals( "" ) || nick.length() > 10 )
+			return false;
+		else
+			return true;
 	}
 }

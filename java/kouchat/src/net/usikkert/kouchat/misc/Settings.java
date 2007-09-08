@@ -29,6 +29,8 @@ import java.io.IOException;
 
 import java.util.Properties;
 
+import net.usikkert.kouchat.util.Tools;
+
 public class Settings
 {
 	private static final String FILENAME = System.getProperty( "user.home" ) + System.getProperty( "file.separator" ) + ".kouchat.ini";
@@ -121,8 +123,10 @@ public class Settings
 			
 			String tmpNick = fileContents.getProperty( "nick" );
 			
-			if ( tmpNick != null )
-				nick.setNick( tmpNick );
+			if ( tmpNick != null && Tools.isValidNick( tmpNick ) )
+			{
+				nick.setNick( tmpNick.trim() );
+			}
 			
 			try
 			{

@@ -78,9 +78,9 @@ public class Controller
 		}
 	}
 	
-	public boolean checkIfValidNick( String tmp, boolean quiet )
+	public boolean checkIfNickInUse( String nick )
 	{
-		return nickController.checkIfValidNick( tmp, quiet );
+		return nickController.checkIfNickInUse( nick );
 	}
 	
 	public boolean checkIfNewUser( int code )
@@ -168,6 +168,21 @@ public class Controller
 	public void sendNickCrashMessage( String nick )
 	{
 		msgSender.sendNickCrashMessage( nick );
+	}
+	
+	public void sendFileAbort( int msgCode, int fileHash, String fileName )
+	{
+		msgSender.sendFileAbort( msgCode, fileHash, fileName );
+	}
+	
+	public void sendFileAccept( int msgCode, int port, int fileHash, String fileName )
+	{
+		msgSender.sendFileAccept( msgCode, port, fileHash, fileName );
+	}
+	
+	public void sendFile( int sendToUserCode, long fileLength, int fileHash, String fileName )
+	{
+		msgSender.sendFile( sendToUserCode, fileLength, fileHash, fileName );
 	}
 	
 	public void changeAwayStatus( int code, boolean away, String awaymsg )

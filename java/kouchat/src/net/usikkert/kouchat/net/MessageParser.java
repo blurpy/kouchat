@@ -182,26 +182,37 @@ public class MessageParser implements ReceiverListener
 		}
 	}
 	
+	private void fireSendFile( long byteSize, String fileName, String user, int fileHash, int fileCode, int userCode )
+	{
+		for ( int i = 0; i < listeners.size(); i++ )
+		{
+			MessageListener ml = listeners.get( i );
+			ml.fileSend( byteSize, fileName, user, fileHash, fileCode, userCode );
+		}
+	}
+	
+	private void fireSendFileAborted( String user, String fileName, int fileHash )
+	{
+		for ( int i = 0; i < listeners.size(); i++ )
+		{
+			MessageListener ml = listeners.get( i );
+			ml.fileSendAborted( user, fileName, fileHash );
+		}
+	}
+	
+	private void fireSendFileAccepted( String msgNick, int msgCode, String fileName, int fileHash, int port )
+	{
+		for ( int i = 0; i < listeners.size(); i++ )
+		{
+			MessageListener ml = listeners.get( i );
+			ml.fileSendAccepted( msgNick, msgCode, fileName, fileHash, port );
+		}
+	}
+	
 	public void stop()
 	{
 		receiver.stopReceiver();
 	}
-	
-//	private void logOn()
-//	{
-//				if ( !sideP.checkIfValidNick( tempme.getNick(), true ) )
-//				{
-//					String orgNick = tempme.getNick();
-//					sideP.changeNick( tempme.getCode(), "" + tempme.getCode() );
-//					
-//					if ( orgNick.trim().length() > 0 )
-//					{
-//						mainP.appendToChat( getTime() + "*** " + "Nick crash, resetting nick to " + tempme.getCode()
-//								+ "\n", settings.getMsgColor() );
-//					}
-//				}
-//				idle.start();
-//	}
 	
 	public void messageArrived( ReceiverEvent re )
 	{
@@ -341,221 +352,59 @@ public class MessageParser implements ReceiverListener
 				
 				else if ( type.equals( "SENDFILEACCEPT" ) )
 				{
-//					int leftBracket = msg.indexOf( "[" );
-//					int rightBracket = msg.indexOf( "]" );
-//					int leftPara = msg.indexOf( "(" );
-//					int rightPara = msg.indexOf( ")" );
-//					final int leftCurly = msg.indexOf( "{" );
-//					final int rightCurly = msg.indexOf( "}" );
-//					int fileCode = Integer.parseInt( msg.substring( leftPara +1, rightPara ) );
-//					final int portnr = Integer.parseInt( msg.substring( leftBracket +1, rightBracket ) );
-//					final int fileHash = Integer.parseInt( msg.substring( leftCurly +1, rightCurly ) );
-//					
-//					final String fMsg = msg;
-//					final String fMsgNick = msgNick;
-//					final int fMsgCode = msgCode;
-//					
-//					if ( fileCode == tempme.getCode() )
-//					{
-//						new Thread()
-//						{
-//							public void run()
-//							{
-//								String fileName = fMsg.substring( rightCurly +1, fMsg.length() );
-//								mainP.appendToChat( getTime() + "*** " + fMsgNick + " accepted sending of "
-//										+ fileName + "\n", settings.getMsgColor() );
-//								File file = null;
-//								
-//								for ( int i = 0; i < fileList.size(); i++ )
-//								{
-//									if ( fileList.get( i ).hashCode() == fileHash )
-//									{
-//										file = (File) fileList.get( i );
-//										fileList.remove( i );
-//										break;
-//									}
-//								}
-//								
-//								if ( file != null )
-//								{
-//									Nick tempnick = sideP.getNick( fMsgCode );
-//									FileTransferer fileTrans = new FileTransferer();
-//									
-//									// Give the server some time to set up the connection first
-//									try
-//									{
-//										Thread.sleep( 200 );
-//									}
-//									
-//									catch ( InterruptedException e ) {}
-//									
-//									if ( fileTrans.send( tempnick, portnr, file ) )
-//									{
-//										mainP.appendToChat( getTime() + "*** " + fileName + " successfully sent to "
-//												+ fMsgNick + "\n", settings.getMsgColor() );
-//									}
-//									
-//									else
-//									{
-//										mainP.appendToChat( getTime() + "*** Failed to send " + fileName + " to "
-//												+ fMsgNick + "\n", settings.getMsgColor() );
-//									}
-//								}
-//							}
-//						}.start();
-					//}
+					int leftPara = msg.indexOf( "(" );
+					int rightPara = msg.indexOf( ")" );
+					int fileCode = Integer.parseInt( msg.substring( leftPara +1, rightPara ) );
+					
+					if ( fileCode == tempme.getCode() )
+					{
+						int leftCurly = msg.indexOf( "{" );
+						int rightCurly = msg.indexOf( "}" );
+						int leftBracket = msg.indexOf( "[" );
+						int rightBracket = msg.indexOf( "]" );
+						int port = Integer.parseInt( msg.substring( leftBracket +1, rightBracket ) );
+						int fileHash = Integer.parseInt( msg.substring( leftCurly +1, rightCurly ) );
+						String fileName = msg.substring( rightCurly +1, msg.length() );
+						
+						fireSendFileAccepted( msgNick, msgCode, fileName, fileHash, port );
+					}
 				}
 				
 				else if ( type.equals( "SENDFILEABORT" ) )
 				{
-//					int leftPara = msg.indexOf( "(" );
-//					int rightPara = msg.indexOf( ")" );
-//					int leftCurly = msg.indexOf( "{" );
-//					int rightCurly = msg.indexOf( "}" );
-//					int fileHash = Integer.parseInt( msg.substring( leftCurly +1, rightCurly ) );
-//					int fileCode = Integer.parseInt( msg.substring( leftPara +1, rightPara ) );
-//					
-//					if ( fileCode == tempme.getCode() )
-//					{
-//						String fileName = msg.substring( rightCurly +1, msg.length() );
-//						mainP.appendToChat( getTime() + "*** " + msgNick + " aborted sending of " + fileName
-//								+ "\n", settings.getMsgColor() );
-//						
-//						for ( int i = 0; i < fileList.size(); i++ )
-//						{
-//							if ( fileList.get( i ).hashCode() == fileHash )
-//							{
-//								fileList.remove( i );
-//							}
-//						}
-//					}
+					int leftPara = msg.indexOf( "(" );
+					int rightPara = msg.indexOf( ")" );
+					int fileCode = Integer.parseInt( msg.substring( leftPara +1, rightPara ) );
+					
+					if ( fileCode == tempme.getCode() )
+					{
+						int leftCurly = msg.indexOf( "{" );
+						int rightCurly = msg.indexOf( "}" );
+						String fileName = msg.substring( rightCurly +1, msg.length() );
+						int fileHash = Integer.parseInt( msg.substring( leftCurly +1, rightCurly ) );
+						
+						fireSendFileAborted( msgNick, fileName, fileHash );
+					}
 				}
 				
 				else if ( type.equals( "SENDFILE" ) )
 				{
-//					int leftBracket = msg.indexOf( "[" );
-//					int rightBracket = msg.indexOf( "]" );
-//					int leftPara = msg.indexOf( "(" );
-//					int rightPara = msg.indexOf( ")" );
-//					int leftCurly = msg.indexOf( "{" );
-//					int rightCurly = msg.indexOf( "}" );
-//					int fileHash = Integer.parseInt( msg.substring( leftCurly +1, rightCurly ) );
-//					int fileCode = Integer.parseInt( msg.substring( leftPara +1, rightPara ) );
-//					
-//					if ( fileCode == tempme.getCode() )
-//					{
-//						DecimalFormat strform = new DecimalFormat( "0.00" );
-//						
-//						long byteSize = Long.parseLong( msg.substring( leftBracket +1, rightBracket ) );
-//						double kbSize = byteSize / 1024.0;
-//						String size = "";
-//						
-//						if ( kbSize > 1024 )
-//						{
-//							kbSize /= 1024;
-//							size = strform.format( kbSize ) + "MB";
-//						}
-//						
-//						else
-//						{
-//							size = strform.format( kbSize ) + "KB";
-//						}
+					int leftPara = msg.indexOf( "(" );
+					int rightPara = msg.indexOf( ")" );
+					int fileCode = Integer.parseInt( msg.substring( leftPara +1, rightPara ) );
+					
+					if ( fileCode == tempme.getCode() )
+					{
+						int leftCurly = msg.indexOf( "{" );
+						int rightCurly = msg.indexOf( "}" );
+						int leftBracket = msg.indexOf( "[" );
+						int rightBracket = msg.indexOf( "]" );
+						long byteSize = Long.parseLong( msg.substring( leftBracket +1, rightBracket ) );
+						String fileName = msg.substring( rightCurly +1, msg.length() );
+						int fileHash = Integer.parseInt( msg.substring( leftCurly +1, rightCurly ) );
 						
-						//String fileName = msg.substring( rightCurly +1, msg.length() );
-						
-//						mainP.appendToChat( getTime() + "*** " + msgNick + " is trying to send the file "
-//								+ fileName + " [" + size + "]\n", settings.getMsgColor() );
-						
-//						final String fMsgNick = msgNick;
-//						final String fFileName = fileName;
-//						final String fSize = size;
-//						final int fMsgCode = msgCode;
-//						final Nick fTempMe = tempme;
-//						final int fFileHash = fileHash;
-//						final long fByteSize = byteSize;
-						
-//						new Thread()
-//						{
-//							public void run()
-//							{
-//								Object[] options = { "Yes", "Cancel" };
-//								int choice = JOptionPane.showOptionDialog( null, fMsgNick + " wants to send you the file "
-//										+ fFileName + " (" + fSize + ")\nAccept?", Constants.APP_NAME + " - File send",
-//										JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0] );
-//								
-//								if ( choice == JOptionPane.YES_OPTION )
-//								{
-//									JFileChooser chooser = new JFileChooser();
-//									chooser.setSelectedFile( new File( fFileName ) );
-//									boolean done = false;
-//									
-//									while ( !done )
-//									{
-//										done = true;
-//										int returnVal = chooser.showSaveDialog( null );
-//										
-//										if ( returnVal == JFileChooser.APPROVE_OPTION )
-//										{
-//											Nick tempnick = sideP.getNick( fMsgCode );
-//											File file = chooser.getSelectedFile().getAbsoluteFile();
-//	
-//											if ( file.exists() )
-//											{
-//												int overwrite = JOptionPane.showOptionDialog( null, file.getName()
-//														+ " already exists.\nOverwrite?", Constants.APP_NAME + " - File exists",
-//															JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-//															options, options[0] );
-//													
-//												if ( overwrite != JOptionPane.YES_OPTION )
-//												{
-//													done = false;
-//												}
-//											}
-//										
-//											if ( done )
-//											{
-//												FileTransferer fileTrans = new FileTransferer();
-//												sender.send( fTempMe.getCode() + "!SENDFILEACCEPT#" + fTempMe.getNick()
-//														+ ":" + "(" + fMsgCode + ")" + "[" + 50123 + "]" + "{" + fFileHash + "}"
-//														+ fFileName );
-//												
-//												if ( fileTrans.receive( tempnick, 50123, file, fByteSize ) )
-//												{
-//													mainP.appendToChat( getTime() + "*** Successfully received " + fFileName
-//															+ " from " + fMsgNick + ", and saved as " + file.getName()
-//															+ "\n", settings.getMsgColor() );
-//												}
-//												
-//												else
-//												{
-//													mainP.appendToChat( getTime() + "*** Failed to receive " + fFileName
-//															+ " from " + fMsgNick + "\n", settings.getMsgColor() );
-//												}
-//											}
-//										}
-//										
-//										else
-//										{
-//											mainP.appendToChat( getTime() + "*** You declined to receive " + fFileName
-//													+ " from " + fMsgNick + "\n", settings.getMsgColor() );
-//											
-//											sender.send( fTempMe.getCode() + "!SENDFILEABORT#" + fTempMe.getNick()
-//													+ ":" + "(" + fMsgCode + ")" + "{" + fFileHash + "}" + fFileName );
-//										}
-//									}
-//								}
-//								
-//								else
-//								{
-//									mainP.appendToChat( getTime() + "*** You declined to receive " + fFileName
-//											+ " from " + fMsgNick + "\n", settings.getMsgColor() );
-//									
-//									sender.send( fTempMe.getCode() + "!SENDFILEABORT#" + fTempMe.getNick()
-//											+ ":" + "(" + fMsgCode + ")" + "{" + fFileHash + "}" + fFileName );
-//								}
-//							}
-//						}.start();
-					//}
+						fireSendFile( byteSize, fileName, msgNick, fileHash, fileCode, msgCode );
+					}
 				}
 			}
 			

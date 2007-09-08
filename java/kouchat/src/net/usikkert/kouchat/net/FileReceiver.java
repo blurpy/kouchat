@@ -29,14 +29,28 @@ import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-//import net.usikkert.kouchat.gui.FileStatus;
 import net.usikkert.kouchat.misc.Nick;
 
 public class FileReceiver
 {	
-	public boolean receive( Nick nick, int port, File file, long size )
+	//private Nick nick;
+	private int port;
+	private File file;
+	private long size;
+	private boolean received, cancel;
+	
+	public FileReceiver( Nick nick, int port, File file, long size )
 	{
-		boolean received = false;
+		//this.nick = nick;
+		this.port = port;
+		this.file = file;
+		this.size = size;
+	}
+	
+	public boolean receive()
+	{
+		received = false;
+		cancel = false;
 		
 		ServerSocket sSock = null;
 		Socket sock = null;
@@ -48,8 +62,8 @@ public class FileReceiver
 		{
 			sSock = new ServerSocket( port );
 			
-			ReceiveTimeoutThread rtt = new ReceiveTimeoutThread( sSock, sock );
-			rtt.start();
+			TimeoutThread tt = new TimeoutThread( sSock, sock );
+			tt.start();
 			
 			sock = sSock.accept();
 			fos = new FileOutputStream( file );
@@ -64,7 +78,7 @@ public class FileReceiver
 //			fs = new FileStatus( "Receiving " + file.getName() + " from " + nick.getNick() + "...",
 //					( transferred / 1024 ) + "KB of " + ( size / 1024 ) + "KB are transferred..." );
 			
-			while ( ( tmpTransferred = is.read( b ) ) != -1 /*&& !fs.isCancel()*/ )
+			while ( ( tmpTransferred = is.read( b ) ) != -1 && !cancel )
 			{
 				fos.write( b, 0, tmpTransferred );
 				transferred += tmpTransferred;
@@ -78,8 +92,8 @@ public class FileReceiver
 				}
 			}
 			
-//			if ( !fs.isCancel() && transferred == size )
-//				received = true;
+			if ( !cancel && transferred == size )
+				received = true;
 		}
 		
 		catch ( IOException e )
@@ -135,14 +149,29 @@ public class FileReceiver
 		
 		return received;
 	}
+
+	public boolean isCanceled()
+	{
+		return cancel;
+	}
+
+	public void cancel()
+	{
+		cancel = true;
+	}
+
+	public boolean isReceived()
+	{
+		return received;
+	}
 	
 	// No point in waiting for a connection forever
-	private class ReceiveTimeoutThread extends Thread
+	private class TimeoutThread extends Thread
 	{
 		private ServerSocket sSock;
 		private Socket sock;
 		
-		public ReceiveTimeoutThread( ServerSocket sSock, Socket sock )
+		public TimeoutThread( ServerSocket sSock, Socket sock )
 		{
 			this.sSock = sSock;
 			this.sock = sock;

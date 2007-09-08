@@ -108,6 +108,22 @@ public class Messages
 		sender.send( me.getCode() + "!NICKCRASH#" + me.getNick() + ":" + nick );
 	}
 	
+	public void sendFileAbort( int msgCode, int fileHash, String fileName )
+	{
+		sender.send( me.getCode() + "!SENDFILEABORT#" + me.getNick() + ":(" + msgCode + "){" + fileHash + "}" + fileName );
+	}
+	
+	public void sendFileAccept( int msgCode, int port, int fileHash, String fileName )
+	{
+		sender.send( me.getCode() + "!SENDFILEACCEPT#" + me.getNick() + ":(" + msgCode + ")[" + port + "]{" + fileHash + "}" + fileName );
+	}
+	
+	public void sendFile( int sendToUserCode, long fileLength, int fileHash, String fileName )
+	{
+		sender.send( me.getCode() + "!SENDFILE#" + me.getNick() + ":(" + sendToUserCode + ")" + "["
+				+ fileLength + "]{" + fileHash + "}" + fileName );
+	}
+	
 	public void stop()
 	{
 		sender.stopSender();

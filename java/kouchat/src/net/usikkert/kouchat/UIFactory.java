@@ -21,7 +21,7 @@
 
 package net.usikkert.kouchat;
 
-import net.usikkert.kouchat.gui.KouChatGUI;
+import net.usikkert.kouchat.ui.swing.KouChatGUI;
 
 public class UIFactory
 {
