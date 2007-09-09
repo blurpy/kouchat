@@ -32,6 +32,7 @@ import java.net.UnknownHostException;
 
 import net.usikkert.kouchat.event.FileTransferListener;
 import net.usikkert.kouchat.misc.Nick;
+import net.usikkert.kouchat.util.ByteCounter;
 
 public class FileSender implements FileTransfer
 {
@@ -42,6 +43,7 @@ public class FileSender implements FileTransfer
 	private boolean sent, cancel;
 	private FileTransferListener listener;
 	private Direction direction;
+	private ByteCounter bCounter;
 	
 	public FileSender( Nick nick, int port, File file )
 	{
@@ -50,6 +52,7 @@ public class FileSender implements FileTransfer
 		this.file = file;
 		
 		direction = Direction.SEND;
+		bCounter = new ByteCounter();
 	}
 	
 	@Override
@@ -106,12 +109,14 @@ public class FileSender implements FileTransfer
 				percent = 0;
 				int tmpTransferred = 0;
 				int tmpPercent = 0;
+				bCounter.reset();
 				
 				while ( ( tmpTransferred = fis.read( b ) ) != -1 && !cancel )
 				{
 					os.write( b, 0, tmpTransferred );
 					transferred += tmpTransferred;
 					percent = (int) ( ( transferred * 100 ) / file.length() );
+					bCounter.update( tmpTransferred );
 					
 					if ( percent > tmpPercent )
 					{
@@ -232,6 +237,12 @@ public class FileSender implements FileTransfer
 	public Direction getDirection()
 	{
 		return direction;
+	}
+	
+	@Override
+	public long getSpeed()
+	{
+		return bCounter.getBytesPerSec();
 	}
 
 	@Override

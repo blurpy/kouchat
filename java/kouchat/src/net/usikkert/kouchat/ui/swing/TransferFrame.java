@@ -60,7 +60,7 @@ public class TransferFrame extends JFrame implements FileTransferListener
 		filePB = new JProgressBar( 0, 100 );
 		filePB.setStringPainted( true );
 		trans1L = new JLabel( "Transferred:" );
-		trans2L = new JLabel( "0B of 0B" );
+		trans2L = new JLabel( "0KB of 0KB at 0KB/s" );
 		file1L = new JLabel( "Filename:" );
 		file2L = new JLabel( "(No file)" );
 		status1L = new JLabel( "Status:" );
@@ -229,14 +229,14 @@ public class TransferFrame extends JFrame implements FileTransferListener
 		}
 		
 		file2L.setToolTipText( fileTransfer.getFileName() );
-		trans2L.setText( "0B of " + fileSize );
+		trans2L.setText( "0KB of " + fileSize + " at 0KB/s" );
 		filePB.setValue( 0 );
 	}
 
 	@Override
 	public void transferUpdate()
 	{
-		trans2L.setText( Tools.byteToString( fileTransfer.getTransferred() ) + " of " + fileSize );
+		trans2L.setText( Tools.byteToString( fileTransfer.getTransferred() ) + " of " + fileSize + " at " + Tools.byteToString( fileTransfer.getSpeed() ) + "/s" );
 		filePB.setValue( fileTransfer.getPercent() );
 	}
 }

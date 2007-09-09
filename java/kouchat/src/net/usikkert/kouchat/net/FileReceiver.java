@@ -31,17 +31,18 @@ import java.net.Socket;
 
 import net.usikkert.kouchat.event.FileTransferListener;
 import net.usikkert.kouchat.misc.Nick;
+import net.usikkert.kouchat.util.ByteCounter;
 
 public class FileReceiver implements FileTransfer
 {	
 	private Nick nick;
 	private int port, percent;
-	private long transferred;
+	private long transferred, size;
 	private File file;
-	private long size;
 	private boolean received, cancel;
 	private FileTransferListener listener;
 	private Direction direction;
+	private ByteCounter bCounter;
 	
 	public FileReceiver( Nick nick, int port, File file, long size )
 	{
@@ -51,6 +52,7 @@ public class FileReceiver implements FileTransfer
 		this.size = size;
 		
 		direction = Direction.RECEIVE;
+		bCounter = new ByteCounter();
 	}
 	
 	@Override
@@ -83,12 +85,14 @@ public class FileReceiver implements FileTransfer
 			percent = 0;
 			int tmpTransferred = 0;
 			int tmpPercent = 0;
+			bCounter.reset();
 			
 			while ( ( tmpTransferred = is.read( b ) ) != -1 && !cancel )
 			{
 				fos.write( b, 0, tmpTransferred );
 				transferred += tmpTransferred;
 				percent = (int) ( ( transferred * 100 ) / size );
+				bCounter.update( tmpTransferred );
 				
 				if ( percent > tmpPercent )
 				{
@@ -212,6 +216,12 @@ public class FileReceiver implements FileTransfer
 	public Direction getDirection()
 	{
 		return direction;
+	}
+	
+	@Override
+	public long getSpeed()
+	{
+		return bCounter.getBytesPerSec();
 	}
 
 	@Override

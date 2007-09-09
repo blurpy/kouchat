@@ -19,24 +19,37 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.net;
+package net.usikkert.kouchat.util;
 
-import net.usikkert.kouchat.event.FileTransferListener;
-import net.usikkert.kouchat.misc.Nick;
-
-public interface FileTransfer
+public class ByteCounter
 {
-	public enum Direction { SEND, RECEIVE };
-	public Direction getDirection();
-	public String getFileName();
-	public Nick getNick();
-	public int getPercent();
-	public long getTransferred();
-	public long getFileSize();
-	public long getSpeed();
-	public void cancel();
-	public boolean isCanceled();
-	public boolean isTransferred();
-	public boolean transfer();
-	public void registerListener( FileTransferListener listener );
+	private long lastTime, spentTime, bytesPerSec, bytesPerSecCounter;
+	
+	public void reset()
+	{
+		lastTime = System.currentTimeMillis();
+		spentTime = 0;
+		bytesPerSec = 0;
+		bytesPerSecCounter = 0;
+	}
+	
+	public void update( long bytes )
+	{
+		long currentTime = System.currentTimeMillis();
+		spentTime += currentTime - lastTime;
+		lastTime = currentTime;
+		bytesPerSecCounter += bytes;
+		
+		if ( spentTime >= 1000 )
+		{
+			spentTime %= 1000;
+			bytesPerSec = bytesPerSecCounter;
+			bytesPerSecCounter = 0;
+		}
+	}
+	
+	public long getBytesPerSec()
+	{
+		return bytesPerSec;
+	}
 }
