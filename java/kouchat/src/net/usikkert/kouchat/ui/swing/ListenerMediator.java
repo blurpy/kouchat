@@ -45,7 +45,7 @@ import net.usikkert.kouchat.util.Tools;
 
 public class ListenerMediator implements MessageListener
 {
-	private KouChatGUI gui;
+	private KouChatGUIFrame gui;
 	private MainPanel mainP;
 	private Settings settings;
 	private SysTray sysTray;
@@ -58,24 +58,14 @@ public class ListenerMediator implements MessageListener
 	private DayTimer dayTimer;
 	private List<File> fileList;
 	
-	public ListenerMediator( KouChatGUI gui )
+	public ListenerMediator( KouChatGUIFrame gui )
 	{
 		this.gui = gui;
 		controller = new Controller();
 		settings = Settings.getSettings();
 		me = settings.getNick();
 		controller.addMessageListener( this );
-		
 		dayTimer = new DayTimer();
-		dayTimer.addDayListener( new DayListener()
-		{
-			@Override
-			public void dayChanged( Date date )
-			{
-				mainP.appendSystemMessage( "*** Day changed to " + Tools.dateToString( null, "EEEE, d MMMM yyyy" ) );
-			}
-		} );
-		
 		fileList = new ArrayList<File>();
 	}
 	
@@ -208,6 +198,15 @@ public class ListenerMediator implements MessageListener
 	{
 		controller.logOn();
 		updateTitleAndTray();
+		
+		dayTimer.addDayListener( new DayListener()
+		{
+			@Override
+			public void dayChanged( Date date )
+			{
+				mainP.appendSystemMessage( "*** Day changed to " + Tools.dateToString( null, "EEEE, d MMMM yyyy" ) );
+			}
+		} );
 	}
 	
 	public void quit()
@@ -262,6 +261,7 @@ public class ListenerMediator implements MessageListener
 		settingsFrame.showSettings();
 	}
 	
+	// TODO
 	public void sendFile()
 	{
 		if ( me != sideP.getSelectedNick() )
@@ -278,21 +278,7 @@ public class ListenerMediator implements MessageListener
 					fileList.add( file );
 					
 					Nick tempnick = sideP.getSelectedNick();
-					
-					long byteSize = file.length();
-					double kbSize = byteSize / 1024.0;
-					String size = "";
-					
-					if ( kbSize > 1024 )
-					{
-						kbSize /= 1024;
-						size = Tools.decimalFormat( "0.00", kbSize ) + "MB";
-					}
-					
-					else
-					{
-						size = Tools.decimalFormat( "0.00", kbSize ) + "KB";
-					}
+					String size = Tools.byteToString( file.length() );
 					
 					controller.sendFile( tempnick.getCode(), file.length(), file.hashCode(), file.getName() );
 					mainP.appendSystemMessage( "*** " + "Trying to send the file " + file.getName() + " [" + size + "] to " + tempnick.getNick() );
@@ -545,28 +531,14 @@ public class ListenerMediator implements MessageListener
 	@Override
 	public void fileSend( long byteSize, String fileName, String user, int fileHash, int fileCode, int userCode )
 	{
-		double kbSize = byteSize / 1024.0;
-		String size = "";
-		
-		if ( kbSize > 1024 )
-		{
-			kbSize /= 1024;
-			size = Tools.decimalFormat( "0.00", kbSize ) + "MB";
-		}
-		
-		else
-		{
-			size = Tools.decimalFormat( "0.00", kbSize ) + "KB";
-		}
-		
-		mainP.appendSystemMessage( "*** " + user + " is trying to send the file " + fileName + " [" + size + "]" );
-		
-		final String fSize = size;
+		final String fSize = Tools.byteToString( byteSize );
 		final String fUser = user;
 		final String fFileName = fileName;
 		final int fUserCode = userCode;
 		final int fFileHash = fileHash;
 		final long fByteSize = byteSize;
+		
+		mainP.appendSystemMessage( "*** " + user + " is trying to send the file " + fileName + " [" + fSize + "]" );
 		
 		new Thread()
 		{
@@ -609,9 +581,13 @@ public class ListenerMediator implements MessageListener
 							if ( done )
 							{
 								controller.sendFileAccept( fUserCode, 50123, fFileHash, fFileName );
-								FileReceiver fileRes = new FileReceiver( tempnick, 50123, file, fByteSize );
 								
-								if ( fileRes.receive() )
+								// TODO
+								FileReceiver fileRes = new FileReceiver( tempnick, 50123, file, fByteSize );
+								TransferFrame fileStatus = new TransferFrame( fileRes );
+								fileRes.registerListener( fileStatus );
+								
+								if ( fileRes.transfer() )
 								{
 									mainP.appendSystemMessage( "*** Successfully received " + fFileName
 											+ " from " + fUser + ", and saved as " + file.getName() );
@@ -688,9 +664,13 @@ public class ListenerMediator implements MessageListener
 					catch ( InterruptedException e ) {}
 					
 					Nick tempnick = controller.getNick( fUserCode );
-					FileSender fileSend = new FileSender( tempnick, fPort, file );
 					
-					if ( fileSend.send() )
+					// TODO
+					FileSender fileSend = new FileSender( tempnick, fPort, file );
+					TransferFrame fileStatus = new TransferFrame( fileSend );
+					fileSend.registerListener( fileStatus );
+					
+					if ( fileSend.transfer() )
 					{
 						mainP.appendSystemMessage( "*** " + fFileName + " successfully sent to " + fUser );
 					}

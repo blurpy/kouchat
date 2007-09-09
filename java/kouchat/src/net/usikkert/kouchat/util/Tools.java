@@ -102,4 +102,23 @@ public class Tools
 		else
 			return true;
 	}
+	
+	public static String byteToString( long bytes )
+	{
+		String size = "";
+		double kbSize = bytes / 1024.0;
+		
+		if ( kbSize > 1024 )
+		{
+			kbSize /= 1024;
+			size = decimalFormat( "0.00", kbSize ) + "MB";
+		}
+		
+		else
+		{
+			size = decimalFormat( "0.00", kbSize ) + "KB";
+		}
+		
+		return size;
+	}
 }

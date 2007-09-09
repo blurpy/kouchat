@@ -29,26 +29,35 @@ import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import net.usikkert.kouchat.event.FileTransferListener;
 import net.usikkert.kouchat.misc.Nick;
 
-public class FileReceiver
+public class FileReceiver implements FileTransfer
 {	
-	//private Nick nick;
-	private int port;
+	private Nick nick;
+	private int port, percent;
+	private long transferred;
 	private File file;
 	private long size;
 	private boolean received, cancel;
+	private FileTransferListener listener;
+	private Direction direction;
 	
 	public FileReceiver( Nick nick, int port, File file, long size )
 	{
-		//this.nick = nick;
+		this.nick = nick;
 		this.port = port;
 		this.file = file;
 		this.size = size;
+		
+		direction = Direction.RECEIVE;
 	}
 	
-	public boolean receive()
+	@Override
+	public boolean transfer()
 	{
+		listener.statusConnecting();
+		
 		received = false;
 		cancel = false;
 		
@@ -56,7 +65,6 @@ public class FileReceiver
 		Socket sock = null;
 		FileOutputStream fos = null;
 		InputStream is = null;
-		//FileStatus fs = null;
 		
 		try
 		{
@@ -66,17 +74,15 @@ public class FileReceiver
 			tt.start();
 			
 			sock = sSock.accept();
+			listener.statusTransfering();
 			fos = new FileOutputStream( file );
 			is = sock.getInputStream();
 		
 			byte b[] = new byte[1024];
-			long transferred = 0;
+			transferred = 0;
+			percent = 0;
 			int tmpTransferred = 0;
-			int percent = 0;
 			int tmpPercent = 0;
-			
-//			fs = new FileStatus( "Receiving " + file.getName() + " from " + nick.getNick() + "...",
-//					( transferred / 1024 ) + "KB of " + ( size / 1024 ) + "KB are transferred..." );
 			
 			while ( ( tmpTransferred = is.read( b ) ) != -1 && !cancel )
 			{
@@ -87,18 +93,25 @@ public class FileReceiver
 				if ( percent > tmpPercent )
 				{
 					tmpPercent = percent;
-//					fs.setStatus( percent );
-//					fs.setSendingLabelText( ( transferred / 1024 ) + "KB of " + ( size / 1024 ) + "KB are transferred..." );
+					listener.transferUpdate();
 				}
 			}
 			
 			if ( !cancel && transferred == size )
+			{
 				received = true;
+				listener.statusCompleted();
+			}
+			
+			else
+			{
+				listener.statusFailed();
+			}
 		}
 		
 		catch ( IOException e )
 		{
-			e.printStackTrace();
+			listener.statusFailed();
 		}
 		
 		finally
@@ -142,27 +155,70 @@ public class FileReceiver
 			}
 			
 			catch ( IOException e ) {}
-			
-//			if ( fs != null )
-//				fs.close();
 		}
 		
 		return received;
 	}
 
+	@Override
 	public boolean isCanceled()
 	{
 		return cancel;
 	}
-
+	
+	@Override
 	public void cancel()
 	{
 		cancel = true;
 	}
 
-	public boolean isReceived()
+	@Override
+	public int getPercent()
+	{
+		return percent;
+	}
+
+	@Override
+	public boolean isTransferred()
 	{
 		return received;
+	}
+
+	@Override
+	public String getFileName()
+	{
+		return file.getName();
+	}
+
+	@Override
+	public Nick getNick()
+	{
+		return nick;
+	}
+
+	@Override
+	public long getTransferred()
+	{
+		return transferred;
+	}
+	
+	@Override
+	public long getFileSize()
+	{
+		return size;
+	}
+	
+	@Override
+	public Direction getDirection()
+	{
+		return direction;
+	}
+
+	@Override
+	public void registerListener( FileTransferListener listener )
+	{
+		this.listener = listener;
+		listener.statusWaiting();
 	}
 	
 	// No point in waiting for a connection forever

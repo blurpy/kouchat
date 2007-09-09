@@ -38,13 +38,13 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.KeyStroke;
 
-public class KouChatGUI extends JFrame
+public class KouChatGUIFrame extends JFrame
 {
 	private MenuBar menuBar;
 	private MainPanel mainP;
 	private ListenerMediator listener;
 	
-	public KouChatGUI()
+	public KouChatGUIFrame()
 	{
 		listener = new ListenerMediator( this );
 		mainP = new MainPanel( listener );

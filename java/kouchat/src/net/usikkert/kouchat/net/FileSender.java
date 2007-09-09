@@ -30,31 +30,39 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import net.usikkert.kouchat.event.FileTransferListener;
 import net.usikkert.kouchat.misc.Nick;
 
-public class FileSender
+public class FileSender implements FileTransfer
 {
 	private Nick nick;
-	private int port;
+	private int port, percent;
+	private long transferred;
 	private File file;
 	private boolean sent, cancel;
+	private FileTransferListener listener;
+	private Direction direction;
 	
 	public FileSender( Nick nick, int port, File file )
 	{
 		this.nick = nick;
 		this.port = port;
 		this.file = file;
+		
+		direction = Direction.SEND;
 	}
 	
-	public boolean send()
+	@Override
+	public boolean transfer()
 	{
+		listener.statusConnecting();
+		
 		sent = false;
 		cancel = false;
 		
 		FileInputStream fis = null;
 		OutputStream os = null;
 		Socket sock = null;
-		//FileStatus fs = null;
 		
 		try
 		{
@@ -89,17 +97,15 @@ public class FileSender
 		
 			if ( sock != null )
 			{
+				listener.statusTransfering();
 				fis = new FileInputStream( file );
 				os = sock.getOutputStream();
 				
 				byte b[] = new byte[1024];
-				long transferred = 0;
+				transferred = 0;
+				percent = 0;
 				int tmpTransferred = 0;
-				int percent = 0;
 				int tmpPercent = 0;
-				
-//				fs = new FileStatus( "Sending " + file.getName() + " to " + nick.getNick() + "...",
-//						( transferred / 1024 ) + "KB of " + ( file.length() / 1024 ) + "KB are transferred..." );
 				
 				while ( ( tmpTransferred = fis.read( b ) ) != -1 && !cancel )
 				{
@@ -110,25 +116,31 @@ public class FileSender
 					if ( percent > tmpPercent )
 					{
 						tmpPercent = percent;
-//						fs.setStatus( percent );
-//						fs.setSendingLabelText( ( transferred / 1024 ) + "KB of " + ( file.length() / 1024 )
-//								+ "KB are transferred..." );
+						listener.transferUpdate();
 					}
 				}
 				
 				if ( !cancel && transferred == file.length() )
+				{
 					sent = true;
+					listener.statusCompleted();
+				}
+				
+				else
+				{
+					listener.statusFailed();
+				}
 			}
 		}
 		
 		catch ( UnknownHostException e )
 		{
-			e.printStackTrace();
+			listener.statusFailed();
 		}
 		
 		catch ( IOException e )
 		{
-			e.printStackTrace();
+			listener.statusFailed();
 		}
 		
 		finally
@@ -163,26 +175,69 @@ public class FileSender
 					sock.close();
 			}
 			catch ( IOException e ) {}
-			
-//			if ( fs != null )
-//				fs.close();
 		}
 		
 		return sent;
 	}
 
+	@Override
 	public boolean isCanceled()
 	{
 		return cancel;
 	}
 
+	@Override
 	public void cancel()
 	{
 		cancel = true;
 	}
 
-	public boolean isSent()
+	@Override
+	public boolean isTransferred()
 	{
 		return sent;
+	}
+
+	@Override
+	public int getPercent()
+	{
+		return percent;
+	}
+
+	@Override
+	public String getFileName()
+	{
+		return file.getName();
+	}
+
+	@Override
+	public Nick getNick()
+	{
+		return nick;
+	}
+
+	@Override
+	public long getTransferred()
+	{
+		return transferred;
+	}
+	
+	@Override
+	public long getFileSize()
+	{
+		return file.length();
+	}
+	
+	@Override
+	public Direction getDirection()
+	{
+		return direction;
+	}
+
+	@Override
+	public void registerListener( FileTransferListener listener )
+	{
+		this.listener = listener;
+		listener.statusWaiting();
 	}
 }

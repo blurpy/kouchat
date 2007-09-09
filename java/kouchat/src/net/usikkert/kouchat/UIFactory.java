@@ -21,13 +21,13 @@
 
 package net.usikkert.kouchat;
 
-import net.usikkert.kouchat.ui.swing.KouChatGUI;
+import net.usikkert.kouchat.ui.swing.KouChatGUIFrame;
 
 public class UIFactory
 {
 	public static void showUI()
 	{
 		// For now...
-		new KouChatGUI();
+		new KouChatGUIFrame();
 	}
 }
