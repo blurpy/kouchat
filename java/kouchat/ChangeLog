@@ -7,6 +7,8 @@
   - Fixed Windows bug where right clicking the systray icon would hide and show the window
   - Refactored a lot of the GUI code
   - New package structure
+  - Improved file transfer
+  - Added notification about day changes
 
 
 * version 0.6.0 (08.08.2007):
