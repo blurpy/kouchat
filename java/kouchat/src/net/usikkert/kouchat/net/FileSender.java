@@ -37,7 +37,7 @@ import net.usikkert.kouchat.util.ByteCounter;
 public class FileSender implements FileTransfer
 {
 	private Nick nick;
-	private int port, percent;
+	private int percent;
 	private long transferred;
 	private File file;
 	private boolean sent, cancel;
@@ -45,109 +45,116 @@ public class FileSender implements FileTransfer
 	private Direction direction;
 	private ByteCounter bCounter;
 	
-	public FileSender( Nick nick, int port, File file )
+	public FileSender( Nick nick, File file )
 	{
 		this.nick = nick;
-		this.port = port;
 		this.file = file;
 		
 		direction = Direction.SEND;
 		bCounter = new ByteCounter();
 	}
 	
-	@Override
-	public boolean transfer()
+	public boolean transfer( int port )
 	{
-		listener.statusConnecting();
+		if ( !cancel )
+		{
+			listener.statusConnecting();
+		}
 		
 		sent = false;
-		cancel = false;
-		
 		FileInputStream fis = null;
 		OutputStream os = null;
 		Socket sock = null;
-		
+
 		try
 		{
 			int counter = 0;
-			
+
 			while ( sock == null && counter < 10 )
 			{
 				counter++;
-				
+
 				try
 				{
 					sock = new Socket( InetAddress.getByName( nick.getIpAddress() ), port );
 				}
-				
+
 				catch ( UnknownHostException e1 )
 				{
 					e1.printStackTrace();
 				}
-				
+
 				catch ( IOException e1 )
 				{
 					e1.printStackTrace();
 				}
-				
+
 				try
 				{
 					Thread.sleep( 100 );
 				}
-				
+
 				catch ( InterruptedException e ) {}
 			}
-		
-			if ( sock != null )
+
+			if ( sock != null && !cancel )
 			{
-				listener.statusTransfering();
+				listener.statusTransferring();
 				fis = new FileInputStream( file );
 				os = sock.getOutputStream();
-				
+
 				byte b[] = new byte[1024];
 				transferred = 0;
 				percent = 0;
 				int tmpTransferred = 0;
 				int tmpPercent = 0;
+				int transCounter = 0;
 				bCounter.reset();
-				
+
 				while ( ( tmpTransferred = fis.read( b ) ) != -1 && !cancel )
 				{
 					os.write( b, 0, tmpTransferred );
 					transferred += tmpTransferred;
 					percent = (int) ( ( transferred * 100 ) / file.length() );
 					bCounter.update( tmpTransferred );
+					transCounter++;
 					
-					if ( percent > tmpPercent )
+					if ( percent > tmpPercent || transCounter >= 250 )
 					{
+						transCounter = 0;
 						tmpPercent = percent;
 						listener.transferUpdate();
 					}
 				}
-				
+
 				if ( !cancel && transferred == file.length() )
 				{
 					sent = true;
 					listener.statusCompleted();
 				}
-				
+
 				else
 				{
 					listener.statusFailed();
 				}
 			}
+
+			else
+			{
+				listener.statusFailed();
+			}
 		}
-		
+
 		catch ( UnknownHostException e )
 		{
 			listener.statusFailed();
 		}
-		
+
 		catch ( IOException e )
 		{
 			listener.statusFailed();
 		}
-		
+
 		finally
 		{
 			try
@@ -155,25 +162,25 @@ public class FileSender implements FileTransfer
 				if ( fis != null )
 					fis.close();
 			}
-			
+
 			catch ( IOException e ) {}
-			
+
 			try
 			{
 				if ( os != null )
 					os.flush();
 			}
-			
+
 			catch ( IOException e ) {}
-			
+
 			try
 			{
 				if ( os != null )
 					os.close();
 			}
-			
+
 			catch ( IOException e ) {}
-			
+
 			try
 			{
 				if ( sock != null )
@@ -181,7 +188,7 @@ public class FileSender implements FileTransfer
 			}
 			catch ( IOException e ) {}
 		}
-		
+
 		return sent;
 	}
 
@@ -195,6 +202,7 @@ public class FileSender implements FileTransfer
 	public void cancel()
 	{
 		cancel = true;
+		listener.statusFailed();
 	}
 
 	@Override
@@ -244,11 +252,21 @@ public class FileSender implements FileTransfer
 	{
 		return bCounter.getBytesPerSec();
 	}
+	
+	public File getFile()
+	{
+		return file;
+	}
 
 	@Override
 	public void registerListener( FileTransferListener listener )
 	{
 		this.listener = listener;
 		listener.statusWaiting();
+	}
+
+	public void fail()
+	{
+		listener.statusFailed();
 	}
 }

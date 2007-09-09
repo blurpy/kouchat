@@ -40,6 +40,6 @@ public interface MessageListener
 	public void meIdle();
 	public void userIdle( int userCode );
 	public void fileSend( long byteSize, String fileName, String user, int fileHash, int fileCode, int userCode );
-	public void fileSendAborted( String user, String fileName, int fileHash );
-	public void fileSendAccepted( String user, int userCode, String fileName, int fileHash, int port );
+	public void fileSendAborted( int userCode, String fileName, int fileHash );
+	public void fileSendAccepted( int userCode, String fileName, int fileHash, int port );
 }

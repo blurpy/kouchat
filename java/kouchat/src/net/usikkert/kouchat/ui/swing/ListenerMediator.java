@@ -23,9 +23,7 @@ package net.usikkert.kouchat.ui.swing;
 
 import java.io.File;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -40,6 +38,8 @@ import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.Topic;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
+import net.usikkert.kouchat.net.ServerException;
+import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.util.DayTimer;
 import net.usikkert.kouchat.util.Tools;
 
@@ -56,8 +56,8 @@ public class ListenerMediator implements MessageListener
 	private SettingsFrame settingsFrame;
 	private Nick me;
 	private DayTimer dayTimer;
-	private List<File> fileList;
-	
+	private TransferList tList;
+
 	public ListenerMediator( KouChatGUIFrame gui )
 	{
 		this.gui = gui;
@@ -66,9 +66,9 @@ public class ListenerMediator implements MessageListener
 		me = settings.getNick();
 		controller.addMessageListener( this );
 		dayTimer = new DayTimer();
-		fileList = new ArrayList<File>();
+		tList = new TransferList();
 	}
-	
+
 	public void setMainP( MainPanel mainP )
 	{
 		this.mainP = mainP;
@@ -103,19 +103,19 @@ public class ListenerMediator implements MessageListener
 	{
 		return controller;
 	}
-	
+
 	public void minimize()
 	{
 		gui.setVisible( false );
 		mainP.getMsgTF().requestFocus();
 	}
-	
+
 	public void clearChat()
 	{
 		mainP.clearChat();
 		mainP.getMsgTF().requestFocus();
 	}
-	
+
 	public void setAway()
 	{
 		if ( me.isAway() )
@@ -124,7 +124,7 @@ public class ListenerMediator implements MessageListener
 			int choice = JOptionPane.showOptionDialog( null, "Back from '" + me.getAwayMsg()
 					+ "'?", Constants.APP_NAME + " - Away", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.QUESTION_MESSAGE, null, options, options[0] );
-			
+
 			if ( choice == JOptionPane.YES_OPTION )
 			{
 				controller.changeAwayStatus( me.getCode(), false, "" );
@@ -137,12 +137,12 @@ public class ListenerMediator implements MessageListener
 				controller.sendBackMessage();
 			}
 		}
-		
+
 		else
 		{
 			String reason = JOptionPane.showInputDialog( null, "Reason for away?",
 					Constants.APP_NAME + " - Away", JOptionPane.QUESTION_MESSAGE );
-			
+
 			if ( reason != null && reason.trim().length() > 0 )
 			{
 				controller.changeAwayStatus( me.getCode(), true, reason );
@@ -155,50 +155,50 @@ public class ListenerMediator implements MessageListener
 				controller.sendAwayMessage();
 			}
 		}
-		
+
 		mainP.getMsgTF().requestFocus();
 	}
-	
+
 	public void setTopic()
 	{
 		Topic topic = controller.getTopic();
-		
+
 		Object objecttopic = JOptionPane.showInputDialog( null, "Change topic?", Constants.APP_NAME
 				+ " - Topic", JOptionPane.QUESTION_MESSAGE, null, null, topic.getTopic() );
-		
+
 		if ( objecttopic != null )
 		{
 			String newTopic = objecttopic.toString();
-			
+
 			if ( !newTopic.trim().equals( topic.getTopic().trim() ) )
 			{
 				long time = System.currentTimeMillis();
-				
+
 				if ( newTopic.trim().length() > 0 )
 				{
 					mainP.appendSystemMessage( "*** You changed the topic to: " + newTopic );
 					topic.changeTopic( newTopic, me.getNick(), time );
 				}
-				
+
 				else
 				{
 					mainP.appendSystemMessage( "*** You removed the topic..." );
 					topic.changeTopic( "", "", time );
 				}
-				
+
 				controller.sendTopicMessage( topic );
 				updateTitleAndTray();
 			}
 		}
-		
+
 		mainP.getMsgTF().requestFocus();
 	}
-	
+
 	public void start()
 	{
 		controller.logOn();
 		updateTitleAndTray();
-		
+
 		dayTimer.addDayListener( new DayListener()
 		{
 			@Override
@@ -208,112 +208,114 @@ public class ListenerMediator implements MessageListener
 			}
 		} );
 	}
-	
+
 	public void quit()
 	{
 		Object[] options = { "Yes", "Cancel" };
 		int choice = JOptionPane.showOptionDialog( null, "Are you sure you want to quit?",
 				Constants.APP_NAME + " - Quit?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
 				null, options, options[0] );
-		
+
 		if ( choice == JOptionPane.YES_OPTION )
 		{
 			controller.logOff();
 			System.exit( 0 );
 		}
 	}
-	
+
 	public void updateTitleAndTray()
 	{
 		if ( me != null )
 		{
 			String title = Constants.APP_NAME + " v" + Constants.APP_VERSION + " - Nick: " + me.getNick();
 			String tooltip = Constants.APP_NAME + " v" + Constants.APP_VERSION + " - " + me.getNick();
-			
+
 			if ( me.isAway() )
 			{
 				title += " (Away)";
 				tooltip += " (Away)";
 			}
-			
+
 			title += " - Topic: " + controller.getTopic();
 			gui.setTitle( title );
 			sysTray.setToolTip( tooltip );
 		}
 	}
-	
+
 	public void showWindow()
 	{
 		if ( gui.isVisible() )
 		{
 			gui.setVisible( false );
 		}
-		
+
 		else
 		{
 			gui.setVisible( true );
 			gui.repaint();
 		}
 	}
-	
+
 	public void showSettings()
 	{
 		settingsFrame.showSettings();
 	}
-	
-	// TODO
+
 	public void sendFile()
 	{
 		if ( me != sideP.getSelectedNick() )
 		{
 			JFileChooser chooser = new JFileChooser();
 			int returnVal = chooser.showOpenDialog( gui );
-			
+
 			if ( returnVal == JFileChooser.APPROVE_OPTION )
 			{
 				File file = chooser.getSelectedFile().getAbsoluteFile();
-				
+
 				if ( file.exists() && file.isFile() )
 				{
-					fileList.add( file );
-					
 					Nick tempnick = sideP.getSelectedNick();
 					String size = Tools.byteToString( file.length() );
-					
+
+					FileSender fileSend = new FileSender( tempnick, file );
+					TransferFrame fileStatus = new TransferFrame( fileSend );
+					fileSend.registerListener( fileStatus );
+					tList.addFileSender( fileSend );
+
 					controller.sendFile( tempnick.getCode(), file.length(), file.hashCode(), file.getName() );
 					mainP.appendSystemMessage( "*** " + "Trying to send the file " + file.getName() + " [" + size + "] to " + tempnick.getNick() );
 				}
 			}
 		}
-		
+
 		else
 		{
 			JOptionPane.showMessageDialog( gui, "No point in doing that!", Constants.APP_NAME
 					+ " - Warning", JOptionPane.WARNING_MESSAGE );
 		}
 	}
-	
+
 	public void write()
 	{
 		String line = mainP.getMsgTF().getText();
-		
+
 		if ( line.trim().length() > 0 )
 		{
 			if ( line.startsWith( "/" ) )
 			{
 				mainP.appendSystemMessage( "*** No commands yet..." );
 			}
-			
+
 			else
 			{
 				mainP.appendOwnMessage( "<" + me.getNick() + ">: " + line );
 				controller.sendChatMessage( line );
 			}
 		}
-		
+
 		mainP.getMsgTF().setText( "" );
 	}
-	
+
 	public void updateWriting()
 	{
 		if ( mainP.getMsgTF().getText().length() > 0 )
@@ -323,7 +325,7 @@ public class ListenerMediator implements MessageListener
 				controller.changeWriting( me.getCode(), true );
 			}
 		}
-		
+
 		else
 		{
 			if ( controller.isWrote() )
@@ -332,7 +334,7 @@ public class ListenerMediator implements MessageListener
 			}
 		}
 	}
-	
+
 	public void changeNick( String nick )
 	{
 		if ( !nick.equals( me.getNick() ) )
@@ -342,13 +344,13 @@ public class ListenerMediator implements MessageListener
 				JOptionPane.showMessageDialog( null, "The nick is in use by someone else...", Constants.APP_NAME
 						+ " - Change nick", JOptionPane.WARNING_MESSAGE );
 			}
-			
+
 			else if ( !Tools.isValidNick( nick ) )
 			{
 				JOptionPane.showMessageDialog( null, "Not a valid nick name. (1-10 letters)", Constants.APP_NAME
 						+ " - Change nick", JOptionPane.WARNING_MESSAGE );
 			}
-			
+
 			else
 			{
 				nick = nick.trim();
@@ -363,12 +365,12 @@ public class ListenerMediator implements MessageListener
 	public void messageArrived(  String msg, int color  )
 	{
 		mainP.appendUserMessage( msg, color );
-		
+
 		if ( !gui.isVisible() && me.isAway() )
 		{
 			sysTray.setAwayActivityState();
 		}
-		
+
 		else if ( !gui.isVisible() )
 		{
 			sysTray.setNormalActivityState();
@@ -391,12 +393,12 @@ public class ListenerMediator implements MessageListener
 			controller.sendNickCrashMessage( newUser.getNick() );
 			newUser.setNick( "" + newUser.getCode() );
 		}
-		
+
 		else if ( !controller.checkIfNickInUse( newUser.getNick() ) )
 		{
 			newUser.setNick( "" + newUser.getCode() );
 		}
-		
+
 		controller.getNickList().add( newUser );
 		mainP.appendSystemMessage( "*** " + newUser.getNick() + " logged on from " + newUser.getIpAddress() + "..." );
 	}
@@ -405,7 +407,7 @@ public class ListenerMediator implements MessageListener
 	public void topicChanged( String newTopic, String nick, long time )
 	{
 		Topic topic = controller.getTopic();
-		
+
 		if ( newTopic != null )
 		{
 			if ( !newTopic.equals( topic.getTopic() ) )
@@ -415,7 +417,7 @@ public class ListenerMediator implements MessageListener
 				updateTitleAndTray();
 			}
 		}
-		
+
 		else
 		{
 			if ( !topic.getTopic().equals( newTopic ) )
@@ -455,7 +457,7 @@ public class ListenerMediator implements MessageListener
 	{
 		Nick user = controller.getNick( userCode );
 		controller.changeAwayStatus( userCode, away, awayMsg );
-		
+
 		if ( away )
 		{
 			mainP.appendSystemMessage( "*** " + user.getNick() + " went away: " + awayMsg );
@@ -471,11 +473,11 @@ public class ListenerMediator implements MessageListener
 	public void meIdle()
 	{
 		NickList nickList = controller.getNickList();
-		
+
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
 			Nick temp = nickList.get( i );
-			
+
 			if ( temp.getCode() != me.getCode() && temp.getLastIdle() < System.currentTimeMillis() - 120000 )
 			{
 				nickList.remove( temp );
@@ -493,7 +495,7 @@ public class ListenerMediator implements MessageListener
 			controller.sendExposeMessage();
 			controller.sendGetTopicMessage();
 		}
-		
+
 		else
 		{
 			controller.updateLastIdle( userCode, System.currentTimeMillis() );
@@ -537,9 +539,9 @@ public class ListenerMediator implements MessageListener
 		final int fUserCode = userCode;
 		final int fFileHash = fileHash;
 		final long fByteSize = byteSize;
-		
+
 		mainP.appendSystemMessage( "*** " + user + " is trying to send the file " + fileName + " [" + fSize + "]" );
-		
+
 		new Thread()
 		{
 			public void run()
@@ -548,18 +550,18 @@ public class ListenerMediator implements MessageListener
 				int choice = JOptionPane.showOptionDialog( gui, fUser + " wants to send you the file "
 						+ fFileName + " (" + fSize + ")\nAccept?", Constants.APP_NAME + " - File send",
 						JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0] );
-				
+
 				if ( choice == JOptionPane.YES_OPTION )
 				{
 					JFileChooser chooser = new JFileChooser();
 					chooser.setSelectedFile( new File( fFileName ) );
 					boolean done = false;
-					
+
 					while ( !done )
 					{
 						done = true;
 						int returnVal = chooser.showSaveDialog( gui );
-						
+
 						if ( returnVal == JFileChooser.APPROVE_OPTION )
 						{
 							Nick tempnick = controller.getNick( fUserCode );
@@ -569,37 +571,51 @@ public class ListenerMediator implements MessageListener
 							{
 								int overwrite = JOptionPane.showOptionDialog( gui, file.getName()
 										+ " already exists.\nOverwrite?", Constants.APP_NAME + " - File exists",
-											JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-											options, options[0] );
-									
+										JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+										options, options[0] );
+
 								if ( overwrite != JOptionPane.YES_OPTION )
 								{
 									done = false;
 								}
 							}
-						
+
 							if ( done )
 							{
-								controller.sendFileAccept( fUserCode, 50123, fFileHash, fFileName );
-								
-								// TODO
-								FileReceiver fileRes = new FileReceiver( tempnick, 50123, file, fByteSize );
+								FileReceiver fileRes = new FileReceiver( tempnick, file, fByteSize );
 								TransferFrame fileStatus = new TransferFrame( fileRes );
 								fileRes.registerListener( fileStatus );
 								
-								if ( fileRes.transfer() )
+								try
 								{
-									mainP.appendSystemMessage( "*** Successfully received " + fFileName
-											+ " from " + fUser + ", and saved as " + file.getName() );
+									int port = fileRes.startServer();
+									controller.sendFileAccept( fUserCode, port, fFileHash, fFileName );
+
+									if ( fileRes.transfer() )
+									{
+										mainP.appendSystemMessage( "*** Successfully received " + fFileName
+												+ " from " + fUser + ", and saved as " + file.getName() );
+									}
+
+									else
+									{
+										mainP.appendSystemMessage( "*** Failed to receive " + fFileName + " from " + fUser );
+									}
 								}
 								
-								else
+								catch ( ServerException e )
 								{
 									mainP.appendSystemMessage( "*** Failed to receive " + fFileName + " from " + fUser );
+									controller.sendFileAbort( fUserCode, fFileHash, fFileName );
+									
+									JOptionPane.showMessageDialog( fileStatus, "Could not connect...", Constants.APP_NAME
+											+ " - File transfer", JOptionPane.ERROR_MESSAGE );
+									
+									fileRes.fail();
 								}
 							}
 						}
-						
+
 						else
 						{
 							mainP.appendSystemMessage( "*** You declined to receive " + fFileName + " from " + fUser );
@@ -607,7 +623,7 @@ public class ListenerMediator implements MessageListener
 						}
 					}
 				}
-				
+
 				else
 				{
 					mainP.appendSystemMessage( "*** You declined to receive " + fFileName + " from " + fUser );
@@ -618,68 +634,49 @@ public class ListenerMediator implements MessageListener
 	}
 
 	@Override
-	public void fileSendAborted( String user, String fileName, int fileHash )
+	public void fileSendAborted( int userCode, String fileName, int fileHash )
 	{
-		mainP.appendSystemMessage( "*** " + user + " aborted sending of " + fileName );
-		
-		for ( int i = 0; i < fileList.size(); i++ )
-		{
-			if ( fileList.get( i ).hashCode() == fileHash )
-			{
-				fileList.remove( i );
-			}
-		}
+		Nick user = controller.getNick( userCode );
+		mainP.appendSystemMessage( "*** " + user.getNick() + " aborted sending of " + fileName );
+		FileSender fileSend = tList.getFileSender( user, fileName, fileHash );
+		fileSend.fail();
+		tList.removeFileSender( fileSend );
 	}
 
 	@Override
-	public void fileSendAccepted( String user, int userCode, String fileName, int fileHash, int port )
+	public void fileSendAccepted( int userCode, String fileName, int fileHash, int port )
 	{
-		final String fUser = user;
 		final String fFileName = fileName;
-		final int fUserCode = userCode;
 		final int fFileHash = fileHash;
 		final int fPort = port;
-		
+		final Nick fUser = controller.getNick( userCode );
+
 		new Thread()
 		{
 			public void run()
 			{
-				mainP.appendSystemMessage( "*** " + fUser + " accepted sending of "	+ fFileName );
-				File file = null;
-				
-				for ( int i = 0; i < fileList.size(); i++ )
+				FileSender fileSend = tList.getFileSender( fUser, fFileName, fFileHash );
+				tList.removeFileSender( fileSend );
+
+				if ( fileSend != null )
 				{
-					if ( fileList.get( i ).hashCode() == fFileHash )
-					{
-						file = (File) fileList.get( i );
-						fileList.remove( i );
-						break;
-					}
-				}
-				
-				if ( file != null )
-				{
+					mainP.appendSystemMessage( "*** " + fUser.getNick() + " accepted sending of "	+ fFileName );
+
 					// Give the server some time to set up the connection first
 					try { Thread.sleep( 200 ); }
 					catch ( InterruptedException e ) {}
-					
-					Nick tempnick = controller.getNick( fUserCode );
-					
-					// TODO
-					FileSender fileSend = new FileSender( tempnick, fPort, file );
-					TransferFrame fileStatus = new TransferFrame( fileSend );
-					fileSend.registerListener( fileStatus );
-					
-					if ( fileSend.transfer() )
+
+					if ( fileSend.transfer( fPort ) )
 					{
-						mainP.appendSystemMessage( "*** " + fFileName + " successfully sent to " + fUser );
+						mainP.appendSystemMessage( "*** " + fFileName + " successfully sent to " + fUser.getNick() );
 					}
-					
+
 					else
 					{
-						mainP.appendSystemMessage( "*** Failed to send " + fFileName + " to " + fUser );
+						mainP.appendSystemMessage( "*** Failed to send " + fFileName + " to " + fUser.getNick() );
 					}
 				}
+
 			}
 		}.start();
 	}

@@ -37,6 +37,5 @@ public interface FileTransfer
 	public void cancel();
 	public boolean isCanceled();
 	public boolean isTransferred();
-	public boolean transfer();
 	public void registerListener( FileTransferListener listener );
 }

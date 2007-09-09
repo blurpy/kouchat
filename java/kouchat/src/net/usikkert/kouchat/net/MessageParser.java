@@ -191,21 +191,21 @@ public class MessageParser implements ReceiverListener
 		}
 	}
 	
-	private void fireSendFileAborted( String user, String fileName, int fileHash )
+	private void fireSendFileAborted( int msgCode, String fileName, int fileHash )
 	{
 		for ( int i = 0; i < listeners.size(); i++ )
 		{
 			MessageListener ml = listeners.get( i );
-			ml.fileSendAborted( user, fileName, fileHash );
+			ml.fileSendAborted( msgCode, fileName, fileHash );
 		}
 	}
 	
-	private void fireSendFileAccepted( String msgNick, int msgCode, String fileName, int fileHash, int port )
+	private void fireSendFileAccepted( int msgCode, String fileName, int fileHash, int port )
 	{
 		for ( int i = 0; i < listeners.size(); i++ )
 		{
 			MessageListener ml = listeners.get( i );
-			ml.fileSendAccepted( msgNick, msgCode, fileName, fileHash, port );
+			ml.fileSendAccepted( msgCode, fileName, fileHash, port );
 		}
 	}
 	
@@ -366,7 +366,7 @@ public class MessageParser implements ReceiverListener
 						int fileHash = Integer.parseInt( msg.substring( leftCurly +1, rightCurly ) );
 						String fileName = msg.substring( rightCurly +1, msg.length() );
 						
-						fireSendFileAccepted( msgNick, msgCode, fileName, fileHash, port );
+						fireSendFileAccepted( msgCode, fileName, fileHash, port );
 					}
 				}
 				
@@ -383,7 +383,7 @@ public class MessageParser implements ReceiverListener
 						String fileName = msg.substring( rightCurly +1, msg.length() );
 						int fileHash = Integer.parseInt( msg.substring( leftCurly +1, rightCurly ) );
 						
-						fireSendFileAborted( msgNick, fileName, fileHash );
+						fireSendFileAborted( msgCode, fileName, fileHash );
 					}
 				}
 				

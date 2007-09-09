@@ -19,14 +19,45 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.event;
+package net.usikkert.kouchat.net;
 
-public interface FileTransferListener
+import java.util.ArrayList;
+import java.util.List;
+
+import net.usikkert.kouchat.misc.Nick;
+
+public class TransferList
 {
-	public void statusWaiting();
-	public void statusConnecting();
-	public void statusTransferring();
-	public void statusCompleted();
-	public void statusFailed();
-	public void transferUpdate();
+	private List<FileSender> senders;
+	
+	public TransferList()
+	{
+		senders = new ArrayList<FileSender>();
+	}
+
+	public void addFileSender( FileSender fileSend )
+	{
+		senders.add( fileSend );
+	}
+
+	public void removeFileSender( FileSender fileSend )
+	{
+		senders.remove( fileSend );
+	}
+
+	public FileSender getFileSender( Nick user, String fileName, int fileHash )
+	{
+		FileSender fileSender = null;
+		
+		for ( FileSender fs : senders )
+		{
+			if ( fs.getNick() == user && fs.getFileName().equals( fileName ) && fs.getFile().hashCode() == fileHash )
+			{
+				fileSender = fs;
+				break;
+			}
+		}
+		
+		return fileSender;
+	}
 }

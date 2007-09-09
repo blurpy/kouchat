@@ -36,18 +36,18 @@ import net.usikkert.kouchat.util.ByteCounter;
 public class FileReceiver implements FileTransfer
 {	
 	private Nick nick;
-	private int port, percent;
+	private int percent;
 	private long transferred, size;
 	private File file;
 	private boolean received, cancel;
 	private FileTransferListener listener;
 	private Direction direction;
 	private ByteCounter bCounter;
+	private ServerSocket sSock;
 	
-	public FileReceiver( Nick nick, int port, File file, long size )
+	public FileReceiver( Nick nick, File file, long size )
 	{
 		this.nick = nick;
-		this.port = port;
 		this.file = file;
 		this.size = size;
 		
@@ -55,7 +55,40 @@ public class FileReceiver implements FileTransfer
 		bCounter = new ByteCounter();
 	}
 	
-	@Override
+	public int startServer() throws ServerException
+	{
+		int port = 50123;
+		boolean done = false;
+		int counter = 0;
+		
+		while ( !done && counter < 10 )
+		{
+			try
+			{
+				sSock = new ServerSocket( port );
+				TimeoutThread tt = new TimeoutThread();
+				tt.start();
+				done = true;
+			}
+			
+			catch ( IOException e )
+			{
+				System.err.println( e + " (" + port + ")" );
+				port++;
+			}
+			
+			finally
+			{
+				counter++;
+			}
+		}
+		
+		if ( !done )
+			throw new ServerException( "Could not start server" );
+		
+		return port;
+	}
+	
 	public boolean transfer()
 	{
 		listener.statusConnecting();
@@ -63,53 +96,53 @@ public class FileReceiver implements FileTransfer
 		received = false;
 		cancel = false;
 		
-		ServerSocket sSock = null;
 		Socket sock = null;
 		FileOutputStream fos = null;
 		InputStream is = null;
 		
 		try
 		{
-			sSock = new ServerSocket( port );
-			
-			TimeoutThread tt = new TimeoutThread( sSock, sock );
-			tt.start();
-			
-			sock = sSock.accept();
-			listener.statusTransfering();
-			fos = new FileOutputStream( file );
-			is = sock.getInputStream();
-		
-			byte b[] = new byte[1024];
-			transferred = 0;
-			percent = 0;
-			int tmpTransferred = 0;
-			int tmpPercent = 0;
-			bCounter.reset();
-			
-			while ( ( tmpTransferred = is.read( b ) ) != -1 && !cancel )
+			if ( sSock != null )
 			{
-				fos.write( b, 0, tmpTransferred );
-				transferred += tmpTransferred;
-				percent = (int) ( ( transferred * 100 ) / size );
-				bCounter.update( tmpTransferred );
+				sock = sSock.accept();
+				listener.statusTransferring();
+				fos = new FileOutputStream( file );
+				is = sock.getInputStream();
+			
+				byte b[] = new byte[1024];
+				transferred = 0;
+				percent = 0;
+				int tmpTransferred = 0;
+				int tmpPercent = 0;
+				int transCounter = 0;
+				bCounter.reset();
 				
-				if ( percent > tmpPercent )
+				while ( ( tmpTransferred = is.read( b ) ) != -1 && !cancel )
 				{
-					tmpPercent = percent;
-					listener.transferUpdate();
+					fos.write( b, 0, tmpTransferred );
+					transferred += tmpTransferred;
+					percent = (int) ( ( transferred * 100 ) / size );
+					bCounter.update( tmpTransferred );
+					transCounter++;
+					
+					if ( percent > tmpPercent || transCounter >= 250 )
+					{
+						transCounter = 0;
+						tmpPercent = percent;
+						listener.transferUpdate();
+					}
 				}
-			}
-			
-			if ( !cancel && transferred == size )
-			{
-				received = true;
-				listener.statusCompleted();
-			}
-			
-			else
-			{
-				listener.statusFailed();
+				
+				if ( !cancel && transferred == size )
+				{
+					received = true;
+					listener.statusCompleted();
+				}
+				
+				else
+				{
+					listener.statusFailed();
+				}
 			}
 		}
 		
@@ -155,7 +188,10 @@ public class FileReceiver implements FileTransfer
 			try
 			{
 				if ( sSock != null )
+				{
 					sSock.close();
+					sSock = null;
+				}
 			}
 			
 			catch ( IOException e ) {}
@@ -223,6 +259,11 @@ public class FileReceiver implements FileTransfer
 	{
 		return bCounter.getBytesPerSec();
 	}
+	
+	public void fail()
+	{
+		listener.statusFailed();
+	}
 
 	@Override
 	public void registerListener( FileTransferListener listener )
@@ -234,33 +275,21 @@ public class FileReceiver implements FileTransfer
 	// No point in waiting for a connection forever
 	private class TimeoutThread extends Thread
 	{
-		private ServerSocket sSock;
-		private Socket sock;
-		
-		public TimeoutThread( ServerSocket sSock, Socket sock )
-		{
-			this.sSock = sSock;
-			this.sock = sock;
-		}
-		
 		public void run()
 		{
+			try { sleep( 15000 ); }
+			catch ( InterruptedException e ) {}
+
 			try
 			{
-				sleep( 15000 );
-			}
-			
-			catch ( InterruptedException e ) {}
-			
-			if ( sock == null )
-			{
-				try
+				if ( sSock != null )
 				{
 					sSock.close();
+					sSock = null;
 				}
-				
-				catch ( IOException e ) {}
 			}
+
+			catch ( IOException e ) {}
 		}
 	}
 }

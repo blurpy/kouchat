@@ -184,7 +184,7 @@ public class TransferFrame extends JFrame implements FileTransferListener
 	}
 
 	@Override
-	public void statusTransfering()
+	public void statusTransferring()
 	{
 		if ( fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE )
 			status2L.setText( "Receiving..." );
@@ -227,8 +227,7 @@ public class TransferFrame extends JFrame implements FileTransferListener
 			file2L.setText( fileName );
 			file2L.setToolTipText( null );
 		}
-		
-		file2L.setToolTipText( fileTransfer.getFileName() );
+
 		trans2L.setText( "0KB of " + fileSize + " at 0KB/s" );
 		filePB.setValue( 0 );
 	}

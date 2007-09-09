@@ -19,14 +19,17 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.event;
+package net.usikkert.kouchat.net;
 
-public interface FileTransferListener
+public class ServerException extends Exception
 {
-	public void statusWaiting();
-	public void statusConnecting();
-	public void statusTransferring();
-	public void statusCompleted();
-	public void statusFailed();
-	public void transferUpdate();
+	public ServerException( String msg, Throwable exception )
+	{
+		super( msg, exception );
+	}
+	
+	public ServerException( String msg )
+	{
+		super( msg );
+	}
 }
