@@ -14,9 +14,6 @@
  - Dont accept messages from users not logged on
  - Split mediator into 2 classes, one for lower layers, and one for gui
  - Remove fireX methods in parser
+ - Test more than one transfer at the same time
+ - Update controller with the new stuff, like transferlist
  
-  - Improve file transfer
-    - Open sending box before connection has been established
-    - Test more than one transfer at the same time
-    - Move file transfer list into it's own class
-    
