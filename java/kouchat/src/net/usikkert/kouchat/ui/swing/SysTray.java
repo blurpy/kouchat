@@ -32,12 +32,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.swing.ImageIcon;
 
 import net.usikkert.kouchat.Constants;
 
 public class SysTray implements ActionListener, MouseListener
 {
+	private static Logger log = Logger.getLogger( SysTray.class.getName() );
+	
 	private SystemTray sysTray;
 	private TrayIcon trayIcon;
 	private Image cow_icon_normal, cow_icon_normal_activity, cow_icon_away, cow_icon_away_activity;
@@ -72,7 +77,7 @@ public class SysTray implements ActionListener, MouseListener
 		
 		catch ( AWTException e )
 		{
-			e.printStackTrace();
+			log.log( Level.SEVERE, e.getMessage(), e );
 		}
 	}
 	

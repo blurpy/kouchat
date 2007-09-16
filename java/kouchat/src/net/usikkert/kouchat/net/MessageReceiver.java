@@ -30,6 +30,8 @@ import java.net.MulticastSocket;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.ReceiverEvent;
@@ -37,6 +39,8 @@ import net.usikkert.kouchat.event.ReceiverListener;
 
 public class MessageReceiver extends Thread
 {
+	private static Logger log = Logger.getLogger( MessageReceiver.class.getName() );
+	
 	private static final int BYTESIZE = 1024;
 	
 	private MulticastSocket mcSocket;
@@ -58,7 +62,7 @@ public class MessageReceiver extends Thread
 		
 		catch ( IOException e )
 		{
-			e.printStackTrace();
+			log.log( Level.SEVERE, e.getMessage(), e );
 		}
 	}
 	
@@ -85,7 +89,7 @@ public class MessageReceiver extends Thread
 			
 			catch ( IOException e )
 			{
-				System.err.println( e );
+				log.log( Level.SEVERE, e.getMessage(), e );
 			}
 		}
 	}
@@ -101,7 +105,7 @@ public class MessageReceiver extends Thread
 		
 		catch ( IOException e )
 		{
-			e.printStackTrace();
+			log.log( Level.SEVERE, e.getMessage(), e );
 		}
 	}
 	

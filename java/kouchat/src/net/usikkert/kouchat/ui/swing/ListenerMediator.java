@@ -24,6 +24,8 @@ package net.usikkert.kouchat.ui.swing;
 import java.io.File;
 
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -45,6 +47,8 @@ import net.usikkert.kouchat.util.Tools;
 
 public class ListenerMediator implements MessageListener
 {
+	private static Logger log = Logger.getLogger( ListenerMediator.class.getName() );
+	
 	private KouChatGUIFrame gui;
 	private MainPanel mainP;
 	private Settings settings;
@@ -406,25 +410,28 @@ public class ListenerMediator implements MessageListener
 	@Override
 	public void topicChanged( String newTopic, String nick, long time )
 	{
-		Topic topic = controller.getTopic();
-
-		if ( newTopic != null )
+		if ( time > 0 && nick.length() > 0 )
 		{
-			if ( !newTopic.equals( topic.getTopic() ) )
+			Topic topic = controller.getTopic();
+			
+			if ( newTopic != null )
 			{
-				mainP.appendSystemMessage( "*** " + nick + " changed topic to: " + newTopic );
-				topic.changeTopic( newTopic, nick, time );
-				updateTitleAndTray();
+				if ( !newTopic.equals( topic.getTopic() ) )
+				{
+					mainP.appendSystemMessage( "*** " + nick + " changed topic to: " + newTopic );
+					topic.changeTopic( newTopic, nick, time );
+					updateTitleAndTray();
+				}
 			}
-		}
 
-		else
-		{
-			if ( !topic.getTopic().equals( newTopic ) )
+			else
 			{
-				mainP.appendSystemMessage( "*** " + nick + " removed the topic..." );
-				topic.changeTopic( "", "", time );
-				updateTitleAndTray();
+				if ( !topic.getTopic().equals( newTopic ) )
+				{
+					mainP.appendSystemMessage( "*** " + nick + " removed the topic..." );
+					topic.changeTopic( "", "", time );
+					updateTitleAndTray();
+				}
 			}
 		}
 	}
@@ -605,6 +612,8 @@ public class ListenerMediator implements MessageListener
 								
 								catch ( ServerException e )
 								{
+									log.log( Level.SEVERE, e.getMessage(), e );
+									
 									mainP.appendSystemMessage( "*** Failed to receive " + fFileName + " from " + fUser );
 									controller.sendFileAbort( fUserCode, fFileHash, fFileName );
 									
@@ -663,8 +672,15 @@ public class ListenerMediator implements MessageListener
 					mainP.appendSystemMessage( "*** " + fUser.getNick() + " accepted sending of "	+ fFileName );
 
 					// Give the server some time to set up the connection first
-					try { Thread.sleep( 200 ); }
-					catch ( InterruptedException e ) {}
+					try
+					{
+						Thread.sleep( 200 );
+					}
+					
+					catch ( InterruptedException e )
+					{
+						log.log( Level.SEVERE, e.getMessage(), e );
+					}
 
 					if ( fileSend.transfer( fPort ) )
 					{

@@ -29,12 +29,17 @@ import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import net.usikkert.kouchat.event.FileTransferListener;
 import net.usikkert.kouchat.misc.Nick;
 import net.usikkert.kouchat.util.ByteCounter;
 
 public class FileReceiver implements FileTransfer
 {	
+	private static Logger log = Logger.getLogger( FileReceiver.class.getName() );
+	
 	private Nick nick;
 	private int percent;
 	private long transferred, size;
@@ -73,7 +78,7 @@ public class FileReceiver implements FileTransfer
 			
 			catch ( IOException e )
 			{
-				System.err.println( e + " (" + port + ")" );
+				log.log( Level.WARNING, "Could not open " + port, e );
 				port++;
 			}
 			
@@ -148,6 +153,7 @@ public class FileReceiver implements FileTransfer
 		
 		catch ( IOException e )
 		{
+			log.log( Level.SEVERE, e.getMessage(), e );
 			listener.statusFailed();
 		}
 		
@@ -159,7 +165,10 @@ public class FileReceiver implements FileTransfer
 					is.close();
 			}
 			
-			catch ( IOException e ) {}
+			catch ( IOException e )
+			{
+				log.log( Level.SEVERE, e.getMessage(), e );
+			}
 			
 			try
 			{
@@ -167,7 +176,10 @@ public class FileReceiver implements FileTransfer
 					fos.flush();
 			}
 			
-			catch ( IOException e ) {}
+			catch ( IOException e )
+			{
+				log.log( Level.SEVERE, e.getMessage(), e );
+			}
 			
 			try
 			{
@@ -175,7 +187,10 @@ public class FileReceiver implements FileTransfer
 					fos.close();
 			}
 			
-			catch ( IOException e ) {}
+			catch ( IOException e )
+			{
+				log.log( Level.SEVERE, e.getMessage(), e );
+			}
 			
 			try
 			{
@@ -183,7 +198,10 @@ public class FileReceiver implements FileTransfer
 					sock.close();
 			}
 			
-			catch ( IOException e ) {}
+			catch ( IOException e )
+			{
+				log.log( Level.SEVERE, e.getMessage(), e );
+			}
 			
 			try
 			{
@@ -194,7 +212,10 @@ public class FileReceiver implements FileTransfer
 				}
 			}
 			
-			catch ( IOException e ) {}
+			catch ( IOException e )
+			{
+				log.log( Level.SEVERE, e.getMessage(), e );
+			}
 		}
 		
 		return received;
@@ -277,8 +298,15 @@ public class FileReceiver implements FileTransfer
 	{
 		public void run()
 		{
-			try { sleep( 15000 ); }
-			catch ( InterruptedException e ) {}
+			try
+			{
+				sleep( 15000 );
+			}
+			
+			catch ( InterruptedException e )
+			{
+				log.log( Level.SEVERE, e.getMessage(), e );
+			}
 
 			try
 			{
@@ -289,7 +317,10 @@ public class FileReceiver implements FileTransfer
 				}
 			}
 
-			catch ( IOException e ) {}
+			catch ( IOException e )
+			{
+				log.log( Level.SEVERE, e.getMessage(), e );
+			}
 		}
 	}
 }

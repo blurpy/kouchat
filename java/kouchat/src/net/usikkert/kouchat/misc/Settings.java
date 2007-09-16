@@ -28,11 +28,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import net.usikkert.kouchat.util.Tools;
 
 public class Settings
 {
+	private static Logger log = Logger.getLogger( Settings.class.getName() );
+	
 	private static final String FILENAME = System.getProperty( "user.home" ) + System.getProperty( "file.separator" ) + ".kouchat.ini";
 	private static final Settings settings = new Settings();
 	
@@ -72,7 +76,7 @@ public class Settings
 		
 		catch ( IOException e )
 		{
-			e.printStackTrace();
+			log.log( Level.SEVERE, e.getMessage(), e );
 		}
 		
 		finally
@@ -83,7 +87,10 @@ public class Settings
 					buffWriter.flush();
 			}
 			
-			catch ( IOException e ) {}
+			catch ( IOException e )
+			{
+				log.log( Level.SEVERE, e.getMessage(), e );
+			}
 			
 			try
 			{
@@ -91,7 +98,10 @@ public class Settings
 					fileWriter.flush();
 			}
 			
-			catch ( IOException e1 ) {}
+			catch ( IOException e )
+			{
+				log.log( Level.SEVERE, e.getMessage(), e );
+			}
 			
 			try
 			{
@@ -99,7 +109,10 @@ public class Settings
 					buffWriter.close();
 			}
 			
-			catch ( IOException e ) {}
+			catch ( IOException e )
+			{
+				log.log( Level.SEVERE, e.getMessage(), e );
+			}
 			
 			try
 			{
@@ -107,7 +120,10 @@ public class Settings
 					fileWriter.close();
 			}
 			
-			catch ( IOException e ) {}
+			catch ( IOException e )
+			{
+				log.log( Level.SEVERE, e.getMessage(), e );
+			}
 		}
 	}
 	
@@ -133,24 +149,30 @@ public class Settings
 				ownColor = Integer.parseInt( fileContents.getProperty( "owncolor" ) );
 			}
 			
-			catch ( NumberFormatException e ) {}
+			catch ( NumberFormatException e )
+			{
+				log.log( Level.SEVERE, e.getMessage(), e );
+			}
 			
 			try
 			{
 				sysColor = Integer.parseInt( fileContents.getProperty( "syscolor" ) );
 			}
 			
-			catch ( NumberFormatException e ) {}
+			catch ( NumberFormatException e )
+			{
+				log.log( Level.SEVERE, e.getMessage(), e );
+			}
 		}
 		
 		catch ( FileNotFoundException e )
 		{
-			System.err.println( "Could not find " + FILENAME + ", using default settings..." );
+			log.log( Level.WARNING, "Could not find " + FILENAME + ", using default settings...", e );
 		}
 		
 		catch ( IOException e )
 		{
-			System.err.println( e );
+			log.log( Level.SEVERE, e.getMessage(), e );
 		}
 		
 		finally
@@ -163,7 +185,7 @@ public class Settings
 			
 			catch ( IOException e )
 			{
-				System.err.println( e );
+				log.log( Level.SEVERE, e.getMessage(), e );
 			}
 		}
 	}

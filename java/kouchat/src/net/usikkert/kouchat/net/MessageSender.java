@@ -27,10 +27,15 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import net.usikkert.kouchat.Constants;
 
 public class MessageSender
 {
+	private static Logger log = Logger.getLogger( MessageSender.class.getName() );
+	
 	private MulticastSocket mcSocket;
 	private InetAddress address;
 	
@@ -45,7 +50,7 @@ public class MessageSender
 		
 		catch ( IOException e )
 		{
-			e.printStackTrace();
+			log.log( Level.SEVERE, e.getMessage(), e );
 		}
 	}
 	
@@ -59,7 +64,7 @@ public class MessageSender
 		
 		catch ( IOException e )
 		{
-			e.printStackTrace();
+			log.log( Level.SEVERE, e.getMessage(), e );
 		}
 	}
 	
@@ -73,7 +78,7 @@ public class MessageSender
 		
 		catch ( IOException e )
 		{
-			e.printStackTrace();
+			log.log( Level.SEVERE, e.getMessage(), e );
 		}
 	}
 }

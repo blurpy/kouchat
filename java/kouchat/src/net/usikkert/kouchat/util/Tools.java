@@ -27,9 +27,13 @@ import java.text.SimpleDateFormat;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Tools
 {
+	private static Logger log = Logger.getLogger( Tools.class.getName() );
+	
 	public static String getTime()
 	{
 		int h = Calendar.getInstance().get( Calendar.HOUR_OF_DAY );
@@ -83,7 +87,7 @@ public class Tools
 		
 		catch ( ParseException e )
 		{
-			e.printStackTrace();
+			log.log( Level.SEVERE, e.getMessage(), e );
 		}
 		
 		return date;

@@ -30,12 +30,17 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import net.usikkert.kouchat.event.FileTransferListener;
 import net.usikkert.kouchat.misc.Nick;
 import net.usikkert.kouchat.util.ByteCounter;
 
 public class FileSender implements FileTransfer
 {
+	private static Logger log = Logger.getLogger( FileSender.class.getName() );
+	
 	private Nick nick;
 	private int percent;
 	private long transferred;
@@ -79,14 +84,14 @@ public class FileSender implements FileTransfer
 					sock = new Socket( InetAddress.getByName( nick.getIpAddress() ), port );
 				}
 
-				catch ( UnknownHostException e1 )
+				catch ( UnknownHostException e )
 				{
-					e1.printStackTrace();
+					log.log( Level.SEVERE, e.getMessage(), e );
 				}
 
-				catch ( IOException e1 )
+				catch ( IOException e )
 				{
-					e1.printStackTrace();
+					log.log( Level.SEVERE, e.getMessage(), e );
 				}
 
 				try
@@ -94,7 +99,10 @@ public class FileSender implements FileTransfer
 					Thread.sleep( 100 );
 				}
 
-				catch ( InterruptedException e ) {}
+				catch ( InterruptedException e )
+				{
+					log.log( Level.SEVERE, e.getMessage(), e );
+				}
 			}
 
 			if ( sock != null && !cancel )
@@ -147,11 +155,13 @@ public class FileSender implements FileTransfer
 
 		catch ( UnknownHostException e )
 		{
+			log.log( Level.SEVERE, e.getMessage(), e );
 			listener.statusFailed();
 		}
 
 		catch ( IOException e )
 		{
+			log.log( Level.SEVERE, e.getMessage(), e );
 			listener.statusFailed();
 		}
 
@@ -163,7 +173,10 @@ public class FileSender implements FileTransfer
 					fis.close();
 			}
 
-			catch ( IOException e ) {}
+			catch ( IOException e )
+			{
+				log.log( Level.SEVERE, e.getMessage(), e );
+			}
 
 			try
 			{
@@ -171,7 +184,10 @@ public class FileSender implements FileTransfer
 					os.flush();
 			}
 
-			catch ( IOException e ) {}
+			catch ( IOException e )
+			{
+				log.log( Level.SEVERE, e.getMessage(), e );
+			}
 
 			try
 			{
@@ -179,14 +195,21 @@ public class FileSender implements FileTransfer
 					os.close();
 			}
 
-			catch ( IOException e ) {}
+			catch ( IOException e )
+			{
+				log.log( Level.SEVERE, e.getMessage(), e );
+			}
 
 			try
 			{
 				if ( sock != null )
 					sock.close();
 			}
-			catch ( IOException e ) {}
+			
+			catch ( IOException e )
+			{
+				log.log( Level.SEVERE, e.getMessage(), e );
+			}
 		}
 
 		return sent;

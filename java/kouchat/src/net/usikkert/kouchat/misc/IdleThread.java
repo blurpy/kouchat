@@ -21,8 +21,13 @@
 
 package net.usikkert.kouchat.misc;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class IdleThread extends Thread
 {
+	private static Logger log = Logger.getLogger( IdleThread.class.getName() );
+	
 	private boolean run;
 	private Controller controller;
 	
@@ -44,7 +49,7 @@ public class IdleThread extends Thread
 			
 			catch ( InterruptedException e )
 			{
-				e.printStackTrace();
+				log.log( Level.SEVERE, e.getMessage(), e );
 				run = false;
 			}
 		}

@@ -26,6 +26,9 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -44,6 +47,8 @@ import net.usikkert.kouchat.util.Tools;
 
 public class MainPanel extends JPanel implements ActionListener, CaretListener
 {
+	private static Logger log = Logger.getLogger( MainPanel.class.getName() );
+	
 	private JScrollPane chatSP;
 	private JTextPane chatTP;
 	private MutableAttributeSet chatAttr;
@@ -89,7 +94,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 		
 		catch ( BadLocationException e )
 		{
-			e.printStackTrace();
+			log.log( Level.SEVERE, e.getMessage(), e );
 		}
 	}
 	

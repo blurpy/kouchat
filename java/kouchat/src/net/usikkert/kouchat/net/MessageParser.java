@@ -23,6 +23,8 @@ package net.usikkert.kouchat.net;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import net.usikkert.kouchat.event.MessageListener;
 import net.usikkert.kouchat.event.ReceiverEvent;
@@ -32,6 +34,8 @@ import net.usikkert.kouchat.misc.Settings;
 
 public class MessageParser implements ReceiverListener
 {
+	private static Logger log = Logger.getLogger( MessageParser.class.getName() );
+	
 	private MessageReceiver receiver;
 	private List<MessageListener> listeners;
 	private Settings settings;
@@ -336,7 +340,7 @@ public class MessageParser implements ReceiverListener
 					
 					catch ( StringIndexOutOfBoundsException e )
 					{
-						e.printStackTrace();
+						log.log( Level.SEVERE, e.getMessage(), e );
 					}
 				}
 				
@@ -420,9 +424,10 @@ public class MessageParser implements ReceiverListener
 			}
 		}
 		
+		// This must not halt
 		catch ( Exception e )
 		{
-			e.printStackTrace();
+			log.log( Level.SEVERE, e.getMessage(), e );
 		}
 	}
 }
