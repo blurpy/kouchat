@@ -48,13 +48,10 @@ public class SysTray implements ActionListener, MouseListener
 	private Image cow_icon_normal, cow_icon_normal_activity, cow_icon_away, cow_icon_away_activity;
 	private PopupMenu menu;
 	private MenuItem quitMI;
-	private ListenerMediator listener;
+	private GUIListener listener;
 	
-	public SysTray( ListenerMediator listener )
+	public SysTray( Mediator mediator )
 	{
-		this.listener = listener;
-		listener.setSysTray( this );
-		
 		cow_icon_normal = new ImageIcon( getClass().getResource( "/icons/kou_normal.png" ) ).getImage();
 		cow_icon_normal_activity = new ImageIcon( getClass().getResource( "/icons/kou_normal_activity.png" ) ).getImage();
 		cow_icon_away = new ImageIcon( getClass().getResource( "/icons/kou_away.png" ) ).getImage();
@@ -79,6 +76,9 @@ public class SysTray implements ActionListener, MouseListener
 		{
 			log.log( Level.SEVERE, e.getMessage(), e );
 		}
+		
+		listener = mediator.getGUIListener();
+		mediator.setSysTray( this );
 	}
 	
 	public void setAwayState()

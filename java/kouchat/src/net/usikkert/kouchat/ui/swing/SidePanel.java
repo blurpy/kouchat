@@ -38,6 +38,7 @@ import javax.swing.JScrollPane;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.NickList;
 
 public class SidePanel extends JPanel implements ActionListener, MouseListener
 {
@@ -48,24 +49,20 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 	private JList nickL;
 	private NickListModel nickDLM;
 	private ButtonPanel buttonP;
-	private ListenerMediator listener;
+	private GUIListener listener;
 	
-	public SidePanel( ListenerMediator listener )
+	public SidePanel( Mediator mediator )
 	{
-		this.listener = listener;
-		listener.setSideP( this );
-		
-		nickDLM = new NickListModel( listener.getController().getNickList() );
-		
 		setLayout( new BorderLayout( 2, 2 ) );
 		
+		nickDLM = new NickListModel();
 		nickL = new JList( nickDLM );
 		nickL.setCellRenderer( new CellRenderer() );
 		nickL.setFixedCellWidth( 110 );
 		nickL.addMouseListener( this );
 		nickSP = new JScrollPane( nickL );
 		
-		buttonP = new ButtonPanel( listener );
+		buttonP = new ButtonPanel( mediator );
 		
 		add( nickSP, BorderLayout.CENTER );
 		add( buttonP, BorderLayout.SOUTH );
@@ -77,11 +74,19 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 		sendfileMI.addActionListener( this );
 		nickMenu.add( infoMI );
 		nickMenu.add( sendfileMI );
+		
+		mediator.setSideP( this );
+		listener = mediator.getGUIListener();
 	}
 	
 	public NickDTO getSelectedNick()
 	{
 		return (NickDTO) nickL.getSelectedValue();
+	}
+	
+	public void setNickList( NickList nickList )
+	{
+		nickDLM.setNickList( nickList );
 	}
 
 	@Override

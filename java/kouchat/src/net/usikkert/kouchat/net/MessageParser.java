@@ -21,8 +21,6 @@
 
 package net.usikkert.kouchat.net;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,180 +35,26 @@ public class MessageParser implements ReceiverListener
 	private static Logger log = Logger.getLogger( MessageParser.class.getName() );
 	
 	private MessageReceiver receiver;
-	private List<MessageListener> listeners;
+	private MessageListener listener;
 	private Settings settings;
 	private boolean loggedOn;
 	
 	public MessageParser()
 	{
 		settings = Settings.getSettings();
-		listeners = new ArrayList<MessageListener>();
 		receiver = new MessageReceiver();
 		receiver.addReceiverListener( this );
 		receiver.start();
 	}
 	
-	public void addMessageListener( MessageListener listener )
+	public void setMessageListener( MessageListener listener )
 	{
-		listeners.add( listener );
+		this.listener = listener;
 	}
 	
-	public void removeMessageListener( MessageListener listener )
+	public void unsetMessageListener()
 	{
-		listeners.remove( listener );
-	}
-	
-	private void fireMessageArrived( String msg, int color )
-	{
-		for ( int i = 0; i < listeners.size(); i++ )
-		{
-			MessageListener ml = listeners.get( i );
-			ml.messageArrived( msg, color );
-		}
-	}
-	
-	private void fireMeLogOn( String ipAddress )
-	{
-		for ( int i = 0; i < listeners.size(); i++ )
-		{
-			MessageListener ml = listeners.get( i );
-			ml.meLogOn( ipAddress );
-		}
-	}
-	
-	private void fireUserLogOn( NickDTO newUser )
-	{
-		for ( int i = 0; i < listeners.size(); i++ )
-		{
-			MessageListener ml = listeners.get( i );
-			ml.userLogOn( newUser );
-		}
-	}
-	
-	private void fireUserLogOff( int userCode )
-	{
-		for ( int i = 0; i < listeners.size(); i++ )
-		{
-			MessageListener ml = listeners.get( i );
-			ml.userLogOff( userCode );
-		}
-	}
-	
-	private void fireUserExposing( NickDTO user )
-	{
-		for ( int i = 0; i < listeners.size(); i++ )
-		{
-			MessageListener ml = listeners.get( i );
-			ml.userExposing( user );
-		}
-	}
-	
-	private void fireTopicChanged( String newTopic, String nick, long time )
-	{
-		for ( int i = 0; i < listeners.size(); i++ )
-		{
-			MessageListener ml = listeners.get( i );
-			ml.topicChanged( newTopic, nick, time );
-		}
-	}
-	
-	private void fireTopicRequested()
-	{
-		for ( int i = 0; i < listeners.size(); i++ )
-		{
-			MessageListener ml = listeners.get( i );
-			ml.topicRequested();
-		}
-	}
-
-	private void fireAwayChanged( int userCode, boolean away, String awayMsg )
-	{
-		for ( int i = 0; i < listeners.size(); i++ )
-		{
-			MessageListener ml = listeners.get( i );
-			ml.awayChanged( userCode, away, awayMsg );
-		}
-	}
-	
-	private void fireWritingChanged( int msgCode, boolean writing )
-	{
-		for ( int i = 0; i < listeners.size(); i++ )
-		{
-			MessageListener ml = listeners.get( i );
-			ml.writingChanged( msgCode, writing );
-		}
-	}
-	
-	private void fireMeIdle()
-	{
-		for ( int i = 0; i < listeners.size(); i++ )
-		{
-			MessageListener ml = listeners.get( i );
-			ml.meIdle();
-		}
-	}
-	
-	private void fireUserIdle( int userCode )
-	{
-		for ( int i = 0; i < listeners.size(); i++ )
-		{
-			MessageListener ml = listeners.get( i );
-			ml.userIdle( userCode );
-		}
-	}
-	
-	private void fireNickCrash()
-	{
-		for ( int i = 0; i < listeners.size(); i++ )
-		{
-			MessageListener ml = listeners.get( i );
-			ml.nickCrash();
-		}
-	}
-	
-	private void fireExposeRequested()
-	{
-		for ( int i = 0; i < listeners.size(); i++ )
-		{
-			MessageListener ml = listeners.get( i );
-			ml.exposeRequested();
-		}
-	}
-	
-	private void fireNickChanged( int userCode, String newNick )
-	{
-		for ( int i = 0; i < listeners.size(); i++ )
-		{
-			MessageListener ml = listeners.get( i );
-			ml.nickChanged( userCode, newNick );
-		}
-	}
-	
-	private void fireSendFile( long byteSize, String fileName, String user, int fileHash, int fileCode, int userCode )
-	{
-		for ( int i = 0; i < listeners.size(); i++ )
-		{
-			MessageListener ml = listeners.get( i );
-			ml.fileSend( byteSize, fileName, user, fileHash, fileCode, userCode );
-		}
-	}
-	
-	private void fireSendFileAborted( int msgCode, String fileName, int fileHash )
-	{
-		for ( int i = 0; i < listeners.size(); i++ )
-		{
-			MessageListener ml = listeners.get( i );
-			ml.fileSendAborted( msgCode, fileName, fileHash );
-		}
-	}
-	
-	private void fireSendFileAccepted( int msgCode, String fileName, int fileHash, int port )
-	{
-		for ( int i = 0; i < listeners.size(); i++ )
-		{
-			MessageListener ml = listeners.get( i );
-			ml.fileSendAccepted( msgCode, fileName, fileHash, port );
-		}
+		listener = null;
 	}
 	
 	public void stop()
@@ -223,7 +67,7 @@ public class MessageParser implements ReceiverListener
 		String message = re.getMessage();
 		String ipAddress = re.getIp();
 		
-		System.out.println( message );
+		System.out.println( message ); // TODO
 		
 		try
 		{
@@ -246,7 +90,7 @@ public class MessageParser implements ReceiverListener
 					int rightBracket = msg.indexOf( "]" );
 					int rgb = Integer.parseInt( msg.substring( leftBracket +1, rightBracket ) );
 					
-					fireMessageArrived( "<" + msgNick + ">: " + msg.substring( rightBracket +1, msg.length() ), rgb);
+					listener.messageArrived( msgCode, "<" + msgNick + ">: " + msg.substring( rightBracket +1, msg.length() ), rgb);
 				}
 				
 				else if ( type.equals( "LOGON" ) )
@@ -255,7 +99,7 @@ public class MessageParser implements ReceiverListener
 					newUser.setIpAddress( ipAddress );
 					newUser.setLastIdle( System.currentTimeMillis() );
 					
-					fireUserLogOn( newUser );
+					listener.userLogOn( newUser );
 				}
 				
 				else if ( type.equals( "EXPOSING" ) )
@@ -268,50 +112,50 @@ public class MessageParser implements ReceiverListener
 						user.setAway( true );
 					
 					user.setLastIdle( System.currentTimeMillis() );
-					fireUserExposing( user );
+					listener.userExposing( user );
 				}
 				
 				else if ( type.equals( "LOGOFF" ) )
 				{
-					fireUserLogOff( msgCode );
+					listener.userLogOff( msgCode );
 				}
 				
 				else if ( type.equals( "AWAY" ) )
 				{
-					fireAwayChanged( msgCode, true, msg );
+					listener.awayChanged( msgCode, true, msg );
 				}
 				
 				else if ( type.equals( "BACK" ) )
 				{
-					fireAwayChanged( msgCode, false, "" );
+					listener.awayChanged( msgCode, false, "" );
 				}
 				
 				else if ( type.equals( "EXPOSE" ) )
 				{
-					fireExposeRequested();
+					listener.exposeRequested();
 				}
 				
 				else if ( type.equals( "NICKCRASH" ) )
 				{
 					if ( tempme.getNick().equals( msg ) )
 					{
-						fireNickCrash();
+						listener.nickCrash();
 					}
 				}
 				
 				else if ( type.equals( "WRITING" ) )
 				{
-					fireWritingChanged( msgCode, true );
+					listener.writingChanged( msgCode, true );
 				}
 				
 				else if ( type.equals( "STOPPEDWRITING" ) )
 				{
-					fireWritingChanged( msgCode, false );
+					listener.writingChanged( msgCode, false );
 				}
 				
 				else if ( type.equals( "GETTOPIC" ) )
 				{
-					fireTopicRequested();
+					listener.topicRequested();
 				}
 				
 				else if ( type.equals( "TOPIC" ) )
@@ -334,7 +178,7 @@ public class MessageParser implements ReceiverListener
 								theTopic = msg.substring( rightBracket +1, msg.length() );
 							}
 							
-							fireTopicChanged( theTopic, theNick, theTime );
+							listener.topicChanged( msgCode, theTopic, theNick, theTime );
 						}
 					}
 					
@@ -346,12 +190,12 @@ public class MessageParser implements ReceiverListener
 				
 				else if ( type.equals( "NICK" ) )
 				{
-					fireNickChanged( msgCode, msgNick );
+					listener.nickChanged( msgCode, msgNick );
 				}
 				
 				else if ( type.equals( "IDLE" ) )
 				{
-					fireUserIdle( msgCode );
+					listener.userIdle( msgCode );
 				}
 				
 				else if ( type.equals( "SENDFILEACCEPT" ) )
@@ -370,7 +214,7 @@ public class MessageParser implements ReceiverListener
 						int fileHash = Integer.parseInt( msg.substring( leftCurly +1, rightCurly ) );
 						String fileName = msg.substring( rightCurly +1, msg.length() );
 						
-						fireSendFileAccepted( msgCode, fileName, fileHash, port );
+						listener.fileSendAccepted( msgCode, fileName, fileHash, port );
 					}
 				}
 				
@@ -387,7 +231,7 @@ public class MessageParser implements ReceiverListener
 						String fileName = msg.substring( rightCurly +1, msg.length() );
 						int fileHash = Integer.parseInt( msg.substring( leftCurly +1, rightCurly ) );
 						
-						fireSendFileAborted( msgCode, fileName, fileHash );
+						listener.fileSendAborted( msgCode, fileName, fileHash );
 					}
 				}
 				
@@ -407,20 +251,20 @@ public class MessageParser implements ReceiverListener
 						String fileName = msg.substring( rightCurly +1, msg.length() );
 						int fileHash = Integer.parseInt( msg.substring( leftCurly +1, rightCurly ) );
 						
-						fireSendFile( byteSize, fileName, msgNick, fileHash, fileCode, msgCode );
+						listener.fileSend( msgCode, byteSize, fileName, msgNick, fileHash, fileCode );
 					}
 				}
 			}
 			
 			else if ( type.equals( "LOGON" ) )
 			{
-				fireMeLogOn( ipAddress );
+				listener.meLogOn( ipAddress );
 				loggedOn = true;
 			}
 			
 			else if ( type.equals( "IDLE" ) )
 			{
-				fireMeIdle();
+				listener.meIdle();
 			}
 		}
 		

@@ -89,7 +89,7 @@ public class MessageReceiver extends Thread
 			
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.getMessage(), e );
+				log.log( Level.WARNING, e.getMessage() );
 			}
 		}
 	}

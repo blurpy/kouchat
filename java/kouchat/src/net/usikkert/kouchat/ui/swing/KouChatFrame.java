@@ -38,21 +38,22 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.KeyStroke;
 
-public class KouChatGUIFrame extends JFrame
+public class KouChatFrame extends JFrame
 {
-	private MenuBar menuBar;
 	private MainPanel mainP;
-	private ListenerMediator listener;
+	private GUIListener listener;
 	
-	public KouChatGUIFrame()
+	public KouChatFrame()
 	{
-		listener = new ListenerMediator( this );
-		mainP = new MainPanel( listener );
-		menuBar = new MenuBar( listener );
-		new SysTray( listener );
-		new SettingsFrame( listener );
+		MediatorController mediator = new MediatorController();
+		mediator.setKouChatFrame( this );
+		listener = mediator.getGUIListener();
 		
-		setJMenuBar( menuBar );
+		mainP = new MainPanel( mediator );
+		new SysTray( mediator );
+		new SettingsFrame( mediator );
+		setJMenuBar( new MenuBar( mediator ) );
+		
 		getContentPane().add( mainP, BorderLayout.CENTER );
 		setTitle( Constants.APP_NAME + " v" + Constants.APP_VERSION + " - (Not connected)" );
 		setIconImage( new ImageIcon( getClass().getResource( "/icons/kou_normal.png" ) ).getImage() );

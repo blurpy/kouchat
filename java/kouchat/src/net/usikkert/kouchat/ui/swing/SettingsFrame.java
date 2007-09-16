@@ -46,12 +46,10 @@ public class SettingsFrame extends JFrame implements ActionListener
 	private JTextField nickTF;
 	private JLabel nickL, ownColorL, sysColorL;
 	private Settings settings;
-	private ListenerMediator listener;
+	private GUIListener listener;
 	
-	public SettingsFrame( ListenerMediator listener )
+	public SettingsFrame( Mediator mediator )
 	{
-		this.listener = listener;
-		listener.setSettingsFrame( this );
 		settings = Settings.getSettings();
 		
 		Container container = getContentPane();
@@ -109,6 +107,9 @@ public class SettingsFrame extends JFrame implements ActionListener
 		setDefaultCloseOperation( JFrame.HIDE_ON_CLOSE );
 		setIconImage( new ImageIcon( getClass().getResource( "/icons/kou_normal.png" ) ).getImage() );
 		setTitle( Constants.APP_NAME + " - Settings" );
+		
+		listener = mediator.getGUIListener();
+		mediator.setSettingsFrame( this );
 	}
 	
 	public void actionPerformed( ActionEvent e )

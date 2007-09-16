@@ -21,47 +21,76 @@
 
 package net.usikkert.kouchat.ui.swing;
 
-import javax.swing.AbstractListModel;
+import net.usikkert.kouchat.misc.Controller;
 
-import net.usikkert.kouchat.event.NickListListener;
-import net.usikkert.kouchat.misc.NickDTO;
-import net.usikkert.kouchat.misc.NickList;
-
-public class NickListModel extends AbstractListModel implements NickListListener
+/**
+ * This is the mediator responsible for updating the other more
+ * specialized mediators with components.
+ * 
+ * @author Christian Ihle
+ */
+public class MediatorController implements Mediator
 {
-	private NickList nickList;
+	private Controller controller;
+	private GUIMediator guiMediator;
+	private NetworkMediator netMediator;
 	
-	public void setNickList( NickList nickList )
+	public MediatorController()
 	{
-		this.nickList = nickList;
-		nickList.addNickListListener( this );
-	}
-
-	public NickDTO getElementAt( int index )
-	{
-		return nickList.get( index );
+		controller = new Controller();
+		
+		guiMediator = new GUIMediator( controller );
+		netMediator = new NetworkMediator( controller, guiMediator );
 	}
 	
-	public int getSize()
+	@Override
+	public void setKouChatFrame( KouChatFrame gui )
 	{
-		return nickList.size();
+		guiMediator.setKouChatFrame( gui );
+		netMediator.setKouChatFrame( gui );
 	}
 
 	@Override
-	public void nickAdded( int pos )
+	public void setMainP( MainPanel mainP )
 	{
-		fireIntervalAdded( this, pos, pos );
+		guiMediator.setMainP( mainP );
+		netMediator.setMainP( mainP );
 	}
 
 	@Override
-	public void nickChanged( int pos )
+	public void setSysTray( SysTray sysTray )
 	{
-		fireContentsChanged( this, pos, pos );
+		guiMediator.setSysTray( sysTray );
+		netMediator.setSysTray( sysTray );
 	}
 
 	@Override
-	public void nickRemoved( int pos )
+	public void setMenuBar( MenuBar menuBar )
 	{
-		fireIntervalRemoved( this, pos, pos );
+		guiMediator.setMenuBar( menuBar );
+	}
+
+	@Override
+	public void setButtonP( ButtonPanel buttonP )
+	{
+		guiMediator.setButtonP( buttonP );
+	}
+
+	@Override
+	public void setSideP( SidePanel sideP )
+	{
+		guiMediator.setSideP( sideP );
+	}
+
+	@Override
+	public void setSettingsFrame( SettingsFrame settingsFrame )
+	{
+		guiMediator.setSettingsFrame( settingsFrame );
+	}
+
+	@Override
+	public GUIListener getGUIListener()
+	{
+		return guiMediator;
 	}
 }

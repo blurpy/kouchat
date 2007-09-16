@@ -35,13 +35,10 @@ public class MenuBar extends JMenuBar implements ActionListener
 {
 	private JMenu fileMenu, toolsMI, helpMenu;
 	private JMenuItem minimizeMI, quitMI, clearMI, awayMI, topicMI, settingsMI, aboutMI;
-	private ListenerMediator listener;
+	private GUIListener listener;
 	
-	public MenuBar( ListenerMediator listener )
+	public MenuBar( Mediator mediator )
 	{
-		this.listener = listener;
-		listener.setMenuBar( this );
-		
 		fileMenu = new JMenu( "File" );
 		fileMenu.setMnemonic( 'F' );
 		minimizeMI = new JMenuItem( "Minimize" );
@@ -87,6 +84,9 @@ public class MenuBar extends JMenuBar implements ActionListener
 		add( fileMenu );
 		add( toolsMI );
 		add( helpMenu );
+		
+		listener = mediator.getGUIListener();
+		mediator.setMenuBar( this );
 	}
 	
 	public void setAwayState( boolean away )

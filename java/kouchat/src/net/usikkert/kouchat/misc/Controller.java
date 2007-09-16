@@ -24,6 +24,7 @@ package net.usikkert.kouchat.misc;
 import net.usikkert.kouchat.event.MessageListener;
 import net.usikkert.kouchat.net.MessageParser;
 import net.usikkert.kouchat.net.Messages;
+import net.usikkert.kouchat.net.TransferList;
 
 public class Controller
 {
@@ -32,6 +33,7 @@ public class Controller
 	private Messages msgSender;
 	private MessageParser msgParser;
 	private IdleThread idleThread;
+	private TransferList tList;
 	
 	public Controller()
 	{
@@ -48,6 +50,7 @@ public class Controller
 		msgParser = new MessageParser();
 		msgSender = new Messages();
 		idleThread = new IdleThread( this );
+		tList = new TransferList();
 	}
 	
 	public TopicDTO getTopic()
@@ -86,14 +89,14 @@ public class Controller
 		}
 	}
 	
-	public boolean checkIfNickInUse( String nick )
+	public boolean isNickInUse( String nick )
 	{
-		return nickController.checkIfNickInUse( nick );
+		return nickController.isNickInUse( nick );
 	}
 	
-	public boolean checkIfNewUser( int code )
+	public boolean isNewUser( int code )
 	{
-		return nickController.checkIfNewUser( code );
+		return nickController.isNewUser( code );
 	}
 	
 	public void changeNick( int code, String nick )
@@ -112,9 +115,9 @@ public class Controller
 		return nickController.getNick( code );
 	}
 	
-	public void addMessageListener( MessageListener listener )
+	public void setMessageListener( MessageListener listener )
 	{
-		msgParser.addMessageListener( listener );
+		msgParser.setMessageListener( listener );
 	}
 	
 	public void logOn()
@@ -196,5 +199,10 @@ public class Controller
 	public void changeAwayStatus( int code, boolean away, String awaymsg )
 	{
 		nickController.changeAwayStatus( code, away, awaymsg );
+	}
+
+	public TransferList getTransferList()
+	{
+		return tList;
 	}
 }

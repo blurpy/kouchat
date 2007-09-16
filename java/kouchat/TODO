@@ -4,16 +4,11 @@
  - Logging
  - Commands
  - Sounds on events
- - Message when someone returns from a timeout
- - Nick and topic crash on timeout?
  - Change to UTF-8 messages
  - Add support for client name and version, and protocol version
  - Send NOTSUPPORTED when getting an unknown message
- - Fix "changed topic" message when logging on
  - Add buffer limit to the chat
- - Dont accept messages from users not logged on
- - Split mediator into 2 classes, one for lower layers, and one for gui
- - Remove fireX methods in parser
  - Test more than one transfer at the same time
- - Update controller with the new stuff, like transferlist
  - Fix popup window positions
+ - Receiver stops receiving if network is down
+ 

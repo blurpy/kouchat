@@ -26,6 +26,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,10 +43,12 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import net.usikkert.kouchat.event.DayListener;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.util.DayTimer;
 import net.usikkert.kouchat.util.Tools;
 
-public class MainPanel extends JPanel implements ActionListener, CaretListener
+public class MainPanel extends JPanel implements ActionListener, CaretListener, DayListener
 {
 	private static Logger log = Logger.getLogger( MainPanel.class.getName() );
 	
@@ -56,14 +59,10 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 	private JTextField msgTF;
 	private SidePanel sideP;
 	private Settings settings;
-	private ListenerMediator listener;
+	private GUIListener listener;
 	
-	public MainPanel( ListenerMediator listener )
+	public MainPanel( Mediator mediator )
 	{
-		this.listener = listener;
-		listener.setMainP( this );
-		settings = Settings.getSettings();
-		
 		setLayout( new BorderLayout( 2, 2 ) );
 		
 		chatTP = new JTextPane();
@@ -71,7 +70,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 		chatSP = new JScrollPane( chatTP );
 		chatAttr = new SimpleAttributeSet();
 		chatDoc = chatTP.getStyledDocument();
-		sideP = new SidePanel( listener );
+		sideP = new SidePanel( mediator );
 		msgTF = new JTextField();
 		msgTF.addActionListener( this );
 		msgTF.addCaretListener( this );
@@ -81,6 +80,13 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 		add( msgTF, BorderLayout.SOUTH );
 		
 		setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
+		
+		DayTimer dayTimer = new DayTimer();
+		dayTimer.addDayListener( this );
+		
+		mediator.setMainP( this );
+		listener = mediator.getGUIListener();
+		settings = Settings.getSettings();
 	}
 	
 	private void appendToChat( String text, Color color )
@@ -135,5 +141,11 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 		{
 			listener.write();
 		}
+	}
+	
+	@Override
+	public void dayChanged( Date date )
+	{
+		appendSystemMessage( "*** Day changed to " + Tools.dateToString( null, "EEEE, d MMMM yyyy" ) );
 	}
 }

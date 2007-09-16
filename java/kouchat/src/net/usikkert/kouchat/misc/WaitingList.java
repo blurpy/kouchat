@@ -19,49 +19,32 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.ui.swing;
+package net.usikkert.kouchat.misc;
 
-import javax.swing.AbstractListModel;
+import java.util.ArrayList;
+import java.util.List;
 
-import net.usikkert.kouchat.event.NickListListener;
-import net.usikkert.kouchat.misc.NickDTO;
-import net.usikkert.kouchat.misc.NickList;
-
-public class NickListModel extends AbstractListModel implements NickListListener
+public class WaitingList
 {
-	private NickList nickList;
+	private List<Integer> users;
 	
-	public void setNickList( NickList nickList )
+	public WaitingList()
 	{
-		this.nickList = nickList;
-		nickList.addNickListListener( this );
-	}
-
-	public NickDTO getElementAt( int index )
-	{
-		return nickList.get( index );
+		users = new ArrayList<Integer>();
 	}
 	
-	public int getSize()
+	public void addWaitingUser( int userCode )
 	{
-		return nickList.size();
+		users.add( userCode );
 	}
-
-	@Override
-	public void nickAdded( int pos )
+	
+	public boolean isWaitingUser( int userCode )
 	{
-		fireIntervalAdded( this, pos, pos );
+		return users.contains( userCode );
 	}
-
-	@Override
-	public void nickChanged( int pos )
+	
+	public void removeWaitingUser( int userCode )
 	{
-		fireContentsChanged( this, pos, pos );
-	}
-
-	@Override
-	public void nickRemoved( int pos )
-	{
-		fireIntervalRemoved( this, pos, pos );
+		users.remove( new Integer( userCode ) );
 	}
 }

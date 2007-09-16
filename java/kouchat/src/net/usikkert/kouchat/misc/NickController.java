@@ -129,7 +129,7 @@ public class NickController
 		}
 	}
 	
-	public boolean checkIfNickInUse( String nick )
+	public boolean isNickInUse( String nick )
 	{
 		boolean inUse = false;
 		
@@ -147,7 +147,7 @@ public class NickController
 		return inUse;
 	}
 	
-	public boolean checkIfNewUser( int code )
+	public boolean isNewUser( int code )
 	{
 		boolean newUser = true;
 		

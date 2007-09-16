@@ -21,47 +21,19 @@
 
 package net.usikkert.kouchat.ui.swing;
 
-import javax.swing.AbstractListModel;
-
-import net.usikkert.kouchat.event.NickListListener;
-import net.usikkert.kouchat.misc.NickDTO;
-import net.usikkert.kouchat.misc.NickList;
-
-public class NickListModel extends AbstractListModel implements NickListListener
+public interface GUIListener
 {
-	private NickList nickList;
-	
-	public void setNickList( NickList nickList )
-	{
-		this.nickList = nickList;
-		nickList.addNickListListener( this );
-	}
-
-	public NickDTO getElementAt( int index )
-	{
-		return nickList.get( index );
-	}
-	
-	public int getSize()
-	{
-		return nickList.size();
-	}
-
-	@Override
-	public void nickAdded( int pos )
-	{
-		fireIntervalAdded( this, pos, pos );
-	}
-
-	@Override
-	public void nickChanged( int pos )
-	{
-		fireContentsChanged( this, pos, pos );
-	}
-
-	@Override
-	public void nickRemoved( int pos )
-	{
-		fireIntervalRemoved( this, pos, pos );
-	}
+	public void minimize();
+	public void clearChat();
+	public void setAway();
+	public void setTopic();
+	public void start();
+	public void quit();
+	public void updateTitleAndTray();
+	public void showWindow();
+	public void showSettings();
+	public void sendFile();
+	public void write();
+	public void updateWriting();
+	public void changeNick( String nick );
 }

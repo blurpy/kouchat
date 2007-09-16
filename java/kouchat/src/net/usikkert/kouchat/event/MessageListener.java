@@ -25,8 +25,8 @@ import net.usikkert.kouchat.misc.NickDTO;
 
 public interface MessageListener
 {
-	public void messageArrived( String msg, int color );
-	public void topicChanged( String newTopic, String nick, long time );
+	public void messageArrived( int userCode, String msg, int color );
+	public void topicChanged( int userCode, String newTopic, String nick, long time );
 	public void topicRequested();
 	public void awayChanged( int userCode, boolean away, String awayMsg );
 	public void nickChanged( int userCode, String newNick );
@@ -39,7 +39,7 @@ public interface MessageListener
 	public void writingChanged( int userCode, boolean writing );
 	public void meIdle();
 	public void userIdle( int userCode );
-	public void fileSend( long byteSize, String fileName, String user, int fileHash, int fileCode, int userCode );
+	public void fileSend( int userCode, long byteSize, String fileName, String user, int fileHash, int fileCode );
 	public void fileSendAborted( int userCode, String fileName, int fileHash );
 	public void fileSendAccepted( int userCode, String fileName, int fileHash, int port );
 }
