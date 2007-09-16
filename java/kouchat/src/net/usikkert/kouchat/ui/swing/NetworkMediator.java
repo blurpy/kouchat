@@ -356,7 +356,7 @@ public class NetworkMediator implements MessageListener
 			public void run()
 			{
 				Object[] options = { "Yes", "Cancel" };
-				int choice = JOptionPane.showOptionDialog( gui, fUser + " wants to send you the file "
+				int choice = JOptionPane.showOptionDialog( null, fUser + " wants to send you the file "
 						+ fFileName + " (" + fSize + ")\nAccept?", Constants.APP_NAME + " - File send",
 						JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0] );
 
@@ -378,7 +378,7 @@ public class NetworkMediator implements MessageListener
 
 							if ( file.exists() )
 							{
-								int overwrite = JOptionPane.showOptionDialog( gui, file.getName()
+								int overwrite = JOptionPane.showOptionDialog( null, file.getName()
 										+ " already exists.\nOverwrite?", Constants.APP_NAME + " - File exists",
 										JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
 										options, options[0] );
@@ -419,7 +419,7 @@ public class NetworkMediator implements MessageListener
 									mainP.appendSystemMessage( "*** Failed to receive " + fFileName + " from " + fUser );
 									controller.sendFileAbort( fUserCode, fFileHash, fFileName );
 									
-									JOptionPane.showMessageDialog( fileStatus, "Could not connect...", Constants.APP_NAME
+									JOptionPane.showMessageDialog( null, "Could not connect...", Constants.APP_NAME
 											+ " - File transfer", JOptionPane.ERROR_MESSAGE );
 									
 									fileRes.fail();

@@ -249,7 +249,7 @@ public class GUIMediator implements GUIListener
 
 		else
 		{
-			JOptionPane.showMessageDialog( gui, "No point in doing that!", Constants.APP_NAME
+			JOptionPane.showMessageDialog( null, "No point in doing that!", Constants.APP_NAME
 					+ " - Warning", JOptionPane.WARNING_MESSAGE );
 		}
 	}
