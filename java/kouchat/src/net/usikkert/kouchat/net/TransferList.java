@@ -24,7 +24,7 @@ package net.usikkert.kouchat.net;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.usikkert.kouchat.misc.Nick;
+import net.usikkert.kouchat.misc.NickDTO;
 
 public class TransferList
 {
@@ -45,7 +45,7 @@ public class TransferList
 		senders.remove( fileSend );
 	}
 
-	public FileSender getFileSender( Nick user, String fileName, int fileHash )
+	public FileSender getFileSender( NickDTO user, String fileName, int fileHash )
 	{
 		FileSender fileSender = null;
 		

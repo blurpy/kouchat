@@ -21,7 +21,7 @@
 
 package net.usikkert.kouchat.event;
 
-import net.usikkert.kouchat.misc.Nick;
+import net.usikkert.kouchat.misc.NickDTO;
 
 public interface MessageListener
 {
@@ -32,9 +32,9 @@ public interface MessageListener
 	public void nickChanged( int userCode, String newNick );
 	public void nickCrash();
 	public void meLogOn( String ipAddress );
-	public void userLogOn( Nick newUser );
+	public void userLogOn( NickDTO newUser );
 	public void userLogOff( int userCode );
-	public void userExposing( Nick user );
+	public void userExposing( NickDTO user );
 	public void exposeRequested();
 	public void writingChanged( int userCode, boolean writing );
 	public void meIdle();

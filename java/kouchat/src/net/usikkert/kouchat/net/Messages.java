@@ -21,14 +21,14 @@
 
 package net.usikkert.kouchat.net;
 
-import net.usikkert.kouchat.misc.Nick;
+import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
-import net.usikkert.kouchat.misc.Topic;
+import net.usikkert.kouchat.misc.TopicDTO;
 
 public class Messages
 {
 	private MessageSender sender;
-	private Nick me;
+	private NickDTO me;
 	private Settings settings;
 	
 	public Messages()
@@ -43,7 +43,7 @@ public class Messages
 		sender.send( me.getCode() + "!IDLE#" + me.getNick() + ":" );
 	}
 	
-	public void sendTopicMessage( Topic topic )
+	public void sendTopicMessage( TopicDTO topic )
 	{
 		sender.send( me.getCode() + "!TOPIC#" + me.getNick() + ":" + "(" + topic.getNick()	+ ")" + "[" + topic.getTime() + "]" + topic.getTopic() );
 	}

@@ -29,16 +29,16 @@ import net.usikkert.kouchat.event.NickListListener;
 
 public class SortedNickList implements NickList
 {
-	private List<Nick> nickList;
+	private List<NickDTO> nickList;
 	private List<NickListListener> listeners;
 	
 	public SortedNickList()
 	{
-		nickList = new ArrayList<Nick>();
+		nickList = new ArrayList<NickDTO>();
 		listeners = new ArrayList<NickListListener>();
 	}
 
-	public boolean add( Nick nick )
+	public boolean add( NickDTO nick )
 	{
 		boolean success = nickList.add( nick );
 		
@@ -51,25 +51,25 @@ public class SortedNickList implements NickList
 		return success;
 	}
 
-	public Nick get( int pos )
+	public NickDTO get( int pos )
 	{
 		return nickList.get( pos );
 	}
 
-	public int indexOf( Nick nick )
+	public int indexOf( NickDTO nick )
 	{
 		return nickList.indexOf( nick );
 	}
 
-	public Nick remove( int pos )
+	public NickDTO remove( int pos )
 	{
-		Nick nick = nickList.remove( pos );
+		NickDTO nick = nickList.remove( pos );
 		fireNickRemoved( pos );
 		
 		return nick;
 	}
 	
-	public boolean remove( Nick nick )
+	public boolean remove( NickDTO nick )
 	{
 		int pos = nickList.indexOf( nick );
 		boolean success = nickList.remove( nick );
@@ -78,9 +78,9 @@ public class SortedNickList implements NickList
 		return success;
 	}
 
-	public Nick set( int pos, Nick nick )
+	public NickDTO set( int pos, NickDTO nick )
 	{
-		Nick oldNick = nickList.set( pos, nick );
+		NickDTO oldNick = nickList.set( pos, nick );
 		Collections.sort( nickList );
 		fireNickChanged( pos );
 		

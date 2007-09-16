@@ -37,7 +37,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 
 import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.misc.Nick;
+import net.usikkert.kouchat.misc.NickDTO;
 
 public class SidePanel extends JPanel implements ActionListener, MouseListener
 {
@@ -79,9 +79,9 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 		nickMenu.add( sendfileMI );
 	}
 	
-	public Nick getSelectedNick()
+	public NickDTO getSelectedNick()
 	{
-		return (Nick) nickL.getSelectedValue();
+		return (NickDTO) nickL.getSelectedValue();
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 	{
 		if ( e.getSource() == infoMI )
 		{
-			Nick temp = (Nick) nickDLM.getElementAt( nickL.getSelectedIndex() );
+			NickDTO temp = (NickDTO) nickDLM.getElementAt( nickL.getSelectedIndex() );
 			String info = "Nick: " + temp.getNick() + "\nIP address: " + temp.getIpAddress();
 			
 			if ( temp.isAway() )

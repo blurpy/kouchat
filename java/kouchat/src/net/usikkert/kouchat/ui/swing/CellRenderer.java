@@ -29,13 +29,13 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import net.usikkert.kouchat.misc.Nick;
+import net.usikkert.kouchat.misc.NickDTO;
 
 public class CellRenderer extends JLabel implements ListCellRenderer
 {
 	public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
 	{
-		Nick dto = (Nick) value;
+		NickDTO dto = (NickDTO) value;
 		
 		if ( dto.isMe() )
 		{

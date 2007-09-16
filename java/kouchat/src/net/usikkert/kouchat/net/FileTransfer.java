@@ -22,14 +22,14 @@
 package net.usikkert.kouchat.net;
 
 import net.usikkert.kouchat.event.FileTransferListener;
-import net.usikkert.kouchat.misc.Nick;
+import net.usikkert.kouchat.misc.NickDTO;
 
 public interface FileTransfer
 {
 	public enum Direction { SEND, RECEIVE };
 	public Direction getDirection();
 	public String getFileName();
-	public Nick getNick();
+	public NickDTO getNick();
 	public int getPercent();
 	public long getTransferred();
 	public long getFileSize();

@@ -24,7 +24,7 @@ package net.usikkert.kouchat.misc;
 public class NickController
 {
 	private NickList nickList;
-	private Nick me;
+	private NickDTO me;
 	private Settings settings;
 	
 	public NickController()
@@ -35,13 +35,13 @@ public class NickController
 		nickList.add( me );
 	}
 	
-	public Nick getNick( int code )
+	public NickDTO getNick( int code )
 	{
-		Nick dto = null;
+		NickDTO dto = null;
 		
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
-			Nick temp = nickList.get( i );
+			NickDTO temp = nickList.get( i );
 			
 			if ( temp.getCode() == code )
 			{
@@ -57,7 +57,7 @@ public class NickController
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
-			Nick temp = nickList.get( i );
+			NickDTO temp = nickList.get( i );
 			
 			if ( temp.getCode() == code )
 			{
@@ -72,7 +72,7 @@ public class NickController
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
-			Nick temp = nickList.get( i );
+			NickDTO temp = nickList.get( i );
 			
 			if ( temp.getCode() == code )
 			{
@@ -87,7 +87,7 @@ public class NickController
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
-			Nick temp = nickList.get( i );
+			NickDTO temp = nickList.get( i );
 			
 			if ( temp.getCode() == code )
 			{
@@ -102,7 +102,7 @@ public class NickController
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
-			Nick temp = nickList.get( i );
+			NickDTO temp = nickList.get( i );
 			
 			if ( temp.getCode() == code )
 			{
@@ -118,7 +118,7 @@ public class NickController
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
-			Nick temp = nickList.get( i );
+			NickDTO temp = nickList.get( i );
 			
 			if ( temp.getCode() == code )
 			{
@@ -135,7 +135,7 @@ public class NickController
 		
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
-			Nick temp = nickList.get( i );
+			NickDTO temp = nickList.get( i );
 			
 			if ( temp.getNick().equalsIgnoreCase( nick ) && !temp.isMe() )
 			{
@@ -153,7 +153,7 @@ public class NickController
 		
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
-			Nick temp = nickList.get( i );
+			NickDTO temp = nickList.get( i );
 			
 			if ( temp.getCode() == code )
 			{

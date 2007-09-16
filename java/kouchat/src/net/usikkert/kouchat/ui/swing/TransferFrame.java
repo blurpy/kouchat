@@ -34,7 +34,7 @@ import javax.swing.WindowConstants;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import net.usikkert.kouchat.event.FileTransferListener;
-import net.usikkert.kouchat.misc.Nick;
+import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.util.Tools;
@@ -195,8 +195,8 @@ public class TransferFrame extends JFrame implements FileTransferListener
 	@Override
 	public void statusWaiting()
 	{
-		Nick me = Settings.getSettings().getNick();
-		Nick other = fileTransfer.getNick();
+		NickDTO me = Settings.getSettings().getNick();
+		NickDTO other = fileTransfer.getNick();
 		fileSize = Tools.byteToString( fileTransfer.getFileSize() );
 		
 		status2L.setText( "Waiting..." );

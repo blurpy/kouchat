@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 import net.usikkert.kouchat.event.MessageListener;
 import net.usikkert.kouchat.event.ReceiverEvent;
 import net.usikkert.kouchat.event.ReceiverListener;
-import net.usikkert.kouchat.misc.Nick;
+import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
 
 public class MessageParser implements ReceiverListener
@@ -78,7 +78,7 @@ public class MessageParser implements ReceiverListener
 		}
 	}
 	
-	private void fireUserLogOn( Nick newUser )
+	private void fireUserLogOn( NickDTO newUser )
 	{
 		for ( int i = 0; i < listeners.size(); i++ )
 		{
@@ -96,7 +96,7 @@ public class MessageParser implements ReceiverListener
 		}
 	}
 	
-	private void fireUserExposing( Nick user )
+	private void fireUserExposing( NickDTO user )
 	{
 		for ( int i = 0; i < listeners.size(); i++ )
 		{
@@ -236,7 +236,7 @@ public class MessageParser implements ReceiverListener
 			String msgNick = message.substring( hash +1, colon );
 			String msg = message.substring( colon +1, message.length() );
 			
-			Nick tempme = settings.getNick();
+			NickDTO tempme = settings.getNick();
 			
 			if ( msgCode != tempme.getCode() && loggedOn )
 			{
@@ -251,7 +251,7 @@ public class MessageParser implements ReceiverListener
 				
 				else if ( type.equals( "LOGON" ) )
 				{
-					Nick newUser = new Nick( msgNick, msgCode );
+					NickDTO newUser = new NickDTO( msgNick, msgCode );
 					newUser.setIpAddress( ipAddress );
 					newUser.setLastIdle( System.currentTimeMillis() );
 					
@@ -260,7 +260,7 @@ public class MessageParser implements ReceiverListener
 				
 				else if ( type.equals( "EXPOSING" ) )
 				{
-					Nick user = new Nick( msgNick, msgCode );
+					NickDTO user = new NickDTO( msgNick, msgCode );
 					user.setIpAddress( ipAddress );
 					user.setAwayMsg( msg );
 					

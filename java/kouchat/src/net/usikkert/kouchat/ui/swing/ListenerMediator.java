@@ -34,10 +34,10 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.DayListener;
 import net.usikkert.kouchat.event.MessageListener;
 import net.usikkert.kouchat.misc.Controller;
-import net.usikkert.kouchat.misc.Nick;
+import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.NickList;
 import net.usikkert.kouchat.misc.Settings;
-import net.usikkert.kouchat.misc.Topic;
+import net.usikkert.kouchat.misc.TopicDTO;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.net.ServerException;
@@ -58,7 +58,7 @@ public class ListenerMediator implements MessageListener
 	private Controller controller;
 	private SidePanel sideP;
 	private SettingsFrame settingsFrame;
-	private Nick me;
+	private NickDTO me;
 	private DayTimer dayTimer;
 	private TransferList tList;
 
@@ -165,7 +165,7 @@ public class ListenerMediator implements MessageListener
 
 	public void setTopic()
 	{
-		Topic topic = controller.getTopic();
+		TopicDTO topic = controller.getTopic();
 
 		Object objecttopic = JOptionPane.showInputDialog( null, "Change topic?", Constants.APP_NAME
 				+ " - Topic", JOptionPane.QUESTION_MESSAGE, null, null, topic.getTopic() );
@@ -279,7 +279,7 @@ public class ListenerMediator implements MessageListener
 
 				if ( file.exists() && file.isFile() )
 				{
-					Nick tempnick = sideP.getSelectedNick();
+					NickDTO tempnick = sideP.getSelectedNick();
 					String size = Tools.byteToString( file.length() );
 
 					FileSender fileSend = new FileSender( tempnick, file );
@@ -385,13 +385,13 @@ public class ListenerMediator implements MessageListener
 	@Override
 	public void userLogOff( int userCode )
 	{
-		Nick user = controller.getNick( userCode );
+		NickDTO user = controller.getNick( userCode );
 		controller.getNickList().remove( user );
 		mainP.appendSystemMessage( "*** " + user.getNick() + " logged off..." );
 	}
 
 	@Override
-	public void userLogOn( Nick newUser )
+	public void userLogOn( NickDTO newUser )
 	{
 		if ( me.getNick().equals( newUser.getNick() ) )
 		{
@@ -413,7 +413,7 @@ public class ListenerMediator implements MessageListener
 	{
 		if ( time > 0 && nick.length() > 0 )
 		{
-			Topic topic = controller.getTopic();
+			TopicDTO topic = controller.getTopic();
 			
 			if ( newTopic != null )
 			{
@@ -438,7 +438,7 @@ public class ListenerMediator implements MessageListener
 	}
 
 	@Override
-	public void userExposing( Nick user )
+	public void userExposing( NickDTO user )
 	{
 		if ( controller.checkIfNewUser( user.getCode() ) )
 		{
@@ -463,7 +463,7 @@ public class ListenerMediator implements MessageListener
 	@Override
 	public void awayChanged( int userCode, boolean away, String awayMsg )
 	{
-		Nick user = controller.getNick( userCode );
+		NickDTO user = controller.getNick( userCode );
 		controller.changeAwayStatus( userCode, away, awayMsg );
 
 		if ( away )
@@ -484,7 +484,7 @@ public class ListenerMediator implements MessageListener
 
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
-			Nick temp = nickList.get( i );
+			NickDTO temp = nickList.get( i );
 
 			if ( temp.getCode() != me.getCode() && temp.getLastIdle() < System.currentTimeMillis() - 120000 )
 			{
@@ -532,7 +532,7 @@ public class ListenerMediator implements MessageListener
 	@Override
 	public void nickChanged( int userCode, String newNick )
 	{
-		Nick user = controller.getNick( userCode );
+		NickDTO user = controller.getNick( userCode );
 		String oldNick = user.getNick();
 		controller.changeNick( userCode, newNick );
 		mainP.appendSystemMessage( "*** " + oldNick + " changed nick to " + newNick );
@@ -572,7 +572,7 @@ public class ListenerMediator implements MessageListener
 
 						if ( returnVal == JFileChooser.APPROVE_OPTION )
 						{
-							Nick tempnick = controller.getNick( fUserCode );
+							NickDTO tempnick = controller.getNick( fUserCode );
 							File file = chooser.getSelectedFile().getAbsoluteFile();
 
 							if ( file.exists() )
@@ -646,7 +646,7 @@ public class ListenerMediator implements MessageListener
 	@Override
 	public void fileSendAborted( int userCode, String fileName, int fileHash )
 	{
-		Nick user = controller.getNick( userCode );
+		NickDTO user = controller.getNick( userCode );
 		mainP.appendSystemMessage( "*** " + user.getNick() + " aborted sending of " + fileName );
 		FileSender fileSend = tList.getFileSender( user, fileName, fileHash );
 		fileSend.fail();
@@ -659,7 +659,7 @@ public class ListenerMediator implements MessageListener
 		final String fFileName = fileName;
 		final int fFileHash = fileHash;
 		final int fPort = port;
-		final Nick fUser = controller.getNick( userCode );
+		final NickDTO fUser = controller.getNick( userCode );
 
 		new Thread()
 		{

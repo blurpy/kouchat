@@ -40,13 +40,13 @@ public class Settings
 	private static final String FILENAME = System.getProperty( "user.home" ) + System.getProperty( "file.separator" ) + ".kouchat.ini";
 	private static final Settings settings = new Settings();
 	
-	private Nick nick;
+	private NickDTO nick;
 	private int ownColor, sysColor;
 	
 	private Settings()
 	{
 		int code = 10000000 + (int) ( Math.random() * 9999999 );
-		nick = new Nick( "" + code, code );
+		nick = new NickDTO( "" + code, code );
 		nick.setMe( true );
 		
 		loadSettings();
@@ -190,7 +190,7 @@ public class Settings
 		}
 	}
 
-	public Nick getNick()
+	public NickDTO getNick()
 	{
 		return nick;
 	}

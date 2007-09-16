@@ -24,7 +24,7 @@ package net.usikkert.kouchat.ui.swing;
 import javax.swing.AbstractListModel;
 
 import net.usikkert.kouchat.event.NickListListener;
-import net.usikkert.kouchat.misc.Nick;
+import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.NickList;
 
 public class NickListModel extends AbstractListModel implements NickListListener
@@ -37,7 +37,7 @@ public class NickListModel extends AbstractListModel implements NickListListener
 		nickList.addNickListListener( this );
 	}
 
-	public Nick getElementAt( int index )
+	public NickDTO getElementAt( int index )
 	{
 		return nickList.get( index );
 	}

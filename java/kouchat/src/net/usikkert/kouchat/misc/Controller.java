@@ -50,7 +50,7 @@ public class Controller
 		idleThread = new IdleThread( this );
 	}
 	
-	public Topic getTopic()
+	public TopicDTO getTopic()
 	{
 		return chatState.getTopic();
 	}
@@ -73,7 +73,7 @@ public class Controller
 	public void changeWriting( int code, boolean writing )
 	{
 		nickController.changeWriting( code, writing );
-		Nick me = Settings.getSettings().getNick();
+		NickDTO me = Settings.getSettings().getNick();
 		
 		if ( code == me.getCode() )
 		{
@@ -99,7 +99,7 @@ public class Controller
 	public void changeNick( int code, String nick )
 	{
 		nickController.changeNick( code, nick );
-		Nick me = Settings.getSettings().getNick();
+		NickDTO me = Settings.getSettings().getNick();
 		
 		if ( code == me.getCode() )
 		{
@@ -107,7 +107,7 @@ public class Controller
 		}
 	}
 	
-	public Nick getNick( int code )
+	public NickDTO getNick( int code )
 	{
 		return nickController.getNick( code );
 	}
@@ -158,7 +158,7 @@ public class Controller
 		msgSender.sendChatMessage( msg );
 	}
 	
-	public void sendTopicMessage( Topic topic )
+	public void sendTopicMessage( TopicDTO topic )
 	{
 		msgSender.sendTopicMessage( topic );
 	}

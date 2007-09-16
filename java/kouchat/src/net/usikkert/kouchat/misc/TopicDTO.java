@@ -21,113 +21,64 @@
 
 package net.usikkert.kouchat.misc;
 
-public class Nick implements Comparable<Nick>
+public class TopicDTO
 {
-	private String nick, awayMsg, ipAddress;
-	private int code;
-	private long lastIdle;
-	private boolean writing, away, me;
+	private String topic, nick;
+	private long time;
 	
-	public Nick( String nick, int code )
+	public TopicDTO()
 	{
+		topic = "";
+		nick = "";
+		time = 0;
+	}
+	
+	public TopicDTO( String topic, String nick, long time )
+	{
+		this.topic = topic;
 		this.nick = nick;
-		this.code = code;
-		lastIdle = 0;
-		awayMsg = "";
-		writing = false;
-		away = false;
-		ipAddress = "";
-		me = false;
+		this.time = time;
 	}
 	
-	public boolean isMe()
+	public void changeTopic( String topic, String nick, long time )
 	{
-		return me;
-	}
-
-	public void setMe( boolean me )
-	{
-		this.me = me;
-	}
-
-	public int getCode()
-	{
-		return code;
-	}
-	
-	public void setCode( int code )
-	{
-		this.code = code;
+		this.topic = topic;
+		this.nick = nick;
+		this.time = time;
 	}
 	
 	public String getNick()
 	{
 		return nick;
 	}
-	
+
 	public void setNick( String nick )
 	{
 		this.nick = nick;
 	}
-	
-	public long getLastIdle()
+
+	public long getTime()
 	{
-		return lastIdle;
-	}
-	
-	public void setLastIdle( long lastIdle )
-	{
-		this.lastIdle = lastIdle;
+		return time;
 	}
 
-	public boolean isAway()
+	public void setTime( long time )
 	{
-		return away;
+		this.time = time;
 	}
 
-	public void setAway( boolean away )
+	public String getTopic()
 	{
-		this.away = away;
+		return topic;
 	}
 
-	public String getAwayMsg()
+	public void setTopic( String topic )
 	{
-		return awayMsg;
-	}
-
-	public void setAwayMsg( String awayMsg )
-	{
-		this.awayMsg = awayMsg;
-	}
-
-	public boolean isWriting()
-	{
-		return writing;
-	}
-
-	public void setWriting( boolean writing )
-	{
-		this.writing = writing;
-	}
-
-	public String getIpAddress()
-	{
-		return ipAddress;
-	}
-
-	public void setIpAddress( String ipAddress )
-	{
-		this.ipAddress = ipAddress;
+		this.topic = topic;
 	}
 
 	public String toString()
 	{
-		return nick;
-	}
-	
-	@Override
-	public int compareTo( Nick compNick )
-	{
-		return nick.compareToIgnoreCase( compNick.getNick() );
+		return "(" + nick + ") " + topic;
 	}
 }

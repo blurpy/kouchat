@@ -33,14 +33,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.event.FileTransferListener;
-import net.usikkert.kouchat.misc.Nick;
+import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.util.ByteCounter;
 
 public class FileReceiver implements FileTransfer
 {	
 	private static Logger log = Logger.getLogger( FileReceiver.class.getName() );
 	
-	private Nick nick;
+	private NickDTO nick;
 	private int percent;
 	private long transferred, size;
 	private File file;
@@ -50,7 +50,7 @@ public class FileReceiver implements FileTransfer
 	private ByteCounter bCounter;
 	private ServerSocket sSock;
 	
-	public FileReceiver( Nick nick, File file, long size )
+	public FileReceiver( NickDTO nick, File file, long size )
 	{
 		this.nick = nick;
 		this.file = file;
@@ -252,7 +252,7 @@ public class FileReceiver implements FileTransfer
 	}
 
 	@Override
-	public Nick getNick()
+	public NickDTO getNick()
 	{
 		return nick;
 	}

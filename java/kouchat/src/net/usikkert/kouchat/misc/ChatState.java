@@ -28,14 +28,14 @@ import java.util.List;
 
 public class ChatState
 {
-	private Topic topic;
+	private TopicDTO topic;
 	private boolean wrote;
 	private List<File> fileList;
 	
 	public ChatState()
 	{
 		fileList = new ArrayList<File>();
-		topic = new Topic();
+		topic = new TopicDTO();
 		wrote = false;
 	}
 
@@ -49,7 +49,7 @@ public class ChatState
 		this.wrote = wrote;
 	}
 
-	public Topic getTopic()
+	public TopicDTO getTopic()
 	{
 		return topic;
 	}
