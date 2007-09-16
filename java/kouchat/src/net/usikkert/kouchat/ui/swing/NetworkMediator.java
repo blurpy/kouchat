@@ -101,16 +101,24 @@ public class NetworkMediator implements MessageListener
 					}
 				}
 				
-				mainP.appendUserMessage( msg, color );
-
-				if ( !gui.isVisible() && me.isAway() )
+				if ( !controller.isNewUser( userCode ) )
 				{
-					sysTray.setAwayActivityState();
+					mainP.appendUserMessage( msg, color );
+
+					if ( !gui.isVisible() && me.isAway() )
+					{
+						sysTray.setAwayActivityState();
+					}
+
+					else if ( !gui.isVisible() )
+					{
+						sysTray.setNormalActivityState();
+					}
 				}
-
-				else if ( !gui.isVisible() )
+				
+				else
 				{
-					sysTray.setNormalActivityState();
+					log.log( Level.SEVERE, "Could not find user: " + userCode );
 				}
 			}
 		};
@@ -340,105 +348,129 @@ public class NetworkMediator implements MessageListener
 	}
 
 	@Override
-	public void fileSend( int userCode, long byteSize, String fileName, String user, int fileHash, int fileCode )
+	public void fileSend( final int userCode, final long byteSize, final String fileName, final String user, final int fileHash, final int fileCode )
 	{
-		final String fSize = Tools.byteToString( byteSize );
-		final String fUser = user;
-		final String fFileName = fileName;
-		final int fUserCode = userCode;
-		final int fFileHash = fileHash;
-		final long fByteSize = byteSize;
-
-		mainP.appendSystemMessage( "*** " + user + " is trying to send the file " + fileName + " [" + fSize + "]" );
+		if ( controller.isNewUser( userCode ) )
+		{
+			wList.addWaitingUser( userCode );
+			controller.sendExposeMessage();
+			controller.sendGetTopicMessage();
+		}
 
 		new Thread()
 		{
 			public void run()
 			{
-				Object[] options = { "Yes", "Cancel" };
-				int choice = JOptionPane.showOptionDialog( null, fUser + " wants to send you the file "
-						+ fFileName + " (" + fSize + ")\nAccept?", Constants.APP_NAME + " - File send",
-						JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0] );
+				int counter = 0;
 
-				if ( choice == JOptionPane.YES_OPTION )
+				while ( wList.isWaitingUser( userCode ) && counter < 40 )
 				{
-					JFileChooser chooser = new JFileChooser();
-					chooser.setSelectedFile( new File( fFileName ) );
-					boolean done = false;
-
-					while ( !done )
+					try
 					{
-						done = true;
-						int returnVal = chooser.showSaveDialog( gui );
+						sleep( 50 );
+					}
 
-						if ( returnVal == JFileChooser.APPROVE_OPTION )
-						{
-							NickDTO tempnick = controller.getNick( fUserCode );
-							File file = chooser.getSelectedFile().getAbsoluteFile();
-
-							if ( file.exists() )
-							{
-								int overwrite = JOptionPane.showOptionDialog( null, file.getName()
-										+ " already exists.\nOverwrite?", Constants.APP_NAME + " - File exists",
-										JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-										options, options[0] );
-
-								if ( overwrite != JOptionPane.YES_OPTION )
-								{
-									done = false;
-								}
-							}
-
-							if ( done )
-							{
-								FileReceiver fileRes = new FileReceiver( tempnick, file, fByteSize );
-								TransferFrame fileStatus = new TransferFrame( fileRes );
-								fileRes.registerListener( fileStatus );
-								
-								try
-								{
-									int port = fileRes.startServer();
-									controller.sendFileAccept( fUserCode, port, fFileHash, fFileName );
-
-									if ( fileRes.transfer() )
-									{
-										mainP.appendSystemMessage( "*** Successfully received " + fFileName
-												+ " from " + fUser + ", and saved as " + file.getName() );
-									}
-
-									else
-									{
-										mainP.appendSystemMessage( "*** Failed to receive " + fFileName + " from " + fUser );
-									}
-								}
-								
-								catch ( ServerException e )
-								{
-									log.log( Level.SEVERE, e.getMessage(), e );
-									
-									mainP.appendSystemMessage( "*** Failed to receive " + fFileName + " from " + fUser );
-									controller.sendFileAbort( fUserCode, fFileHash, fFileName );
-									
-									JOptionPane.showMessageDialog( null, "Could not connect...", Constants.APP_NAME
-											+ " - File transfer", JOptionPane.ERROR_MESSAGE );
-									
-									fileRes.fail();
-								}
-							}
-						}
-
-						else
-						{
-							mainP.appendSystemMessage( "*** You declined to receive " + fFileName + " from " + fUser );
-							controller.sendFileAbort( fUserCode, fFileHash, fFileName );
-						}
+					catch ( InterruptedException e )
+					{
+						log.log( Level.SEVERE, e.getMessage(), e );
 					}
 				}
 
+				if ( !controller.isNewUser( userCode ) )
+				{
+					String size = Tools.byteToString( byteSize );
+					mainP.appendSystemMessage( "*** " + user + " is trying to send the file " + fileName + " [" + size + "]" );
+
+					Object[] options = { "Yes", "Cancel" };
+					int choice = JOptionPane.showOptionDialog( null, user + " wants to send you the file "
+							+ fileName + " (" + size + ")\nAccept?", Constants.APP_NAME + " - File send",
+							JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0] );
+
+					if ( choice == JOptionPane.YES_OPTION )
+					{
+						JFileChooser chooser = new JFileChooser();
+						chooser.setSelectedFile( new File( fileName ) );
+						boolean done = false;
+
+						while ( !done )
+						{
+							done = true;
+							int returnVal = chooser.showSaveDialog( gui );
+
+							if ( returnVal == JFileChooser.APPROVE_OPTION )
+							{
+								NickDTO tempnick = controller.getNick( userCode );
+								File file = chooser.getSelectedFile().getAbsoluteFile();
+
+								if ( file.exists() )
+								{
+									int overwrite = JOptionPane.showOptionDialog( null, file.getName()
+											+ " already exists.\nOverwrite?", Constants.APP_NAME + " - File exists",
+											JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+											options, options[0] );
+
+									if ( overwrite != JOptionPane.YES_OPTION )
+									{
+										done = false;
+									}
+								}
+
+								if ( done )
+								{
+									FileReceiver fileRes = new FileReceiver( tempnick, file, byteSize );
+									TransferFrame fileStatus = new TransferFrame( fileRes );
+									fileRes.registerListener( fileStatus );
+
+									try
+									{
+										int port = fileRes.startServer();
+										controller.sendFileAccept( userCode, port, fileHash, fileName );
+
+										if ( fileRes.transfer() )
+										{
+											mainP.appendSystemMessage( "*** Successfully received " + fileName
+													+ " from " + user + ", and saved as " + file.getName() );
+										}
+
+										else
+										{
+											mainP.appendSystemMessage( "*** Failed to receive " + fileName + " from " + user );
+										}
+									}
+
+									catch ( ServerException e )
+									{
+										log.log( Level.SEVERE, e.getMessage(), e );
+
+										mainP.appendSystemMessage( "*** Failed to receive " + fileName + " from " + user );
+										controller.sendFileAbort( userCode, fileHash, fileName );
+
+										JOptionPane.showMessageDialog( null, "Could not connect...", Constants.APP_NAME
+												+ " - File transfer", JOptionPane.ERROR_MESSAGE );
+
+										fileRes.fail();
+									}
+								}
+							}
+
+							else
+							{
+								mainP.appendSystemMessage( "*** You declined to receive " + fileName + " from " + user );
+								controller.sendFileAbort( userCode, fileHash, fileName );
+							}
+						}
+					}
+
+					else
+					{
+						mainP.appendSystemMessage( "*** You declined to receive " + fileName + " from " + user );
+						controller.sendFileAbort( userCode, fileHash, fileName );
+					}
+				}
+				
 				else
 				{
-					mainP.appendSystemMessage( "*** You declined to receive " + fFileName + " from " + fUser );
-					controller.sendFileAbort( fUserCode, fFileHash, fFileName );
+					log.log( Level.SEVERE, "Could not find user: " + user );
 				}
 			}
 		}.start();
