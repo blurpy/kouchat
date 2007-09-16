@@ -21,10 +21,12 @@
 
 package net.usikkert.kouchat;
 
+import net.usikkert.kouchat.ui.swing.KouChatGUIFrame;
+
 public class KouChat
 {
 	public static void main( String[] args )
 	{
-		UIFactory.showUI();
+		new KouChatGUIFrame();
 	}
 }
