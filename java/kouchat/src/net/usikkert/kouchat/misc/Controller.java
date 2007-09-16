@@ -35,6 +35,14 @@ public class Controller
 	
 	public Controller()
 	{
+		Runtime.getRuntime().addShutdownHook( new Thread()
+		{
+			public void run()
+			{
+				logOff();
+			}
+		} );
+		
 		nickController = new NickController();
 		chatState = new ChatState();
 		msgParser = new MessageParser();
@@ -120,9 +128,9 @@ public class Controller
 	public void logOff()
 	{
 		idleThread.stopThread();
-		msgParser.stop();
 		msgSender.sendLogoffMessage();
 		msgSender.stop();
+		msgParser.stop();
 	}
 	
 	public void sendExposeMessage()

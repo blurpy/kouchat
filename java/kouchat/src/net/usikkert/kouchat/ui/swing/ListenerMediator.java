@@ -222,7 +222,8 @@ public class ListenerMediator implements MessageListener
 
 		if ( choice == JOptionPane.YES_OPTION )
 		{
-			controller.logOff();
+			// Moved to ShutdownHook
+			//controller.logOff();
 			System.exit( 0 );
 		}
 	}
