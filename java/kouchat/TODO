@@ -7,8 +7,6 @@
  - Change to UTF-8 messages
  - Add support for client name and version, and protocol version
  - Send NOTSUPPORTED when getting an unknown message
- - Add buffer limit to the chat
  - Test more than one transfer at the same time
- - Fix popup window positions
- - Receiver stops receiving if network is down
+ - Receiver stops receiving if network goes down, then up again
  
