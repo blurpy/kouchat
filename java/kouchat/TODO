@@ -9,7 +9,6 @@
  - Send NOTSUPPORTED when getting an unknown message
  
  - Test more than one transfer at the same time
- - Receiver stops receiving if network goes down, then up again
  - Check nick crash and topic crash when timeout
  - Timeout on sending
  

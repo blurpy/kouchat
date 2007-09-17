@@ -26,7 +26,6 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,12 +42,10 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import net.usikkert.kouchat.event.DayListener;
 import net.usikkert.kouchat.misc.Settings;
-import net.usikkert.kouchat.util.DayTimer;
 import net.usikkert.kouchat.util.Tools;
 
-public class MainPanel extends JPanel implements ActionListener, CaretListener, DayListener
+public class MainPanel extends JPanel implements ActionListener, CaretListener
 {
 	private static Logger log = Logger.getLogger( MainPanel.class.getName() );
 	
@@ -80,9 +77,6 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		add( msgTF, BorderLayout.SOUTH );
 		
 		setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
-		
-		DayTimer dayTimer = new DayTimer();
-		dayTimer.addDayListener( this );
 		
 		mediator.setMainP( this );
 		listener = mediator.getGUIListener();
@@ -141,11 +135,5 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		{
 			listener.write();
 		}
-	}
-	
-	@Override
-	public void dayChanged( Date date )
-	{
-		appendSystemMessage( "*** Day changed to " + Tools.dateToString( null, "EEEE, d MMMM yyyy" ) );
 	}
 }

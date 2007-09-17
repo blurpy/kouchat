@@ -21,10 +21,13 @@
 
 package net.usikkert.kouchat.misc;
 
+import net.usikkert.kouchat.event.DayListener;
+import net.usikkert.kouchat.event.IdleListener;
 import net.usikkert.kouchat.event.MessageListener;
 import net.usikkert.kouchat.net.MessageParser;
 import net.usikkert.kouchat.net.Messages;
 import net.usikkert.kouchat.net.TransferList;
+import net.usikkert.kouchat.util.DayTimer;
 
 public class Controller
 {
@@ -34,6 +37,8 @@ public class Controller
 	private MessageParser msgParser;
 	private IdleThread idleThread;
 	private TransferList tList;
+	private WaitingList wList;
+	private DayTimer dayTimer;
 	
 	public Controller()
 	{
@@ -51,6 +56,8 @@ public class Controller
 		msgSender = new Messages();
 		idleThread = new IdleThread( this );
 		tList = new TransferList();
+		wList = new WaitingList();
+		dayTimer = new DayTimer();
 	}
 	
 	public TopicDTO getTopic()
@@ -204,5 +211,25 @@ public class Controller
 	public TransferList getTransferList()
 	{
 		return tList;
+	}
+
+	public WaitingList getWaitingList()
+	{
+		return wList;
+	}
+	
+	public void addDayListener( DayListener listener )
+	{
+		dayTimer.addDayListener( listener );
+	}
+	
+	public void addIdleListener( IdleListener listener )
+	{
+		idleThread.registerIdleListener( listener );
+	}
+	
+	public boolean restartMsgReceiver()
+	{
+		return msgParser.restart();
 	}
 }

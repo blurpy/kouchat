@@ -40,7 +40,6 @@ import net.usikkert.kouchat.event.ReceiverListener;
 public class MessageReceiver extends Thread
 {
 	private static Logger log = Logger.getLogger( MessageReceiver.class.getName() );
-	
 	private static final int BYTESIZE = 1024;
 	
 	private MulticastSocket mcSocket;
@@ -107,6 +106,26 @@ public class MessageReceiver extends Thread
 		{
 			log.log( Level.SEVERE, e.getMessage(), e );
 		}
+	}
+	
+	public boolean restartReceiver()
+	{
+		log.log( Level.WARNING, "Restarting receiver..." );
+		boolean success = false;
+		
+		try
+		{
+			mcSocket.leaveGroup( address );
+			mcSocket.joinGroup( address );
+			success = true;
+		}
+		
+		catch ( IOException e )
+		{
+			log.log( Level.WARNING, e.getMessage() );
+		}
+		
+		return success;
 	}
 	
 	public void addReceiverListener( ReceiverListener listener )

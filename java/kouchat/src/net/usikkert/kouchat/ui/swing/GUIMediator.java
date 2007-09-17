@@ -23,10 +23,14 @@ package net.usikkert.kouchat.ui.swing;
 
 import java.io.File;
 
+import java.util.Date;
+
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.event.DayListener;
+import net.usikkert.kouchat.event.IdleListener;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
@@ -39,7 +43,7 @@ import net.usikkert.kouchat.util.Tools;
  * 
  * @author Christian Ihle
  */
-public class GUIMediator implements GUIListener
+public class GUIMediator implements GUIListener, DayListener, IdleListener
 {
 	private SidePanel sideP;
 	private SettingsFrame settingsFrame;
@@ -59,6 +63,9 @@ public class GUIMediator implements GUIListener
 		
 		settings = Settings.getSettings();
 		me = settings.getNick();
+		
+		controller.addDayListener( this );
+		controller.addIdleListener( this );
 	}
 	
 	@Override
@@ -321,6 +328,18 @@ public class GUIMediator implements GUIListener
 				updateTitleAndTray();
 			}
 		}
+	}
+	
+	@Override
+	public void dayChanged( Date date )
+	{
+		mainP.appendSystemMessage( "*** Day changed to " + Tools.dateToString( null, "EEEE, d MMMM yyyy" ) );
+	}
+	
+	@Override
+	public void userTimedOut( String nick )
+	{
+		mainP.appendSystemMessage( "*** " + nick + " timed out..." );
 	}
 	
 	public void setButtonP( ButtonPanel buttonP )

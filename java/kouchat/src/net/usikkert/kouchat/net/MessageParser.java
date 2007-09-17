@@ -62,6 +62,11 @@ public class MessageParser implements ReceiverListener
 		receiver.stopReceiver();
 	}
 	
+	public boolean restart()
+	{
+		return receiver.restartReceiver();
+	}
+	
 	public void messageArrived( ReceiverEvent re )
 	{
 		String message = re.getMessage();

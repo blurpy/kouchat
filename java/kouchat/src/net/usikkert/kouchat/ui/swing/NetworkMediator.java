@@ -33,13 +33,13 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.MessageListener;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.NickDTO;
-import net.usikkert.kouchat.misc.NickList;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.TopicDTO;
 import net.usikkert.kouchat.misc.WaitingList;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.net.ServerException;
+import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.util.Tools;
 
 /**
@@ -57,18 +57,21 @@ public class NetworkMediator implements MessageListener
 	
 	private GUIMediator guiMediator;
 	private Controller controller;
-	private WaitingList wList;
 	private NickDTO me;
 	private Settings settings;
+	private TransferList tList;
+	private WaitingList wList;
 	
 	public NetworkMediator( Controller controller, GUIMediator guiMediator )
 	{
 		this.controller = controller;
 		this.guiMediator = guiMediator;
 		
-		wList = new WaitingList();
 		settings = Settings.getSettings();
 		me = settings.getNick();
+		
+		tList = controller.getTransferList();
+		wList = controller.getWaitingList();
 		
 		controller.setMessageListener( this );
 	}
@@ -278,19 +281,7 @@ public class NetworkMediator implements MessageListener
 	@Override
 	public void meIdle()
 	{
-		NickList nickList = controller.getNickList();
-
-		for ( int i = 0; i < nickList.size(); i++ )
-		{
-			NickDTO temp = nickList.get( i );
-
-			if ( temp.getCode() != me.getCode() && temp.getLastIdle() < System.currentTimeMillis() - 120000 )
-			{
-				nickList.remove( temp );
-				mainP.appendSystemMessage( "*** " + temp.getNick() + " timed out..." );
-				i--;
-			}
-		}
+		me.setLastIdle( System.currentTimeMillis() );
 	}
 
 	@Override
@@ -481,9 +472,9 @@ public class NetworkMediator implements MessageListener
 	{
 		NickDTO user = controller.getNick( userCode );
 		mainP.appendSystemMessage( "*** " + user.getNick() + " aborted sending of " + fileName );
-		FileSender fileSend = controller.getTransferList().getFileSender( user, fileName, fileHash );
+		FileSender fileSend = tList.getFileSender( user, fileName, fileHash );
 		fileSend.fail();
-		controller.getTransferList().removeFileSender( fileSend );
+		tList.removeFileSender( fileSend );
 	}
 
 	@Override
@@ -498,8 +489,8 @@ public class NetworkMediator implements MessageListener
 		{
 			public void run()
 			{
-				FileSender fileSend = controller.getTransferList().getFileSender( fUser, fFileName, fFileHash );
-				controller.getTransferList().removeFileSender( fileSend );
+				FileSender fileSend = tList.getFileSender( fUser, fFileName, fFileHash );
+				tList.removeFileSender( fileSend );
 
 				if ( fileSend != null )
 				{
