@@ -48,6 +48,7 @@ public class Settings
 		int code = 10000000 + (int) ( Math.random() * 9999999 );
 		nick = new NickDTO( "" + code, code );
 		nick.setMe( true );
+		nick.setLastIdle( System.currentTimeMillis() );
 		
 		loadSettings();
 	}

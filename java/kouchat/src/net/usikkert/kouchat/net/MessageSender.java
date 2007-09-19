@@ -64,7 +64,7 @@ public class MessageSender
 		
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.WARNING, "Could not send message: " + message );
 		}
 	}
 	

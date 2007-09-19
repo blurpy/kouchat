@@ -150,7 +150,7 @@ public class NetworkMediator implements MessageListener
 	@Override
 	public void userLogOn( NickDTO newUser )
 	{
-		if ( me.getNick().equals( newUser.getNick() ) )
+		if ( me.getNick().trim().equalsIgnoreCase( newUser.getNick() ) )
 		{
 			controller.sendNickCrashMessage( newUser.getNick() );
 			newUser.setNick( "" + newUser.getCode() );
@@ -167,7 +167,7 @@ public class NetworkMediator implements MessageListener
 	
 	private void userShowedUp( NickDTO newUser )
 	{
-		if ( me.getNick().equals( newUser.getNick() ) )
+		if ( me.getNick().trim().equalsIgnoreCase( newUser.getNick() ) )
 		{
 			controller.sendNickCrashMessage( newUser.getNick() );
 			newUser.setNick( "" + newUser.getCode() );

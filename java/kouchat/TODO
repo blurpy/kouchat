@@ -9,6 +9,4 @@
  - Send NOTSUPPORTED when getting an unknown message
  
  - Test more than one transfer at the same time
- - Check nick crash and topic crash when timeout
  - Timeout on sending
- 
