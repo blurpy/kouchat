@@ -7,8 +7,10 @@
  - Use UTF-8 messages
  - Add support for client name and version, and protocol version
  - Send NOTSUPPORTED when getting an unknown message
- 
+
+* Release 0.6.1:
  - Test more than one transfer at the same time
  - Timeout on sending
  - Update INSTALL and ChangeLog
+ - Test handling of text in unknown format
  
