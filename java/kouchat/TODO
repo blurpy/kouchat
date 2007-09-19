@@ -10,3 +10,5 @@
  
  - Test more than one transfer at the same time
  - Timeout on sending
+ - Update INSTALL and ChangeLog
+ 
