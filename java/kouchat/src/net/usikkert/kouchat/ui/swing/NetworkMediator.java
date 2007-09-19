@@ -68,7 +68,7 @@ public class NetworkMediator implements MessageListener
 		this.guiMediator = guiMediator;
 		
 		settings = Settings.getSettings();
-		me = settings.getNick();
+		me = settings.getMe();
 		
 		tList = controller.getTransferList();
 		wList = controller.getWaitingList();
@@ -310,7 +310,7 @@ public class NetworkMediator implements MessageListener
 	public void nickCrash()
 	{
 		me.setNick( "" + me.getCode() );
-		mainP.appendSystemMessage( "*** " + "Nick crash, resetting nick to " + settings.getNick() );
+		mainP.appendSystemMessage( "*** " + "Nick crash, resetting nick to " + settings.getMe() );
 	}
 
 	@Override

@@ -5,12 +5,18 @@
  - Commands
  - Sound on events
  - Use UTF-8 messages
- - Add support for client name and version, and protocol version
  - Send NOTSUPPORTED when getting an unknown message
+ - In nick information, show:
+   - User "uptime"
+   - Operating System
+   - Client name and version
+   - Protocol version
 
 * Release 0.6.1:
  - Test more than one transfer at the same time
  - Timeout on sending
  - Update INSTALL and ChangeLog
  - Test handling of text in unknown format
+ - Remove gui code from networkmediator, and move to network layer. Use guimediator as listener for gui stuff
+ - Test cancel button in filetransfer for a better way to handle close
  

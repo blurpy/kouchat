@@ -58,7 +58,7 @@ public class SettingsFrame extends JFrame implements ActionListener
 		JPanel nickP = new JPanel();
 		nickL = new JLabel( "Nick:" );
 		nickTF = new JTextField( 10 );
-		nickTF.setText( settings.getNick().getNick() );
+		nickTF.setText( settings.getMe().getNick() );
 		
 		JPanel buttonP = new JPanel();
 		useNickB = new JButton( "Use" );
@@ -155,7 +155,7 @@ public class SettingsFrame extends JFrame implements ActionListener
 	
 	public void showSettings()
 	{
-		nickTF.setText( settings.getNick().getNick() );
+		nickTF.setText( settings.getMe().getNick() );
 		setVisible( true );
 	}
 }

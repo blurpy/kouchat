@@ -35,7 +35,7 @@ public class Messages
 	{
 		sender = new MessageSender();
 		settings = Settings.getSettings();
-		me = settings.getNick();
+		me = settings.getMe();
 	}
 	
 	public void sendIdleMessage()

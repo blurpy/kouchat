@@ -83,7 +83,7 @@ public class Controller
 	public void changeWriting( int code, boolean writing )
 	{
 		nickController.changeWriting( code, writing );
-		NickDTO me = Settings.getSettings().getNick();
+		NickDTO me = Settings.getSettings().getMe();
 		
 		if ( code == me.getCode() )
 		{
@@ -109,7 +109,7 @@ public class Controller
 	public void changeNick( int code, String nick )
 	{
 		nickController.changeNick( code, nick );
-		NickDTO me = Settings.getSettings().getNick();
+		NickDTO me = Settings.getSettings().getMe();
 		
 		if ( code == me.getCode() )
 		{

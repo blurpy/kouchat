@@ -40,15 +40,15 @@ public class Settings
 	private static final String FILENAME = System.getProperty( "user.home" ) + System.getProperty( "file.separator" ) + ".kouchat.ini";
 	private static final Settings settings = new Settings();
 	
-	private NickDTO nick;
+	private NickDTO me;
 	private int ownColor, sysColor;
 	
 	private Settings()
 	{
 		int code = 10000000 + (int) ( Math.random() * 9999999 );
-		nick = new NickDTO( "" + code, code );
-		nick.setMe( true );
-		nick.setLastIdle( System.currentTimeMillis() );
+		me = new NickDTO( "" + code, code );
+		me.setMe( true );
+		me.setLastIdle( System.currentTimeMillis() );
 		
 		loadSettings();
 	}
@@ -68,7 +68,7 @@ public class Settings
 			fileWriter = new FileWriter( FILENAME );
 			buffWriter = new BufferedWriter( fileWriter );
 			
-			buffWriter.write( "nick=" + nick.getNick() );
+			buffWriter.write( "nick=" + me.getNick() );
 			buffWriter.newLine();
 			buffWriter.write( "owncolor=" + ownColor );
 			buffWriter.newLine();
@@ -142,7 +142,7 @@ public class Settings
 			
 			if ( tmpNick != null && Tools.isValidNick( tmpNick ) )
 			{
-				nick.setNick( tmpNick.trim() );
+				me.setNick( tmpNick.trim() );
 			}
 			
 			try
@@ -191,9 +191,9 @@ public class Settings
 		}
 	}
 
-	public NickDTO getNick()
+	public NickDTO getMe()
 	{
-		return nick;
+		return me;
 	}
 
 	public int getOwnColor()

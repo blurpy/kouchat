@@ -195,7 +195,7 @@ public class TransferFrame extends JFrame implements FileTransferListener
 	@Override
 	public void statusWaiting()
 	{
-		NickDTO me = Settings.getSettings().getNick();
+		NickDTO me = Settings.getSettings().getMe();
 		NickDTO other = fileTransfer.getNick();
 		fileSize = Tools.byteToString( fileTransfer.getFileSize() );
 		

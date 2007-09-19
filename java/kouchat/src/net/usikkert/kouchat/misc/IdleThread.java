@@ -41,7 +41,7 @@ public class IdleThread extends Thread
 		this.controller = controller;
 		
 		nickList = controller.getNickList();
-		me = Settings.getSettings().getNick();
+		me = Settings.getSettings().getMe();
 		
 		run = true;
 	}

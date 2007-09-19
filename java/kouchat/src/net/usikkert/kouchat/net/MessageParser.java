@@ -85,7 +85,7 @@ public class MessageParser implements ReceiverListener
 			String msgNick = message.substring( hash +1, colon );
 			String msg = message.substring( colon +1, message.length() );
 			
-			NickDTO tempme = settings.getNick();
+			NickDTO tempme = settings.getMe();
 			
 			if ( msgCode != tempme.getCode() && loggedOn )
 			{

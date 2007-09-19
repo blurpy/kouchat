@@ -31,7 +31,7 @@ public class NickController
 	{
 		settings = Settings.getSettings();
 		nickList = new SortedNickList();
-		me = settings.getNick();
+		me = settings.getMe();
 		nickList.add( me );
 	}
 	
