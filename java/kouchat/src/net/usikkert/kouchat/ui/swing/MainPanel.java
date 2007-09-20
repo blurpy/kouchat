@@ -56,10 +56,12 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 	private JTextField msgTF;
 	private SidePanel sideP;
 	private Settings settings;
-	private GUIListener listener;
+	private Mediator mediator;
 	
 	public MainPanel( Mediator mediator )
 	{
+		this.mediator = mediator;
+		
 		setLayout( new BorderLayout( 2, 2 ) );
 		
 		chatTP = new JTextPane();
@@ -79,7 +81,6 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 		setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
 		
 		mediator.setMainP( this );
-		listener = mediator.getGUIListener();
 		settings = Settings.getSettings();
 	}
 	
@@ -125,7 +126,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 	
 	public void caretUpdate( CaretEvent e )
 	{
-		listener.updateWriting();
+		mediator.updateWriting();
 	}
 
 	@Override
@@ -133,7 +134,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 	{
 		if ( e.getSource() == msgTF )
 		{
-			listener.write();
+			mediator.write();
 		}
 	}
 }

@@ -39,22 +39,14 @@ public class MessageParser implements ReceiverListener
 	private Settings settings;
 	private boolean loggedOn;
 	
-	public MessageParser()
+	public MessageParser( MessageListener listener )
 	{
+		this.listener = listener;
+		
 		settings = Settings.getSettings();
 		receiver = new MessageReceiver();
 		receiver.addReceiverListener( this );
 		receiver.start();
-	}
-	
-	public void setMessageListener( MessageListener listener )
-	{
-		this.listener = listener;
-	}
-	
-	public void unsetMessageListener()
-	{
-		listener = null;
 	}
 	
 	public void stop()

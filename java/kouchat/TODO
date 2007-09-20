@@ -19,7 +19,6 @@
  - Timeout on sending
  - Update INSTALL and ChangeLog
  - Test handling of text in unknown format
- - Remove gui code from networkmediator, and move to network layer. Use guimediator as listener for gui stuff
  - Test cancel button in filetransfer for a better way to handle close
  - Test timeout and file transfer handling between 0.6.1 clients
  

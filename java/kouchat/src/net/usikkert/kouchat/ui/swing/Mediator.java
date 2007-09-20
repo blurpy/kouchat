@@ -30,6 +30,18 @@ public interface Mediator
 	public void setButtonP( ButtonPanel buttonP );
 	public void setSideP( SidePanel sideP );
 	public void setSettingsFrame( SettingsFrame settingsFrame );
-	public GUIListener getGUIListener();
-
+	
+	public void minimize();
+	public void clearChat();
+	public void setAway();
+	public void setTopic();
+	public void start();
+	public void quit();
+	public void updateTitleAndTray();
+	public void showWindow();
+	public void showSettings();
+	public void sendFile();
+	public void write();
+	public void updateWriting();
+	public void changeNick( String nick );
 }

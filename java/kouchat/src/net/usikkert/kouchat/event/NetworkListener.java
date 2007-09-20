@@ -19,78 +19,18 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.ui.swing;
+package net.usikkert.kouchat.event;
 
-import net.usikkert.kouchat.misc.Controller;
+import java.io.File;
 
-/**
- * This is the mediator responsible for updating the other more
- * specialized mediators with components.
- * 
- * @author Christian Ihle
- */
-public class MediatorController implements Mediator
+import net.usikkert.kouchat.net.FileReceiver;
+
+public interface NetworkListener
 {
-	private Controller controller;
-	private GUIMediator guiMediator;
-	private NetworkMediator netMediator;
-	
-	public MediatorController()
-	{
-		controller = new Controller();
-		
-		guiMediator = new GUIMediator( controller );
-		netMediator = new NetworkMediator( controller, guiMediator );
-	}
-	
-	@Override
-	public void setKouChatFrame( KouChatFrame gui )
-	{
-		guiMediator.setKouChatFrame( gui );
-		netMediator.setKouChatFrame( gui );
-	}
-
-	@Override
-	public void setMainP( MainPanel mainP )
-	{
-		guiMediator.setMainP( mainP );
-		netMediator.setMainP( mainP );
-	}
-
-	@Override
-	public void setSysTray( SysTray sysTray )
-	{
-		guiMediator.setSysTray( sysTray );
-		netMediator.setSysTray( sysTray );
-	}
-
-	@Override
-	public void setMenuBar( MenuBar menuBar )
-	{
-		guiMediator.setMenuBar( menuBar );
-	}
-
-	@Override
-	public void setButtonP( ButtonPanel buttonP )
-	{
-		guiMediator.setButtonP( buttonP );
-	}
-
-	@Override
-	public void setSideP( SidePanel sideP )
-	{
-		guiMediator.setSideP( sideP );
-	}
-
-	@Override
-	public void setSettingsFrame( SettingsFrame settingsFrame )
-	{
-		guiMediator.setSettingsFrame( settingsFrame );
-	}
-
-	@Override
-	public GUIListener getGUIListener()
-	{
-		return guiMediator;
-	}
+	public void showUserMessage( String message, int color );
+	public void showSystemMessage( String message );
+	public boolean askFileSave( String user, String fileName, String size );
+	public File showFileSave( String fileName );
+	public void showTransfer( FileReceiver fileRes );
+	public void showTopic();
 }

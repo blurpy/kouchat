@@ -32,10 +32,12 @@ import javax.swing.JPanel;
 public class ButtonPanel extends JPanel implements ActionListener
 {
 	private JButton minimizeB, clearB, awayB, topicB;
-	private GUIListener listener;
+	private Mediator mediator;
 	
 	public ButtonPanel( Mediator mediator )
 	{
+		this.mediator = mediator;
+		
 		setLayout( new GridLayout( 4, 1 ) );
 		
 		clearB = new JButton( "Clear" );
@@ -56,7 +58,6 @@ public class ButtonPanel extends JPanel implements ActionListener
 		
 		setBorder( BorderFactory.createEmptyBorder( 1, 1, 2, 1 ) );
 		
-		listener = mediator.getGUIListener();
 		mediator.setButtonP( this );
 	}
 	
@@ -70,22 +71,22 @@ public class ButtonPanel extends JPanel implements ActionListener
 	{
 		if ( e.getSource() == minimizeB )
 		{
-			listener.minimize();
+			mediator.minimize();
 		}
 		
 		else if ( e.getSource() == clearB )
 		{
-			listener.clearChat();
+			mediator.clearChat();
 		}
 		
 		else if ( e.getSource() == awayB )
 		{
-			listener.setAway();
+			mediator.setAway();
 		}
 		
 		else if ( e.getSource() == topicB )
 		{
-			listener.setTopic();
+			mediator.setTopic();
 		}
 	}
 }

@@ -41,13 +41,12 @@ import javax.swing.KeyStroke;
 public class KouChatFrame extends JFrame
 {
 	private MainPanel mainP;
-	private GUIListener listener;
+	private Mediator mediator;
 	
 	public KouChatFrame()
 	{
-		MediatorController mediator = new MediatorController();
+		mediator = new GUIMediator();
 		mediator.setKouChatFrame( this );
-		listener = mediator.getGUIListener();
 		
 		mainP = new MainPanel( mediator );
 		new SysTray( mediator );
@@ -98,12 +97,12 @@ public class KouChatFrame extends JFrame
 		{
 			public void windowClosing( WindowEvent arg0 )
 			{
-				listener.quit();
+				mediator.quit();
 			}
 		} );
 		
 		mainP.appendSystemMessage( "*** Welcome to " + Constants.APP_NAME + " v" + Constants.APP_VERSION+ "!" );
 		mainP.getMsgTF().requestFocus();
-		listener.start();
+		mediator.start();
 	}
 }

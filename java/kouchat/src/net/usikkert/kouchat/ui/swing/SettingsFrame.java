@@ -46,10 +46,12 @@ public class SettingsFrame extends JFrame implements ActionListener
 	private JTextField nickTF;
 	private JLabel nickL, ownColorL, sysColorL;
 	private Settings settings;
-	private GUIListener listener;
+	private Mediator mediator;
 	
 	public SettingsFrame( Mediator mediator )
 	{
+		this.mediator = mediator;
+		
 		settings = Settings.getSettings();
 		
 		Container container = getContentPane();
@@ -108,7 +110,6 @@ public class SettingsFrame extends JFrame implements ActionListener
 		setIconImage( new ImageIcon( getClass().getResource( "/icons/kou_normal.png" ) ).getImage() );
 		setTitle( Constants.APP_NAME + " - Settings" );
 		
-		listener = mediator.getGUIListener();
 		mediator.setSettingsFrame( this );
 	}
 	
@@ -116,7 +117,7 @@ public class SettingsFrame extends JFrame implements ActionListener
 	{
 		if ( e.getSource() == useNickB )
 		{
-			listener.changeNick( nickTF.getText() );
+			mediator.changeNick( nickTF.getText() );
 		}
 		
 		else if ( e.getSource() == saveB )

@@ -19,61 +19,47 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.ui.swing;
+package net.usikkert.kouchat.net;
 
 import java.io.File;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-
-import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.MessageListener;
+import net.usikkert.kouchat.event.NetworkListener;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.TopicDTO;
 import net.usikkert.kouchat.misc.WaitingList;
-import net.usikkert.kouchat.net.FileReceiver;
-import net.usikkert.kouchat.net.FileSender;
-import net.usikkert.kouchat.net.ServerException;
-import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.util.Tools;
 
 /**
- * This class is a mediator for the gui, and gets all the events from the network layer.
+ * This class responds to events from the message parser.
  * 
  * @author Christian Ihle
  */
-public class NetworkMediator implements MessageListener
+public class MessageResponder implements MessageListener
 {
-	private static Logger log = Logger.getLogger( NetworkMediator.class.getName() );
+	private static Logger log = Logger.getLogger( MessageResponder.class.getName() );
 	
-	private SysTray sysTray;
-	private MainPanel mainP;
-	private KouChatFrame gui;
-	
-	private GUIMediator guiMediator;
 	private Controller controller;
 	private NickDTO me;
 	private Settings settings;
 	private TransferList tList;
 	private WaitingList wList;
+	private NetworkListener listener;
 	
-	public NetworkMediator( Controller controller, GUIMediator guiMediator )
+	public MessageResponder( Controller controller, NetworkListener listener )
 	{
 		this.controller = controller;
-		this.guiMediator = guiMediator;
+		this.listener = listener;
 		
 		settings = Settings.getSettings();
 		me = settings.getMe();
-		
 		tList = controller.getTransferList();
 		wList = controller.getWaitingList();
-		
-		controller.setMessageListener( this );
 	}
 	
 	@Override
@@ -106,17 +92,7 @@ public class NetworkMediator implements MessageListener
 				
 				if ( !controller.isNewUser( userCode ) )
 				{
-					mainP.appendUserMessage( msg, color );
-
-					if ( !gui.isVisible() && me.isAway() )
-					{
-						sysTray.setAwayActivityState();
-					}
-
-					else if ( !gui.isVisible() )
-					{
-						sysTray.setNormalActivityState();
-					}
+					listener.showUserMessage( msg, color );
 				}
 				
 				else
@@ -144,7 +120,7 @@ public class NetworkMediator implements MessageListener
 	{
 		NickDTO user = controller.getNick( userCode );
 		controller.getNickList().remove( user );
-		mainP.appendSystemMessage( "*** " + user.getNick() + " logged off..." );
+		listener.showSystemMessage( "*** " + user.getNick() + " logged off..." );
 	}
 
 	@Override
@@ -162,7 +138,7 @@ public class NetworkMediator implements MessageListener
 		}
 
 		controller.getNickList().add( newUser );
-		mainP.appendSystemMessage( "*** " + newUser.getNick() + " logged on from " + newUser.getIpAddress() + "..." );
+		listener.showSystemMessage( "*** " + newUser.getNick() + " logged on from " + newUser.getIpAddress() + "..." );
 	}
 	
 	private void userShowedUp( NickDTO newUser )
@@ -179,7 +155,7 @@ public class NetworkMediator implements MessageListener
 		}
 
 		controller.getNickList().add( newUser );
-		mainP.appendSystemMessage( "*** " + newUser.getNick() + " showed up unexpectedly from " + newUser.getIpAddress() + "..." );
+		listener.showSystemMessage( "*** " + newUser.getNick() + " showed up unexpectedly from " + newUser.getIpAddress() + "..." );
 	}
 
 	@Override
@@ -202,9 +178,9 @@ public class NetworkMediator implements MessageListener
 				{
 					if ( !newTopic.equals( topic.getTopic() ) && time > topic.getTime() )
 					{
-						mainP.appendSystemMessage( "*** " + nick + " set the topic to: " + newTopic );
+						listener.showSystemMessage( "*** " + nick + " set the topic to: " + newTopic );
 						topic.changeTopic( newTopic, nick, time );
-						guiMediator.updateTitleAndTray();
+						listener.showTopic();
 					}
 				}
 
@@ -212,9 +188,9 @@ public class NetworkMediator implements MessageListener
 				{
 					if ( !topic.getTopic().equals( newTopic ) && time > topic.getTime() )
 					{
-						mainP.appendSystemMessage( "*** " + nick + " removed the topic..." );
+						listener.showSystemMessage( "*** " + nick + " removed the topic..." );
 						topic.changeTopic( "", "", time );
-						guiMediator.updateTitleAndTray();
+						listener.showTopic();
 					}
 				}
 			}
@@ -241,8 +217,8 @@ public class NetworkMediator implements MessageListener
 	public void meLogOn( String ipAddress )
 	{
 		me.setIpAddress( ipAddress );
-		mainP.appendSystemMessage( "*** Today is " + Tools.dateToString( null, "EEEE, d MMMM yyyy" ) );
-		mainP.appendSystemMessage( "*** You logged on as " + me.getNick() + " from " + ipAddress );
+		listener.showSystemMessage( "*** Today is " + Tools.dateToString( null, "EEEE, d MMMM yyyy" ) );
+		listener.showSystemMessage( "*** You logged on as " + me.getNick() + " from " + ipAddress );
 	}
 
 	@Override
@@ -268,12 +244,12 @@ public class NetworkMediator implements MessageListener
 
 			if ( away )
 			{
-				mainP.appendSystemMessage( "*** " + user.getNick() + " went away: " + awayMsg );
+				listener.showSystemMessage( "*** " + user.getNick() + " went away: " + awayMsg );
 			}
 
 			else
 			{
-				mainP.appendSystemMessage( "*** " + user.getNick() + " came back..." );
+				listener.showSystemMessage( "*** " + user.getNick() + " came back..." );
 			}
 		}
 	}
@@ -310,7 +286,7 @@ public class NetworkMediator implements MessageListener
 	public void nickCrash()
 	{
 		me.setNick( "" + me.getCode() );
-		mainP.appendSystemMessage( "*** " + "Nick crash, resetting nick to " + settings.getMe() );
+		listener.showSystemMessage( "*** " + "Nick crash, resetting nick to " + settings.getMe() );
 	}
 
 	@Override
@@ -334,7 +310,7 @@ public class NetworkMediator implements MessageListener
 			NickDTO user = controller.getNick( userCode );
 			String oldNick = user.getNick();
 			controller.changeNick( userCode, newNick );
-			mainP.appendSystemMessage( "*** " + oldNick + " changed nick to " + newNick );
+			listener.showSystemMessage( "*** " + oldNick + " changed nick to " + newNick );
 		}
 	}
 
@@ -370,91 +346,54 @@ public class NetworkMediator implements MessageListener
 				if ( !controller.isNewUser( userCode ) )
 				{
 					String size = Tools.byteToString( byteSize );
-					mainP.appendSystemMessage( "*** " + user + " is trying to send the file " + fileName + " [" + size + "]" );
-
-					Object[] options = { "Yes", "Cancel" };
-					int choice = JOptionPane.showOptionDialog( null, user + " wants to send you the file "
-							+ fileName + " (" + size + ")\nAccept?", Constants.APP_NAME + " - File send",
-							JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0] );
-
-					if ( choice == JOptionPane.YES_OPTION )
+					listener.showSystemMessage( "*** " + user + " is trying to send the file " + fileName + " [" + size + "]" );
+					
+					if ( listener.askFileSave( user, fileName, size ) )
 					{
-						JFileChooser chooser = new JFileChooser();
-						chooser.setSelectedFile( new File( fileName ) );
-						boolean done = false;
-
-						while ( !done )
+						File file = listener.showFileSave( fileName );
+						
+						if ( file != null )
 						{
-							done = true;
-							int returnVal = chooser.showSaveDialog( gui );
+							NickDTO tempnick = controller.getNick( userCode );
+							FileReceiver fileRes = new FileReceiver( tempnick, file, byteSize );
+							listener.showTransfer( fileRes );
 
-							if ( returnVal == JFileChooser.APPROVE_OPTION )
+							try
 							{
-								NickDTO tempnick = controller.getNick( userCode );
-								File file = chooser.getSelectedFile().getAbsoluteFile();
+								int port = fileRes.startServer();
+								controller.sendFileAccept( userCode, port, fileHash, fileName );
 
-								if ( file.exists() )
+								if ( fileRes.transfer() )
 								{
-									int overwrite = JOptionPane.showOptionDialog( null, file.getName()
-											+ " already exists.\nOverwrite?", Constants.APP_NAME + " - File exists",
-											JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-											options, options[0] );
-
-									if ( overwrite != JOptionPane.YES_OPTION )
-									{
-										done = false;
-									}
+									listener.showSystemMessage( "*** Successfully received " + fileName
+											+ " from " + user + ", and saved as " + file.getName() );
 								}
 
-								if ( done )
+								else
 								{
-									FileReceiver fileRes = new FileReceiver( tempnick, file, byteSize );
-									TransferFrame fileStatus = new TransferFrame( fileRes );
-									fileRes.registerListener( fileStatus );
-
-									try
-									{
-										int port = fileRes.startServer();
-										controller.sendFileAccept( userCode, port, fileHash, fileName );
-
-										if ( fileRes.transfer() )
-										{
-											mainP.appendSystemMessage( "*** Successfully received " + fileName
-													+ " from " + user + ", and saved as " + file.getName() );
-										}
-
-										else
-										{
-											mainP.appendSystemMessage( "*** Failed to receive " + fileName + " from " + user );
-										}
-									}
-
-									catch ( ServerException e )
-									{
-										log.log( Level.SEVERE, e.getMessage(), e );
-
-										mainP.appendSystemMessage( "*** Failed to receive " + fileName + " from " + user );
-										controller.sendFileAbort( userCode, fileHash, fileName );
-
-										JOptionPane.showMessageDialog( null, "Could not connect...", Constants.APP_NAME
-												+ " - File transfer", JOptionPane.ERROR_MESSAGE );
-
-										fileRes.fail();
-									}
+									listener.showSystemMessage( "*** Failed to receive " + fileName + " from " + user );
 								}
 							}
 
-							else
+							catch ( ServerException e )
 							{
-								mainP.appendSystemMessage( "*** You declined to receive " + fileName + " from " + user );
+								log.log( Level.SEVERE, e.getMessage(), e );
+								listener.showSystemMessage( "*** Failed to receive " + fileName + " from " + user );
 								controller.sendFileAbort( userCode, fileHash, fileName );
+								fileRes.fail();
 							}
 						}
+						
+						else
+						{
+							listener.showSystemMessage( "*** You declined to receive " + fileName + " from " + user );
+							controller.sendFileAbort( userCode, fileHash, fileName );
+						}
 					}
-
+					
 					else
 					{
-						mainP.appendSystemMessage( "*** You declined to receive " + fileName + " from " + user );
+						listener.showSystemMessage( "*** You declined to receive " + fileName + " from " + user );
 						controller.sendFileAbort( userCode, fileHash, fileName );
 					}
 				}
@@ -471,7 +410,7 @@ public class NetworkMediator implements MessageListener
 	public void fileSendAborted( int userCode, String fileName, int fileHash )
 	{
 		NickDTO user = controller.getNick( userCode );
-		mainP.appendSystemMessage( "*** " + user.getNick() + " aborted sending of " + fileName );
+		listener.showSystemMessage( "*** " + user.getNick() + " aborted sending of " + fileName );
 		FileSender fileSend = tList.getFileSender( user, fileName, fileHash );
 		fileSend.fail();
 		tList.removeFileSender( fileSend );
@@ -494,7 +433,7 @@ public class NetworkMediator implements MessageListener
 
 				if ( fileSend != null )
 				{
-					mainP.appendSystemMessage( "*** " + fUser.getNick() + " accepted sending of "	+ fFileName );
+					listener.showSystemMessage( "*** " + fUser.getNick() + " accepted sending of "	+ fFileName );
 
 					// Give the server some time to set up the connection first
 					try
@@ -509,31 +448,16 @@ public class NetworkMediator implements MessageListener
 
 					if ( fileSend.transfer( fPort ) )
 					{
-						mainP.appendSystemMessage( "*** " + fFileName + " successfully sent to " + fUser.getNick() );
+						listener.showSystemMessage( "*** " + fFileName + " successfully sent to " + fUser.getNick() );
 					}
 
 					else
 					{
-						mainP.appendSystemMessage( "*** Failed to send " + fFileName + " to " + fUser.getNick() );
+						listener.showSystemMessage( "*** Failed to send " + fFileName + " to " + fUser.getNick() );
 					}
 				}
 
 			}
 		}.start();
-	}
-
-	public void setKouChatFrame( KouChatFrame gui )
-	{
-		this.gui = gui;
-	}
-
-	public void setMainP( MainPanel mainP )
-	{
-		this.mainP = mainP;
-	}
-
-	public void setSysTray( SysTray sysTray )
-	{
-		this.sysTray = sysTray;
 	}
 }

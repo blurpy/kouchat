@@ -31,19 +31,22 @@ import javax.swing.JOptionPane;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.DayListener;
 import net.usikkert.kouchat.event.IdleListener;
+import net.usikkert.kouchat.event.NetworkListener;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.TopicDTO;
+import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.util.Tools;
 
 /**
  * This class is a mediator for the gui, and gets all the events from the gui layer.
+ * It is also a listener for events from the network layer.
  * 
  * @author Christian Ihle
  */
-public class GUIMediator implements GUIListener, DayListener, IdleListener
+public class GUIMediator implements Mediator, DayListener, IdleListener, NetworkListener
 {
 	private SidePanel sideP;
 	private SettingsFrame settingsFrame;
@@ -57,15 +60,14 @@ public class GUIMediator implements GUIListener, DayListener, IdleListener
 	private Settings settings;
 	private NickDTO me;
 	
-	public GUIMediator( Controller controller )
+	public GUIMediator()
 	{
-		this.controller = controller;
+		controller = new Controller( this );
+		controller.addDayListener( this );
+		controller.addIdleListener( this );
 		
 		settings = Settings.getSettings();
 		me = settings.getMe();
-		
-		controller.addDayListener( this );
-		controller.addIdleListener( this );
 	}
 	
 	@Override
@@ -342,39 +344,137 @@ public class GUIMediator implements GUIListener, DayListener, IdleListener
 		mainP.appendSystemMessage( "*** " + nick + " timed out..." );
 	}
 	
+	@Override
 	public void setButtonP( ButtonPanel buttonP )
 	{
 		this.buttonP = buttonP;
 	}
 
+	@Override
 	public void setKouChatFrame( KouChatFrame gui )
 	{
 		this.gui = gui;
 	}
 
+	@Override
 	public void setMainP( MainPanel mainP )
 	{
 		this.mainP = mainP;
 	}
 
+	@Override
 	public void setMenuBar( MenuBar menuBar )
 	{
 		this.menuBar = menuBar;
 	}
 
+	@Override
 	public void setSettingsFrame( SettingsFrame settingsFrame )
 	{
 		this.settingsFrame = settingsFrame;
 	}
 
+	@Override
 	public void setSideP( SidePanel sideP )
 	{
 		this.sideP = sideP;
 		sideP.setNickList( controller.getNickList() );
 	}
 
+	@Override
 	public void setSysTray( SysTray sysTray )
 	{
 		this.sysTray = sysTray;
+	}
+	
+	@Override
+	public void showUserMessage( String message, int color )
+	{
+		mainP.appendUserMessage( message, color );
+
+		if ( !gui.isVisible() && me.isAway() )
+		{
+			sysTray.setAwayActivityState();
+		}
+
+		else if ( !gui.isVisible() )
+		{
+			sysTray.setNormalActivityState();
+		}
+	}
+	
+	@Override
+	public void showSystemMessage( String message )
+	{
+		mainP.appendSystemMessage( message );
+	}
+	
+	@Override
+	public boolean askFileSave( String user, String fileName, String size )
+	{
+		Object[] options = { "Yes", "Cancel" };
+		int choice = JOptionPane.showOptionDialog( null, user + " wants to send you the file "
+				+ fileName + " (" + size + ")\nAccept?", Constants.APP_NAME + " - File send",
+				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0] );
+
+		boolean answer = false;
+		
+		if ( choice == JOptionPane.YES_OPTION )
+			answer = true;
+		
+		return answer;
+	}
+	
+	@Override
+	public File showFileSave( String fileName )
+	{
+		File returnFile = null;
+		JFileChooser chooser = new JFileChooser();
+		chooser.setSelectedFile( new File( fileName ) );
+		boolean done = false;
+
+		while ( !done )
+		{
+			done = true;
+			int returnVal = chooser.showSaveDialog( null );
+
+			if ( returnVal == JFileChooser.APPROVE_OPTION )
+			{
+				File file = chooser.getSelectedFile().getAbsoluteFile();
+
+				if ( file.exists() )
+				{
+					Object[] options = { "Yes", "Cancel" };
+					int overwrite = JOptionPane.showOptionDialog( null, file.getName()
+							+ " already exists.\nOverwrite?", Constants.APP_NAME + " - File exists",
+							JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0] );
+
+					if ( overwrite != JOptionPane.YES_OPTION )
+					{
+						done = false;
+					}
+				}
+
+				if ( done )
+				{
+					returnFile = file;
+				}
+			}
+		}
+		
+		return returnFile;
+	}
+	
+	@Override
+	public void showTransfer( FileReceiver fileRes )
+	{
+		TransferFrame fileStatus = new TransferFrame( fileRes );
+		fileRes.registerListener( fileStatus );
+	}
+
+	@Override
+	public void showTopic()
+	{
+		updateTitleAndTray();
 	}
 }

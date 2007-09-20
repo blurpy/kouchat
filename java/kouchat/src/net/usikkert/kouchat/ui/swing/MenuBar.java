@@ -35,10 +35,12 @@ public class MenuBar extends JMenuBar implements ActionListener
 {
 	private JMenu fileMenu, toolsMI, helpMenu;
 	private JMenuItem minimizeMI, quitMI, clearMI, awayMI, topicMI, settingsMI, aboutMI;
-	private GUIListener listener;
+	private Mediator mediator;
 	
 	public MenuBar( Mediator mediator )
 	{
+		this.mediator = mediator;
+		
 		fileMenu = new JMenu( "File" );
 		fileMenu.setMnemonic( 'F' );
 		minimizeMI = new JMenuItem( "Minimize" );
@@ -85,7 +87,6 @@ public class MenuBar extends JMenuBar implements ActionListener
 		add( toolsMI );
 		add( helpMenu );
 		
-		listener = mediator.getGUIListener();
 		mediator.setMenuBar( this );
 	}
 	
@@ -100,32 +101,32 @@ public class MenuBar extends JMenuBar implements ActionListener
 	{
 		if ( e.getSource() == quitMI )
 		{
-			listener.quit();
+			mediator.quit();
 		}
 		
 		else if ( e.getSource() == settingsMI )
 		{
-			listener.showSettings();
+			mediator.showSettings();
 		}
 		
 		else if ( e.getSource() == minimizeMI )
 		{
-			listener.minimize();
+			mediator.minimize();
 		}
 		
 		else if ( e.getSource() == awayMI )
 		{
-			listener.setAway();
+			mediator.setAway();
 		}
 		
 		else if ( e.getSource() == topicMI )
 		{
-			listener.setTopic();
+			mediator.setTopic();
 		}
 		
 		else if ( e.getSource() == clearMI )
 		{
-			listener.clearChat();
+			mediator.clearChat();
 		}
 		
 		else if ( e.getSource() == aboutMI )

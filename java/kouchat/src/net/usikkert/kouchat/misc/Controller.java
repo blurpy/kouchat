@@ -23,8 +23,9 @@ package net.usikkert.kouchat.misc;
 
 import net.usikkert.kouchat.event.DayListener;
 import net.usikkert.kouchat.event.IdleListener;
-import net.usikkert.kouchat.event.MessageListener;
+import net.usikkert.kouchat.event.NetworkListener;
 import net.usikkert.kouchat.net.MessageParser;
+import net.usikkert.kouchat.net.MessageResponder;
 import net.usikkert.kouchat.net.Messages;
 import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.util.DayTimer;
@@ -33,14 +34,15 @@ public class Controller
 {
 	private ChatState chatState;
 	private NickController nickController;
-	private Messages msgSender;
+	private Messages messages;
 	private MessageParser msgParser;
+	private MessageResponder msgResponder;
 	private IdleThread idleThread;
 	private TransferList tList;
 	private WaitingList wList;
 	private DayTimer dayTimer;
 	
-	public Controller()
+	public Controller( NetworkListener listener )
 	{
 		Runtime.getRuntime().addShutdownHook( new Thread()
 		{
@@ -52,12 +54,13 @@ public class Controller
 		
 		nickController = new NickController();
 		chatState = new ChatState();
-		msgParser = new MessageParser();
-		msgSender = new Messages();
 		idleThread = new IdleThread( this );
 		tList = new TransferList();
 		wList = new WaitingList();
 		dayTimer = new DayTimer();
+		msgResponder = new MessageResponder( this, listener );
+		msgParser = new MessageParser( msgResponder );
+		messages = new Messages();
 	}
 	
 	public TopicDTO getTopic()
@@ -90,9 +93,9 @@ public class Controller
 			chatState.setWrote( writing );
 			
 			if ( writing )
-				msgSender.sendWritingMessage();
+				messages.sendWritingMessage();
 			else
-				msgSender.sendStoppedWritingMessage();
+				messages.sendStoppedWritingMessage();
 		}
 	}
 	
@@ -113,7 +116,7 @@ public class Controller
 		
 		if ( code == me.getCode() )
 		{
-			msgSender.sendNickMessage();
+			messages.sendNickMessage();
 		}
 	}
 	
@@ -122,85 +125,80 @@ public class Controller
 		return nickController.getNick( code );
 	}
 	
-	public void setMessageListener( MessageListener listener )
-	{
-		msgParser.setMessageListener( listener );
-	}
-	
 	public void logOn()
 	{
-		msgSender.sendLogonMessage();
-		msgSender.sendExposeMessage();
-		msgSender.sendGetTopicMessage();
+		messages.sendLogonMessage();
+		messages.sendExposeMessage();
+		messages.sendGetTopicMessage();
 		idleThread.start();
 	}
 	
 	public void logOff()
 	{
 		idleThread.stopThread();
-		msgSender.sendLogoffMessage();
-		msgSender.stop();
+		messages.sendLogoffMessage();
+		messages.stop();
 		msgParser.stop();
 	}
 	
 	public void sendExposeMessage()
 	{
-		msgSender.sendExposeMessage();
+		messages.sendExposeMessage();
 	}
 	
 	public void sendExposingMessage()
 	{
-		msgSender.sendExposingMessage();
+		messages.sendExposingMessage();
 	}
 	
 	public void sendGetTopicMessage()
 	{
-		msgSender.sendGetTopicMessage();
+		messages.sendGetTopicMessage();
 	}
 	
 	public void sendIdleMessage()
 	{
-		msgSender.sendIdleMessage();
+		messages.sendIdleMessage();
 	}
 	
 	public void sendChatMessage( String msg )
 	{
-		msgSender.sendChatMessage( msg );
+		messages.sendChatMessage( msg );
 	}
 	
 	public void sendTopicMessage( TopicDTO topic )
 	{
-		msgSender.sendTopicMessage( topic );
+		messages.sendTopicMessage( topic );
 	}
 	
 	public void sendAwayMessage()
 	{
-		msgSender.sendAwayMessage();
+		messages.sendAwayMessage();
 	}
 	
 	public void sendBackMessage()
 	{
-		msgSender.sendBackMessage();
+		messages.sendBackMessage();
 	}
 	
 	public void sendNickCrashMessage( String nick )
 	{
-		msgSender.sendNickCrashMessage( nick );
+		messages.sendNickCrashMessage( nick );
 	}
 	
 	public void sendFileAbort( int msgCode, int fileHash, String fileName )
 	{
-		msgSender.sendFileAbort( msgCode, fileHash, fileName );
+		messages.sendFileAbort( msgCode, fileHash, fileName );
 	}
 	
 	public void sendFileAccept( int msgCode, int port, int fileHash, String fileName )
 	{
-		msgSender.sendFileAccept( msgCode, port, fileHash, fileName );
+		messages.sendFileAccept( msgCode, port, fileHash, fileName );
 	}
 	
 	public void sendFile( int sendToUserCode, long fileLength, int fileHash, String fileName )
 	{
-		msgSender.sendFile( sendToUserCode, fileLength, fileHash, fileName );
+		messages.sendFile( sendToUserCode, fileLength, fileHash, fileName );
 	}
 	
 	public void changeAwayStatus( int code, boolean away, String awaymsg )

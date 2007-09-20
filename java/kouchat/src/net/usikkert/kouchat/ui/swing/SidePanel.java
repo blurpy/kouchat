@@ -49,10 +49,12 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 	private JList nickL;
 	private NickListModel nickDLM;
 	private ButtonPanel buttonP;
-	private GUIListener listener;
+	private Mediator mediator;
 	
 	public SidePanel( Mediator mediator )
 	{
+		this.mediator = mediator;
+		
 		setLayout( new BorderLayout( 2, 2 ) );
 		
 		nickDLM = new NickListModel();
@@ -76,7 +78,6 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 		nickMenu.add( sendfileMI );
 		
 		mediator.setSideP( this );
-		listener = mediator.getGUIListener();
 	}
 	
 	public NickDTO getSelectedNick()
@@ -105,7 +106,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 		
 		else if ( e.getSource() == sendfileMI )
 		{
-			listener.sendFile();
+			mediator.sendFile();
 		}
 	}
 
