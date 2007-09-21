@@ -18,7 +18,6 @@
  - Test more than one transfer at the same time
  - Timeout on sending
  - Update INSTALL and ChangeLog
- - Test handling of text in unknown format
  - Test cancel button in filetransfer for a better way to handle close
  - Test timeout and file transfer handling between 0.6.1 clients
  

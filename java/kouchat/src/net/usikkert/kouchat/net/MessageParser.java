@@ -153,31 +153,23 @@ public class MessageParser implements ReceiverListener
 
 				else if ( type.equals( "TOPIC" ) )
 				{
-					try
-					{
-						int leftBracket = msg.indexOf( "[" );
-						int rightBracket = msg.indexOf( "]" );
-						int leftPara = msg.indexOf( "(" );
-						int rightPara = msg.indexOf( ")" );
+					int leftBracket = msg.indexOf( "[" );
+					int rightBracket = msg.indexOf( "]" );
+					int leftPara = msg.indexOf( "(" );
+					int rightPara = msg.indexOf( ")" );
 
-						if ( rightBracket != -1 && leftBracket != -1 )
+					if ( rightBracket != -1 && leftBracket != -1 )
+					{
+						String theNick = msg.substring( leftPara +1, rightPara );
+						long theTime = Long.parseLong( msg.substring( leftBracket +1, rightBracket ) );
+						String theTopic = null;
+
+						if ( msg.length() > rightBracket + 1 )
 						{
-							String theNick = msg.substring( leftPara +1, rightPara );
-							long theTime = Long.parseLong( msg.substring( leftBracket +1, rightBracket ) );
-							String theTopic = null;
-
-							if ( msg.length() > rightBracket + 1 )
-							{
-								theTopic = msg.substring( rightBracket +1, msg.length() );
-							}
-
-							listener.topicChanged( msgCode, theTopic, theNick, theTime );
+							theTopic = msg.substring( rightBracket +1, msg.length() );
 						}
-					}
 
-					catch ( StringIndexOutOfBoundsException e )
-					{
-						log.log( Level.SEVERE, e.getMessage(), e );
+						listener.topicChanged( msgCode, theTopic, theNick, theTime );
 					}
 				}
 
@@ -261,8 +253,12 @@ public class MessageParser implements ReceiverListener
 			}
 		}
 
-		// This must not halt
-		catch ( Exception e )
+		catch ( StringIndexOutOfBoundsException e )
+		{
+			log.log( Level.SEVERE, e.getMessage(), e );
+		}
+
+		catch ( NumberFormatException e )
 		{
 			log.log( Level.SEVERE, e.getMessage(), e );
 		}
