@@ -2,10 +2,9 @@
 * TODO:
  - Private chat
  - Logging
- - Commands (not in ui layer, so swing and console can use the same commands)
+ - Commands
  - Sound on events
  - Use UTF-8 messages
- - Send NOTSUPPORTED when getting an unknown message
  - Javadoc
  - JUnit
  - Console UI
