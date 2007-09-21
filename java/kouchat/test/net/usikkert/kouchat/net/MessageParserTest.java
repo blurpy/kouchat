@@ -35,17 +35,17 @@ import org.junit.Test;
 public class MessageParserTest implements MessageListener
 {
 	private MessageParser msgParser;
-	
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception
 	{
-		
+
 	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception
 	{
-		
+
 	}
 
 	@Before
@@ -57,7 +57,7 @@ public class MessageParserTest implements MessageListener
 	@After
 	public void tearDown() throws Exception
 	{
-		
+
 	}
 
 	@Test
