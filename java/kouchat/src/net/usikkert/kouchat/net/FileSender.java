@@ -40,7 +40,7 @@ import net.usikkert.kouchat.util.ByteCounter;
 public class FileSender implements FileTransfer
 {
 	private static Logger log = Logger.getLogger( FileSender.class.getName() );
-	
+
 	private NickDTO nick;
 	private int percent;
 	private long transferred;
@@ -49,23 +49,23 @@ public class FileSender implements FileTransfer
 	private FileTransferListener listener;
 	private Direction direction;
 	private ByteCounter bCounter;
-	
+
 	public FileSender( NickDTO nick, File file )
 	{
 		this.nick = nick;
 		this.file = file;
-		
+
 		direction = Direction.SEND;
 		bCounter = new ByteCounter();
 	}
-	
+
 	public boolean transfer( int port )
 	{
 		if ( !cancel )
 		{
 			listener.statusConnecting();
 		}
-		
+
 		sent = false;
 		FileInputStream fis = null;
 		OutputStream os = null;
@@ -126,7 +126,7 @@ public class FileSender implements FileTransfer
 					percent = (int) ( ( transferred * 100 ) / file.length() );
 					bCounter.update( tmpTransferred );
 					transCounter++;
-					
+
 					if ( percent > tmpPercent || transCounter >= 250 )
 					{
 						transCounter = 0;
@@ -205,7 +205,7 @@ public class FileSender implements FileTransfer
 				if ( sock != null )
 					sock.close();
 			}
-			
+
 			catch ( IOException e )
 			{
 				log.log( Level.SEVERE, e.getMessage(), e );
@@ -257,25 +257,25 @@ public class FileSender implements FileTransfer
 	{
 		return transferred;
 	}
-	
+
 	@Override
 	public long getFileSize()
 	{
 		return file.length();
 	}
-	
+
 	@Override
 	public Direction getDirection()
 	{
 		return direction;
 	}
-	
+
 	@Override
 	public long getSpeed()
 	{
 		return bCounter.getBytesPerSec();
 	}
-	
+
 	public File getFile()
 	{
 		return file;

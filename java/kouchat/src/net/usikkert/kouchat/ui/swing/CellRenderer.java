@@ -36,7 +36,7 @@ public class CellRenderer extends JLabel implements ListCellRenderer
 	public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
 	{
 		NickDTO dto = (NickDTO) value;
-		
+
 		if ( dto.isMe() )
 		{
 			if ( dto.isAway() )
@@ -44,14 +44,14 @@ public class CellRenderer extends JLabel implements ListCellRenderer
 				setFont( new Font( list.getFont().getName(), Font.BOLD, list.getFont().getSize() ) );
 				setForeground( Color.GRAY );
 			}
-			
+
 			else
 			{
 				setFont( new Font( list.getFont().getName(), Font.BOLD, list.getFont().getSize() ) );
 				setForeground( Color.BLACK );
 			}
 		}
-		
+
 		else
 		{
 			if ( dto.isAway() )
@@ -59,14 +59,14 @@ public class CellRenderer extends JLabel implements ListCellRenderer
 				setFont( new Font( list.getFont().getName(), Font.PLAIN, list.getFont().getSize() ) );
 				setForeground( Color.GRAY );
 			}
-			
+
 			else
 			{
 				setFont( new Font( list.getFont().getName(), Font.PLAIN, list.getFont().getSize() ) );
 				setForeground( Color.BLACK );
 			}
 		}
-		
+
 		if ( dto.isWriting() )
 			setText( dto.getNick() + " *" );
 		else
@@ -76,10 +76,10 @@ public class CellRenderer extends JLabel implements ListCellRenderer
 			setBackground( list.getSelectionBackground() );
 		else
 			setBackground( list.getBackground() );
-		
+
 		setEnabled( list.isEnabled() );
 		setOpaque( true );
-		
+
 		return this;
 	}
 }

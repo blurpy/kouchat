@@ -47,21 +47,21 @@ public class SettingsFrame extends JFrame implements ActionListener
 	private JLabel nickL, ownColorL, sysColorL;
 	private Settings settings;
 	private Mediator mediator;
-	
+
 	public SettingsFrame( Mediator mediator )
 	{
 		this.mediator = mediator;
-		
+		mediator.setSettingsFrame( this );
 		settings = Settings.getSettings();
-		
+
 		Container container = getContentPane();
 		JPanel panel = new JPanel( new BorderLayout() );
-		
+
 		JPanel nickP = new JPanel();
 		nickL = new JLabel( "Nick:" );
 		nickTF = new JTextField( 10 );
 		nickTF.setText( settings.getMe().getNick() );
-		
+
 		JPanel buttonP = new JPanel();
 		useNickB = new JButton( "Use" );
 		useNickB.addActionListener( this );
@@ -69,7 +69,7 @@ public class SettingsFrame extends JFrame implements ActionListener
 		nickP.add( nickTF );
 		nickP.add( useNickB );
 		nickP.setBorder( BorderFactory.createTitledBorder( "Choose nick" ) );
-		
+
 		JPanel colorLabelP = new JPanel();
 		ownColorL = new JLabel( "Your own text color" );
 		ownColorL.setForeground( new Color( settings.getOwnColor() ) );
@@ -77,7 +77,7 @@ public class SettingsFrame extends JFrame implements ActionListener
 		sysColorL.setForeground( new Color( settings.getSysColor() ) );
 		colorLabelP.add( ownColorL );
 		colorLabelP.add( sysColorL );
-		
+
 		JPanel colorButtonP = new JPanel();
 		chooseOwnColorB = new JButton( "Choose color" );
 		chooseOwnColorB.addActionListener( this );
@@ -85,67 +85,65 @@ public class SettingsFrame extends JFrame implements ActionListener
 		chooseSysColorB.addActionListener( this );
 		colorButtonP.add( chooseOwnColorB );
 		colorButtonP.add( chooseSysColorB );
-		
+
 		JPanel colorP = new JPanel( new GridLayout( 2, 1 ) );
 		colorP.add( colorLabelP );
 		colorP.add( colorButtonP );
 		colorP.setBorder( BorderFactory.createTitledBorder( "Choose color" ) );
-		
+
 		saveB = new JButton( "Save" );
 		saveB.addActionListener( this );
 		buttonP.add( saveB );
 		cancelB = new JButton( "Cancel" );
 		cancelB.addActionListener( this );
 		buttonP.add( cancelB );
-		
+
 		panel.add( nickP, BorderLayout.NORTH );
 		panel.add( colorP, BorderLayout.CENTER );
 		panel.add( buttonP, BorderLayout.SOUTH );
 		panel.setBorder( BorderFactory.createEmptyBorder( 10, 10, 5, 10 ) );
-		
+
 		container.add( panel );
-		
+
 		pack();
 		setDefaultCloseOperation( JFrame.HIDE_ON_CLOSE );
 		setIconImage( new ImageIcon( getClass().getResource( "/icons/kou_normal.png" ) ).getImage() );
 		setTitle( Constants.APP_NAME + " - Settings" );
-		
-		mediator.setSettingsFrame( this );
 	}
-	
+
 	public void actionPerformed( ActionEvent e )
 	{
 		if ( e.getSource() == useNickB )
 		{
 			mediator.changeNick( nickTF.getText() );
 		}
-		
+
 		else if ( e.getSource() == saveB )
 		{
 			settings.saveSettings();
 			setVisible( false );
 		}
-		
+
 		else if ( e.getSource() == cancelB )
 		{
 			setVisible( false );
 		}
-		
+
 		else if ( e.getSource() == chooseOwnColorB )
 		{
 			Color newColor = JColorChooser.showDialog( null, Constants.APP_NAME + " - Choose color for your own text", new Color( settings.getOwnColor() ) );
-			
+
 			if ( newColor != null )
 			{
 				settings.setOwnColor( newColor.getRGB() );
 				ownColorL.setForeground( newColor );
 			}
 		}
-		
+
 		else if ( e.getSource() == chooseSysColorB )
 		{
 			Color newColor = JColorChooser.showDialog( null, Constants.APP_NAME	+ " - Choose color for messages", new Color( settings.getSysColor() ) );
-			
+
 			if ( newColor != null )
 			{
 				settings.setSysColor( newColor.getRGB() );
@@ -153,7 +151,7 @@ public class SettingsFrame extends JFrame implements ActionListener
 			}
 		}
 	}
-	
+
 	public void showSettings()
 	{
 		nickTF.setText( settings.getMe().getNick() );

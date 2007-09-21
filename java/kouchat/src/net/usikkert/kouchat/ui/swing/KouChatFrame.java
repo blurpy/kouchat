@@ -42,24 +42,24 @@ public class KouChatFrame extends JFrame
 {
 	private MainPanel mainP;
 	private Mediator mediator;
-	
+
 	public KouChatFrame()
 	{
 		mediator = new GUIMediator();
 		mediator.setKouChatFrame( this );
-		
+
 		mainP = new MainPanel( mediator );
 		new SysTray( mediator );
 		new SettingsFrame( mediator );
 		setJMenuBar( new MenuBar( mediator ) );
-		
+
 		getContentPane().add( mainP, BorderLayout.CENTER );
 		setTitle( Constants.APP_NAME + " v" + Constants.APP_VERSION + " - (Not connected)" );
 		setIconImage( new ImageIcon( getClass().getResource( "/icons/kou_normal.png" ) ).getImage() );
 		setSize( 650, 480 );
 		setDefaultCloseOperation( JFrame.DO_NOTHING_ON_CLOSE );
 		setVisible( true );
-		
+
 		// Catch focus for the textfield
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher( new KeyEventDispatcher()
 		{
@@ -69,18 +69,18 @@ public class KouChatFrame extends JFrame
 				{
 					KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent( mainP.getMsgTF(), e );
 					mainP.getMsgTF().requestFocus();
-					
+
 					return true;
 				}
-				
+
 				else
 					return false;
 			}
 		} );
-		
+
 		// Minimize with Escape key
 		KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0, false );
-		
+
 		Action escapeAction = new AbstractAction()
 		{
 			public void actionPerformed( ActionEvent e )
@@ -88,10 +88,10 @@ public class KouChatFrame extends JFrame
 				setVisible( false );
 			}
 		};
-		 
+
 		getRootPane().getInputMap( JComponent.WHEN_IN_FOCUSED_WINDOW ).put( escapeKeyStroke, "ESCAPE" );
 		getRootPane().getActionMap().put( "ESCAPE", escapeAction );
-		
+
 		// Shut down the right way
 		addWindowListener( new WindowAdapter()
 		{
@@ -100,7 +100,7 @@ public class KouChatFrame extends JFrame
 				mediator.quit();
 			}
 		} );
-		
+
 		mainP.appendSystemMessage( "*** Welcome to " + Constants.APP_NAME + " v" + Constants.APP_VERSION+ "!" );
 		mainP.getMsgTF().requestFocus();
 		mediator.start();

@@ -25,28 +25,28 @@ public class TopicDTO
 {
 	private String topic, nick;
 	private long time;
-	
+
 	public TopicDTO()
 	{
 		topic = "";
 		nick = "";
 		time = 0;
 	}
-	
+
 	public TopicDTO( String topic, String nick, long time )
 	{
 		this.topic = topic;
 		this.nick = nick;
 		this.time = time;
 	}
-	
+
 	public void changeTopic( String topic, String nick, long time )
 	{
 		this.topic = topic;
 		this.nick = nick;
 		this.time = time;
 	}
-	
+
 	public String getNick()
 	{
 		return nick;

@@ -50,25 +50,25 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 	private NickListModel nickDLM;
 	private ButtonPanel buttonP;
 	private Mediator mediator;
-	
+
 	public SidePanel( Mediator mediator )
 	{
 		this.mediator = mediator;
-		
+
 		setLayout( new BorderLayout( 2, 2 ) );
-		
+
 		nickDLM = new NickListModel();
 		nickL = new JList( nickDLM );
 		nickL.setCellRenderer( new CellRenderer() );
 		nickL.setFixedCellWidth( 110 );
 		nickL.addMouseListener( this );
 		nickSP = new JScrollPane( nickL );
-		
+
 		buttonP = new ButtonPanel( mediator );
-		
+
 		add( nickSP, BorderLayout.CENTER );
 		add( buttonP, BorderLayout.SOUTH );
-		
+
 		nickMenu = new JPopupMenu ();
 		infoMI = new JMenuItem( "Information" );
 		infoMI.addActionListener( this );
@@ -76,15 +76,15 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 		sendfileMI.addActionListener( this );
 		nickMenu.add( infoMI );
 		nickMenu.add( sendfileMI );
-		
+
 		mediator.setSideP( this );
 	}
-	
+
 	public NickDTO getSelectedNick()
 	{
 		return (NickDTO) nickL.getSelectedValue();
 	}
-	
+
 	public void setNickList( NickList nickList )
 	{
 		nickDLM.setNickList( nickList );
@@ -97,13 +97,13 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 		{
 			NickDTO temp = (NickDTO) nickDLM.getElementAt( nickL.getSelectedIndex() );
 			String info = "Nick: " + temp.getNick() + "\nIP address: " + temp.getIpAddress();
-			
+
 			if ( temp.isAway() )
 				info += "\nAway message: " + temp.getAwayMsg();
-			
+
 			JOptionPane.showMessageDialog( null, info, Constants.APP_NAME + " - Info", JOptionPane.INFORMATION_MESSAGE );
 		}
-		
+
 		else if ( e.getSource() == sendfileMI )
 		{
 			mediator.sendFile();
@@ -126,16 +126,16 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 		{
 			Point p = e.getPoint();
 			int index = nickL.locationToIndex( p );
-			
+
 			if ( index != -1 )
 			{
 				Rectangle r = nickL.getCellBounds( index, index );
-				
+
 				if ( r.x <= p.x && p.x <= r.x + r.width && r.y <= p.y && p.y <= r.y + r.height )
 				{
 					nickL.setSelectedIndex( index );
 				}
-				
+
 				else
 				{
 					nickL.clearSelection();

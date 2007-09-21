@@ -33,39 +33,39 @@ public class DayTimer extends TimerTask
 	private boolean done;
 	private DayListener listener;
 	private static final int NOTIFY_HOUR = 0;
-	
+
 	public DayTimer()
 	{
 		Calendar cal = Calendar.getInstance();
 		cal.set( Calendar.HOUR_OF_DAY, 0 );
 		cal.set( Calendar.MINUTE, 0 );
 		cal.set( Calendar.SECOND, 0 );
-		
+
 		long interval = 1000 * 60 * 60; // 1 hour
-		
+
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate( this, new Date( cal.getTimeInMillis() ), interval );
 	}
-	
+
 	@Override
 	public void run()
 	{
 		int hour = Calendar.getInstance().get( Calendar.HOUR_OF_DAY );
-		
+
 		if ( hour == NOTIFY_HOUR && !done )
 		{
 			if ( listener != null )
 				listener.dayChanged( new Date() );
-			
+
 			done = true;
 		}
-		
+
 		else if ( hour != NOTIFY_HOUR && done )
 		{
 			done = false;
 		}
 	}
-	
+
 	public void registerDayListener( DayListener listener )
 	{
 		this.listener = listener;

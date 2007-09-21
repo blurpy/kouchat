@@ -30,7 +30,7 @@ public interface Mediator
 	public void setButtonP( ButtonPanel buttonP );
 	public void setSideP( SidePanel sideP );
 	public void setSettingsFrame( SettingsFrame settingsFrame );
-	
+
 	public void minimize();
 	public void clearChat();
 	public void setAway();

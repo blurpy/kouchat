@@ -36,50 +36,50 @@ import net.usikkert.kouchat.util.Tools;
 public class Settings
 {
 	private static Logger log = Logger.getLogger( Settings.class.getName() );
-	
+
 	private static final String FILENAME = System.getProperty( "user.home" ) + System.getProperty( "file.separator" ) + ".kouchat.ini";
 	private static final Settings settings = new Settings();
-	
+
 	private NickDTO me;
 	private int ownColor, sysColor;
-	
+
 	private Settings()
 	{
 		int code = 10000000 + (int) ( Math.random() * 9999999 );
 		me = new NickDTO( "" + code, code );
 		me.setMe( true );
 		me.setLastIdle( System.currentTimeMillis() );
-		
+
 		loadSettings();
 	}
-	
+
 	public static Settings getSettings()
 	{
 		return settings;
 	}
-	
+
 	public void saveSettings()
 	{
 		FileWriter fileWriter = null;
 		BufferedWriter buffWriter = null;
-		
+
 		try
 		{
 			fileWriter = new FileWriter( FILENAME );
 			buffWriter = new BufferedWriter( fileWriter );
-			
+
 			buffWriter.write( "nick=" + me.getNick() );
 			buffWriter.newLine();
 			buffWriter.write( "owncolor=" + ownColor );
 			buffWriter.newLine();
 			buffWriter.write( "syscolor=" + sysColor );
 		}
-		
+
 		catch ( IOException e )
 		{
 			log.log( Level.SEVERE, e.getMessage(), e );
 		}
-		
+
 		finally
 		{
 			try
@@ -87,95 +87,95 @@ public class Settings
 				if ( buffWriter != null )
 					buffWriter.flush();
 			}
-			
+
 			catch ( IOException e )
 			{
 				log.log( Level.SEVERE, e.getMessage(), e );
 			}
-			
+
 			try
 			{
 				if ( fileWriter != null )
 					fileWriter.flush();
 			}
-			
+
 			catch ( IOException e )
 			{
 				log.log( Level.SEVERE, e.getMessage(), e );
 			}
-			
+
 			try
 			{
 				if ( buffWriter != null )
 					buffWriter.close();
 			}
-			
+
 			catch ( IOException e )
 			{
 				log.log( Level.SEVERE, e.getMessage(), e );
 			}
-			
+
 			try
 			{
 				if ( fileWriter != null )
 					fileWriter.close();
 			}
-			
+
 			catch ( IOException e )
 			{
 				log.log( Level.SEVERE, e.getMessage(), e );
 			}
 		}
 	}
-	
+
 	private void loadSettings()
 	{
 		FileInputStream fileStream = null;
-		
+
 		try
 		{
 			Properties fileContents = new Properties();
 			fileStream = new FileInputStream( FILENAME );
 			fileContents.load( fileStream );
-			
+
 			String tmpNick = fileContents.getProperty( "nick" );
-			
+
 			if ( tmpNick != null && Tools.isValidNick( tmpNick ) )
 			{
 				me.setNick( tmpNick.trim() );
 			}
-			
+
 			try
 			{
 				ownColor = Integer.parseInt( fileContents.getProperty( "owncolor" ) );
 			}
-			
+
 			catch ( NumberFormatException e )
 			{
 				log.log( Level.SEVERE, e.getMessage(), e );
 			}
-			
+
 			try
 			{
 				sysColor = Integer.parseInt( fileContents.getProperty( "syscolor" ) );
 			}
-			
+
 			catch ( NumberFormatException e )
 			{
 				log.log( Level.SEVERE, e.getMessage(), e );
 			}
 		}
-		
+
 		catch ( FileNotFoundException e )
 		{
 			log.log( Level.WARNING, "Could not find " + FILENAME + ", using default settings...", e );
 		}
-		
+
 		catch ( IOException e )
 		{
 			log.log( Level.SEVERE, e.getMessage(), e );
 		}
-		
+
 		finally
 		{
 			try
@@ -183,7 +183,7 @@ public class Settings
 				if ( fileStream != null )
 					fileStream.close();
 			}
-			
+
 			catch ( IOException e )
 			{
 				log.log( Level.SEVERE, e.getMessage(), e );

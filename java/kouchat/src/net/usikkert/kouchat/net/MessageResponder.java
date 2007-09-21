@@ -43,25 +43,25 @@ import net.usikkert.kouchat.util.Tools;
 public class MessageResponder implements MessageListener
 {
 	private static Logger log = Logger.getLogger( MessageResponder.class.getName() );
-	
+
 	private Controller controller;
 	private NickDTO me;
 	private Settings settings;
 	private TransferList tList;
 	private WaitingList wList;
 	private NetworkListener listener;
-	
+
 	public MessageResponder( Controller controller, NetworkListener listener )
 	{
 		this.controller = controller;
 		this.listener = listener;
-		
+
 		settings = Settings.getSettings();
 		me = settings.getMe();
 		tList = controller.getTransferList();
 		wList = controller.getWaitingList();
 	}
-	
+
 	@Override
 	public void messageArrived( final int userCode, final String msg, final int color )
 	{
@@ -73,41 +73,41 @@ public class MessageResponder implements MessageListener
 				if ( isAlive() )
 				{
 					int counter = 0;
-					
+
 					while ( wList.isWaitingUser( userCode ) && counter < 40 )
 					{
 						counter++;
-						
+
 						try
 						{
 							sleep( 50 );
 						}
-						
+
 						catch ( InterruptedException e )
 						{
 							log.log( Level.SEVERE, e.getMessage(), e );
 						}
 					}
 				}
-				
+
 				if ( !controller.isNewUser( userCode ) )
 				{
 					listener.showUserMessage( msg, color );
 				}
-				
+
 				else
 				{
 					log.log( Level.SEVERE, "Could not find user: " + userCode );
 				}
 			}
 		};
-		
+
 		if ( controller.isNewUser( userCode ) )
 		{
 			wList.addWaitingUser( userCode );
 			controller.sendExposeMessage();
 			controller.sendGetTopicMessage();
-			
+
 			t.start();
 		}
 
@@ -140,7 +140,7 @@ public class MessageResponder implements MessageListener
 		controller.getNickList().add( newUser );
 		listener.showSystemMessage( "*** " + newUser.getNick() + " logged on from " + newUser.getIpAddress() + "..." );
 	}
-	
+
 	private void userShowedUp( NickDTO newUser )
 	{
 		if ( me.getNick().trim().equalsIgnoreCase( newUser.getNick() ) )
@@ -167,13 +167,13 @@ public class MessageResponder implements MessageListener
 			controller.sendExposeMessage();
 			controller.sendGetTopicMessage();
 		}
-		
+
 		else
 		{
 			if ( time > 0 && nick.length() > 0 )
 			{
 				TopicDTO topic = controller.getTopic();
-				
+
 				if ( newTopic != null )
 				{
 					if ( !newTopic.equals( topic.getTopic() ) && time > topic.getTime() )
@@ -207,7 +207,7 @@ public class MessageResponder implements MessageListener
 				wList.removeWaitingUser( user.getCode() );
 				userShowedUp( user );
 			}
-			
+
 			else
 				controller.getNickList().add( user );
 		}
@@ -236,7 +236,7 @@ public class MessageResponder implements MessageListener
 			controller.sendExposeMessage();
 			controller.sendGetTopicMessage();
 		}
-		
+
 		else
 		{
 			NickDTO user = controller.getNick( userCode );
@@ -304,7 +304,7 @@ public class MessageResponder implements MessageListener
 			controller.sendExposeMessage();
 			controller.sendGetTopicMessage();
 		}
-		
+
 		else
 		{
 			NickDTO user = controller.getNick( userCode );
@@ -347,11 +347,11 @@ public class MessageResponder implements MessageListener
 				{
 					String size = Tools.byteToString( byteSize );
 					listener.showSystemMessage( "*** " + user + " is trying to send the file " + fileName + " [" + size + "]" );
-					
+
 					if ( listener.askFileSave( user, fileName, size ) )
 					{
 						File file = listener.showFileSave( fileName );
-						
+
 						if ( file != null )
 						{
 							NickDTO tempnick = controller.getNick( userCode );
@@ -383,21 +383,21 @@ public class MessageResponder implements MessageListener
 								fileRes.fail();
 							}
 						}
-						
+
 						else
 						{
 							listener.showSystemMessage( "*** You declined to receive " + fileName + " from " + user );
 							controller.sendFileAbort( userCode, fileHash, fileName );
 						}
 					}
-					
+
 					else
 					{
 						listener.showSystemMessage( "*** You declined to receive " + fileName + " from " + user );
 						controller.sendFileAbort( userCode, fileHash, fileName );
 					}
 				}
-				
+
 				else
 				{
 					log.log( Level.SEVERE, "Could not find user: " + user );
@@ -440,7 +440,7 @@ public class MessageResponder implements MessageListener
 					{
 						Thread.sleep( 200 );
 					}
-					
+
 					catch ( InterruptedException e )
 					{
 						log.log( Level.SEVERE, e.getMessage(), e );
@@ -456,7 +456,6 @@ public class MessageResponder implements MessageListener
 						listener.showSystemMessage( "*** Failed to send " + fFileName + " to " + fUser.getNick() );
 					}
 				}
-
 			}
 		}.start();
 	}

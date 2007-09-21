@@ -39,7 +39,7 @@ import net.usikkert.kouchat.util.ByteCounter;
 public class FileReceiver implements FileTransfer
 {	
 	private static Logger log = Logger.getLogger( FileReceiver.class.getName() );
-	
+
 	private NickDTO nick;
 	private int percent;
 	private long transferred, size;
@@ -49,23 +49,23 @@ public class FileReceiver implements FileTransfer
 	private Direction direction;
 	private ByteCounter bCounter;
 	private ServerSocket sSock;
-	
+
 	public FileReceiver( NickDTO nick, File file, long size )
 	{
 		this.nick = nick;
 		this.file = file;
 		this.size = size;
-		
+
 		direction = Direction.RECEIVE;
 		bCounter = new ByteCounter();
 	}
-	
+
 	public int startServer() throws ServerException
 	{
 		int port = 50123;
 		boolean done = false;
 		int counter = 0;
-		
+
 		while ( !done && counter < 10 )
 		{
 			try
@@ -75,36 +75,36 @@ public class FileReceiver implements FileTransfer
 				tt.start();
 				done = true;
 			}
-			
+
 			catch ( IOException e )
 			{
 				log.log( Level.WARNING, "Could not open " + port, e );
 				port++;
 			}
-			
+
 			finally
 			{
 				counter++;
 			}
 		}
-		
+
 		if ( !done )
 			throw new ServerException( "Could not start server" );
-		
+
 		return port;
 	}
-	
+
 	public boolean transfer()
 	{
 		listener.statusConnecting();
-		
+
 		received = false;
 		cancel = false;
-		
+
 		Socket sock = null;
 		FileOutputStream fos = null;
 		InputStream is = null;
-		
+
 		try
 		{
 			if ( sSock != null )
@@ -113,7 +113,7 @@ public class FileReceiver implements FileTransfer
 				listener.statusTransferring();
 				fos = new FileOutputStream( file );
 				is = sock.getInputStream();
-			
+
 				byte b[] = new byte[1024];
 				transferred = 0;
 				percent = 0;
@@ -121,7 +121,7 @@ public class FileReceiver implements FileTransfer
 				int tmpPercent = 0;
 				int transCounter = 0;
 				bCounter.reset();
-				
+
 				while ( ( tmpTransferred = is.read( b ) ) != -1 && !cancel )
 				{
 					fos.write( b, 0, tmpTransferred );
@@ -129,7 +129,7 @@ public class FileReceiver implements FileTransfer
 					percent = (int) ( ( transferred * 100 ) / size );
 					bCounter.update( tmpTransferred );
 					transCounter++;
-					
+
 					if ( percent > tmpPercent || transCounter >= 250 )
 					{
 						transCounter = 0;
@@ -137,26 +137,26 @@ public class FileReceiver implements FileTransfer
 						listener.transferUpdate();
 					}
 				}
-				
+
 				if ( !cancel && transferred == size )
 				{
 					received = true;
 					listener.statusCompleted();
 				}
-				
+
 				else
 				{
 					listener.statusFailed();
 				}
 			}
 		}
-		
+
 		catch ( IOException e )
 		{
 			log.log( Level.SEVERE, e.getMessage(), e );
 			listener.statusFailed();
 		}
-		
+
 		finally
 		{
 			try
@@ -164,45 +164,45 @@ public class FileReceiver implements FileTransfer
 				if ( is != null )
 					is.close();
 			}
-			
+
 			catch ( IOException e )
 			{
 				log.log( Level.SEVERE, e.getMessage(), e );
 			}
-			
+
 			try
 			{
 				if ( fos != null )
 					fos.flush();
 			}
-			
+
 			catch ( IOException e )
 			{
 				log.log( Level.SEVERE, e.getMessage(), e );
 			}
-			
+
 			try
 			{
 				if ( fos != null )
 					fos.close();
 			}
-			
+
 			catch ( IOException e )
 			{
 				log.log( Level.SEVERE, e.getMessage(), e );
 			}
-			
+
 			try
 			{
 				if ( sock != null )
 					sock.close();
 			}
-			
+
 			catch ( IOException e )
 			{
 				log.log( Level.SEVERE, e.getMessage(), e );
 			}
-			
+
 			try
 			{
 				if ( sSock != null )
@@ -211,13 +211,13 @@ public class FileReceiver implements FileTransfer
 					sSock = null;
 				}
 			}
-			
+
 			catch ( IOException e )
 			{
 				log.log( Level.SEVERE, e.getMessage(), e );
 			}
 		}
-		
+
 		return received;
 	}
 
@@ -226,7 +226,7 @@ public class FileReceiver implements FileTransfer
 	{
 		return cancel;
 	}
-	
+
 	@Override
 	public void cancel()
 	{
@@ -262,25 +262,25 @@ public class FileReceiver implements FileTransfer
 	{
 		return transferred;
 	}
-	
+
 	@Override
 	public long getFileSize()
 	{
 		return size;
 	}
-	
+
 	@Override
 	public Direction getDirection()
 	{
 		return direction;
 	}
-	
+
 	@Override
 	public long getSpeed()
 	{
 		return bCounter.getBytesPerSec();
 	}
-	
+
 	public void fail()
 	{
 		listener.statusFailed();
@@ -292,7 +292,7 @@ public class FileReceiver implements FileTransfer
 		this.listener = listener;
 		listener.statusWaiting();
 	}
-	
+
 	// No point in waiting for a connection forever
 	private class TimeoutThread extends Thread
 	{
@@ -302,7 +302,7 @@ public class FileReceiver implements FileTransfer
 			{
 				sleep( 15000 );
 			}
-			
+
 			catch ( InterruptedException e )
 			{
 				log.log( Level.SEVERE, e.getMessage(), e );

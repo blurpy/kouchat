@@ -29,20 +29,20 @@ import net.usikkert.kouchat.event.IdleListener;
 public class IdleThread extends Thread
 {
 	private static Logger log = Logger.getLogger( IdleThread.class.getName() );
-	
+
 	private boolean run;
 	private Controller controller;
 	private IdleListener listener;
 	private NickList nickList;
 	private NickDTO me;
-	
+
 	public IdleThread( Controller controller )
 	{
 		this.controller = controller;
-		
+
 		nickList = controller.getNickList();
 		me = Settings.getSettings().getMe();
-		
+
 		run = true;
 	}
 
@@ -53,15 +53,15 @@ public class IdleThread extends Thread
 			try
 			{
 				sleep( 15000 );
-				
+
 				controller.sendIdleMessage();
-				
+
 				if ( me.getLastIdle() < System.currentTimeMillis() - 20000 )
 				{
 					if ( controller.restartMsgReceiver() )
 						me.setLastIdle( System.currentTimeMillis() );
 				}
-				
+
 				for ( int i = 0; i < nickList.size(); i++ )
 				{
 					NickDTO temp = nickList.get( i );
@@ -69,15 +69,15 @@ public class IdleThread extends Thread
 					if ( temp.getCode() != me.getCode() && temp.getLastIdle() < System.currentTimeMillis() - 120000 )
 					{
 						nickList.remove( temp );
-						
+
 						if ( listener != null )
 							listener.userTimedOut( temp.getNick() );
-						
+
 						i--;
 					}
 				}
 			}
-			
+
 			catch ( InterruptedException e )
 			{
 				log.log( Level.SEVERE, e.getMessage(), e );
@@ -85,7 +85,7 @@ public class IdleThread extends Thread
 			}
 		}
 	}
-	
+
 	public void stopThread()
 	{
 		run = false;

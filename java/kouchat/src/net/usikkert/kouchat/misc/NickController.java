@@ -26,7 +26,7 @@ public class NickController
 	private NickList nickList;
 	private NickDTO me;
 	private Settings settings;
-	
+
 	public NickController()
 	{
 		settings = Settings.getSettings();
@@ -34,31 +34,31 @@ public class NickController
 		me = settings.getMe();
 		nickList.add( me );
 	}
-	
+
 	public NickDTO getNick( int code )
 	{
 		NickDTO dto = null;
-		
+
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
 			NickDTO temp = nickList.get( i );
-			
+
 			if ( temp.getCode() == code )
 			{
 				dto = temp;
 				break;
 			}
 		}
-		
+
 		return dto;
 	}
-	
+
 	public void updateLastIdle( int code, long lastIdle )
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
 			NickDTO temp = nickList.get( i );
-			
+
 			if ( temp.getCode() == code )
 			{
 				temp.setLastIdle( lastIdle );
@@ -67,13 +67,13 @@ public class NickController
 			}
 		}
 	}
-	
+
 	public void changeNick( int code, String nick )
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
 			NickDTO temp = nickList.get( i );
-			
+
 			if ( temp.getCode() == code )
 			{
 				temp.setNick( nick );
@@ -82,13 +82,13 @@ public class NickController
 			}
 		}
 	}
-	
+
 	public void changeIP( int code, String ip )
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
 			NickDTO temp = nickList.get( i );
-			
+
 			if ( temp.getCode() == code )
 			{
 				temp.setIpAddress( ip );
@@ -97,13 +97,13 @@ public class NickController
 			}
 		}
 	}
-	
+
 	public void changeAwayStatus( int code, boolean away, String awaymsg )
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
 			NickDTO temp = nickList.get( i );
-			
+
 			if ( temp.getCode() == code )
 			{
 				temp.setAway( away );
@@ -113,13 +113,13 @@ public class NickController
 			}
 		}
 	}
-	
+
 	public void changeWriting( int code, boolean writing )
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
 			NickDTO temp = nickList.get( i );
-			
+
 			if ( temp.getCode() == code )
 			{
 				temp.setWriting( writing );
@@ -128,40 +128,40 @@ public class NickController
 			}
 		}
 	}
-	
+
 	public boolean isNickInUse( String nick )
 	{
 		boolean inUse = false;
-		
+
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
 			NickDTO temp = nickList.get( i );
-			
+
 			if ( temp.getNick().equalsIgnoreCase( nick ) && !temp.isMe() )
 			{
 				inUse = true;
 				break;
 			}
 		}
-		
+
 		return inUse;
 	}
-	
+
 	public boolean isNewUser( int code )
 	{
 		boolean newUser = true;
-		
+
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
 			NickDTO temp = nickList.get( i );
-			
+
 			if ( temp.getCode() == code )
 			{
 				newUser = false;
 				break;
 			}
 		}
-		
+
 		return newUser;
 	}
 

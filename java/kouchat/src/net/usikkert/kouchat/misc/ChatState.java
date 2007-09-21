@@ -21,20 +21,13 @@
 
 package net.usikkert.kouchat.misc;
 
-import java.io.File;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class ChatState
 {
 	private TopicDTO topic;
 	private boolean wrote;
-	private List<File> fileList;
-	
+
 	public ChatState()
 	{
-		fileList = new ArrayList<File>();
 		topic = new TopicDTO();
 		wrote = false;
 	}
@@ -52,10 +45,5 @@ public class ChatState
 	public TopicDTO getTopic()
 	{
 		return topic;
-	}
-
-	public List<File> getFileList()
-	{
-		return fileList;
 	}
 }

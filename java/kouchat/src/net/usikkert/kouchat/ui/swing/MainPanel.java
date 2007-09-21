@@ -48,7 +48,7 @@ import net.usikkert.kouchat.util.Tools;
 public class MainPanel extends JPanel implements ActionListener, CaretListener
 {
 	private static Logger log = Logger.getLogger( MainPanel.class.getName() );
-	
+
 	private JScrollPane chatSP;
 	private JTextPane chatTP;
 	private MutableAttributeSet chatAttr;
@@ -57,13 +57,15 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 	private SidePanel sideP;
 	private Settings settings;
 	private Mediator mediator;
-	
+
 	public MainPanel( Mediator mediator )
 	{
 		this.mediator = mediator;
-		
+		mediator.setMainP( this );
+		settings = Settings.getSettings();
+
 		setLayout( new BorderLayout( 2, 2 ) );
-		
+
 		chatTP = new JTextPane();
 		chatTP.setEditable( false );
 		chatSP = new JScrollPane( chatTP );
@@ -73,17 +75,14 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 		msgTF = new JTextField();
 		msgTF.addActionListener( this );
 		msgTF.addCaretListener( this );
-		
+
 		add( chatSP, BorderLayout.CENTER );
 		add( sideP, BorderLayout.EAST );
 		add( msgTF, BorderLayout.SOUTH );
-		
+
 		setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
-		
-		mediator.setMainP( this );
-		settings = Settings.getSettings();
 	}
-	
+
 	private void appendToChat( String text, Color color )
 	{
 		try
@@ -92,38 +91,38 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 			chatDoc.insertString( chatDoc.getLength(), Tools.getTime() + text + "\n", chatAttr );
 			chatTP.setCaretPosition( chatDoc.getLength() );
 		}
-		
+
 		catch ( BadLocationException e )
 		{
 			log.log( Level.SEVERE, e.getMessage(), e );
 		}
 	}
-	
+
 	public void appendSystemMessage( String message )
 	{
 		appendToChat( message, new Color( settings.getSysColor() ) );
 	}
-	
+
 	public void appendOwnMessage( String message )
 	{
 		appendToChat( message, new Color( settings.getOwnColor() ) );
 	}
-	
+
 	public void appendUserMessage( String message, int color )
 	{
 		appendToChat( message, new Color( color ) );
 	}
-	
+
 	public void clearChat()
 	{
 		chatTP.setText( "" );
 	}
-	
+
 	public JTextField getMsgTF()
 	{
 		return msgTF;
 	}
-	
+
 	public void caretUpdate( CaretEvent e )
 	{
 		mediator.updateWriting();

@@ -29,7 +29,7 @@ import net.usikkert.kouchat.misc.NickDTO;
 public class TransferList
 {
 	private List<FileSender> senders;
-	
+
 	public TransferList()
 	{
 		senders = new ArrayList<FileSender>();
@@ -48,7 +48,7 @@ public class TransferList
 	public FileSender getFileSender( NickDTO user, String fileName, int fileHash )
 	{
 		FileSender fileSender = null;
-		
+
 		for ( FileSender fs : senders )
 		{
 			if ( fs.getNick() == user && fs.getFileName().equals( fileName ) && fs.getFile().hashCode() == fileHash )
@@ -57,7 +57,7 @@ public class TransferList
 				break;
 			}
 		}
-		
+
 		return fileSender;
 	}
 }

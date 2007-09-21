@@ -30,7 +30,7 @@ import net.usikkert.kouchat.misc.NickList;
 public class NickListModel extends AbstractListModel implements NickListListener
 {
 	private NickList nickList;
-	
+
 	public void setNickList( NickList nickList )
 	{
 		this.nickList = nickList;
@@ -41,7 +41,7 @@ public class NickListModel extends AbstractListModel implements NickListListener
 	{
 		return nickList.get( index );
 	}
-	
+
 	public int getSize()
 	{
 		return nickList.size();

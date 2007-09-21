@@ -27,7 +27,7 @@ public class ServerException extends Exception
 	{
 		super( msg, exception );
 	}
-	
+
 	public ServerException( String msg )
 	{
 		super( msg );

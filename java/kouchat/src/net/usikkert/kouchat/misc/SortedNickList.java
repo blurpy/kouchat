@@ -31,7 +31,7 @@ public class SortedNickList implements NickList
 {
 	private List<NickDTO> nickList;
 	private List<NickListListener> listeners;
-	
+
 	public SortedNickList()
 	{
 		nickList = new ArrayList<NickDTO>();
@@ -41,13 +41,13 @@ public class SortedNickList implements NickList
 	public boolean add( NickDTO nick )
 	{
 		boolean success = nickList.add( nick );
-		
+
 		if ( success )
 		{
 			Collections.sort( nickList );
 			fireNickAdded( nickList.size() -1 );
 		}
-		
+
 		return success;
 	}
 
@@ -65,16 +65,16 @@ public class SortedNickList implements NickList
 	{
 		NickDTO nick = nickList.remove( pos );
 		fireNickRemoved( pos );
-		
+
 		return nick;
 	}
-	
+
 	public boolean remove( NickDTO nick )
 	{
 		int pos = nickList.indexOf( nick );
 		boolean success = nickList.remove( nick );
 		fireNickRemoved( pos );
-		
+
 		return success;
 	}
 
@@ -83,7 +83,7 @@ public class SortedNickList implements NickList
 		NickDTO oldNick = nickList.set( pos, nick );
 		Collections.sort( nickList );
 		fireNickChanged( pos );
-		
+
 		return oldNick;
 	}
 
@@ -91,17 +91,17 @@ public class SortedNickList implements NickList
 	{
 		return nickList.size();
 	}
-	
+
 	public void addNickListListener( NickListListener listener )
 	{
 		listeners.add( listener );
 	}
-	
+
 	public void removeNickListListener( NickListListener listener )
 	{
 		listeners.remove( listener );
 	}
-	
+
 	private void fireNickAdded( int pos )
 	{
 		for ( NickListListener listener : listeners )
@@ -109,7 +109,7 @@ public class SortedNickList implements NickList
 			listener.nickAdded( pos );
 		}
 	}
-	
+
 	private void fireNickChanged( int pos )
 	{
 		for ( NickListListener listener : listeners )
@@ -117,7 +117,7 @@ public class SortedNickList implements NickList
 			listener.nickChanged( pos );
 		}
 	}
-	
+
 	private void fireNickRemoved( int pos )
 	{
 		for ( NickListListener listener : listeners )

@@ -42,23 +42,24 @@ import net.usikkert.kouchat.Constants;
 public class SysTray implements ActionListener, MouseListener
 {
 	private static Logger log = Logger.getLogger( SysTray.class.getName() );
-	
+
 	private SystemTray sysTray;
 	private TrayIcon trayIcon;
 	private Image cow_icon_normal, cow_icon_normal_activity, cow_icon_away, cow_icon_away_activity;
 	private PopupMenu menu;
 	private MenuItem quitMI;
 	private Mediator mediator;
-	
+
 	public SysTray( Mediator mediator )
 	{
 		this.mediator = mediator;
-		
+		mediator.setSysTray( this );
+
 		cow_icon_normal = new ImageIcon( getClass().getResource( "/icons/kou_normal.png" ) ).getImage();
 		cow_icon_normal_activity = new ImageIcon( getClass().getResource( "/icons/kou_normal_activity.png" ) ).getImage();
 		cow_icon_away = new ImageIcon( getClass().getResource( "/icons/kou_away.png" ) ).getImage();
 		cow_icon_away_activity = new ImageIcon( getClass().getResource( "/icons/kou_away_activity.png" ) ).getImage();
-		
+
 		menu = new PopupMenu();
 		quitMI = new MenuItem( "Quit" );
 		quitMI.addActionListener( this );
@@ -68,40 +69,38 @@ public class SysTray implements ActionListener, MouseListener
 		trayIcon.setImageAutoSize( true );
 		trayIcon.addMouseListener( this );
 		trayIcon.setToolTip( Constants.APP_NAME + " v" + Constants.APP_VERSION + " - (Not connected)" );
-		
+
 		try
 		{
 			sysTray.add( trayIcon );
 		}
-		
+
 		catch ( AWTException e )
 		{
 			log.log( Level.SEVERE, e.getMessage(), e );
 		}
-		
-		mediator.setSysTray( this );
 	}
-	
+
 	public void setAwayState()
 	{
 		trayIcon.setImage( cow_icon_away );
 	}
-	
+
 	public void setAwayActivityState()
 	{
 		trayIcon.setImage( cow_icon_away_activity );
 	}
-	
+
 	public void setNormalState()
 	{
 		trayIcon.setImage( cow_icon_normal );
 	}
-	
+
 	public void setNormalActivityState()
 	{
 		trayIcon.setImage( cow_icon_normal_activity );
 	}
-	
+
 	public void setToolTip( String toolTip )
 	{
 		trayIcon.setToolTip( toolTip );
@@ -123,10 +122,10 @@ public class SysTray implements ActionListener, MouseListener
 		{
 			if ( trayIcon.getImage() == cow_icon_normal_activity )
 				trayIcon.setImage( cow_icon_normal );
-			
+
 			else if ( trayIcon.getImage() == cow_icon_away_activity )
 				trayIcon.setImage( cow_icon_away );
-			
+
 			mediator.showWindow();
 		}
 	}

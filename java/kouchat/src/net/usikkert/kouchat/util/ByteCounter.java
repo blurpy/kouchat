@@ -24,7 +24,7 @@ package net.usikkert.kouchat.util;
 public class ByteCounter
 {
 	private long lastTime, spentTime, bytesPerSec, bytesPerSecCounter;
-	
+
 	public void reset()
 	{
 		lastTime = System.currentTimeMillis();
@@ -32,14 +32,14 @@ public class ByteCounter
 		bytesPerSec = 0;
 		bytesPerSecCounter = 0;
 	}
-	
+
 	public void update( long bytes )
 	{
 		long currentTime = System.currentTimeMillis();
 		spentTime += currentTime - lastTime;
 		lastTime = currentTime;
 		bytesPerSecCounter += bytes;
-		
+
 		if ( spentTime >= 1000 )
 		{
 			spentTime %= 1000;
@@ -47,7 +47,7 @@ public class ByteCounter
 			bytesPerSecCounter = 0;
 		}
 	}
-	
+
 	public long getBytesPerSec()
 	{
 		return bytesPerSec;

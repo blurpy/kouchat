@@ -36,11 +36,12 @@ public class MenuBar extends JMenuBar implements ActionListener
 	private JMenu fileMenu, toolsMI, helpMenu;
 	private JMenuItem minimizeMI, quitMI, clearMI, awayMI, topicMI, settingsMI, aboutMI;
 	private Mediator mediator;
-	
+
 	public MenuBar( Mediator mediator )
 	{
 		this.mediator = mediator;
-		
+		mediator.setMenuBar( this );
+
 		fileMenu = new JMenu( "File" );
 		fileMenu.setMnemonic( 'F' );
 		minimizeMI = new JMenuItem( "Minimize" );
@@ -49,11 +50,11 @@ public class MenuBar extends JMenuBar implements ActionListener
 		quitMI = new JMenuItem( "Quit" );
 		quitMI.setMnemonic( 'Q' );
 		quitMI.addActionListener( this );
-		
+
 		fileMenu.add( minimizeMI );
 		fileMenu.addSeparator();
 		fileMenu.add( quitMI );
-		
+
 		toolsMI = new JMenu( "Tools" );
 		toolsMI.setMnemonic( 'T' );
 		clearMI = new JMenuItem( "Clear chat" );
@@ -68,28 +69,26 @@ public class MenuBar extends JMenuBar implements ActionListener
 		settingsMI = new JMenuItem( "Settings" );
 		settingsMI.setMnemonic( 'S' );
 		settingsMI.addActionListener( this );
-		
+
 		toolsMI.add( clearMI );
 		toolsMI.add( awayMI );
 		toolsMI.add( topicMI );
 		toolsMI.addSeparator();
 		toolsMI.add( settingsMI );
-		
+
 		helpMenu = new JMenu( "Help" );
 		helpMenu.setMnemonic( 'H' );
 		aboutMI = new JMenuItem( "About" );
 		aboutMI.setMnemonic( 'A' );
 		aboutMI.addActionListener( this );
-		
+
 		helpMenu.add( aboutMI );
-		
+
 		add( fileMenu );
 		add( toolsMI );
 		add( helpMenu );
-		
-		mediator.setMenuBar( this );
 	}
-	
+
 	public void setAwayState( boolean away )
 	{
 		settingsMI.setEnabled( !away );
@@ -103,32 +102,32 @@ public class MenuBar extends JMenuBar implements ActionListener
 		{
 			mediator.quit();
 		}
-		
+
 		else if ( e.getSource() == settingsMI )
 		{
 			mediator.showSettings();
 		}
-		
+
 		else if ( e.getSource() == minimizeMI )
 		{
 			mediator.minimize();
 		}
-		
+
 		else if ( e.getSource() == awayMI )
 		{
 			mediator.setAway();
 		}
-		
+
 		else if ( e.getSource() == topicMI )
 		{
 			mediator.setTopic();
 		}
-		
+
 		else if ( e.getSource() == clearMI )
 		{
 			mediator.clearChat();
 		}
-		
+
 		else if ( e.getSource() == aboutMI )
 		{
 			JOptionPane.showMessageDialog( null, Constants.APP_NAME + " v" + Constants.APP_VERSION

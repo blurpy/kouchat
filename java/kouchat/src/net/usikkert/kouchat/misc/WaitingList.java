@@ -27,22 +27,22 @@ import java.util.List;
 public class WaitingList
 {
 	private List<Integer> users;
-	
+
 	public WaitingList()
 	{
 		users = new ArrayList<Integer>();
 	}
-	
+
 	public void addWaitingUser( int userCode )
 	{
 		users.add( userCode );
 	}
-	
+
 	public boolean isWaitingUser( int userCode )
 	{
 		return users.contains( userCode );
 	}
-	
+
 	public void removeWaitingUser( int userCode )
 	{
 		users.remove( new Integer( userCode ) );

@@ -55,21 +55,21 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 	private ButtonPanel buttonP;
 	private KouChatFrame gui;
 	private MainPanel mainP;
-	
+
 	private Controller controller;
 	private Settings settings;
 	private NickDTO me;
-	
+
 	public GUIMediator()
 	{
 		controller = new Controller( this );
 		controller.registerDayListener( this );
-		controller.addIdleListener( this );
-		
+		controller.registerIdleListener( this );
+
 		settings = Settings.getSettings();
 		me = settings.getMe();
 	}
-	
+
 	@Override
 	public void minimize()
 	{
@@ -201,7 +201,7 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 
 			if ( controller.getTopic().getTopic().length() > 0 )
 				title += " - Topic: " + controller.getTopic();
-			
+
 			gui.setTitle( title );
 			sysTray.setToolTip( tooltip );
 		}
@@ -331,19 +331,19 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 			}
 		}
 	}
-	
+
 	@Override
 	public void dayChanged( Date date )
 	{
 		mainP.appendSystemMessage( "*** Day changed to " + Tools.dateToString( null, "EEEE, d MMMM yyyy" ) );
 	}
-	
+
 	@Override
 	public void userTimedOut( String nick )
 	{
 		mainP.appendSystemMessage( "*** " + nick + " timed out..." );
 	}
-	
+
 	@Override
 	public void setButtonP( ButtonPanel buttonP )
 	{
@@ -386,7 +386,7 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 	{
 		this.sysTray = sysTray;
 	}
-	
+
 	@Override
 	public void showUserMessage( String message, int color )
 	{
@@ -402,13 +402,13 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 			sysTray.setNormalActivityState();
 		}
 	}
-	
+
 	@Override
 	public void showSystemMessage( String message )
 	{
 		mainP.appendSystemMessage( message );
 	}
-	
+
 	@Override
 	public boolean askFileSave( String user, String fileName, String size )
 	{
@@ -418,13 +418,13 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0] );
 
 		boolean answer = false;
-		
+
 		if ( choice == JOptionPane.YES_OPTION )
 			answer = true;
-		
+
 		return answer;
 	}
-	
+
 	@Override
 	public File showFileSave( String fileName )
 	{
@@ -461,10 +461,10 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 				}
 			}
 		}
-		
+
 		return returnFile;
 	}
-	
+
 	@Override
 	public void showTransfer( FileReceiver fileRes )
 	{

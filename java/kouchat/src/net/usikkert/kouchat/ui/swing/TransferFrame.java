@@ -87,7 +87,7 @@ public class TransferFrame extends JFrame implements FileTransferListener
 
 		GroupLayout layout = new GroupLayout( getContentPane() );
 		getContentPane().setLayout( layout );
-		
+
 		// Layout generated in NetBeans 6
 		layout.setHorizontalGroup(
 				layout.createParallelGroup( GroupLayout.Alignment.LEADING )
@@ -117,7 +117,7 @@ public class TransferFrame extends JFrame implements FileTransferListener
 																				.addComponent( dest2L ) ) ) )
 																				.addContainerGap() )
 		);
-		
+
 		layout.setVerticalGroup(
 				layout.createParallelGroup( GroupLayout.Alignment.LEADING )
 				.addGroup( layout.createSequentialGroup()
@@ -147,7 +147,7 @@ public class TransferFrame extends JFrame implements FileTransferListener
 																.addComponent( cancelB )
 																.addContainerGap() )
 		);
-		
+
 		pack();
 	}              
 
@@ -155,12 +155,12 @@ public class TransferFrame extends JFrame implements FileTransferListener
 	public void statusCompleted()
 	{
 		status2L.setForeground( new Color( 0, 176, 0 ) );
-		
+
 		if ( fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE )
 			status2L.setText( "Receiving complete..." );
 		else if ( fileTransfer.getDirection() == FileTransfer.Direction.SEND )
 			status2L.setText( "Sending complete..." );
-		
+
 		cancelB.setText( "Close" );
 	}
 
@@ -174,12 +174,12 @@ public class TransferFrame extends JFrame implements FileTransferListener
 	public void statusFailed()
 	{
 		status2L.setForeground( Color.RED );
-		
+
 		if ( fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE )
 			status2L.setText( "Receiving failed..." );
 		else if ( fileTransfer.getDirection() == FileTransfer.Direction.SEND )
 			status2L.setText( "Sending failed..." );
-		
+
 		cancelB.setText( "Close" );
 	}
 
@@ -198,30 +198,30 @@ public class TransferFrame extends JFrame implements FileTransferListener
 		NickDTO me = Settings.getSettings().getMe();
 		NickDTO other = fileTransfer.getNick();
 		fileSize = Tools.byteToString( fileTransfer.getFileSize() );
-		
+
 		status2L.setText( "Waiting..." );
-		
+
 		if ( fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE )
 		{
 			source2L.setText( other.getNick() + " (" + other.getIpAddress() + ")" );
 			dest2L.setText( me.getNick() + " (" + me.getIpAddress() + ")" );
 		}
-		
+
 		else if ( fileTransfer.getDirection() == FileTransfer.Direction.SEND )
 		{
 			dest2L.setText( other.getNick() + " (" + other.getIpAddress() + ")" );
 			source2L.setText( me.getNick() + " (" + me.getIpAddress() + ")" );
 		}
-		
+
 		String fileName = fileTransfer.getFileName();
-		
+
 		if ( fileName.length() >=42 )
 		{
 			String shortName = fileName.substring( 0, 40 ) + "...";
 			file2L.setText( shortName );
 			file2L.setToolTipText( fileName );
 		}
-		
+
 		else
 		{
 			file2L.setText( fileName );

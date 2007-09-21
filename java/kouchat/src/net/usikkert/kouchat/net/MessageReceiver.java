@@ -37,13 +37,13 @@ public class MessageReceiver extends Thread
 {
 	private static Logger log = Logger.getLogger( MessageReceiver.class.getName() );
 	private static final int BYTESIZE = 1024;
-	
+
 	private MulticastSocket mcSocket;
 	private InetAddress address;
 	private ReceiverListener listener;
-	
+
 	private boolean run;
-	
+
 	public MessageReceiver()
 	{
 		try
@@ -53,13 +53,13 @@ public class MessageReceiver extends Thread
 			mcSocket.joinGroup( address );
 			run = true;
 		}
-		
+
 		catch ( IOException e )
 		{
 			log.log( Level.SEVERE, e.getMessage(), e );
 		}
 	}
-	
+
 	public void run()
 	{
 		while ( run )
@@ -67,22 +67,22 @@ public class MessageReceiver extends Thread
 			try
 			{
 				DatagramPacket packet = new DatagramPacket( new byte[BYTESIZE], BYTESIZE );
-				
+
 				mcSocket.receive( packet );
 				String ip = packet.getAddress().getHostAddress();
 				String message = new String( packet.getData(), "ISO-8859-15" ).trim();
-				
+
 				if ( listener != null )
 					listener.messageArrived( message, ip );
 			}
-			
+
 			catch ( IOException e )
 			{
 				log.log( Level.WARNING, e.getMessage() );
 			}
 		}
 	}
-	
+
 	public void stopReceiver()
 	{
 		try
@@ -91,33 +91,33 @@ public class MessageReceiver extends Thread
 			mcSocket.leaveGroup( address );
 			mcSocket.close();
 		}
-		
+
 		catch ( IOException e )
 		{
 			log.log( Level.SEVERE, e.getMessage(), e );
 		}
 	}
-	
+
 	public boolean restartReceiver()
 	{
 		log.log( Level.WARNING, "Restarting receiver..." );
 		boolean success = false;
-		
+
 		try
 		{
 			mcSocket.leaveGroup( address );
 			mcSocket.joinGroup( address );
 			success = true;
 		}
-		
+
 		catch ( IOException e )
 		{
 			log.log( Level.WARNING, e.getMessage() );
 		}
-		
+
 		return success;
 	}
-	
+
 	public void registerReceiverListener( ReceiverListener listener )
 	{
 		this.listener = listener;

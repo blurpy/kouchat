@@ -27,7 +27,7 @@ public class NickDTO implements Comparable<NickDTO>
 	private int code;
 	private long lastIdle;
 	private boolean writing, away, me;
-	
+
 	public NickDTO( String nick, int code )
 	{
 		this.nick = nick;
@@ -39,7 +39,7 @@ public class NickDTO implements Comparable<NickDTO>
 		ipAddress = "";
 		me = false;
 	}
-	
+
 	public boolean isMe()
 	{
 		return me;
@@ -54,27 +54,27 @@ public class NickDTO implements Comparable<NickDTO>
 	{
 		return code;
 	}
-	
+
 	public void setCode( int code )
 	{
 		this.code = code;
 	}
-	
+
 	public String getNick()
 	{
 		return nick;
 	}
-	
+
 	public void setNick( String nick )
 	{
 		this.nick = nick;
 	}
-	
+
 	public long getLastIdle()
 	{
 		return lastIdle;
 	}
-	
+
 	public void setLastIdle( long lastIdle )
 	{
 		this.lastIdle = lastIdle;
@@ -124,7 +124,7 @@ public class NickDTO implements Comparable<NickDTO>
 	{
 		return nick;
 	}
-	
+
 	@Override
 	public int compareTo( NickDTO compNick )
 	{

@@ -41,7 +41,7 @@ public class Controller
 	private TransferList tList;
 	private WaitingList wList;
 	private DayTimer dayTimer;
-	
+
 	public Controller( NetworkListener listener )
 	{
 		Runtime.getRuntime().addShutdownHook( new Thread()
@@ -51,7 +51,7 @@ public class Controller
 				logOff();
 			}
 		} );
-		
+
 		nickController = new NickController();
 		chatState = new ChatState();
 		idleThread = new IdleThread( this );
@@ -62,69 +62,69 @@ public class Controller
 		msgParser = new MessageParser( msgResponder );
 		messages = new Messages();
 	}
-	
+
 	public TopicDTO getTopic()
 	{
 		return chatState.getTopic();
 	}
-	
+
 	public NickList getNickList()
 	{
 		return nickController.getNickList();
 	}
-	
+
 	public boolean isWrote()
 	{
 		return chatState.isWrote();
 	}
-	
+
 	public void updateLastIdle( int code, long lastIdle )
 	{
 		nickController.updateLastIdle( code, lastIdle );
 	}
-	
+
 	public void changeWriting( int code, boolean writing )
 	{
 		nickController.changeWriting( code, writing );
 		NickDTO me = Settings.getSettings().getMe();
-		
+
 		if ( code == me.getCode() )
 		{
 			chatState.setWrote( writing );
-			
+
 			if ( writing )
 				messages.sendWritingMessage();
 			else
 				messages.sendStoppedWritingMessage();
 		}
 	}
-	
+
 	public boolean isNickInUse( String nick )
 	{
 		return nickController.isNickInUse( nick );
 	}
-	
+
 	public boolean isNewUser( int code )
 	{
 		return nickController.isNewUser( code );
 	}
-	
+
 	public void changeNick( int code, String nick )
 	{
 		nickController.changeNick( code, nick );
 		NickDTO me = Settings.getSettings().getMe();
-		
+
 		if ( code == me.getCode() )
 		{
 			messages.sendNickMessage();
 		}
 	}
-	
+
 	public NickDTO getNick( int code )
 	{
 		return nickController.getNick( code );
 	}
-	
+
 	public void logOn()
 	{
 		messages.sendLogonMessage();
@@ -132,7 +132,7 @@ public class Controller
 		messages.sendGetTopicMessage();
 		idleThread.start();
 	}
-	
+
 	public void logOff()
 	{
 		idleThread.stopThread();
@@ -140,67 +140,67 @@ public class Controller
 		messages.stop();
 		msgParser.stop();
 	}
-	
+
 	public void sendExposeMessage()
 	{
 		messages.sendExposeMessage();
 	}
-	
+
 	public void sendExposingMessage()
 	{
 		messages.sendExposingMessage();
 	}
-	
+
 	public void sendGetTopicMessage()
 	{
 		messages.sendGetTopicMessage();
 	}
-	
+
 	public void sendIdleMessage()
 	{
 		messages.sendIdleMessage();
 	}
-	
+
 	public void sendChatMessage( String msg )
 	{
 		messages.sendChatMessage( msg );
 	}
-	
+
 	public void sendTopicMessage( TopicDTO topic )
 	{
 		messages.sendTopicMessage( topic );
 	}
-	
+
 	public void sendAwayMessage()
 	{
 		messages.sendAwayMessage();
 	}
-	
+
 	public void sendBackMessage()
 	{
 		messages.sendBackMessage();
 	}
-	
+
 	public void sendNickCrashMessage( String nick )
 	{
 		messages.sendNickCrashMessage( nick );
 	}
-	
+
 	public void sendFileAbort( int msgCode, int fileHash, String fileName )
 	{
 		messages.sendFileAbort( msgCode, fileHash, fileName );
 	}
-	
+
 	public void sendFileAccept( int msgCode, int port, int fileHash, String fileName )
 	{
 		messages.sendFileAccept( msgCode, port, fileHash, fileName );
 	}
-	
+
 	public void sendFile( int sendToUserCode, long fileLength, int fileHash, String fileName )
 	{
 		messages.sendFile( sendToUserCode, fileLength, fileHash, fileName );
 	}
-	
+
 	public void changeAwayStatus( int code, boolean away, String awaymsg )
 	{
 		nickController.changeAwayStatus( code, away, awaymsg );
@@ -215,17 +215,17 @@ public class Controller
 	{
 		return wList;
 	}
-	
+
 	public void registerDayListener( DayListener listener )
 	{
 		dayTimer.registerDayListener( listener );
 	}
-	
-	public void addIdleListener( IdleListener listener )
+
+	public void registerIdleListener( IdleListener listener )
 	{
 		idleThread.registerIdleListener( listener );
 	}
-	
+
 	public boolean restartMsgReceiver()
 	{
 		return msgParser.restart();

@@ -35,10 +35,10 @@ import net.usikkert.kouchat.Constants;
 public class MessageSender
 {
 	private static Logger log = Logger.getLogger( MessageSender.class.getName() );
-	
+
 	private MulticastSocket mcSocket;
 	private InetAddress address;
-	
+
 	public MessageSender()
 	{
 		try
@@ -47,13 +47,13 @@ public class MessageSender
 			address = InetAddress.getByName( Constants.NETWORK_IP );
 			mcSocket.joinGroup( address );
 		}
-		
+
 		catch ( IOException e )
 		{
 			log.log( Level.SEVERE, e.getMessage(), e );
 		}
 	}
-	
+
 	public void send( String message )
 	{
 		try
@@ -61,13 +61,13 @@ public class MessageSender
 			DatagramPacket packet = new DatagramPacket( message.getBytes( "ISO-8859-15" ), message.length(), address, Constants.NETWORK_PORT );
 			mcSocket.send( packet );
 		}
-		
+
 		catch ( IOException e )
 		{
 			log.log( Level.WARNING, "Could not send message: " + message );
 		}
 	}
-	
+
 	public void stopSender()
 	{
 		try
@@ -75,7 +75,7 @@ public class MessageSender
 			mcSocket.leaveGroup( address );
 			mcSocket.close();
 		}
-		
+
 		catch ( IOException e )
 		{
 			log.log( Level.SEVERE, e.getMessage(), e );
