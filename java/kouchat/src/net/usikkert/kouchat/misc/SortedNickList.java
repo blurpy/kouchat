@@ -104,27 +104,24 @@ public class SortedNickList implements NickList
 	
 	private void fireNickAdded( int pos )
 	{
-		for ( int i = 0; i < listeners.size(); i++ )
+		for ( NickListListener listener : listeners )
 		{
-			NickListListener listener = listeners.get( i );
 			listener.nickAdded( pos );
 		}
 	}
 	
 	private void fireNickChanged( int pos )
 	{
-		for ( int i = 0; i < listeners.size(); i++ )
+		for ( NickListListener listener : listeners )
 		{
-			NickListListener listener = listeners.get( i );
 			listener.nickChanged( pos );
 		}
 	}
 	
 	private void fireNickRemoved( int pos )
 	{
-		for ( int i = 0; i < listeners.size(); i++ )
+		for ( NickListListener listener : listeners )
 		{
-			NickListListener listener = listeners.get( i );
 			listener.nickRemoved( pos );
 		}
 	}

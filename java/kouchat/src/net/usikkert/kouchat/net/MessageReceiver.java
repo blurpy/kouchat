@@ -27,14 +27,10 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.event.ReceiverEvent;
 import net.usikkert.kouchat.event.ReceiverListener;
 
 public class MessageReceiver extends Thread
@@ -44,13 +40,12 @@ public class MessageReceiver extends Thread
 	
 	private MulticastSocket mcSocket;
 	private InetAddress address;
+	private ReceiverListener listener;
+	
 	private boolean run;
-	private List<ReceiverListener> listeners;
 	
 	public MessageReceiver()
 	{
-		listeners = new ArrayList<ReceiverListener>();
-		
 		try
 		{
 			mcSocket = new MulticastSocket( Constants.NETWORK_PORT );
@@ -76,14 +71,9 @@ public class MessageReceiver extends Thread
 				mcSocket.receive( packet );
 				String ip = packet.getAddress().getHostAddress();
 				String message = new String( packet.getData(), "ISO-8859-15" ).trim();
-				ReceiverEvent event = new ReceiverEvent( this, message, ip );
-				Iterator<ReceiverListener> it = listeners.iterator();
 				
-				while ( it.hasNext() )
-				{
-					ReceiverListener listener = it.next();
-					listener.messageArrived( event );
-				}
+				if ( listener != null )
+					listener.messageArrived( message, ip );
 			}
 			
 			catch ( IOException e )
@@ -128,13 +118,8 @@ public class MessageReceiver extends Thread
 		return success;
 	}
 	
-	public void addReceiverListener( ReceiverListener listener )
+	public void registerReceiverListener( ReceiverListener listener )
 	{
-		listeners.add( listener );
-	}
-	
-	public void removeReceiverListener( ReceiverListener listener )
-	{
-		listeners.remove( listener );
+		this.listener = listener;
 	}
 }

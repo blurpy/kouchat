@@ -21,10 +21,8 @@
 
 package net.usikkert.kouchat.util;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -33,13 +31,11 @@ import net.usikkert.kouchat.event.DayListener;
 public class DayTimer extends TimerTask
 {
 	private boolean done;
-	private List<DayListener> listeners;
+	private DayListener listener;
 	private static final int NOTIFY_HOUR = 0;
 	
 	public DayTimer()
 	{
-		listeners = new ArrayList<DayListener>();
-		
 		Calendar cal = Calendar.getInstance();
 		cal.set( Calendar.HOUR_OF_DAY, 0 );
 		cal.set( Calendar.MINUTE, 0 );
@@ -58,7 +54,9 @@ public class DayTimer extends TimerTask
 		
 		if ( hour == NOTIFY_HOUR && !done )
 		{
-			fireDayChanged( new Date() );
+			if ( listener != null )
+				listener.dayChanged( new Date() );
+			
 			done = true;
 		}
 		
@@ -68,21 +66,8 @@ public class DayTimer extends TimerTask
 		}
 	}
 	
-	private void fireDayChanged( Date date )
+	public void registerDayListener( DayListener listener )
 	{
-		for ( DayListener dl : listeners )
-		{
-			dl.dayChanged( date );
-		}
-	}
-	
-	public void addDayListener( DayListener listener )
-	{
-		listeners.add( listener );
-	}
-	
-	public void removeDayListener( DayListener listener )
-	{
-		listeners.remove( listener );
+		this.listener = listener;
 	}
 }

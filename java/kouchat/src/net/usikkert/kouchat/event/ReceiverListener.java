@@ -23,5 +23,5 @@ package net.usikkert.kouchat.event;
 
 public interface ReceiverListener
 {
-	public void messageArrived( ReceiverEvent e );
+	public void messageArrived( String message, String ipAddress );
 }

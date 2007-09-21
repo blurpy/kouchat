@@ -25,7 +25,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.event.MessageListener;
-import net.usikkert.kouchat.event.ReceiverEvent;
 import net.usikkert.kouchat.event.ReceiverListener;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
@@ -45,7 +44,7 @@ public class MessageParser implements ReceiverListener
 		
 		settings = Settings.getSettings();
 		receiver = new MessageReceiver();
-		receiver.addReceiverListener( this );
+		receiver.registerReceiverListener( this );
 		receiver.start();
 	}
 	
@@ -59,11 +58,8 @@ public class MessageParser implements ReceiverListener
 		return receiver.restartReceiver();
 	}
 	
-	public void messageArrived( ReceiverEvent re )
+	public void messageArrived( String message, String ipAddress )
 	{
-		String message = re.getMessage();
-		String ipAddress = re.getIp();
-		
 		System.out.println( message ); // TODO
 		
 		try

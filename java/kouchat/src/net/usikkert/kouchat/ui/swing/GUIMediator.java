@@ -63,7 +63,7 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 	public GUIMediator()
 	{
 		controller = new Controller( this );
-		controller.addDayListener( this );
+		controller.registerDayListener( this );
 		controller.addIdleListener( this );
 		
 		settings = Settings.getSettings();

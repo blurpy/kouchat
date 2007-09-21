@@ -216,9 +216,9 @@ public class Controller
 		return wList;
 	}
 	
-	public void addDayListener( DayListener listener )
+	public void registerDayListener( DayListener listener )
 	{
-		dayTimer.addDayListener( listener );
+		dayTimer.registerDayListener( listener );
 	}
 	
 	public void addIdleListener( IdleListener listener )
