@@ -3,7 +3,7 @@
 
 A simple chat program for local networks, without the need for a server.
 
-This program is written in Java, so if you don't have java installed,
+This program is written in Java, so if you don't have Java installed,
 go to http://java.sun.com/ and download Java SE 6.0.
 
 You only need the JRE to run KouChat.
