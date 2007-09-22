@@ -152,7 +152,7 @@ public class Settings
 
 			catch ( NumberFormatException e )
 			{
-				log.log( Level.SEVERE, e.getMessage(), e );
+				log.log( Level.WARNING, "Could not read setting for owncolor.." );
 			}
 
 			try
@@ -162,13 +162,13 @@ public class Settings
 
 			catch ( NumberFormatException e )
 			{
-				log.log( Level.SEVERE, e.getMessage(), e );
+				log.log( Level.WARNING, "Could not read setting for syscolor.." );
 			}
 		}
 
 		catch ( FileNotFoundException e )
 		{
-			log.log( Level.WARNING, "Could not find " + FILENAME + ", using default settings...", e );
+			log.log( Level.WARNING, "Could not find " + FILENAME + ", using default settings..." );
 		}
 
 		catch ( IOException e )
