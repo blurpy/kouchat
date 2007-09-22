@@ -40,24 +40,30 @@ import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.util.Tools;
 
-public class TransferFrame extends JFrame implements FileTransferListener
+public class TransferFrame extends JFrame implements FileTransferListener, ActionListener
 {
 	private JButton cancelB;
 	private JLabel file1L, file2L, dest1L, dest2L, trans1L, trans2L, source1L, source2L, status1L, status2L;
 	private JProgressBar filePB;
 	private FileTransfer fileTransfer;
 	private String fileSize;
+	private Mediator mediator;
 
-	public TransferFrame( FileTransfer fileTransfer )
+	public TransferFrame( Mediator mediator, FileTransfer fileTransfer )
 	{
+		this.mediator = mediator;
 		this.fileTransfer = fileTransfer;
+
 		initComponents();
 		setVisible( true );
+
+		fileTransfer.registerListener( this );
 	}
 
 	private void initComponents()
 	{
 		cancelB = new JButton( "Cancel" );
+		cancelB.addActionListener( this );
 		filePB = new JProgressBar( 0, 100 );
 		filePB.setStringPainted( true );
 		trans1L = new JLabel( "Transferred:" );
@@ -70,21 +76,6 @@ public class TransferFrame extends JFrame implements FileTransferListener
 		source2L = new JLabel( "Source (No IP)" );
 		dest1L = new JLabel( "Destination:" );
 		dest2L = new JLabel( "Destination (No IP)" );
-
-		cancelB.addActionListener( new ActionListener()
-		{
-			public void actionPerformed( ActionEvent arg0 )
-			{
-				if ( cancelB.getText().equals( "Close" ) )
-					dispose();
-
-				else
-				{
-					cancelB.setText( "Close" );
-					fileTransfer.cancel();
-				}
-			}
-		} );
 
 		setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE );
 		setTitle( Constants.APP_NAME + " - File transfer" );
@@ -154,7 +145,28 @@ public class TransferFrame extends JFrame implements FileTransferListener
 		);
 
 		pack();
-	}              
+	}
+
+	public void setCancelButtonText( String text )
+	{
+		cancelB.setText( text );
+	}
+
+	public String getCancelButtonText()
+	{
+		return cancelB.getText();
+	}
+
+	public FileTransfer getFileTransfer()
+	{
+		return fileTransfer;
+	}
+
+	@Override
+	public void actionPerformed( ActionEvent e )
+	{
+		mediator.transferCancelled( this );
+	}
 
 	@Override
 	public void statusCompleted()

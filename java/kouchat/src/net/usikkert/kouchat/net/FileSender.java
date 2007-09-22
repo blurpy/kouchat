@@ -45,7 +45,7 @@ public class FileSender implements FileTransfer
 	private int percent;
 	private long transferred;
 	private File file;
-	private boolean sent, cancel;
+	private boolean sent, cancel, waiting;
 	private FileTransferListener listener;
 	private Direction direction;
 	private ByteCounter bCounter;
@@ -60,6 +60,7 @@ public class FileSender implements FileTransfer
 
 		direction = Direction.SEND;
 		bCounter = new ByteCounter();
+		waiting = true;
 	}
 
 	public boolean transfer( int port )
@@ -67,78 +68,84 @@ public class FileSender implements FileTransfer
 		if ( !cancel )
 		{
 			listener.statusConnecting();
-		}
 
-		sent = false;
+			waiting = false;
+			sent = false;
 
-		try
-		{
-			int counter = 0;
-
-			while ( sock == null && counter < 10 )
+			try
 			{
-				counter++;
+				int counter = 0;
 
-				try
+				while ( sock == null && counter < 10 )
 				{
-					sock = new Socket( InetAddress.getByName( nick.getIpAddress() ), port );
-				}
+					counter++;
 
-				catch ( UnknownHostException e )
-				{
-					log.log( Level.SEVERE, e.getMessage(), e );
-				}
-
-				catch ( IOException e )
-				{
-					log.log( Level.SEVERE, e.getMessage(), e );
-				}
-
-				try
-				{
-					Thread.sleep( 100 );
-				}
-
-				catch ( InterruptedException e )
-				{
-					log.log( Level.SEVERE, e.getMessage(), e );
-				}
-			}
-
-			if ( sock != null && !cancel )
-			{
-				listener.statusTransferring();
-				fis = new FileInputStream( file );
-				os = sock.getOutputStream();
-
-				byte b[] = new byte[1024];
-				transferred = 0;
-				percent = 0;
-				int tmpTransferred = 0;
-				int tmpPercent = 0;
-				int transCounter = 0;
-				bCounter.reset();
-
-				while ( ( tmpTransferred = fis.read( b ) ) != -1 && !cancel )
-				{
-					os.write( b, 0, tmpTransferred );
-					transferred += tmpTransferred;
-					percent = (int) ( ( transferred * 100 ) / file.length() );
-					bCounter.update( tmpTransferred );
-					transCounter++;
-
-					if ( percent > tmpPercent || transCounter >= 250 )
+					try
 					{
-						transCounter = 0;
-						tmpPercent = percent;
-						listener.transferUpdate();
+						sock = new Socket( InetAddress.getByName( nick.getIpAddress() ), port );
+					}
+
+					catch ( UnknownHostException e )
+					{
+						log.log( Level.SEVERE, e.getMessage(), e );
+					}
+
+					catch ( IOException e )
+					{
+						log.log( Level.SEVERE, e.getMessage(), e );
+					}
+
+					try
+					{
+						Thread.sleep( 100 );
+					}
+
+					catch ( InterruptedException e )
+					{
+						log.log( Level.SEVERE, e.getMessage(), e );
 					}
 				}
 
-				if ( !cancel && transferred == file.length() )
+				if ( sock != null && !cancel )
 				{
-					sent = true;
-					listener.statusCompleted();
+					listener.statusTransferring();
+					fis = new FileInputStream( file );
+					os = sock.getOutputStream();
+
+					byte b[] = new byte[1024];
+					transferred = 0;
+					percent = 0;
+					int tmpTransferred = 0;
+					int tmpPercent = 0;
+					int transCounter = 0;
+					bCounter.reset();
+
+					while ( ( tmpTransferred = fis.read( b ) ) != -1 && !cancel )
+					{
+						os.write( b, 0, tmpTransferred );
+						transferred += tmpTransferred;
+						percent = (int) ( ( transferred * 100 ) / file.length() );
+						bCounter.update( tmpTransferred );
+						transCounter++;
+
+						if ( percent > tmpPercent || transCounter >= 250 )
+						{
+							transCounter = 0;
+							tmpPercent = percent;
+							listener.transferUpdate();
+						}
+					}
+
+					if ( !cancel && transferred == file.length() )
+					{
+						sent = true;
+						listener.statusCompleted();
+					}
+
+					else
+					{
+						listener.statusFailed();
+					}
 				}
 
 				else
@@ -147,27 +154,22 @@ public class FileSender implements FileTransfer
 				}
 			}
 
-			else
+			catch ( UnknownHostException e )
 			{
+				log.log( Level.SEVERE, e.getMessage(), e );
 				listener.statusFailed();
 			}
-		}
 
-		catch ( UnknownHostException e )
-		{
-			log.log( Level.SEVERE, e.getMessage(), e );
-			listener.statusFailed();
-		}
+			catch ( IOException e )
+			{
+				log.log( Level.SEVERE, e.getMessage() );
+				listener.statusFailed();
+			}
 
-		catch ( IOException e )
-		{
-			log.log( Level.SEVERE, e.getMessage() );
-			listener.statusFailed();
-		}
-
-		finally
-		{
-			stopSender();
+			finally
+			{
+				stopSender();
+			}
 		}
 
 		return sent;
@@ -294,6 +296,11 @@ public class FileSender implements FileTransfer
 	public File getFile()
 	{
 		return file;
+	}
+
+	public boolean isWaiting()
+	{
+		return waiting;
 	}
 
 	@Override

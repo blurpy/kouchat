@@ -420,29 +420,29 @@ public class MessageResponder implements MessageListener
 	public void fileSendAborted( int userCode, String fileName, int fileHash )
 	{
 		NickDTO user = controller.getNick( userCode );
-		listener.showSystemMessage( "*** " + user.getNick() + " aborted sending of " + fileName );
 		FileSender fileSend = tList.getFileSender( user, fileName, fileHash );
-		fileSend.cancel();
-		tList.removeFileSender( fileSend );
+
+		if ( fileSend != null )
+		{
+			fileSend.cancel();
+			listener.showSystemMessage( "*** " + user.getNick() + " aborted sending of " + fileName );
+			tList.removeFileSender( fileSend );
+		}
 	}
 
 	@Override
-	public void fileSendAccepted( int userCode, String fileName, int fileHash, int port )
+	public void fileSendAccepted( final int userCode, final String fileName, final int fileHash, final int port )
 	{
-		final String fFileName = fileName;
-		final int fFileHash = fileHash;
-		final int fPort = port;
-		final NickDTO fUser = controller.getNick( userCode );
-
 		new Thread()
 		{
 			public void run()
 			{
-				FileSender fileSend = tList.getFileSender( fUser, fFileName, fFileHash );
+				NickDTO fUser = controller.getNick( userCode );
+				FileSender fileSend = tList.getFileSender( fUser, fileName, fileHash );
 
 				if ( fileSend != null )
 				{
-					listener.showSystemMessage( "*** " + fUser.getNick() + " accepted sending of "	+ fFileName );
+					listener.showSystemMessage( "*** " + fUser.getNick() + " accepted sending of "	+ fileName );
 
 					// Give the server some time to set up the connection first
 					try
@@ -455,14 +455,14 @@ public class MessageResponder implements MessageListener
 						log.log( Level.SEVERE, e.getMessage(), e );
 					}
 
-					if ( fileSend.transfer( fPort ) )
+					if ( fileSend.transfer( port ) )
 					{
-						listener.showSystemMessage( "*** " + fFileName + " successfully sent to " + fUser.getNick() );
+						listener.showSystemMessage( "*** " + fileName + " successfully sent to " + fUser.getNick() );
 					}
 
 					else
 					{
-						listener.showSystemMessage( "*** Failed to send " + fFileName + " to " + fUser.getNick() );
+						listener.showSystemMessage( "*** Failed to send " + fileName + " to " + fUser.getNick() );
 					}
 
 					tList.removeFileSender( fileSend );

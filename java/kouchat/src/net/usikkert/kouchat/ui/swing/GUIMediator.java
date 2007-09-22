@@ -39,6 +39,7 @@ import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.TopicDTO;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
+import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.util.Tools;
 
@@ -251,8 +252,7 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 					String size = Tools.byteToString( file.length() );
 
 					FileSender fileSend = new FileSender( tempnick, file );
-					TransferFrame fileStatus = new TransferFrame( fileSend );
-					fileSend.registerListener( fileStatus );
+					new TransferFrame( this, fileSend );
 					tList.addFileSender( fileSend );
 
 					controller.sendFile( tempnick.getCode(), file.length(), file.hashCode(), file.getName() );
@@ -487,13 +487,38 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 	@Override
 	public void showTransfer( FileReceiver fileRes )
 	{
-		TransferFrame fileStatus = new TransferFrame( fileRes );
-		fileRes.registerListener( fileStatus );
+		new TransferFrame( this, fileRes );
 	}
 
 	@Override
 	public void showTopic()
 	{
 		updateTitleAndTray();
+	}
+
+	@Override
+	public void transferCancelled( TransferFrame transferFrame )
+	{
+		if ( transferFrame.getCancelButtonText().equals( "Close" ) )
+			transferFrame.dispose();
+
+		else
+		{
+			transferFrame.setCancelButtonText( "Close" );
+			FileTransfer fileTransfer = transferFrame.getFileTransfer();
+			fileTransfer.cancel();
+
+			if ( fileTransfer instanceof FileSender )
+			{
+				FileSender fs = (FileSender) fileTransfer;
+
+				// This means that the other user has not answered yet
+				if ( fs.isWaiting() )
+				{
+					showSystemMessage( "*** You cancelled sending of " + fs.getFileName() + " to " + fs.getNick() );
+					tList.removeFileSender( fs );
+				}
+			}
+		}
 	}
 }
