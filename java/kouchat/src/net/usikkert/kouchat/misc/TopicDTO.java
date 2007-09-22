@@ -77,6 +77,7 @@ public class TopicDTO
 		this.topic = topic;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "(" + nick + ") " + topic;

@@ -77,6 +77,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 		nickMenu.add( infoMI );
 		nickMenu.add( sendfileMI );
 
+		// This is way down here, because this triggers setNickList as well.
 		mediator.setSideP( this );
 	}
 

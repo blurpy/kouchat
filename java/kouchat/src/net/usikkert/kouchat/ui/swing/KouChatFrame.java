@@ -60,7 +60,8 @@ public class KouChatFrame extends JFrame
 		setDefaultCloseOperation( JFrame.DO_NOTHING_ON_CLOSE );
 		setVisible( true );
 
-		// Catch focus for the textfield
+		/* If this window is focused, the textfield will get keyboard events
+		 * no matter which component in the window was focused when typing was started. */
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher( new KeyEventDispatcher()
 		{
 			public boolean dispatchKeyEvent( KeyEvent e )

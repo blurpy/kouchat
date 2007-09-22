@@ -120,6 +120,7 @@ public class NickDTO implements Comparable<NickDTO>
 		this.ipAddress = ipAddress;
 	}
 
+	@Override
 	public String toString()
 	{
 		return nick;

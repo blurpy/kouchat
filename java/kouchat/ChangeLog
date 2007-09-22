@@ -1,14 +1,18 @@
 
 - KouChat ChangeLog
 
-* version 0.6.1 (29.08.2007):
+* version 0.6.1 (22.09.2007):
   - Fixed charset issues
   - Fixed Windows bug where text could not be selected in the chat
   - Fixed Windows bug where right clicking the systray icon would hide and show the window
   - Refactored a lot of the GUI code
   - New package structure
   - Improved file transfer
+  - Improved error messages in console
+  - Added shutdown hook for controlled shutdown from command line
   - Added notification about day changes
+  - Improved handling of timeouts and network issues
+  - Lots of small cleanups and bug fixes
 
 
 * version 0.6.0 (08.08.2007):

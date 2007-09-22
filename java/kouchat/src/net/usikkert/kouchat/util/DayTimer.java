@@ -28,6 +28,12 @@ import java.util.TimerTask;
 
 import net.usikkert.kouchat.event.DayListener;
 
+/**
+ * Notifies a listener when the day changes.
+ * Checks every hour, in case daylight saving changes the time.
+ * 
+ * @author Christian Ihle
+ */
 public class DayTimer extends TimerTask
 {
 	private boolean done;
