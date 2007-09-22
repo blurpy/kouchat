@@ -49,6 +49,9 @@ public class FileSender implements FileTransfer
 	private FileTransferListener listener;
 	private Direction direction;
 	private ByteCounter bCounter;
+	private FileInputStream fis;
+	private OutputStream os;
+	private Socket sock;
 
 	public FileSender( NickDTO nick, File file )
 	{
@@ -67,9 +70,6 @@ public class FileSender implements FileTransfer
 		}
 
 		sent = false;
-		FileInputStream fis = null;
-		OutputStream os = null;
-		Socket sock = null;
 
 		try
 		{
@@ -161,58 +161,72 @@ public class FileSender implements FileTransfer
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.getMessage() );
 			listener.statusFailed();
 		}
 
 		finally
 		{
-			try
-			{
-				if ( fis != null )
-					fis.close();
-			}
-
-			catch ( IOException e )
-			{
-				log.log( Level.SEVERE, e.getMessage(), e );
-			}
-
-			try
-			{
-				if ( os != null )
-					os.flush();
-			}
-
-			catch ( IOException e )
-			{
-				log.log( Level.SEVERE, e.getMessage(), e );
-			}
-
-			try
-			{
-				if ( os != null )
-					os.close();
-			}
-
-			catch ( IOException e )
-			{
-				log.log( Level.SEVERE, e.getMessage(), e );
-			}
-
-			try
-			{
-				if ( sock != null )
-					sock.close();
-			}
-
-			catch ( IOException e )
-			{
-				log.log( Level.SEVERE, e.getMessage(), e );
-			}
+			stopSender();
 		}
 
 		return sent;
+	}
+
+	private void stopSender()
+	{
+		try
+		{
+			if ( fis != null )
+			{
+				fis.close();
+				fis = null;
+			}
+		}
+
+		catch ( IOException e )
+		{
+			log.log( Level.SEVERE, e.getMessage(), e );
+		}
+
+		try
+		{
+			if ( os != null )
+				os.flush();
+		}
+
+		catch ( IOException e )
+		{
+			log.log( Level.SEVERE, e.getMessage(), e );
+		}
+
+		try
+		{
+			if ( os != null )
+			{
+				os.close();
+				os = null;
+			}
+		}
+
+		catch ( IOException e )
+		{
+			log.log( Level.SEVERE, e.getMessage(), e );
+		}
+
+		try
+		{
+			if ( sock != null )
+			{
+				sock.close();
+				sock = null;
+			}
+		}
+
+		catch ( IOException e )
+		{
+			log.log( Level.SEVERE, e.getMessage(), e );
+		}
 	}
 
 	@Override
@@ -225,6 +239,7 @@ public class FileSender implements FileTransfer
 	public void cancel()
 	{
 		cancel = true;
+		stopSender();
 		listener.statusFailed();
 	}
 
@@ -286,10 +301,5 @@ public class FileSender implements FileTransfer
 	{
 		this.listener = listener;
 		listener.statusWaiting();
-	}
-
-	public void fail()
-	{
-		listener.statusFailed();
 	}
 }

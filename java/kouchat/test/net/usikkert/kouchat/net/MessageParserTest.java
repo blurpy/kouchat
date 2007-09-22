@@ -116,7 +116,7 @@ public class MessageParserTest implements MessageListener
 	}
 
 	@Override
-	public void meIdle()
+	public void meIdle( String ipAddress )
 	{
 
 	}

@@ -49,6 +49,9 @@ public class FileReceiver implements FileTransfer
 	private Direction direction;
 	private ByteCounter bCounter;
 	private ServerSocket sSock;
+	private Socket sock;
+	private FileOutputStream fos;
+	private InputStream is;
 
 	public FileReceiver( NickDTO nick, File file, long size )
 	{
@@ -101,10 +104,6 @@ public class FileReceiver implements FileTransfer
 		received = false;
 		cancel = false;
 
-		Socket sock = null;
-		FileOutputStream fos = null;
-		InputStream is = null;
-
 		try
 		{
 			if ( sSock != null )
@@ -153,72 +152,86 @@ public class FileReceiver implements FileTransfer
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.getMessage() );
 			listener.statusFailed();
 		}
 
 		finally
 		{
-			try
-			{
-				if ( is != null )
-					is.close();
-			}
-
-			catch ( IOException e )
-			{
-				log.log( Level.SEVERE, e.getMessage(), e );
-			}
-
-			try
-			{
-				if ( fos != null )
-					fos.flush();
-			}
-
-			catch ( IOException e )
-			{
-				log.log( Level.SEVERE, e.getMessage(), e );
-			}
-
-			try
-			{
-				if ( fos != null )
-					fos.close();
-			}
-
-			catch ( IOException e )
-			{
-				log.log( Level.SEVERE, e.getMessage(), e );
-			}
-
-			try
-			{
-				if ( sock != null )
-					sock.close();
-			}
-
-			catch ( IOException e )
-			{
-				log.log( Level.SEVERE, e.getMessage(), e );
-			}
-
-			try
-			{
-				if ( sSock != null )
-				{
-					sSock.close();
-					sSock = null;
-				}
-			}
-
-			catch ( IOException e )
-			{
-				log.log( Level.SEVERE, e.getMessage(), e );
-			}
+			stopReceiver();
 		}
 
 		return received;
+	}
+
+	private void stopReceiver()
+	{
+		try
+		{
+			if ( is != null )
+			{
+				is.close();
+				is = null;
+			}
+		}
+
+		catch ( IOException e )
+		{
+			log.log( Level.SEVERE, e.getMessage(), e );
+		}
+
+		try
+		{
+			if ( fos != null )
+				fos.flush();
+		}
+
+		catch ( IOException e )
+		{
+			log.log( Level.SEVERE, e.getMessage(), e );
+		}
+
+		try
+		{
+			if ( fos != null )
+			{
+				fos.close();
+				fos = null;
+			}
+		}
+
+		catch ( IOException e )
+		{
+			log.log( Level.SEVERE, e.getMessage(), e );
+		}
+
+		try
+		{
+			if ( sock != null )
+			{
+				sock.close();
+				sock = null;
+			}
+		}
+
+		catch ( IOException e )
+		{
+			log.log( Level.SEVERE, e.getMessage(), e );
+		}
+
+		try
+		{
+			if ( sSock != null )
+			{
+				sSock.close();
+				sSock = null;
+			}
+		}
+
+		catch ( IOException e )
+		{
+			log.log( Level.SEVERE, e.getMessage(), e );
+		}
 	}
 
 	@Override
@@ -231,6 +244,8 @@ public class FileReceiver implements FileTransfer
 	public void cancel()
 	{
 		cancel = true;
+		stopReceiver();
+		listener.statusFailed();
 	}
 
 	@Override
@@ -279,11 +294,6 @@ public class FileReceiver implements FileTransfer
 	public long getSpeed()
 	{
 		return bCounter.getBytesPerSec();
-	}
-
-	public void fail()
-	{
-		listener.statusFailed();
 	}
 
 	@Override

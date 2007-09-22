@@ -37,7 +37,7 @@ public interface MessageListener
 	public void userExposing( NickDTO user );
 	public void exposeRequested();
 	public void writingChanged( int userCode, boolean writing );
-	public void meIdle();
+	public void meIdle( String ipAddress );
 	public void userIdle( int userCode );
 	public void fileSend( int userCode, long byteSize, String fileName, String user, int fileHash, int fileCode );
 	public void fileSendAborted( int userCode, String fileName, int fileHash );

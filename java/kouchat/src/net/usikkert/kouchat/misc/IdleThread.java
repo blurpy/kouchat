@@ -71,7 +71,7 @@ public class IdleThread extends Thread
 						nickList.remove( temp );
 
 						if ( listener != null )
-							listener.userTimedOut( temp.getNick() );
+							listener.userTimedOut( temp );
 
 						i--;
 					}

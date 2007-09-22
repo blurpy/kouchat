@@ -106,6 +106,15 @@ public class MessageReceiver extends Thread
 		try
 		{
 			mcSocket.leaveGroup( address );
+		}
+
+		catch ( IOException e )
+		{
+			log.log( Level.WARNING, e.getMessage() );
+		}
+
+		try
+		{
 			mcSocket.joinGroup( address );
 			success = true;
 		}

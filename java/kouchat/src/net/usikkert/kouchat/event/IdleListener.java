@@ -21,7 +21,9 @@
 
 package net.usikkert.kouchat.event;
 
+import net.usikkert.kouchat.misc.NickDTO;
+
 public interface IdleListener
 {
-	public void userTimedOut( String nick );
+	public void userTimedOut( NickDTO user );
 }

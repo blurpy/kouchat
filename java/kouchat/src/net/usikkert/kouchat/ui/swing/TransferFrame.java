@@ -33,6 +33,7 @@ import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.FileTransferListener;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
@@ -86,7 +87,7 @@ public class TransferFrame extends JFrame implements FileTransferListener
 		} );
 
 		setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE );
-		setTitle( "File transfer" );
+		setTitle( Constants.APP_NAME + " - File transfer" );
 		setResizable( false );
 
 		GroupLayout layout = new GroupLayout( getContentPane() );

@@ -24,6 +24,7 @@ package net.usikkert.kouchat.ui.swing;
 import java.io.File;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -38,6 +39,7 @@ import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.TopicDTO;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
+import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.util.Tools;
 
 /**
@@ -59,6 +61,7 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 	private Controller controller;
 	private Settings settings;
 	private NickDTO me;
+	private TransferList tList;
 
 	public GUIMediator()
 	{
@@ -66,6 +69,7 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 		controller.registerDayListener( this );
 		controller.registerIdleListener( this );
 
+		tList = controller.getTransferList();
 		settings = Settings.getSettings();
 		me = settings.getMe();
 	}
@@ -234,7 +238,8 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 		if ( me != sideP.getSelectedNick() )
 		{
 			JFileChooser chooser = new JFileChooser();
-			int returnVal = chooser.showOpenDialog( gui );
+			chooser.setDialogTitle( Constants.APP_NAME + " - Open" );
+			int returnVal = chooser.showOpenDialog( null );
 
 			if ( returnVal == JFileChooser.APPROVE_OPTION )
 			{
@@ -248,7 +253,7 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 					FileSender fileSend = new FileSender( tempnick, file );
 					TransferFrame fileStatus = new TransferFrame( fileSend );
 					fileSend.registerListener( fileStatus );
-					controller.getTransferList().addFileSender( fileSend );
+					tList.addFileSender( fileSend );
 
 					controller.sendFile( tempnick.getCode(), file.length(), file.hashCode(), file.getName() );
 					mainP.appendSystemMessage( "*** " + "Trying to send the file " + file.getName() + " [" + size + "] to " + tempnick.getNick() );
@@ -339,9 +344,22 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 	}
 
 	@Override
-	public void userTimedOut( String nick )
+	public void userTimedOut( NickDTO user )
 	{
-		mainP.appendSystemMessage( "*** " + nick + " timed out..." );
+		List<FileSender> fsList = tList.getFileSenders( user );
+		List<FileReceiver> frList = tList.getFileReceivers( user );
+
+		for ( FileSender fs : fsList )
+		{
+			fs.cancel();
+		}
+
+		for ( FileReceiver fr : frList )
+		{
+			fr.cancel();
+		}
+
+		mainP.appendSystemMessage( "*** " + user.getNick() + " timed out..." );
 	}
 
 	@Override
@@ -430,6 +448,7 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 	{
 		File returnFile = null;
 		JFileChooser chooser = new JFileChooser();
+		chooser.setDialogTitle( Constants.APP_NAME + " - Save" );
 		chooser.setSelectedFile( new File( fileName ) );
 		boolean done = false;
 

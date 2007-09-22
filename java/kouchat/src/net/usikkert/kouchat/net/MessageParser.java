@@ -249,7 +249,7 @@ public class MessageParser implements ReceiverListener
 
 			else if ( type.equals( "IDLE" ) )
 			{
-				listener.meIdle();
+				listener.meIdle( ipAddress );
 			}
 		}
 

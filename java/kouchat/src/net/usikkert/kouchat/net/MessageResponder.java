@@ -255,9 +255,12 @@ public class MessageResponder implements MessageListener
 	}
 
 	@Override
-	public void meIdle()
+	public void meIdle( String ipAddress )
 	{
 		me.setLastIdle( System.currentTimeMillis() );
+
+		if ( !me.getIpAddress().equals( ipAddress ) )
+			me.setIpAddress( ipAddress );
 	}
 
 	@Override
@@ -356,6 +359,7 @@ public class MessageResponder implements MessageListener
 						{
 							NickDTO tempnick = controller.getNick( userCode );
 							FileReceiver fileRes = new FileReceiver( tempnick, file, byteSize );
+							tList.addFileReceiver( fileRes );
 							listener.showTransfer( fileRes );
 
 							try
@@ -372,6 +376,7 @@ public class MessageResponder implements MessageListener
 								else
 								{
 									listener.showSystemMessage( "*** Failed to receive " + fileName + " from " + user );
+									fileRes.cancel();
 								}
 							}
 
@@ -380,7 +385,12 @@ public class MessageResponder implements MessageListener
 								log.log( Level.SEVERE, e.getMessage(), e );
 								listener.showSystemMessage( "*** Failed to receive " + fileName + " from " + user );
 								controller.sendFileAbort( userCode, fileHash, fileName );
-								fileRes.fail();
+								fileRes.cancel();
+							}
+
+							finally
+							{
+								tList.removeFileReceiver( fileRes );
 							}
 						}
 
@@ -412,7 +422,7 @@ public class MessageResponder implements MessageListener
 		NickDTO user = controller.getNick( userCode );
 		listener.showSystemMessage( "*** " + user.getNick() + " aborted sending of " + fileName );
 		FileSender fileSend = tList.getFileSender( user, fileName, fileHash );
-		fileSend.fail();
+		fileSend.cancel();
 		tList.removeFileSender( fileSend );
 	}
 
@@ -429,7 +439,6 @@ public class MessageResponder implements MessageListener
 			public void run()
 			{
 				FileSender fileSend = tList.getFileSender( fUser, fFileName, fFileHash );
-				tList.removeFileSender( fileSend );
 
 				if ( fileSend != null )
 				{
@@ -455,6 +464,8 @@ public class MessageResponder implements MessageListener
 					{
 						listener.showSystemMessage( "*** Failed to send " + fFileName + " to " + fUser.getNick() );
 					}
+
+					tList.removeFileSender( fileSend );
 				}
 			}
 		}.start();
