@@ -76,8 +76,12 @@ public class TransferFrame extends JFrame implements FileTransferListener
 			{
 				if ( cancelB.getText().equals( "Close" ) )
 					dispose();
+
 				else
+				{
+					cancelB.setText( "Close" );
 					fileTransfer.cancel();
+				}
 			}
 		} );
 
