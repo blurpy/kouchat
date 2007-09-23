@@ -296,6 +296,7 @@ public class MessageResponder implements MessageListener
 	{
 		me.setNick( "" + me.getCode() );
 		listener.showSystemMessage( "*** " + "Nick crash, resetting nick to " + settings.getMe() );
+		listener.showTopic();
 	}
 
 	@Override
