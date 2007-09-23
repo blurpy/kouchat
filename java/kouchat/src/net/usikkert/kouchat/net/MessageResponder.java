@@ -202,14 +202,20 @@ public class MessageResponder implements MessageListener
 	{
 		if ( controller.isNewUser( user.getCode() ) )
 		{
-			if ( wList.isWaitingUser( user.getCode() ) )
+			// Usually this happens when someone returns from a timeout
+			if ( wList.isLoggedOn() )
 			{
-				wList.removeWaitingUser( user.getCode() );
+				if ( wList.isWaitingUser( user.getCode() ) )
+					wList.removeWaitingUser( user.getCode() );
+
 				userShowedUp( user );
 			}
 
+			// This should ONLY happen during logon
 			else
+			{
 				controller.getNickList().add( user );
+			}
 		}
 	}
 

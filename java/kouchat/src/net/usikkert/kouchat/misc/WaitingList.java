@@ -34,6 +34,7 @@ import java.util.List;
 public class WaitingList
 {
 	private List<Integer> users;
+	private boolean loggedOn;
 
 	public WaitingList()
 	{
@@ -53,5 +54,15 @@ public class WaitingList
 	public void removeWaitingUser( int userCode )
 	{
 		users.remove( new Integer( userCode ) );
+	}
+
+	public boolean isLoggedOn()
+	{
+		return loggedOn;
+	}
+
+	public void setLoggedOn( boolean loggedOn )
+	{
+		this.loggedOn = loggedOn;
 	}
 }

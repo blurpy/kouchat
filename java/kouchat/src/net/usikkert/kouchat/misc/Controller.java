@@ -21,6 +21,11 @@
 
 package net.usikkert.kouchat.misc;
 
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import net.usikkert.kouchat.event.DayListener;
 import net.usikkert.kouchat.event.IdleListener;
 import net.usikkert.kouchat.event.NetworkListener;
@@ -32,6 +37,8 @@ import net.usikkert.kouchat.util.DayTimer;
 
 public class Controller
 {
+	private static Logger log = Logger.getLogger( Controller.class.getName() );
+
 	private ChatState chatState;
 	private NickController nickController;
 	private Messages messages;
@@ -131,6 +138,29 @@ public class Controller
 		messages.sendExposeMessage();
 		messages.sendGetTopicMessage();
 		idleThread.start();
+
+		// Not sure if this is the best way to set if I'm logged on or not
+		TimerTask delayedLogon = new TimerTask()
+		{
+			@Override
+			public void run()
+			{
+				try
+				{
+					Thread.sleep( 800 );
+				}
+
+				catch ( InterruptedException e )
+				{
+					log.log( Level.SEVERE, e.getMessage(), e );
+				}
+
+				wList.setLoggedOn( true );
+			}
+		};
+
+		Timer timer = new Timer();
+		timer.schedule( delayedLogon, 0 );
 	}
 
 	public void logOff()
