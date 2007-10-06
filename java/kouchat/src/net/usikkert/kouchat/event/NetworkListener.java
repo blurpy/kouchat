@@ -27,7 +27,7 @@ import net.usikkert.kouchat.net.FileReceiver;
 
 public interface NetworkListener
 {
-	public void showUserMessage( String message, int color );
+	public void showUserMessage( String user, String message, int color );
 	public void showSystemMessage( String message );
 	public boolean askFileSave( String user, String fileName, String size );
 	public File showFileSave( String fileName );

@@ -42,6 +42,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Tools;
 
@@ -57,12 +58,14 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 	private SidePanel sideP;
 	private Settings settings;
 	private Mediator mediator;
+	private NickDTO me;
 
 	public MainPanel( Mediator mediator )
 	{
 		this.mediator = mediator;
 		mediator.setMainP( this );
 		settings = Settings.getSettings();
+		me = settings.getMe();
 
 		setLayout( new BorderLayout( 2, 2 ) );
 
@@ -100,17 +103,17 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 
 	public void appendSystemMessage( String message )
 	{
-		appendToChat( message, new Color( settings.getSysColor() ) );
+		appendToChat( "*** " + message, new Color( settings.getSysColor() ) );
 	}
 
 	public void appendOwnMessage( String message )
 	{
-		appendToChat( message, new Color( settings.getOwnColor() ) );
+		appendToChat( "<" + me.getNick() + ">: " + message, new Color( settings.getOwnColor() ) );
 	}
 
-	public void appendUserMessage( String message, int color )
+	public void appendUserMessage( String user, String message, int color )
 	{
-		appendToChat( message, new Color( color ) );
+		appendToChat( "<" + user + ">: " + message, new Color( color ) );
 	}
 
 	public void clearChat()

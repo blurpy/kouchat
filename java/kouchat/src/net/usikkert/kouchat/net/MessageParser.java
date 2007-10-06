@@ -60,7 +60,7 @@ public class MessageParser implements ReceiverListener
 
 	public void messageArrived( String message, String ipAddress )
 	{
-		//System.out.println( message ); // TODO
+		System.out.println( message ); // TODO
 
 		try
 		{
@@ -83,7 +83,7 @@ public class MessageParser implements ReceiverListener
 					int rightBracket = msg.indexOf( "]" );
 					int rgb = Integer.parseInt( msg.substring( leftBracket +1, rightBracket ) );
 
-					listener.messageArrived( msgCode, "<" + msgNick + ">: " + msg.substring( rightBracket +1, msg.length() ), rgb);
+					listener.messageArrived( msgCode, msg.substring( rightBracket +1, msg.length() ), rgb );
 				}
 
 				else if ( type.equals( "LOGON" ) )

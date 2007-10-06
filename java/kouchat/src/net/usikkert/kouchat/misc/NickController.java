@@ -52,6 +52,24 @@ public class NickController
 
 		return dto;
 	}
+	
+	public NickDTO getNick( String nick )
+	{
+		NickDTO dto = null;
+
+		for ( int i = 0; i < nickList.size(); i++ )
+		{
+			NickDTO temp = nickList.get( i );
+
+			if ( temp.getNick().equalsIgnoreCase( nick ) )
+			{
+				dto = temp;
+				break;
+			}
+		}
+
+		return dto;
+	}
 
 	public void updateLastIdle( int code, long lastIdle )
 	{

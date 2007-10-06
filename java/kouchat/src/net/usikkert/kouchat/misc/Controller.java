@@ -131,6 +131,11 @@ public class Controller
 	{
 		return nickController.getNick( code );
 	}
+	
+	public NickDTO getNick( String nick )
+	{
+		return nickController.getNick( nick );
+	}
 
 	public void logOn()
 	{

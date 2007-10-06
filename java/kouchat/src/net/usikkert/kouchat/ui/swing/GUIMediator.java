@@ -101,14 +101,7 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 
 			if ( choice == JOptionPane.YES_OPTION )
 			{
-				controller.changeAwayStatus( me.getCode(), false, "" );
-				sysTray.setNormalState();
-				updateTitleAndTray();
-				mainP.getMsgTF().setEnabled( true );
-				menuBar.setAwayState( false );
-				buttonP.setAwayState( false );
-				mainP.appendSystemMessage( "*** You came back" );
-				controller.sendBackMessage();
+				changeAway( false, null );
 			}
 		}
 
@@ -119,18 +112,38 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 
 			if ( reason != null && reason.trim().length() > 0 )
 			{
-				controller.changeAwayStatus( me.getCode(), true, reason );
-				sysTray.setAwayState();
-				updateTitleAndTray();
-				mainP.getMsgTF().setEnabled( false );
-				menuBar.setAwayState( true );
-				buttonP.setAwayState( true );
-				mainP.appendSystemMessage( "*** You went away: " + me.getAwayMsg() );
-				controller.sendAwayMessage();
+				changeAway( true, reason );
 			}
 		}
 
 		mainP.getMsgTF().requestFocus();
+	}
+
+	private void changeAway( boolean away, String reason )
+	{
+		if ( away )
+		{
+			controller.changeAwayStatus( me.getCode(), true, reason );
+			sysTray.setAwayState();
+			mainP.getMsgTF().setEnabled( false );
+			menuBar.setAwayState( true );
+			buttonP.setAwayState( true );
+			mainP.appendSystemMessage( "You went away: " + me.getAwayMsg() );
+			controller.sendAwayMessage();
+		}
+
+		else
+		{
+			controller.changeAwayStatus( me.getCode(), false, "" );
+			sysTray.setNormalState();
+			mainP.getMsgTF().setEnabled( true );
+			menuBar.setAwayState( false );
+			buttonP.setAwayState( false );
+			mainP.appendSystemMessage( "You came back" );
+			controller.sendBackMessage();
+		}
+
+		updateTitleAndTray();
 	}
 
 	@Override
@@ -144,29 +157,36 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 		if ( objecttopic != null )
 		{
 			String newTopic = objecttopic.toString();
-
-			if ( !newTopic.trim().equals( topic.getTopic().trim() ) )
-			{
-				long time = System.currentTimeMillis();
-
-				if ( newTopic.trim().length() > 0 )
-				{
-					mainP.appendSystemMessage( "*** You changed the topic to: " + newTopic );
-					topic.changeTopic( newTopic, me.getNick(), time );
-				}
-
-				else
-				{
-					mainP.appendSystemMessage( "*** You removed the topic..." );
-					topic.changeTopic( "", "", time );
-				}
-
-				controller.sendTopicMessage( topic );
-				updateTitleAndTray();
-			}
+			fixTopic( newTopic );
 		}
 
 		mainP.getMsgTF().requestFocus();
+	}
+
+	private void fixTopic( String newTopic )
+	{
+		TopicDTO topic = controller.getTopic();
+		newTopic = newTopic.trim();
+
+		if ( !newTopic.equals( topic.getTopic().trim() ) )
+		{
+			long time = System.currentTimeMillis();
+
+			if ( newTopic.length() > 0 )
+			{
+				mainP.appendSystemMessage( "You changed the topic to: " + newTopic );
+				topic.changeTopic( newTopic, me.getNick(), time );
+			}
+
+			else
+			{
+				mainP.appendSystemMessage( "You removed the topic..." );
+				topic.changeTopic( "", me.getNick(), time );
+			}
+
+			controller.sendTopicMessage( topic );
+			updateTitleAndTray();
+		}
 	}
 
 	@Override
@@ -256,7 +276,7 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 					tList.addFileSender( fileSend );
 
 					controller.sendFile( tempnick.getCode(), file.length(), file.hashCode(), file.getName() );
-					mainP.appendSystemMessage( "*** " + "Trying to send the file " + file.getName() + " [" + size + "] to " + tempnick.getNick() );
+					mainP.appendSystemMessage( "Trying to send the file " + file.getName() + " [" + size + "] to " + tempnick.getNick() );
 				}
 			}
 		}
@@ -277,17 +297,170 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 		{
 			if ( line.startsWith( "/" ) )
 			{
-				mainP.appendSystemMessage( "*** No commands yet..." );
+				String command = "";
+
+				if ( line.contains( " " ) )
+					command = line.substring( 1, line.indexOf( ' ' ) );
+				else
+					command = line.substring( 1, line.length() );
+
+				if ( command.length() > 0 )
+				{
+					String args = line.replaceFirst( "/" + command, "" );
+					
+					System.err.println( command + " - '" + args + "'" ); //TODO
+
+					if ( command.equals( "topic" ) )
+					{
+						if ( args.length() == 0 )
+						{
+							TopicDTO topic = controller.getTopic();
+							
+							if ( topic.getTopic().equals( "" ) )
+							{
+								mainP.appendSystemMessage( "No topic set" );
+							}
+
+							else
+							{
+								mainP.appendSystemMessage( "Topic is: " + topic.getTopic() + " (set by " + 
+										topic.getNick() + " at " + Tools.dateToString( 
+												new Date( topic.getTime() ), "HH:mm:ss, dd. MMM. yy" ) + ")" );
+							}
+						}
+
+						else
+						{
+							fixTopic( args );
+						}
+					}
+
+					else if ( command.equals( "away" ) )
+					{
+						if ( me.isAway() )
+						{
+							mainP.appendSystemMessage( "You are already away: '" + me.getAwayMsg() + "'" );
+						}
+
+						else
+						{
+							if ( args.trim().length() == 0 )
+								mainP.appendSystemMessage( "/away - missing argument <away message>" );
+							else
+								changeAway( true, args.trim() );
+						}
+					}
+
+					else if ( command.equals( "clear" ) )
+					{
+						mainP.clearChat();
+					}
+
+					else if ( command.equals( "about" ) )
+					{
+						mainP.appendSystemMessage( "This is " + Constants.APP_NAME + " v" + Constants.APP_VERSION +
+								", by " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL + 
+								" - " + Constants.AUTHOR_WEB );
+					}
+
+					else if ( command.equals( "help" ) )
+					{
+						showCommands();
+					}
+
+					else if ( command.equals( "whois" ) )
+					{
+						if ( args.trim().length() == 0 )
+						{
+							mainP.appendSystemMessage( "/whois - missing argument <nick>" );
+						}
+
+						else
+						{
+							String[] argsArray = args.split( "\\s" );
+							String nick = "";
+							
+							for ( int i = 0; i < argsArray.length; i++ )
+							{
+								if ( argsArray[i].trim().length() > 0 )
+								{
+									nick = argsArray[i].trim();
+									break;
+								}
+							}
+							
+							NickDTO user = controller.getNick( nick );
+							
+							if ( user == null )
+							{
+								mainP.appendSystemMessage( "/whois - no such user '" + nick + "'" );
+							}
+							
+							else
+							{
+								String info = "/whois - " + user.getNick() + " lives at " + user.getIpAddress();
+								
+								if ( user.isAway() )
+									info += ", but is away and '" + user.getAwayMsg() + "'";
+								
+								mainP.appendSystemMessage( info );
+							}
+						}
+					}
+
+					else if ( command.equals( "send" ) )
+					{
+						// TODO
+						String[] argsArray = args.split( "\\s" );
+						System.out.println( argsArray.length );
+						mainP.appendSystemMessage( "/send to be implemented..." );
+					}
+					
+					else if ( command.equals( "nick" ) )
+					{
+						// TODO
+						mainP.appendSystemMessage( "/nick to be implemented..." );
+					}
+					
+					else if ( command.startsWith( "/" ) )
+					{
+						sendMsg( line.replaceFirst( "/", "" ) );
+					}
+
+					else
+					{
+						mainP.appendSystemMessage( "Unknown command '" + command + "'. Type /help for a list of commands." );
+					}
+				}
 			}
 
 			else
 			{
-				mainP.appendOwnMessage( "<" + me.getNick() + ">: " + line );
-				controller.sendChatMessage( line );
+				sendMsg( line );
 			}
 		}
 
 		mainP.getMsgTF().setText( "" );
+	}
+	
+	private void sendMsg( String message )
+	{
+		mainP.appendOwnMessage( message );
+		controller.sendChatMessage( message );
+	}
+
+	@Override
+	public void showCommands()
+	{
+		mainP.appendSystemMessage( Constants.APP_NAME + " commands:\n" +
+				"/help - show this help message\n" +
+				"/about - information about " + Constants.APP_NAME + "\n" +
+				"/clear - clear all the text from the chat\n" +
+				"/whois <nick> - show information about a user\n" +
+				"/away <away message> - set status to away\n" +
+				"/send <nick> <file> - send a file to a user\n" +
+				"/topic <optional new topic> - prints the current topic, or changes the topic\n" +
+				"//<text> - send the text as a normal message, with a single slash" );
 	}
 
 	@Override
@@ -331,7 +504,7 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 			{
 				nick = nick.trim();
 				controller.changeNick( me.getCode(), nick );
-				mainP.appendSystemMessage( "*** You changed nick to " + me.getNick() );
+				mainP.appendSystemMessage( "You changed nick to " + me.getNick() );
 				updateTitleAndTray();
 			}
 		}
@@ -340,7 +513,7 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 	@Override
 	public void dayChanged( Date date )
 	{
-		mainP.appendSystemMessage( "*** Day changed to " + Tools.dateToString( null, "EEEE, d MMMM yyyy" ) );
+		mainP.appendSystemMessage( "Day changed to " + Tools.dateToString( null, "EEEE, d MMMM yyyy" ) );
 	}
 
 	@Override
@@ -359,7 +532,7 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 			fr.cancel();
 		}
 
-		mainP.appendSystemMessage( "*** " + user.getNick() + " timed out..." );
+		mainP.appendSystemMessage( user.getNick() + " timed out..." );
 	}
 
 	@Override
@@ -406,9 +579,9 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 	}
 
 	@Override
-	public void showUserMessage( String message, int color )
+	public void showUserMessage( String user, String message, int color )
 	{
-		mainP.appendUserMessage( message, color );
+		mainP.appendUserMessage( user, message, color );
 
 		if ( !gui.isVisible() && me.isAway() )
 		{
@@ -515,7 +688,7 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 				// This means that the other user has not answered yet
 				if ( fs.isWaiting() )
 				{
-					showSystemMessage( "*** You cancelled sending of " + fs.getFileName() + " to " + fs.getNick() );
+					showSystemMessage( "You cancelled sending of " + fs.getFileName() + " to " + fs.getNick() );
 					tList.removeFileSender( fs );
 				}
 			}

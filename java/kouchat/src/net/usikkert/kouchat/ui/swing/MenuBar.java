@@ -33,8 +33,8 @@ import net.usikkert.kouchat.Constants;
 
 public class MenuBar extends JMenuBar implements ActionListener
 {
-	private JMenu fileMenu, toolsMI, helpMenu;
-	private JMenuItem minimizeMI, quitMI, clearMI, awayMI, topicMI, settingsMI, aboutMI;
+	private JMenu fileMenu, toolsMenu, helpMenu;
+	private JMenuItem minimizeMI, quitMI, clearMI, awayMI, topicMI, settingsMI, aboutMI, commandsMI;
 	private Mediator mediator;
 
 	public MenuBar( Mediator mediator )
@@ -55,8 +55,8 @@ public class MenuBar extends JMenuBar implements ActionListener
 		fileMenu.addSeparator();
 		fileMenu.add( quitMI );
 
-		toolsMI = new JMenu( "Tools" );
-		toolsMI.setMnemonic( 'T' );
+		toolsMenu = new JMenu( "Tools" );
+		toolsMenu.setMnemonic( 'T' );
 		clearMI = new JMenuItem( "Clear chat" );
 		clearMI.setMnemonic( 'C' );
 		clearMI.addActionListener( this );
@@ -70,22 +70,27 @@ public class MenuBar extends JMenuBar implements ActionListener
 		settingsMI.setMnemonic( 'S' );
 		settingsMI.addActionListener( this );
 
-		toolsMI.add( clearMI );
-		toolsMI.add( awayMI );
-		toolsMI.add( topicMI );
-		toolsMI.addSeparator();
-		toolsMI.add( settingsMI );
+		toolsMenu.add( clearMI );
+		toolsMenu.add( awayMI );
+		toolsMenu.add( topicMI );
+		toolsMenu.addSeparator();
+		toolsMenu.add( settingsMI );
 
 		helpMenu = new JMenu( "Help" );
 		helpMenu.setMnemonic( 'H' );
+		commandsMI = new JMenuItem( "Commands" );
+		commandsMI.setMnemonic( 'O' );
+		commandsMI.addActionListener( this );
 		aboutMI = new JMenuItem( "About" );
 		aboutMI.setMnemonic( 'A' );
 		aboutMI.addActionListener( this );
-
+		
+		helpMenu.add( commandsMI );
+		helpMenu.addSeparator();
 		helpMenu.add( aboutMI );
 
 		add( fileMenu );
-		add( toolsMI );
+		add( toolsMenu );
 		add( helpMenu );
 	}
 
@@ -126,6 +131,11 @@ public class MenuBar extends JMenuBar implements ActionListener
 		else if ( e.getSource() == clearMI )
 		{
 			mediator.clearChat();
+		}
+		
+		else if ( e.getSource() == commandsMI )
+		{
+			mediator.showCommands();
 		}
 
 		else if ( e.getSource() == aboutMI )

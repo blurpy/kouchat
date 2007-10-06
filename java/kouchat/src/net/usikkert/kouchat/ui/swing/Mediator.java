@@ -45,4 +45,5 @@ public interface Mediator
 	public void updateWriting();
 	public void changeNick( String nick );
 	public void transferCancelled( TransferFrame transferFrame );
+	public void showCommands();
 }
