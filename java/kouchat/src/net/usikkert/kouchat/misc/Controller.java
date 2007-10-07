@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 
 import net.usikkert.kouchat.net.MessageParser;
 import net.usikkert.kouchat.net.DefaultMessageResponder;
+import net.usikkert.kouchat.net.MessageResponder;
 import net.usikkert.kouchat.net.Messages;
 import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.util.DayTimer;
@@ -40,7 +41,7 @@ public class Controller
 	private NickController nickController;
 	private Messages messages;
 	private MessageParser msgParser;
-	private DefaultMessageResponder msgResponder;
+	private MessageResponder msgResponder;
 	private IdleThread idleThread;
 	private TransferList tList;
 	private WaitingList wList;

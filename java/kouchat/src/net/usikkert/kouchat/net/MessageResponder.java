@@ -19,7 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.event;
+package net.usikkert.kouchat.net;
 
 import net.usikkert.kouchat.misc.NickDTO;
 

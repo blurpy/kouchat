@@ -24,7 +24,6 @@ package net.usikkert.kouchat.net;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.usikkert.kouchat.event.MessageResponder;
 import net.usikkert.kouchat.event.ReceiverListener;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
@@ -34,13 +33,13 @@ public class MessageParser implements ReceiverListener
 	private static Logger log = Logger.getLogger( MessageParser.class.getName() );
 
 	private MessageReceiver receiver;
-	private MessageResponder listener;
+	private MessageResponder responder;
 	private Settings settings;
 	private boolean loggedOn;
 
-	public MessageParser( MessageResponder listener )
+	public MessageParser( MessageResponder responder )
 	{
-		this.listener = listener;
+		this.responder = responder;
 
 		settings = Settings.getSettings();
 		receiver = new MessageReceiver();
@@ -83,7 +82,7 @@ public class MessageParser implements ReceiverListener
 					int rightBracket = msg.indexOf( "]" );
 					int rgb = Integer.parseInt( msg.substring( leftBracket +1, rightBracket ) );
 
-					listener.messageArrived( msgCode, msg.substring( rightBracket +1, msg.length() ), rgb );
+					responder.messageArrived( msgCode, msg.substring( rightBracket +1, msg.length() ), rgb );
 				}
 
 				else if ( type.equals( "LOGON" ) )
@@ -92,7 +91,7 @@ public class MessageParser implements ReceiverListener
 					newUser.setIpAddress( ipAddress );
 					newUser.setLastIdle( System.currentTimeMillis() );
 
-					listener.userLogOn( newUser );
+					responder.userLogOn( newUser );
 				}
 
 				else if ( type.equals( "EXPOSING" ) )
@@ -105,50 +104,50 @@ public class MessageParser implements ReceiverListener
 						user.setAway( true );
 
 					user.setLastIdle( System.currentTimeMillis() );
-					listener.userExposing( user );
+					responder.userExposing( user );
 				}
 
 				else if ( type.equals( "LOGOFF" ) )
 				{
-					listener.userLogOff( msgCode );
+					responder.userLogOff( msgCode );
 				}
 
 				else if ( type.equals( "AWAY" ) )
 				{
-					listener.awayChanged( msgCode, true, msg );
+					responder.awayChanged( msgCode, true, msg );
 				}
 
 				else if ( type.equals( "BACK" ) )
 				{
-					listener.awayChanged( msgCode, false, "" );
+					responder.awayChanged( msgCode, false, "" );
 				}
 
 				else if ( type.equals( "EXPOSE" ) )
 				{
-					listener.exposeRequested();
+					responder.exposeRequested();
 				}
 
 				else if ( type.equals( "NICKCRASH" ) )
 				{
 					if ( tempme.getNick().equals( msg ) )
 					{
-						listener.nickCrash();
+						responder.nickCrash();
 					}
 				}
 
 				else if ( type.equals( "WRITING" ) )
 				{
-					listener.writingChanged( msgCode, true );
+					responder.writingChanged( msgCode, true );
 				}
 
 				else if ( type.equals( "STOPPEDWRITING" ) )
 				{
-					listener.writingChanged( msgCode, false );
+					responder.writingChanged( msgCode, false );
 				}
 
 				else if ( type.equals( "GETTOPIC" ) )
 				{
-					listener.topicRequested();
+					responder.topicRequested();
 				}
 
 				else if ( type.equals( "TOPIC" ) )
@@ -169,18 +168,18 @@ public class MessageParser implements ReceiverListener
 							theTopic = msg.substring( rightBracket +1, msg.length() );
 						}
 
-						listener.topicChanged( msgCode, theTopic, theNick, theTime );
+						responder.topicChanged( msgCode, theTopic, theNick, theTime );
 					}
 				}
 
 				else if ( type.equals( "NICK" ) )
 				{
-					listener.nickChanged( msgCode, msgNick );
+					responder.nickChanged( msgCode, msgNick );
 				}
 
 				else if ( type.equals( "IDLE" ) )
 				{
-					listener.userIdle( msgCode );
+					responder.userIdle( msgCode );
 				}
 
 				else if ( type.equals( "SENDFILEACCEPT" ) )
@@ -199,7 +198,7 @@ public class MessageParser implements ReceiverListener
 						int fileHash = Integer.parseInt( msg.substring( leftCurly +1, rightCurly ) );
 						String fileName = msg.substring( rightCurly +1, msg.length() );
 
-						listener.fileSendAccepted( msgCode, fileName, fileHash, port );
+						responder.fileSendAccepted( msgCode, fileName, fileHash, port );
 					}
 				}
 
@@ -216,7 +215,7 @@ public class MessageParser implements ReceiverListener
 						String fileName = msg.substring( rightCurly +1, msg.length() );
 						int fileHash = Integer.parseInt( msg.substring( leftCurly +1, rightCurly ) );
 
-						listener.fileSendAborted( msgCode, fileName, fileHash );
+						responder.fileSendAborted( msgCode, fileName, fileHash );
 					}
 				}
 
@@ -236,20 +235,20 @@ public class MessageParser implements ReceiverListener
 						String fileName = msg.substring( rightCurly +1, msg.length() );
 						int fileHash = Integer.parseInt( msg.substring( leftCurly +1, rightCurly ) );
 
-						listener.fileSend( msgCode, byteSize, fileName, msgNick, fileHash, fileCode );
+						responder.fileSend( msgCode, byteSize, fileName, msgNick, fileHash, fileCode );
 					}
 				}
 			}
 
 			else if ( type.equals( "LOGON" ) )
 			{
-				listener.meLogOn( ipAddress );
+				responder.meLogOn( ipAddress );
 				loggedOn = true;
 			}
 
 			else if ( type.equals( "IDLE" ) )
 			{
-				listener.meIdle( ipAddress );
+				responder.meIdle( ipAddress );
 			}
 		}
 

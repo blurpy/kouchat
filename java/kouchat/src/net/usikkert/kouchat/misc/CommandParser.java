@@ -61,7 +61,7 @@ public class CommandParser
 
 		else
 		{
-			fixTopic( args );
+			ui.fixTopic( args );
 		}
 	}
 	

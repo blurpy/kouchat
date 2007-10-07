@@ -37,4 +37,5 @@ public interface UserInterface
 	public void showOwnMessage( String message );
 	public void changeAway( boolean away, String reason );
 	public void startFileSend( NickDTO user, File file );
+	public void fixTopic( String args );
 }

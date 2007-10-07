@@ -159,7 +159,7 @@ public class GUIMediator implements Mediator, UserInterface
 		mainP.getMsgTF().requestFocus();
 	}
 
-	private void fixTopic( String newTopic )
+	public void fixTopic( String newTopic )
 	{
 		TopicDTO topic = controller.getTopic();
 		newTopic = newTopic.trim();
