@@ -52,7 +52,6 @@ public class MessageReceiver implements Runnable
 			address = InetAddress.getByName( Constants.NETWORK_IP );
 		}
 
-		// TODO throw exception to gui
 		catch ( IOException e )
 		{
 			log.log( Level.SEVERE, e.getMessage(), e );

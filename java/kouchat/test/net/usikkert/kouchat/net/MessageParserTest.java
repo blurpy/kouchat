@@ -23,7 +23,6 @@ package net.usikkert.kouchat.net;
 
 //import static org.junit.Assert.*;
 
-import net.usikkert.kouchat.event.MessageListener;
 import net.usikkert.kouchat.misc.NickDTO;
 
 import org.junit.After;
@@ -32,7 +31,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class MessageParserTest implements MessageListener
+public class MessageParserTest implements MessageResponder
 {
 	private MessageParser msgParser;
 
