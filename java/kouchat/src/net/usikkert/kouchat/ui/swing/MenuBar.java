@@ -28,6 +28,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.Constants;
 
@@ -84,7 +85,7 @@ public class MenuBar extends JMenuBar implements ActionListener
 		aboutMI = new JMenuItem( "About" );
 		aboutMI.setMnemonic( 'A' );
 		aboutMI.addActionListener( this );
-		
+
 		helpMenu.add( commandsMI );
 		helpMenu.addSeparator();
 		helpMenu.add( aboutMI );
@@ -105,46 +106,102 @@ public class MenuBar extends JMenuBar implements ActionListener
 	{
 		if ( e.getSource() == quitMI )
 		{
-			mediator.quit();
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					mediator.quit();
+				}
+			} );
 		}
 
 		else if ( e.getSource() == settingsMI )
 		{
-			mediator.showSettings();
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					mediator.showSettings();
+				}
+			} );
 		}
 
 		else if ( e.getSource() == minimizeMI )
 		{
-			mediator.minimize();
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					mediator.minimize();
+				}
+			} );
 		}
 
 		else if ( e.getSource() == awayMI )
 		{
-			mediator.setAway();
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					mediator.setAway();
+				}
+			} );
 		}
 
 		else if ( e.getSource() == topicMI )
 		{
-			mediator.setTopic();
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					mediator.setTopic();
+				}
+			} );
 		}
 
 		else if ( e.getSource() == clearMI )
 		{
-			mediator.clearChat();
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					mediator.clearChat();
+				}
+			} );
 		}
-		
+
 		else if ( e.getSource() == commandsMI )
 		{
-			mediator.showCommands();
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					mediator.showCommands();
+				}
+			} );
 		}
 
 		else if ( e.getSource() == aboutMI )
 		{
-			JOptionPane.showMessageDialog( null, Constants.APP_NAME + " v" + Constants.APP_VERSION
-					+ "\n\nCopyright 2006-2007 " + Constants.AUTHOR_NAME + "\n" + Constants.AUTHOR_MAIL
-					+ "\n" + Constants.AUTHOR_WEB + "\n\nSource available under the " + Constants.APP_LICENSE
-					+ ".\nSee " + Constants.APP_LICENSE_FILE + " for details.", Constants.APP_NAME
-					+ " - About", JOptionPane.INFORMATION_MESSAGE );
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					JOptionPane.showMessageDialog( null, Constants.APP_NAME + " v" + Constants.APP_VERSION
+							+ "\n\nCopyright 2006-2007 " + Constants.AUTHOR_NAME + "\n" + Constants.AUTHOR_MAIL
+							+ "\n" + Constants.AUTHOR_WEB + "\n\nSource available under the " + Constants.APP_LICENSE
+							+ ".\nSee " + Constants.APP_LICENSE_FILE + " for details.", Constants.APP_NAME
+							+ " - About", JOptionPane.INFORMATION_MESSAGE );
+				}
+			} );
 		}
 	}
 }

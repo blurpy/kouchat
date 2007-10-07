@@ -268,15 +268,8 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 
 				if ( file.exists() && file.isFile() )
 				{
-					NickDTO tempnick = sideP.getSelectedNick();
-					String size = Tools.byteToString( file.length() );
-
-					FileSender fileSend = new FileSender( tempnick, file );
-					new TransferFrame( this, fileSend );
-					tList.addFileSender( fileSend );
-
-					controller.sendFile( tempnick.getCode(), file.length(), file.hashCode(), file.getName() );
-					mainP.appendSystemMessage( "Trying to send the file " + file.getName() + " [" + size + "] to " + tempnick.getNick() );
+					NickDTO user = sideP.getSelectedNick();
+					startFileSend( user, file );
 				}
 			}
 		}
@@ -286,6 +279,18 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 			JOptionPane.showMessageDialog( null, "No point in doing that!", Constants.APP_NAME
 					+ " - Warning", JOptionPane.WARNING_MESSAGE );
 		}
+	}
+	
+	private void startFileSend( NickDTO user, File file )
+	{
+		String size = Tools.byteToString( file.length() );
+
+		FileSender fileSend = new FileSender( user, file );
+		new TransferFrame( this, fileSend );
+		tList.addFileSender( fileSend );
+
+		controller.sendFile( user.getCode(), file.length(), file.hashCode(), file.getName() );
+		mainP.appendSystemMessage( "Trying to send the file " + file.getName() + " [" + size + "] to " + user.getNick() );
 	}
 
 	@Override
@@ -307,15 +312,13 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 				if ( command.length() > 0 )
 				{
 					String args = line.replaceFirst( "/" + command, "" );
-					
-					System.err.println( command + " - '" + args + "'" ); //TODO
 
 					if ( command.equals( "topic" ) )
 					{
 						if ( args.length() == 0 )
 						{
 							TopicDTO topic = controller.getTopic();
-							
+
 							if ( topic.getTopic().equals( "" ) )
 							{
 								mainP.appendSystemMessage( "No topic set" );
@@ -378,31 +381,22 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 						else
 						{
 							String[] argsArray = args.split( "\\s" );
-							String nick = "";
-							
-							for ( int i = 0; i < argsArray.length; i++ )
-							{
-								if ( argsArray[i].trim().length() > 0 )
-								{
-									nick = argsArray[i].trim();
-									break;
-								}
-							}
-							
+							String nick = argsArray[1].trim();
+
 							NickDTO user = controller.getNick( nick );
-							
+
 							if ( user == null )
 							{
 								mainP.appendSystemMessage( "/whois - no such user '" + nick + "'" );
 							}
-							
+
 							else
 							{
 								String info = "/whois - " + user.getNick() + " lives at " + user.getIpAddress();
-								
+
 								if ( user.isAway() )
 									info += ", but is away and '" + user.getAwayMsg() + "'";
-								
+
 								mainP.appendSystemMessage( info );
 							}
 						}
@@ -410,18 +404,95 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 
 					else if ( command.equals( "send" ) )
 					{
-						// TODO
 						String[] argsArray = args.split( "\\s" );
-						System.out.println( argsArray.length );
-						mainP.appendSystemMessage( "/send to be implemented..." );
+
+						if ( argsArray.length <= 2 )
+						{
+							mainP.appendSystemMessage( "/send - missing arguments <nick> <file>" );
+						}
+						
+						else
+						{
+							String nick = argsArray[1];
+							NickDTO user = controller.getNick( nick );
+							
+							if ( user != me )
+							{
+								if ( user == null )
+								{
+									mainP.appendSystemMessage( "/send - no such user '" + nick + "'" );
+								}
+
+								else
+								{
+									String file = "";
+									
+									for ( int i = 2; i < argsArray.length; i++ )
+									{
+										file += argsArray[i] + " ";
+									}
+									
+									file = file.trim();
+									File sendFile = new File( file );
+									
+									if ( sendFile.exists() && sendFile.isFile() )
+									{
+										startFileSend( user, sendFile );
+									}
+									
+									else
+									{
+										mainP.appendSystemMessage( "/send - no such file '" + file + "'" );
+									}
+								}
+							}
+							
+							else
+							{
+								mainP.appendSystemMessage( "/send - no point in doing that!" );
+							}
+						}
 					}
-					
+
 					else if ( command.equals( "nick" ) )
 					{
-						// TODO
-						mainP.appendSystemMessage( "/nick to be implemented..." );
+						if ( args.trim().length() == 0 )
+						{
+							mainP.appendSystemMessage( "/nick - missing argument <nick>" );
+						}
+
+						else
+						{
+							String[] argsArray = args.split( "\\s" );
+							String nick = argsArray[1].trim();
+
+							if ( !nick.equals( me.getNick() ) )
+							{
+								if ( controller.isNickInUse( nick ) )
+								{
+									mainP.appendSystemMessage( "/nick - '" + nick + "' is in use by someone else..." );
+								}
+
+								else if ( !Tools.isValidNick( nick ) )
+								{
+									mainP.appendSystemMessage( "/nick - '" + nick + "' is not a valid nick name. (1-10 letters)" );
+								}
+
+								else
+								{
+									controller.changeNick( me.getCode(), nick );
+									mainP.appendSystemMessage( "/nick - you changed nick to '" + me.getNick() + "'" );
+									updateTitleAndTray();
+								}
+							}
+
+							else
+							{
+								mainP.appendSystemMessage( "/nick - you are already called '" + nick + "'" );
+							}
+						}
 					}
-					
+
 					else if ( command.startsWith( "/" ) )
 					{
 						sendMsg( line.replaceFirst( "/", "" ) );
@@ -442,7 +513,7 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 
 		mainP.getMsgTF().setText( "" );
 	}
-	
+
 	private void sendMsg( String message )
 	{
 		mainP.appendOwnMessage( message );
@@ -460,7 +531,7 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 				"/away <away message> - set status to away\n" +
 				"/send <nick> <file> - send a file to a user\n" +
 				"/topic <optional new topic> - prints the current topic, or changes the topic\n" +
-				"//<text> - send the text as a normal message, with a single slash" );
+		"//<text> - send the text as a normal message, with a single slash" );
 	}
 
 	@Override

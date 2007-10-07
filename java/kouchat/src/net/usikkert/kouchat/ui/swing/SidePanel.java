@@ -35,6 +35,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.NickDTO;
@@ -96,18 +97,32 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 	{
 		if ( e.getSource() == infoMI )
 		{
-			NickDTO temp = (NickDTO) nickDLM.getElementAt( nickL.getSelectedIndex() );
-			String info = "Nick: " + temp.getNick() + "\nIP address: " + temp.getIpAddress();
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					NickDTO temp = (NickDTO) nickDLM.getElementAt( nickL.getSelectedIndex() );
+					String info = "Nick: " + temp.getNick() + "\nIP address: " + temp.getIpAddress();
 
-			if ( temp.isAway() )
-				info += "\nAway message: " + temp.getAwayMsg();
+					if ( temp.isAway() )
+						info += "\nAway message: " + temp.getAwayMsg();
 
-			JOptionPane.showMessageDialog( null, info, Constants.APP_NAME + " - Info", JOptionPane.INFORMATION_MESSAGE );
+					JOptionPane.showMessageDialog( null, info, Constants.APP_NAME + " - Info", JOptionPane.INFORMATION_MESSAGE );
+				}
+			} );
 		}
 
 		else if ( e.getSource() == sendfileMI )
 		{
-			mediator.sendFile();
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					mediator.sendFile();
+				}
+			} );
 		}
 	}
 

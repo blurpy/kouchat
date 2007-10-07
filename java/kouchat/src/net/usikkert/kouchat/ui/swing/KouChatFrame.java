@@ -37,6 +37,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 
 public class KouChatFrame extends JFrame
 {
@@ -98,7 +99,14 @@ public class KouChatFrame extends JFrame
 		{
 			public void windowClosing( WindowEvent arg0 )
 			{
-				mediator.quit();
+				SwingUtilities.invokeLater( new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						mediator.quit();
+					}
+				} );
 			}
 		} );
 

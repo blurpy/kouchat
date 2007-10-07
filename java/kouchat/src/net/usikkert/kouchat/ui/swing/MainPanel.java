@@ -34,6 +34,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.text.BadLocationException;
@@ -128,7 +129,14 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 
 	public void caretUpdate( CaretEvent e )
 	{
-		mediator.updateWriting();
+		SwingUtilities.invokeLater( new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				mediator.updateWriting();
+			}
+		} );
 	}
 
 	@Override
@@ -136,7 +144,14 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 	{
 		if ( e.getSource() == msgTF )
 		{
-			mediator.write();
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					mediator.write();
+				}
+			} );
 		}
 	}
 }

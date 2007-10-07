@@ -28,6 +28,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class ButtonPanel extends JPanel implements ActionListener
 {
@@ -70,22 +71,50 @@ public class ButtonPanel extends JPanel implements ActionListener
 	{
 		if ( e.getSource() == minimizeB )
 		{
-			mediator.minimize();
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					mediator.minimize();
+				}
+			} );
 		}
 
 		else if ( e.getSource() == clearB )
 		{
-			mediator.clearChat();
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					mediator.clearChat();
+				}
+			} );
 		}
 
 		else if ( e.getSource() == awayB )
 		{
-			mediator.setAway();
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					mediator.setAway();
+				}
+			} );
 		}
 
 		else if ( e.getSource() == topicB )
 		{
-			mediator.setTopic();
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					mediator.setTopic();
+				}
+			} );
 		}
 	}
 }
