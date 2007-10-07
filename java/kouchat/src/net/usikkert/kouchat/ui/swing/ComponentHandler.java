@@ -21,49 +21,83 @@
 
 package net.usikkert.kouchat.ui.swing;
 
-import javax.swing.AbstractListModel;
-
-import net.usikkert.kouchat.event.NickListListener;
-import net.usikkert.kouchat.misc.NickDTO;
-import net.usikkert.kouchat.misc.NickList;
-
-public class NickListModel extends AbstractListModel implements NickListListener
+public class ComponentHandler
 {
-	private NickList nickList;
-
-	public void setNickList( NickList nickList )
+	private SidePanel sidePanel;
+	private SettingsFrame settingsFrame;
+	private SysTray sysTray;
+	private MenuBar menuBar;
+	private ButtonPanel buttonPanel;
+	private KouChatFrame gui;
+	private MainPanel mainPanel;
+	
+	public SidePanel getSidePanel()
 	{
-		this.nickList = nickList;
-		nickList.addNickListListener( this );
+		return sidePanel;
 	}
-
-	@Override
-	public NickDTO getElementAt( int index )
+	
+	public void setSidePanel( SidePanel sidePanel )
 	{
-		return nickList.get( index );
+		this.sidePanel = sidePanel;
 	}
-
-	@Override
-	public int getSize()
+	
+	public SettingsFrame getSettingsFrame()
 	{
-		return nickList.size();
+		return settingsFrame;
 	}
-
-	@Override
-	public void nickAdded( int pos )
+	
+	public void setSettingsFrame( SettingsFrame settingsFrame )
 	{
-		fireIntervalAdded( this, pos, pos );
+		this.settingsFrame = settingsFrame;
 	}
-
-	@Override
-	public void nickChanged( int pos )
+	
+	public SysTray getSysTray()
 	{
-		fireContentsChanged( this, pos, pos );
+		return sysTray;
 	}
-
-	@Override
-	public void nickRemoved( int pos )
+	
+	public void setSysTray( SysTray sysTray )
 	{
-		fireIntervalRemoved( this, pos, pos );
+		this.sysTray = sysTray;
+	}
+	
+	public MenuBar getMenuBar()
+	{
+		return menuBar;
+	}
+	
+	public void setMenuBar( MenuBar menuBar )
+	{
+		this.menuBar = menuBar;
+	}
+	
+	public ButtonPanel getButtonPanel()
+	{
+		return buttonPanel;
+	}
+	
+	public void setButtonPanel( ButtonPanel buttonPanel )
+	{
+		this.buttonPanel = buttonPanel;
+	}
+	
+	public KouChatFrame getGui()
+	{
+		return gui;
+	}
+	
+	public void setGui( KouChatFrame gui )
+	{
+		this.gui = gui;
+	}
+	
+	public MainPanel getMainPanel()
+	{
+		return mainPanel;
+	}
+	
+	public void setMainPanel( MainPanel mainPanel )
+	{
+		this.mainPanel = mainPanel;
 	}
 }

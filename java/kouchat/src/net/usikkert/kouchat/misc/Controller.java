@@ -137,6 +137,9 @@ public class Controller
 
 	public void logOn()
 	{
+		msgParser.start();
+		messages.start();
+		
 		messages.sendLogonMessage();
 		messages.sendExposeMessage();
 		messages.sendGetTopicMessage();

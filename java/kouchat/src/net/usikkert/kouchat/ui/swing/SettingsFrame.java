@@ -54,10 +54,8 @@ public class SettingsFrame extends JFrame implements ActionListener
 	private Settings settings;
 	private Mediator mediator;
 
-	public SettingsFrame( Mediator mediator )
+	public SettingsFrame()
 	{
-		this.mediator = mediator;
-		mediator.setSettingsFrame( this );
 		settings = Settings.getSettings();
 
 		Container container = getContentPane();
@@ -126,6 +124,11 @@ public class SettingsFrame extends JFrame implements ActionListener
 
 		getRootPane().getInputMap( JComponent.WHEN_IN_FOCUSED_WINDOW ).put( escapeKeyStroke, "ESCAPE" );
 		getRootPane().getActionMap().put( "ESCAPE", escapeAction );
+	}
+	
+	public void setMediator( Mediator mediator )
+	{
+		this.mediator = mediator;
 	}
 
 	public void actionPerformed( ActionEvent e )

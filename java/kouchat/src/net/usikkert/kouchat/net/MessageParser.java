@@ -44,7 +44,11 @@ public class MessageParser implements ReceiverListener
 		settings = Settings.getSettings();
 		receiver = new MessageReceiver();
 		receiver.registerReceiverListener( this );
-		receiver.start();
+	}
+	
+	public void start()
+	{
+		receiver.startReceiver();
 	}
 
 	public void stop()
@@ -57,6 +61,7 @@ public class MessageParser implements ReceiverListener
 		return receiver.restartReceiver();
 	}
 
+	@Override
 	public void messageArrived( String message, String ipAddress )
 	{
 		System.out.println( message ); // TODO

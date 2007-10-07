@@ -42,18 +42,40 @@ import javax.swing.SwingUtilities;
 public class KouChatFrame extends JFrame
 {
 	private MainPanel mainP;
+	private SidePanel sideP;
+	private ButtonPanel buttonP;
 	private Mediator mediator;
+	private SysTray sysTray;
+	private SettingsFrame settingsFrame;
+	private MenuBar menuBar;
 
 	public KouChatFrame()
 	{
-		mediator = new GUIMediator();
-		mediator.setKouChatFrame( this );
-
-		mainP = new MainPanel( mediator );
-		new SysTray( mediator );
-		new SettingsFrame( mediator );
-		setJMenuBar( new MenuBar( mediator ) );
-
+		buttonP = new ButtonPanel();
+		sideP = new SidePanel( buttonP );
+		mainP = new MainPanel( sideP );
+		sysTray = new SysTray();
+		settingsFrame = new SettingsFrame();
+		menuBar = new MenuBar();
+		
+		ComponentHandler compHandler = new ComponentHandler();
+		compHandler.setGui( this );
+		compHandler.setButtonPanel( buttonP );
+		compHandler.setSidePanel( sideP );
+		compHandler.setMainPanel( mainP );
+		compHandler.setSysTray( sysTray );
+		compHandler.setSettingsFrame( settingsFrame );
+		compHandler.setMenuBar( menuBar );
+		
+		mediator = new SwingMediator( compHandler );
+		buttonP.setMediator( mediator );
+		sideP.setMediator( mediator );
+		mainP.setMediator( mediator );
+		sysTray.setMediator( mediator );
+		settingsFrame.setMediator( mediator );
+		menuBar.setMediator( mediator );
+		
+		setJMenuBar( menuBar );
 		getContentPane().add( mainP, BorderLayout.CENTER );
 		setTitle( Constants.APP_NAME + " v" + Constants.APP_VERSION + " - (Not connected)" );
 		setIconImage( new ImageIcon( getClass().getResource( "/icons/kou_normal.png" ) ).getImage() );

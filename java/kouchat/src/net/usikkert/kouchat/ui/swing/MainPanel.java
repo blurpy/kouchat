@@ -56,15 +56,12 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 	private MutableAttributeSet chatAttr;
 	private StyledDocument chatDoc;
 	private JTextField msgTF;
-	private SidePanel sideP;
 	private Settings settings;
 	private Mediator mediator;
 	private NickDTO me;
 
-	public MainPanel( Mediator mediator )
+	public MainPanel( SidePanel sideP )
 	{
-		this.mediator = mediator;
-		mediator.setMainP( this );
 		settings = Settings.getSettings();
 		me = settings.getMe();
 
@@ -75,7 +72,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 		chatSP = new JScrollPane( chatTP );
 		chatAttr = new SimpleAttributeSet();
 		chatDoc = chatTP.getStyledDocument();
-		sideP = new SidePanel( mediator );
+		
 		msgTF = new JTextField();
 		msgTF.addActionListener( this );
 		msgTF.addCaretListener( this );
@@ -85,6 +82,11 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 		add( msgTF, BorderLayout.SOUTH );
 
 		setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
+	}
+	
+	public void setMediator( Mediator mediator )
+	{
+		this.mediator = mediator;
 	}
 
 	private void appendToChat( String text, Color color )

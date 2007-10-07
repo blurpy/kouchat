@@ -35,11 +35,8 @@ public class ButtonPanel extends JPanel implements ActionListener
 	private JButton minimizeB, clearB, awayB, topicB;
 	private Mediator mediator;
 
-	public ButtonPanel( Mediator mediator )
+	public ButtonPanel()
 	{
-		this.mediator = mediator;
-		mediator.setButtonP( this );
-
 		setLayout( new GridLayout( 4, 1 ) );
 
 		clearB = new JButton( "Clear" );
@@ -59,6 +56,11 @@ public class ButtonPanel extends JPanel implements ActionListener
 		add( minimizeB );
 
 		setBorder( BorderFactory.createEmptyBorder( 1, 1, 2, 1 ) );
+	}
+	
+	public void setMediator( Mediator mediator )
+	{
+		this.mediator = mediator;
 	}
 
 	public void setAwayState( boolean away )

@@ -40,20 +40,21 @@ import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.util.Tools;
 
 /**
- * This class is a mediator for the gui, and gets all the events from the gui layer.
- * It is also a listener for events from the network layer.
+ * This class is a mediator for the gui, and gets all the events from the gui layer
+ * that needs access to other components, or classes in lower layers. It is also
+ * the interface for classes in lower layers to update the gui.
  * 
  * @author Christian Ihle
  */
-public class GUIMediator implements Mediator, UserInterface
+public class SwingMediator implements Mediator, UserInterface
 {
 	private SidePanel sideP;
 	private SettingsFrame settingsFrame;
+	private KouChatFrame gui;
+	private MainPanel mainP;
 	private SysTray sysTray;
 	private MenuBar menuBar;
 	private ButtonPanel buttonP;
-	private KouChatFrame gui;
-	private MainPanel mainP;
 
 	private Controller controller;
 	private Settings settings;
@@ -61,9 +62,19 @@ public class GUIMediator implements Mediator, UserInterface
 	private TransferList tList;
 	private CommandParser cmdParser;
 
-	public GUIMediator()
+	public SwingMediator( ComponentHandler compHandler )
 	{
 		controller = new Controller( this );
+		
+		sideP = compHandler.getSidePanel();
+		sideP.setNickList( controller.getNickList() );
+		settingsFrame = compHandler.getSettingsFrame();
+		gui = compHandler.getGui();
+		mainP = compHandler.getMainPanel();
+		sysTray = compHandler.getSysTray();
+		menuBar = compHandler.getMenuBar();
+		buttonP = compHandler.getButtonPanel();
+		
 		tList = controller.getTransferList();
 		settings = Settings.getSettings();
 		me = settings.getMe();
@@ -115,34 +126,6 @@ public class GUIMediator implements Mediator, UserInterface
 	}
 
 	@Override
-	public void changeAway( boolean away, String reason )
-	{
-		if ( away )
-		{
-			controller.changeAwayStatus( me.getCode(), true, reason );
-			sysTray.setAwayState();
-			mainP.getMsgTF().setEnabled( false );
-			menuBar.setAwayState( true );
-			buttonP.setAwayState( true );
-			mainP.appendSystemMessage( "You went away: " + me.getAwayMsg() );
-			controller.sendAwayMessage();
-		}
-
-		else
-		{
-			controller.changeAwayStatus( me.getCode(), false, "" );
-			sysTray.setNormalState();
-			mainP.getMsgTF().setEnabled( true );
-			menuBar.setAwayState( false );
-			buttonP.setAwayState( false );
-			mainP.appendSystemMessage( "You came back" );
-			controller.sendBackMessage();
-		}
-
-		updateTitleAndTray();
-	}
-
-	@Override
 	public void setTopic()
 	{
 		TopicDTO topic = controller.getTopic();
@@ -157,32 +140,6 @@ public class GUIMediator implements Mediator, UserInterface
 		}
 
 		mainP.getMsgTF().requestFocus();
-	}
-
-	public void fixTopic( String newTopic )
-	{
-		TopicDTO topic = controller.getTopic();
-		newTopic = newTopic.trim();
-
-		if ( !newTopic.equals( topic.getTopic().trim() ) )
-		{
-			long time = System.currentTimeMillis();
-
-			if ( newTopic.length() > 0 )
-			{
-				mainP.appendSystemMessage( "You changed the topic to: " + newTopic );
-				topic.changeTopic( newTopic, me.getNick(), time );
-			}
-
-			else
-			{
-				mainP.appendSystemMessage( "You removed the topic..." );
-				topic.changeTopic( "", me.getNick(), time );
-			}
-
-			controller.sendTopicMessage( topic );
-			updateTitleAndTray();
-		}
 	}
 
 	@Override
@@ -278,19 +235,6 @@ public class GUIMediator implements Mediator, UserInterface
 	}
 	
 	@Override
-	public void startFileSend( NickDTO user, File file )
-	{
-		String size = Tools.byteToString( file.length() );
-
-		FileSender fileSend = new FileSender( user, file );
-		new TransferFrame( this, fileSend );
-		tList.addFileSender( fileSend );
-
-		controller.sendFile( user.getCode(), file.length(), file.hashCode(), file.getName() );
-		mainP.appendSystemMessage( "Trying to send the file " + file.getName() + " [" + size + "] to " + user.getNick() );
-	}
-
-	@Override
 	public void write()
 	{
 		String line = mainP.getMsgTF().getText();
@@ -304,17 +248,12 @@ public class GUIMediator implements Mediator, UserInterface
 
 			else
 			{
-				sendMsg( line );
+				mainP.appendOwnMessage( line );
+				controller.sendChatMessage( line );
 			}
 		}
 
 		mainP.getMsgTF().setText( "" );
-	}
-
-	private void sendMsg( String message )
-	{
-		mainP.appendOwnMessage( message );
-		controller.sendChatMessage( message );
 	}
 
 	@Override
@@ -381,48 +320,31 @@ public class GUIMediator implements Mediator, UserInterface
 	}
 
 	@Override
-	public void setButtonP( ButtonPanel buttonP )
+	public void transferCancelled( TransferFrame transferFrame )
 	{
-		this.buttonP = buttonP;
-	}
+		if ( transferFrame.getCancelButtonText().equals( "Close" ) )
+			transferFrame.dispose();
 
-	@Override
-	public void setKouChatFrame( KouChatFrame gui )
-	{
-		this.gui = gui;
-	}
+		else
+		{
+			transferFrame.setCancelButtonText( "Close" );
+			FileTransfer fileTransfer = transferFrame.getFileTransfer();
+			fileTransfer.cancel();
 
-	@Override
-	public void setMainP( MainPanel mainP )
-	{
-		this.mainP = mainP;
-	}
+			if ( fileTransfer instanceof FileSender )
+			{
+				FileSender fs = (FileSender) fileTransfer;
 
-	@Override
-	public void setMenuBar( MenuBar menuBar )
-	{
-		this.menuBar = menuBar;
+				// This means that the other user has not answered yet
+				if ( fs.isWaiting() )
+				{
+					mainP.appendSystemMessage( "You cancelled sending of " + fs.getFileName() + " to " + fs.getNick() );
+					tList.removeFileSender( fs );
+				}
+			}
+		}
 	}
-
-	@Override
-	public void setSettingsFrame( SettingsFrame settingsFrame )
-	{
-		this.settingsFrame = settingsFrame;
-	}
-
-	@Override
-	public void setSideP( SidePanel sideP )
-	{
-		this.sideP = sideP;
-		sideP.setNickList( controller.getNickList() );
-	}
-
-	@Override
-	public void setSysTray( SysTray sysTray )
-	{
-		this.sysTray = sysTray;
-	}
-
+	
 	@Override
 	public void showUserMessage( String user, String message, int color )
 	{
@@ -507,42 +429,84 @@ public class GUIMediator implements Mediator, UserInterface
 
 		return returnFile;
 	}
-
+	
 	@Override
-	public void showTransfer( FileReceiver fileRes )
+	public void startFileSend( NickDTO user, File file )
 	{
-		new TransferFrame( this, fileRes );
-	}
+		String size = Tools.byteToString( file.length() );
 
+		FileSender fileSend = new FileSender( user, file );
+		new TransferFrame( this, fileSend );
+		controller.getTransferList().addFileSender( fileSend );
+
+		controller.sendFile( user.getCode(), file.length(), file.hashCode(), file.getName() );
+		mainP.appendSystemMessage( "Trying to send the file " + file.getName() + " [" + size + "] to " + user.getNick() );
+	}
+	
 	@Override
 	public void showTopic()
 	{
 		updateTitleAndTray();
 	}
-
+	
 	@Override
-	public void transferCancelled( TransferFrame transferFrame )
+	public void showTransfer( FileReceiver fileRes )
 	{
-		if ( transferFrame.getCancelButtonText().equals( "Close" ) )
-			transferFrame.dispose();
+		new TransferFrame( this, fileRes );
+	}
+	
+	@Override
+	public void fixTopic( String newTopic )
+	{
+		TopicDTO topic = controller.getTopic();
+		newTopic = newTopic.trim();
+
+		if ( !newTopic.equals( topic.getTopic().trim() ) )
+		{
+			long time = System.currentTimeMillis();
+
+			if ( newTopic.length() > 0 )
+			{
+				mainP.appendSystemMessage( "You changed the topic to: " + newTopic );
+				topic.changeTopic( newTopic, me.getNick(), time );
+			}
+
+			else
+			{
+				mainP.appendSystemMessage( "You removed the topic..." );
+				topic.changeTopic( "", me.getNick(), time );
+			}
+
+			controller.sendTopicMessage( topic );
+			showTopic();
+		}
+	}
+	
+	@Override
+	public void changeAway( boolean away, String reason )
+	{
+		if ( away )
+		{
+			controller.changeAwayStatus( me.getCode(), true, reason );
+			sysTray.setAwayState();
+			mainP.getMsgTF().setEnabled( false );
+			menuBar.setAwayState( true );
+			buttonP.setAwayState( true );
+			mainP.appendSystemMessage( "You went away: " + me.getAwayMsg() );
+			controller.sendAwayMessage();
+		}
 
 		else
 		{
-			transferFrame.setCancelButtonText( "Close" );
-			FileTransfer fileTransfer = transferFrame.getFileTransfer();
-			fileTransfer.cancel();
-
-			if ( fileTransfer instanceof FileSender )
-			{
-				FileSender fs = (FileSender) fileTransfer;
-
-				// This means that the other user has not answered yet
-				if ( fs.isWaiting() )
-				{
-					showSystemMessage( "You cancelled sending of " + fs.getFileName() + " to " + fs.getNick() );
-					tList.removeFileSender( fs );
-				}
-			}
+			controller.changeAwayStatus( me.getCode(), false, "" );
+			sysTray.setNormalState();
+			mainP.getMsgTF().setEnabled( true );
+			menuBar.setAwayState( false );
+			buttonP.setAwayState( false );
+			mainP.appendSystemMessage( "You came back" );
+			controller.sendBackMessage();
 		}
+
+		showTopic();
 	}
 }

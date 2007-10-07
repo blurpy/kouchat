@@ -33,7 +33,7 @@ import java.util.logging.Logger;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.ReceiverListener;
 
-public class MessageReceiver extends Thread
+public class MessageReceiver implements Runnable
 {
 	private static Logger log = Logger.getLogger( MessageReceiver.class.getName() );
 	private static final int BYTESIZE = 1024;
@@ -41,8 +41,8 @@ public class MessageReceiver extends Thread
 	private MulticastSocket mcSocket;
 	private InetAddress address;
 	private ReceiverListener listener;
-
 	private boolean run;
+	private Thread worker;
 
 	public MessageReceiver()
 	{
@@ -50,10 +50,9 @@ public class MessageReceiver extends Thread
 		{
 			mcSocket = new MulticastSocket( Constants.NETWORK_PORT );
 			address = InetAddress.getByName( Constants.NETWORK_IP );
-			mcSocket.joinGroup( address );
-			run = true;
 		}
 
+		// TODO throw exception to gui
 		catch ( IOException e )
 		{
 			log.log( Level.SEVERE, e.getMessage(), e );
@@ -83,6 +82,27 @@ public class MessageReceiver extends Thread
 		}
 	}
 
+	public void startReceiver()
+	{
+		if ( run )
+		{
+			stopReceiver();
+		}
+
+		try
+		{
+			mcSocket.joinGroup( address );
+			run = true;
+			worker = new Thread( this );
+			worker.start();
+		}
+
+		catch ( IOException e )
+		{
+			log.log( Level.SEVERE, e.getMessage(), e );
+		}
+	}
+
 	public void stopReceiver()
 	{
 		try
@@ -101,6 +121,7 @@ public class MessageReceiver extends Thread
 	public boolean restartReceiver()
 	{
 		log.log( Level.WARNING, "Restarting receiver..." );
+
 		boolean success = false;
 
 		try
@@ -122,6 +143,12 @@ public class MessageReceiver extends Thread
 		catch ( IOException e )
 		{
 			log.log( Level.WARNING, e.getMessage() );
+		}
+
+		if ( !worker.isAlive() )
+		{
+			log.log( Level.SEVERE, "Thread died. Restarting..." );
+			startReceiver();
 		}
 
 		return success;

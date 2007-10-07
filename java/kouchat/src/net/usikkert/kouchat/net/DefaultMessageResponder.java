@@ -120,8 +120,12 @@ public class DefaultMessageResponder implements MessageResponder
 	public void userLogOff( int userCode )
 	{
 		NickDTO user = controller.getNick( userCode );
-		controller.getNickList().remove( user );
-		ui.showSystemMessage( user.getNick() + " logged off..." );
+
+		if ( user != null )
+		{
+			controller.getNickList().remove( user );
+			ui.showSystemMessage( user.getNick() + " logged off..." );
+		}
 	}
 
 	@Override
@@ -183,14 +187,14 @@ public class DefaultMessageResponder implements MessageResponder
 						{
 							ui.showSystemMessage( nick + " changed the topic to: " + newTopic );
 						}
-						
+
 						else
 						{
 							ui.showSystemMessage( "Topic is: " + newTopic + " (set by " + 
 									nick + " at " + Tools.dateToString( 
 											new Date( time ), "HH:mm:ss, dd. MMM. yy" ) + ")" );
 						}
-						
+
 						topic.changeTopic( newTopic, nick, time );
 						ui.showTopic();
 					}

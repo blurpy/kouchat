@@ -23,14 +23,6 @@ package net.usikkert.kouchat.ui.swing;
 
 public interface Mediator
 {
-	public void setKouChatFrame( KouChatFrame gui );
-	public void setMainP( MainPanel mainP );
-	public void setSysTray( SysTray sysTray );
-	public void setMenuBar( MenuBar menuBar );
-	public void setButtonP( ButtonPanel buttonP );
-	public void setSideP( SidePanel sideP );
-	public void setSettingsFrame( SettingsFrame settingsFrame );
-
 	public void minimize();
 	public void clearChat();
 	public void setAway();

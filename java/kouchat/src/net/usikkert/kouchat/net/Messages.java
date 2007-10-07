@@ -123,6 +123,11 @@ public class Messages
 		sender.send( me.getCode() + "!SENDFILE#" + me.getNick() + ":(" + sendToUserCode + ")" + "["
 				+ fileLength + "]{" + fileHash + "}" + fileName );
 	}
+	
+	public void start()
+	{
+		sender.startSender();
+	}
 
 	public void stop()
 	{

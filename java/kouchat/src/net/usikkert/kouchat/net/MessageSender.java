@@ -38,6 +38,7 @@ public class MessageSender
 
 	private MulticastSocket mcSocket;
 	private InetAddress address;
+	private boolean started;
 
 	public MessageSender()
 	{
@@ -45,7 +46,6 @@ public class MessageSender
 		{
 			mcSocket = new MulticastSocket( Constants.NETWORK_PORT );
 			address = InetAddress.getByName( Constants.NETWORK_IP );
-			mcSocket.joinGroup( address );
 		}
 
 		catch ( IOException e )
@@ -56,15 +56,18 @@ public class MessageSender
 
 	public void send( String message )
 	{
-		try
+		if ( started )
 		{
-			DatagramPacket packet = new DatagramPacket( message.getBytes( "ISO-8859-15" ), message.length(), address, Constants.NETWORK_PORT );
-			mcSocket.send( packet );
-		}
+			try
+			{
+				DatagramPacket packet = new DatagramPacket( message.getBytes( "ISO-8859-15" ), message.length(), address, Constants.NETWORK_PORT );
+				mcSocket.send( packet );
+			}
 
-		catch ( IOException e )
-		{
-			log.log( Level.WARNING, "Could not send message: " + message );
+			catch ( IOException e )
+			{
+				log.log( Level.WARNING, "Could not send message: " + message );
+			}
 		}
 	}
 
@@ -72,8 +75,23 @@ public class MessageSender
 	{
 		try
 		{
+			started = false;
 			mcSocket.leaveGroup( address );
 			mcSocket.close();
+		}
+
+		catch ( IOException e )
+		{
+			log.log( Level.SEVERE, e.getMessage(), e );
+		}
+	}
+
+	public void startSender()
+	{
+		try
+		{
+			mcSocket.joinGroup( address );
+			started = true;
 		}
 
 		catch ( IOException e )
