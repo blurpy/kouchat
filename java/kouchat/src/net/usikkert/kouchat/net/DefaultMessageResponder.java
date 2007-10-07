@@ -27,12 +27,12 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.usikkert.kouchat.event.MessageListener;
-import net.usikkert.kouchat.event.NetworkListener;
+import net.usikkert.kouchat.event.MessageResponder;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.TopicDTO;
+import net.usikkert.kouchat.misc.UserInterface;
 import net.usikkert.kouchat.misc.WaitingList;
 import net.usikkert.kouchat.util.Tools;
 
@@ -41,21 +41,21 @@ import net.usikkert.kouchat.util.Tools;
  * 
  * @author Christian Ihle
  */
-public class MessageResponder implements MessageListener
+public class DefaultMessageResponder implements MessageResponder
 {
-	private static Logger log = Logger.getLogger( MessageResponder.class.getName() );
+	private static Logger log = Logger.getLogger( DefaultMessageResponder.class.getName() );
 
 	private Controller controller;
 	private NickDTO me;
 	private Settings settings;
 	private TransferList tList;
 	private WaitingList wList;
-	private NetworkListener listener;
+	private UserInterface ui;
 
-	public MessageResponder( Controller controller, NetworkListener listener )
+	public DefaultMessageResponder( Controller controller, UserInterface ui )
 	{
 		this.controller = controller;
-		this.listener = listener;
+		this.ui = ui;
 
 		settings = Settings.getSettings();
 		me = settings.getMe();
@@ -94,7 +94,7 @@ public class MessageResponder implements MessageListener
 				if ( !controller.isNewUser( userCode ) )
 				{
 					NickDTO user = controller.getNick( userCode );
-					listener.showUserMessage( user.getNick(), msg, color );
+					ui.showUserMessage( user.getNick(), msg, color );
 				}
 
 				else
@@ -122,7 +122,7 @@ public class MessageResponder implements MessageListener
 	{
 		NickDTO user = controller.getNick( userCode );
 		controller.getNickList().remove( user );
-		listener.showSystemMessage( user.getNick() + " logged off..." );
+		ui.showSystemMessage( user.getNick() + " logged off..." );
 	}
 
 	@Override
@@ -140,7 +140,7 @@ public class MessageResponder implements MessageListener
 		}
 
 		controller.getNickList().add( newUser );
-		listener.showSystemMessage( newUser.getNick() + " logged on from " + newUser.getIpAddress() + "..." );
+		ui.showSystemMessage( newUser.getNick() + " logged on from " + newUser.getIpAddress() + "..." );
 	}
 
 	private void userShowedUp( NickDTO newUser )
@@ -157,7 +157,7 @@ public class MessageResponder implements MessageListener
 		}
 
 		controller.getNickList().add( newUser );
-		listener.showSystemMessage( newUser.getNick() + " showed up unexpectedly from " + newUser.getIpAddress() + "..." );
+		ui.showSystemMessage( newUser.getNick() + " showed up unexpectedly from " + newUser.getIpAddress() + "..." );
 	}
 
 	@Override
@@ -182,18 +182,18 @@ public class MessageResponder implements MessageListener
 					{
 						if ( wList.isLoggedOn() )
 						{
-							listener.showSystemMessage( nick + " changed the topic to: " + newTopic );
+							ui.showSystemMessage( nick + " changed the topic to: " + newTopic );
 						}
 						
 						else
 						{
-							listener.showSystemMessage( "Topic is: " + newTopic + " (set by " + 
+							ui.showSystemMessage( "Topic is: " + newTopic + " (set by " + 
 									nick + " at " + Tools.dateToString( 
 											new Date( time ), "HH:mm:ss, dd. MMM. yy" ) + ")" );
 						}
 						
 						topic.changeTopic( newTopic, nick, time );
-						listener.showTopic();
+						ui.showTopic();
 					}
 				}
 
@@ -201,9 +201,9 @@ public class MessageResponder implements MessageListener
 				{
 					if ( !topic.getTopic().equals( newTopic ) && time > topic.getTime() && wList.isLoggedOn() )
 					{
-						listener.showSystemMessage( nick + " removed the topic..." );
+						ui.showSystemMessage( nick + " removed the topic..." );
 						topic.changeTopic( "", "", time );
-						listener.showTopic();
+						ui.showTopic();
 					}
 				}
 			}
@@ -236,8 +236,8 @@ public class MessageResponder implements MessageListener
 	public void meLogOn( String ipAddress )
 	{
 		me.setIpAddress( ipAddress );
-		listener.showSystemMessage( "Today is " + Tools.dateToString( null, "EEEE, d MMMM yyyy" ) );
-		listener.showSystemMessage( "You logged on as " + me.getNick() + " from " + ipAddress );
+		ui.showSystemMessage( "Today is " + Tools.dateToString( null, "EEEE, d MMMM yyyy" ) );
+		ui.showSystemMessage( "You logged on as " + me.getNick() + " from " + ipAddress );
 	}
 
 	@Override
@@ -263,12 +263,12 @@ public class MessageResponder implements MessageListener
 
 			if ( away )
 			{
-				listener.showSystemMessage( user.getNick() + " went away: " + awayMsg );
+				ui.showSystemMessage( user.getNick() + " went away: " + awayMsg );
 			}
 
 			else
 			{
-				listener.showSystemMessage( user.getNick() + " came back..." );
+				ui.showSystemMessage( user.getNick() + " came back..." );
 			}
 		}
 	}
@@ -308,8 +308,8 @@ public class MessageResponder implements MessageListener
 	public void nickCrash()
 	{
 		me.setNick( "" + me.getCode() );
-		listener.showSystemMessage( "Nick crash, resetting nick to " + settings.getMe() );
-		listener.showTopic();
+		ui.showSystemMessage( "Nick crash, resetting nick to " + settings.getMe() );
+		ui.showTopic();
 	}
 
 	@Override
@@ -333,7 +333,7 @@ public class MessageResponder implements MessageListener
 			NickDTO user = controller.getNick( userCode );
 			String oldNick = user.getNick();
 			controller.changeNick( userCode, newNick );
-			listener.showSystemMessage( oldNick + " changed nick to " + newNick );
+			ui.showSystemMessage( oldNick + " changed nick to " + newNick );
 		}
 	}
 
@@ -369,18 +369,18 @@ public class MessageResponder implements MessageListener
 				if ( !controller.isNewUser( userCode ) )
 				{
 					String size = Tools.byteToString( byteSize );
-					listener.showSystemMessage( user + " is trying to send the file " + fileName + " [" + size + "]" );
+					ui.showSystemMessage( user + " is trying to send the file " + fileName + " [" + size + "]" );
 
-					if ( listener.askFileSave( user, fileName, size ) )
+					if ( ui.askFileSave( user, fileName, size ) )
 					{
-						File file = listener.showFileSave( fileName );
+						File file = ui.showFileSave( fileName );
 
 						if ( file != null )
 						{
 							NickDTO tempnick = controller.getNick( userCode );
 							FileReceiver fileRes = new FileReceiver( tempnick, file, byteSize );
 							tList.addFileReceiver( fileRes );
-							listener.showTransfer( fileRes );
+							ui.showTransfer( fileRes );
 
 							try
 							{
@@ -389,13 +389,13 @@ public class MessageResponder implements MessageListener
 
 								if ( fileRes.transfer() )
 								{
-									listener.showSystemMessage( "Successfully received " + fileName
+									ui.showSystemMessage( "Successfully received " + fileName
 											+ " from " + user + ", and saved as " + file.getName() );
 								}
 
 								else
 								{
-									listener.showSystemMessage( "Failed to receive " + fileName + " from " + user );
+									ui.showSystemMessage( "Failed to receive " + fileName + " from " + user );
 									fileRes.cancel();
 								}
 							}
@@ -403,7 +403,7 @@ public class MessageResponder implements MessageListener
 							catch ( ServerException e )
 							{
 								log.log( Level.SEVERE, e.getMessage(), e );
-								listener.showSystemMessage( "Failed to receive " + fileName + " from " + user );
+								ui.showSystemMessage( "Failed to receive " + fileName + " from " + user );
 								controller.sendFileAbort( userCode, fileHash, fileName );
 								fileRes.cancel();
 							}
@@ -416,14 +416,14 @@ public class MessageResponder implements MessageListener
 
 						else
 						{
-							listener.showSystemMessage( "You declined to receive " + fileName + " from " + user );
+							ui.showSystemMessage( "You declined to receive " + fileName + " from " + user );
 							controller.sendFileAbort( userCode, fileHash, fileName );
 						}
 					}
 
 					else
 					{
-						listener.showSystemMessage( "You declined to receive " + fileName + " from " + user );
+						ui.showSystemMessage( "You declined to receive " + fileName + " from " + user );
 						controller.sendFileAbort( userCode, fileHash, fileName );
 					}
 				}
@@ -445,7 +445,7 @@ public class MessageResponder implements MessageListener
 		if ( fileSend != null )
 		{
 			fileSend.cancel();
-			listener.showSystemMessage( user.getNick() + " aborted sending of " + fileName );
+			ui.showSystemMessage( user.getNick() + " aborted sending of " + fileName );
 			tList.removeFileSender( fileSend );
 		}
 	}
@@ -462,7 +462,7 @@ public class MessageResponder implements MessageListener
 
 				if ( fileSend != null )
 				{
-					listener.showSystemMessage( fUser.getNick() + " accepted sending of "	+ fileName );
+					ui.showSystemMessage( fUser.getNick() + " accepted sending of "	+ fileName );
 
 					// Give the server some time to set up the connection first
 					try
@@ -477,12 +477,12 @@ public class MessageResponder implements MessageListener
 
 					if ( fileSend.transfer( port ) )
 					{
-						listener.showSystemMessage( fileName + " successfully sent to " + fUser.getNick() );
+						ui.showSystemMessage( fileName + " successfully sent to " + fUser.getNick() );
 					}
 
 					else
 					{
-						listener.showSystemMessage( "Failed to send " + fileName + " to " + fUser.getNick() );
+						ui.showSystemMessage( "Failed to send " + fileName + " to " + fUser.getNick() );
 					}
 
 					tList.removeFileSender( fileSend );

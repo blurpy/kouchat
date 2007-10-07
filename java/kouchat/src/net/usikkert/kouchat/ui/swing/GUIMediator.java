@@ -23,20 +23,16 @@ package net.usikkert.kouchat.ui.swing;
 
 import java.io.File;
 
-import java.util.Date;
-import java.util.List;
-
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.event.DayListener;
-import net.usikkert.kouchat.event.IdleListener;
-import net.usikkert.kouchat.event.NetworkListener;
+import net.usikkert.kouchat.misc.CommandParser;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.TopicDTO;
+import net.usikkert.kouchat.misc.UserInterface;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.net.FileTransfer;
@@ -49,7 +45,7 @@ import net.usikkert.kouchat.util.Tools;
  * 
  * @author Christian Ihle
  */
-public class GUIMediator implements Mediator, DayListener, IdleListener, NetworkListener
+public class GUIMediator implements Mediator, UserInterface
 {
 	private SidePanel sideP;
 	private SettingsFrame settingsFrame;
@@ -63,16 +59,15 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 	private Settings settings;
 	private NickDTO me;
 	private TransferList tList;
+	private CommandParser cmdParser;
 
 	public GUIMediator()
 	{
 		controller = new Controller( this );
-		controller.registerDayListener( this );
-		controller.registerIdleListener( this );
-
 		tList = controller.getTransferList();
 		settings = Settings.getSettings();
 		me = settings.getMe();
+		cmdParser = new CommandParser( controller, this );
 	}
 
 	@Override
@@ -119,7 +114,8 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 		mainP.getMsgTF().requestFocus();
 	}
 
-	private void changeAway( boolean away, String reason )
+	@Override
+	public void changeAway( boolean away, String reason )
 	{
 		if ( away )
 		{
@@ -281,7 +277,8 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 		}
 	}
 	
-	private void startFileSend( NickDTO user, File file )
+	@Override
+	public void startFileSend( NickDTO user, File file )
 	{
 		String size = Tools.byteToString( file.length() );
 
@@ -302,207 +299,7 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 		{
 			if ( line.startsWith( "/" ) )
 			{
-				String command = "";
-
-				if ( line.contains( " " ) )
-					command = line.substring( 1, line.indexOf( ' ' ) );
-				else
-					command = line.substring( 1, line.length() );
-
-				if ( command.length() > 0 )
-				{
-					String args = line.replaceFirst( "/" + command, "" );
-
-					if ( command.equals( "topic" ) )
-					{
-						if ( args.length() == 0 )
-						{
-							TopicDTO topic = controller.getTopic();
-
-							if ( topic.getTopic().equals( "" ) )
-							{
-								mainP.appendSystemMessage( "No topic set" );
-							}
-
-							else
-							{
-								mainP.appendSystemMessage( "Topic is: " + topic.getTopic() + " (set by " + 
-										topic.getNick() + " at " + Tools.dateToString( 
-												new Date( topic.getTime() ), "HH:mm:ss, dd. MMM. yy" ) + ")" );
-							}
-						}
-
-						else
-						{
-							fixTopic( args );
-						}
-					}
-
-					else if ( command.equals( "away" ) )
-					{
-						if ( me.isAway() )
-						{
-							mainP.appendSystemMessage( "You are already away: '" + me.getAwayMsg() + "'" );
-						}
-
-						else
-						{
-							if ( args.trim().length() == 0 )
-								mainP.appendSystemMessage( "/away - missing argument <away message>" );
-							else
-								changeAway( true, args.trim() );
-						}
-					}
-
-					else if ( command.equals( "clear" ) )
-					{
-						mainP.clearChat();
-					}
-
-					else if ( command.equals( "about" ) )
-					{
-						mainP.appendSystemMessage( "This is " + Constants.APP_NAME + " v" + Constants.APP_VERSION +
-								", by " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL + 
-								" - " + Constants.AUTHOR_WEB );
-					}
-
-					else if ( command.equals( "help" ) )
-					{
-						showCommands();
-					}
-
-					else if ( command.equals( "whois" ) )
-					{
-						if ( args.trim().length() == 0 )
-						{
-							mainP.appendSystemMessage( "/whois - missing argument <nick>" );
-						}
-
-						else
-						{
-							String[] argsArray = args.split( "\\s" );
-							String nick = argsArray[1].trim();
-
-							NickDTO user = controller.getNick( nick );
-
-							if ( user == null )
-							{
-								mainP.appendSystemMessage( "/whois - no such user '" + nick + "'" );
-							}
-
-							else
-							{
-								String info = "/whois - " + user.getNick() + " lives at " + user.getIpAddress();
-
-								if ( user.isAway() )
-									info += ", but is away and '" + user.getAwayMsg() + "'";
-
-								mainP.appendSystemMessage( info );
-							}
-						}
-					}
-
-					else if ( command.equals( "send" ) )
-					{
-						String[] argsArray = args.split( "\\s" );
-
-						if ( argsArray.length <= 2 )
-						{
-							mainP.appendSystemMessage( "/send - missing arguments <nick> <file>" );
-						}
-						
-						else
-						{
-							String nick = argsArray[1];
-							NickDTO user = controller.getNick( nick );
-							
-							if ( user != me )
-							{
-								if ( user == null )
-								{
-									mainP.appendSystemMessage( "/send - no such user '" + nick + "'" );
-								}
-
-								else
-								{
-									String file = "";
-									
-									for ( int i = 2; i < argsArray.length; i++ )
-									{
-										file += argsArray[i] + " ";
-									}
-									
-									file = file.trim();
-									File sendFile = new File( file );
-									
-									if ( sendFile.exists() && sendFile.isFile() )
-									{
-										startFileSend( user, sendFile );
-									}
-									
-									else
-									{
-										mainP.appendSystemMessage( "/send - no such file '" + file + "'" );
-									}
-								}
-							}
-							
-							else
-							{
-								mainP.appendSystemMessage( "/send - no point in doing that!" );
-							}
-						}
-					}
-
-					else if ( command.equals( "nick" ) )
-					{
-						if ( args.trim().length() == 0 )
-						{
-							mainP.appendSystemMessage( "/nick - missing argument <nick>" );
-						}
-
-						else
-						{
-							String[] argsArray = args.split( "\\s" );
-							String nick = argsArray[1].trim();
-
-							if ( !nick.equals( me.getNick() ) )
-							{
-								if ( controller.isNickInUse( nick ) )
-								{
-									mainP.appendSystemMessage( "/nick - '" + nick + "' is in use by someone else..." );
-								}
-
-								else if ( !Tools.isValidNick( nick ) )
-								{
-									mainP.appendSystemMessage( "/nick - '" + nick + "' is not a valid nick name. (1-10 letters)" );
-								}
-
-								else
-								{
-									controller.changeNick( me.getCode(), nick );
-									mainP.appendSystemMessage( "/nick - you changed nick to '" + me.getNick() + "'" );
-									updateTitleAndTray();
-								}
-							}
-
-							else
-							{
-								mainP.appendSystemMessage( "/nick - you are already called '" + nick + "'" );
-							}
-						}
-					}
-
-					else if ( command.startsWith( "/" ) )
-					{
-						sendMsg( line.replaceFirst( "/", "" ) );
-					}
-
-					else
-					{
-						mainP.appendSystemMessage( "Unknown command '" + command + "'. Type /help for a list of commands." );
-					}
-				}
+				cmdParser.parse( line );
 			}
 
 			else
@@ -523,15 +320,7 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 	@Override
 	public void showCommands()
 	{
-		mainP.appendSystemMessage( Constants.APP_NAME + " commands:\n" +
-				"/help - show this help message\n" +
-				"/about - information about " + Constants.APP_NAME + "\n" +
-				"/clear - clear all the text from the chat\n" +
-				"/whois <nick> - show information about a user\n" +
-				"/away <away message> - set status to away\n" +
-				"/send <nick> <file> - send a file to a user\n" +
-				"/topic <optional new topic> - prints the current topic, or changes the topic\n" +
-		"//<text> - send the text as a normal message, with a single slash" );
+		cmdParser.showCommands();
 	}
 
 	@Override
@@ -555,8 +344,10 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 	}
 
 	@Override
-	public void changeNick( String nick )
+	public boolean changeNick( String nick )
 	{
+		nick = nick.trim();
+		
 		if ( !nick.equals( me.getNick() ) )
 		{
 			if ( controller.isNickInUse( nick ) )
@@ -573,37 +364,20 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 
 			else
 			{
-				nick = nick.trim();
 				controller.changeNick( me.getCode(), nick );
 				mainP.appendSystemMessage( "You changed nick to " + me.getNick() );
 				updateTitleAndTray();
+				
+				return true;
 			}
 		}
-	}
-
-	@Override
-	public void dayChanged( Date date )
-	{
-		mainP.appendSystemMessage( "Day changed to " + Tools.dateToString( null, "EEEE, d MMMM yyyy" ) );
-	}
-
-	@Override
-	public void userTimedOut( NickDTO user )
-	{
-		List<FileSender> fsList = tList.getFileSenders( user );
-		List<FileReceiver> frList = tList.getFileReceivers( user );
-
-		for ( FileSender fs : fsList )
+		
+		else
 		{
-			fs.cancel();
+			return true;
 		}
-
-		for ( FileReceiver fr : frList )
-		{
-			fr.cancel();
-		}
-
-		mainP.appendSystemMessage( user.getNick() + " timed out..." );
+		
+		return false;
 	}
 
 	@Override
@@ -669,6 +443,12 @@ public class GUIMediator implements Mediator, DayListener, IdleListener, Network
 	public void showSystemMessage( String message )
 	{
 		mainP.appendSystemMessage( message );
+	}
+	
+	@Override
+	public void showOwnMessage( String message )
+	{
+		mainP.appendOwnMessage( message );
 	}
 
 	@Override

@@ -24,7 +24,7 @@ package net.usikkert.kouchat.net;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.usikkert.kouchat.event.MessageListener;
+import net.usikkert.kouchat.event.MessageResponder;
 import net.usikkert.kouchat.event.ReceiverListener;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
@@ -34,11 +34,11 @@ public class MessageParser implements ReceiverListener
 	private static Logger log = Logger.getLogger( MessageParser.class.getName() );
 
 	private MessageReceiver receiver;
-	private MessageListener listener;
+	private MessageResponder listener;
 	private Settings settings;
 	private boolean loggedOn;
 
-	public MessageParser( MessageListener listener )
+	public MessageParser( MessageResponder listener )
 	{
 		this.listener = listener;
 

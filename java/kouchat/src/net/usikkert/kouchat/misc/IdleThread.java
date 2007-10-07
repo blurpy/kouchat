@@ -21,10 +21,13 @@
 
 package net.usikkert.kouchat.misc;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.usikkert.kouchat.event.IdleListener;
+import net.usikkert.kouchat.net.FileReceiver;
+import net.usikkert.kouchat.net.FileSender;
+import net.usikkert.kouchat.net.TransferList;
 
 public class IdleThread extends Thread
 {
@@ -32,17 +35,20 @@ public class IdleThread extends Thread
 
 	private boolean run;
 	private Controller controller;
-	private IdleListener listener;
 	private NickList nickList;
 	private NickDTO me;
+	private UserInterface ui;
+	private TransferList tList;
 
-	public IdleThread( Controller controller )
+	public IdleThread( Controller controller, UserInterface ui )
 	{
 		this.controller = controller;
+		this.ui = ui;
 
 		nickList = controller.getNickList();
 		me = Settings.getSettings().getMe();
-
+		tList = controller.getTransferList();
+		
 		run = true;
 	}
 
@@ -69,10 +75,7 @@ public class IdleThread extends Thread
 					if ( temp.getCode() != me.getCode() && temp.getLastIdle() < System.currentTimeMillis() - 120000 )
 					{
 						nickList.remove( temp );
-
-						if ( listener != null )
-							listener.userTimedOut( temp );
-
+						userTimedOut( temp );
 						i--;
 					}
 				}
@@ -85,14 +88,27 @@ public class IdleThread extends Thread
 			}
 		}
 	}
+	
+	private void userTimedOut( NickDTO user )
+	{
+		List<FileSender> fsList = tList.getFileSenders( user );
+		List<FileReceiver> frList = tList.getFileReceivers( user );
+
+		for ( FileSender fs : fsList )
+		{
+			fs.cancel();
+		}
+
+		for ( FileReceiver fr : frList )
+		{
+			fr.cancel();
+		}
+
+		ui.showSystemMessage( user.getNick() + " timed out..." );
+	}
 
 	public void stopThread()
 	{
 		run = false;
-	}
-
-	public void registerIdleListener( IdleListener listener )
-	{
-		this.listener = listener;
 	}
 }

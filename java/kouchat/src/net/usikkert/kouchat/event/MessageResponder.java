@@ -23,7 +23,7 @@ package net.usikkert.kouchat.event;
 
 import net.usikkert.kouchat.misc.NickDTO;
 
-public interface MessageListener
+public interface MessageResponder
 {
 	public void messageArrived( int userCode, String msg, int color );
 	public void topicChanged( int userCode, String newTopic, String nick, long time );

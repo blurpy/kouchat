@@ -19,11 +19,22 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.event;
+package net.usikkert.kouchat.misc;
 
-import java.util.Date;
+import java.io.File;
 
-public interface DayListener
+import net.usikkert.kouchat.net.FileReceiver;
+
+public interface UserInterface
 {
-	public void dayChanged( Date date );
+	public void showSystemMessage( String message );
+	public void showUserMessage( String user, String message, int color );
+	public boolean askFileSave( String user, String fileName, String size );
+	public File showFileSave( String fileName );
+	public void showTransfer( FileReceiver fileRes );
+	public void showTopic();
+	public void clearChat();
+	public void showOwnMessage( String message );
+	public void changeAway( boolean away, String reason );
+	public void startFileSend( NickDTO user, File file );
 }

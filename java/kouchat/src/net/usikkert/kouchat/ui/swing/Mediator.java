@@ -43,7 +43,7 @@ public interface Mediator
 	public void sendFile();
 	public void write();
 	public void updateWriting();
-	public void changeNick( String nick );
+	public boolean changeNick( String nick );
 	public void transferCancelled( TransferFrame transferFrame );
 	public void showCommands();
 }

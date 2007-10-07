@@ -27,22 +27,28 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.Settings;
 
 public class SettingsFrame extends JFrame implements ActionListener
 {
-	private JButton useNickB, saveB, cancelB, chooseOwnColorB, chooseSysColorB;
+	private JButton saveB, cancelB, chooseOwnColorB, chooseSysColorB;
 	private JTextField nickTF;
 	private JLabel nickL, ownColorL, sysColorL;
 	private Settings settings;
@@ -63,11 +69,8 @@ public class SettingsFrame extends JFrame implements ActionListener
 		nickTF.setText( settings.getMe().getNick() );
 
 		JPanel buttonP = new JPanel();
-		useNickB = new JButton( "Use" );
-		useNickB.addActionListener( this );
 		nickP.add( nickL );
 		nickP.add( nickTF );
-		nickP.add( useNickB );
 		nickP.setBorder( BorderFactory.createTitledBorder( "Choose nick" ) );
 
 		JPanel colorLabelP = new JPanel();
@@ -109,46 +112,86 @@ public class SettingsFrame extends JFrame implements ActionListener
 		setDefaultCloseOperation( JFrame.HIDE_ON_CLOSE );
 		setIconImage( new ImageIcon( getClass().getResource( "/icons/kou_normal.png" ) ).getImage() );
 		setTitle( Constants.APP_NAME + " - Settings" );
+
+		// Hide with Escape key
+		KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0, false );
+
+		Action escapeAction = new AbstractAction()
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				setVisible( false );
+			}
+		};
+
+		getRootPane().getInputMap( JComponent.WHEN_IN_FOCUSED_WINDOW ).put( escapeKeyStroke, "ESCAPE" );
+		getRootPane().getActionMap().put( "ESCAPE", escapeAction );
 	}
 
 	public void actionPerformed( ActionEvent e )
 	{
-		if ( e.getSource() == useNickB )
+		if ( e.getSource() == saveB )
 		{
-			mediator.changeNick( nickTF.getText() );
-		}
-
-		else if ( e.getSource() == saveB )
-		{
-			settings.saveSettings();
-			setVisible( false );
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					if ( mediator.changeNick( nickTF.getText() ) )
+					{
+						settings.saveSettings();
+						setVisible( false );
+					}
+				}
+			} );
 		}
 
 		else if ( e.getSource() == cancelB )
 		{
-			setVisible( false );
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					setVisible( false );
+				}
+			} );
 		}
 
 		else if ( e.getSource() == chooseOwnColorB )
 		{
-			Color newColor = JColorChooser.showDialog( null, Constants.APP_NAME + " - Choose color for your own text", new Color( settings.getOwnColor() ) );
-
-			if ( newColor != null )
+			SwingUtilities.invokeLater( new Runnable()
 			{
-				settings.setOwnColor( newColor.getRGB() );
-				ownColorL.setForeground( newColor );
-			}
+				@Override
+				public void run()
+				{
+					Color newColor = JColorChooser.showDialog( null, Constants.APP_NAME + " - Choose color for your own text", new Color( settings.getOwnColor() ) );
+
+					if ( newColor != null )
+					{
+						settings.setOwnColor( newColor.getRGB() );
+						ownColorL.setForeground( newColor );
+					}
+				}
+			} );
 		}
 
 		else if ( e.getSource() == chooseSysColorB )
 		{
-			Color newColor = JColorChooser.showDialog( null, Constants.APP_NAME	+ " - Choose color for messages", new Color( settings.getSysColor() ) );
-
-			if ( newColor != null )
+			SwingUtilities.invokeLater( new Runnable()
 			{
-				settings.setSysColor( newColor.getRGB() );
-				sysColorL.setForeground( newColor );
-			}
+				@Override
+				public void run()
+				{
+					Color newColor = JColorChooser.showDialog( null, Constants.APP_NAME	+ " - Choose color for messages", new Color( settings.getSysColor() ) );
+
+					if ( newColor != null )
+					{
+						settings.setSysColor( newColor.getRGB() );
+						sysColorL.setForeground( newColor );
+					}
+				}
+			} );
 		}
 	}
 

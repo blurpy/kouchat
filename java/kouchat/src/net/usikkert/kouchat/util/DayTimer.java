@@ -26,10 +26,10 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import net.usikkert.kouchat.event.DayListener;
+import net.usikkert.kouchat.misc.UserInterface;
 
 /**
- * Notifies a listener when the day changes.
+ * Notifies the user interface when the day changes.
  * Checks every hour, in case daylight saving changes the time.
  * 
  * @author Christian Ihle
@@ -37,11 +37,13 @@ import net.usikkert.kouchat.event.DayListener;
 public class DayTimer extends TimerTask
 {
 	private boolean done;
-	private DayListener listener;
+	private UserInterface ui;
 	private static final int NOTIFY_HOUR = 0;
 
-	public DayTimer()
+	public DayTimer( UserInterface ui )
 	{
+		this.ui = ui;
+		
 		Calendar cal = Calendar.getInstance();
 		cal.set( Calendar.HOUR_OF_DAY, 0 );
 		cal.set( Calendar.MINUTE, 0 );
@@ -60,9 +62,7 @@ public class DayTimer extends TimerTask
 
 		if ( hour == NOTIFY_HOUR && !done )
 		{
-			if ( listener != null )
-				listener.dayChanged( new Date() );
-
+			ui.showSystemMessage( "Day changed to " + Tools.dateToString( null, "EEEE, d MMMM yyyy" ) );
 			done = true;
 		}
 
@@ -70,10 +70,5 @@ public class DayTimer extends TimerTask
 		{
 			done = false;
 		}
-	}
-
-	public void registerDayListener( DayListener listener )
-	{
-		this.listener = listener;
 	}
 }
