@@ -127,6 +127,12 @@ public class SwingMediator implements Mediator, UserInterface
 
 			if ( reason != null && reason.trim().length() > 0 )
 			{
+				if ( controller.isWrote() )
+				{
+					controller.changeWriting( me.getCode(), false );
+					mainP.getMsgTF().setText( "" );
+				}
+
 				controller.changeAwayStatus( me.getCode(), true, reason );
 				controller.sendAwayMessage();
 				changeAway( true );
