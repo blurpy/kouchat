@@ -25,7 +25,6 @@ import java.io.File;
 
 import java.util.Date;
 
-import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.util.Tools;
 
 public class CommandParser
@@ -33,11 +32,15 @@ public class CommandParser
 	private Controller controller;
 	private UserInterface ui;
 	private NickDTO me;
+	private UIMessages uiMsg;
 	
 	public CommandParser( Controller controller, UserInterface ui )
 	{
 		this.controller = controller;
 		this.ui = ui;
+		
+		me = Settings.getSettings().getMe();
+		uiMsg = ui.getUIMessages();
 	}
 	
 	private void cmdTopic( String args )
@@ -48,14 +51,13 @@ public class CommandParser
 
 			if ( topic.getTopic().equals( "" ) )
 			{
-				ui.showSystemMessage( "No topic set" );
+				uiMsg.showNoTopic();
 			}
 
 			else
 			{
-				ui.showSystemMessage( "Topic is: " + topic.getTopic() + " (set by " + 
-						topic.getNick() + " at " + Tools.dateToString( 
-								new Date( topic.getTime() ), "HH:mm:ss, dd. MMM. yy" ) + ")" );
+				String date = Tools.dateToString( new Date( topic.getTime() ), "HH:mm:ss, dd. MMM. yy" );
+				uiMsg.showTopic( topic.getTopic(), topic.getNick(), date );
 			}
 		}
 
@@ -69,15 +71,23 @@ public class CommandParser
 	{
 		if ( me.isAway() )
 		{
-			ui.showSystemMessage( "You are already away: '" + me.getAwayMsg() + "'" );
+			uiMsg.showCmdAwayAlready( me.getAwayMsg() );
 		}
 
 		else
 		{
 			if ( args.trim().length() == 0 )
-				ui.showSystemMessage( "/away - missing argument <away message>" );
+			{
+				uiMsg.showCmdAwayMissingArgs();
+			}
+			
 			else
-				ui.changeAway( true, args.trim() );
+			{
+				controller.changeAwayStatus( me.getCode(), true, args.trim() );
+				controller.sendAwayMessage();
+				ui.changeAway( true );
+				uiMsg.showUserAway( "You", me.getAwayMsg() );
+			}
 		}
 	}
 	
@@ -88,21 +98,19 @@ public class CommandParser
 	
 	private void cmdAbout()
 	{
-		ui.showSystemMessage( "This is " + Constants.APP_NAME + " v" + Constants.APP_VERSION +
-				", by " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL + 
-				" - " + Constants.AUTHOR_WEB );
+		uiMsg.showAbout();
 	}
 	
 	private void cmdHelp()
 	{
-		showCommands();
+		uiMsg.showCommands();
 	}
 	
 	private void cmdWhois( String args )
 	{
 		if ( args.trim().length() == 0 )
 		{
-			ui.showSystemMessage( "/whois - missing argument <nick>" );
+			uiMsg.showCmdWhoisMissingArgs();
 		}
 
 		else
@@ -114,17 +122,12 @@ public class CommandParser
 
 			if ( user == null )
 			{
-				ui.showSystemMessage( "/whois - no such user '" + nick + "'" );
+				uiMsg.showCmdWhoisNoUser( nick );
 			}
 
 			else
 			{
-				String info = "/whois - " + user.getNick() + " lives at " + user.getIpAddress();
-
-				if ( user.isAway() )
-					info += ", but is away and '" + user.getAwayMsg() + "'";
-
-				ui.showSystemMessage( info );
+				uiMsg.showCmdWhois( user.getNick(), user.getIpAddress(), user.getAwayMsg() );
 			}
 		}
 	}
@@ -135,7 +138,7 @@ public class CommandParser
 
 		if ( argsArray.length <= 2 )
 		{
-			ui.showSystemMessage( "/send - missing arguments <nick> <file>" );
+			uiMsg.showCmdSendMissingArgs();
 		}
 		
 		else
@@ -147,7 +150,7 @@ public class CommandParser
 			{
 				if ( user == null )
 				{
-					ui.showSystemMessage( "/send - no such user '" + nick + "'" );
+					uiMsg.showCmdSendNoUser( nick );
 				}
 
 				else
@@ -169,14 +172,14 @@ public class CommandParser
 					
 					else
 					{
-						ui.showSystemMessage( "/send - no such file '" + file + "'" );
+						uiMsg.showCmdSendNoFile( file );
 					}
 				}
 			}
 			
 			else
 			{
-				ui.showSystemMessage( "/send - no point in doing that!" );
+				uiMsg.showCmdSendNoPoint();
 			}
 		}
 	}
@@ -185,7 +188,7 @@ public class CommandParser
 	{
 		if ( args.trim().length() == 0 )
 		{
-			ui.showSystemMessage( "/nick - missing argument <nick>" );
+			uiMsg.showCmdNickMissingArgs();
 		}
 
 		else
@@ -197,25 +200,25 @@ public class CommandParser
 			{
 				if ( controller.isNickInUse( nick ) )
 				{
-					ui.showSystemMessage( "/nick - '" + nick + "' is in use by someone else..." );
+					uiMsg.showCmdNickInUse( nick );
 				}
 
 				else if ( !Tools.isValidNick( nick ) )
 				{
-					ui.showSystemMessage( "/nick - '" + nick + "' is not a valid nick name. (1-10 letters)" );
+					uiMsg.showCmdNickNotValid( nick );
 				}
 
 				else
 				{
 					controller.changeNick( me.getCode(), nick );
-					ui.showSystemMessage( "/nick - you changed nick to '" + me.getNick() + "'" );
+					uiMsg.showNickChanged( "You", me.getNick() );
 					ui.showTopic();
 				}
 			}
 
 			else
 			{
-				ui.showSystemMessage( "/nick - you are already called '" + nick + "'" );
+				uiMsg.showCmdNickAlreadyCalled( nick );
 			}
 		}
 	}
@@ -229,7 +232,7 @@ public class CommandParser
 	
 	private void cmdUnknown( String command )
 	{
-		ui.showSystemMessage( "Unknown command '" + command + "'. Type /help for a list of commands." );
+		uiMsg.showUnknownCommand( command );
 	}
 	
 	public void parse( String line )
@@ -266,18 +269,5 @@ public class CommandParser
 			else
 				cmdUnknown( command );
 		}
-	}
-	
-	public void showCommands()
-	{
-		ui.showSystemMessage( Constants.APP_NAME + " commands:\n" +
-				"/help - show this help message\n" +
-				"/about - information about " + Constants.APP_NAME + "\n" +
-				"/clear - clear all the text from the chat\n" +
-				"/whois <nick> - show information about a user\n" +
-				"/away <away message> - set status to away\n" +
-				"/send <nick> <file> - send a file to a user\n" +
-				"/topic <optional new topic> - prints the current topic, or changes the topic\n" +
-				"//<text> - send the text as a normal message, with a single slash" );
 	}
 }

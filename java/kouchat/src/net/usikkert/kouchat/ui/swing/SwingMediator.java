@@ -32,6 +32,7 @@ import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.TopicDTO;
+import net.usikkert.kouchat.misc.UIMessages;
 import net.usikkert.kouchat.misc.UserInterface;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
@@ -61,11 +62,13 @@ public class SwingMediator implements Mediator, UserInterface
 	private NickDTO me;
 	private TransferList tList;
 	private CommandParser cmdParser;
+	private UIMessages uiMsg;
 
 	public SwingMediator( ComponentHandler compHandler )
 	{
+		uiMsg = new UIMessages( this );
 		controller = new Controller( this );
-		
+
 		sideP = compHandler.getSidePanel();
 		sideP.setNickList( controller.getNickList() );
 		settingsFrame = compHandler.getSettingsFrame();
@@ -74,11 +77,14 @@ public class SwingMediator implements Mediator, UserInterface
 		sysTray = compHandler.getSysTray();
 		menuBar = compHandler.getMenuBar();
 		buttonP = compHandler.getButtonPanel();
-		
+
 		tList = controller.getTransferList();
 		settings = Settings.getSettings();
 		me = settings.getMe();
 		cmdParser = new CommandParser( controller, this );
+
+		uiMsg.showWelcomeMsg();
+		mainP.getMsgTF().requestFocus();
 	}
 
 	@Override
@@ -107,7 +113,10 @@ public class SwingMediator implements Mediator, UserInterface
 
 			if ( choice == JOptionPane.YES_OPTION )
 			{
-				changeAway( false, null );
+				controller.changeAwayStatus( me.getCode(), false, "" );
+				controller.sendBackMessage();
+				changeAway( false );
+				uiMsg.showUserBack( "You" );
 			}
 		}
 
@@ -118,7 +127,10 @@ public class SwingMediator implements Mediator, UserInterface
 
 			if ( reason != null && reason.trim().length() > 0 )
 			{
-				changeAway( true, reason );
+				controller.changeAwayStatus( me.getCode(), true, reason );
+				controller.sendAwayMessage();
+				changeAway( true );
+				uiMsg.showUserAway( "You", me.getAwayMsg() );
 			}
 		}
 
@@ -233,7 +245,7 @@ public class SwingMediator implements Mediator, UserInterface
 					+ " - Warning", JOptionPane.WARNING_MESSAGE );
 		}
 	}
-	
+
 	@Override
 	public void write()
 	{
@@ -248,7 +260,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 			else
 			{
-				mainP.appendOwnMessage( line );
+				showOwnMessage( line );
 				controller.sendChatMessage( line );
 			}
 		}
@@ -259,7 +271,7 @@ public class SwingMediator implements Mediator, UserInterface
 	@Override
 	public void showCommands()
 	{
-		cmdParser.showCommands();
+		uiMsg.showCommands();
 	}
 
 	@Override
@@ -286,7 +298,7 @@ public class SwingMediator implements Mediator, UserInterface
 	public boolean changeNick( String nick )
 	{
 		nick = nick.trim();
-		
+
 		if ( !nick.equals( me.getNick() ) )
 		{
 			if ( controller.isNickInUse( nick ) )
@@ -304,18 +316,18 @@ public class SwingMediator implements Mediator, UserInterface
 			else
 			{
 				controller.changeNick( me.getCode(), nick );
-				mainP.appendSystemMessage( "You changed nick to " + me.getNick() );
+				uiMsg.showNickChanged( "You", me.getNick() );
 				updateTitleAndTray();
-				
+
 				return true;
 			}
 		}
-		
+
 		else
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -338,17 +350,17 @@ public class SwingMediator implements Mediator, UserInterface
 				// This means that the other user has not answered yet
 				if ( fs.isWaiting() )
 				{
-					mainP.appendSystemMessage( "You cancelled sending of " + fs.getFileName() + " to " + fs.getNick() );
+					uiMsg.showSendCancelled( fs.getFileName(), fs.getNick().getNick() );
 					tList.removeFileSender( fs );
 				}
 			}
 		}
 	}
-	
+
 	@Override
 	public void showUserMessage( String user, String message, int color )
 	{
-		mainP.appendUserMessage( user, message, color );
+		mainP.appendToChat( Tools.getTime() + " <" + user + ">: " + message, color );
 
 		if ( !gui.isVisible() && me.isAway() )
 		{
@@ -364,13 +376,13 @@ public class SwingMediator implements Mediator, UserInterface
 	@Override
 	public void showSystemMessage( String message )
 	{
-		mainP.appendSystemMessage( message );
+		mainP.appendToChat( Tools.getTime() + " *** " + message, settings.getSysColor() );
 	}
-	
+
 	@Override
 	public void showOwnMessage( String message )
 	{
-		mainP.appendOwnMessage( message );
+		mainP.appendToChat( Tools.getTime() + " <" + me.getNick() + ">: " + message, settings.getOwnColor() );
 	}
 
 	@Override
@@ -429,32 +441,30 @@ public class SwingMediator implements Mediator, UserInterface
 
 		return returnFile;
 	}
-	
+
 	@Override
 	public void startFileSend( NickDTO user, File file )
 	{
 		String size = Tools.byteToString( file.length() );
-
 		FileSender fileSend = new FileSender( user, file );
 		new TransferFrame( this, fileSend );
 		controller.getTransferList().addFileSender( fileSend );
-
 		controller.sendFile( user.getCode(), file.length(), file.hashCode(), file.getName() );
-		mainP.appendSystemMessage( "Trying to send the file " + file.getName() + " [" + size + "] to " + user.getNick() );
+		uiMsg.showSendRequest( file.getName(), size, user.getNick() );
 	}
-	
+
 	@Override
 	public void showTopic()
 	{
 		updateTitleAndTray();
 	}
-	
+
 	@Override
 	public void showTransfer( FileReceiver fileRes )
 	{
 		new TransferFrame( this, fileRes );
 	}
-	
+
 	@Override
 	public void fixTopic( String newTopic )
 	{
@@ -467,46 +477,46 @@ public class SwingMediator implements Mediator, UserInterface
 
 			if ( newTopic.length() > 0 )
 			{
-				mainP.appendSystemMessage( "You changed the topic to: " + newTopic );
+				uiMsg.showTopicChanged( "You", newTopic );
 				topic.changeTopic( newTopic, me.getNick(), time );
 			}
 
 			else
 			{
-				mainP.appendSystemMessage( "You removed the topic..." );
+				uiMsg.showTopicRemoved( "You" );
 				topic.changeTopic( "", me.getNick(), time );
 			}
 
 			controller.sendTopicMessage( topic );
-			showTopic();
+			updateTitleAndTray();
 		}
 	}
-	
+
 	@Override
-	public void changeAway( boolean away, String reason )
+	public void changeAway( boolean away )
 	{
 		if ( away )
 		{
-			controller.changeAwayStatus( me.getCode(), true, reason );
 			sysTray.setAwayState();
 			mainP.getMsgTF().setEnabled( false );
 			menuBar.setAwayState( true );
 			buttonP.setAwayState( true );
-			mainP.appendSystemMessage( "You went away: " + me.getAwayMsg() );
-			controller.sendAwayMessage();
 		}
 
 		else
 		{
-			controller.changeAwayStatus( me.getCode(), false, "" );
 			sysTray.setNormalState();
 			mainP.getMsgTF().setEnabled( true );
 			menuBar.setAwayState( false );
 			buttonP.setAwayState( false );
-			mainP.appendSystemMessage( "You came back" );
-			controller.sendBackMessage();
 		}
 
-		showTopic();
+		updateTitleAndTray();
+	}
+
+	@Override
+	public UIMessages getUIMessages()
+	{
+		return uiMsg;
 	}
 }

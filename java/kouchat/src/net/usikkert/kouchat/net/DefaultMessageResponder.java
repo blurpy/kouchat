@@ -31,6 +31,7 @@ import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.TopicDTO;
+import net.usikkert.kouchat.misc.UIMessages;
 import net.usikkert.kouchat.misc.UserInterface;
 import net.usikkert.kouchat.misc.WaitingList;
 import net.usikkert.kouchat.util.Tools;
@@ -50,12 +51,14 @@ public class DefaultMessageResponder implements MessageResponder
 	private TransferList tList;
 	private WaitingList wList;
 	private UserInterface ui;
+	private UIMessages uiMsg;
 
 	public DefaultMessageResponder( Controller controller, UserInterface ui )
 	{
 		this.controller = controller;
 		this.ui = ui;
 
+		uiMsg = ui.getUIMessages();
 		settings = Settings.getSettings();
 		me = settings.getMe();
 		tList = controller.getTransferList();
@@ -124,7 +127,7 @@ public class DefaultMessageResponder implements MessageResponder
 		if ( user != null )
 		{
 			controller.getNickList().remove( user );
-			ui.showSystemMessage( user.getNick() + " logged off..." );
+			uiMsg.showLoggedOff( user.getNick() );
 		}
 	}
 
@@ -143,7 +146,7 @@ public class DefaultMessageResponder implements MessageResponder
 		}
 
 		controller.getNickList().add( newUser );
-		ui.showSystemMessage( newUser.getNick() + " logged on from " + newUser.getIpAddress() + "..." );
+		uiMsg.showUserLoggedOn( newUser.getNick(), newUser.getIpAddress() );
 	}
 
 	private void userShowedUp( NickDTO newUser )
@@ -160,7 +163,7 @@ public class DefaultMessageResponder implements MessageResponder
 		}
 
 		controller.getNickList().add( newUser );
-		ui.showSystemMessage( newUser.getNick() + " showed up unexpectedly from " + newUser.getIpAddress() + "..." );
+		uiMsg.showShowedUnexpectedly( newUser.getNick(), newUser.getIpAddress() );
 	}
 
 	@Override
@@ -185,14 +188,13 @@ public class DefaultMessageResponder implements MessageResponder
 					{
 						if ( wList.isLoggedOn() )
 						{
-							ui.showSystemMessage( nick + " changed the topic to: " + newTopic );
+							uiMsg.showTopicChanged( nick, newTopic );
 						}
 
 						else
 						{
-							ui.showSystemMessage( "Topic is: " + newTopic + " (set by " + 
-									nick + " at " + Tools.dateToString( 
-											new Date( time ), "HH:mm:ss, dd. MMM. yy" ) + ")" );
+							String date = Tools.dateToString( new Date( time ), "HH:mm:ss, dd. MMM. yy" );
+							uiMsg.showTopic( newTopic, nick, date );
 						}
 
 						topic.changeTopic( newTopic, nick, time );
@@ -204,7 +206,7 @@ public class DefaultMessageResponder implements MessageResponder
 				{
 					if ( !topic.getTopic().equals( newTopic ) && time > topic.getTime() && wList.isLoggedOn() )
 					{
-						ui.showSystemMessage( nick + " removed the topic..." );
+						uiMsg.showTopicRemoved( nick );
 						topic.changeTopic( "", "", time );
 						ui.showTopic();
 					}
@@ -239,8 +241,9 @@ public class DefaultMessageResponder implements MessageResponder
 	public void meLogOn( String ipAddress )
 	{
 		me.setIpAddress( ipAddress );
-		ui.showSystemMessage( "Today is " + Tools.dateToString( null, "EEEE, d MMMM yyyy" ) );
-		ui.showSystemMessage( "You logged on as " + me.getNick() + " from " + ipAddress );
+		String date = Tools.dateToString( null, "EEEE, d MMMM yyyy" );
+		uiMsg.showTodayIs( date );
+		uiMsg.showMeLoggedOn( me.getNick(), ipAddress );
 	}
 
 	@Override
@@ -263,15 +266,15 @@ public class DefaultMessageResponder implements MessageResponder
 		{
 			NickDTO user = controller.getNick( userCode );
 			controller.changeAwayStatus( userCode, away, awayMsg );
-
+			
 			if ( away )
 			{
-				ui.showSystemMessage( user.getNick() + " went away: " + awayMsg );
+				uiMsg.showUserAway( user.getNick(), awayMsg );
 			}
 
 			else
 			{
-				ui.showSystemMessage( user.getNick() + " came back..." );
+				uiMsg.showUserBack( user.getNick() );
 			}
 		}
 	}
@@ -282,11 +285,14 @@ public class DefaultMessageResponder implements MessageResponder
 		me.setLastIdle( System.currentTimeMillis() );
 
 		if ( !me.getIpAddress().equals( ipAddress ) )
+		{
+			uiMsg.showChangedIp( "You", me.getIpAddress(), ipAddress );
 			me.setIpAddress( ipAddress );
+		}
 	}
 
 	@Override
-	public void userIdle( int userCode )
+	public void userIdle( int userCode, String ipAddress )
 	{
 		if ( controller.isNewUser( userCode ) )
 		{
@@ -297,7 +303,14 @@ public class DefaultMessageResponder implements MessageResponder
 
 		else
 		{
-			controller.updateLastIdle( userCode, System.currentTimeMillis() );
+			NickDTO user = controller.getNick( userCode );
+			user.setLastIdle( System.currentTimeMillis() );
+			
+			if ( !user.getIpAddress().equals( ipAddress ) )
+			{
+				uiMsg.showChangedIp( user.getNick(), user.getIpAddress(), ipAddress );
+				user.setIpAddress( ipAddress );
+			}
 		}
 	}
 
@@ -311,7 +324,7 @@ public class DefaultMessageResponder implements MessageResponder
 	public void nickCrash()
 	{
 		me.setNick( "" + me.getCode() );
-		ui.showSystemMessage( "Nick crash, resetting nick to " + settings.getMe() );
+		uiMsg.showNickCrash( settings.getMe().getNick() );
 		ui.showTopic();
 	}
 
@@ -336,7 +349,7 @@ public class DefaultMessageResponder implements MessageResponder
 			NickDTO user = controller.getNick( userCode );
 			String oldNick = user.getNick();
 			controller.changeNick( userCode, newNick );
-			ui.showSystemMessage( oldNick + " changed nick to " + newNick );
+			uiMsg.showNickChanged( oldNick, newNick );
 		}
 	}
 
@@ -358,6 +371,8 @@ public class DefaultMessageResponder implements MessageResponder
 
 				while ( wList.isWaitingUser( userCode ) && counter < 40 )
 				{
+					counter++;
+					
 					try
 					{
 						sleep( 50 );
@@ -372,7 +387,7 @@ public class DefaultMessageResponder implements MessageResponder
 				if ( !controller.isNewUser( userCode ) )
 				{
 					String size = Tools.byteToString( byteSize );
-					ui.showSystemMessage( user + " is trying to send the file " + fileName + " [" + size + "]" );
+					uiMsg.showReceiveRequest( user, fileName, size );
 
 					if ( ui.askFileSave( user, fileName, size ) )
 					{
@@ -392,13 +407,12 @@ public class DefaultMessageResponder implements MessageResponder
 
 								if ( fileRes.transfer() )
 								{
-									ui.showSystemMessage( "Successfully received " + fileName
-											+ " from " + user + ", and saved as " + file.getName() );
+									uiMsg.showReceiveSuccess( fileName, user, file.getName() );
 								}
 
 								else
 								{
-									ui.showSystemMessage( "Failed to receive " + fileName + " from " + user );
+									uiMsg.showReceiveFailed( fileName, user );
 									fileRes.cancel();
 								}
 							}
@@ -406,7 +420,7 @@ public class DefaultMessageResponder implements MessageResponder
 							catch ( ServerException e )
 							{
 								log.log( Level.SEVERE, e.getMessage(), e );
-								ui.showSystemMessage( "Failed to receive " + fileName + " from " + user );
+								uiMsg.showReceiveFailed( fileName, user );
 								controller.sendFileAbort( userCode, fileHash, fileName );
 								fileRes.cancel();
 							}
@@ -419,14 +433,14 @@ public class DefaultMessageResponder implements MessageResponder
 
 						else
 						{
-							ui.showSystemMessage( "You declined to receive " + fileName + " from " + user );
+							uiMsg.showReceiveDeclined( fileName, user );
 							controller.sendFileAbort( userCode, fileHash, fileName );
 						}
 					}
 
 					else
 					{
-						ui.showSystemMessage( "You declined to receive " + fileName + " from " + user );
+						uiMsg.showReceiveDeclined( fileName, user );
 						controller.sendFileAbort( userCode, fileHash, fileName );
 					}
 				}
@@ -448,7 +462,7 @@ public class DefaultMessageResponder implements MessageResponder
 		if ( fileSend != null )
 		{
 			fileSend.cancel();
-			ui.showSystemMessage( user.getNick() + " aborted sending of " + fileName );
+			uiMsg.showSendAborted( user.getNick(), fileName );
 			tList.removeFileSender( fileSend );
 		}
 	}
@@ -465,7 +479,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 				if ( fileSend != null )
 				{
-					ui.showSystemMessage( fUser.getNick() + " accepted sending of "	+ fileName );
+					uiMsg.showSendAccepted( fUser.getNick(), fileName );
 
 					// Give the server some time to set up the connection first
 					try
@@ -480,12 +494,12 @@ public class DefaultMessageResponder implements MessageResponder
 
 					if ( fileSend.transfer( port ) )
 					{
-						ui.showSystemMessage( fileName + " successfully sent to " + fUser.getNick() );
+						uiMsg.showSendSuccess( fileName, fUser.getNick() );
 					}
 
 					else
 					{
-						ui.showSystemMessage( "Failed to send " + fileName + " to " + fUser.getNick() );
+						uiMsg.showSendFailed( fileName, fUser.getNick() );
 					}
 
 					tList.removeFileSender( fileSend );

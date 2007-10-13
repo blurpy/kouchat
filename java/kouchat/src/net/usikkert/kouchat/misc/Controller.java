@@ -58,13 +58,13 @@ public class Controller
 
 		nickController = new NickController();
 		chatState = new ChatState();
-		idleThread = new IdleThread( this, ui );
 		tList = new TransferList();
 		wList = new WaitingList();
+		idleThread = new IdleThread( this, ui );
 		msgResponder = new DefaultMessageResponder( this, ui );
 		msgParser = new MessageParser( msgResponder );
 		messages = new Messages();
-		
+
 		new DayTimer( ui );
 	}
 
@@ -83,11 +83,6 @@ public class Controller
 		return chatState.isWrote();
 	}
 
-	public void updateLastIdle( int code, long lastIdle )
-	{
-		nickController.updateLastIdle( code, lastIdle );
-	}
-
 	public void changeWriting( int code, boolean writing )
 	{
 		nickController.changeWriting( code, writing );
@@ -102,6 +97,11 @@ public class Controller
 			else
 				messages.sendStoppedWritingMessage();
 		}
+	}
+
+	public void changeAwayStatus( int code, boolean away, String awaymsg )
+	{
+		nickController.changeAwayStatus( code, away, awaymsg );
 	}
 
 	public boolean isNickInUse( String nick )
@@ -129,7 +129,7 @@ public class Controller
 	{
 		return nickController.getNick( code );
 	}
-	
+
 	public NickDTO getNick( String nick )
 	{
 		return nickController.getNick( nick );
@@ -139,7 +139,7 @@ public class Controller
 	{
 		msgParser.start();
 		messages.start();
-		
+
 		messages.sendLogonMessage();
 		messages.sendExposeMessage();
 		messages.sendGetTopicMessage();
@@ -235,11 +235,6 @@ public class Controller
 	public void sendFile( int sendToUserCode, long fileLength, int fileHash, String fileName )
 	{
 		messages.sendFile( sendToUserCode, fileLength, fileHash, fileName );
-	}
-
-	public void changeAwayStatus( int code, boolean away, String awaymsg )
-	{
-		nickController.changeAwayStatus( code, away, awaymsg );
 	}
 
 	public TransferList getTransferList()

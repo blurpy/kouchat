@@ -43,10 +43,6 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import net.usikkert.kouchat.misc.NickDTO;
-import net.usikkert.kouchat.misc.Settings;
-import net.usikkert.kouchat.util.Tools;
-
 public class MainPanel extends JPanel implements ActionListener, CaretListener
 {
 	private static Logger log = Logger.getLogger( MainPanel.class.getName() );
@@ -56,15 +52,10 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 	private MutableAttributeSet chatAttr;
 	private StyledDocument chatDoc;
 	private JTextField msgTF;
-	private Settings settings;
 	private Mediator mediator;
-	private NickDTO me;
 
 	public MainPanel( SidePanel sideP )
 	{
-		settings = Settings.getSettings();
-		me = settings.getMe();
-
 		setLayout( new BorderLayout( 2, 2 ) );
 
 		chatTP = new JTextPane();
@@ -89,12 +80,12 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 		this.mediator = mediator;
 	}
 
-	private void appendToChat( String text, Color color )
+	public void appendToChat( String text, int color )
 	{
 		try
 		{
-			StyleConstants.setForeground( chatAttr, color );
-			chatDoc.insertString( chatDoc.getLength(), Tools.getTime() + text + "\n", chatAttr );
+			StyleConstants.setForeground( chatAttr, new Color( color ) );
+			chatDoc.insertString( chatDoc.getLength(), text + "\n", chatAttr );
 			chatTP.setCaretPosition( chatDoc.getLength() );
 		}
 
@@ -102,21 +93,6 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener
 		{
 			log.log( Level.SEVERE, e.getMessage(), e );
 		}
-	}
-
-	public void appendSystemMessage( String message )
-	{
-		appendToChat( "*** " + message, new Color( settings.getSysColor() ) );
-	}
-
-	public void appendOwnMessage( String message )
-	{
-		appendToChat( "<" + me.getNick() + ">: " + message, new Color( settings.getOwnColor() ) );
-	}
-
-	public void appendUserMessage( String user, String message, int color )
-	{
-		appendToChat( "<" + user + ">: " + message, new Color( color ) );
 	}
 
 	public void clearChat()

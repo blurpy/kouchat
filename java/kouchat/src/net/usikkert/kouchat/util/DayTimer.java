@@ -62,7 +62,8 @@ public class DayTimer extends TimerTask
 
 		if ( hour == NOTIFY_HOUR && !done )
 		{
-			ui.showSystemMessage( "Day changed to " + Tools.dateToString( null, "EEEE, d MMMM yyyy" ) );
+			String date = Tools.dateToString( null, "EEEE, d MMMM yyyy" );
+			ui.getUIMessages().showDayChanged( date );
 			done = true;
 		}
 

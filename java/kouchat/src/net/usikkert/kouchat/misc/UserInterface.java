@@ -29,13 +29,14 @@ public interface UserInterface
 {
 	public void showSystemMessage( String message );
 	public void showUserMessage( String user, String message, int color );
+	public void showOwnMessage( String message );
 	public boolean askFileSave( String user, String fileName, String size );
 	public File showFileSave( String fileName );
 	public void showTransfer( FileReceiver fileRes );
 	public void showTopic();
 	public void clearChat();
-	public void showOwnMessage( String message );
-	public void changeAway( boolean away, String reason );
+	public void changeAway( boolean away );
 	public void startFileSend( NickDTO user, File file );
 	public void fixTopic( String args );
+	public UIMessages getUIMessages();
 }

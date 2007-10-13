@@ -1,6 +1,14 @@
 
 - KouChat ChangeLog
 
+* version 0.6.2 (xx.xx.2007):
+  - Improved usability of settings dialog
+  - Made application startup more reliable
+  - Moved all system messages into one class
+  - Fixed more bugs
+  - Added support for commands
+
+
 * version 0.6.1 (22.09.2007):
   - Fixed charset issues
   - Fixed Windows bug where text could not be selected in the chat

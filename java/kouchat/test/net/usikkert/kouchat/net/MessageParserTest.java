@@ -163,7 +163,7 @@ public class MessageParserTest implements MessageResponder
 	}
 
 	@Override
-	public void userIdle( int userCode )
+	public void userIdle( int userCode, String ipAddress )
 	{
 
 	}

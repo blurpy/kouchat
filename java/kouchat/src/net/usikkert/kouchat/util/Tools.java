@@ -59,7 +59,7 @@ public class Tools
 		else
 			sec = "" + s;
 
-		return "[" + hour + ":" + min + ":" + sec + "] ";
+		return "[" + hour + ":" + min + ":" + sec + "]";
 	}
 
 	public static String dateToString( Date d, String format )

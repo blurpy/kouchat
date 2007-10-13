@@ -124,6 +124,9 @@ public class SettingsFrame extends JFrame implements ActionListener
 
 		getRootPane().getInputMap( JComponent.WHEN_IN_FOCUSED_WINDOW ).put( escapeKeyStroke, "ESCAPE" );
 		getRootPane().getActionMap().put( "ESCAPE", escapeAction );
+		
+		// So the save button activates using Enter
+		getRootPane().setDefaultButton( saveB );
 	}
 	
 	public void setMediator( Mediator mediator )
@@ -142,7 +145,10 @@ public class SettingsFrame extends JFrame implements ActionListener
 				{
 					if ( mediator.changeNick( nickTF.getText() ) )
 					{
+						settings.setSysColor( sysColorL.getForeground().getRGB() );
+						settings.setOwnColor( ownColorL.getForeground().getRGB() );
 						settings.saveSettings();
+						
 						setVisible( false );
 					}
 				}
@@ -172,7 +178,6 @@ public class SettingsFrame extends JFrame implements ActionListener
 
 					if ( newColor != null )
 					{
-						settings.setOwnColor( newColor.getRGB() );
 						ownColorL.setForeground( newColor );
 					}
 				}
@@ -190,7 +195,6 @@ public class SettingsFrame extends JFrame implements ActionListener
 
 					if ( newColor != null )
 					{
-						settings.setSysColor( newColor.getRGB() );
 						sysColorL.setForeground( newColor );
 					}
 				}
@@ -201,6 +205,9 @@ public class SettingsFrame extends JFrame implements ActionListener
 	public void showSettings()
 	{
 		nickTF.setText( settings.getMe().getNick() );
+		sysColorL.setForeground( new Color( settings.getSysColor() ) );
+		ownColorL.setForeground( new Color( settings.getOwnColor() ) );
+		
 		setVisible( true );
 	}
 }

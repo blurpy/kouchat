@@ -52,7 +52,7 @@ public class NickController
 
 		return dto;
 	}
-	
+
 	public NickDTO getNick( String nick )
 	{
 		NickDTO dto = null;
@@ -71,21 +71,6 @@ public class NickController
 		return dto;
 	}
 
-	public void updateLastIdle( int code, long lastIdle )
-	{
-		for ( int i = 0; i < nickList.size(); i++ )
-		{
-			NickDTO temp = nickList.get( i );
-
-			if ( temp.getCode() == code )
-			{
-				temp.setLastIdle( lastIdle );
-				nickList.set( i, temp );
-				break;
-			}
-		}
-	}
-
 	public void changeNick( int code, String nick )
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
@@ -95,21 +80,6 @@ public class NickController
 			if ( temp.getCode() == code )
 			{
 				temp.setNick( nick );
-				nickList.set( i, temp );
-				break;
-			}
-		}
-	}
-
-	public void changeIP( int code, String ip )
-	{
-		for ( int i = 0; i < nickList.size(); i++ )
-		{
-			NickDTO temp = nickList.get( i );
-
-			if ( temp.getCode() == code )
-			{
-				temp.setIpAddress( ip );
 				nickList.set( i, temp );
 				break;
 			}

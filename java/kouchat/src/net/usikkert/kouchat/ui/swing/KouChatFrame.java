@@ -132,8 +132,6 @@ public class KouChatFrame extends JFrame
 			}
 		} );
 
-		mainP.appendSystemMessage( "Welcome to " + Constants.APP_NAME + " v" + Constants.APP_VERSION+ "!" );
-		mainP.getMsgTF().requestFocus();
 		mediator.start();
 	}
 }

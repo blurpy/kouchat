@@ -184,7 +184,7 @@ public class MessageParser implements ReceiverListener
 
 				else if ( type.equals( "IDLE" ) )
 				{
-					responder.userIdle( msgCode );
+					responder.userIdle( msgCode, ipAddress );
 				}
 
 				else if ( type.equals( "SENDFILEACCEPT" ) )

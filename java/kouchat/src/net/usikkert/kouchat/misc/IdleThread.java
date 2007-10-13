@@ -104,7 +104,7 @@ public class IdleThread extends Thread
 			fr.cancel();
 		}
 
-		ui.showSystemMessage( user.getNick() + " timed out..." );
+		ui.getUIMessages().showUserTimedOut( user.getNick() );
 	}
 
 	public void stopThread()
