@@ -85,22 +85,26 @@ public class SysTray implements ActionListener, MouseListener
 
 	public void setAwayState()
 	{
-		trayIcon.setImage( cow_icon_away );
+		if ( trayIcon.getImage() != cow_icon_away )
+			trayIcon.setImage( cow_icon_away );
 	}
 
 	public void setAwayActivityState()
 	{
-		trayIcon.setImage( cow_icon_away_activity );
+		if ( trayIcon.getImage() != cow_icon_away_activity )
+			trayIcon.setImage( cow_icon_away_activity );
 	}
 
 	public void setNormalState()
 	{
-		trayIcon.setImage( cow_icon_normal );
+		if ( trayIcon.getImage() != cow_icon_normal )
+			trayIcon.setImage( cow_icon_normal );
 	}
 
 	public void setNormalActivityState()
 	{
-		trayIcon.setImage( cow_icon_normal_activity );
+		if ( trayIcon.getImage() != cow_icon_normal_activity )
+			trayIcon.setImage( cow_icon_normal_activity );
 	}
 
 	public void setToolTip( String toolTip )
