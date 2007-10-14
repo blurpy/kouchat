@@ -45,6 +45,7 @@ public class Controller
 	private IdleThread idleThread;
 	private TransferList tList;
 	private WaitingList wList;
+	private NickDTO me;
 
 	public Controller( UserInterface ui )
 	{
@@ -55,6 +56,8 @@ public class Controller
 				logOff();
 			}
 		} );
+
+		me = Settings.getSettings().getMe();
 
 		nickController = new NickController();
 		chatState = new ChatState();
@@ -86,7 +89,6 @@ public class Controller
 	public void changeWriting( int code, boolean writing )
 	{
 		nickController.changeWriting( code, writing );
-		NickDTO me = Settings.getSettings().getMe();
 
 		if ( code == me.getCode() )
 		{
@@ -114,15 +116,24 @@ public class Controller
 		return nickController.isNewUser( code );
 	}
 
+	public void changeMyNick( String nick ) throws AwayException
+	{
+		if ( !me.isAway() )
+		{
+			changeNick( me.getCode(), nick );
+			messages.sendNickMessage();
+			Settings.getSettings().saveSettings();
+		}
+
+		else
+		{
+			throw new AwayException( "You tried to change nick while away. This should never happen..." );
+		}
+	}
+
 	public void changeNick( int code, String nick )
 	{
 		nickController.changeNick( code, nick );
-		NickDTO me = Settings.getSettings().getMe();
-
-		if ( code == me.getCode() )
-		{
-			messages.sendNickMessage();
-		}
 	}
 
 	public NickDTO getNick( int code )
@@ -197,14 +208,41 @@ public class Controller
 		messages.sendIdleMessage();
 	}
 
-	public void sendChatMessage( String msg )
+	public void sendChatMessage( String msg ) throws AwayException
 	{
-		messages.sendChatMessage( msg );
+		if ( !me.isAway() )
+		{
+			if ( msg.trim().length() > 0 )
+				messages.sendChatMessage( msg );
+			else
+				log.log( Level.WARNING, "You tried to send an empty chat message. This should never happen..." );
+		}
+
+		else
+		{
+			throw new AwayException( "You tried to send a chat message while away. This should never happen..." );
+		}
 	}
 
-	public void sendTopicMessage( TopicDTO topic )
+	public void sendTopicMessage()
 	{
-		messages.sendTopicMessage( topic );
+		messages.sendTopicMessage( getTopic() );
+	}
+
+	public void changeTopic( String newTopic ) throws AwayException
+	{
+		if ( !me.isAway() )
+		{
+			long time = System.currentTimeMillis();
+			TopicDTO topic = getTopic();
+			topic.changeTopic( newTopic, me.getNick(), time );
+			sendTopicMessage();
+		}
+
+		else
+		{
+			throw new AwayException( "You tried to change the topic while away. This should never happen..." );
+		}
 	}
 
 	public void sendAwayMessage()
@@ -232,9 +270,12 @@ public class Controller
 		messages.sendFileAccept( msgCode, port, fileHash, fileName );
 	}
 
-	public void sendFile( int sendToUserCode, long fileLength, int fileHash, String fileName )
+	public void sendFile( int sendToUserCode, long fileLength, int fileHash, String fileName ) throws AwayException
 	{
-		messages.sendFile( sendToUserCode, fileLength, fileHash, fileName );
+		if ( !me.isAway() )
+			messages.sendFile( sendToUserCode, fileLength, fileHash, fileName );
+		else
+			throw new AwayException( "You tried to send a file while away. This should never happen..." );
 	}
 
 	public TransferList getTransferList()

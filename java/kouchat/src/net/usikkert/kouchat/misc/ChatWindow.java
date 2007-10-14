@@ -21,20 +21,7 @@
 
 package net.usikkert.kouchat.misc;
 
-import java.io.File;
-
-import net.usikkert.kouchat.net.FileReceiver;
-import net.usikkert.kouchat.net.FileSender;
-
-public interface UserInterface
+public interface ChatWindow
 {
-	public boolean askFileSave( String user, String fileName, String size );
-	public File showFileSave( String fileName );
-	public void showTransfer( FileReceiver fileRes );
-	public void showTransfer( FileSender fileSend );
-	public void showTopic();
-	public void clearChat();
-	public void changeAway( boolean away );
-	public void notifyMessageArrived();
-	public UIMessages getUIMessages();
+	public void appendToChat( String message, int color );
 }

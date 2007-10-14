@@ -19,22 +19,95 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.misc;
+package net.usikkert.kouchat.ui.console;
 
 import java.io.File;
 
+import net.usikkert.kouchat.misc.Controller;
+import net.usikkert.kouchat.misc.MessageController;
+import net.usikkert.kouchat.misc.UIMessages;
+import net.usikkert.kouchat.misc.UserInterface;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 
-public interface UserInterface
+public class ConsoleMediator implements UserInterface
 {
-	public boolean askFileSave( String user, String fileName, String size );
-	public File showFileSave( String fileName );
-	public void showTransfer( FileReceiver fileRes );
-	public void showTransfer( FileSender fileSend );
-	public void showTopic();
-	public void clearChat();
-	public void changeAway( boolean away );
-	public void notifyMessageArrived();
-	public UIMessages getUIMessages();
+	private UIMessages uiMsg;
+	private MessageController msgController;
+	private ConsoleChatWindow chat;
+	private Controller controller;
+	private ConsoleInput ci;
+	
+	public ConsoleMediator()
+	{
+		chat = new ConsoleChatWindow();
+		msgController = new MessageController( chat );
+		uiMsg = new UIMessages( msgController );
+		uiMsg.showWelcomeMsg();
+		
+		controller = new Controller( this );
+		ci = new ConsoleInput( controller, this );
+	}
+	
+	public void start()
+	{
+		controller.logOn();
+		ci.input();
+	}
+	
+	// TODO
+	@Override
+	public boolean askFileSave( String user, String fileName, String size )
+	{
+		return false;
+	}
+
+	@Override
+	public void changeAway( boolean away )
+	{
+		
+	}
+
+	@Override
+	public void clearChat()
+	{
+		uiMsg.showNotSupported();
+	}
+
+	@Override
+	public UIMessages getUIMessages()
+	{
+		return uiMsg;
+	}
+
+	@Override
+	public File showFileSave( String fileName )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void showTopic()
+	{
+
+	}
+
+	@Override
+	public void showTransfer( FileReceiver fileRes )
+	{
+		new TransferHandler( fileRes );
+	}
+	
+	@Override
+	public void showTransfer( FileSender fileSend )
+	{
+		new TransferHandler( fileSend );
+	}
+
+	@Override
+	public void notifyMessageArrived()
+	{
+
+	}
 }

@@ -43,7 +43,9 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-public class MainPanel extends JPanel implements ActionListener, CaretListener
+import net.usikkert.kouchat.misc.ChatWindow;
+
+public class MainPanel extends JPanel implements ActionListener, CaretListener, ChatWindow
 {
 	private static Logger log = Logger.getLogger( MainPanel.class.getName() );
 

@@ -35,16 +35,38 @@ import net.usikkert.kouchat.Constants;
  */
 public class UIMessages
 {
-	private UserInterface ui;
+	private MessageController msgController;
 	
 	/**
 	 * Default constructor
 	 * 
-	 * @param ui The user interface to show the messages in
+	 * @param msgController The controller that decides how to deal with messages
 	 */
-	public UIMessages( UserInterface ui )
+	public UIMessages( MessageController msgController )
 	{
-		this.ui = ui;
+		this.msgController = msgController;
+	}
+	
+	/**
+	 * Shows a users message, with the users color.
+	 * 
+	 * @param user The user that sent the message
+	 * @param message The message
+	 * @param color The color to show the message with
+	 */
+	public void showUserMessage( String user, String message, int color )
+	{
+		msgController.showUserMessage( user, message, color );
+	}
+	
+	/**
+	 * Shows your own message
+	 * 
+	 * @param message The message to show
+	 */
+	public void showOwnMessage( String message )
+	{
+		msgController.showOwnMessage( message );
 	}
 	
 	/**
@@ -54,7 +76,7 @@ public class UIMessages
 	 */
 	public void showLoggedOff( String user )
 	{
-		ui.showSystemMessage( user + " logged off..." );
+		msgController.showSystemMessage( user + " logged off..." );
 	}
 	
 	/**
@@ -64,7 +86,7 @@ public class UIMessages
 	 */
 	public void showTopicRemoved( String user )
 	{
-		ui.showSystemMessage( user + " removed the topic..." );
+		msgController.showSystemMessage( user + " removed the topic..." );
 	}
 	
 	/**
@@ -75,22 +97,26 @@ public class UIMessages
 	 */
 	public void showTopicChanged( String user, String topic )
 	{
-		ui.showSystemMessage( user + " changed the topic to: " + topic );
+		msgController.showSystemMessage( user + " changed the topic to: " + topic );
 	}
 	
 	/**
 	 * Shows information about the commands /help, /about, /clear,
-	 * /whois, /away, /send, /topic and //text
+	 * /whois, /names, /nick, /away, /back, /send, /transfers, /topic and //text
 	 */
 	public void showCommands()
 	{
-		ui.showSystemMessage( Constants.APP_NAME + " commands:\n" +
+		msgController.showSystemMessage( Constants.APP_NAME + " commands:\n" +
 				"/help - show this help message\n" +
 				"/about - information about " + Constants.APP_NAME + "\n" +
 				"/clear - clear all the text from the chat\n" +
 				"/whois <nick> - show information about a user\n" +
+				"/names - show the user list\n" +
+				"/nick <new nick> - changes your nick name\n" +
 				"/away <away message> - set status to away\n" +
+				"/back - set status to not away\n" +
 				"/send <nick> <file> - send a file to a user\n" +
+				"/transfers - shows a list of all transfers and their status\n" +
 				"/topic <optional new topic> - prints the current topic, or changes the topic\n" +
 				"//<text> - send the text as a normal message, with a single slash" );
 	}
@@ -103,7 +129,7 @@ public class UIMessages
 	 */
 	public void showUserAway( String user, String awayMsg )
 	{
-		ui.showSystemMessage( user + " went away: " + awayMsg );
+		msgController.showSystemMessage( user + " went away: " + awayMsg );
 	}
 	
 	/**
@@ -113,7 +139,7 @@ public class UIMessages
 	 */
 	public void showUserBack( String user )
 	{
-		ui.showSystemMessage( user + " came back..." );
+		msgController.showSystemMessage( user + " came back..." );
 	}
 
 	/**
@@ -121,7 +147,7 @@ public class UIMessages
 	 */
 	public void showAbout()
 	{
-		ui.showSystemMessage( "This is " + Constants.APP_NAME + " v" + Constants.APP_VERSION +
+		msgController.showSystemMessage( "This is " + Constants.APP_NAME + " v" + Constants.APP_VERSION +
 				", by " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL + 
 				" - " + Constants.AUTHOR_WEB );
 	}
@@ -131,7 +157,7 @@ public class UIMessages
 	 */
 	public void showNoTopic()
 	{
-		ui.showSystemMessage( "No topic set..." );
+		msgController.showSystemMessage( "No topic set..." );
 	}
 
 	/**
@@ -142,7 +168,7 @@ public class UIMessages
 	 */
 	public void showUserLoggedOn( String user, String ipAddress )
 	{
-		ui.showSystemMessage( user + " logged on from " + ipAddress + "..." );
+		msgController.showSystemMessage( user + " logged on from " + ipAddress + "..." );
 	}
 
 	/**
@@ -152,7 +178,7 @@ public class UIMessages
 	 */
 	public void showTodayIs( String date )
 	{
-		ui.showSystemMessage( "Today is " + date );
+		msgController.showSystemMessage( "Today is " + date );
 	}
 
 	/**
@@ -163,7 +189,7 @@ public class UIMessages
 	 */
 	public void showMeLoggedOn( String nick, String ipAddress )
 	{
-		ui.showSystemMessage( "You logged on as " + nick + " from " + ipAddress );
+		msgController.showSystemMessage( "You logged on as " + nick + " from " + ipAddress );
 	}
 
 	/**
@@ -175,7 +201,7 @@ public class UIMessages
 	 */
 	public void showChangedIp( String user, String oldIP, String newIP )
 	{
-		ui.showSystemMessage( user + " changed ip from " + oldIP + " to " + newIP );
+		msgController.showSystemMessage( user + " changed ip from " + oldIP + " to " + newIP );
 	}
 
 	/**
@@ -185,7 +211,7 @@ public class UIMessages
 	 */
 	public void showNickCrash( String newNick )
 	{
-		ui.showSystemMessage( "Nick crash, resetting nick to " + newNick );
+		msgController.showSystemMessage( "Nick crash, resetting nick to " + newNick );
 	}
 
 	/**
@@ -196,7 +222,7 @@ public class UIMessages
 	 */
 	public void showNickChanged( String oldNick, String newNick )
 	{
-		ui.showSystemMessage( oldNick + " changed nick to " + newNick );
+		msgController.showSystemMessage( oldNick + " changed nick to " + newNick );
 	}
 
 	/**
@@ -207,7 +233,7 @@ public class UIMessages
 	 */
 	public void showShowedUnexpectedly( String user, String ipAddress )
 	{
-		ui.showSystemMessage( user + " showed up unexpectedly from " + ipAddress + "..." );
+		msgController.showSystemMessage( user + " showed up unexpectedly from " + ipAddress + "..." );
 	}
 
 	/**
@@ -219,7 +245,7 @@ public class UIMessages
 	 */
 	public void showTopic( String topic, String user, String date )
 	{
-		ui.showSystemMessage( "Topic is: " + topic + " (set by " + user + " at " + date + ")" );
+		msgController.showSystemMessage( "Topic is: " + topic + " (set by " + user + " at " + date + ")" );
 	}
 
 	/**
@@ -229,7 +255,7 @@ public class UIMessages
 	 */
 	public void showUnknownCommand( String command )
 	{
-		ui.showSystemMessage( "Unknown command '" + command + "'. Type /help for a list of commands." );
+		msgController.showSystemMessage( "Unknown command '" + command + "'. Type /help for a list of commands." );
 	}
 
 	/**
@@ -239,7 +265,7 @@ public class UIMessages
 	 */
 	public void showUserTimedOut( String user )
 	{
-		ui.showSystemMessage( user + " timed out..." );
+		msgController.showSystemMessage( user + " timed out..." );
 	}
 
 	/**
@@ -249,7 +275,7 @@ public class UIMessages
 	 */
 	public void showDayChanged( String date )
 	{
-		ui.showSystemMessage( "Day changed to " + date );
+		msgController.showSystemMessage( "Day changed to " + date );
 	}
 
 	/**
@@ -260,7 +286,7 @@ public class UIMessages
 	 */
 	public void showSendAccepted( String user, String fileName )
 	{
-		ui.showSystemMessage( user + " accepted sending of " + fileName );
+		msgController.showSystemMessage( user + " accepted sending of " + fileName );
 	}
 
 	/**
@@ -271,7 +297,7 @@ public class UIMessages
 	 */
 	public void showSendSuccess( String fileName, String user )
 	{
-		ui.showSystemMessage( fileName + " successfully sent to " + user );
+		msgController.showSystemMessage( fileName + " successfully sent to " + user );
 	}
 
 	/**
@@ -282,7 +308,7 @@ public class UIMessages
 	 */
 	public void showSendFailed( String fileName, String user )
 	{
-		ui.showSystemMessage( "Failed to send " + fileName + " to " + user );
+		msgController.showSystemMessage( "Failed to send " + fileName + " to " + user );
 	}
 
 	/**
@@ -293,7 +319,7 @@ public class UIMessages
 	 */
 	public void showReceiveFailed( String fileName, String user )
 	{
-		ui.showSystemMessage( "Failed to receive " + fileName + " from " + user );
+		msgController.showSystemMessage( "Failed to receive " + fileName + " from " + user );
 	}
 
 	/**
@@ -305,7 +331,7 @@ public class UIMessages
 	 */
 	public void showReceiveSuccess( String orgFileName, String user, String newFileName )
 	{
-		ui.showSystemMessage( "Successfully received " + orgFileName 
+		msgController.showSystemMessage( "Successfully received " + orgFileName 
 				+ " from " + user + ", and saved as " + newFileName );
 	}
 
@@ -317,7 +343,7 @@ public class UIMessages
 	 */
 	public void showReceiveDeclined( String fileName, String user )
 	{
-		ui.showSystemMessage( "You declined to receive " + fileName + " from " + user );
+		msgController.showSystemMessage( "You declined to receive " + fileName + " from " + user );
 	}
 
 	/**
@@ -325,7 +351,7 @@ public class UIMessages
 	 */
 	public void showWelcomeMsg()
 	{
-		ui.showSystemMessage( "Welcome to " + Constants.APP_NAME + " v" + Constants.APP_VERSION + "!" );
+		msgController.showSystemMessage( "Welcome to " + Constants.APP_NAME + " v" + Constants.APP_VERSION + "!" );
 	}
 
 	/**
@@ -337,7 +363,7 @@ public class UIMessages
 	 */
 	public void showSendRequest( String fileName, String fileSize, String user )
 	{
-		ui.showSystemMessage( "Trying to send the file " + fileName + " [" + fileSize + "] to " + user );
+		msgController.showSystemMessage( "Trying to send the file " + fileName + " [" + fileSize + "] to " + user );
 	}
 
 	/**
@@ -348,7 +374,7 @@ public class UIMessages
 	 */
 	public void showSendCancelled( String fileName, String user )
 	{
-		ui.showSystemMessage( "You cancelled sending of " + fileName + " to " + user );
+		msgController.showSystemMessage( "You cancelled sending of " + fileName + " to " + user );
 	}
 
 	/**
@@ -360,7 +386,7 @@ public class UIMessages
 	 */
 	public void showReceiveRequest( String user, String fileName, String fileSize )
 	{
-		ui.showSystemMessage( user + " is trying to send the file " + fileName + " [" + fileSize + "]" );
+		msgController.showSystemMessage( user + " is trying to send the file " + fileName + " [" + fileSize + "]" );
 	}
 
 	/**
@@ -371,7 +397,7 @@ public class UIMessages
 	 */
 	public void showSendAborted( String user, String fileName )
 	{
-		ui.showSystemMessage( user + " aborted sending of " + fileName );
+		msgController.showSystemMessage( user + " aborted sending of " + fileName );
 	}
 
 	/**
@@ -381,7 +407,7 @@ public class UIMessages
 	 */
 	public void showCmdAwayAlready( String awayMsg )
 	{
-		ui.showSystemMessage( "/away - you are already away: '" + awayMsg + "'" );
+		msgController.showSystemMessage( "/away - you are already away: '" + awayMsg + "'" );
 	}
 
 	/**
@@ -389,7 +415,7 @@ public class UIMessages
 	 */
 	public void showCmdAwayMissingArgs()
 	{
-		ui.showSystemMessage( "/away - missing argument <away message>" );
+		msgController.showSystemMessage( "/away - missing argument <away message>" );
 	}
 
 	/**
@@ -397,7 +423,7 @@ public class UIMessages
 	 */
 	public void showCmdWhoisMissingArgs()
 	{
-		ui.showSystemMessage( "/whois - missing argument <nick>" );
+		msgController.showSystemMessage( "/whois - missing argument <nick>" );
 	}
 
 	/**
@@ -407,7 +433,7 @@ public class UIMessages
 	 */
 	public void showCmdWhoisNoUser( String user )
 	{
-		ui.showSystemMessage( "/whois - no such user '" + user + "'" );
+		msgController.showSystemMessage( "/whois - no such user '" + user + "'" );
 	}
 
 	/**
@@ -426,7 +452,7 @@ public class UIMessages
 		if ( awayMsg.length() > 0 )
 			info += ", but is away and '" + awayMsg + "'";
 
-		ui.showSystemMessage( info );
+		msgController.showSystemMessage( info );
 	}
 
 	/**
@@ -434,7 +460,7 @@ public class UIMessages
 	 */
 	public void showCmdSendMissingArgs()
 	{
-		ui.showSystemMessage( "/send - missing arguments <nick> <file>" );
+		msgController.showSystemMessage( "/send - missing arguments <nick> <file>" );
 	}
 
 	/**
@@ -444,7 +470,7 @@ public class UIMessages
 	 */
 	public void showCmdSendNoUser( String user )
 	{
-		ui.showSystemMessage( "/send - no such user '" + user + "'" );
+		msgController.showSystemMessage( "/send - no such user '" + user + "'" );
 	}
 
 	/**
@@ -454,7 +480,7 @@ public class UIMessages
 	 */
 	public void showCmdSendNoFile( String file )
 	{
-		ui.showSystemMessage( "/send - no such file '" + file + "'" );
+		msgController.showSystemMessage( "/send - no such file '" + file + "'" );
 	}
 
 	/**
@@ -462,7 +488,7 @@ public class UIMessages
 	 */
 	public void showCmdSendNoPoint()
 	{
-		ui.showSystemMessage( "/send - no point in doing that!" );
+		msgController.showSystemMessage( "/send - no point in doing that!" );
 	}
 
 	/**
@@ -470,7 +496,7 @@ public class UIMessages
 	 */
 	public void showCmdNickMissingArgs()
 	{
-		ui.showSystemMessage( "/nick - missing argument <nick>" );
+		msgController.showSystemMessage( "/nick - missing argument <nick>" );
 	}
 
 	/**
@@ -480,7 +506,7 @@ public class UIMessages
 	 */
 	public void showCmdNickInUse( String nick )
 	{
-		ui.showSystemMessage( "/nick - '" + nick + "' is in use by someone else..." );
+		msgController.showSystemMessage( "/nick - '" + nick + "' is in use by someone else..." );
 	}
 
 	/**
@@ -490,7 +516,7 @@ public class UIMessages
 	 */
 	public void showCmdNickNotValid( String nick )
 	{
-		ui.showSystemMessage( "/nick - '" + nick + "' is not a valid nick name. (1-10 letters)" );
+		msgController.showSystemMessage( "/nick - '" + nick + "' is not a valid nick name. (1-10 letters)" );
 	}
 
 	/**
@@ -500,6 +526,51 @@ public class UIMessages
 	 */
 	public void showCmdNickAlreadyCalled( String nick )
 	{
-		ui.showSystemMessage( "/nick - you are already called '" + nick + "'" );
+		msgController.showSystemMessage( "/nick - you are already called '" + nick + "'" );
+	}
+
+	/**
+	 * Shows "Users: nickList"
+	 * 
+	 * @param nickList A list of nick names
+	 */
+	public void showNickList( String nickList )
+	{
+		msgController.showSystemMessage( "Users: " + nickList );
+	}
+	
+	/**
+	 * Shows "/back - you are not away..."
+	 */
+	public void showCmdBackNotAway()
+	{
+		msgController.showSystemMessage( "/back - you are not away..." );
+	}
+
+	/**
+	 * Shows "Action not allowed while away..."
+	 */
+	public void showActionNotAllowed()
+	{
+		msgController.showSystemMessage( "Action not allowed while away..." );
+	}
+
+	/**
+	 * Shows "Operation not supported..."
+	 */
+	public void showNotSupported()
+	{
+		msgController.showSystemMessage( "Operation not supported..." );
+	}
+
+	/**
+	 * Shows "File transfers: senders receivers"
+	 * 
+	 * @param senders A list of file send transfer
+	 * @param receivers A list of file receive transfers
+	 */
+	public void showTransfers( String senders, String receivers )
+	{
+		msgController.showSystemMessage( "File transfers:\n" + senders + receivers );
 	}
 }

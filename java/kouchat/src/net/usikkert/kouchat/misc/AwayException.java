@@ -21,20 +21,25 @@
 
 package net.usikkert.kouchat.misc;
 
-import java.io.File;
-
-import net.usikkert.kouchat.net.FileReceiver;
-import net.usikkert.kouchat.net.FileSender;
-
-public interface UserInterface
+public class AwayException extends Exception
 {
-	public boolean askFileSave( String user, String fileName, String size );
-	public File showFileSave( String fileName );
-	public void showTransfer( FileReceiver fileRes );
-	public void showTransfer( FileSender fileSend );
-	public void showTopic();
-	public void clearChat();
-	public void changeAway( boolean away );
-	public void notifyMessageArrived();
-	public UIMessages getUIMessages();
+	public AwayException()
+	{
+		super();
+	}
+
+	public AwayException( String message, Throwable cause )
+	{
+		super( message, cause );
+	}
+
+	public AwayException( String message )
+	{
+		super( message );
+	}
+
+	public AwayException( Throwable cause )
+	{
+		super( cause );
+	}
 }

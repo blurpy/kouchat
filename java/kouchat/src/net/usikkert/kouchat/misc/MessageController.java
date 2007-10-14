@@ -21,20 +21,34 @@
 
 package net.usikkert.kouchat.misc;
 
-import java.io.File;
+import net.usikkert.kouchat.util.Tools;
 
-import net.usikkert.kouchat.net.FileReceiver;
-import net.usikkert.kouchat.net.FileSender;
-
-public interface UserInterface
+public class MessageController
 {
-	public boolean askFileSave( String user, String fileName, String size );
-	public File showFileSave( String fileName );
-	public void showTransfer( FileReceiver fileRes );
-	public void showTransfer( FileSender fileSend );
-	public void showTopic();
-	public void clearChat();
-	public void changeAway( boolean away );
-	public void notifyMessageArrived();
-	public UIMessages getUIMessages();
+	private Settings settings;
+	private NickDTO me;
+	private ChatWindow chat;
+	
+	public MessageController( ChatWindow chat )
+	{
+		this.chat = chat;
+		
+		settings = Settings.getSettings();
+		me = settings.getMe();
+	}
+	
+	public void showUserMessage( String user, String message, int color )
+	{
+		chat.appendToChat( Tools.getTime() + " <" + user + ">: " + message, color );
+	}
+
+	public void showSystemMessage( String message )
+	{
+		chat.appendToChat( Tools.getTime() + " *** " + message, settings.getSysColor() );
+	}
+
+	public void showOwnMessage( String message )
+	{
+		chat.appendToChat( Tools.getTime() + " <" + me.getNick() + ">: " + message, settings.getOwnColor() );
+	}
 }

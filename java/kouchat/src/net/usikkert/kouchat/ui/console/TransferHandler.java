@@ -19,22 +19,51 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.misc;
+package net.usikkert.kouchat.ui.console;
 
-import java.io.File;
+import net.usikkert.kouchat.event.FileTransferListener;
+import net.usikkert.kouchat.net.FileTransfer;
 
-import net.usikkert.kouchat.net.FileReceiver;
-import net.usikkert.kouchat.net.FileSender;
-
-public interface UserInterface
+public class TransferHandler implements FileTransferListener
 {
-	public boolean askFileSave( String user, String fileName, String size );
-	public File showFileSave( String fileName );
-	public void showTransfer( FileReceiver fileRes );
-	public void showTransfer( FileSender fileSend );
-	public void showTopic();
-	public void clearChat();
-	public void changeAway( boolean away );
-	public void notifyMessageArrived();
-	public UIMessages getUIMessages();
+	public TransferHandler( FileTransfer fileTransfer )
+	{
+		fileTransfer.registerListener( this );
+	}
+	
+	@Override
+	public void statusCompleted()
+	{
+
+	}
+
+	@Override
+	public void statusConnecting()
+	{
+
+	}
+
+	@Override
+	public void statusFailed()
+	{
+
+	}
+
+	@Override
+	public void statusTransferring()
+	{
+
+	}
+
+	@Override
+	public void statusWaiting()
+	{
+
+	}
+
+	@Override
+	public void transferUpdate()
+	{
+
+	}
 }

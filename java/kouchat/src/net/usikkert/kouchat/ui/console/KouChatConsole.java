@@ -23,5 +23,17 @@ package net.usikkert.kouchat.ui.console;
 
 public class KouChatConsole
 {
-
+	
+	private ConsoleMediator mediator;
+	
+	public KouChatConsole() throws InterruptedException
+	{
+		mediator = new ConsoleMediator();
+		mediator.start();
+	}
+	
+	public static void main( String[] args ) throws InterruptedException
+	{
+		new KouChatConsole();
+	}
 }

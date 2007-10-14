@@ -77,6 +77,18 @@ public class TransferList
 
 		return list;
 	}
+	
+	public List<FileSender> getFileSenders()
+	{
+		List<FileSender> list = new ArrayList<FileSender>();
+
+		for ( FileSender fs : senders )
+		{
+			list.add( fs );
+		}
+
+		return list;
+	}
 
 	public void addFileReceiver( FileReceiver fileReceiver )
 	{
@@ -98,6 +110,18 @@ public class TransferList
 			{
 				list.add( fr );
 			}
+		}
+
+		return list;
+	}
+	
+	public List<FileReceiver> getFileReceivers()
+	{
+		List<FileReceiver> list = new ArrayList<FileReceiver>();
+
+		for ( FileReceiver fr : receivers )
+		{
+			list.add( fr );
 		}
 
 		return list;

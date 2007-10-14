@@ -24,25 +24,32 @@ package net.usikkert.kouchat.misc;
 import java.io.File;
 
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import net.usikkert.kouchat.net.FileReceiver;
+import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.util.Tools;
 
 public class CommandParser
 {
+	private static Logger log = Logger.getLogger( CommandParser.class.getName() );
+
 	private Controller controller;
 	private UserInterface ui;
 	private NickDTO me;
 	private UIMessages uiMsg;
-	
+
 	public CommandParser( Controller controller, UserInterface ui )
 	{
 		this.controller = controller;
 		this.ui = ui;
-		
+
 		me = Settings.getSettings().getMe();
 		uiMsg = ui.getUIMessages();
 	}
-	
+
 	private void cmdTopic( String args )
 	{
 		if ( args.length() == 0 )
@@ -63,10 +70,10 @@ public class CommandParser
 
 		else
 		{
-			ui.fixTopic( args );
+			fixTopic( args );
 		}
 	}
-	
+
 	private void cmdAway( String args )
 	{
 		if ( me.isAway() )
@@ -80,7 +87,7 @@ public class CommandParser
 			{
 				uiMsg.showCmdAwayMissingArgs();
 			}
-			
+
 			else
 			{
 				controller.changeAwayStatus( me.getCode(), true, args.trim() );
@@ -90,22 +97,38 @@ public class CommandParser
 			}
 		}
 	}
-	
+
+	private void cmdBack()
+	{
+		if ( me.isAway() )
+		{
+			controller.changeAwayStatus( me.getCode(), false, "" );
+			controller.sendBackMessage();
+			ui.changeAway( false );
+			uiMsg.showUserBack( "You" );
+		}
+
+		else
+		{
+			uiMsg.showCmdBackNotAway();
+		}
+	}
+
 	private void cmdClear()
 	{
 		ui.clearChat();
 	}
-	
+
 	private void cmdAbout()
 	{
 		uiMsg.showAbout();
 	}
-	
+
 	private void cmdHelp()
 	{
 		uiMsg.showCommands();
 	}
-	
+
 	private void cmdWhois( String args )
 	{
 		if ( args.trim().length() == 0 )
@@ -131,7 +154,7 @@ public class CommandParser
 			}
 		}
 	}
-	
+
 	private void cmdSend( String args )
 	{
 		String[] argsArray = args.split( "\\s" );
@@ -140,12 +163,12 @@ public class CommandParser
 		{
 			uiMsg.showCmdSendMissingArgs();
 		}
-		
+
 		else
 		{
 			String nick = argsArray[1];
 			NickDTO user = controller.getNick( nick );
-			
+
 			if ( user != me )
 			{
 				if ( user == null )
@@ -156,39 +179,44 @@ public class CommandParser
 				else
 				{
 					String file = "";
-					
+
 					for ( int i = 2; i < argsArray.length; i++ )
 					{
 						file += argsArray[i] + " ";
 					}
-					
+
 					file = file.trim();
 					File sendFile = new File( file );
-					
+
 					if ( sendFile.exists() && sendFile.isFile() )
 					{
-						ui.startFileSend( user, sendFile );
+						sendFile( user, sendFile );
 					}
-					
+
 					else
 					{
 						uiMsg.showCmdSendNoFile( file );
 					}
 				}
 			}
-			
+
 			else
 			{
 				uiMsg.showCmdSendNoPoint();
 			}
 		}
 	}
-	
+
 	private void cmdNick( String args )
 	{
 		if ( args.trim().length() == 0 )
 		{
 			uiMsg.showCmdNickMissingArgs();
+		}
+
+		else if ( me.isAway() )
+		{
+			uiMsg.showActionNotAllowed();
 		}
 
 		else
@@ -210,9 +238,18 @@ public class CommandParser
 
 				else
 				{
-					controller.changeNick( me.getCode(), nick );
-					uiMsg.showNickChanged( "You", me.getNick() );
-					ui.showTopic();
+					try
+					{
+						controller.changeMyNick( nick );
+						uiMsg.showNickChanged( "You", me.getNick() );
+						ui.showTopic();
+					}
+
+					catch ( AwayException e )
+					{
+						log.log( Level.WARNING, e.getMessage() );
+						uiMsg.showActionNotAllowed();
+					}
 				}
 			}
 
@@ -222,19 +259,138 @@ public class CommandParser
 			}
 		}
 	}
-	
-	private void cmdSlash( String line )
+
+	private void cmdNames()
 	{
-		String message = line.replaceFirst( "/", "" );
-		ui.showOwnMessage( message );
-		controller.sendChatMessage( message );
+		NickList list = controller.getNickList();
+		String nickList = "";
+
+		for ( int i = 0; i < list.size(); i++ )
+		{
+			NickDTO nick = list.get( i );
+			nickList += nick.getNick();
+
+			if ( i < list.size() -1 )
+				nickList += ", ";
+		}
+
+		uiMsg.showNickList( nickList );
 	}
 	
+	// TODO /send blurpy /home/blurpy/The_Prodigy_-_Always_Outnumbered_Never_Outgunned111111.tar.gz
+	private void cmdTransfers()
+	{
+		List<FileSender> fsList = controller.getTransferList().getFileSenders();
+		List<FileReceiver> frList = controller.getTransferList().getFileReceivers();
+		
+		String senders = "Sending:";
+		String receivers = "\nReceiving:";
+		
+		for ( FileSender fs : fsList )
+		{
+			senders += "\n" + fs.getFileName() + " [" + Tools.byteToString( fs.getFileSize() ) + "] (" + fs.getPercent() + "%) to " + fs.getNick().getNick();
+		}
+
+		for ( FileReceiver fr : frList )
+		{
+			receivers += "\n" + fr.getFileName() + " [" + Tools.byteToString( fr.getFileSize() ) + "] (" + fr.getPercent() + "%) from " + fr.getNick().getNick();
+		}
+		
+		uiMsg.showTransfers( senders, receivers );
+	}
+
+	private void cmdSlash( String line )
+	{
+		if ( !me.isAway() )
+		{
+			String message = line.replaceFirst( "/", "" );
+
+			try
+			{
+				controller.sendChatMessage( message );
+				uiMsg.showOwnMessage( message );
+			}
+
+			catch ( AwayException e )
+			{
+				log.log( Level.WARNING, e.getMessage() );
+				uiMsg.showActionNotAllowed();
+			}
+		}
+
+		else
+		{
+			uiMsg.showActionNotAllowed();
+		}
+	}
+
 	private void cmdUnknown( String command )
 	{
 		uiMsg.showUnknownCommand( command );
 	}
 	
+	public void fixTopic( String newTopic )
+	{
+		if ( !me.isAway() )
+		{
+			TopicDTO topic = controller.getTopic();
+			newTopic = newTopic.trim();
+
+			if ( !newTopic.equals( topic.getTopic().trim() ) )
+			{
+				try
+				{
+					controller.changeTopic( newTopic );
+
+					if ( newTopic.length() > 0 )
+						uiMsg.showTopicChanged( "You", newTopic );
+					else
+						uiMsg.showTopicRemoved( "You" );
+
+					ui.showTopic();
+				}
+
+				catch ( AwayException e )
+				{
+					log.log( Level.WARNING, e.getMessage() );
+					uiMsg.showActionNotAllowed();
+				}
+			}
+		}
+
+		else
+		{
+			uiMsg.showActionNotAllowed();
+		}
+	}
+
+	public void sendFile( NickDTO user, File file )
+	{
+		if ( !me.isAway() )
+		{
+			try
+			{
+				controller.sendFile( user.getCode(), file.length(), file.hashCode(), file.getName() );
+				FileSender fileSend = new FileSender( user, file );
+				ui.showTransfer( fileSend );
+				controller.getTransferList().addFileSender( fileSend );
+				String size = Tools.byteToString( file.length() );
+				uiMsg.showSendRequest( file.getName(), size, user.getNick() );
+			}
+
+			catch ( AwayException e )
+			{
+				log.log( Level.WARNING, e.getMessage() );
+				uiMsg.showActionNotAllowed();
+			}
+		}
+
+		else
+		{
+			uiMsg.showActionNotAllowed();
+		}
+	}
+
 	public void parse( String line )
 	{
 		String command = "";
@@ -252,6 +408,8 @@ public class CommandParser
 				cmdTopic( args );
 			else if ( command.equals( "away" ) )
 				cmdAway( args );
+			else if ( command.equals( "back" ) )
+				cmdBack();
 			else if ( command.equals( "clear" ) )
 				cmdClear();
 			else if ( command.equals( "about" ) )
@@ -264,6 +422,10 @@ public class CommandParser
 				cmdSend( args );
 			else if ( command.equals( "nick" ) )
 				cmdNick( args );
+			else if ( command.equals( "names" ) )
+				cmdNames();
+			else if ( command.equals( "transfers" ) )
+				cmdTransfers();
 			else if ( command.startsWith( "/" ) )
 				cmdSlash( line );
 			else

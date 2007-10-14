@@ -19,22 +19,15 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.misc;
+package net.usikkert.kouchat.ui.console;
 
-import java.io.File;
+import net.usikkert.kouchat.misc.ChatWindow;
 
-import net.usikkert.kouchat.net.FileReceiver;
-import net.usikkert.kouchat.net.FileSender;
-
-public interface UserInterface
+public class ConsoleChatWindow implements ChatWindow
 {
-	public boolean askFileSave( String user, String fileName, String size );
-	public File showFileSave( String fileName );
-	public void showTransfer( FileReceiver fileRes );
-	public void showTransfer( FileSender fileSend );
-	public void showTopic();
-	public void clearChat();
-	public void changeAway( boolean away );
-	public void notifyMessageArrived();
-	public UIMessages getUIMessages();
+	@Override
+	public void appendToChat( String message, int color )
+	{
+		System.out.println( message );
+	}
 }

@@ -96,7 +96,12 @@ public class DefaultMessageResponder implements MessageResponder
 				if ( !controller.isNewUser( userCode ) )
 				{
 					NickDTO user = controller.getNick( userCode );
-					ui.showUserMessage( user.getNick(), msg, color );
+
+					if ( !user.isAway() )
+					{
+						uiMsg.showUserMessage( user.getNick(), msg, color );
+						ui.notifyMessageArrived();
+					}
 				}
 
 				else
@@ -266,7 +271,7 @@ public class DefaultMessageResponder implements MessageResponder
 		{
 			NickDTO user = controller.getNick( userCode );
 			controller.changeAwayStatus( userCode, away, awayMsg );
-			
+
 			if ( away )
 			{
 				uiMsg.showUserAway( user.getNick(), awayMsg );
@@ -305,7 +310,7 @@ public class DefaultMessageResponder implements MessageResponder
 		{
 			NickDTO user = controller.getNick( userCode );
 			user.setLastIdle( System.currentTimeMillis() );
-			
+
 			if ( !user.getIpAddress().equals( ipAddress ) )
 			{
 				uiMsg.showChangedIp( user.getNick(), user.getIpAddress(), ipAddress );
@@ -317,7 +322,7 @@ public class DefaultMessageResponder implements MessageResponder
 	@Override
 	public void topicRequested()
 	{
-		controller.sendTopicMessage( controller.getTopic() );
+		controller.sendTopicMessage();
 	}
 
 	@Override
@@ -372,7 +377,7 @@ public class DefaultMessageResponder implements MessageResponder
 				while ( wList.isWaitingUser( userCode ) && counter < 40 )
 				{
 					counter++;
-					
+
 					try
 					{
 						sleep( 50 );
