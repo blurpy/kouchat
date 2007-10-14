@@ -76,8 +76,12 @@ public class MessageSender
 		try
 		{
 			started = false;
-			mcSocket.leaveGroup( address );
-			mcSocket.close();
+
+			if ( !mcSocket.isClosed() )
+			{
+				mcSocket.leaveGroup( address );
+				mcSocket.close();
+			}
 		}
 
 		catch ( IOException e )
