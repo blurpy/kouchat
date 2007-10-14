@@ -40,6 +40,7 @@ import javax.swing.SwingUtilities;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.NickList;
+import net.usikkert.kouchat.misc.Settings;
 
 public class SidePanel extends JPanel implements ActionListener, MouseListener
 {
@@ -49,6 +50,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 	private JList nickL;
 	private NickListModel nickDLM;
 	private Mediator mediator;
+	private NickDTO me;
 
 	public SidePanel( ButtonPanel buttonP )
 	{
@@ -71,6 +73,8 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 		sendfileMI.addActionListener( this );
 		nickMenu.add( infoMI );
 		nickMenu.add( sendfileMI );
+		
+		me = Settings.getSettings().getMe();
 	}
 	
 	public void setMediator( Mediator mediator )
@@ -163,6 +167,25 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 		{
 			if ( nickMenu.isPopupTrigger( e ) && nickL.getSelectedIndex() != -1 )
 			{
+				NickDTO temp = (NickDTO) nickDLM.getElementAt( nickL.getSelectedIndex() );
+				
+				if ( temp.isMe() )
+				{
+					sendfileMI.setVisible( false );
+				}
+				
+				else if ( temp.isAway() || me.isAway() )
+				{
+					sendfileMI.setVisible( true );
+					sendfileMI.setEnabled( false );
+				}
+				
+				else
+				{
+					sendfileMI.setVisible( true );
+					sendfileMI.setEnabled( true );
+				}
+				
 				nickMenu.show( nickL, e.getX(), e.getY() );
 			}
 		}
