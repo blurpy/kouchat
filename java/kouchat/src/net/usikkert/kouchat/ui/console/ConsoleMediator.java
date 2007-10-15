@@ -55,11 +55,11 @@ public class ConsoleMediator implements UserInterface
 		ci.input();
 	}
 	
-	// TODO
 	@Override
 	public boolean askFileSave( String user, String fileName, String size )
 	{
-		return false;
+		uiMsg.showSaveWith();
+		return true;
 	}
 
 	@Override
@@ -80,10 +80,10 @@ public class ConsoleMediator implements UserInterface
 		return uiMsg;
 	}
 
+	//TODO
 	@Override
 	public File showFileSave( String fileName )
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 

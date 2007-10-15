@@ -411,12 +411,10 @@ public class SwingMediator implements Mediator, UserInterface
 				+ fileName + " (" + size + ")\nAccept?", Constants.APP_NAME + " - File send",
 				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0] );
 
-		boolean answer = false;
-
 		if ( choice == JOptionPane.YES_OPTION )
-			answer = true;
-
-		return answer;
+			return true;
+		else
+			return false;
 	}
 
 	@Override

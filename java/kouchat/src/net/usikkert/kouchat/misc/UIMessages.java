@@ -573,4 +573,12 @@ public class UIMessages
 	{
 		msgController.showSystemMessage( "File transfers:\n" + senders + receivers );
 	}
+
+	/**
+	 * Show "To save the file, use /receive."
+	 */
+	public void showSaveWith()
+	{
+		msgController.showSystemMessage( "To save the file, use /receive" );
+	}
 }
