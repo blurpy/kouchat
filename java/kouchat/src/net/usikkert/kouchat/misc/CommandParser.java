@@ -431,5 +431,8 @@ public class CommandParser
 			else
 				cmdUnknown( command );
 		}
+		
+		else
+			cmdUnknown( command );
 	}
 }
