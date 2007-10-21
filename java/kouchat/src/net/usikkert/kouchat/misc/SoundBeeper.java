@@ -21,8 +21,9 @@
 
 package net.usikkert.kouchat.misc;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -39,6 +40,8 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  */
 public class SoundBeeper
 {
+	private static Logger log = Logger.getLogger( SoundBeeper.class.getName() );
+	
 	private Clip clip;
 
 	/**
@@ -62,9 +65,11 @@ public class SoundBeeper
 	{
 		if ( fileName.endsWith( ".wav" ) )
 		{
+			AudioInputStream stream = null;
+
 			try
 			{
-				AudioInputStream stream = AudioSystem .getAudioInputStream( new File( fileName ) );
+				stream = AudioSystem.getAudioInputStream( getClass().getResourceAsStream( "/" + fileName ) );
 				AudioFormat format = stream.getFormat();
 				DataLine.Info info = new DataLine.Info( Clip.class, format );
 
@@ -72,23 +77,38 @@ public class SoundBeeper
 				{
 					clip = (Clip) AudioSystem.getLine( info );
 					clip.open( stream );
-					stream.close();
 				}
 			}
 
 			catch ( UnsupportedAudioFileException e )
 			{
-				e.printStackTrace();
+				log.log( Level.SEVERE, e.getMessage() );
 			}
 
 			catch ( IOException e )
 			{
-				e.printStackTrace();
+				log.log( Level.SEVERE, e.getMessage() );
 			}
 
 			catch ( LineUnavailableException e )
 			{
-				e.printStackTrace();
+				log.log( Level.SEVERE, e.getMessage() );
+			}
+
+			finally
+			{
+				if ( stream != null )
+				{
+					try
+					{
+						stream.close();
+					}
+					
+					catch ( IOException e )
+					{
+						log.log( Level.WARNING, e.getMessage() );
+					}
+				}
 			}
 		}
 	}
