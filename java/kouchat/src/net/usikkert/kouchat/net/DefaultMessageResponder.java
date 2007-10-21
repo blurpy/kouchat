@@ -337,6 +337,7 @@ public class DefaultMessageResponder implements MessageResponder
 	public void exposeRequested()
 	{
 		controller.sendExposingMessage();
+		controller.sendClientInfo();
 	}
 
 	@Override
@@ -511,5 +512,15 @@ public class DefaultMessageResponder implements MessageResponder
 				}
 			}
 		}.start();
+	}
+
+	@Override
+	public void clientInfo( int userCode, String client, long logonTime, String operatingSystem )
+	{
+		NickDTO user = controller.getNick( userCode );
+		
+		user.setClient( client );
+		user.setLogonTime( logonTime );
+		user.setOperatingSystem( operatingSystem );
 	}
 }

@@ -185,4 +185,10 @@ public class MessageParserTest implements MessageResponder
 	{
 
 	}
+
+	@Override
+	public void clientInfo( int userCode, String client, long logonTime, String operatingSystem )
+	{
+
+	}
 }

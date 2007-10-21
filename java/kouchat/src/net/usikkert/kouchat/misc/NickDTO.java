@@ -23,21 +23,25 @@ package net.usikkert.kouchat.misc;
 
 public class NickDTO implements Comparable<NickDTO>
 {
-	private String nick, awayMsg, ipAddress;
+	private String nick, awayMsg, ipAddress, operatingSystem, client;
 	private int code;
-	private long lastIdle;
+	private long lastIdle, logonTime;
 	private boolean writing, away, me;
 
 	public NickDTO( String nick, int code )
 	{
 		this.nick = nick;
 		this.code = code;
+		
 		lastIdle = 0;
 		awayMsg = "";
 		writing = false;
 		away = false;
-		ipAddress = "";
+		ipAddress = "<unknown>";
 		me = false;
+		logonTime = 0;
+		operatingSystem = "<unknown>";
+		client = "<unknown>";
 	}
 
 	public boolean isMe()
@@ -118,6 +122,36 @@ public class NickDTO implements Comparable<NickDTO>
 	public void setIpAddress( String ipAddress )
 	{
 		this.ipAddress = ipAddress;
+	}
+
+	public String getOperatingSystem()
+	{
+		return operatingSystem;
+	}
+
+	public void setOperatingSystem( String operatingSystem )
+	{
+		this.operatingSystem = operatingSystem;
+	}
+
+	public long getLogonTime()
+	{
+		return logonTime;
+	}
+
+	public void setLogonTime( long logonTime )
+	{
+		this.logonTime = logonTime;
+	}
+
+	public String getClient()
+	{
+		return client;
+	}
+
+	public void setClient( String client )
+	{
+		this.client = client;
 	}
 
 	@Override

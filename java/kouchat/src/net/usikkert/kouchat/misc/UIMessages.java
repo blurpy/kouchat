@@ -22,6 +22,7 @@
 package net.usikkert.kouchat.misc;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.util.Tools;
 
 /**
  * This class contains all the system messages that can appear
@@ -437,20 +438,29 @@ public class UIMessages
 	}
 
 	/**
-	 * Shows "/whois - user lives at ipAddress" normally, or
-	 * "/whois - user lives at ipAddress, but is away and 'awayMsg'"
-	 * if the user has an awayMsg
+	 * Shows "/whois - user:<br />
+	 * IP address:<br />
+	 * Client:<br />
+	 * Operating System:<br />
+	 * Online:<br />
+	 * Away message:"
 	 * 
 	 * @param user The user to show info about
-	 * @param ipAddress The ip of that user
-	 * @param awayMsg The user's away message
 	 */
-	public void showCmdWhois( String user, String ipAddress, String awayMsg )
+	public void showCmdWhois( NickDTO user )
 	{
-		String info = "/whois - " + user + " lives at " + ipAddress;
+		String info = "/whois - " + user.getNick();
+		
+		if ( user.isAway() )
+			info += " (Away)";
+		
+		info += ":\nIP address: " + user.getIpAddress() +
+				"\nClient: " + user.getClient() +
+				"\nOperating System: " + user.getOperatingSystem() +
+				"\nOnline: " + Tools.howLongFromNow( user.getLogonTime() );
 
-		if ( awayMsg.length() > 0 )
-			info += ", but is away and '" + awayMsg + "'";
+		if ( user.isAway() )
+			info += "\nAway message: " + user.getAwayMsg();
 
 		msgController.showSystemMessage( info );
 	}

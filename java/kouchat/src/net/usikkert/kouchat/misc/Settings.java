@@ -31,12 +31,12 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.util.Tools;
 
 public class Settings
 {
 	private static Logger log = Logger.getLogger( Settings.class.getName() );
-
 	private static final String FILENAME = System.getProperty( "user.home" ) + System.getProperty( "file.separator" ) + ".kouchat.ini";
 	private static final Settings settings = new Settings();
 
@@ -46,9 +46,13 @@ public class Settings
 	private Settings()
 	{
 		int code = 10000000 + (int) ( Math.random() * 9999999 );
+		
 		me = new NickDTO( "" + code, code );
 		me.setMe( true );
 		me.setLastIdle( System.currentTimeMillis() );
+		me.setLogonTime( System.currentTimeMillis() );
+		me.setOperatingSystem( System.getProperty( "os.name" ) + " " + System.getProperty( "os.version" ) );
+		me.setClient( Constants.APP_NAME + " v" + Constants.APP_VERSION );
 
 		loadSettings();
 	}

@@ -41,11 +41,12 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.NickList;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.util.Tools;
 
 public class SidePanel extends JPanel implements ActionListener, MouseListener
 {
 	private static final long serialVersionUID = 1L;
-	
+
 	private JPopupMenu nickMenu;
 	private JMenuItem infoMI, sendfileMI;
 	private JScrollPane nickSP;
@@ -75,15 +76,15 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 		sendfileMI.addActionListener( this );
 		nickMenu.add( infoMI );
 		nickMenu.add( sendfileMI );
-		
+
 		me = Settings.getSettings().getMe();
 	}
-	
+
 	public void setMediator( Mediator mediator )
 	{
 		this.mediator = mediator;
 	}
-	
+
 	public void setNickList( NickList nickList )
 	{
 		nickDLM.setNickList( nickList );
@@ -105,11 +106,19 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 				public void run()
 				{
 					NickDTO temp = (NickDTO) nickDLM.getElementAt( nickL.getSelectedIndex() );
-					String info = "Nick: " + temp.getNick() + "\nIP address: " + temp.getIpAddress();
+					String info = "Information about " + temp.getNick();
+					
+					if ( temp.isAway() )
+						info += " (Away)";
+					
+					info += ".\n\nIP address: " + temp.getIpAddress() +
+							"\nClient: " + temp.getClient() +
+							"\nOperating System: " + temp.getOperatingSystem() +
+							"\n\nOnline: " + Tools.howLongFromNow( temp.getLogonTime() );
 
 					if ( temp.isAway() )
 						info += "\nAway message: " + temp.getAwayMsg();
-
+					
 					JOptionPane.showMessageDialog( null, info, Constants.APP_NAME + " - Info", JOptionPane.INFORMATION_MESSAGE );
 				}
 			} );
@@ -170,24 +179,24 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 			if ( nickMenu.isPopupTrigger( e ) && nickL.getSelectedIndex() != -1 )
 			{
 				NickDTO temp = (NickDTO) nickDLM.getElementAt( nickL.getSelectedIndex() );
-				
+
 				if ( temp.isMe() )
 				{
 					sendfileMI.setVisible( false );
 				}
-				
+
 				else if ( temp.isAway() || me.isAway() )
 				{
 					sendfileMI.setVisible( true );
 					sendfileMI.setEnabled( false );
 				}
-				
+
 				else
 				{
 					sendfileMI.setVisible( true );
 					sendfileMI.setEnabled( true );
 				}
-				
+
 				nickMenu.show( nickL, e.getX(), e.getY() );
 			}
 		}

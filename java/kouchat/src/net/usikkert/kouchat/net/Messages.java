@@ -124,6 +124,12 @@ public class Messages
 				+ fileLength + "]{" + fileHash + "}" + fileName );
 	}
 	
+	public void sendClient()
+	{
+		sender.send( me.getCode() + "!CLIENT#" + me.getNick() + ":(" + me.getClient() +
+				")[" + me.getLogonTime() + "]{" + me.getOperatingSystem() + "}" );
+	}
+	
 	public void start()
 	{
 		sender.startSender();

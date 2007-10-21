@@ -152,6 +152,7 @@ public class Controller
 		messages.start();
 
 		messages.sendLogonMessage();
+		messages.sendClient();
 		messages.sendExposeMessage();
 		messages.sendGetTopicMessage();
 		idleThread.start();
@@ -291,5 +292,10 @@ public class Controller
 	public boolean restartMsgReceiver()
 	{
 		return msgParser.restart();
+	}
+
+	public void sendClientInfo()
+	{
+		messages.sendClient();
 	}
 }

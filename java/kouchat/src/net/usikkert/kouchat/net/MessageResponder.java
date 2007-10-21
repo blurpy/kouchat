@@ -42,4 +42,5 @@ public interface MessageResponder
 	public void fileSend( int userCode, long byteSize, String fileName, String user, int fileHash, int fileCode );
 	public void fileSendAborted( int userCode, String fileName, int fileHash );
 	public void fileSendAccepted( int userCode, String fileName, int fileHash, int port );
+	public void clientInfo( int userCode, String client, long logonTime, String operatingSystem );
 }

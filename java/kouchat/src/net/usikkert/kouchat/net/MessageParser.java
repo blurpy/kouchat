@@ -64,7 +64,7 @@ public class MessageParser implements ReceiverListener
 	@Override
 	public void messageArrived( String message, String ipAddress )
 	{
-		//System.out.println( message ); // TODO
+		System.out.println( message ); // TODO
 
 		try
 		{
@@ -242,6 +242,22 @@ public class MessageParser implements ReceiverListener
 
 						responder.fileSend( msgCode, byteSize, fileName, msgNick, fileHash, fileCode );
 					}
+				}
+				
+				else if ( type.equals( "CLIENT" ) )
+				{
+					int leftPara = msg.indexOf( "(" );
+					int rightPara = msg.indexOf( ")" );
+					int leftBracket = msg.indexOf( "[" );
+					int rightBracket = msg.indexOf( "]" );
+					int leftCurly = msg.indexOf( "{" );
+					int rightCurly = msg.indexOf( "}" );
+					
+					String client = msg.substring( leftPara +1, rightPara );
+					long logonTime = Long.parseLong( msg.substring( leftBracket +1, rightBracket ) );
+					String operatingSystem = msg.substring( leftCurly +1, rightCurly );
+					
+					responder.clientInfo( msgCode, client, logonTime, operatingSystem );
 				}
 			}
 

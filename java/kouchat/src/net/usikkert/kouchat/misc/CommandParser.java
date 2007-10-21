@@ -150,7 +150,7 @@ public class CommandParser
 
 			else
 			{
-				uiMsg.showCmdWhois( user.getNick(), user.getIpAddress(), user.getAwayMsg() );
+				uiMsg.showCmdWhois( user );
 			}
 		}
 	}
