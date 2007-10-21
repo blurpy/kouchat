@@ -43,7 +43,7 @@ import net.usikkert.kouchat.util.Tools;
 public class TransferFrame extends JFrame implements FileTransferListener, ActionListener
 {
 	private static final long serialVersionUID = 1L;
-	
+
 	private JButton cancelB;
 	private JLabel file1L, file2L, dest1L, dest2L, trans1L, trans2L, source1L, source2L, status1L, status2L;
 	private JProgressBar filePB;
