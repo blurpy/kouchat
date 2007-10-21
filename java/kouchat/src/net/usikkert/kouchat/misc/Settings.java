@@ -51,7 +51,7 @@ public class Settings
 		me.setMe( true );
 		me.setLastIdle( System.currentTimeMillis() );
 		me.setLogonTime( System.currentTimeMillis() );
-		me.setOperatingSystem( System.getProperty( "os.name" ) + " " + System.getProperty( "os.version" ) );
+		me.setOperatingSystem( System.getProperty( "os.name" ) );
 		me.setClient( Constants.APP_NAME + " v" + Constants.APP_VERSION );
 
 		loadSettings();
