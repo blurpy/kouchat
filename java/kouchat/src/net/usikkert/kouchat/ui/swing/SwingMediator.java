@@ -35,6 +35,7 @@ import net.usikkert.kouchat.misc.AwayException;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.misc.SoundBeeper;
 import net.usikkert.kouchat.misc.TopicDTO;
 import net.usikkert.kouchat.misc.UIMessages;
 import net.usikkert.kouchat.misc.UserInterface;
@@ -69,6 +70,7 @@ public class SwingMediator implements Mediator, UserInterface
 	private TransferList tList;
 	private CommandParser cmdParser;
 	private UIMessages uiMsg;
+	private SoundBeeper beeper;
 
 	public SwingMediator( ComponentHandler compHandler )
 	{
@@ -92,6 +94,9 @@ public class SwingMediator implements Mediator, UserInterface
 
 		uiMsg.showWelcomeMsg();
 		mainP.getMsgTF().requestFocus();
+		
+		beeper = new SoundBeeper();
+		beeper.loadWavClip( "pop.wav" ); //TODO settings
 	}
 
 	@Override
@@ -400,6 +405,7 @@ public class SwingMediator implements Mediator, UserInterface
 		else if ( !gui.isVisible() )
 		{
 			sysTray.setNormalActivityState();
+			beeper.beep();
 		}
 	}
 
