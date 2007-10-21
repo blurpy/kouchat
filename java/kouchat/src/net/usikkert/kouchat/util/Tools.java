@@ -40,26 +40,15 @@ public class Tools
 		int m = Calendar.getInstance().get( Calendar.MINUTE );
 		int s = Calendar.getInstance().get( Calendar.SECOND );
 
-		String hour = "";
-		String min = "";
-		String sec = "";
+		return "[" + getDoubleDigit( h ) + ":" + getDoubleDigit( m ) + ":" + getDoubleDigit( s ) + "]";
+	}
 
-		if ( h < 10 )
-			hour = "0" + h;
+	public static String getDoubleDigit( int number )
+	{
+		if ( number < 10 )
+			return "0" + number;
 		else
-			hour = "" + h;
-
-		if ( m < 10 )
-			min = "0" + m;
-		else
-			min = "" + m;
-
-		if ( s < 10 )
-			sec = "0" + s;
-		else
-			sec = "" + s;
-
-		return "[" + hour + ":" + min + ":" + sec + "]";
+			return "" + number;	
 	}
 
 	public static String dateToString( Date d, String format )
@@ -124,5 +113,26 @@ public class Tools
 		}
 
 		return size;
+	}
+
+	public static String howLongFromNow( long then )
+	{
+		if ( then != 0 )
+		{
+			long diff = System.currentTimeMillis() - then;
+			long totSec = diff / 1000;
+
+			int days = Math.round( totSec / 86400 );
+			int hours = Math.round( totSec / 3600 );
+			int min = Math.round( totSec - hours * 3600 ) / 60;
+			int sec = Math.round( totSec - hours * 3600 - min * 60 );
+
+			return days + " days, " + getDoubleDigit( hours ) + ":" + getDoubleDigit( min ) + ":" + getDoubleDigit( sec );
+		}
+		
+		else
+		{
+			return 0 + " days, 00:00:00";
+		}
 	}
 }
