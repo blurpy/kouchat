@@ -60,7 +60,7 @@ public class MessageSender
 		{
 			try
 			{
-				DatagramPacket packet = new DatagramPacket( message.getBytes( "ISO-8859-15" ), message.length(), address, Constants.NETWORK_PORT );
+				DatagramPacket packet = new DatagramPacket( message.getBytes( Constants.NETWORK_CHARSET ), message.length(), address, Constants.NETWORK_PORT );
 				mcSocket.send( packet );
 			}
 
