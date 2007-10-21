@@ -127,6 +127,7 @@ public class ChatLogger
 			{
 				writer.append( line );
 				writer.newLine();
+				writer.flush();
 			}
 
 			catch ( IOException e )
