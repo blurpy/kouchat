@@ -1,24 +1,13 @@
 
 * TODO:
- - Use UTF-8 messages
  - Javadoc
  - JUnit
  - Improve exception handling
-
- - Protocol changes:
-   - In nick information, show:
-     - User "uptime"
-     - Operating System
-     - Client name and version
-     - Protocol version
-   - Private chat
-
+ - Private chat
  - Add settings:
    - Port number
    - Enable logging
    - Enable sound
-   - Which sound file
-
  - Add command for:
    - Receive file
    - Abort file transfer

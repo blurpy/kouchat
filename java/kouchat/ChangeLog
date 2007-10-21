@@ -11,6 +11,8 @@
   - Added chat logging
   - Added a simple text version for console use
   - Added sound notification
+  - Converted to UTF-8 messages
+  - Added more information to "information about users"
 
 
 * version 0.6.1 (22.09.2007):
