@@ -22,6 +22,7 @@
 package net.usikkert.kouchat.misc;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,7 +42,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class SoundBeeper
 {
 	private static Logger log = Logger.getLogger( SoundBeeper.class.getName() );
-	
+
 	private Clip clip;
 
 	/**
@@ -65,50 +66,69 @@ public class SoundBeeper
 	{
 		if ( fileName.endsWith( ".wav" ) )
 		{
+			InputStream resource = getClass().getResourceAsStream( "/" + fileName );
 			AudioInputStream stream = null;
-
-			try
+			
+			if ( resource != null )
 			{
-				stream = AudioSystem.getAudioInputStream( getClass().getResourceAsStream( "/" + fileName ) );
-				AudioFormat format = stream.getFormat();
-				DataLine.Info info = new DataLine.Info( Clip.class, format );
-
-				if ( AudioSystem.isLineSupported( info ) )
+				try
 				{
-					clip = (Clip) AudioSystem.getLine( info );
-					clip.open( stream );
-				}
-			}
+					stream = AudioSystem.getAudioInputStream( resource );
+					AudioFormat format = stream.getFormat();
+					DataLine.Info info = new DataLine.Info( Clip.class, format );
 
-			catch ( UnsupportedAudioFileException e )
-			{
-				log.log( Level.SEVERE, e.getMessage() );
-			}
-
-			catch ( IOException e )
-			{
-				log.log( Level.SEVERE, e.getMessage() );
-			}
-
-			catch ( LineUnavailableException e )
-			{
-				log.log( Level.SEVERE, e.getMessage() );
-			}
-
-			finally
-			{
-				if ( stream != null )
-				{
-					try
+					if ( AudioSystem.isLineSupported( info ) )
 					{
-						stream.close();
+						clip = (Clip) AudioSystem.getLine( info );
+						clip.open( stream );
+					}
+				}
+
+				catch ( UnsupportedAudioFileException e )
+				{
+					log.log( Level.SEVERE, e.getMessage() );
+				}
+
+				catch ( IOException e )
+				{
+					log.log( Level.SEVERE, e.getMessage() );
+				}
+
+				catch ( LineUnavailableException e )
+				{
+					log.log( Level.SEVERE, e.getMessage() );
+				}
+
+				finally
+				{
+					if ( stream != null )
+					{
+						try
+						{
+							stream.close();
+						}
+
+						catch ( IOException e )
+						{
+							log.log( Level.WARNING, e.getMessage() );
+						}
 					}
 					
+					try
+					{
+						resource.close();
+					}
+				
 					catch ( IOException e )
 					{
 						log.log( Level.WARNING, e.getMessage() );
 					}
 				}
+			}
+			
+			else
+			{
+				log.log( Level.WARNING, "Could not find sound file: " + fileName );
 			}
 		}
 	}
