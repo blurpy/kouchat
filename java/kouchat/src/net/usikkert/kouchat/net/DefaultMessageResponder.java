@@ -515,12 +515,12 @@ public class DefaultMessageResponder implements MessageResponder
 	}
 
 	@Override
-	public void clientInfo( int userCode, String client, long logonTime, String operatingSystem )
+	public void clientInfo( int userCode, String client, long timeSinceLogon, String operatingSystem )
 	{
 		NickDTO user = controller.getNick( userCode );
 		
 		user.setClient( client );
-		user.setLogonTime( logonTime );
+		user.setLogonTime( System.currentTimeMillis() - timeSinceLogon );
 		user.setOperatingSystem( operatingSystem );
 	}
 }

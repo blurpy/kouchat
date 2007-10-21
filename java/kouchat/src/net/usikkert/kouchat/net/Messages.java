@@ -127,7 +127,8 @@ public class Messages
 	public void sendClient()
 	{
 		sender.send( me.getCode() + "!CLIENT#" + me.getNick() + ":(" + me.getClient() +
-				")[" + me.getLogonTime() + "]{" + me.getOperatingSystem() + "}" );
+				")[" + ( System.currentTimeMillis() - me.getLogonTime() ) +
+				"]{" + me.getOperatingSystem() + "}" );
 	}
 	
 	public void start()

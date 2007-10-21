@@ -254,10 +254,10 @@ public class MessageParser implements ReceiverListener
 					int rightCurly = msg.indexOf( "}" );
 					
 					String client = msg.substring( leftPara +1, rightPara );
-					long logonTime = Long.parseLong( msg.substring( leftBracket +1, rightBracket ) );
+					long timeSinceLogon = Long.parseLong( msg.substring( leftBracket +1, rightBracket ) );
 					String operatingSystem = msg.substring( leftCurly +1, rightCurly );
 					
-					responder.clientInfo( msgCode, client, logonTime, operatingSystem );
+					responder.clientInfo( msgCode, client, timeSinceLogon, operatingSystem );
 				}
 			}
 
