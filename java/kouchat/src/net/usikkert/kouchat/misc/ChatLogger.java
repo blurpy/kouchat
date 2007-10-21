@@ -45,7 +45,7 @@ public class ChatLogger
 	 * The name of the log file. Uses date, time, and milliseconds to make sure
 	 * it is unique.
 	 */
-	private static final String LOG_FILE = "kouchat-" + Tools.dateToString( null, "yyyy.MM.dd-HH:mm:ss.SSS" ) + ".log";
+	private static final String LOG_FILE = "kouchat-" + Tools.dateToString( null, "yyyy.MM.dd-HH.mm.ss-SSS" ) + ".log";
 
 	private BufferedWriter writer;
 	private boolean open;
