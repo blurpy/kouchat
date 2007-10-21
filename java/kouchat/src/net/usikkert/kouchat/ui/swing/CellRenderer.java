@@ -33,6 +33,8 @@ import net.usikkert.kouchat.misc.NickDTO;
 
 public class CellRenderer extends JLabel implements ListCellRenderer
 {
+	private static final long serialVersionUID = 1L;
+	
 	public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
 	{
 		NickDTO dto = (NickDTO) value;

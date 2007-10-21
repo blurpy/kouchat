@@ -34,6 +34,8 @@ import net.usikkert.kouchat.Constants;
 
 public class MenuBar extends JMenuBar implements ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	private JMenu fileMenu, toolsMenu, helpMenu;
 	private JMenuItem minimizeMI, quitMI, clearMI, awayMI, topicMI, settingsMI, aboutMI, commandsMI;
 	private Mediator mediator;

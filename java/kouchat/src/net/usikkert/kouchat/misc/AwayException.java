@@ -23,6 +23,8 @@ package net.usikkert.kouchat.misc;
 
 public class AwayException extends Exception
 {
+	private static final long serialVersionUID = 1L;
+
 	public AwayException()
 	{
 		super();

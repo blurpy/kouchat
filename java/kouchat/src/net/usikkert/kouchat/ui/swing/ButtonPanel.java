@@ -32,6 +32,8 @@ import javax.swing.SwingUtilities;
 
 public class ButtonPanel extends JPanel implements ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	private JButton minimizeB, clearB, awayB, topicB;
 	private Mediator mediator;
 

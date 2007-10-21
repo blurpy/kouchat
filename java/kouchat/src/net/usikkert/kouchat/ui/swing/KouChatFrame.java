@@ -41,6 +41,8 @@ import javax.swing.SwingUtilities;
 
 public class KouChatFrame extends JFrame
 {
+	private static final long serialVersionUID = 1L;
+	
 	private MainPanel mainP;
 	private SidePanel sideP;
 	private ButtonPanel buttonP;
@@ -107,6 +109,7 @@ public class KouChatFrame extends JFrame
 
 		Action escapeAction = new AbstractAction()
 		{
+			private static final long serialVersionUID = 1L;
 			public void actionPerformed( ActionEvent e )
 			{
 				setVisible( false );

@@ -47,6 +47,7 @@ import net.usikkert.kouchat.misc.ChatWindow;
 
 public class MainPanel extends JPanel implements ActionListener, CaretListener, ChatWindow
 {
+	private static final long serialVersionUID = 1L;
 	private static Logger log = Logger.getLogger( MainPanel.class.getName() );
 
 	private JScrollPane chatSP;

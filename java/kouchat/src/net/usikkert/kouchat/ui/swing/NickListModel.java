@@ -29,6 +29,8 @@ import net.usikkert.kouchat.misc.NickList;
 
 public class NickListModel extends AbstractListModel implements NickListListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	private NickList nickList;
 
 	public void setNickList( NickList nickList )

@@ -48,6 +48,8 @@ import net.usikkert.kouchat.misc.Settings;
 
 public class SettingsFrame extends JFrame implements ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	private JButton saveB, cancelB, chooseOwnColorB, chooseSysColorB;
 	private JTextField nickTF;
 	private JLabel nickL, ownColorL, sysColorL;
@@ -116,6 +118,7 @@ public class SettingsFrame extends JFrame implements ActionListener
 
 		Action escapeAction = new AbstractAction()
 		{
+			private static final long serialVersionUID = 1L;
 			public void actionPerformed( ActionEvent e )
 			{
 				setVisible( false );

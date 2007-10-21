@@ -44,6 +44,8 @@ import net.usikkert.kouchat.misc.Settings;
 
 public class SidePanel extends JPanel implements ActionListener, MouseListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	private JPopupMenu nickMenu;
 	private JMenuItem infoMI, sendfileMI;
 	private JScrollPane nickSP;
