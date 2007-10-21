@@ -2,6 +2,7 @@
 * TODO:
  - Javadoc
  - JUnit
+ - Use UTF-8 messages
  - Improve exception handling
  - Private chat
  - Add settings:

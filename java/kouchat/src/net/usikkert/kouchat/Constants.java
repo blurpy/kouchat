@@ -32,5 +32,5 @@ public interface Constants
 	public static final String AUTHOR_WEB = "http://www.usikkert.net/";
 	public static final int NETWORK_PORT = 40556;
 	public static final String NETWORK_IP = "224.168.5.200";
-	public static final String NETWORK_CHARSET = "UTF-8";
+	public static final String NETWORK_CHARSET = "ISO-8859-15";
 }
