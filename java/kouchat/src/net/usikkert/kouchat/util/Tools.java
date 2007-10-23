@@ -123,9 +123,9 @@ public class Tools
 			long totSec = diff / 1000;
 
 			int days = Math.round( totSec / 86400 );
-			int hours = Math.round( totSec / 3600 );
-			int min = Math.round( totSec - hours * 3600 ) / 60;
-			int sec = Math.round( totSec - hours * 3600 - min * 60 );
+			int hours = Math.round( totSec - days * 86400 ) / 3600;
+			int min = Math.round( totSec - days * 86400 - hours * 3600 ) / 60;
+			int sec = Math.round( totSec - days * 86400 - hours * 3600 - min * 60 );
 
 			return days + " days, " + getDoubleDigit( hours ) + ":" + getDoubleDigit( min ) + ":" + getDoubleDigit( sec );
 		}
