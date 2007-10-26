@@ -110,7 +110,7 @@ public class ConsoleInput
 
 			catch ( IOException e )
 			{
-				e.printStackTrace();
+				log.log( Level.SEVERE, e.getMessage(), e );
 			}
 		}
 
