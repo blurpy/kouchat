@@ -121,13 +121,18 @@ public class Tools
 		{
 			long diff = System.currentTimeMillis() - then;
 			long totSec = diff / 1000;
+			
+			int oneday = 86400;
+			int onehour = 3600;
+			int onemin = 60;
 
-			int days = Math.round( totSec / 86400 );
-			int hours = Math.round( totSec - days * 86400 ) / 3600;
-			int min = Math.round( totSec - days * 86400 - hours * 3600 ) / 60;
-			int sec = Math.round( totSec - days * 86400 - hours * 3600 - min * 60 );
+			int days = Math.round( totSec / oneday );
+			int hours = Math.round( totSec - days * oneday ) / onehour;
+			int minutes = Math.round( totSec - days * oneday - hours * onehour ) / onemin;
+			int seconds = Math.round( totSec - days * oneday - hours * onehour - minutes * onemin );
 
-			return days + " days, " + getDoubleDigit( hours ) + ":" + getDoubleDigit( min ) + ":" + getDoubleDigit( sec );
+			return days + " days, " + getDoubleDigit( hours ) + ":" + getDoubleDigit( minutes )
+					+ ":" + getDoubleDigit( seconds );
 		}
 		
 		else
