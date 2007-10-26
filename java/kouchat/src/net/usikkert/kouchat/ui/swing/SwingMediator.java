@@ -96,7 +96,6 @@ public class SwingMediator implements Mediator, UserInterface
 		mainP.getMsgTF().requestFocus();
 		
 		beeper = new SoundBeeper();
-		beeper.loadWavClip( "pop.wav" ); //TODO settings
 	}
 
 	@Override

@@ -23,6 +23,9 @@ package net.usikkert.kouchat.misc;
 
 import java.io.IOException;
 import java.io.InputStream;
+
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,11 +42,31 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * 
  * @author Christian Ihle
  */
-public class SoundBeeper
+public class SoundBeeper implements Observer
 {
 	private static Logger log = Logger.getLogger( SoundBeeper.class.getName() );
 
+	/**
+	 * The file to play when beep() is run.
+	 */
+	private static final String BEEP_FILE = "pop.wav";
+
 	private Clip clip;
+	private Settings settings;
+
+	/**
+	 * Default constructor. Loads a sound file if sound is enabled.
+	 */
+	public SoundBeeper()
+	{
+		settings = Settings.getSettings();
+		settings.addObserver( this );
+
+		if ( settings.isSound() )
+		{
+			loadWavClip( BEEP_FILE );
+		}
+	}
 
 	/**
 	 * Plays the loaded wav file.
@@ -68,7 +91,7 @@ public class SoundBeeper
 		{
 			InputStream resource = getClass().getResourceAsStream( "/" + fileName );
 			AudioInputStream stream = null;
-			
+
 			if ( resource != null )
 			{
 				try
@@ -86,17 +109,17 @@ public class SoundBeeper
 
 				catch ( UnsupportedAudioFileException e )
 				{
-					log.log( Level.SEVERE, e.getMessage() );
+					log.log( Level.SEVERE, "UnsupportedAudioFileException: " + e.getMessage() );
 				}
 
 				catch ( IOException e )
 				{
-					log.log( Level.SEVERE, e.getMessage() );
+					log.log( Level.SEVERE, "IOException: " + e.getMessage() );
 				}
 
 				catch ( LineUnavailableException e )
 				{
-					log.log( Level.SEVERE, e.getMessage() );
+					log.log( Level.SEVERE, "LineUnavailableException: " + e.getMessage() );
 				}
 
 				finally
@@ -113,22 +136,57 @@ public class SoundBeeper
 							log.log( Level.WARNING, e.getMessage() );
 						}
 					}
-					
+
 					try
 					{
 						resource.close();
 					}
-				
+
 					catch ( IOException e )
 					{
 						log.log( Level.WARNING, e.getMessage() );
 					}
 				}
 			}
-			
+
 			else
 			{
 				log.log( Level.WARNING, "Could not find sound file: " + fileName );
+			}
+		}
+	}
+	
+	/**
+	 * Closes the sound clip.
+	 */
+	public void close()
+	{
+		if ( clip != null )
+		{
+			clip.close();
+			clip = null;
+		}
+	}
+
+	/**
+	 * Opens or closes the sound file when the sound setting is changed.
+	 */
+	@Override
+	public void update( Observable obs, Object arg )
+	{
+		if ( arg.equals( "sound" ) )
+		{
+			if ( settings.isSound() )
+			{
+				if ( clip == null )
+				{
+					loadWavClip( BEEP_FILE );
+				}
+			}
+
+			else
+			{
+				close();
 			}
 		}
 	}

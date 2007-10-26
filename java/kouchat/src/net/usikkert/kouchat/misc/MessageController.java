@@ -48,7 +48,6 @@ public class MessageController
 		settings = Settings.getSettings();
 		me = settings.getMe();
 		cLog = new ChatLogger();
-		cLog.open();
 	}
 	
 	/**

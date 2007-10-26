@@ -27,6 +27,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import java.util.Observable;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,7 +35,7 @@ import java.util.logging.Logger;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.util.Tools;
 
-public class Settings
+public class Settings extends Observable
 {
 	private static Logger log = Logger.getLogger( Settings.class.getName() );
 	private static final String FILENAME = System.getProperty( "user.home" ) + System.getProperty( "file.separator" ) + ".kouchat.ini";
@@ -42,10 +43,13 @@ public class Settings
 
 	private NickDTO me;
 	private int ownColor, sysColor;
+	private boolean sound, logging;
 
 	private Settings()
 	{
 		int code = 10000000 + (int) ( Math.random() * 9999999 );
+		logging = false;
+		sound = false;
 		
 		me = new NickDTO( "" + code, code );
 		me.setMe( true );
@@ -77,6 +81,10 @@ public class Settings
 			buffWriter.write( "owncolor=" + ownColor );
 			buffWriter.newLine();
 			buffWriter.write( "syscolor=" + sysColor );
+			buffWriter.newLine();
+			buffWriter.write( "logging=" + logging );
+			buffWriter.newLine();
+			buffWriter.write( "sound=" + sound );
 		}
 
 		catch ( IOException e )
@@ -168,6 +176,9 @@ public class Settings
 			{
 				log.log( Level.WARNING, "Could not read setting for syscolor.." );
 			}
+			
+			logging = new Boolean( fileContents.getProperty( "logging" ) );
+			sound = new Boolean( fileContents.getProperty( "sound" ) );
 		}
 
 		catch ( FileNotFoundException e )
@@ -208,6 +219,9 @@ public class Settings
 	public void setOwnColor( int ownColor )
 	{
 		this.ownColor = ownColor;
+		
+		setChanged();
+		notifyObservers( "ownColor" );
 	}
 
 	public int getSysColor()
@@ -218,5 +232,34 @@ public class Settings
 	public void setSysColor( int sysColor )
 	{
 		this.sysColor = sysColor;
+		
+		setChanged();
+		notifyObservers( "sysColor" );
+	}
+
+	public boolean isSound()
+	{
+		return sound;
+	}
+
+	public void setSound( boolean sound )
+	{
+		this.sound = sound;
+		
+		setChanged();
+		notifyObservers( "sound" );
+	}
+
+	public boolean isLogging()
+	{
+		return logging;
+	}
+
+	public void setLogging( boolean logging )
+	{
+		this.logging = logging;
+		
+		setChanged();
+		notifyObservers( "logging" );
 	}
 }

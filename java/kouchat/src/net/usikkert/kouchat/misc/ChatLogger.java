@@ -26,6 +26,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import java.util.Observable;
+import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import net.usikkert.kouchat.util.Tools;
 
 /**
@@ -34,7 +39,7 @@ import net.usikkert.kouchat.util.Tools;
  * 
  * @author Christian Ihle
  */
-public class ChatLogger
+public class ChatLogger implements Observer
 {
 	/**
 	 * The folder where log files are saved.
@@ -47,6 +52,9 @@ public class ChatLogger
 	 */
 	private static final String LOG_FILE = "kouchat-" + Tools.dateToString( null, "yyyy.MM.dd-HH.mm.ss-SSS" ) + ".log";
 
+	private static Logger log = Logger.getLogger( ChatLogger.class.getName() );
+	
+	private Settings settings;
 	private BufferedWriter writer;
 	private boolean open;
 
@@ -56,6 +64,14 @@ public class ChatLogger
 	 */
 	public ChatLogger()
 	{
+		settings = Settings.getSettings();
+		settings.addObserver( this );
+		
+		if ( settings.isLogging() )
+		{
+			open();
+		}
+		
 		Runtime.getRuntime().addShutdownHook( new Thread()
 		{
 			public void run()
@@ -85,7 +101,7 @@ public class ChatLogger
 
 		catch ( IOException e )
 		{
-			e.printStackTrace();
+			log.log( Level.SEVERE, e.getMessage(), e );
 		}
 	}
 
@@ -104,7 +120,7 @@ public class ChatLogger
 
 			catch ( IOException e )
 			{
-				e.printStackTrace();
+				log.log( Level.SEVERE, e.getMessage(), e );
 			}
 
 			finally
@@ -115,7 +131,7 @@ public class ChatLogger
 	}
 
 	/**
-	 * Adds a new line of text to the current open log file.
+	 * Adds a new line of text to the current open log file, if any.
 	 * 
 	 * @param line The line of text to add to the log.
 	 */
@@ -132,7 +148,7 @@ public class ChatLogger
 
 			catch ( IOException e )
 			{
-				e.printStackTrace();
+				log.log( Level.SEVERE, e.getMessage(), e );
 				close();
 			}
 		}
@@ -146,5 +162,28 @@ public class ChatLogger
 	public boolean isOpen()
 	{
 		return open;
+	}
+
+	/**
+	 * Opens or closes the log file when the logging setting is changed.
+	 */
+	@Override
+	public void update( Observable obs, Object arg )
+	{
+		if ( arg.equals( "logging" ) )
+		{
+			if ( settings.isLogging() )
+			{
+				if ( !isOpen() )
+				{
+					open();
+				}
+			}
+			
+			else
+			{
+				close();
+			}
+		}
 	}
 }
