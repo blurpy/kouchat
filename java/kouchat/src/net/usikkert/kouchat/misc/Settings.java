@@ -50,7 +50,7 @@ public class Settings extends Observable
 		int code = 10000000 + (int) ( Math.random() * 9999999 );
 		logging = false;
 		sound = false;
-		
+
 		me = new NickDTO( "" + code, code );
 		me.setMe( true );
 		me.setLastIdle( System.currentTimeMillis() );
@@ -176,7 +176,7 @@ public class Settings extends Observable
 			{
 				log.log( Level.WARNING, "Could not read setting for syscolor.." );
 			}
-			
+
 			logging = new Boolean( fileContents.getProperty( "logging" ) );
 			sound = new Boolean( fileContents.getProperty( "sound" ) );
 		}
@@ -218,10 +218,13 @@ public class Settings extends Observable
 
 	public void setOwnColor( int ownColor )
 	{
-		this.ownColor = ownColor;
-		
-		setChanged();
-		notifyObservers( "ownColor" );
+		if ( this.ownColor != ownColor )
+		{
+			this.ownColor = ownColor;
+
+			setChanged();
+			notifyObservers( "ownColor" );
+		}
 	}
 
 	public int getSysColor()
@@ -231,10 +234,13 @@ public class Settings extends Observable
 
 	public void setSysColor( int sysColor )
 	{
-		this.sysColor = sysColor;
-		
-		setChanged();
-		notifyObservers( "sysColor" );
+		if ( this.sysColor != sysColor )
+		{
+			this.sysColor = sysColor;
+
+			setChanged();
+			notifyObservers( "sysColor" );
+		}
 	}
 
 	public boolean isSound()
@@ -244,10 +250,13 @@ public class Settings extends Observable
 
 	public void setSound( boolean sound )
 	{
-		this.sound = sound;
-		
-		setChanged();
-		notifyObservers( "sound" );
+		if ( this.sound != sound )
+		{
+			this.sound = sound;
+
+			setChanged();
+			notifyObservers( "sound" );
+		}
 	}
 
 	public boolean isLogging()
@@ -257,9 +266,12 @@ public class Settings extends Observable
 
 	public void setLogging( boolean logging )
 	{
-		this.logging = logging;
-		
-		setChanged();
-		notifyObservers( "logging" );
+		if ( this.logging != logging )
+		{
+			this.logging = logging;
+
+			setChanged();
+			notifyObservers( "logging" );
+		}
 	}
 }
