@@ -21,6 +21,8 @@
 
 package net.usikkert.kouchat.ui.console;
 
+import net.usikkert.kouchat.Constants;
+
 public class KouChatConsole
 {
 	
@@ -28,6 +30,7 @@ public class KouChatConsole
 	
 	public KouChatConsole() throws InterruptedException
 	{
+		System.setProperty( Constants.PROPERTY_CLIENT_UI, "Console" );
 		mediator = new ConsoleMediator();
 		mediator.start();
 	}

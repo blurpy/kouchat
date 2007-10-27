@@ -33,4 +33,5 @@ public interface Constants
 	public static final int NETWORK_PORT = 40556;
 	public static final String NETWORK_IP = "224.168.5.200";
 	public static final String NETWORK_CHARSET = "ISO-8859-15";
+	public static final String PROPERTY_CLIENT_UI = "chat.client.ui";
 }

@@ -53,6 +53,7 @@ public class KouChatFrame extends JFrame
 
 	public KouChatFrame()
 	{
+		System.setProperty( Constants.PROPERTY_CLIENT_UI, "Swing" );
 		new SwingPopupErrorHandler();
 		
 		buttonP = new ButtonPanel();
