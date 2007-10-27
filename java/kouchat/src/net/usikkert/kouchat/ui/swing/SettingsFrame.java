@@ -34,6 +34,7 @@ import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -53,31 +54,26 @@ public class SettingsFrame extends JFrame implements ActionListener
 	private JButton saveB, cancelB, chooseOwnColorB, chooseSysColorB;
 	private JTextField nickTF;
 	private JLabel nickL, ownColorL, sysColorL;
+	private JCheckBox soundCB, loggingCB;
 	private Settings settings;
 	private Mediator mediator;
 
 	public SettingsFrame()
 	{
-		settings = Settings.getSettings();
-
 		Container container = getContentPane();
 		JPanel panel = new JPanel( new BorderLayout() );
 
 		JPanel nickP = new JPanel();
 		nickL = new JLabel( "Nick:" );
 		nickTF = new JTextField( 10 );
-		nickTF.setText( settings.getMe().getNick() );
 
-		JPanel buttonP = new JPanel();
 		nickP.add( nickL );
 		nickP.add( nickTF );
 		nickP.setBorder( BorderFactory.createTitledBorder( "Choose nick" ) );
 
 		JPanel colorLabelP = new JPanel();
 		ownColorL = new JLabel( "Your own text color" );
-		ownColorL.setForeground( new Color( settings.getOwnColor() ) );
 		sysColorL = new JLabel( "Message text color" );
-		sysColorL.setForeground( new Color( settings.getSysColor() ) );
 		colorLabelP.add( ownColorL );
 		colorLabelP.add( sysColorL );
 
@@ -93,16 +89,29 @@ public class SettingsFrame extends JFrame implements ActionListener
 		colorP.add( colorLabelP );
 		colorP.add( colorButtonP );
 		colorP.setBorder( BorderFactory.createTitledBorder( "Choose color" ) );
+		
+		JPanel miscP = new JPanel();
+		soundCB = new JCheckBox( "Enable sound" );
+		loggingCB = new JCheckBox( "Enable logging" );
+		miscP.add( soundCB );
+		miscP.add( loggingCB );
+		miscP.setBorder( BorderFactory.createTitledBorder( "Misc" ) );
+		
+		JPanel centerP = new JPanel( new BorderLayout() );
+		centerP.add( colorP, BorderLayout.NORTH );
+		centerP.add( miscP, BorderLayout.CENTER );
 
-		saveB = new JButton( "Save" );
+		JPanel buttonP = new JPanel();
+		saveB = new JButton( "OK" );
 		saveB.addActionListener( this );
 		buttonP.add( saveB );
 		cancelB = new JButton( "Cancel" );
 		cancelB.addActionListener( this );
+		saveB.setPreferredSize( cancelB.getPreferredSize() );
 		buttonP.add( cancelB );
 
 		panel.add( nickP, BorderLayout.NORTH );
-		panel.add( colorP, BorderLayout.CENTER );
+		panel.add( centerP, BorderLayout.CENTER );
 		panel.add( buttonP, BorderLayout.SOUTH );
 		panel.setBorder( BorderFactory.createEmptyBorder( 10, 10, 5, 10 ) );
 
@@ -112,6 +121,7 @@ public class SettingsFrame extends JFrame implements ActionListener
 		setDefaultCloseOperation( JFrame.HIDE_ON_CLOSE );
 		setIconImage( new ImageIcon( getClass().getResource( "/icons/kou_normal.png" ) ).getImage() );
 		setTitle( Constants.APP_NAME + " - Settings" );
+		setResizable( false );
 
 		// Hide with Escape key
 		KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0, false );
@@ -130,6 +140,8 @@ public class SettingsFrame extends JFrame implements ActionListener
 		
 		// So the save button activates using Enter
 		getRootPane().setDefaultButton( saveB );
+		
+		settings = Settings.getSettings();
 	}
 	
 	public void setMediator( Mediator mediator )
@@ -150,8 +162,9 @@ public class SettingsFrame extends JFrame implements ActionListener
 					{
 						settings.setSysColor( sysColorL.getForeground().getRGB() );
 						settings.setOwnColor( ownColorL.getForeground().getRGB() );
+						settings.setSound( soundCB.isSelected() );
+						settings.setLogging( loggingCB.isSelected() );
 						settings.saveSettings();
-						
 						setVisible( false );
 					}
 				}
@@ -210,7 +223,8 @@ public class SettingsFrame extends JFrame implements ActionListener
 		nickTF.setText( settings.getMe().getNick() );
 		sysColorL.setForeground( new Color( settings.getSysColor() ) );
 		ownColorL.setForeground( new Color( settings.getOwnColor() ) );
-		
+		soundCB.setSelected( settings.isSound() );
+		loggingCB.setSelected( settings.isLogging() );
 		setVisible( true );
 	}
 }
