@@ -24,7 +24,7 @@ package net.usikkert.kouchat.ui.swing;
 public class ComponentHandler
 {
 	private SidePanel sidePanel;
-	private SettingsFrame settingsFrame;
+	private SettingsDialog settingsDialog;
 	private SysTray sysTray;
 	private MenuBar menuBar;
 	private ButtonPanel buttonPanel;
@@ -41,14 +41,14 @@ public class ComponentHandler
 		this.sidePanel = sidePanel;
 	}
 	
-	public SettingsFrame getSettingsFrame()
+	public SettingsDialog getSettingsDialog()
 	{
-		return settingsFrame;
+		return settingsDialog;
 	}
 	
-	public void setSettingsFrame( SettingsFrame settingsFrame )
+	public void setSettingsDialog( SettingsDialog settingsDialog )
 	{
-		this.settingsFrame = settingsFrame;
+		this.settingsDialog = settingsDialog;
 	}
 	
 	public SysTray getSysTray()

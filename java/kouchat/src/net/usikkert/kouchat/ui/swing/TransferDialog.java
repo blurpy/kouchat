@@ -27,7 +27,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
@@ -40,7 +40,7 @@ import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.util.Tools;
 
-public class TransferFrame extends JFrame implements FileTransferListener, ActionListener
+public class TransferDialog extends JDialog implements FileTransferListener, ActionListener
 {
 	private static final long serialVersionUID = 1L;
 
@@ -51,7 +51,7 @@ public class TransferFrame extends JFrame implements FileTransferListener, Actio
 	private String fileSize;
 	private Mediator mediator;
 
-	public TransferFrame( Mediator mediator, FileTransfer fileTransfer )
+	public TransferDialog( Mediator mediator, FileTransfer fileTransfer )
 	{
 		this.mediator = mediator;
 		this.fileTransfer = fileTransfer;

@@ -37,7 +37,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -47,7 +47,7 @@ import javax.swing.SwingUtilities;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.Settings;
 
-public class SettingsFrame extends JFrame implements ActionListener
+public class SettingsDialog extends JDialog implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -58,7 +58,7 @@ public class SettingsFrame extends JFrame implements ActionListener
 	private Settings settings;
 	private Mediator mediator;
 
-	public SettingsFrame()
+	public SettingsDialog()
 	{
 		Container container = getContentPane();
 		JPanel panel = new JPanel( new BorderLayout() );
@@ -72,15 +72,15 @@ public class SettingsFrame extends JFrame implements ActionListener
 		nickP.setBorder( BorderFactory.createTitledBorder( "Choose nick" ) );
 
 		JPanel colorLabelP = new JPanel();
-		ownColorL = new JLabel( "Your own text color" );
-		sysColorL = new JLabel( "Message text color" );
+		ownColorL = new JLabel( "   Own text color" );
+		sysColorL = new JLabel( "   System text color" );
 		colorLabelP.add( ownColorL );
 		colorLabelP.add( sysColorL );
 
 		JPanel colorButtonP = new JPanel();
-		chooseOwnColorB = new JButton( "Choose color" );
+		chooseOwnColorB = new JButton( "Change color" );
 		chooseOwnColorB.addActionListener( this );
-		chooseSysColorB = new JButton( "Choose color" );
+		chooseSysColorB = new JButton( "Change color" );
 		chooseSysColorB.addActionListener( this );
 		colorButtonP.add( chooseOwnColorB );
 		colorButtonP.add( chooseSysColorB );
@@ -118,7 +118,7 @@ public class SettingsFrame extends JFrame implements ActionListener
 		container.add( panel );
 
 		pack();
-		setDefaultCloseOperation( JFrame.HIDE_ON_CLOSE );
+		setDefaultCloseOperation( JDialog.HIDE_ON_CLOSE );
 		setIconImage( new ImageIcon( getClass().getResource( "/icons/kou_normal.png" ) ).getImage() );
 		setTitle( Constants.APP_NAME + " - Settings" );
 		setResizable( false );
@@ -140,7 +140,7 @@ public class SettingsFrame extends JFrame implements ActionListener
 		
 		// So the save button activates using Enter
 		getRootPane().setDefaultButton( saveB );
-		
+		setModal( true );
 		settings = Settings.getSettings();
 	}
 	
@@ -190,7 +190,7 @@ public class SettingsFrame extends JFrame implements ActionListener
 				@Override
 				public void run()
 				{
-					Color newColor = JColorChooser.showDialog( null, Constants.APP_NAME + " - Choose color for your own text", new Color( settings.getOwnColor() ) );
+					Color newColor = JColorChooser.showDialog( null, Constants.APP_NAME + " - Choose color for own messages", new Color( settings.getOwnColor() ) );
 
 					if ( newColor != null )
 					{
@@ -207,7 +207,7 @@ public class SettingsFrame extends JFrame implements ActionListener
 				@Override
 				public void run()
 				{
-					Color newColor = JColorChooser.showDialog( null, Constants.APP_NAME	+ " - Choose color for messages", new Color( settings.getSysColor() ) );
+					Color newColor = JColorChooser.showDialog( null, Constants.APP_NAME	+ " - Choose color for system messages", new Color( settings.getSysColor() ) );
 
 					if ( newColor != null )
 					{

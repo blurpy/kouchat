@@ -57,7 +57,7 @@ public class SwingMediator implements Mediator, UserInterface
 	private static Logger log = Logger.getLogger( SwingMediator.class.getName() );
 	
 	private SidePanel sideP;
-	private SettingsFrame settingsFrame;
+	private SettingsDialog settingsDialog;
 	private KouChatFrame gui;
 	private MainPanel mainP;
 	private SysTray sysTray;
@@ -75,7 +75,7 @@ public class SwingMediator implements Mediator, UserInterface
 	public SwingMediator( ComponentHandler compHandler )
 	{
 		sideP = compHandler.getSidePanel();
-		settingsFrame = compHandler.getSettingsFrame();
+		settingsDialog = compHandler.getSettingsDialog();
 		gui = compHandler.getGui();
 		mainP = compHandler.getMainPanel();
 		sysTray = compHandler.getSysTray();
@@ -231,7 +231,7 @@ public class SwingMediator implements Mediator, UserInterface
 	@Override
 	public void showSettings()
 	{
-		settingsFrame.showSettings();
+		settingsDialog.showSettings();
 	}
 
 	@Override
@@ -366,15 +366,15 @@ public class SwingMediator implements Mediator, UserInterface
 	}
 
 	@Override
-	public void transferCancelled( TransferFrame transferFrame )
+	public void transferCancelled( TransferDialog transferDialog)
 	{
-		if ( transferFrame.getCancelButtonText().equals( "Close" ) )
-			transferFrame.dispose();
+		if ( transferDialog.getCancelButtonText().equals( "Close" ) )
+			transferDialog.dispose();
 
 		else
 		{
-			transferFrame.setCancelButtonText( "Close" );
-			FileTransfer fileTransfer = transferFrame.getFileTransfer();
+			transferDialog.setCancelButtonText( "Close" );
+			FileTransfer fileTransfer = transferDialog.getFileTransfer();
 			fileTransfer.cancel();
 
 			if ( fileTransfer instanceof FileSender )
@@ -470,13 +470,13 @@ public class SwingMediator implements Mediator, UserInterface
 	@Override
 	public void showTransfer( FileReceiver fileRes )
 	{
-		new TransferFrame( this, fileRes );
+		new TransferDialog( this, fileRes );
 	}
 	
 	@Override
 	public void showTransfer( FileSender fileSend )
 	{
-		new TransferFrame( this, fileSend );
+		new TransferDialog( this, fileSend );
 	}
 
 	@Override

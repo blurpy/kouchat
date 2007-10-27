@@ -36,6 +36,6 @@ public interface Mediator
 	public void write();
 	public void updateWriting();
 	public boolean changeNick( String nick );
-	public void transferCancelled( TransferFrame transferFrame );
+	public void transferCancelled( TransferDialog transferDialog );
 	public void showCommands();
 }

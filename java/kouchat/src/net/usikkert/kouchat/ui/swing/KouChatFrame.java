@@ -48,7 +48,7 @@ public class KouChatFrame extends JFrame
 	private ButtonPanel buttonP;
 	private Mediator mediator;
 	private SysTray sysTray;
-	private SettingsFrame settingsFrame;
+	private SettingsDialog settingsDialog;
 	private MenuBar menuBar;
 
 	public KouChatFrame()
@@ -60,7 +60,7 @@ public class KouChatFrame extends JFrame
 		sideP = new SidePanel( buttonP );
 		mainP = new MainPanel( sideP );
 		sysTray = new SysTray();
-		settingsFrame = new SettingsFrame();
+		settingsDialog = new SettingsDialog();
 		menuBar = new MenuBar();
 		
 		ComponentHandler compHandler = new ComponentHandler();
@@ -69,7 +69,7 @@ public class KouChatFrame extends JFrame
 		compHandler.setSidePanel( sideP );
 		compHandler.setMainPanel( mainP );
 		compHandler.setSysTray( sysTray );
-		compHandler.setSettingsFrame( settingsFrame );
+		compHandler.setSettingsDialog( settingsDialog );
 		compHandler.setMenuBar( menuBar );
 		
 		mediator = new SwingMediator( compHandler );
@@ -77,7 +77,7 @@ public class KouChatFrame extends JFrame
 		sideP.setMediator( mediator );
 		mainP.setMediator( mediator );
 		sysTray.setMediator( mediator );
-		settingsFrame.setMediator( mediator );
+		settingsDialog.setMediator( mediator );
 		menuBar.setMediator( mediator );
 		
 		setJMenuBar( menuBar );
