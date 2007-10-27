@@ -115,7 +115,8 @@ public class KouChatFrame extends JFrame
 			private static final long serialVersionUID = 1L;
 			public void actionPerformed( ActionEvent e )
 			{
-				setVisible( false );
+				if ( sysTray.isSystemTraySupport() )
+					setVisible( false );
 			}
 		};
 

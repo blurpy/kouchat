@@ -69,6 +69,11 @@ public class ButtonPanel extends JPanel implements ActionListener
 	{
 		topicB.setEnabled( !away );
 	}
+	
+	public void disableMinimize()
+	{
+		minimizeB.setEnabled( false );
+	}
 
 	@Override
 	public void actionPerformed( ActionEvent e )

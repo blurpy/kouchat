@@ -32,12 +32,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import java.net.URL;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.misc.ErrorHandler;
 
 public class SysTray implements ActionListener, MouseListener
 {
@@ -49,35 +52,68 @@ public class SysTray implements ActionListener, MouseListener
 	private PopupMenu menu;
 	private MenuItem quitMI;
 	private Mediator mediator;
+	private ErrorHandler errorHandler;
 
 	public SysTray()
 	{
-		cow_icon_normal = new ImageIcon( getClass().getResource( "/icons/kou_normal.png" ) ).getImage();
-		cow_icon_normal_activity = new ImageIcon( getClass().getResource( "/icons/kou_normal_activity.png" ) ).getImage();
-		cow_icon_away = new ImageIcon( getClass().getResource( "/icons/kou_away.png" ) ).getImage();
-		cow_icon_away_activity = new ImageIcon( getClass().getResource( "/icons/kou_away_activity.png" ) ).getImage();
+		errorHandler = ErrorHandler.getErrorHandler();
 
-		menu = new PopupMenu();
-		quitMI = new MenuItem( "Quit" );
-		quitMI.addActionListener( this );
-		menu.add( quitMI );
-		sysTray = SystemTray.getSystemTray();
-		trayIcon = new TrayIcon( cow_icon_normal, "", menu );
-		trayIcon.setImageAutoSize( true );
-		trayIcon.addMouseListener( this );
-		trayIcon.setToolTip( Constants.APP_NAME + " v" + Constants.APP_VERSION + " - (Not connected)" );
-
-		try
+		if ( SystemTray.isSupported() )
 		{
-			sysTray.add( trayIcon );
+			URL cow_norm = getClass().getResource( "/icons/kou_normal.png" );
+			URL cow_norm_act = getClass().getResource( "/icons/kou_normal_activity.png" );
+			URL cow_away = getClass().getResource( "/icons/kou_away.png" );
+			URL cow_away_act = getClass().getResource( "/icons/kou_away_activity.png" );
+
+			if ( cow_norm == null || cow_norm_act == null || cow_away == null || cow_away_act == null )
+			{
+				String error = "Missing images in icons folder. Quitting...";
+				log.log( Level.SEVERE, error );
+				errorHandler.showError( error );
+				System.exit( 1 );
+			}
+
+			cow_icon_normal = new ImageIcon( cow_norm ).getImage();
+			cow_icon_normal_activity = new ImageIcon( cow_norm_act ).getImage();
+			cow_icon_away = new ImageIcon( cow_away ).getImage();
+			cow_icon_away_activity = new ImageIcon( cow_away_act ).getImage();
+
+			menu = new PopupMenu();
+			quitMI = new MenuItem( "Quit" );
+			quitMI.addActionListener( this );
+			menu.add( quitMI );
+
+			sysTray = SystemTray.getSystemTray();
+			trayIcon = new TrayIcon( cow_icon_normal, "", menu );
+			trayIcon.setImageAutoSize( true );
+			trayIcon.addMouseListener( this );
+			trayIcon.setToolTip( Constants.APP_NAME + " v" + Constants.APP_VERSION + " - (Not connected)" );
+
+			try
+			{
+				sysTray.add( trayIcon );
+			}
+
+			catch ( AWTException e )
+			{
+				log.log( Level.SEVERE, e.getMessage(), e );
+				errorHandler.showError( e.getMessage() );
+			}
 		}
 
-		catch ( AWTException e )
+		else
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			String error = "System Tray not supported! Deactivating...";
+			log.log( Level.SEVERE, error );
+			errorHandler.showError( error );
 		}
 	}
-	
+
+	public boolean isSystemTraySupport()
+	{
+		return SystemTray.isSupported();
+	}
+
 	public void setMediator( Mediator mediator )
 	{
 		this.mediator = mediator;
@@ -85,31 +121,44 @@ public class SysTray implements ActionListener, MouseListener
 
 	public void setAwayState()
 	{
-		if ( trayIcon.getImage() != cow_icon_away )
-			trayIcon.setImage( cow_icon_away );
+		if ( trayIcon != null )
+		{
+			if ( trayIcon.getImage() != cow_icon_away )
+				trayIcon.setImage( cow_icon_away );
+		}
 	}
 
 	public void setAwayActivityState()
 	{
-		if ( trayIcon.getImage() != cow_icon_away_activity )
-			trayIcon.setImage( cow_icon_away_activity );
+		if ( trayIcon != null )
+		{
+			if ( trayIcon.getImage() != cow_icon_away_activity )
+				trayIcon.setImage( cow_icon_away_activity );
+		}
 	}
 
 	public void setNormalState()
 	{
-		if ( trayIcon.getImage() != cow_icon_normal )
-			trayIcon.setImage( cow_icon_normal );
+		if ( trayIcon != null )
+		{
+			if ( trayIcon.getImage() != cow_icon_normal )
+				trayIcon.setImage( cow_icon_normal );
+		}
 	}
 
 	public void setNormalActivityState()
 	{
-		if ( trayIcon.getImage() != cow_icon_normal_activity )
-			trayIcon.setImage( cow_icon_normal_activity );
+		if ( trayIcon != null )
+		{
+			if ( trayIcon.getImage() != cow_icon_normal_activity )
+				trayIcon.setImage( cow_icon_normal_activity );
+		}
 	}
 
 	public void setToolTip( String toolTip )
 	{
-		trayIcon.setToolTip( toolTip );
+		if ( trayIcon != null )
+			trayIcon.setToolTip( toolTip );
 	}
 
 	@Override

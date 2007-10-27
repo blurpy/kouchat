@@ -94,6 +94,12 @@ public class SwingMediator implements Mediator, UserInterface
 
 		uiMsg.showWelcomeMsg();
 		beeper = new SoundBeeper();
+		
+		if ( !sysTray.isSystemTraySupport() )
+		{
+			buttonP.disableMinimize();
+			menuBar.disableMinimize();
+		}
 	}
 
 	@Override

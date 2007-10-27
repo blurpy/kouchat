@@ -104,6 +104,11 @@ public class MenuBar extends JMenuBar implements ActionListener
 		settingsMI.setEnabled( !away );
 		topicMI.setEnabled( !away );
 	}
+	
+	public void disableMinimize()
+	{
+		minimizeMI.setEnabled( false );
+	}
 
 	@Override
 	public void actionPerformed( ActionEvent e )
