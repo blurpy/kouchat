@@ -13,6 +13,8 @@
   - Added sound notification
   - Added more information to "information about users"
   - Added command history
+  - Added support for running when systray is missing
+  - Improved error information to the user
 
 
 * version 0.6.1 (22.09.2007):
