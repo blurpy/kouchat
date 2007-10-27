@@ -12,6 +12,7 @@
   - Added a simple text version for console use
   - Added sound notification
   - Added more information to "information about users"
+  - Added command history
 
 
 * version 0.6.1 (22.09.2007):

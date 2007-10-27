@@ -12,3 +12,4 @@
  - Add command for:
    - Receive file
    - Abort file transfer
+ - Show if the client is swing or console in "information"
