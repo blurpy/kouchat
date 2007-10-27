@@ -26,11 +26,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import java.util.Observable;
-import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.usikkert.kouchat.event.SettingsListener;
 import net.usikkert.kouchat.util.Tools;
 
 /**
@@ -39,7 +38,7 @@ import net.usikkert.kouchat.util.Tools;
  * 
  * @author Christian Ihle
  */
-public class ChatLogger implements Observer
+public class ChatLogger implements SettingsListener
 {
 	/**
 	 * The folder where log files are saved.
@@ -65,7 +64,7 @@ public class ChatLogger implements Observer
 	public ChatLogger()
 	{
 		settings = Settings.getSettings();
-		settings.addObserver( this );
+		settings.addSettingsListener( this );
 		
 		if ( settings.isLogging() )
 		{
@@ -168,9 +167,9 @@ public class ChatLogger implements Observer
 	 * Opens or closes the log file when the logging setting is changed.
 	 */
 	@Override
-	public void update( Observable obs, Object arg )
+	public void settingChanged( String setting )
 	{
-		if ( arg.equals( "logging" ) )
+		if ( setting.equals( "logging" ) )
 		{
 			if ( settings.isLogging() )
 			{

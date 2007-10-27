@@ -19,76 +19,20 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.misc;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import net.usikkert.kouchat.event.ErrorListener;
+package net.usikkert.kouchat.event;
 
 /**
- * This is a singleton class for reporting errors to listeners.
- * These errors will be shown to the user of the application.
+ * This is the interface used by classes wishing to be notified
+ * when a setting is changed in Settings.
  * 
  * @author Christian Ihle
  */
-public class ErrorHandler
+public interface SettingsListener
 {
 	/**
-	 * The single instance of this class.
-	 */
-	private static final ErrorHandler INSTANCE = new ErrorHandler();
-	
-	private List<ErrorListener> listeners;
-	
-	/**
-	 * Private constructor.
-	 */
-	private ErrorHandler()
-	{
-		listeners = new ArrayList<ErrorListener>();
-	}
-	
-	/**
-	 * Will return the only instance of this class.
+	 * When a setting is changed, this method is called.
 	 * 
-	 * @return The only instance of ErrorHandler.
+	 * @param setting The setting which was changed.
 	 */
-	public static ErrorHandler getErrorHandler()
-	{
-		return INSTANCE;
-	}
-	
-	/**
-	 * This method notifies the listeners that an error has occured.
-	 * 
-	 * @param errorMsg The message to deliver to the listeners.
-	 */
-	public void showError( String errorMsg )
-	{
-		for ( ErrorListener listener : listeners )
-		{
-			listener.errorReported( errorMsg );
-		}
-	}
-	
-	/**
-	 * Adds a new error listener.
-	 * 
-	 * @param listener The class to add as a listener.
-	 */
-	public void addErrorListener( ErrorListener listener )
-	{
-		listeners.add( listener );
-	}
-	
-	/**
-	 * Removes an error listener.
-	 * 
-	 * @param listener The class to remove as a listener.
-	 */
-	public void removeErrorListener( ErrorListener listener )
-	{
-		listeners.remove( listener );
-	}
+	public void settingChanged( String setting );
 }

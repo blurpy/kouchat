@@ -19,76 +19,36 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.misc;
+package net.usikkert.kouchat.ui.swing;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.swing.JOptionPane;
 
 import net.usikkert.kouchat.event.ErrorListener;
+import net.usikkert.kouchat.misc.ErrorHandler;
 
 /**
- * This is a singleton class for reporting errors to listeners.
- * These errors will be shown to the user of the application.
+ * This is the implementation of the error listener for use
+ * in the swing gui. When an error occurs, a message box is shown.
  * 
  * @author Christian Ihle
  */
-public class ErrorHandler
+public class SwingPopupErrorHandler implements ErrorListener
 {
 	/**
-	 * The single instance of this class.
+	 * Default constructor. Registers the class as a listener
+	 * in the error handler.
 	 */
-	private static final ErrorHandler INSTANCE = new ErrorHandler();
-	
-	private List<ErrorListener> listeners;
-	
-	/**
-	 * Private constructor.
-	 */
-	private ErrorHandler()
+	public SwingPopupErrorHandler()
 	{
-		listeners = new ArrayList<ErrorListener>();
+		ErrorHandler.getErrorHandler().addErrorListener( this );
 	}
 	
 	/**
-	 * Will return the only instance of this class.
-	 * 
-	 * @return The only instance of ErrorHandler.
+	 * Shows the error message in an JOptionPane message box.
 	 */
-	public static ErrorHandler getErrorHandler()
+	@Override
+	public void errorReported( String errorMsg )
 	{
-		return INSTANCE;
-	}
-	
-	/**
-	 * This method notifies the listeners that an error has occured.
-	 * 
-	 * @param errorMsg The message to deliver to the listeners.
-	 */
-	public void showError( String errorMsg )
-	{
-		for ( ErrorListener listener : listeners )
-		{
-			listener.errorReported( errorMsg );
-		}
-	}
-	
-	/**
-	 * Adds a new error listener.
-	 * 
-	 * @param listener The class to add as a listener.
-	 */
-	public void addErrorListener( ErrorListener listener )
-	{
-		listeners.add( listener );
-	}
-	
-	/**
-	 * Removes an error listener.
-	 * 
-	 * @param listener The class to remove as a listener.
-	 */
-	public void removeErrorListener( ErrorListener listener )
-	{
-		listeners.remove( listener );
+		JOptionPane.showMessageDialog( null, errorMsg, "An error has occured", JOptionPane.ERROR_MESSAGE );
 	}
 }

@@ -53,6 +53,8 @@ public class KouChatFrame extends JFrame
 
 	public KouChatFrame()
 	{
+		new SwingPopupErrorHandler();
+		
 		buttonP = new ButtonPanel();
 		sideP = new SidePanel( buttonP );
 		mainP = new MainPanel( sideP );

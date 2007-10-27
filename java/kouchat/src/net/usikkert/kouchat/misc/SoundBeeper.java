@@ -24,8 +24,6 @@ package net.usikkert.kouchat.misc;
 import java.io.IOException;
 import java.io.InputStream;
 
-import java.util.Observable;
-import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,12 +35,14 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import net.usikkert.kouchat.event.SettingsListener;
+
 /**
  * Can load a wav file, and play it.
  * 
  * @author Christian Ihle
  */
-public class SoundBeeper implements Observer
+public class SoundBeeper implements SettingsListener
 {
 	private static Logger log = Logger.getLogger( SoundBeeper.class.getName() );
 
@@ -53,6 +53,7 @@ public class SoundBeeper implements Observer
 
 	private Clip clip;
 	private Settings settings;
+	private ErrorHandler errorHandler;
 
 	/**
 	 * Default constructor. Loads a sound file if sound is enabled.
@@ -60,7 +61,9 @@ public class SoundBeeper implements Observer
 	public SoundBeeper()
 	{
 		settings = Settings.getSettings();
-		settings.addObserver( this );
+		settings.addSettingsListener( this );
+		
+		errorHandler = ErrorHandler.getErrorHandler();
 
 		if ( settings.isSound() )
 		{
@@ -110,16 +113,26 @@ public class SoundBeeper implements Observer
 				catch ( UnsupportedAudioFileException e )
 				{
 					log.log( Level.SEVERE, "UnsupportedAudioFileException: " + e.getMessage() );
+					settings.setSound( false );
+					errorHandler.showError( "Could not initialize the sound..." +
+							"\nUnsupported file format: " + fileName );
 				}
 
 				catch ( IOException e )
 				{
 					log.log( Level.SEVERE, "IOException: " + e.getMessage() );
+					settings.setSound( false );
+					errorHandler.showError( "Could not initialize the sound..." +
+							"\nAudio file could not be opened: " + fileName );
 				}
 
 				catch ( LineUnavailableException e )
 				{
 					log.log( Level.SEVERE, "LineUnavailableException: " + e.getMessage() );
+					settings.setSound( false );
+					errorHandler.showError( "Could not initialize the sound..." +
+							"\nPossible reasons could be that a sound card is not present," +
+							"\nor that the sound card is reserved by another application." );
 				}
 
 				finally
@@ -151,7 +164,10 @@ public class SoundBeeper implements Observer
 
 			else
 			{
-				log.log( Level.WARNING, "Could not find sound file: " + fileName );
+				log.log( Level.WARNING, "Could not find audio file: " + fileName );
+				settings.setSound( false );
+				errorHandler.showError( "Could not initialize the sound..." +
+						"\nCould not find audio file: " + fileName );
 			}
 		}
 	}
@@ -172,9 +188,9 @@ public class SoundBeeper implements Observer
 	 * Opens or closes the sound file when the sound setting is changed.
 	 */
 	@Override
-	public void update( Observable obs, Object arg )
+	public void settingChanged( String setting )
 	{
-		if ( arg.equals( "sound" ) )
+		if ( setting.equals( "sound" ) )
 		{
 			if ( settings.isSound() )
 			{

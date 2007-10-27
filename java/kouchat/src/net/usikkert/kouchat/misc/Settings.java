@@ -27,15 +27,17 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import java.util.Observable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.event.SettingsListener;
 import net.usikkert.kouchat.util.Tools;
 
-public class Settings extends Observable
+public class Settings
 {
 	private static Logger log = Logger.getLogger( Settings.class.getName() );
 	private static final String FILENAME = System.getProperty( "user.home" ) + System.getProperty( "file.separator" ) + ".kouchat.ini";
@@ -44,6 +46,7 @@ public class Settings extends Observable
 	private NickDTO me;
 	private int ownColor, sysColor;
 	private boolean sound, logging;
+	private List<SettingsListener> listeners;
 
 	private Settings()
 	{
@@ -57,6 +60,8 @@ public class Settings extends Observable
 		me.setLogonTime( System.currentTimeMillis() );
 		me.setOperatingSystem( System.getProperty( "os.name" ) );
 		me.setClient( Constants.APP_NAME + " v" + Constants.APP_VERSION );
+		
+		listeners = new ArrayList<SettingsListener>();
 
 		loadSettings();
 	}
@@ -221,9 +226,7 @@ public class Settings extends Observable
 		if ( this.ownColor != ownColor )
 		{
 			this.ownColor = ownColor;
-
-			setChanged();
-			notifyObservers( "ownColor" );
+			fireSettingChanged( "ownColor" );
 		}
 	}
 
@@ -237,9 +240,7 @@ public class Settings extends Observable
 		if ( this.sysColor != sysColor )
 		{
 			this.sysColor = sysColor;
-
-			setChanged();
-			notifyObservers( "sysColor" );
+			fireSettingChanged( "sysColor" );
 		}
 	}
 
@@ -253,9 +254,7 @@ public class Settings extends Observable
 		if ( this.sound != sound )
 		{
 			this.sound = sound;
-
-			setChanged();
-			notifyObservers( "sound" );
+			fireSettingChanged( "sound" );
 		}
 	}
 
@@ -269,9 +268,25 @@ public class Settings extends Observable
 		if ( this.logging != logging )
 		{
 			this.logging = logging;
-
-			setChanged();
-			notifyObservers( "logging" );
+			fireSettingChanged( "logging" );
 		}
+	}
+	
+	private void fireSettingChanged( String setting )
+	{
+		for ( SettingsListener listener : listeners )
+		{
+			listener.settingChanged( setting );
+		}
+	}
+	
+	public void addSettingsListener( SettingsListener listener )
+	{
+		listeners.add( listener );
+	}
+	
+	public void removeSettingsListener( SettingsListener listener )
+	{
+		listeners.remove( listener );
 	}
 }
