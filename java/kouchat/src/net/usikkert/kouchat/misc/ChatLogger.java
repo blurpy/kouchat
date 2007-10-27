@@ -56,6 +56,7 @@ public class ChatLogger implements SettingsListener
 	private Settings settings;
 	private BufferedWriter writer;
 	private boolean open;
+	private ErrorHandler errorHandler;
 
 	/**
 	 * Default constructor. Adds a shutdown hook to make sure the log file
@@ -65,6 +66,8 @@ public class ChatLogger implements SettingsListener
 	{
 		settings = Settings.getSettings();
 		settings.addSettingsListener( this );
+		
+		errorHandler = ErrorHandler.getErrorHandler();
 		
 		if ( settings.isLogging() )
 		{
@@ -101,6 +104,8 @@ public class ChatLogger implements SettingsListener
 		catch ( IOException e )
 		{
 			log.log( Level.SEVERE, e.getMessage(), e );
+			settings.setLogging( false );
+			errorHandler.showError( "Could not initialize the logging:\n" + e );
 		}
 	}
 

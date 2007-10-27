@@ -39,6 +39,7 @@ public class IdleThread extends Thread
 	private NickDTO me;
 	private UserInterface ui;
 	private TransferList tList;
+	private ErrorHandler errorHandler;
 
 	public IdleThread( Controller controller, UserInterface ui )
 	{
@@ -48,6 +49,7 @@ public class IdleThread extends Thread
 		nickList = controller.getNickList();
 		me = Settings.getSettings().getMe();
 		tList = controller.getTransferList();
+		errorHandler = ErrorHandler.getErrorHandler();
 		
 		run = true;
 	}
@@ -85,6 +87,7 @@ public class IdleThread extends Thread
 			{
 				log.log( Level.SEVERE, e.getMessage(), e );
 				run = false;
+				errorHandler.showError( "The idle thread failed:\n" + e );
 			}
 		}
 	}

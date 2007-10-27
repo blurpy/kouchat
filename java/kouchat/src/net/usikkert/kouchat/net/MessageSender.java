@@ -31,6 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.misc.ErrorHandler;
 
 public class MessageSender
 {
@@ -39,9 +40,12 @@ public class MessageSender
 	private MulticastSocket mcSocket;
 	private InetAddress address;
 	private boolean started;
+	private ErrorHandler errorHandler;
 
 	public MessageSender()
 	{
+		errorHandler = ErrorHandler.getErrorHandler();
+		
 		try
 		{
 			mcSocket = new MulticastSocket( Constants.NETWORK_PORT );
@@ -51,6 +55,7 @@ public class MessageSender
 		catch ( IOException e )
 		{
 			log.log( Level.SEVERE, e.getMessage(), e );
+			errorHandler.showError( "Failed to initialize network:\n" + e );
 		}
 	}
 
