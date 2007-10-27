@@ -45,14 +45,12 @@ public class Settings
 
 	private NickDTO me;
 	private int ownColor, sysColor;
-	private boolean sound, logging;
+	private boolean sound, logging, debug;
 	private List<SettingsListener> listeners;
 
 	private Settings()
 	{
 		int code = 10000000 + (int) ( Math.random() * 9999999 );
-		logging = false;
-		sound = false;
 
 		me = new NickDTO( "" + code, code );
 		me.setMe( true );
@@ -91,6 +89,8 @@ public class Settings
 			buffWriter.write( "logging=" + logging );
 			buffWriter.newLine();
 			buffWriter.write( "sound=" + sound );
+			buffWriter.newLine();
+			buffWriter.write( "debug=" + debug );
 		}
 
 		catch ( IOException e )
@@ -185,6 +185,7 @@ public class Settings
 
 			logging = new Boolean( fileContents.getProperty( "logging" ) );
 			sound = new Boolean( fileContents.getProperty( "sound" ) );
+			debug = new Boolean( fileContents.getProperty( "debug" ) );
 		}
 
 		catch ( FileNotFoundException e )
@@ -273,6 +274,16 @@ public class Settings
 		}
 	}
 	
+	public boolean isDebug()
+	{
+		return debug;
+	}
+
+	public void setDebug( boolean debug )
+	{
+		this.debug = debug;
+	}
+
 	private void fireSettingChanged( String setting )
 	{
 		for ( SettingsListener listener : listeners )

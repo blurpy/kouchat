@@ -64,7 +64,8 @@ public class MessageParser implements ReceiverListener
 	@Override
 	public void messageArrived( String message, String ipAddress )
 	{
-		System.out.println( message ); // TODO
+		if ( settings.isDebug() )
+			System.out.println( message );
 
 		try
 		{
