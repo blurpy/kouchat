@@ -22,6 +22,7 @@
 package net.usikkert.kouchat.ui.swing;
 
 import java.io.File;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -128,7 +129,6 @@ public class SwingMediator implements Mediator, UserInterface
 
 			if ( choice == JOptionPane.YES_OPTION )
 			{
-				//TODO msgParser?
 				controller.changeAwayStatus( me.getCode(), false, "" );
 				controller.sendBackMessage();
 				changeAway( false );

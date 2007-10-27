@@ -122,6 +122,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 		setIconImage( new ImageIcon( getClass().getResource( "/icons/kou_normal.png" ) ).getImage() );
 		setTitle( Constants.APP_NAME + " - Settings" );
 		setResizable( false );
+		setModal( true );
 
 		// Hide with Escape key
 		KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0, false );
@@ -140,7 +141,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 		
 		// So the save button activates using Enter
 		getRootPane().setDefaultButton( saveB );
-		setModal( true );
+		
 		settings = Settings.getSettings();
 	}
 	

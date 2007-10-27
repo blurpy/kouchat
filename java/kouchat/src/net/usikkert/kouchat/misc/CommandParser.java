@@ -277,7 +277,6 @@ public class CommandParser
 		uiMsg.showNickList( nickList );
 	}
 	
-	// TODO /send blurpy /home/blurpy/The_Prodigy_-_Always_Outnumbered_Never_Outgunned111111.tar.gz
 	private void cmdTransfers()
 	{
 		List<FileSender> fsList = controller.getTransferList().getFileSenders();
