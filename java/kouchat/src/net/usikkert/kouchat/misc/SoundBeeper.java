@@ -164,10 +164,10 @@ public class SoundBeeper implements SettingsListener
 
 			else
 			{
-				log.log( Level.WARNING, "Could not find audio file: " + fileName );
+				log.log( Level.WARNING, "Audio file not found: " + fileName );
 				settings.setSound( false );
 				errorHandler.showError( "Could not initialize the sound..." +
-						"\nCould not find audio file: " + fileName );
+						"\nAudio file not found: " + fileName );
 			}
 		}
 	}
