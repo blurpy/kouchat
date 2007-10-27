@@ -93,8 +93,6 @@ public class SwingMediator implements Mediator, UserInterface
 		cmdParser = new CommandParser( controller, this );
 
 		uiMsg.showWelcomeMsg();
-		mainP.getMsgTF().requestFocus();
-		
 		beeper = new SoundBeeper();
 	}
 

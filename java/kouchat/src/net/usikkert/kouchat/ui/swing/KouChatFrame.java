@@ -136,5 +136,6 @@ public class KouChatFrame extends JFrame
 		} );
 
 		mediator.start();
+		mainP.getMsgTF().requestFocus();
 	}
 }
