@@ -25,6 +25,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,8 +46,9 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import net.usikkert.kouchat.misc.ChatWindow;
+import net.usikkert.kouchat.misc.CommandHistory;
 
-public class MainPanel extends JPanel implements ActionListener, CaretListener, ChatWindow
+public class MainPanel extends JPanel implements ActionListener, CaretListener, ChatWindow, KeyListener
 {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = Logger.getLogger( MainPanel.class.getName() );
@@ -56,6 +59,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 	private StyledDocument chatDoc;
 	private JTextField msgTF;
 	private Mediator mediator;
+	private CommandHistory cmdHistory;
 
 	public MainPanel( SidePanel sideP )
 	{
@@ -66,18 +70,21 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		chatSP = new JScrollPane( chatTP );
 		chatAttr = new SimpleAttributeSet();
 		chatDoc = chatTP.getStyledDocument();
-		
+
 		msgTF = new JTextField();
 		msgTF.addActionListener( this );
 		msgTF.addCaretListener( this );
+		msgTF.addKeyListener( this );
 
 		add( chatSP, BorderLayout.CENTER );
 		add( sideP, BorderLayout.EAST );
 		add( msgTF, BorderLayout.SOUTH );
 
 		setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
+
+		cmdHistory = new CommandHistory();
 	}
-	
+
 	public void setMediator( Mediator mediator )
 	{
 		this.mediator = mediator;
@@ -130,9 +137,32 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 				@Override
 				public void run()
 				{
+					cmdHistory.add( msgTF.getText() );
 					mediator.write();
 				}
 			} );
 		}
+	}
+
+	@Override
+	public void keyPressed( KeyEvent arg0 ) {}
+
+	@Override
+	public void keyTyped( KeyEvent arg0 ) {}
+
+	@Override
+	public void keyReleased( final KeyEvent ke )
+	{
+		SwingUtilities.invokeLater( new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				if ( ke.getKeyCode() == KeyEvent.VK_UP )
+					msgTF.setText( cmdHistory.goUp() );
+				else if ( ke.getKeyCode() == KeyEvent.VK_DOWN )
+					msgTF.setText( cmdHistory.goDown() );
+			}
+		} );
 	}
 }
