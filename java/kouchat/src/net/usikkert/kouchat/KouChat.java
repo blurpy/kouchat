@@ -41,7 +41,7 @@ public class KouChat
 	/**
 	 * The main method.
 	 * 
-	 * Takes two different argument:<br />
+	 * Takes two different arguments:<br />
 	 * -help, shows information about available commands.<br />
 	 * -console, starts KouChat in console mode.
 	 * 
