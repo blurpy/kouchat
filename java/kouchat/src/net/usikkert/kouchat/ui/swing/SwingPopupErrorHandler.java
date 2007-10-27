@@ -23,6 +23,7 @@ package net.usikkert.kouchat.ui.swing;
 
 import javax.swing.JOptionPane;
 
+import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.ErrorListener;
 import net.usikkert.kouchat.misc.ErrorHandler;
 
@@ -49,6 +50,6 @@ public class SwingPopupErrorHandler implements ErrorListener
 	@Override
 	public void errorReported( String errorMsg )
 	{
-		JOptionPane.showMessageDialog( null, errorMsg, "An error has occured", JOptionPane.ERROR_MESSAGE );
+		JOptionPane.showMessageDialog( null, errorMsg, Constants.APP_NAME + " - Error", JOptionPane.ERROR_MESSAGE );
 	}
 }
