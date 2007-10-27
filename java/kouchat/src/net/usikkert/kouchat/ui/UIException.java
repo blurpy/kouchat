@@ -19,27 +19,29 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.ui.console;
+package net.usikkert.kouchat.ui;
 
-import net.usikkert.kouchat.Constants;
-
-/**
- * Loads KouChat in console mode.
- * 
- * @author Christian Ihle
- */
-public class KouChatConsole
+public class UIException extends Exception
 {
-	private ConsoleMediator mediator;
-	
-	/**
-	 * Default constructor. Initializes the User Interface and
-	 * the necessary services.
-	 */
-	public KouChatConsole()
+	private static final long serialVersionUID = 1L;
+
+	public UIException()
 	{
-		System.setProperty( Constants.PROPERTY_CLIENT_UI, "Console" );
-		mediator = new ConsoleMediator();
-		mediator.start();
+		super();
+	}
+
+	public UIException( String message, Throwable cause )
+	{
+		super( message, cause );
+	}
+
+	public UIException( String message )
+	{
+		super( message );
+	}
+
+	public UIException( Throwable cause )
+	{
+		super( cause );
 	}
 }

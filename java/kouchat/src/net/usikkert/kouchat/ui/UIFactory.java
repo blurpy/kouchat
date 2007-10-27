@@ -19,27 +19,65 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.ui.console;
+package net.usikkert.kouchat.ui;
 
-import net.usikkert.kouchat.Constants;
+import java.awt.HeadlessException;
+
+import net.usikkert.kouchat.ui.console.KouChatConsole;
+import net.usikkert.kouchat.ui.swing.KouChatFrame;
 
 /**
- * Loads KouChat in console mode.
+ * This factory decides which User Interface to load.
  * 
  * @author Christian Ihle
  */
-public class KouChatConsole
+public class UIFactory
 {
-	private ConsoleMediator mediator;
-	
+	private boolean done;
+
 	/**
-	 * Default constructor. Initializes the User Interface and
-	 * the necessary services.
+	 * Loads the User Interface matching the ui argument.
+	 * 
+	 * @param ui Which ui to load.
+	 * Two choices are available at this moment: 'swing' and 'console'.
+	 * 
+	 * @throws UIException If a ui has already been loaded, or if an
+	 * unknown ui was requested, or if something went wrong while
+	 * loading the ui.
 	 */
-	public KouChatConsole()
+	public void loadUI( String ui ) throws UIException
 	{
-		System.setProperty( Constants.PROPERTY_CLIENT_UI, "Console" );
-		mediator = new ConsoleMediator();
-		mediator.start();
+		if ( done )
+		{
+			throw new UIException( "A User Interface has already been loaded..." );
+		}
+
+		else
+		{
+			if ( ui.equals( "swing" ) )
+			{
+				try
+				{
+					new KouChatFrame();
+					done = true;
+				}
+
+				catch ( HeadlessException e )
+				{
+					throw new UIException( "The Swing User Interface could not be loaded: " + e.getMessage() );
+				}
+			}
+
+			else if ( ui.equals( "console" ) )
+			{
+				new KouChatConsole();
+				done = true;
+			}
+
+			else
+			{
+				throw new UIException( "Unknown User Interface requested..." );
+			}
+		}
 	}
 }
