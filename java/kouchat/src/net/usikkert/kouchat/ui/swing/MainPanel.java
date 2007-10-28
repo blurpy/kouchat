@@ -67,6 +67,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 
 		chatTP = new JTextPane();
 		chatTP.setEditable( false );
+		chatTP.setBorder( BorderFactory.createEmptyBorder( 4, 6, 4, 6 ) );
 		chatSP = new JScrollPane( chatTP );
 		chatAttr = new SimpleAttributeSet();
 		chatDoc = chatTP.getStyledDocument();
