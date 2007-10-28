@@ -92,6 +92,7 @@ public class KouChatFrame extends JFrame
 		 * no matter which component in the window was focused when typing was started. */
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher( new KeyEventDispatcher()
 		{
+			@Override
 			public boolean dispatchKeyEvent( KeyEvent e )
 			{
 				if( e.getID() == KeyEvent.KEY_TYPED && isFocused() )
@@ -113,6 +114,8 @@ public class KouChatFrame extends JFrame
 		Action escapeAction = new AbstractAction()
 		{
 			private static final long serialVersionUID = 1L;
+			
+			@Override
 			public void actionPerformed( ActionEvent e )
 			{
 				if ( sysTray.isSystemTraySupport() )
@@ -123,11 +126,12 @@ public class KouChatFrame extends JFrame
 		getRootPane().getInputMap( JComponent.WHEN_IN_FOCUSED_WINDOW ).put( escapeKeyStroke, "ESCAPE" );
 		getRootPane().getActionMap().put( "ESCAPE", escapeAction );
 
-		// Shut down the right way
 		addWindowListener( new WindowAdapter()
 		{
+			@Override
 			public void windowClosing( WindowEvent arg0 )
 			{
+				// Shut down the right way
 				SwingUtilities.invokeLater( new Runnable()
 				{
 					@Override
@@ -137,9 +141,15 @@ public class KouChatFrame extends JFrame
 					}
 				} );
 			}
+			
+			@Override
+			public void windowActivated( WindowEvent e )
+			{
+				// Focus the textfield when the window is shown.
+				mainP.getMsgTF().requestFocus();
+			}
 		} );
 
 		mediator.start();
-		mainP.getMsgTF().requestFocus();
 	}
 }
