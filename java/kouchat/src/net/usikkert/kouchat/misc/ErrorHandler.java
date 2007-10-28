@@ -73,6 +73,19 @@ public class ErrorHandler
 	}
 	
 	/**
+	 * This method notifies the listeners that a critical error has occured.
+	 * 
+	 * @param errorMsg The message to deliver to the listeners.
+	 */
+	public void showExitError( String errorMsg )
+	{
+		for ( ErrorListener listener : listeners )
+		{
+			listener.exitErrorReported( errorMsg );
+		}
+	}
+	
+	/**
 	 * Adds a new error listener.
 	 * 
 	 * @param listener The class to add as a listener.

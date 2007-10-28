@@ -31,9 +31,16 @@ package net.usikkert.kouchat.event;
 public interface ErrorListener
 {
 	/**
-	 * This method is called when en error occurs.
+	 * This method is called when an error occurs.
 	 * 
 	 * @param errorMsg The message to show.
 	 */
 	public void errorReported( String errorMsg );
+
+	/**
+	 * This method is called when a critical error occurs.
+	 * 
+	 * @param errorMsg The message to show.
+	 */
+	public void exitErrorReported( String errorMsg );
 }
