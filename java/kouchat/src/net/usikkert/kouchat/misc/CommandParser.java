@@ -206,6 +206,56 @@ public class CommandParser
 			}
 		}
 	}
+	
+	private void cmdMsg( String args )
+	{
+		String[] argsArray = args.split( "\\s" );
+
+		if ( argsArray.length <= 2 )
+		{
+			uiMsg.showCmdMsgMissingArgs();
+		}
+
+		else
+		{
+			String nick = argsArray[1];
+			NickDTO user = controller.getNick( nick );
+
+			if ( user == null )
+			{
+				uiMsg.showCmdMsgNoUser( nick );
+			}
+			
+			else if ( user == me )
+			{
+				uiMsg.showCmdMsgNoPoint();
+			}
+
+			else
+			{
+				String privmsg = "";
+
+				for ( int i = 2; i < argsArray.length; i++ )
+				{
+					privmsg += argsArray[i] + " ";
+				}
+
+				privmsg = privmsg.trim();
+
+				try
+				{
+					controller.sendPrivateMessage( privmsg, user.getIpAddress(), user.getCode() );
+					uiMsg.showPrivateOwnMessage( user, privmsg );
+				}
+				
+				catch ( AwayException e )
+				{
+					log.log( Level.WARNING, e.getMessage() );
+					uiMsg.showActionNotAllowed();
+				}
+			}
+		}
+	}
 
 	private void cmdNick( String args )
 	{
@@ -419,6 +469,8 @@ public class CommandParser
 				cmdWhois( args );
 			else if ( command.equals( "send" ) )
 				cmdSend( args );
+			else if ( command.equals( "msg" ) )
+				cmdMsg( args );
 			else if ( command.equals( "nick" ) )
 				cmdNick( args );
 			else if ( command.equals( "names" ) )

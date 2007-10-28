@@ -15,6 +15,7 @@
   - Added command history
   - Added support for running when systray is missing
   - Improved error information to the user
+  - Added private chat support
 
 
 * version 0.6.1 (22.09.2007):

@@ -48,7 +48,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 	private static final long serialVersionUID = 1L;
 
 	private JPopupMenu nickMenu;
-	private JMenuItem infoMI, sendfileMI;
+	private JMenuItem infoMI, sendfileMI, privchatMI;
 	private JScrollPane nickSP;
 	private JList nickL;
 	private NickListModel nickDLM;
@@ -74,8 +74,11 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 		infoMI.addActionListener( this );
 		sendfileMI = new JMenuItem( "Send file" );
 		sendfileMI.addActionListener( this );
+		privchatMI = new JMenuItem( "Private chat" );
+		privchatMI.addActionListener( this );
 		nickMenu.add( infoMI );
 		nickMenu.add( sendfileMI );
+		nickMenu.add( privchatMI );
 
 		me = Settings.getSettings().getMe();
 	}
@@ -105,19 +108,19 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 				@Override
 				public void run()
 				{
-					NickDTO temp = (NickDTO) nickDLM.getElementAt( nickL.getSelectedIndex() );
-					String info = "Information about " + temp.getNick();
+					NickDTO user = (NickDTO) nickDLM.getElementAt( nickL.getSelectedIndex() );
+					String info = "Information about " + user.getNick();
 					
-					if ( temp.isAway() )
+					if ( user.isAway() )
 						info += " (Away)";
 					
-					info += ".\n\nIP address: " + temp.getIpAddress() +
-							"\nClient: " + temp.getClient() +
-							"\nOperating System: " + temp.getOperatingSystem() +
-							"\n\nOnline: " + Tools.howLongFromNow( temp.getLogonTime() );
+					info += ".\n\nIP address: " + user.getIpAddress() +
+							"\nClient: " + user.getClient() +
+							"\nOperating System: " + user.getOperatingSystem() +
+							"\n\nOnline: " + Tools.howLongFromNow( user.getLogonTime() );
 
-					if ( temp.isAway() )
-						info += "\nAway message: " + temp.getAwayMsg();
+					if ( user.isAway() )
+						info += "\nAway message: " + user.getAwayMsg();
 					
 					JOptionPane.showMessageDialog( null, info, Constants.APP_NAME + " - Info", JOptionPane.INFORMATION_MESSAGE );
 				}
@@ -132,6 +135,19 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 				public void run()
 				{
 					mediator.sendFile();
+				}
+			} );
+		}
+		
+		else if ( e.getSource() == privchatMI )
+		{
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					NickDTO user = (NickDTO) nickDLM.getElementAt( nickL.getSelectedIndex() );
+					mediator.showPrivChat( user );
 				}
 			} );
 		}
@@ -183,18 +199,23 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 				if ( temp.isMe() )
 				{
 					sendfileMI.setVisible( false );
+					privchatMI.setVisible( false );
 				}
 
 				else if ( temp.isAway() || me.isAway() )
 				{
 					sendfileMI.setVisible( true );
 					sendfileMI.setEnabled( false );
+					privchatMI.setVisible( true );
+					privchatMI.setEnabled( false );
 				}
 
 				else
 				{
 					sendfileMI.setVisible( true );
 					sendfileMI.setEnabled( true );
+					privchatMI.setVisible( true );
+					privchatMI.setEnabled( true );
 				}
 
 				nickMenu.show( nickL, e.getX(), e.getY() );

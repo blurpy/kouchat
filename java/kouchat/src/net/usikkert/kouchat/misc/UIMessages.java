@@ -103,7 +103,7 @@ public class UIMessages
 	
 	/**
 	 * Shows information about the commands /help, /about, /clear,
-	 * /whois, /names, /nick, /away, /back, /send, /transfers, /topic and //text
+	 * /whois, /names, /nick, /away, /back, /send, /msg, /transfers, /topic and //text
 	 */
 	public void showCommands()
 	{
@@ -117,6 +117,7 @@ public class UIMessages
 				"/away <away message> - set status to away\n" +
 				"/back - set status to not away\n" +
 				"/send <nick> <file> - send a file to a user\n" +
+				"/msg <nick> <msg> - send a private message to a user\n" +
 				"/transfers - shows a list of all transfers and their status\n" +
 				"/topic <optional new topic> - prints the current topic, or changes the topic\n" +
 				"//<text> - send the text as a normal message, with a single slash" );
@@ -590,5 +591,64 @@ public class UIMessages
 	public void showSaveWith()
 	{
 		msgController.showSystemMessage( "To save the file, use /receive" );
+	}
+	
+	/**
+	 * Shows "/msg - missing arguments &lt;nick&gt; &lt;msg&gt;"
+	 */
+	public void showCmdMsgMissingArgs()
+	{
+		msgController.showSystemMessage( "/msg - missing arguments <nick> <msg>" );
+	}
+	
+	/**
+	 * Shows "/msg - no point in doing that!"
+	 */
+	public void showCmdMsgNoPoint()
+	{
+		msgController.showSystemMessage( "/msg - no point in doing that!" );
+	}
+	
+	/**
+	 * Shows "/msg - no such user 'user'"
+	 * 
+	 * @param user The user that was not found
+	 */
+	public void showCmdMsgNoUser( String user )
+	{
+		msgController.showSystemMessage( "/msg - no such user '" + user + "'" );
+	}
+	
+	/**
+	 * Shows a users private message, with the user's color.
+	 * 
+	 * @param user The user that sent the private message
+	 * @param privmsg The private message
+	 * @param color The color to show the message with
+	 */
+	public void showPrivateUserMessage( NickDTO user, String privmsg, int color )
+	{
+		msgController.showPrivateUserMessage( user, privmsg, color );
+	}
+	
+	/**
+	 * Shows your own private message
+	 * 
+	 * @param user The user that got you sent the message to
+	 * @param privmsg The private message to show
+	 */
+	public void showPrivateOwnMessage( NickDTO user, String privmsg )
+	{
+		msgController.showPrivateOwnMessage( user, privmsg );
+	}
+	
+	/**
+	 * Shows "user logged off..."
+	 * 
+	 * @param user The user that logged off
+	 */
+	public void showPrivateLoggedOff( NickDTO user )
+	{
+		msgController.showPrivateSystemMessage( user, user.getNick() + " logged off..." );
 	}
 }

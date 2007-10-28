@@ -25,15 +25,45 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 
+import java.net.URL;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
+import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.NickDTO;
 
 public class CellRenderer extends JLabel implements ListCellRenderer
 {
 	private static final long serialVersionUID = 1L;
+	private static Logger log = Logger.getLogger( CellRenderer.class.getName() );
+	
+	private ImageIcon envelope, dot;
+	
+	public CellRenderer()
+	{
+		ErrorHandler errorHandler = ErrorHandler.getErrorHandler();
+		
+		URL envelope_url = getClass().getResource( "/icons/envelope.png" );
+		URL dot_url = getClass().getResource( "/icons/dot.png" );
+		
+		if ( envelope_url == null || dot_url == null )
+		{
+			String error = "Missing images in icons folder. Quitting...";
+			log.log( Level.SEVERE, error );
+			errorHandler.showExitError( error );
+			System.exit( 1 );
+		}
+		
+		envelope = new ImageIcon( envelope_url );
+		dot = new ImageIcon( dot_url );
+	}
 	
 	public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
 	{
@@ -68,6 +98,11 @@ public class CellRenderer extends JLabel implements ListCellRenderer
 				setForeground( Color.BLACK );
 			}
 		}
+		
+		if ( dto.isNewMsg() )
+			setIcon( envelope );
+		else
+			setIcon( dot );
 
 		if ( dto.isWriting() )
 			setText( dto.getNick() + " *" );
@@ -81,6 +116,8 @@ public class CellRenderer extends JLabel implements ListCellRenderer
 
 		setEnabled( list.isEnabled() );
 		setOpaque( true );
+		
+		setBorder( BorderFactory.createEmptyBorder( 2, 6, 2, 6 ) );
 
 		return this;
 	}

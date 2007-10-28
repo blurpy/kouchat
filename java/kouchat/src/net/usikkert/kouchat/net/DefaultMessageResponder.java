@@ -133,6 +133,12 @@ public class DefaultMessageResponder implements MessageResponder
 		{
 			controller.getNickList().remove( user );
 			uiMsg.showLoggedOff( user.getNick() );
+			
+			if ( user.getPrivchat() != null )
+			{
+				user.getPrivchat().setLoggedOff();
+				uiMsg.showPrivateLoggedOff( user );
+			}
 		}
 	}
 
@@ -275,11 +281,13 @@ public class DefaultMessageResponder implements MessageResponder
 			if ( away )
 			{
 				uiMsg.showUserAway( user.getNick(), awayMsg );
+				ui.notifyAwayChanged( away );
 			}
 
 			else
 			{
 				uiMsg.showUserBack( user.getNick() );
+				ui.notifyAwayChanged( away );
 			}
 		}
 	}

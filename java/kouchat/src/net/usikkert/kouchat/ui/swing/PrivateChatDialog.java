@@ -59,13 +59,15 @@ import javax.swing.text.StyledDocument;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.CommandHistory;
+import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.PrivateChatWindow;
 
 /**
  * Used for private chat sessions.
  * 
  * @author Christian Ihle
  */
-public class PrivateChatDialog extends JDialog implements ActionListener, KeyListener
+public class PrivateChatDialog extends JDialog implements ActionListener, KeyListener, PrivateChatWindow
 {
 	private static Logger log = Logger.getLogger( PrivateChatDialog.class.getName() );
 	private static final long serialVersionUID = 1L;
@@ -76,19 +78,24 @@ public class PrivateChatDialog extends JDialog implements ActionListener, KeyLis
 	private JMenuItem clearMI, closeMI;
 	private JTextField msgTF;
 	private CommandHistory cmdHistory;
-	//private Mediator mediator;
+	private Mediator mediator;
+	private NickDTO user;
 
 	/**
 	 * Creates a new privchat dialog. To open the dialog, use setVisible().
 	 * 
 	 * @param parent The parent frame.
-	 * @param modal If the dialog should be blocking or not.
 	 * @param mediator The mediator to command.
+	 * @param user The user in the private chat.
 	 */
-	public PrivateChatDialog( Frame parent, boolean modal, Mediator mediator )
+	public PrivateChatDialog( Frame parent, Mediator mediator, NickDTO user )
 	{
-		super( parent, modal );
-		//this.mediator = mediator;
+		super( parent, false );
+		
+		this.mediator = mediator;
+		this.user = user;
+		
+		user.setPrivchat( this );
 		initComponents();
 	}
 
@@ -99,10 +106,11 @@ public class PrivateChatDialog extends JDialog implements ActionListener, KeyLis
 	{
 		setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 		setSize( 460, 340 );
-		setChatUser( "<user>" );
+		setTitle( Constants.APP_NAME + " - Private chat with " + user.getNick() );
 
 		chatTP = new JTextPane();
 		chatTP.setEditable( false );
+		chatTP.setBorder( BorderFactory.createEmptyBorder( 4, 6, 4, 6 ) );
 		chatAttr = new SimpleAttributeSet();
 		chatDoc = chatTP.getStyledDocument();
 		JScrollPane chatScroll = new JScrollPane( chatTP );
@@ -122,6 +130,7 @@ public class PrivateChatDialog extends JDialog implements ActionListener, KeyLis
 		closeMI = new JMenuItem();
 		closeMI.setMnemonic( 'c' );
 		closeMI.setText( "Close" );
+		closeMI.addActionListener( this );
 
 		JMenu fileMenu = new JMenu();
 		fileMenu.setMnemonic( 'f' );
@@ -131,6 +140,7 @@ public class PrivateChatDialog extends JDialog implements ActionListener, KeyLis
 		clearMI = new JMenuItem();
 		clearMI.setMnemonic( 'l' );
 		clearMI.setText( "Clear chat" );
+		clearMI.addActionListener( this );
 
 		JMenu toolsMenu = new JMenu();
 		toolsMenu.setMnemonic( 't' );
@@ -190,24 +200,14 @@ public class PrivateChatDialog extends JDialog implements ActionListener, KeyLis
 		
 		cmdHistory = new CommandHistory();
 	}
-	
-	/**
-	 * Updates the titlebar with the nick name of the
-	 * user being talked to.
-	 * 
-	 * @param user The user.
-	 */
-	public void setChatUser( String user )
-	{
-		setTitle( Constants.APP_NAME + " - Private chat with " + user );
-	}
-	
+
 	/**
 	 * Adds a new line to the chat.
 	 * 
 	 * @param text The line of text to add.
 	 * @param color The color that the text should have.
 	 */
+	@Override
 	public void appendToPrivateChat( String text, int color )
 	{
 		try
@@ -222,6 +222,17 @@ public class PrivateChatDialog extends JDialog implements ActionListener, KeyLis
 			log.log( Level.SEVERE, e.getMessage(), e );
 		}
 	}
+	
+	/**
+	 * Returns the user from this private chat.
+	 * 
+	 * @return Private chat user.
+	 */
+	@Override
+	public NickDTO getUser()
+	{
+		return user;
+	}
 
 	/**
 	 * Shows the privchat dialog.
@@ -229,7 +240,9 @@ public class PrivateChatDialog extends JDialog implements ActionListener, KeyLis
 	@Override
 	public void setVisible( boolean visible )
 	{
-		setLocationRelativeTo( getParent() );
+		if ( visible )
+			setLocationRelativeTo( getParent() );
+		
 		super.setVisible( visible );
 	}
 	
@@ -247,9 +260,19 @@ public class PrivateChatDialog extends JDialog implements ActionListener, KeyLis
 				public void run()
 				{
 					cmdHistory.add( msgTF.getText() );
-					//mediator.write(); TODO
+					mediator.writePrivate( user.getPrivchat() );
 				}
 			} );
+		}
+		
+		else if ( e.getSource() == closeMI )
+		{
+			setVisible( false );
+		}
+		
+		else if ( e.getSource() == clearMI )
+		{
+			chatTP.setText( "" );
 		}
 	}
 
@@ -283,5 +306,29 @@ public class PrivateChatDialog extends JDialog implements ActionListener, KeyLis
 					msgTF.setText( cmdHistory.goDown() );
 			}
 		} );
+	}
+
+	@Override
+	public void clearChatText()
+	{
+		msgTF.setText( "" );
+	}
+
+	@Override
+	public String getChatText()
+	{
+		return msgTF.getText();
+	}
+
+	@Override
+	public void setAway( boolean away )
+	{
+		msgTF.setEditable( !away );
+	}
+
+	@Override
+	public void setLoggedOff()
+	{
+		msgTF.setEditable( false );
 	}
 }

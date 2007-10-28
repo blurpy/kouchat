@@ -35,15 +35,18 @@ public class MessageController
 	private NickDTO me;
 	private ChatWindow chat;
 	private ChatLogger cLog;
+	private UserInterface ui;
 	
 	/**
 	 * Initializes log and loads settings.
 	 * 
 	 * @param chat The user interface object to write the formatted messages to.
+	 * @param ui The user interface.
 	 */
-	public MessageController( ChatWindow chat )
+	public MessageController( ChatWindow chat, UserInterface ui )
 	{
 		this.chat = chat;
+		this.ui = ui;
 		
 		settings = Settings.getSettings();
 		me = settings.getMe();
@@ -94,5 +97,29 @@ public class MessageController
 		String msg = Tools.getTime() + " <" + me.getNick() + ">: " + message;
 		chat.appendToChat( msg, settings.getOwnColor() );
 		cLog.append( msg );
+	}
+
+	public void showPrivateUserMessage( NickDTO user, String privmsg, int color )
+	{
+		if ( user.getPrivchat() == null )
+			ui.createPrivChat( user );
+		
+		String msg = Tools.getTime() + " <" + user + ">: " + privmsg;
+		user.getPrivchat().appendToPrivateChat( msg, color );
+	}
+
+	public void showPrivateOwnMessage( NickDTO user, String privmsg )
+	{
+		if ( user.getPrivchat() == null )
+			ui.createPrivChat( user );
+		
+		String msg = Tools.getTime() + " <" + me.getNick() + ">: " + privmsg;
+		user.getPrivchat().appendToPrivateChat( msg, settings.getOwnColor() );
+	}
+
+	public void showPrivateSystemMessage( NickDTO user, String privmsg )
+	{
+		String msg = Tools.getTime() + " *** " + privmsg;
+		user.getPrivchat().appendToPrivateChat( msg, settings.getSysColor() );
 	}
 }

@@ -26,7 +26,8 @@ public class NickDTO implements Comparable<NickDTO>
 	private String nick, awayMsg, ipAddress, operatingSystem, client;
 	private int code;
 	private long lastIdle, logonTime;
-	private boolean writing, away, me;
+	private boolean writing, away, me, newMsg;
+	private PrivateChatWindow privchat;
 
 	public NickDTO( String nick, int code )
 	{
@@ -42,6 +43,7 @@ public class NickDTO implements Comparable<NickDTO>
 		logonTime = 0;
 		operatingSystem = "<unknown>";
 		client = "<unknown>";
+		newMsg = false;
 	}
 
 	public boolean isMe()
@@ -152,6 +154,26 @@ public class NickDTO implements Comparable<NickDTO>
 	public void setClient( String client )
 	{
 		this.client = client;
+	}
+
+	public PrivateChatWindow getPrivchat()
+	{
+		return privchat;
+	}
+
+	public void setPrivchat( PrivateChatWindow privchat )
+	{
+		this.privchat = privchat;
+	}
+
+	public boolean isNewMsg()
+	{
+		return newMsg;
+	}
+
+	public void setNewMsg( boolean newMsg )
+	{
+		this.newMsg = newMsg;
 	}
 
 	@Override

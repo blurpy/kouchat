@@ -3,7 +3,10 @@
  - Javadoc
  - JUnit
  - Use UTF-8 messages
- - Private chat
  - Add command for:
    - Receive file
    - Abort file transfer
+ - Create a new "pop" sound
+ - Enable drag and drop of files to send
+ - Privmsg logging
+ 

@@ -19,28 +19,16 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.ui.swing;
+package net.usikkert.kouchat.misc;
 
-import net.usikkert.kouchat.misc.NickDTO;
-import net.usikkert.kouchat.misc.PrivateChatWindow;
-
-public interface Mediator
+public interface PrivateChatWindow
 {
-	public void minimize();
-	public void clearChat();
-	public void setAway();
-	public void setTopic();
-	public void start();
-	public void quit();
-	public void updateTitleAndTray();
-	public void showWindow();
-	public void showSettings();
-	public void sendFile();
-	public void write();
-	public void writePrivate( PrivateChatWindow privchat );
-	public void updateWriting();
-	public boolean changeNick( String nick );
-	public void transferCancelled( TransferDialog transferDialog );
-	public void showCommands();
-	public void showPrivChat( NickDTO user );
+	public void appendToPrivateChat( String text, int color );
+	public NickDTO getUser();
+	public String getChatText();
+	public void clearChatText();
+	public void setVisible( boolean visible );
+	public boolean isVisible();
+	public void setAway( boolean away );
+	public void setLoggedOff();
 }

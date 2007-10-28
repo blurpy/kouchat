@@ -26,10 +26,13 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.usikkert.kouchat.net.DefaultPrivateMessageResponder;
 import net.usikkert.kouchat.net.MessageParser;
 import net.usikkert.kouchat.net.DefaultMessageResponder;
 import net.usikkert.kouchat.net.MessageResponder;
 import net.usikkert.kouchat.net.Messages;
+import net.usikkert.kouchat.net.PrivateMessageParser;
+import net.usikkert.kouchat.net.PrivateMessageResponder;
 import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.util.DayTimer;
 
@@ -41,7 +44,9 @@ public class Controller
 	private NickController nickController;
 	private Messages messages;
 	private MessageParser msgParser;
+	private PrivateMessageParser privmsgParser;
 	private MessageResponder msgResponder;
+	private PrivateMessageResponder privmsgResponder;
 	private IdleThread idleThread;
 	private TransferList tList;
 	private WaitingList wList;
@@ -65,7 +70,9 @@ public class Controller
 		wList = new WaitingList();
 		idleThread = new IdleThread( this, ui );
 		msgResponder = new DefaultMessageResponder( this, ui );
+		privmsgResponder = new DefaultPrivateMessageResponder( this, ui );
 		msgParser = new MessageParser( msgResponder );
+		privmsgParser = new PrivateMessageParser( privmsgResponder );
 		messages = new Messages();
 
 		new DayTimer( ui );
@@ -149,6 +156,7 @@ public class Controller
 	public void logOn()
 	{
 		msgParser.start();
+		privmsgParser.start();
 		messages.start();
 
 		messages.sendLogonMessage();
@@ -187,6 +195,7 @@ public class Controller
 		messages.sendLogoffMessage();
 		messages.stop();
 		msgParser.stop();
+		privmsgParser.stop();
 	}
 
 	public void sendExposeMessage()
@@ -297,5 +306,26 @@ public class Controller
 	public void sendClientInfo()
 	{
 		messages.sendClient();
+	}
+	
+	public void sendPrivateMessage( String privmsg, String userIP, int userCode ) throws AwayException
+	{
+		if ( !me.isAway() )
+		{
+			if ( privmsg.trim().length() > 0 )
+				messages.sendPrivateMessage( privmsg, userIP, userCode );
+			else
+				log.log( Level.WARNING, "You tried to send an empty private chat message. This should never happen..." );
+		}
+
+		else
+		{
+			throw new AwayException( "You tried to send a private chat message while away. This should never happen..." );
+		}
+	}
+	
+	public void changeNewMessage( int code, boolean newMsg )
+	{
+		nickController.changeNewMessage( code, newMsg );
 	}
 }

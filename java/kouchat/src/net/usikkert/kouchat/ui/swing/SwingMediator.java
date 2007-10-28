@@ -35,6 +35,8 @@ import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.AwayException;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.NickList;
+import net.usikkert.kouchat.misc.PrivateChatWindow;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.SoundBeeper;
 import net.usikkert.kouchat.misc.TopicDTO;
@@ -83,7 +85,7 @@ public class SwingMediator implements Mediator, UserInterface
 		menuBar = compHandler.getMenuBar();
 		buttonP = compHandler.getButtonPanel();
 		
-		uiMsg = new UIMessages( new MessageController( mainP ) );
+		uiMsg = new UIMessages( new MessageController( mainP, this ) );
 		controller = new Controller( this );
 		
 		sideP.setNickList( controller.getNickList() );
@@ -298,6 +300,30 @@ public class SwingMediator implements Mediator, UserInterface
 
 		mainP.getMsgTF().setText( "" );
 	}
+	
+	@Override
+	public void writePrivate( PrivateChatWindow privchat )
+	{
+		String line = privchat.getChatText();
+		NickDTO user = privchat.getUser();
+		
+		if ( line.trim().length() > 0 )
+		{
+			try
+			{
+				controller.sendPrivateMessage( line, user.getIpAddress(), user.getCode() );
+				uiMsg.showPrivateOwnMessage( user, line );
+			}
+			
+			catch ( AwayException e )
+			{
+				log.log( Level.WARNING, e.getMessage() );
+				uiMsg.showActionNotAllowed();
+			}
+		}
+
+		privchat.clearChatText();
+	}
 
 	@Override
 	public void showCommands()
@@ -504,12 +530,56 @@ public class SwingMediator implements Mediator, UserInterface
 			buttonP.setAwayState( false );
 		}
 
+		updateAwayInPrivChats( away );
 		updateTitleAndTray();
+	}
+	
+	private void updateAwayInPrivChats( boolean away )
+	{
+		NickList list = controller.getNickList();
+		
+		for ( int i = 0; i < list.size(); i++ )
+		{
+			NickDTO user = list.get( i );
+			
+			if ( user.getPrivchat() != null )
+			{
+				user.getPrivchat().setAway( away );
+			}
+		}
 	}
 
 	@Override
 	public UIMessages getUIMessages()
 	{
 		return uiMsg;
+	}
+
+	@Override
+	public void createPrivChat( NickDTO user )
+	{
+		user.setPrivchat( new PrivateChatDialog( null, this, user ) );
+	}
+
+	@Override
+	public void notifyPrivateMessageArrived()
+	{
+		notifyMessageArrived();
+	}
+
+	@Override
+	public void showPrivChat( NickDTO user )
+	{
+		if ( user.getPrivchat() == null )
+			user.setPrivchat( new PrivateChatDialog( null, this, user ) );
+		
+		user.getPrivchat().setVisible( true );
+		controller.changeNewMessage( user.getCode(), false );
+	}
+
+	@Override
+	public void notifyAwayChanged( boolean away )
+	{
+		updateAwayInPrivChats( away );
 	}
 }

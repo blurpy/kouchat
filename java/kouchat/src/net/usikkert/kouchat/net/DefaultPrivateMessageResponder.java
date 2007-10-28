@@ -19,28 +19,57 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.ui.swing;
+package net.usikkert.kouchat.net;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.NickDTO;
-import net.usikkert.kouchat.misc.PrivateChatWindow;
+import net.usikkert.kouchat.misc.UIMessages;
+import net.usikkert.kouchat.misc.UserInterface;
 
-public interface Mediator
+/**
+ * This class responds to events from the message parser.
+ * 
+ * @author Christian Ihle
+ */
+public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 {
-	public void minimize();
-	public void clearChat();
-	public void setAway();
-	public void setTopic();
-	public void start();
-	public void quit();
-	public void updateTitleAndTray();
-	public void showWindow();
-	public void showSettings();
-	public void sendFile();
-	public void write();
-	public void writePrivate( PrivateChatWindow privchat );
-	public void updateWriting();
-	public boolean changeNick( String nick );
-	public void transferCancelled( TransferDialog transferDialog );
-	public void showCommands();
-	public void showPrivChat( NickDTO user );
+	private static Logger log = Logger.getLogger( DefaultPrivateMessageResponder.class.getName() );
+
+	private Controller controller;
+	private UserInterface ui;
+	private UIMessages uiMsg;
+
+	public DefaultPrivateMessageResponder( Controller controller, UserInterface ui )
+	{
+		this.controller = controller;
+		this.ui = ui;
+
+		uiMsg = ui.getUIMessages();
+	}
+
+	@Override
+	public void messageArrived( final int userCode, final String msg, final int color )
+	{
+		if ( !controller.isNewUser( userCode ) )
+		{
+			NickDTO user = controller.getNick( userCode );
+
+			if ( !user.isAway() )
+			{
+				uiMsg.showPrivateUserMessage( user, msg, color );
+				ui.notifyPrivateMessageArrived();
+				
+				if ( !user.getPrivchat().isVisible() )
+					controller.changeNewMessage( user.getCode(), true );
+			}
+		}
+
+		else
+		{
+			log.log( Level.SEVERE, "Could not find user: " + userCode );
+		}
+	}
 }

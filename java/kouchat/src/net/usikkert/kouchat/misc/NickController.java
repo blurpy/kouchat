@@ -116,6 +116,21 @@ public class NickController
 			}
 		}
 	}
+	
+	public void changeNewMessage( int code, boolean newMsg )
+	{
+		for ( int i = 0; i < nickList.size(); i++ )
+		{
+			NickDTO temp = nickList.get( i );
+
+			if ( temp.getCode() == code )
+			{
+				temp.setNewMsg( newMsg );
+				nickList.set( i, temp );
+				break;
+			}
+		}
+	}
 
 	public boolean isNickInUse( String nick )
 	{
