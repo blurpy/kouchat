@@ -30,7 +30,8 @@ public interface Constants
 	public static final String AUTHOR_NAME = "Christian Ihle";
 	public static final String AUTHOR_MAIL = "kontakt@usikkert.net";
 	public static final String AUTHOR_WEB = "http://www.usikkert.net/";
-	public static final int NETWORK_PORT = 40556;
+	public static final int NETWORK_MULTICAST_PORT = 40556;
+	public static final int NETWORK_UDP_PORT = 40656;
 	public static final String NETWORK_IP = "224.168.5.200";
 	public static final String NETWORK_CHARSET = "ISO-8859-15";
 	public static final String PROPERTY_CLIENT_UI = "chat.client.ui";
