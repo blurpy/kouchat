@@ -165,7 +165,7 @@ public class MessageDialog extends JDialog
 	 */
 	public void setTopText( String text )
 	{
-		appNameL.setText( text );
+		appNameL.setText( " " + text );
 	}
 	
 	/**
@@ -185,6 +185,7 @@ public class MessageDialog extends JDialog
 	public void setVisible( boolean visible )
 	{
 		pack();
+		setLocationRelativeTo( getParent() );
 		super.setVisible( visible );
 	}
 }
