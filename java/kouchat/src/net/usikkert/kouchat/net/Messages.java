@@ -27,12 +27,14 @@ import net.usikkert.kouchat.misc.TopicDTO;
 
 public class Messages
 {
+	private UDPSender udpSender;
 	private MessageSender sender;
 	private NickDTO me;
 	private Settings settings;
 
 	public Messages()
 	{
+		udpSender = new UDPSender();
 		sender = new MessageSender();
 		settings = Settings.getSettings();
 		me = settings.getMe();
@@ -131,13 +133,21 @@ public class Messages
 				"]{" + me.getOperatingSystem() + "}" );
 	}
 	
+	public void sendPrivateMessage( String privmsg, String userIP, int userCode )
+	{
+		udpSender.send( me.getCode() + "!PRIVMSG#" + me.getNick() + ":(" + userCode + ")" +
+				"[" + settings.getOwnColor() + "]" + privmsg, userIP );
+	}
+	
 	public void start()
 	{
 		sender.startSender();
+		udpSender.startSender();
 	}
 
 	public void stop()
 	{
 		sender.stopSender();
+		udpSender.stopSender();
 	}
 }
