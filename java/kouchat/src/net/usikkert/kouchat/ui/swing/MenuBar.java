@@ -27,7 +27,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.Constants;
@@ -204,11 +203,15 @@ public class MenuBar extends JMenuBar implements ActionListener
 				@Override
 				public void run()
 				{
-					JOptionPane.showMessageDialog( null, Constants.APP_NAME + " v" + Constants.APP_VERSION
-							+ "\n\nCopyright 2006-2007 " + Constants.AUTHOR_NAME + "\n" + Constants.AUTHOR_MAIL
+					MessageDialog aboutD = new MessageDialog( null, true );
+					
+					aboutD.setTitle( Constants.APP_NAME + " - About" );
+					aboutD.setTopText( Constants.APP_NAME + " v" + Constants.APP_VERSION );
+					aboutD.setContent( "Copyright 2006-2007 by " + Constants.AUTHOR_NAME + "\n" + Constants.AUTHOR_MAIL
 							+ "\n" + Constants.AUTHOR_WEB + "\n\nSource available under the " + Constants.APP_LICENSE
-							+ ".\nSee " + Constants.APP_LICENSE_FILE + " for details.", Constants.APP_NAME
-							+ " - About", JOptionPane.INFORMATION_MESSAGE );
+							+ ".\nSee " + Constants.APP_LICENSE_FILE + " for details." );
+					
+					aboutD.setVisible( true );
 				}
 			} );
 		}
