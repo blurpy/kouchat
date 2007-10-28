@@ -262,13 +262,13 @@ public class MessageParser implements ReceiverListener
 				}
 			}
 
-			else if ( type.equals( "LOGON" ) )
+			else if ( msgCode == tempme.getCode() && type.equals( "LOGON" ) )
 			{
 				responder.meLogOn( ipAddress );
 				loggedOn = true;
 			}
 
-			else if ( type.equals( "IDLE" ) )
+			else if ( msgCode == tempme.getCode() && type.equals( "IDLE" ) && loggedOn )
 			{
 				responder.meIdle( ipAddress );
 			}
