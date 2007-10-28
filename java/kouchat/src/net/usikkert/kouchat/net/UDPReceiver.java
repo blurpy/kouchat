@@ -103,8 +103,9 @@ public class UDPReceiver implements Runnable
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
-			errorHandler.showError( "Failed to initialize network:\n" + e );
+			log.log( Level.SEVERE, e.getMessage() );
+			errorHandler.showError( "Failed to initialize udp network:\n" + e +
+					"\n\nYou will not be able to receive private messages!" );
 		}
 	}
 
