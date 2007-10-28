@@ -69,7 +69,7 @@ public class SysTray implements ActionListener, MouseListener
 			{
 				String error = "Missing images in icons folder. Quitting...";
 				log.log( Level.SEVERE, error );
-				errorHandler.showError( error );
+				errorHandler.showExitError( error );
 				System.exit( 1 );
 			}
 
