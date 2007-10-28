@@ -98,7 +98,7 @@ public class KouChatFrame extends JFrame
 				if( e.getID() == KeyEvent.KEY_TYPED && isFocused() )
 				{
 					KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent( mainP.getMsgTF(), e );
-					mainP.getMsgTF().requestFocus();
+					mainP.getMsgTF().requestFocusInWindow();
 
 					return true;
 				}

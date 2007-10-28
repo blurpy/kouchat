@@ -109,14 +109,13 @@ public class SwingMediator implements Mediator, UserInterface
 	public void minimize()
 	{
 		gui.setVisible( false );
-		mainP.getMsgTF().requestFocus();
 	}
 
 	@Override
 	public void clearChat()
 	{
 		mainP.clearChat();
-		mainP.getMsgTF().requestFocus();
+		mainP.getMsgTF().requestFocusInWindow();
 	}
 
 	@Override
@@ -158,7 +157,7 @@ public class SwingMediator implements Mediator, UserInterface
 			}
 		}
 
-		mainP.getMsgTF().requestFocus();
+		mainP.getMsgTF().requestFocusInWindow();
 	}
 
 	@Override
@@ -175,7 +174,7 @@ public class SwingMediator implements Mediator, UserInterface
 			cmdParser.fixTopic( newTopic );
 		}
 
-		mainP.getMsgTF().requestFocus();
+		mainP.getMsgTF().requestFocusInWindow();
 	}
 
 	@Override

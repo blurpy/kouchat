@@ -9,4 +9,5 @@
  - Create a new "pop" sound
  - Enable drag and drop of files to send
  - Privmsg logging
+ - Check why privchat dialog goes to front after opening other dialogs
  

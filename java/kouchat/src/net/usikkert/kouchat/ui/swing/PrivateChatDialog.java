@@ -161,7 +161,7 @@ public class PrivateChatDialog extends JDialog implements ActionListener, KeyLis
 				if( e.getID() == KeyEvent.KEY_TYPED && isFocused() )
 				{
 					KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent( msgTF, e );
-					msgTF.requestFocus();
+					msgTF.requestFocusInWindow();
 
 					return true;
 				}
@@ -194,7 +194,8 @@ public class PrivateChatDialog extends JDialog implements ActionListener, KeyLis
 			public void windowActivated( WindowEvent e )
 			{
 				// Focus the textfield when the window is shown.
-				msgTF.requestFocus();
+				if ( msgTF.isEnabled() )
+					msgTF.requestFocusInWindow();
 			}
 		} );
 		
