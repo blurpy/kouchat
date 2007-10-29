@@ -207,7 +207,6 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 					sendfileMI.setVisible( true );
 					sendfileMI.setEnabled( false );
 					privchatMI.setVisible( true );
-					privchatMI.setEnabled( false );
 				}
 
 				else
@@ -215,7 +214,6 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 					sendfileMI.setVisible( true );
 					sendfileMI.setEnabled( true );
 					privchatMI.setVisible( true );
-					privchatMI.setEnabled( true );
 				}
 
 				nickMenu.show( nickL, e.getX(), e.getY() );
