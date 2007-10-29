@@ -7,7 +7,11 @@
    - Receive file
    - Abort file transfer
  - Create a new "pop" sound
- - Enable drag and drop of files to send
- - Privmsg logging
- - Check why privchat dialog goes to front after opening other dialogs
+ - Enable drag and drop of files to the nicklist
+ - Privchat logging
+ - Send privchat port during logon and expose
+ - Double click on nick opens a privchat
+ - Show nick change and away change in privchat
+ - Add tcp port to Constants
+ - Check repaint issue when out of focus
  
