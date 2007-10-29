@@ -541,7 +541,7 @@ public class SwingMediator implements Mediator, UserInterface
 		{
 			NickDTO user = list.get( i );
 			
-			if ( user.getPrivchat() != null )
+			if ( user.getPrivchat() != null && !user.isAway() )
 			{
 				user.getPrivchat().setAway( away );
 			}
@@ -557,28 +557,16 @@ public class SwingMediator implements Mediator, UserInterface
 	@Override
 	public void createPrivChat( NickDTO user )
 	{
-		user.setPrivchat( new PrivateChatDialog( null, this, user ) );
-	}
-
-	@Override
-	public void notifyPrivateMessageArrived()
-	{
-		notifyMessageArrived();
+		user.setPrivchat( new PrivateChatFrame( this, user ) );
 	}
 
 	@Override
 	public void showPrivChat( NickDTO user )
 	{
 		if ( user.getPrivchat() == null )
-			user.setPrivchat( new PrivateChatDialog( null, this, user ) );
+			user.setPrivchat( new PrivateChatFrame( this, user ) );
 		
 		user.getPrivchat().setVisible( true );
 		controller.changeNewMessage( user.getCode(), false );
-	}
-
-	@Override
-	public void notifyAwayChanged( boolean away )
-	{
-		updateAwayInPrivChats( away );
 	}
 }

@@ -60,7 +60,7 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 			if ( !user.isAway() )
 			{
 				uiMsg.showPrivateUserMessage( user, msg, color );
-				ui.notifyPrivateMessageArrived();
+				ui.notifyMessageArrived();
 				
 				if ( !user.getPrivchat().isVisible() )
 					controller.changeNewMessage( user.getCode(), true );

@@ -23,7 +23,6 @@ package net.usikkert.kouchat.ui.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Frame;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
@@ -40,7 +39,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -61,15 +60,16 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.CommandHistory;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.PrivateChatWindow;
+import net.usikkert.kouchat.misc.Settings;
 
 /**
  * Used for private chat sessions.
  * 
  * @author Christian Ihle
  */
-public class PrivateChatDialog extends JDialog implements ActionListener, KeyListener, PrivateChatWindow
+public class PrivateChatFrame extends JFrame implements ActionListener, KeyListener, PrivateChatWindow
 {
-	private static Logger log = Logger.getLogger( PrivateChatDialog.class.getName() );
+	private static Logger log = Logger.getLogger( PrivateChatFrame.class.getName() );
 	private static final long serialVersionUID = 1L;
 
 	private JTextPane chatTP;
@@ -79,22 +79,20 @@ public class PrivateChatDialog extends JDialog implements ActionListener, KeyLis
 	private JTextField msgTF;
 	private CommandHistory cmdHistory;
 	private Mediator mediator;
-	private NickDTO user;
+	private NickDTO user, me;
 
 	/**
-	 * Creates a new privchat dialog. To open the dialog, use setVisible().
+	 * Creates a new privchat frame. To open the window, use setVisible().
 	 * 
-	 * @param parent The parent frame.
 	 * @param mediator The mediator to command.
 	 * @param user The user in the private chat.
 	 */
-	public PrivateChatDialog( Frame parent, Mediator mediator, NickDTO user )
+	public PrivateChatFrame( Mediator mediator, NickDTO user )
 	{
-		super( parent, false );
-		
 		this.mediator = mediator;
 		this.user = user;
 		
+		me = Settings.getSettings().getMe();
 		user.setPrivchat( this );
 		initComponents();
 	}
@@ -242,7 +240,12 @@ public class PrivateChatDialog extends JDialog implements ActionListener, KeyLis
 	public void setVisible( boolean visible )
 	{
 		if ( visible )
+		{
 			setLocationRelativeTo( getParent() );
+			
+			if ( user.isAway() || me.isAway() )
+				msgTF.setEnabled( false );
+		}
 		
 		super.setVisible( visible );
 	}
@@ -324,12 +327,12 @@ public class PrivateChatDialog extends JDialog implements ActionListener, KeyLis
 	@Override
 	public void setAway( boolean away )
 	{
-		msgTF.setEditable( !away );
+		msgTF.setEnabled( !away );
 	}
 
 	@Override
 	public void setLoggedOff()
 	{
-		msgTF.setEditable( false );
+		msgTF.setEnabled( false );
 	}
 }

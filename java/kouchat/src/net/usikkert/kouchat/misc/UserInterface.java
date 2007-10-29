@@ -38,6 +38,4 @@ public interface UserInterface
 	public void notifyMessageArrived();
 	public UIMessages getUIMessages();
 	public void createPrivChat( NickDTO user );
-	public void notifyPrivateMessageArrived();
-	public void notifyAwayChanged( boolean away );
 }

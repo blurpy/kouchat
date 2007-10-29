@@ -116,16 +116,4 @@ public class ConsoleMediator implements UserInterface
 	{
 
 	}
-
-	@Override
-	public void notifyPrivateMessageArrived()
-	{
-
-	}
-
-	@Override
-	public void notifyAwayChanged( boolean away )
-	{
-
-	}
 }
