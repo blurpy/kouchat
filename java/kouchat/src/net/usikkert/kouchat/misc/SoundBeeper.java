@@ -80,6 +80,7 @@ public class SoundBeeper implements SettingsListener
 		{
 			clip.setFramePosition( 0 );
 			clip.start();
+			clip.flush();
 		}
 	}
 
@@ -179,6 +180,7 @@ public class SoundBeeper implements SettingsListener
 	{
 		if ( clip != null )
 		{
+			clip.flush();
 			clip.close();
 			clip = null;
 		}
