@@ -219,7 +219,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 				nickMenu.show( nickL, e.getX(), e.getY() );
 			}
 			
-			else if ( !nickMenu.isPopupTrigger( e ) && e.getClickCount() == 2 && nickL.getSelectedIndex() != -1 )
+			else if ( e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2 && nickL.getSelectedIndex() != -1 )
 			{
 				NickDTO user = (NickDTO) nickDLM.getElementAt( nickL.getSelectedIndex() );
 				
