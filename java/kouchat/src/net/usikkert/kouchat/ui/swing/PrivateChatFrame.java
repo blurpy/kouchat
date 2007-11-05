@@ -104,7 +104,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	{
 		setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 		setSize( 460, 340 );
-		setTitle( Constants.APP_NAME + " - Private chat with " + user.getNick() );
+		updateNick();
 
 		chatTP = new JTextPane();
 		chatTP.setEditable( false );
@@ -334,5 +334,11 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	public void setLoggedOff()
 	{
 		msgTF.setEnabled( false );
+	}
+	
+	@Override
+	public void updateNick()
+	{
+		setTitle( Constants.APP_NAME + " - Private chat with " + user.getNick() );
 	}
 }

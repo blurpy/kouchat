@@ -31,4 +31,5 @@ public interface PrivateChatWindow
 	public boolean isVisible();
 	public void setAway( boolean away );
 	public void setLoggedOff();
+	public void updateNick();
 }

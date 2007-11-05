@@ -651,4 +651,35 @@ public class UIMessages
 	{
 		msgController.showPrivateSystemMessage( user, user.getNick() + " logged off..." );
 	}
+
+	/**
+	 * Shows "oldNick changed nick to newNick"
+	 * 
+	 * @param oldNick The old nick
+	 * @param user The user that changed nick
+	 */
+	public void showPrivateNickChanged( NickDTO user, String oldNick )
+	{
+		msgController.showPrivateSystemMessage( user, oldNick + " changed nick to " + user.getNick() );
+	}
+
+	/**
+	 * Shows "user went away: awayMsg"
+	 * 
+	 * @param user The user that went away
+	 */
+	public void showPrivateUserAway( NickDTO user )
+	{
+		msgController.showPrivateSystemMessage( user, user.getNick() + " went away: " + user.getAwayMsg() );
+	}
+
+	/**
+	 * Shows "user came back..."
+	 * 
+	 * @param user The user that came back
+	 */
+	public void showPrivateUserBack( NickDTO user )
+	{
+		msgController.showPrivateSystemMessage( user, user.getNick() + " came back..." );
+	}
 }

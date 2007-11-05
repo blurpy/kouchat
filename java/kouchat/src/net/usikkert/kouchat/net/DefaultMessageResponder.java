@@ -284,7 +284,14 @@ public class DefaultMessageResponder implements MessageResponder
 				uiMsg.showUserBack( user.getNick() );
 			
 			if ( user.getPrivchat() != null )
+			{
 				user.getPrivchat().setAway( away );
+				
+				if ( away )
+					uiMsg.showPrivateUserAway( user );
+				else
+					uiMsg.showPrivateUserBack( user );
+			}
 		}
 	}
 
@@ -360,6 +367,12 @@ public class DefaultMessageResponder implements MessageResponder
 			String oldNick = user.getNick();
 			controller.changeNick( userCode, newNick );
 			uiMsg.showNickChanged( oldNick, newNick );
+			
+			if ( user.getPrivchat() != null )
+			{
+				uiMsg.showPrivateNickChanged( user, oldNick );
+				user.getPrivchat().updateNick();
+			}
 		}
 	}
 
