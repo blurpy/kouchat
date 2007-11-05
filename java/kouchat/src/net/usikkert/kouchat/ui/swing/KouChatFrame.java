@@ -150,6 +150,14 @@ public class KouChatFrame extends JFrame
 			}
 		} );
 
-		mediator.start();
+		// Try to stop the gui from lagging during startup
+		SwingUtilities.invokeLater( new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				mediator.start();
+			}
+		} );
 	}
 }
