@@ -24,7 +24,7 @@ package net.usikkert.kouchat.misc;
 public class NickDTO implements Comparable<NickDTO>
 {
 	private String nick, awayMsg, ipAddress, operatingSystem, client;
-	private int code;
+	private int code, privateChatPort;
 	private long lastIdle, logonTime;
 	private boolean writing, away, me, newMsg;
 	private PrivateChatWindow privchat;
@@ -44,6 +44,8 @@ public class NickDTO implements Comparable<NickDTO>
 		operatingSystem = "<unknown>";
 		client = "<unknown>";
 		newMsg = false;
+		privateChatPort = 0;
+		privchat = null;
 	}
 
 	public boolean isMe()
@@ -174,6 +176,16 @@ public class NickDTO implements Comparable<NickDTO>
 	public void setNewMsg( boolean newMsg )
 	{
 		this.newMsg = newMsg;
+	}
+
+	public int getPrivateChatPort()
+	{
+		return privateChatPort;
+	}
+
+	public void setPrivateChatPort( int privateChatPort )
+	{
+		this.privateChatPort = privateChatPort;
 	}
 
 	@Override

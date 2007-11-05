@@ -308,12 +308,18 @@ public class Controller
 		messages.sendClient();
 	}
 	
-	public void sendPrivateMessage( String privmsg, String userIP, int userCode ) throws AwayException
+	public void sendPrivateMessage( String privmsg, String userIP, int userPort, int userCode ) throws AwayException
 	{
 		if ( !me.isAway() )
 		{
 			if ( privmsg.trim().length() > 0 )
-				messages.sendPrivateMessage( privmsg, userIP, userCode );
+			{
+				if ( userPort == 0 )
+					log.log( Level.WARNING, "You tried to send a private chat message to a user with no available port number. This should never happen..." );
+				else
+					messages.sendPrivateMessage( privmsg, userIP, userPort, userCode );
+			}
+			
 			else
 				log.log( Level.WARNING, "You tried to send an empty private chat message. This should never happen..." );
 		}

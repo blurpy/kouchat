@@ -310,7 +310,7 @@ public class SwingMediator implements Mediator, UserInterface
 		{
 			try
 			{
-				controller.sendPrivateMessage( line, user.getIpAddress(), user.getCode() );
+				controller.sendPrivateMessage( line, user.getIpAddress(), user.getPrivateChatPort(), user.getCode() );
 				uiMsg.showPrivateOwnMessage( user, line );
 			}
 			

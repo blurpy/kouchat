@@ -130,13 +130,13 @@ public class Messages
 	{
 		sender.send( me.getCode() + "!CLIENT#" + me.getNick() + ":(" + me.getClient() +
 				")[" + ( System.currentTimeMillis() - me.getLogonTime() ) +
-				"]{" + me.getOperatingSystem() + "}" );
+				"]{" + me.getOperatingSystem() + "}<" + me.getPrivateChatPort() + ">" );
 	}
 	
-	public void sendPrivateMessage( String privmsg, String userIP, int userCode )
+	public void sendPrivateMessage( String privmsg, String userIP, int userPort, int userCode )
 	{
 		udpSender.send( me.getCode() + "!PRIVMSG#" + me.getNick() + ":(" + userCode + ")" +
-				"[" + settings.getOwnColor() + "]" + privmsg, userIP );
+				"[" + settings.getOwnColor() + "]" + privmsg, userIP, userPort );
 	}
 	
 	public void start()

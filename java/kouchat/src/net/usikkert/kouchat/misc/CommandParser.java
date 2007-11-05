@@ -244,7 +244,7 @@ public class CommandParser
 
 				try
 				{
-					controller.sendPrivateMessage( privmsg, user.getIpAddress(), user.getCode() );
+					controller.sendPrivateMessage( privmsg, user.getIpAddress(), user.getPrivateChatPort(), user.getCode() );
 					uiMsg.showPrivateOwnMessage( user, privmsg );
 				}
 				

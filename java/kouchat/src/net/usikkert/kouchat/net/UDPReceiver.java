@@ -32,6 +32,7 @@ import java.util.logging.Logger;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.ReceiverListener;
 import net.usikkert.kouchat.misc.ErrorHandler;
+import net.usikkert.kouchat.misc.Settings;
 
 /**
  * Receives UDP packets sent directly to the IP address
@@ -87,24 +88,41 @@ public class UDPReceiver implements Runnable
 
 	/**
 	 * Creates a new UDP socket, and starts a thread listening
-	 * on the UDP port.
+	 * on the UDP port. If the UDP port is in use, a new port will be
+	 * tried instead.
 	 * 
 	 * @see Constants.NETWORK_UDP_PORT
 	 */
 	public void startReceiver()
 	{
-		try
+		int port = Constants.NETWORK_UDP_PORT;
+		int counter = 0;
+		boolean done = false;
+
+		while ( counter < 10 && !done )
 		{
-			udpSocket = new DatagramSocket( Constants.NETWORK_UDP_PORT );
-			run = true;
-			worker = new Thread( this );
-			worker.start();
+			try
+			{
+				udpSocket = new DatagramSocket( port );
+				run = true;
+				worker = new Thread( this );
+				worker.start();
+				done = true;
+				Settings.getSettings().getMe().setPrivateChatPort( port );
+			}
+
+			catch ( IOException e )
+			{
+				counter++;
+				port++;
+				Settings.getSettings().getMe().setPrivateChatPort( 0 );
+				log.log( Level.SEVERE, e.getMessage() );
+			}
 		}
 
-		catch ( IOException e )
+		if ( !done )
 		{
-			log.log( Level.SEVERE, e.getMessage() );
-			errorHandler.showError( "Failed to initialize udp network:\n" + e +
+			errorHandler.showError( "Failed to initialize udp network:\n" +
 					"\n\nYou will not be able to receive private messages!" );
 		}
 	}

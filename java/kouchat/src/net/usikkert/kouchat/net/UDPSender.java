@@ -60,8 +60,9 @@ public class UDPSender
 	 * 
 	 * @param message The message to send.
 	 * @param ip The ip address of the user.
+	 * @param port The port to send the message to.
 	 */
-	public void send( String message, String ip )
+	public void send( String message, String ip, int port )
 	{
 		if ( started )
 		{
@@ -69,7 +70,7 @@ public class UDPSender
 			{
 				InetAddress address = InetAddress.getByName( ip );
 				DatagramPacket packet = new DatagramPacket( message.getBytes( Constants.NETWORK_CHARSET ),
-						message.length(), address, Constants.NETWORK_UDP_PORT );
+						message.length(), address, port );
 				udpSocket.send( packet );
 			}
 
