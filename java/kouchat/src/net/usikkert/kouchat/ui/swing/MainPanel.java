@@ -23,6 +23,7 @@ package net.usikkert.kouchat.ui.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -40,6 +41,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -65,8 +67,8 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 	private JTextField msgTF;
 	private Mediator mediator;
 	private CommandHistory cmdHistory;
-	private JPopupMenu rightClickMenu;
-	private JMenuItem copyMI;
+	private JPopupMenu chatMenu, msgMenu;
+	private JMenuItem chatCopyMI, msgCopyMI, pasteMI, cutMI;
 
 	public MainPanel( SidePanel sideP )
 	{
@@ -84,15 +86,39 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		msgTF.addActionListener( this );
 		msgTF.addCaretListener( this );
 		msgTF.addKeyListener( this );
+		msgTF.addMouseListener( this );
 
 		add( chatSP, BorderLayout.CENTER );
 		add( sideP, BorderLayout.EAST );
 		add( msgTF, BorderLayout.SOUTH );
 		
-		copyMI = new JMenuItem( new DefaultEditorKit.CopyAction() );
-		copyMI.setText( "Copy" );
-		rightClickMenu = new JPopupMenu();
-		rightClickMenu.add( copyMI );
+		chatCopyMI = new JMenuItem( new DefaultEditorKit.CopyAction() );
+		chatCopyMI.setText( "Copy" );
+		chatCopyMI.setMnemonic( 'C' );
+		chatCopyMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_C, KeyEvent.CTRL_MASK ) );
+		
+		msgCopyMI = new JMenuItem( new DefaultEditorKit.CopyAction() );
+		msgCopyMI.setText( "Copy" );
+		msgCopyMI.setMnemonic( 'C' );
+		msgCopyMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_C, KeyEvent.CTRL_MASK ) );
+		
+		cutMI = new JMenuItem( new DefaultEditorKit.CutAction() );
+		cutMI.setText( "Cut" );
+		cutMI.setMnemonic( 'U' );
+		cutMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_X, KeyEvent.CTRL_MASK ) );
+		
+		pasteMI = new JMenuItem( new DefaultEditorKit.PasteAction() );
+		pasteMI.setText( "Paste" );
+		pasteMI.setMnemonic( 'P' );
+		pasteMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_V, KeyEvent.CTRL_MASK ) );
+		
+		chatMenu = new JPopupMenu();
+		chatMenu.add( chatCopyMI );
+		
+		msgMenu = new JPopupMenu();
+		msgMenu.add( cutMI );
+		msgMenu.add( msgCopyMI );
+		msgMenu.add( pasteMI );
 
 		setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
 
@@ -127,6 +153,11 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 	public JTextField getMsgTF()
 	{
 		return msgTF;
+	}
+	
+	public boolean isMenuVisible()
+	{
+		return chatMenu.isVisible() || msgMenu.isVisible();
 	}
 
 	public void caretUpdate( CaretEvent e )
@@ -197,9 +228,36 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 	{
 		if ( e.getSource() == chatTP )
 		{
-			if ( rightClickMenu.isPopupTrigger( e ) && chatTP.getSelectedText() != null )
+			if ( chatMenu.isPopupTrigger( e ) && chatTP.getSelectedText() != null )
 			{
-				rightClickMenu.show( chatTP, e.getX(), e.getY() );
+				chatMenu.show( chatTP, e.getX(), e.getY() );
+			}
+		}
+		
+		else if ( e.getSource() == msgTF )
+		{
+			if ( msgMenu.isPopupTrigger( e ) )
+			{
+				msgTF.requestFocus();
+				
+				if ( msgTF.getSelectedText() == null )
+				{
+					msgCopyMI.setEnabled( false );
+					cutMI.setEnabled( false );
+				}
+				
+				else
+				{
+					msgCopyMI.setEnabled( true );
+					cutMI.setEnabled( true );
+				}
+				
+				if ( Toolkit.getDefaultToolkit().getSystemClipboard().getContents( null ) == null )
+					pasteMI.setEnabled( false );
+				else
+					pasteMI.setEnabled( true );
+				
+				msgMenu.show( msgTF, e.getX(), e.getY() );
 			}
 		}
 	}
