@@ -95,10 +95,10 @@ public class KouChatFrame extends JFrame
 			@Override
 			public boolean dispatchKeyEvent( KeyEvent e )
 			{
-				if( e.getID() == KeyEvent.KEY_TYPED && isFocused() )
+				if ( e.getID() == KeyEvent.KEY_PRESSED && isFocused() && !mainP.isMenuVisible() && !sideP.isMenuVisible() && !menuBar.isMenuVisible() )
 				{
 					KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent( mainP.getMsgTF(), e );
-					mainP.getMsgTF().requestFocusInWindow();
+					mainP.getMsgTF().requestFocus();
 
 					return true;
 				}
@@ -122,9 +122,9 @@ public class KouChatFrame extends JFrame
 					setVisible( false );
 			}
 		};
-
-		getRootPane().getInputMap( JComponent.WHEN_IN_FOCUSED_WINDOW ).put( escapeKeyStroke, "ESCAPE" );
-		getRootPane().getActionMap().put( "ESCAPE", escapeAction );
+		
+		mainP.getInputMap( JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT ).put( escapeKeyStroke, "ESCAPE" );
+		mainP.getActionMap().put( "ESCAPE", escapeAction );
 
 		addWindowListener( new WindowAdapter()
 		{

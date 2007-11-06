@@ -64,6 +64,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 		nickL.setCellRenderer( new CellRenderer() );
 		nickL.setFixedCellWidth( 110 );
 		nickL.addMouseListener( this );
+		//nickL.setDragEnabled( true ); TODO
 		nickSP = new JScrollPane( nickL );
 
 		add( nickSP, BorderLayout.CENTER );
@@ -71,10 +72,13 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 
 		nickMenu = new JPopupMenu ();
 		infoMI = new JMenuItem( "Information" );
+		infoMI.setMnemonic( 'I' );
 		infoMI.addActionListener( this );
 		sendfileMI = new JMenuItem( "Send file" );
+		sendfileMI.setMnemonic( 'S' );
 		sendfileMI.addActionListener( this );
 		privchatMI = new JMenuItem( "Private chat" );
+		privchatMI.setMnemonic( 'P' );
 		privchatMI.addActionListener( this );
 		nickMenu.add( infoMI );
 		nickMenu.add( sendfileMI );
@@ -96,6 +100,11 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 	public NickDTO getSelectedNick()
 	{
 		return (NickDTO) nickL.getSelectedValue();
+	}
+	
+	public boolean isMenuVisible()
+	{
+		return nickMenu.isVisible();
 	}
 
 	@Override
