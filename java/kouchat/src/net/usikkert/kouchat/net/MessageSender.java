@@ -48,7 +48,7 @@ public class MessageSender
 		
 		try
 		{
-			mcSocket = new MulticastSocket( Constants.NETWORK_MULTICAST_PORT );
+			mcSocket = new MulticastSocket( Constants.NETWORK_CHAT_PORT );
 			address = InetAddress.getByName( Constants.NETWORK_IP );
 		}
 
@@ -65,7 +65,7 @@ public class MessageSender
 		{
 			try
 			{
-				DatagramPacket packet = new DatagramPacket( message.getBytes( Constants.NETWORK_CHARSET ), message.length(), address, Constants.NETWORK_MULTICAST_PORT );
+				DatagramPacket packet = new DatagramPacket( message.getBytes( Constants.NETWORK_CHARSET ), message.length(), address, Constants.NETWORK_CHAT_PORT );
 				mcSocket.send( packet );
 			}
 

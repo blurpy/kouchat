@@ -24,14 +24,15 @@ package net.usikkert.kouchat;
 public interface Constants
 {
 	public static final String APP_NAME = "KouChat";
-	public static final String APP_VERSION = "0.7.0-beta";
+	public static final String APP_VERSION = "0.9.0-beta";
 	public static final String APP_LICENSE = "GNU GPLv2";
 	public static final String APP_LICENSE_FILE = "COPYING";
 	public static final String AUTHOR_NAME = "Christian Ihle";
 	public static final String AUTHOR_MAIL = "kontakt@usikkert.net";
 	public static final String AUTHOR_WEB = "http://www.usikkert.net/";
-	public static final int NETWORK_MULTICAST_PORT = 40556;
-	public static final int NETWORK_UDP_PORT = 40656;
+	public static final int NETWORK_CHAT_PORT = 40556;
+	public static final int NETWORK_PRIVCHAT_PORT = 40656;
+	public static final int NETWORK_FILE_TRANSFER_PORT = 40756;
 	public static final String NETWORK_IP = "224.168.5.200";
 	public static final String NETWORK_CHARSET = "ISO-8859-15";
 	public static final String PROPERTY_CLIENT_UI = "chat.client.ui";

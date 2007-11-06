@@ -52,7 +52,7 @@ public class MessageReceiver implements Runnable
 		
 		try
 		{
-			mcSocket = new MulticastSocket( Constants.NETWORK_MULTICAST_PORT );
+			mcSocket = new MulticastSocket( Constants.NETWORK_CHAT_PORT );
 			address = InetAddress.getByName( Constants.NETWORK_IP );
 		}
 

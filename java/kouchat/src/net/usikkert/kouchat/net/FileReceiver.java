@@ -32,6 +32,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.FileTransferListener;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.util.ByteCounter;
@@ -65,7 +66,7 @@ public class FileReceiver implements FileTransfer
 
 	public int startServer() throws ServerException
 	{
-		int port = 50123;
+		int port = Constants.NETWORK_FILE_TRANSFER_PORT;
 		boolean done = false;
 		int counter = 0;
 

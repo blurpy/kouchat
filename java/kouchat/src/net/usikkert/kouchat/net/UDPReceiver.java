@@ -95,7 +95,7 @@ public class UDPReceiver implements Runnable
 	 */
 	public void startReceiver()
 	{
-		int port = Constants.NETWORK_UDP_PORT;
+		int port = Constants.NETWORK_PRIVCHAT_PORT;
 		int counter = 0;
 		boolean done = false;
 
