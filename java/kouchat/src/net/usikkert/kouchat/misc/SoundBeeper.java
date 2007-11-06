@@ -21,8 +21,10 @@
 
 package net.usikkert.kouchat.misc;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+
+import java.net.URL;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,14 +37,12 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import net.usikkert.kouchat.event.SettingsListener;
-
 /**
- * Can load a wav file, and play it.
+ * Can load a sound file, and play it.
  * 
  * @author Christian Ihle
  */
-public class SoundBeeper implements SettingsListener
+public class SoundBeeper
 {
 	private static Logger log = Logger.getLogger( SoundBeeper.class.getName() );
 
@@ -50,110 +50,122 @@ public class SoundBeeper implements SettingsListener
 	 * The file to play when beep() is run.
 	 */
 	private static final String BEEP_FILE = "pop.wav";
+	
+	/**
+	 * The number of milliseconds to wait after
+	 * beeping before closing.
+	 */
+	private static final int WAIT_PERIOD = 5000;
 
-	private Clip clip;
+	private Clip soundClip;
+	private File soundFile;
 	private Settings settings;
 	private ErrorHandler errorHandler;
+	private Thread closeTimer;
+	private long closeTime;
 
 	/**
-	 * Default constructor. Loads a sound file if sound is enabled.
+	 * Default constructor. Loads a sound file into memory.
 	 */
 	public SoundBeeper()
 	{
 		settings = Settings.getSettings();
-		settings.addSettingsListener( this );
-		
 		errorHandler = ErrorHandler.getErrorHandler();
-
-		if ( settings.isSound() )
-		{
-			loadWavClip( BEEP_FILE );
-		}
+		
+		loadSoundClip( BEEP_FILE );
 	}
 
 	/**
-	 * Plays the loaded wav file.
+	 * Plays the loaded sound file if sound is enabled, and
+	 * it's not already playing. If nothing has been played for
+	 * 5 seconds the sound resource is released.
 	 */
 	public synchronized void beep()
 	{
-		if ( clip != null && !clip.isActive() )
+		if ( settings.isSound() )
 		{
-			clip.setFramePosition( 0 );
-			clip.start();
-			clip.flush();
+			if ( soundClip == null || !soundClip.isActive() )
+			{
+				if ( soundClip == null )
+					open();
+				else
+					soundClip.setFramePosition( 0 );
+				
+				soundClip.start();
+				closeTime = System.currentTimeMillis() + WAIT_PERIOD;
+				
+				if ( closeTimer == null )
+				{
+					closeTimer = new Thread( new CloseTimer() );
+					closeTimer.start();
+				}
+			}
 		}
+	}
+	
+	/**
+	 * Loads a sound file.
+	 * 
+	 * @param fileName The name of the sound file to load.
+	 */
+	private void loadSoundClip( String fileName )
+	{
+		URL url = getClass().getResource( "/" + fileName );
+		
+		if ( url != null )
+			soundFile = new File( url.getFile() );
 	}
 
 	/**
-	 * Loads a wav file.
-	 * 
-	 * @param fileName The wav file to load.
+	 * Opens a sound file, and reserves the resources needed for playback.
 	 */
-	public void loadWavClip( String fileName )
+	public void open()
 	{
-		if ( fileName.endsWith( ".wav" ) )
+		AudioInputStream stream = null;
+
+		if ( soundFile != null )
 		{
-			InputStream resource = getClass().getResourceAsStream( "/" + fileName );
-			AudioInputStream stream = null;
-
-			if ( resource != null )
+			try
 			{
-				try
-				{
-					stream = AudioSystem.getAudioInputStream( resource );
-					AudioFormat format = stream.getFormat();
-					DataLine.Info info = new DataLine.Info( Clip.class, format );
+				stream = AudioSystem.getAudioInputStream( soundFile );
+				AudioFormat format = stream.getFormat();
+				DataLine.Info info = new DataLine.Info( Clip.class, format );
 
-					if ( AudioSystem.isLineSupported( info ) )
-					{
-						clip = (Clip) AudioSystem.getLine( info );
-						clip.open( stream );
-					}
+				if ( AudioSystem.isLineSupported( info ) )
+				{
+					soundClip = (Clip) AudioSystem.getLine( info );
+					soundClip.open( stream );
 				}
+			}
 
-				catch ( UnsupportedAudioFileException e )
+			catch ( UnsupportedAudioFileException e )
+			{
+				log.log( Level.SEVERE, "UnsupportedAudioFileException: " + e.getMessage() );
+				settings.setSound( false );
+				errorHandler.showError( "Could not initialize the sound..." +
+				"\nUnsupported file format: " + soundFile.getName() );
+			}
+
+			catch ( IOException e )
+			{
+				log.log( Level.SEVERE, "IOException: " + e.getMessage() );
+				settings.setSound( false );
+				errorHandler.showError( "Could not initialize the sound..." +
+				"\nAudio file could not be opened: " + soundFile.getName() );
+			}
+
+			catch ( LineUnavailableException e )
+			{
+				log.log( Level.WARNING, "LineUnavailableException: " + e.getMessage() );
+			}
+
+			finally
+			{
+				if ( stream != null )
 				{
-					log.log( Level.SEVERE, "UnsupportedAudioFileException: " + e.getMessage() );
-					settings.setSound( false );
-					errorHandler.showError( "Could not initialize the sound..." +
-							"\nUnsupported file format: " + fileName );
-				}
-
-				catch ( IOException e )
-				{
-					log.log( Level.SEVERE, "IOException: " + e.getMessage() );
-					settings.setSound( false );
-					errorHandler.showError( "Could not initialize the sound..." +
-							"\nAudio file could not be opened: " + fileName );
-				}
-
-				catch ( LineUnavailableException e )
-				{
-					log.log( Level.SEVERE, "LineUnavailableException: " + e.getMessage() );
-					settings.setSound( false );
-					errorHandler.showError( "Could not initialize the sound..." +
-							"\nPossible reasons could be that a sound card is not present," +
-							"\nor that the sound card is reserved by another application." );
-				}
-
-				finally
-				{
-					if ( stream != null )
-					{
-						try
-						{
-							stream.close();
-						}
-
-						catch ( IOException e )
-						{
-							log.log( Level.WARNING, e.getMessage() );
-						}
-					}
-
 					try
 					{
-						resource.close();
+						stream.close();
 					}
 
 					catch ( IOException e )
@@ -162,50 +174,47 @@ public class SoundBeeper implements SettingsListener
 					}
 				}
 			}
-
-			else
-			{
-				log.log( Level.WARNING, "Audio file not found: " + fileName );
-				settings.setSound( false );
-				errorHandler.showError( "Could not initialize the sound..." +
-						"\nAudio file not found: " + fileName );
-			}
 		}
 	}
 	
 	/**
-	 * Closes the sound clip.
+	 * Closes the sound file and frees the resources used.
 	 */
 	public void close()
 	{
-		if ( clip != null )
+		if ( soundClip != null )
 		{
-			clip.flush();
-			clip.close();
-			clip = null;
+			soundClip.flush();
+			soundClip.close();
+			soundClip = null;
 		}
 	}
-
+	
 	/**
-	 * Opens or closes the sound file when the sound setting is changed.
+	 * A simple thread used for freeing sound resources when finished.
+	 * 
+	 * @author Christian Ihle
 	 */
-	@Override
-	public void settingChanged( String setting )
+	private class CloseTimer implements Runnable
 	{
-		if ( setting.equals( "sound" ) )
+		@Override
+		public void run()
 		{
-			if ( settings.isSound() )
+			while ( System.currentTimeMillis() < closeTime )
 			{
-				if ( clip == null )
+				try
 				{
-					loadWavClip( BEEP_FILE );
+					Thread.sleep( 1000 );
+				}
+				
+				catch ( InterruptedException e )
+				{
+					log.log( Level.WARNING, e.getMessage() );
 				}
 			}
-
-			else
-			{
-				close();
-			}
+			
+			close();
+			closeTimer = null;
 		}
 	}
 }
