@@ -27,12 +27,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
@@ -40,6 +44,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -48,7 +53,7 @@ import javax.swing.text.StyledDocument;
 import net.usikkert.kouchat.misc.ChatWindow;
 import net.usikkert.kouchat.misc.CommandHistory;
 
-public class MainPanel extends JPanel implements ActionListener, CaretListener, ChatWindow, KeyListener
+public class MainPanel extends JPanel implements ActionListener, CaretListener, ChatWindow, KeyListener, MouseListener
 {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = Logger.getLogger( MainPanel.class.getName() );
@@ -60,6 +65,8 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 	private JTextField msgTF;
 	private Mediator mediator;
 	private CommandHistory cmdHistory;
+	private JPopupMenu rightClickMenu;
+	private JMenuItem copyMI;
 
 	public MainPanel( SidePanel sideP )
 	{
@@ -68,6 +75,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		chatTP = new JTextPane();
 		chatTP.setEditable( false );
 		chatTP.setBorder( BorderFactory.createEmptyBorder( 4, 6, 4, 6 ) );
+		chatTP.addMouseListener( this );
 		chatSP = new JScrollPane( chatTP );
 		chatAttr = new SimpleAttributeSet();
 		chatDoc = chatTP.getStyledDocument();
@@ -80,6 +88,11 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		add( chatSP, BorderLayout.CENTER );
 		add( sideP, BorderLayout.EAST );
 		add( msgTF, BorderLayout.SOUTH );
+		
+		copyMI = new JMenuItem( new DefaultEditorKit.CopyAction() );
+		copyMI.setText( "Copy" );
+		rightClickMenu = new JPopupMenu();
+		rightClickMenu.add( copyMI );
 
 		setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
 
@@ -165,5 +178,29 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 					msgTF.setText( cmdHistory.goDown() );
 			}
 		} );
+	}
+
+	@Override
+	public void mouseClicked( MouseEvent e ) {}
+
+	@Override
+	public void mouseEntered( MouseEvent e ) {}
+
+	@Override
+	public void mouseExited( MouseEvent e ) {}
+
+	@Override
+	public void mousePressed( MouseEvent e ) {}
+
+	@Override
+	public void mouseReleased( MouseEvent e )
+	{
+		if ( e.getSource() == chatTP )
+		{
+			if ( rightClickMenu.isPopupTrigger( e ) && chatTP.getSelectedText() != null )
+			{
+				rightClickMenu.show( chatTP, e.getX(), e.getY() );
+			}
+		}
 	}
 }
