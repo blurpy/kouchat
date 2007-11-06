@@ -9,9 +9,7 @@
  - Create a new "pop" sound
  - Enable drag and drop of files to the nicklist
  - Privchat logging
- - Send privchat port during logon and expose
- - Show nick change and away change in privchat
- - Add tcp port to Constants
  - Check repaint issue when out of focus
- - Try to let go of sound resources when not using any sounds
+ - Check what happens with udp port if network goes down
+ - Check focus issue on msgtf after starting
  
