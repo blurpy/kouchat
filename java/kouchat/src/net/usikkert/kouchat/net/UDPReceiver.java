@@ -113,10 +113,11 @@ public class UDPReceiver implements Runnable
 
 			catch ( IOException e )
 			{
+				log.log( Level.SEVERE, e.getMessage() + " " + port );
+				
 				counter++;
 				port++;
 				Settings.getSettings().getMe().setPrivateChatPort( 0 );
-				log.log( Level.SEVERE, e.getMessage() );
 			}
 		}
 
