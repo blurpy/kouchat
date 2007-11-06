@@ -12,4 +12,4 @@
  - Check repaint issue when out of focus
  - Check what happens with udp port if network goes down
  - Check focus issue on msgtf after starting
- 
+ - Menubar does not get focus when using keyboard to open
