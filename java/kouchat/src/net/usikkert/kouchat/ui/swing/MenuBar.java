@@ -66,7 +66,7 @@ public class MenuBar extends JMenuBar implements ActionListener
 		topicMI.setMnemonic( 'E' );
 		topicMI.addActionListener( this );
 		settingsMI = new JMenuItem( "Settings" );
-		settingsMI.setMnemonic( 'S' );
+		settingsMI.setMnemonic( 'T' );
 		settingsMI.addActionListener( this );
 
 		toolsMenu.add( clearMI );
@@ -78,7 +78,7 @@ public class MenuBar extends JMenuBar implements ActionListener
 		helpMenu = new JMenu( "Help" );
 		helpMenu.setMnemonic( 'H' );
 		commandsMI = new JMenuItem( "Commands" );
-		commandsMI.setMnemonic( 'O' );
+		commandsMI.setMnemonic( 'C' );
 		commandsMI.addActionListener( this );
 		aboutMI = new JMenuItem( "About" );
 		aboutMI.setMnemonic( 'A' );
