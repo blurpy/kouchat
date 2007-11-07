@@ -144,6 +144,11 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 			log.log( Level.SEVERE, e.getMessage(), e );
 		}
 	}
+	
+	public JTextPane getChatTP()
+	{
+		return chatTP;
+	}
 
 	public void clearChat()
 	{

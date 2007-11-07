@@ -94,9 +94,10 @@ public class KouChatFrame extends JFrame
 		{
 			@Override
 			public boolean dispatchKeyEvent( KeyEvent e )
-			{
-				if ( e.getID() == KeyEvent.KEY_PRESSED && isFocused() && !mainP.isMenuVisible() && !sideP.isMenuVisible() && !menuBar.isMenuVisible() )
+			{//// && !mainP.isMenuVisible() && !sideP.isMenuVisible() && !menuBar.isMenuVisible()
+				if ( e.getID() == KeyEvent.KEY_TYPED && isFocused() && ( e.getSource() == mainP.getChatTP() || e.getSource() == sideP.getNicList() ) ) 
 				{
+					
 					KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent( mainP.getMsgTF(), e );
 					mainP.getMsgTF().requestFocus();
 

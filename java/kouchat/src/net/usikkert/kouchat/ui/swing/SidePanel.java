@@ -106,6 +106,11 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 	{
 		return nickMenu.isVisible();
 	}
+	
+	public JList getNicList()
+	{
+		return nickL;
+	}
 
 	@Override
 	public void actionPerformed( ActionEvent e )
