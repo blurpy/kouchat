@@ -60,13 +60,13 @@ public class MenuBar extends JMenuBar implements ActionListener
 		clearMI.setMnemonic( 'C' );
 		clearMI.addActionListener( this );
 		awayMI = new JMenuItem( "Set away" );
-		awayMI.setMnemonic( 'S' );
+		awayMI.setMnemonic( 'A' );
 		awayMI.addActionListener( this );
 		topicMI = new JMenuItem( "Change topic" );
-		topicMI.setMnemonic( 'E' );
+		topicMI.setMnemonic( 'O' );
 		topicMI.addActionListener( this );
 		settingsMI = new JMenuItem( "Settings" );
-		settingsMI.setMnemonic( 'T' );
+		settingsMI.setMnemonic( 'S' );
 		settingsMI.addActionListener( this );
 
 		toolsMenu.add( clearMI );
@@ -107,11 +107,6 @@ public class MenuBar extends JMenuBar implements ActionListener
 	public void disableMinimize()
 	{
 		minimizeMI.setEnabled( false );
-	}
-	
-	public boolean isMenuVisible()
-	{
-		return fileMenu.isPopupMenuVisible() || toolsMenu.isPopupMenuVisible() || helpMenu.isPopupMenuVisible();
 	}
 
 	@Override
