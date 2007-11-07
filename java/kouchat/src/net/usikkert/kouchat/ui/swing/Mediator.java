@@ -21,6 +21,8 @@
 
 package net.usikkert.kouchat.ui.swing;
 
+import java.io.File;
+
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.PrivateChatWindow;
 
@@ -35,7 +37,7 @@ public interface Mediator
 	public void updateTitleAndTray();
 	public void showWindow();
 	public void showSettings();
-	public void sendFile();
+	public void sendFile( File selectedFile );
 	public void write();
 	public void writePrivate( PrivateChatWindow privchat );
 	public void updateWriting();

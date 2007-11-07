@@ -242,12 +242,16 @@ public class SwingMediator implements Mediator, UserInterface
 	}
 
 	@Override
-	public void sendFile()
+	public void sendFile( File selectedFile )
 	{
 		if ( me != sideP.getSelectedNick() )
 		{
 			JFileChooser chooser = new JFileChooser();
 			chooser.setDialogTitle( Constants.APP_NAME + " - Open" );
+			
+			if ( selectedFile != null && selectedFile.exists() )
+				chooser.setSelectedFile( selectedFile );
+			
 			int returnVal = chooser.showOpenDialog( null );
 
 			if ( returnVal == JFileChooser.APPROVE_OPTION )
