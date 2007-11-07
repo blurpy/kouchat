@@ -230,6 +230,11 @@ public class CommandParser
 			{
 				uiMsg.showCmdMsgNoPoint();
 			}
+			
+			else if ( user.getPrivateChatPort() == 0 )
+			{
+				uiMsg.showCmdMsgNoPort( user.getNick() );
+			}
 
 			else
 			{

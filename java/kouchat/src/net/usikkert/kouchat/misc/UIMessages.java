@@ -620,6 +620,16 @@ public class UIMessages
 	}
 	
 	/**
+	 * Shows "/msg - user can't receive private chat messages..."
+	 * 
+	 * @param user The user who could not receive private chat messages.
+	 */
+	public void showCmdMsgNoPort( String user )
+	{
+		msgController.showSystemMessage( "/msg - " + user + " can't receive private chat messages..." );
+	}
+	
+	/**
 	 * Shows a users private message, with the user's color.
 	 * 
 	 * @param user The user that sent the private message
