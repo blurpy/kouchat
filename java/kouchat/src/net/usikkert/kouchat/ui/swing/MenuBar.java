@@ -108,6 +108,11 @@ public class MenuBar extends JMenuBar implements ActionListener
 	{
 		minimizeMI.setEnabled( false );
 	}
+	
+	public boolean isPopupMenuVisible()
+	{
+		return fileMenu.isPopupMenuVisible() || toolsMenu.isPopupMenuVisible() || helpMenu.isPopupMenuVisible();
+	}
 
 	@Override
 	public void actionPerformed( ActionEvent e )

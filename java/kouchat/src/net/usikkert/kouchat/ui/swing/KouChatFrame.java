@@ -27,6 +27,8 @@ import java.awt.BorderLayout;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -97,7 +99,6 @@ public class KouChatFrame extends JFrame
 			{
 				if ( e.getID() == KeyEvent.KEY_TYPED && isFocused() && ( e.getSource() == mainP.getChatTP() || e.getSource() == sideP.getNicList() ) ) 
 				{
-					
 					KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent( mainP.getMsgTF(), e );
 					mainP.getMsgTF().requestFocus();
 
@@ -106,6 +107,21 @@ public class KouChatFrame extends JFrame
 
 				else
 					return false;
+			}
+		} );
+
+		// Ugly hack to make sure the menubar gets focus when navigating
+		// with the keyboard. This is because of the focus hack above.
+		getRootPane().addFocusListener( new FocusListener()
+		{
+			@Override
+			public void focusGained( FocusEvent e ) {}
+
+			@Override
+			public void focusLost( FocusEvent e )
+			{
+				if ( menuBar.isPopupMenuVisible() )
+					getRootPane().requestFocus();
 			}
 		} );
 
@@ -158,6 +174,7 @@ public class KouChatFrame extends JFrame
 			public void run()
 			{
 				mediator.start();
+				mainP.getMsgTF().requestFocus();
 			}
 		} );
 	}
