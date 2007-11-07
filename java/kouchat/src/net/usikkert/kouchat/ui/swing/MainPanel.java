@@ -23,7 +23,6 @@ package net.usikkert.kouchat.ui.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -68,7 +67,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 	private Mediator mediator;
 	private CommandHistory cmdHistory;
 	private JPopupMenu chatMenu, msgMenu;
-	private JMenuItem chatCopyMI, msgCopyMI, pasteMI, cutMI;
+	private JMenuItem chatCopyMI, msgCopyMI, pasteMI, cutMI, selectAllMI, clearMI;
 
 	public MainPanel( SidePanel sideP )
 	{
@@ -112,13 +111,25 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		pasteMI.setMnemonic( 'P' );
 		pasteMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_V, KeyEvent.CTRL_MASK ) );
 		
+		selectAllMI = new JMenuItem( "Select All" );
+		selectAllMI.addActionListener( this );
+		selectAllMI.setMnemonic( 'A' );
+		selectAllMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_A, KeyEvent.CTRL_MASK ) );
+		
+		clearMI = new JMenuItem( "Clear" );
+		clearMI.addActionListener( this );
+		clearMI.setMnemonic( 'L' );
+		
 		chatMenu = new JPopupMenu();
 		chatMenu.add( chatCopyMI );
+		chatMenu.add( selectAllMI );
 		
 		msgMenu = new JPopupMenu();
 		msgMenu.add( cutMI );
 		msgMenu.add( msgCopyMI );
 		msgMenu.add( pasteMI );
+		msgMenu.addSeparator();
+		msgMenu.add( clearMI );
 
 		setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
 
@@ -160,11 +171,6 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		return msgTF;
 	}
 	
-	public boolean isMenuVisible()
-	{
-		return chatMenu.isVisible() || msgMenu.isVisible();
-	}
-
 	public void caretUpdate( CaretEvent e )
 	{
 		SwingUtilities.invokeLater( new Runnable()
@@ -189,6 +195,31 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 				{
 					cmdHistory.add( msgTF.getText() );
 					mediator.write();
+				}
+			} );
+		}
+		
+		else if ( e.getSource() == selectAllMI )
+		{
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					chatTP.requestFocus();
+					chatTP.selectAll();
+				}
+			} );
+		}
+		
+		else if ( e.getSource() == clearMI )
+		{
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					msgTF.setText( "" );
 				}
 			} );
 		}
@@ -233,8 +264,13 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 	{
 		if ( e.getSource() == chatTP )
 		{
-			if ( chatMenu.isPopupTrigger( e ) && chatTP.getSelectedText() != null )
+			if ( chatMenu.isPopupTrigger( e ) )
 			{
+				if ( chatTP.getSelectedText() == null )
+					chatCopyMI.setEnabled( false );
+				else
+					chatCopyMI.setEnabled( true );
+				
 				chatMenu.show( chatTP, e.getX(), e.getY() );
 			}
 		}
@@ -257,10 +293,10 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 					cutMI.setEnabled( true );
 				}
 				
-				if ( Toolkit.getDefaultToolkit().getSystemClipboard().getContents( null ) == null )
-					pasteMI.setEnabled( false );
+				if ( msgTF.getText().length() > 0 )
+					clearMI.setEnabled( true );
 				else
-					pasteMI.setEnabled( true );
+					clearMI.setEnabled( false );
 				
 				msgMenu.show( msgTF, e.getX(), e.getY() );
 			}
