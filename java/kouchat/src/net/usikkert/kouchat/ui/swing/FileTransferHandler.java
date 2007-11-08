@@ -22,6 +22,8 @@
 package net.usikkert.kouchat.ui.swing;
 
 import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 
 import java.io.File;
@@ -32,7 +34,10 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JComponent;
+import javax.swing.JList;
 import javax.swing.TransferHandler;
+import javax.swing.text.JTextComponent;
 
 /**
  * This takes care of drag and drop of files to send.
@@ -44,10 +49,10 @@ public class FileTransferHandler extends TransferHandler
 {
 	private static final Logger log = Logger.getLogger( FileTransferHandler.class.getName() );
 	private static final long serialVersionUID = 1L;
-	
+
 	private Mediator mediator;
 	private FileDropSource fileDropSource;
-	
+
 	/**
 	 * Constructor. Sets the file drop source.
 	 * 
@@ -57,7 +62,7 @@ public class FileTransferHandler extends TransferHandler
 	{
 		this.fileDropSource = fileDropSource;
 	}
-	
+
 	/**
 	 * Sets the mediator to use for opening the dropped file.
 	 * 
@@ -76,13 +81,13 @@ public class FileTransferHandler extends TransferHandler
 	public boolean canImport( TransferSupport support )
 	{
 		DataFlavor[] flavors = support.getDataFlavors();
-		
+
 		for ( int i = 0; i < flavors.length; i++ )
 		{
 			if ( flavors[i].getSubType().equals( "uri-list" ) )
 				return true;
 		}
-		
+
 		return false;
 	}
 
@@ -102,28 +107,60 @@ public class FileTransferHandler extends TransferHandler
 				if ( data != null )
 				{
 					URL url = new URL( data.toString() );
-					
+
 					if ( url != null )
 					{
 						File file = new File( url.getFile() );
 						mediator.sendFile( fileDropSource.getUser(), file );
-						
+
 						return true;
 					}
 				}
 			}
-			
+
 			catch ( UnsupportedFlavorException e )
 			{
 				log.log( Level.WARNING, e.getMessage() );
 			}
-			
+
 			catch ( IOException e )
 			{
 				log.log( Level.WARNING, e.getMessage() );
 			}
 		}
-		
+
 		return false;
+	}
+
+	/**
+	 * Adds (back) support for copying the contents of the component
+	 * this transfer handler is registered on.
+	 */
+	@Override
+	protected Transferable createTransferable( JComponent c )
+	{
+		if ( c instanceof JTextComponent )
+		{
+			String data = ( (JTextComponent) c ).getSelectedText();
+			return new StringSelection( data );
+		}
+
+		else if ( c instanceof JList )
+		{
+			String data = ( (JList) c ).getSelectedValue().toString();
+			return new StringSelection( data );
+		}
+
+		else
+			return null;
+	}
+
+	/**
+	 * To enable copy to clipboard.
+	 */
+	@Override
+	public int getSourceActions( JComponent c )
+	{
+		return COPY;
 	}
 }
