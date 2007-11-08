@@ -100,7 +100,7 @@ public class KouChatFrame extends JFrame
 				if ( e.getID() == KeyEvent.KEY_TYPED && isFocused() && ( e.getSource() == mainP.getChatTP() || e.getSource() == sideP.getNicList() ) ) 
 				{
 					KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent( mainP.getMsgTF(), e );
-					mainP.getMsgTF().requestFocus();
+					mainP.getMsgTF().requestFocusInWindow();
 
 					return true;
 				}
@@ -121,7 +121,7 @@ public class KouChatFrame extends JFrame
 			public void focusLost( FocusEvent e )
 			{
 				if ( menuBar.isPopupMenuVisible() )
-					getRootPane().requestFocus();
+					getRootPane().requestFocusInWindow();
 			}
 		} );
 
@@ -163,7 +163,7 @@ public class KouChatFrame extends JFrame
 			public void windowActivated( WindowEvent e )
 			{
 				// Focus the textfield when the window is shown.
-				mainP.getMsgTF().requestFocus();
+				mainP.getMsgTF().requestFocusInWindow();
 			}
 		} );
 
@@ -174,7 +174,7 @@ public class KouChatFrame extends JFrame
 			public void run()
 			{
 				mediator.start();
-				mainP.getMsgTF().requestFocus();
+				mainP.getMsgTF().requestFocusInWindow();
 			}
 		} );
 	}
