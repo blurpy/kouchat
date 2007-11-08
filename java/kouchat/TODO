@@ -10,3 +10,6 @@
  - Privchat logging
  - Check repaint issue when out of focus
  - Check what happens with udp port if network goes down
+ - Add user timeout message to privchat, and deactivate chat
+ - Add [a-Z][0-9] regex on nick 
+ - Fix Windows drag and drop
