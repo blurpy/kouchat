@@ -27,6 +27,8 @@ import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
@@ -92,7 +94,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	{
 		this.mediator = mediator;
 		this.user = user;
-		
+
 		me = Settings.getSettings().getMe();
 		user.setPrivchat( this );
 		initComponents();
@@ -109,7 +111,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 
 		fileTransferHandler = new FileTransferHandler( this );
 		fileTransferHandler.setMediator( mediator );
-		
+
 		chatTP = new JTextPane();
 		chatTP.setEditable( false );
 		chatTP.setBorder( BorderFactory.createEmptyBorder( 4, 6, 4, 6 ) );
@@ -117,7 +119,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		chatAttr = new SimpleAttributeSet();
 		chatDoc = chatTP.getStyledDocument();
 		JScrollPane chatScroll = new JScrollPane( chatTP );
-		
+
 		msgTF = new JTextField();
 		msgTF.addActionListener( this );
 		msgTF.addKeyListener( this );
@@ -131,22 +133,22 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		getContentPane().add( backP, BorderLayout.CENTER );
 
 		closeMI = new JMenuItem();
-		closeMI.setMnemonic( 'c' );
+		closeMI.setMnemonic( 'C' );
 		closeMI.setText( "Close" );
 		closeMI.addActionListener( this );
 
-		JMenu fileMenu = new JMenu();
-		fileMenu.setMnemonic( 'f' );
+		final JMenu fileMenu = new JMenu();
+		fileMenu.setMnemonic( 'F' );
 		fileMenu.setText( "File" );
 		fileMenu.add( closeMI );
 
 		clearMI = new JMenuItem();
-		clearMI.setMnemonic( 'l' );
+		clearMI.setMnemonic( 'C' );
 		clearMI.setText( "Clear chat" );
 		clearMI.addActionListener( this );
 
-		JMenu toolsMenu = new JMenu();
-		toolsMenu.setMnemonic( 't' );
+		final JMenu toolsMenu = new JMenu();
+		toolsMenu.setMnemonic( 'T' );
 		toolsMenu.setText( "Tools" );
 		toolsMenu.add( clearMI );
 
@@ -154,14 +156,17 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		menuBar.add( fileMenu );
 		menuBar.add( toolsMenu );
 		setJMenuBar( menuBar );
-		
+
+		new MsgPopup( msgTF );
+		new ChatPopup( chatTP );
+
 		/* If this window is focused, the textfield will get keyboard events
 		 * no matter which component in the window was focused when typing was started. */
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher( new KeyEventDispatcher()
 		{
 			public boolean dispatchKeyEvent( KeyEvent e )
 			{
-				if( e.getID() == KeyEvent.KEY_TYPED && isFocused() )
+				if( e.getID() == KeyEvent.KEY_TYPED && isFocused() && e.getSource() == chatTP )
 				{
 					KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent( msgTF, e );
 					msgTF.requestFocusInWindow();
@@ -173,14 +178,29 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 					return false;
 			}
 		} );
-		
+
+		// Ugly hack to make sure the menubar gets focus when navigating
+		// with the keyboard. This is because of the focus hack above.
+		getRootPane().addFocusListener( new FocusListener()
+		{
+			@Override
+			public void focusGained( FocusEvent e ) {}
+
+			@Override
+			public void focusLost( FocusEvent e )
+			{
+				if ( fileMenu.isPopupMenuVisible() || toolsMenu.isPopupMenuVisible() )
+					getRootPane().requestFocusInWindow();
+			}
+		} );
+
 		// Hide with Escape key
 		KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0, false );
 
 		Action escapeAction = new AbstractAction()
 		{
 			private static final long serialVersionUID = 1L;
-			
+
 			@Override
 			public void actionPerformed( ActionEvent e )
 			{
@@ -188,9 +208,9 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 			}
 		};
 
-		getRootPane().getInputMap( JComponent.WHEN_IN_FOCUSED_WINDOW ).put( escapeKeyStroke, "ESCAPE" );
-		getRootPane().getActionMap().put( "ESCAPE", escapeAction );
-		
+		backP.getInputMap( JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT ).put( escapeKeyStroke, "ESCAPE" );
+		backP.getActionMap().put( "ESCAPE", escapeAction );
+
 		addWindowListener( new WindowAdapter()
 		{
 			@Override
@@ -201,7 +221,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 					msgTF.requestFocusInWindow();
 			}
 		} );
-		
+
 		cmdHistory = new CommandHistory();
 	}
 
@@ -226,7 +246,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 			log.log( Level.SEVERE, e.getMessage(), e );
 		}
 	}
-	
+
 	/**
 	 * Returns the user from this private chat.
 	 * 
@@ -247,14 +267,14 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		if ( visible )
 		{
 			setLocationRelativeTo( getParent() );
-			
+
 			if ( user.isAway() || me.isAway() )
 				msgTF.setEnabled( false );
 		}
-		
+
 		super.setVisible( visible );
 	}
-	
+
 	/**
 	 * Sends a message when the user presses the enter key.
 	 */
@@ -273,12 +293,12 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 				}
 			} );
 		}
-		
+
 		else if ( e.getSource() == closeMI )
 		{
 			setVisible( false );
 		}
-		
+
 		else if ( e.getSource() == clearMI )
 		{
 			chatTP.setText( "" );
@@ -340,7 +360,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	{
 		msgTF.setEnabled( false );
 	}
-	
+
 	@Override
 	public void updateNick()
 	{
