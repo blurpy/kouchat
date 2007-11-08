@@ -27,25 +27,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -54,7 +48,7 @@ import javax.swing.text.StyledDocument;
 import net.usikkert.kouchat.misc.ChatWindow;
 import net.usikkert.kouchat.misc.CommandHistory;
 
-public class MainPanel extends JPanel implements ActionListener, CaretListener, ChatWindow, KeyListener, MouseListener
+public class MainPanel extends JPanel implements ActionListener, CaretListener, ChatWindow, KeyListener
 {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = Logger.getLogger( MainPanel.class.getName() );
@@ -66,8 +60,6 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 	private JTextField msgTF;
 	private Mediator mediator;
 	private CommandHistory cmdHistory;
-	private JPopupMenu chatMenu, msgMenu;
-	private JMenuItem chatCopyMI, msgCopyMI, pasteMI, cutMI, selectAllMI, clearMI;
 
 	public MainPanel( SidePanel sideP )
 	{
@@ -76,7 +68,6 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		chatTP = new JTextPane();
 		chatTP.setEditable( false );
 		chatTP.setBorder( BorderFactory.createEmptyBorder( 4, 6, 4, 6 ) );
-		chatTP.addMouseListener( this );
 		chatSP = new JScrollPane( chatTP );
 		chatAttr = new SimpleAttributeSet();
 		chatDoc = chatTP.getStyledDocument();
@@ -85,51 +76,13 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		msgTF.addActionListener( this );
 		msgTF.addCaretListener( this );
 		msgTF.addKeyListener( this );
-		msgTF.addMouseListener( this );
 
 		add( chatSP, BorderLayout.CENTER );
 		add( sideP, BorderLayout.EAST );
 		add( msgTF, BorderLayout.SOUTH );
-		
-		chatCopyMI = new JMenuItem( new DefaultEditorKit.CopyAction() );
-		chatCopyMI.setText( "Copy" );
-		chatCopyMI.setMnemonic( 'C' );
-		chatCopyMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_C, KeyEvent.CTRL_MASK ) );
-		
-		msgCopyMI = new JMenuItem( new DefaultEditorKit.CopyAction() );
-		msgCopyMI.setText( "Copy" );
-		msgCopyMI.setMnemonic( 'C' );
-		msgCopyMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_C, KeyEvent.CTRL_MASK ) );
-		
-		cutMI = new JMenuItem( new DefaultEditorKit.CutAction() );
-		cutMI.setText( "Cut" );
-		cutMI.setMnemonic( 'U' );
-		cutMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_X, KeyEvent.CTRL_MASK ) );
-		
-		pasteMI = new JMenuItem( new DefaultEditorKit.PasteAction() );
-		pasteMI.setText( "Paste" );
-		pasteMI.setMnemonic( 'P' );
-		pasteMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_V, KeyEvent.CTRL_MASK ) );
-		
-		selectAllMI = new JMenuItem( "Select All" );
-		selectAllMI.addActionListener( this );
-		selectAllMI.setMnemonic( 'A' );
-		selectAllMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_A, KeyEvent.CTRL_MASK ) );
-		
-		clearMI = new JMenuItem( "Clear" );
-		clearMI.addActionListener( this );
-		clearMI.setMnemonic( 'L' );
-		
-		chatMenu = new JPopupMenu();
-		chatMenu.add( chatCopyMI );
-		chatMenu.add( selectAllMI );
-		
-		msgMenu = new JPopupMenu();
-		msgMenu.add( cutMI );
-		msgMenu.add( msgCopyMI );
-		msgMenu.add( pasteMI );
-		msgMenu.addSeparator();
-		msgMenu.add( clearMI );
+
+		new MsgPopup( msgTF );
+		new ChatPopup( chatTP );
 
 		setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
 
@@ -155,7 +108,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 			log.log( Level.SEVERE, e.getMessage(), e );
 		}
 	}
-	
+
 	public JTextPane getChatTP()
 	{
 		return chatTP;
@@ -170,7 +123,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 	{
 		return msgTF;
 	}
-	
+
 	public void caretUpdate( CaretEvent e )
 	{
 		SwingUtilities.invokeLater( new Runnable()
@@ -198,31 +151,6 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 				}
 			} );
 		}
-		
-		else if ( e.getSource() == selectAllMI )
-		{
-			SwingUtilities.invokeLater( new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					chatTP.requestFocus();
-					chatTP.selectAll();
-				}
-			} );
-		}
-		
-		else if ( e.getSource() == clearMI )
-		{
-			SwingUtilities.invokeLater( new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					msgTF.setText( "" );
-				}
-			} );
-		}
 	}
 
 	@Override
@@ -245,61 +173,5 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 					msgTF.setText( cmdHistory.goDown() );
 			}
 		} );
-	}
-
-	@Override
-	public void mouseClicked( MouseEvent e ) {}
-
-	@Override
-	public void mouseEntered( MouseEvent e ) {}
-
-	@Override
-	public void mouseExited( MouseEvent e ) {}
-
-	@Override
-	public void mousePressed( MouseEvent e ) {}
-
-	@Override
-	public void mouseReleased( MouseEvent e )
-	{
-		if ( e.getSource() == chatTP )
-		{
-			if ( chatMenu.isPopupTrigger( e ) )
-			{
-				if ( chatTP.getSelectedText() == null )
-					chatCopyMI.setEnabled( false );
-				else
-					chatCopyMI.setEnabled( true );
-				
-				chatMenu.show( chatTP, e.getX(), e.getY() );
-			}
-		}
-		
-		else if ( e.getSource() == msgTF )
-		{
-			if ( msgMenu.isPopupTrigger( e ) )
-			{
-				msgTF.requestFocus();
-				
-				if ( msgTF.getSelectedText() == null )
-				{
-					msgCopyMI.setEnabled( false );
-					cutMI.setEnabled( false );
-				}
-				
-				else
-				{
-					msgCopyMI.setEnabled( true );
-					cutMI.setEnabled( true );
-				}
-				
-				if ( msgTF.getText().length() > 0 )
-					clearMI.setEnabled( true );
-				else
-					clearMI.setEnabled( false );
-				
-				msgMenu.show( msgTF, e.getX(), e.getY() );
-			}
-		}
 	}
 }
