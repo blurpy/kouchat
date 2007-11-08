@@ -35,14 +35,14 @@ import java.util.logging.Logger;
 import javax.swing.TransferHandler;
 
 /**
- * This takes care of drag and drop of files in the nick list.
+ * This takes care of drag and drop of files to send.
  * When a file is dropped the mediator opens the file.
  * 
  * @author Christian Ihle
  */
-public class NickListTransferHandler extends TransferHandler
+public class FileTransferHandler extends TransferHandler
 {
-	private static final Logger log = Logger.getLogger( NickListTransferHandler.class.getName() );
+	private static final Logger log = Logger.getLogger( FileTransferHandler.class.getName() );
 	private static final long serialVersionUID = 1L;
 	
 	private Mediator mediator;

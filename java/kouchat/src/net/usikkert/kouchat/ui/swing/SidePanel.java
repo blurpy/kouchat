@@ -54,19 +54,19 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 	private NickListModel nickDLM;
 	private Mediator mediator;
 	private NickDTO me;
-	private NickListTransferHandler nickListTH;
+	private FileTransferHandler fileTransferHandler;
 
 	public SidePanel( ButtonPanel buttonP )
 	{
 		setLayout( new BorderLayout( 2, 2 ) );
 
-		nickListTH = new NickListTransferHandler();
+		fileTransferHandler = new FileTransferHandler();
 		nickDLM = new NickListModel();
 		nickL = new JList( nickDLM );
 		nickL.setCellRenderer( new CellRenderer() );
 		nickL.setFixedCellWidth( 110 );
 		nickL.addMouseListener( this );
-		nickL.setTransferHandler( nickListTH );
+		nickL.setTransferHandler( fileTransferHandler );
 		nickSP = new JScrollPane( nickL );
 
 		add( nickSP, BorderLayout.CENTER );
@@ -92,7 +92,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 	public void setMediator( Mediator mediator )
 	{
 		this.mediator = mediator;
-		nickListTH.setMediator( mediator );
+		fileTransferHandler.setMediator( mediator );
 	}
 
 	public void setNickList( NickList nickList )
