@@ -21,28 +21,19 @@
 
 package net.usikkert.kouchat.ui.swing;
 
-import java.io.File;
-
 import net.usikkert.kouchat.misc.NickDTO;
-import net.usikkert.kouchat.misc.PrivateChatWindow;
 
-public interface Mediator
+/**
+ * Used to find out which user a file was dragged and dropped on.
+ * 
+ * @author Christian Ihle
+ */
+public interface FileDropSource
 {
-	public void minimize();
-	public void clearChat();
-	public void setAway();
-	public void setTopic();
-	public void start();
-	public void quit();
-	public void updateTitleAndTray();
-	public void showWindow();
-	public void showSettings();
-	public void sendFile( NickDTO user, File selectedFile );
-	public void write();
-	public void writePrivate( PrivateChatWindow privchat );
-	public void updateWriting();
-	public boolean changeNick( String nick );
-	public void transferCancelled( TransferDialog transferDialog );
-	public void showCommands();
-	public void showPrivChat( NickDTO user );
+	/**
+	 * Get the user.
+	 * 
+	 * @return The user.
+	 */
+	public NickDTO getUser();
 }

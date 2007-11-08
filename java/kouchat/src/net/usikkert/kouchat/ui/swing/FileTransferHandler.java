@@ -46,6 +46,17 @@ public class FileTransferHandler extends TransferHandler
 	private static final long serialVersionUID = 1L;
 	
 	private Mediator mediator;
+	private FileDropSource fileDropSource;
+	
+	/**
+	 * Constructor. Sets the file drop source.
+	 * 
+	 * @param fileDropSource The source to find which user the file was dropped on.
+	 */
+	public FileTransferHandler( FileDropSource fileDropSource )
+	{
+		this.fileDropSource = fileDropSource;
+	}
 	
 	/**
 	 * Sets the mediator to use for opening the dropped file.
@@ -95,7 +106,7 @@ public class FileTransferHandler extends TransferHandler
 					if ( url != null )
 					{
 						File file = new File( url.getFile() );
-						mediator.sendFile( file );
+						mediator.sendFile( fileDropSource.getUser(), file );
 						
 						return true;
 					}

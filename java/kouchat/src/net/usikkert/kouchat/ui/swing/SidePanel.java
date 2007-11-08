@@ -43,7 +43,7 @@ import net.usikkert.kouchat.misc.NickList;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Tools;
 
-public class SidePanel extends JPanel implements ActionListener, MouseListener
+public class SidePanel extends JPanel implements ActionListener, MouseListener, FileDropSource
 {
 	private static final long serialVersionUID = 1L;
 
@@ -60,7 +60,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 	{
 		setLayout( new BorderLayout( 2, 2 ) );
 
-		fileTransferHandler = new FileTransferHandler();
+		fileTransferHandler = new FileTransferHandler( this );
 		nickDLM = new NickListModel();
 		nickL = new JList( nickDLM );
 		nickL.setCellRenderer( new CellRenderer() );
@@ -100,7 +100,8 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 		nickDLM.setNickList( nickList );
 	}
 
-	public NickDTO getSelectedNick()
+	@Override
+	public NickDTO getUser()
 	{
 		return (NickDTO) nickL.getSelectedValue();
 	}
@@ -146,7 +147,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 				@Override
 				public void run()
 				{
-					mediator.sendFile( null );
+					mediator.sendFile( getUser(), null );
 				}
 			} );
 		}
@@ -245,7 +246,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener
 			{
 				NickDTO user = (NickDTO) nickDLM.getElementAt( nickL.getSelectedIndex() );
 				
-				if ( user != me )
+				if ( user != me && user.getPrivateChatPort() != 0 )
 					mediator.showPrivChat( user );
 			}
 		}

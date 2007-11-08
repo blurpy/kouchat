@@ -242,9 +242,9 @@ public class SwingMediator implements Mediator, UserInterface
 	}
 
 	@Override
-	public void sendFile( File selectedFile )
+	public void sendFile( NickDTO user, File selectedFile )
 	{
-		if ( me != sideP.getSelectedNick() )
+		if ( me != user )
 		{
 			JFileChooser chooser = new JFileChooser();
 			chooser.setDialogTitle( Constants.APP_NAME + " - Open" );
@@ -260,7 +260,6 @@ public class SwingMediator implements Mediator, UserInterface
 
 				if ( file.exists() && file.isFile() )
 				{
-					NickDTO user = sideP.getSelectedNick();
 					cmdParser.sendFile( user, file );
 				}
 			}

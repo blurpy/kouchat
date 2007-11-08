@@ -67,7 +67,7 @@ import net.usikkert.kouchat.misc.Settings;
  * 
  * @author Christian Ihle
  */
-public class PrivateChatFrame extends JFrame implements ActionListener, KeyListener, PrivateChatWindow
+public class PrivateChatFrame extends JFrame implements ActionListener, KeyListener, PrivateChatWindow, FileDropSource
 {
 	private static Logger log = Logger.getLogger( PrivateChatFrame.class.getName() );
 	private static final long serialVersionUID = 1L;
@@ -80,6 +80,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	private CommandHistory cmdHistory;
 	private Mediator mediator;
 	private NickDTO user, me;
+	private FileTransferHandler fileTransferHandler;
 
 	/**
 	 * Creates a new privchat frame. To open the window, use setVisible().
@@ -106,9 +107,13 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		setSize( 460, 340 );
 		updateNick();
 
+		fileTransferHandler = new FileTransferHandler( this );
+		fileTransferHandler.setMediator( mediator );
+		
 		chatTP = new JTextPane();
 		chatTP.setEditable( false );
 		chatTP.setBorder( BorderFactory.createEmptyBorder( 4, 6, 4, 6 ) );
+		chatTP.setTransferHandler( fileTransferHandler );
 		chatAttr = new SimpleAttributeSet();
 		chatDoc = chatTP.getStyledDocument();
 		JScrollPane chatScroll = new JScrollPane( chatTP );
