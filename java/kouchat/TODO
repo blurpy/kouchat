@@ -10,4 +10,3 @@
  - Privchat logging
  - Check repaint issue when out of focus
  - Check what happens with udp port if network goes down
- - Add right click menus and drag&drop support to privchat
