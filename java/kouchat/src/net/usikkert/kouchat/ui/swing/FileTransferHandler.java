@@ -84,7 +84,7 @@ public class FileTransferHandler extends TransferHandler
 
 		for ( int i = 0; i < flavors.length; i++ )
 		{
-			if ( flavors[i].getSubType().equals( "uri-list" ) )
+			if ( flavors[i].getSubType().equals( "uri-list" ) || flavors[i].equals( DataFlavor.javaFileListFlavor ) )
 				return true;
 		}
 
@@ -120,12 +120,12 @@ public class FileTransferHandler extends TransferHandler
 
 			catch ( UnsupportedFlavorException e )
 			{
-				log.log( Level.WARNING, e.getMessage() );
+				log.log( Level.WARNING, "UnsupportedFlavorException " + e.getMessage() );
 			}
 
 			catch ( IOException e )
 			{
-				log.log( Level.WARNING, e.getMessage() );
+				log.log( Level.WARNING, "IOException " + e.getMessage() );
 			}
 		}
 
