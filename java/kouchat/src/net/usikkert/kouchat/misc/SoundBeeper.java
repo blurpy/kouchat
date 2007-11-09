@@ -23,8 +23,10 @@ package net.usikkert.kouchat.misc;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import java.net.URL;
+import java.net.URLDecoder;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,6 +38,8 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+
+import net.usikkert.kouchat.Constants;
 
 /**
  * Can load a sound file, and play it.
@@ -119,7 +123,17 @@ public class SoundBeeper
 		URL url = getClass().getResource( "/" + fileName );
 		
 		if ( url != null )
-			soundFile = new File( url.getFile() );
+		{
+			try
+			{
+				soundFile = new File( URLDecoder.decode( url.getFile(), Constants.NETWORK_CHARSET ) );
+			}
+			
+			catch ( UnsupportedEncodingException e )
+			{
+				log.log( Level.SEVERE, "UnsupportedEncodingException: " + e.getMessage() );
+			}
+		}
 	}
 
 	/**
