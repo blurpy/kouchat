@@ -98,6 +98,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 	public void setNickList( NickList nickList )
 	{
 		nickDLM.setNickList( nickList );
+		nickL.repaint();
 	}
 
 	@Override
