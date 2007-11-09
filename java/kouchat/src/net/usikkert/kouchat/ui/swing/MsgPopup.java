@@ -100,7 +100,7 @@ public class MsgPopup extends JPopupMenu implements MouseListener, ActionListene
 	@Override
 	public void mouseReleased( MouseEvent e )
 	{
-		if ( isPopupTrigger( e ) )
+		if ( isPopupTrigger( e ) && msgTF.isEnabled() )
 		{
 			msgTF.requestFocusInWindow();
 
