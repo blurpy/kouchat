@@ -27,6 +27,7 @@ public interface Constants
 	public static final String APP_VERSION = "0.9.0-beta";
 	public static final String APP_LICENSE = "GNU GPLv2";
 	public static final String APP_LICENSE_FILE = "COPYING";
+	public static final String APP_ICON = "/icons/kou_normal.png";
 	public static final String AUTHOR_NAME = "Christian Ihle";
 	public static final String AUTHOR_MAIL = "kontakt@usikkert.net";
 	public static final String AUTHOR_WEB = "http://www.usikkert.net/";
