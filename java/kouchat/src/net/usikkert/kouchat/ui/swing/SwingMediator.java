@@ -27,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import net.usikkert.kouchat.Constants;
@@ -224,14 +225,15 @@ public class SwingMediator implements Mediator, UserInterface
 	public void showWindow()
 	{
 		if ( gui.isVisible() )
-		{
 			gui.setVisible( false );
-		}
 
 		else
 		{
+			if ( gui.getExtendedState() == JFrame.ICONIFIED )
+				gui.setExtendedState( JFrame.NORMAL );
+			
 			gui.setVisible( true );
-			gui.repaint();
+			gui.toFront();
 		}
 	}
 
