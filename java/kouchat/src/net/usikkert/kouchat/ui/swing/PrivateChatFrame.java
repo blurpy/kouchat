@@ -40,6 +40,7 @@ import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -108,6 +109,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 		setSize( 460, 340 );
 		updateNick();
+		setIconImage( new ImageIcon( getClass().getResource( Constants.APP_ICON ) ).getImage() );
 
 		fileTransferHandler = new FileTransferHandler( this );
 		fileTransferHandler.setMediator( mediator );

@@ -85,7 +85,7 @@ public class KouChatFrame extends JFrame
 		setJMenuBar( menuBar );
 		getContentPane().add( mainP, BorderLayout.CENTER );
 		setTitle( Constants.APP_NAME + " v" + Constants.APP_VERSION + " - (Not connected)" );
-		setIconImage( new ImageIcon( getClass().getResource( "/icons/kou_normal.png" ) ).getImage() );
+		setIconImage( new ImageIcon( getClass().getResource( Constants.APP_ICON ) ).getImage() );
 		setSize( 650, 480 );
 		setDefaultCloseOperation( JFrame.DO_NOTHING_ON_CLOSE );
 		setVisible( true );

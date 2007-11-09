@@ -82,9 +82,12 @@ public class MessageDialog extends JDialog
 		setTitle( Constants.APP_NAME + " - Missing title" );
 		setResizable( false );
 
+		ImageIcon icon = new ImageIcon( getClass().getResource( Constants.APP_ICON ) );
+		setIconImage( icon.getImage() );
+
 		appNameL = new JLabel();
 		appNameL.setFont( new Font( "Dialog", 0, 22 ) );
-		appNameL.setIcon( new ImageIcon( getClass().getResource( "/icons/kou_normal.png" ) ) );
+		appNameL.setIcon( icon );
 		appNameL.setText( " No top text" );
 		
 		JPanel northP = new JPanel();

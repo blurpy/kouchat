@@ -26,6 +26,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -82,6 +83,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 		setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE );
 		setTitle( Constants.APP_NAME + " - File transfer" );
 		setResizable( false );
+		setIconImage( new ImageIcon( getClass().getResource( Constants.APP_ICON ) ).getImage() );
 
 		GroupLayout layout = new GroupLayout( getContentPane() );
 		getContentPane().setLayout( layout );

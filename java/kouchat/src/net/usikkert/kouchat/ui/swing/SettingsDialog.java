@@ -119,7 +119,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 
 		pack();
 		setDefaultCloseOperation( JDialog.HIDE_ON_CLOSE );
-		setIconImage( new ImageIcon( getClass().getResource( "/icons/kou_normal.png" ) ).getImage() );
+		setIconImage( new ImageIcon( getClass().getResource( Constants.APP_ICON ) ).getImage() );
 		setTitle( Constants.APP_NAME + " - Settings" );
 		setResizable( false );
 		setModal( true );
