@@ -57,7 +57,13 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 		{
 			NickDTO user = controller.getNick( userCode );
 
-			if ( !user.isAway() )
+			if ( user.isAway() )
+				log.log( Level.WARNING, "Got message from " + user.getNick() + " which is away: " + msg );
+			
+			else if ( user.getPrivateChatPort() == 0 )
+				log.log( Level.WARNING, "Got message from " + user.getNick() + " which has no reply port: " + msg );
+			
+			else
 			{
 				uiMsg.showPrivateUserMessage( user, msg, color );
 				ui.notifyMessageArrived();
