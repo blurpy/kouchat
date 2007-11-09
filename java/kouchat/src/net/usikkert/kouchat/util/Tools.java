@@ -29,6 +29,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Tools
 {
@@ -88,12 +90,19 @@ public class Tools
 		return formatter.format( number );
 	}
 
+	/**
+	 * Nick is valid if it consists of between 1 and 10 characters
+	 * of type [a-Z], [0-9], '-' and '_'.
+	 */
 	public static boolean isValidNick( String nick )
 	{
-		if ( nick == null || nick.trim().equals( "" ) || nick.length() > 10 )
+		if ( nick == null )
 			return false;
-		else
-			return true;
+		
+		Pattern p = Pattern.compile( "[\\p{Alnum}[-_]]{1,10}" );
+		Matcher m = p.matcher( nick );
+		
+		return m.matches();
 	}
 
 	public static String byteToString( long bytes )
