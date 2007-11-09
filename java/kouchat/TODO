@@ -15,4 +15,5 @@
  - Fix Windows drag and drop
  - Check issue in Windows where nick list is blank on startup
  - Use kouchat icon in privchat (and others?)
+ - Deactivate drag and drop of files when away
  
