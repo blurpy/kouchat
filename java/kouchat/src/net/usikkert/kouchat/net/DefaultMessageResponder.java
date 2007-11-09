@@ -535,10 +535,16 @@ public class DefaultMessageResponder implements MessageResponder
 	public void clientInfo( int userCode, String client, long timeSinceLogon, String operatingSystem, int privateChatPort )
 	{
 		NickDTO user = controller.getNick( userCode );
+
+		if ( user != null )
+		{
+			user.setClient( client );
+			user.setLogonTime( System.currentTimeMillis() - timeSinceLogon );
+			user.setOperatingSystem( operatingSystem );
+			user.setPrivateChatPort( privateChatPort );
+		}
 		
-		user.setClient( client );
-		user.setLogonTime( System.currentTimeMillis() - timeSinceLogon );
-		user.setOperatingSystem( operatingSystem );
-		user.setPrivateChatPort( privateChatPort );
+		else
+			log.log( Level.SEVERE, "Could not find user: " + userCode );
 	}
 }
