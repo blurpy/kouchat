@@ -244,7 +244,13 @@ public class SwingMediator implements Mediator, UserInterface
 	@Override
 	public void sendFile( NickDTO user, File selectedFile )
 	{
-		if ( me != user )
+		if ( me == user )
+		{
+			JOptionPane.showMessageDialog( null, "No point in doing that!", Constants.APP_NAME
+					+ " - Warning", JOptionPane.WARNING_MESSAGE );
+		}
+		
+		else if ( user != null && !user.isAway() && !me.isAway() )
 		{
 			JFileChooser chooser = new JFileChooser();
 			chooser.setDialogTitle( Constants.APP_NAME + " - Open" );
@@ -263,12 +269,6 @@ public class SwingMediator implements Mediator, UserInterface
 					cmdParser.sendFile( user, file );
 				}
 			}
-		}
-
-		else
-		{
-			JOptionPane.showMessageDialog( null, "No point in doing that!", Constants.APP_NAME
-					+ " - Warning", JOptionPane.WARNING_MESSAGE );
 		}
 	}
 
