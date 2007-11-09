@@ -29,8 +29,10 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
 import java.io.IOException;
 
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,6 +54,7 @@ public class FileTransferHandler extends TransferHandler
 
 	private Mediator mediator;
 	private FileDropSource fileDropSource;
+	private DataFlavor uriListFlavor;
 
 	/**
 	 * Constructor. Sets the file drop source.
@@ -61,6 +64,16 @@ public class FileTransferHandler extends TransferHandler
 	public FileTransferHandler( FileDropSource fileDropSource )
 	{
 		this.fileDropSource = fileDropSource;
+		
+		try
+		{
+			uriListFlavor = new DataFlavor( "text/uri-list;class=java.lang.String" );
+		}
+		
+		catch ( ClassNotFoundException e )
+		{
+			log.log( Level.WARNING, "ClassNotFoundException " + e.getMessage() );
+		}
 	}
 
 	/**
@@ -74,26 +87,22 @@ public class FileTransferHandler extends TransferHandler
 	}
 
 	/**
-	 * Checks to see if the dropped data is a URI.
+	 * Checks to see if the dropped data is a URI list or a file list.
 	 * Returns false if the data is of any other type.
 	 */
 	@Override
 	public boolean canImport( TransferSupport support )
 	{
-		DataFlavor[] flavors = support.getDataFlavors();
-
-		for ( int i = 0; i < flavors.length; i++ )
-		{
-			if ( flavors[i].getSubType().equals( "uri-list" ) || flavors[i].equals( DataFlavor.javaFileListFlavor ) )
-				return true;
-		}
-
-		return false;
+		if ( support.isDataFlavorSupported( DataFlavor.javaFileListFlavor ) || support.isDataFlavorSupported( uriListFlavor ) )
+			return true;
+		else
+			return false;
 	}
 
 	/**
 	 * Double checks to see if the data is of the correct type,
 	 * and then tries to create a file object to send to the mediator.
+	 * Supports both Linux and Windows file lists.
 	 */
 	@Override
 	public boolean importData( TransferSupport support )
@@ -102,20 +111,63 @@ public class FileTransferHandler extends TransferHandler
 		{
 			try
 			{
-				Object data = support.getTransferable().getTransferData( DataFlavor.stringFlavor );
-
-				if ( data != null )
+				File file = null;
+				
+				if ( support.isDataFlavorSupported( DataFlavor.javaFileListFlavor ) )
 				{
-					URL url = new URL( data.toString() );
-
-					if ( url != null )
+					List<File> fileList = (List<File>) support.getTransferable().getTransferData( DataFlavor.javaFileListFlavor );
+					
+					if ( fileList.size() > 0 )
+						file = fileList.get( 0 );
+				}
+				
+				else if ( support.isDataFlavorSupported( uriListFlavor ) )
+				{
+					Object data = support.getTransferable().getTransferData( uriListFlavor );
+					
+					if ( data != null )
 					{
-						File file = new File( url.getFile() );
-						mediator.sendFile( fileDropSource.getUser(), file );
-
-						return true;
+						String[] uriList = data.toString().split( "\r\n" );
+						String fileURI = "";
+						
+						for ( int i = 0; i < uriList.length; i++ )
+						{
+							if ( uriList[i].startsWith( "file:/" ) )
+							{
+								fileURI = uriList[i];
+								break;
+							}
+						}
+						
+						try
+						{
+							URI uri = new URI( fileURI );
+							
+							if ( uri != null )
+								file = new File( uri );
+						}
+						
+						catch ( URISyntaxException e )
+						{
+							log.log( Level.WARNING, "URISyntaxException " + e.getMessage() );
+						}	
 					}
 				}
+				
+				else
+				{
+					log.log( Level.WARNING, "Data flavor not supported..." );
+				}
+				
+				if ( file != null )
+				{
+					System.err.println( file.getAbsolutePath() ); //TODO
+					mediator.sendFile( fileDropSource.getUser(), file );
+					return true;
+				}
+				
+				else
+					log.log( Level.WARNING, "No file dropped..." );
 			}
 
 			catch ( UnsupportedFlavorException e )
