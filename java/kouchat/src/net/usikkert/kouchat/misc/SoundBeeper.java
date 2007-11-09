@@ -91,14 +91,20 @@ public class SoundBeeper
 				else
 					soundClip.setFramePosition( 0 );
 				
-				soundClip.start();
-				closeTime = System.currentTimeMillis() + WAIT_PERIOD;
-				
-				if ( closeTimer == null )
+				if ( soundClip != null )
 				{
-					closeTimer = new Thread( new CloseTimer() );
-					closeTimer.start();
+					soundClip.start();
+					closeTime = System.currentTimeMillis() + WAIT_PERIOD;
+
+					if ( closeTimer == null )
+					{
+						closeTimer = new Thread( new CloseTimer() );
+						closeTimer.start();
+					}
 				}
+				
+				else
+					log.log( Level.SEVERE, "Sound clip missing..." );
 			}
 		}
 	}
