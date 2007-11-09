@@ -104,6 +104,7 @@ public class FileTransferHandler extends TransferHandler
 	 * and then tries to create a file object to send to the mediator.
 	 * Supports both Linux and Windows file lists.
 	 */
+	@SuppressWarnings( "unchecked" )
 	@Override
 	public boolean importData( TransferSupport support )
 	{
@@ -161,7 +162,6 @@ public class FileTransferHandler extends TransferHandler
 				
 				if ( file != null )
 				{
-					System.err.println( file.getAbsolutePath() ); //TODO
 					mediator.sendFile( fileDropSource.getUser(), file );
 					return true;
 				}
