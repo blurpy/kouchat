@@ -13,3 +13,5 @@
  - Add user timeout message to privchat, and deactivate chat
  - Add [a-Z][0-9] regex on nick 
  - Fix Windows drag and drop
+ - Check issue in Windows where nick list is blank on startup
+ 
