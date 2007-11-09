@@ -1,7 +1,7 @@
 
 - KouChat ChangeLog
 
-* version 0.7.0 (xx.xx.2007):
+* version 0.9.0 (xx.xx.2007):
   - Improved usability of settings dialog
   - Made application startup more reliable
   - Moved all system messages into one class
@@ -16,6 +16,10 @@
   - Added support for running when systray is missing
   - Improved error information to the user
   - Added private chat support
+  - Added drag and drop support for sending files
+  - Added right click menus to chat area and write area
+  - Fixed lots of focus issues
+  - New About box
 
 
 * version 0.6.1 (22.09.2007):
