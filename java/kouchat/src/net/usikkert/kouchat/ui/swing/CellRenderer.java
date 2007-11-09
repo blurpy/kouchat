@@ -117,7 +117,7 @@ public class CellRenderer extends JLabel implements ListCellRenderer
 		setEnabled( list.isEnabled() );
 		setOpaque( true );
 		
-		setBorder( BorderFactory.createEmptyBorder( 2, 6, 2, 6 ) );
+		setBorder( BorderFactory.createEmptyBorder( 2, 4, 2, 4 ) );
 
 		return this;
 	}
