@@ -663,6 +663,16 @@ public class UIMessages
 	}
 
 	/**
+	 * Shows "user timed out..."
+	 * 
+	 * @param user The user that timed out
+	 */
+	public void showPrivateUserTimedOut( NickDTO user )
+	{
+		msgController.showPrivateSystemMessage( user, user.getNick() + " timed out..." );
+	}
+
+	/**
 	 * Shows "oldNick changed nick to newNick"
 	 * 
 	 * @param oldNick The old nick

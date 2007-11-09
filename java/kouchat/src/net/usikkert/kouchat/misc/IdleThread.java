@@ -108,6 +108,12 @@ public class IdleThread extends Thread
 		}
 
 		ui.getUIMessages().showUserTimedOut( user.getNick() );
+		
+		if ( user.getPrivchat() != null )
+		{
+			user.getPrivchat().setLoggedOff();
+			ui.getUIMessages().showPrivateUserTimedOut( user );
+		}
 	}
 
 	public void stopThread()
