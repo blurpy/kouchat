@@ -162,6 +162,8 @@ public class KouChatFrame extends JFrame
 			@Override
 			public void windowActivated( WindowEvent e )
 			{
+				mainP.getChatTP().repaint();
+
 				// Focus the textfield when the window is shown.
 				mainP.getMsgTF().requestFocusInWindow();
 			}

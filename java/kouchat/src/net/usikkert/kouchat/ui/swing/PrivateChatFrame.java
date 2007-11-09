@@ -218,6 +218,8 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 			@Override
 			public void windowActivated( WindowEvent e )
 			{
+				chatTP.repaint();
+
 				// Focus the textfield when the window is shown.
 				if ( msgTF.isEnabled() )
 					msgTF.requestFocusInWindow();
