@@ -1,10 +1,10 @@
 
-- KouChat v0.9.0
+- KouChat v0.9.0 README
 
-A simple chat program for local networks, without the need for a server.
+KouChat is a simple chat program for local networks, without the need for a server.
 
 This program is written in Java, so if you don't have Java installed,
-go to http://java.sun.com/ and download Java SE 6.0.
+go to http://java.sun.com/ and download Java SE 6.0 or newer.
 
 You only need the JRE to run KouChat.
 To compile the source, you need the full JDK.
@@ -14,6 +14,8 @@ If you downloaded the src package, see INSTALL.
 To run: 'java -jar KouChat.jar'
 
 Enjoy :)
+
+
 
 Copyright 2006-2007 Christian Ihle
 kontakt@usikkert.net

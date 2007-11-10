@@ -1,5 +1,7 @@
 
-* TODO 1.0.0:
+- KouChat v0.9.0 TODO
+
+* Release v1.0.0:
  - Javadoc
  - JUnit
  - Add command for:
@@ -8,7 +10,3 @@
  - Auto completion for nick, command and files?
  - Privchat encryption?
  - Use UTF-8 messages?
-
-* TODO 0.9.0:
- - Update docs
- - Make sure logging works from jar file
