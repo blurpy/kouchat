@@ -10,7 +10,7 @@ To run the program:
 java net.usikkert.kouchat.KouChat
 
 To make a jar file;
-jar cvmf ../manifest.txt KouChat.jar net/usikkert/kouchat/*.class net/usikkert/kouchat/*/*.class net/usikkert/kouchat/*/*/*.class icons/kou_* error.wav -C .. README -C .. COPYING
+jar cvmf ../manifest.txt KouChat.jar net/usikkert/kouchat/*.class net/usikkert/kouchat/*/*.class net/usikkert/kouchat/*/*/*.class icons/*.png error.wav -C .. README -C .. COPYING
 
 To run the jar file:
 java -jar KouChat.jar
