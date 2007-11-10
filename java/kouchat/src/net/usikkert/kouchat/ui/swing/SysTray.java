@@ -34,6 +34,8 @@ import java.awt.event.MouseListener;
 
 import java.net.URL;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,15 +46,20 @@ import net.usikkert.kouchat.misc.ErrorHandler;
 
 public class SysTray implements ActionListener, MouseListener
 {
-	private static Logger log = Logger.getLogger( SysTray.class.getName() );
+	private static final Logger log = Logger.getLogger( SysTray.class.getName() );
+	private static final String IMG_KOU_NORMAL = "/icons/kou_normal.png";
+	private static final String IMG_KOU_NORMAL_ACT = "/icons/kou_normal_activity.png";
+	private static final String IMG_KOU_AWAY = "/icons/kou_away.png";
+	private static final String IMG_KOU_AWAY_ACT = "/icons/kou_away_activity.png";
 
 	private SystemTray sysTray;
 	private TrayIcon trayIcon;
-	private Image cow_icon_normal, cow_icon_normal_activity, cow_icon_away, cow_icon_away_activity;
+	private Image kou_icon_normal, kou_icon_normal_activity, kou_icon_away, kou_icon_away_activity;
 	private PopupMenu menu;
 	private MenuItem quitMI;
 	private Mediator mediator;
 	private ErrorHandler errorHandler;
+	private boolean systemTraySupported;
 
 	public SysTray()
 	{
@@ -60,23 +67,46 @@ public class SysTray implements ActionListener, MouseListener
 
 		if ( SystemTray.isSupported() )
 		{
-			URL cow_norm = getClass().getResource( "/icons/kou_normal.png" );
-			URL cow_norm_act = getClass().getResource( "/icons/kou_normal_activity.png" );
-			URL cow_away = getClass().getResource( "/icons/kou_away.png" );
-			URL cow_away_act = getClass().getResource( "/icons/kou_away_activity.png" );
+			URL kou_norm = getClass().getResource( IMG_KOU_NORMAL );
+			URL kou_norm_act = getClass().getResource( IMG_KOU_NORMAL_ACT );
+			URL kou_away = getClass().getResource( IMG_KOU_AWAY );
+			URL kou_away_act = getClass().getResource( IMG_KOU_AWAY_ACT );
 
-			if ( cow_norm == null || cow_norm_act == null || cow_away == null || cow_away_act == null )
+			if ( kou_norm == null || kou_norm_act == null || kou_away == null || kou_away_act == null )
 			{
-				String error = "Missing images in icons folder. Quitting...";
+				List<String> missingList = new ArrayList<String>();
+				
+				if ( kou_norm == null )
+					missingList.add( IMG_KOU_NORMAL );
+				if ( kou_norm_act == null )
+					missingList.add( IMG_KOU_NORMAL_ACT );
+				if ( kou_away == null )
+					missingList.add( IMG_KOU_AWAY );
+				if ( kou_away_act == null )
+					missingList.add( IMG_KOU_AWAY_ACT );
+				
+				String missing = "";
+				
+				for ( int i = 0; i < missingList.size(); i++ )
+				{
+					missing += missingList.get( i );
+					
+					if ( i < missingList.size() -1 )
+						missing += "\n";
+				}
+				
+				String error = "These images were expected, but not found:\n\n" + missing + "\n\n"
+						+ Constants.APP_NAME + " will now shutdown and quit...";
+				
 				log.log( Level.SEVERE, error );
-				errorHandler.showExitError( error );
+				errorHandler.showCriticalError( error );
 				System.exit( 1 );
 			}
 
-			cow_icon_normal = new ImageIcon( cow_norm ).getImage();
-			cow_icon_normal_activity = new ImageIcon( cow_norm_act ).getImage();
-			cow_icon_away = new ImageIcon( cow_away ).getImage();
-			cow_icon_away_activity = new ImageIcon( cow_away_act ).getImage();
+			kou_icon_normal = new ImageIcon( kou_norm ).getImage();
+			kou_icon_normal_activity = new ImageIcon( kou_norm_act ).getImage();
+			kou_icon_away = new ImageIcon( kou_away ).getImage();
+			kou_icon_away_activity = new ImageIcon( kou_away_act ).getImage();
 
 			menu = new PopupMenu();
 			quitMI = new MenuItem( "Quit" );
@@ -84,7 +114,7 @@ public class SysTray implements ActionListener, MouseListener
 			menu.add( quitMI );
 
 			sysTray = SystemTray.getSystemTray();
-			trayIcon = new TrayIcon( cow_icon_normal, "", menu );
+			trayIcon = new TrayIcon( kou_icon_normal, "", menu );
 			trayIcon.setImageAutoSize( true );
 			trayIcon.addMouseListener( this );
 			trayIcon.setToolTip( Constants.APP_NAME + " v" + Constants.APP_VERSION + " - (Not connected)" );
@@ -92,18 +122,21 @@ public class SysTray implements ActionListener, MouseListener
 			try
 			{
 				sysTray.add( trayIcon );
+				systemTraySupported = true;
 			}
 
 			catch ( AWTException e )
 			{
-				log.log( Level.SEVERE, e.getMessage(), e );
-				errorHandler.showError( e.getMessage() );
+				// This happens if the System Tray is hidden on a system
+				// that actually supports a System Tray.
+				log.log( Level.SEVERE, e.toString() );
+				errorHandler.showError( "System Tray is not visible. Deactivating System Tray support..." );
 			}
 		}
 
 		else
 		{
-			String error = "System Tray not supported! Deactivating...";
+			String error = "System Tray is not supported. Deactivating System Tray support...";
 			log.log( Level.SEVERE, error );
 			errorHandler.showError( error );
 		}
@@ -111,7 +144,7 @@ public class SysTray implements ActionListener, MouseListener
 
 	public boolean isSystemTraySupport()
 	{
-		return SystemTray.isSupported();
+		return systemTraySupported;
 	}
 
 	public void setMediator( Mediator mediator )
@@ -123,8 +156,8 @@ public class SysTray implements ActionListener, MouseListener
 	{
 		if ( trayIcon != null )
 		{
-			if ( trayIcon.getImage() != cow_icon_away )
-				trayIcon.setImage( cow_icon_away );
+			if ( trayIcon.getImage() != kou_icon_away )
+				trayIcon.setImage( kou_icon_away );
 		}
 	}
 
@@ -132,8 +165,8 @@ public class SysTray implements ActionListener, MouseListener
 	{
 		if ( trayIcon != null )
 		{
-			if ( trayIcon.getImage() != cow_icon_away_activity )
-				trayIcon.setImage( cow_icon_away_activity );
+			if ( trayIcon.getImage() != kou_icon_away_activity )
+				trayIcon.setImage( kou_icon_away_activity );
 		}
 	}
 
@@ -141,8 +174,8 @@ public class SysTray implements ActionListener, MouseListener
 	{
 		if ( trayIcon != null )
 		{
-			if ( trayIcon.getImage() != cow_icon_normal )
-				trayIcon.setImage( cow_icon_normal );
+			if ( trayIcon.getImage() != kou_icon_normal )
+				trayIcon.setImage( kou_icon_normal );
 		}
 	}
 
@@ -150,8 +183,8 @@ public class SysTray implements ActionListener, MouseListener
 	{
 		if ( trayIcon != null )
 		{
-			if ( trayIcon.getImage() != cow_icon_normal_activity )
-				trayIcon.setImage( cow_icon_normal_activity );
+			if ( trayIcon.getImage() != kou_icon_normal_activity )
+				trayIcon.setImage( kou_icon_normal_activity );
 		}
 	}
 
@@ -175,11 +208,11 @@ public class SysTray implements ActionListener, MouseListener
 	{
 		if ( e.getSource() == trayIcon && e.getButton() == MouseEvent.BUTTON1 )
 		{
-			if ( trayIcon.getImage() == cow_icon_normal_activity )
-				trayIcon.setImage( cow_icon_normal );
+			if ( trayIcon.getImage() == kou_icon_normal_activity )
+				trayIcon.setImage( kou_icon_normal );
 
-			else if ( trayIcon.getImage() == cow_icon_away_activity )
-				trayIcon.setImage( cow_icon_away );
+			else if ( trayIcon.getImage() == kou_icon_away_activity )
+				trayIcon.setImage( kou_icon_away );
 
 			mediator.showWindow();
 		}
