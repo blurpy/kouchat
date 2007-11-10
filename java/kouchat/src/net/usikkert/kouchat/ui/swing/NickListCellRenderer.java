@@ -39,14 +39,14 @@ import javax.swing.ListCellRenderer;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.NickDTO;
 
-public class CellRenderer extends JLabel implements ListCellRenderer
+public class NickListCellRenderer extends JLabel implements ListCellRenderer
 {
 	private static final long serialVersionUID = 1L;
-	private static Logger log = Logger.getLogger( CellRenderer.class.getName() );
+	private static Logger log = Logger.getLogger( NickListCellRenderer.class.getName() );
 	
 	private ImageIcon envelope, dot;
 	
-	public CellRenderer()
+	public NickListCellRenderer()
 	{
 		ErrorHandler errorHandler = ErrorHandler.getErrorHandler();
 		

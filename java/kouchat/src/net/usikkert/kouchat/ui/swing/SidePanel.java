@@ -63,7 +63,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 		fileTransferHandler = new FileTransferHandler( this );
 		nickDLM = new NickListModel();
 		nickL = new JList( nickDLM );
-		nickL.setCellRenderer( new CellRenderer() );
+		nickL.setCellRenderer( new NickListCellRenderer() );
 		nickL.setFixedCellWidth( 110 );
 		nickL.addMouseListener( this );
 		nickL.setTransferHandler( fileTransferHandler );
