@@ -56,6 +56,9 @@ public class IdleThread extends Thread
 
 	public void run()
 	{
+		// In case of any error messages during startup
+		me.setLastIdle( System.currentTimeMillis() );
+
 		while ( run )
 		{
 			try
