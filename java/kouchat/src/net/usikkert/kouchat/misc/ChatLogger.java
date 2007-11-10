@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.SettingsListener;
 import net.usikkert.kouchat.util.Tools;
 
@@ -43,7 +44,7 @@ public class ChatLogger implements SettingsListener
 	/**
 	 * The folder where log files are saved.
 	 */
-	private static final String LOG_FOLDER = "log";
+	private static final String LOG_FOLDER = Constants.APP_FOLDER + "logs";
 
 	/**
 	 * The name of the log file. Uses date, time, and milliseconds to make sure
@@ -95,7 +96,7 @@ public class ChatLogger implements SettingsListener
 			File logdir = new File( LOG_FOLDER );
 
 			if ( !logdir.exists() )
-				logdir.mkdir();
+				logdir.mkdirs();
 
 			writer = new BufferedWriter( new FileWriter( LOG_FOLDER + File.separator + LOG_FILE ) );
 			open = true;
