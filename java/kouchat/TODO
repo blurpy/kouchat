@@ -10,5 +10,5 @@
  - Use UTF-8 messages?
 
 * TODO 0.9.0:
- - Create a new "pop" sound
- - Check what happens with udp port if network goes down
+ - Update docs
+ - Make sure logging works from jar file
