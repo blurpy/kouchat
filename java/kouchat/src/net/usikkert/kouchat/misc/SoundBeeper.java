@@ -21,13 +21,7 @@
 
 package net.usikkert.kouchat.misc;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
-import java.net.URL;
-import java.net.URLDecoder;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,8 +33,6 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
-import net.usikkert.kouchat.Constants;
 
 /**
  * Can load an audio file, and play it.
@@ -63,7 +55,7 @@ public class SoundBeeper
 	private static final int WAIT_PERIOD = 5000;
 
 	private Clip audioClip;
-	private File audioFile;
+	//private File audioFile;
 	private Settings settings;
 	private ErrorHandler errorHandler;
 	private Thread closeTimer;
@@ -112,34 +104,37 @@ public class SoundBeeper
 		}
 	}
 	
-	/**
-	 * Loads an audio file.
-	 */
-	public void loadAudioFile()
-	{
-		URL url = getClass().getResource( BEEP_FILE );
-		
-		if ( url != null )
-		{
-			try
-			{
-				audioFile = new File( URLDecoder.decode( url.getFile(), Constants.NETWORK_CHARSET ) );
-			}
-			
-			catch ( UnsupportedEncodingException e )
-			{
-				log.log( Level.SEVERE, "UnsupportedEncodingException: " + e.getMessage() );
-			}
-		}
-		
-		if ( audioFile == null || !audioFile.exists() )
-		{
-			log.log( Level.SEVERE, "Audio file not found: " + BEEP_FILE );
-			settings.setSound( false );
-			errorHandler.showError( "Could not initialize the sound..." +
-					"\nAudio file not found: " + BEEP_FILE );
-		}
-	}
+//	/**
+//	 * Loads an audio file.
+//	 */
+//	public void loadAudioFile()
+//	{
+//		URL url = getClass().getResource( BEEP_FILE );
+//		System.out.println( "url: " + url );
+//		
+//		if ( url != null )
+//		{
+//			try
+//			{
+//				audioFile = new File( URLDecoder.decode( url.getFile(), Constants.NETWORK_CHARSET ) );
+//			}
+//			
+//			catch ( UnsupportedEncodingException e )
+//			{
+//				log.log( Level.SEVERE, "UnsupportedEncodingException: " + e.getMessage() );
+//			}
+//		}
+//		
+//		System.out.println( "file: " + audioFile.getAbsolutePath() );
+//		
+//		if ( audioFile == null || !audioFile.exists() )
+//		{
+//			log.log( Level.SEVERE, "Audio file not found: " + BEEP_FILE );
+//			settings.setSound( false );
+//			errorHandler.showError( "Could not initialize the sound..." +
+//					"\nAudio file not found: " + BEEP_FILE );
+//		}
+//	}
 
 	/**
 	 * Opens an audio file, and reserves the resources needed for playback.
@@ -148,14 +143,14 @@ public class SoundBeeper
 	{
 		AudioInputStream stream = null;
 
-		if ( audioFile == null )
-			loadAudioFile();
-		
-		if ( audioFile != null )
-		{
+//		if ( audioFile == null )
+//			loadAudioFile();
+//		
+//		if ( audioFile != null )
+//		{
 			try
 			{
-				stream = AudioSystem.getAudioInputStream( new FileInputStream( audioFile ) );
+				stream = AudioSystem.getAudioInputStream( getClass().getResourceAsStream( BEEP_FILE ) );
 				AudioFormat format = stream.getFormat();
 				DataLine.Info info = new DataLine.Info( Clip.class, format );
 
@@ -168,18 +163,18 @@ public class SoundBeeper
 
 			catch ( UnsupportedAudioFileException e )
 			{
-				log.log( Level.SEVERE, "UnsupportedAudioFileException: " + e.getMessage() );
+				log.log( Level.SEVERE, e.toString() );
 				settings.setSound( false );
 				errorHandler.showError( "Could not initialize the sound..." +
-						"\nUnsupported file format: " + audioFile.getName() );
+						"\nUnsupported file format: " + BEEP_FILE );
 			}
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, "IOException: " + e.getMessage() );
+				log.log( Level.SEVERE, e.toString() );
 				settings.setSound( false );
 				errorHandler.showError( "Could not initialize the sound..." +
-						"\nAudio file could not be opened: " + audioFile.getName() );
+						"\nAudio file could not be opened: " + BEEP_FILE );
 			}
 
 			catch ( LineUnavailableException e )
@@ -203,7 +198,7 @@ public class SoundBeeper
 				}
 			}
 		}
-	}
+//	}
 	
 	/**
 	 * Closes the audio file and frees the resources used.
