@@ -1,13 +1,14 @@
 
-* TODO:
+* TODO 1.0.0:
  - Javadoc
  - JUnit
- - Use UTF-8 messages
  - Add command for:
    - Receive file
    - Abort file transfer
- - Create a new "pop" sound
- - Check what happens with udp port if network goes down
-
  - Auto completion for nick, command and files?
  - Privchat encryption?
+ - Use UTF-8 messages?
+
+* TODO 0.9.0:
+ - Create a new "pop" sound
+ - Check what happens with udp port if network goes down
