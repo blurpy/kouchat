@@ -181,8 +181,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 			}
 		} );
 
-		// Ugly hack to make sure the menubar gets focus when navigating
-		// with the keyboard. This is because of the focus hack above.
+		// Make sure the menubar gets focus when navigating with the keyboard.
 		getRootPane().addFocusListener( new FocusListener()
 		{
 			@Override

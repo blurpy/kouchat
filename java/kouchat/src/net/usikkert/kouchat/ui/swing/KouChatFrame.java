@@ -110,8 +110,7 @@ public class KouChatFrame extends JFrame
 			}
 		} );
 
-		// Ugly hack to make sure the menubar gets focus when navigating
-		// with the keyboard. This is because of the focus hack above.
+		// Make sure the menubar gets focus when navigating with the keyboard.
 		getRootPane().addFocusListener( new FocusListener()
 		{
 			@Override
