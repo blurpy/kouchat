@@ -7,5 +7,7 @@
    - Receive file
    - Abort file transfer
  - Create a new "pop" sound
- - Privchat logging
  - Check what happens with udp port if network goes down
+
+ - Auto completion for nick, command and files?
+ - Privchat encryption?
