@@ -22,6 +22,7 @@
 package net.usikkert.kouchat.misc;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
@@ -154,7 +155,7 @@ public class SoundBeeper
 		{
 			try
 			{
-				stream = AudioSystem.getAudioInputStream( audioFile );
+				stream = AudioSystem.getAudioInputStream( new FileInputStream( audioFile ) );
 				AudioFormat format = stream.getFormat();
 				DataLine.Info info = new DataLine.Info( Clip.class, format );
 
