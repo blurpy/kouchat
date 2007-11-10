@@ -22,6 +22,7 @@
 package net.usikkert.kouchat.misc;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,7 +56,6 @@ public class SoundBeeper
 	private static final int WAIT_PERIOD = 5000;
 
 	private Clip audioClip;
-	//private File audioFile;
 	private Settings settings;
 	private ErrorHandler errorHandler;
 	private Thread closeTimer;
@@ -103,61 +103,28 @@ public class SoundBeeper
 			}
 		}
 	}
-	
-//	/**
-//	 * Loads an audio file.
-//	 */
-//	public void loadAudioFile()
-//	{
-//		URL url = getClass().getResource( BEEP_FILE );
-//		System.out.println( "url: " + url );
-//		
-//		if ( url != null )
-//		{
-//			try
-//			{
-//				audioFile = new File( URLDecoder.decode( url.getFile(), Constants.NETWORK_CHARSET ) );
-//			}
-//			
-//			catch ( UnsupportedEncodingException e )
-//			{
-//				log.log( Level.SEVERE, "UnsupportedEncodingException: " + e.getMessage() );
-//			}
-//		}
-//		
-//		System.out.println( "file: " + audioFile.getAbsolutePath() );
-//		
-//		if ( audioFile == null || !audioFile.exists() )
-//		{
-//			log.log( Level.SEVERE, "Audio file not found: " + BEEP_FILE );
-//			settings.setSound( false );
-//			errorHandler.showError( "Could not initialize the sound..." +
-//					"\nAudio file not found: " + BEEP_FILE );
-//		}
-//	}
 
 	/**
 	 * Opens an audio file, and reserves the resources needed for playback.
 	 */
 	public void open()
 	{
-		AudioInputStream stream = null;
+		InputStream resourceStream = getClass().getResourceAsStream( BEEP_FILE );
 
-//		if ( audioFile == null )
-//			loadAudioFile();
-//		
-//		if ( audioFile != null )
-//		{
+		if ( resourceStream != null )
+		{
+			AudioInputStream audioStream = null;
+			
 			try
 			{
-				stream = AudioSystem.getAudioInputStream( getClass().getResourceAsStream( BEEP_FILE ) );
-				AudioFormat format = stream.getFormat();
+				audioStream = AudioSystem.getAudioInputStream( resourceStream );
+				AudioFormat format = audioStream.getFormat();
 				DataLine.Info info = new DataLine.Info( Clip.class, format );
 
 				if ( AudioSystem.isLineSupported( info ) )
 				{
 					audioClip = (Clip) AudioSystem.getLine( info );
-					audioClip.open( stream );
+					audioClip.open( audioStream );
 				}
 			}
 
@@ -184,21 +151,42 @@ public class SoundBeeper
 
 			finally
 			{
-				if ( stream != null )
+				if ( resourceStream != null )
 				{
 					try
 					{
-						stream.close();
+						resourceStream.close();
 					}
 
 					catch ( IOException e )
 					{
-						log.log( Level.WARNING, e.getMessage() );
+						log.log( Level.WARNING, e.toString() );
+					}
+				}
+				
+				if ( audioStream != null )
+				{
+					try
+					{
+						audioStream.close();
+					}
+
+					catch ( IOException e )
+					{
+						log.log( Level.WARNING, e.toString() );
 					}
 				}
 			}
 		}
-//	}
+		
+		else
+		{
+			log.log( Level.SEVERE, "Audio file not found: " + BEEP_FILE );
+			settings.setSound( false );
+			errorHandler.showError( "Could not initialize the sound..." +
+					"\nAudio file not found: " + BEEP_FILE );
+		}
+	}
 	
 	/**
 	 * Closes the audio file and frees the resources used.
@@ -232,7 +220,7 @@ public class SoundBeeper
 				
 				catch ( InterruptedException e )
 				{
-					log.log( Level.WARNING, e.getMessage() );
+					log.log( Level.WARNING, e.toString() );
 				}
 			}
 			
