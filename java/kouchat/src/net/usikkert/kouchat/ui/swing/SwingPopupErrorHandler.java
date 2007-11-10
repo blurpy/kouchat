@@ -22,7 +22,6 @@
 package net.usikkert.kouchat.ui.swing;
 
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.ErrorListener;
@@ -46,31 +45,22 @@ public class SwingPopupErrorHandler implements ErrorListener
 	}
 	
 	/**
-	 * Shows the error message in a JOptionPane message box.
-	 * The message box will not block.
+	 * Shows an error message in a JOptionPane message box.
 	 */
 	@Override
 	public void errorReported( final String errorMsg )
 	{
-		SwingUtilities.invokeLater( new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				JOptionPane.showMessageDialog( null, errorMsg, 
-						Constants.APP_NAME + " - Error", JOptionPane.ERROR_MESSAGE );
-			}
-		} );
+		JOptionPane.showMessageDialog( null, errorMsg,
+				Constants.APP_NAME + " - Error", JOptionPane.ERROR_MESSAGE );
 	}
 
 	/**
-	 * Shows the error message in a JOptionPane message box.
-	 * The message box will block.
+	 * Shows a critical error message in a JOptionPane message box.
 	 */
 	@Override
-	public void exitErrorReported( String errorMsg )
+	public void criticalErrorReported( String criticalErrorMsg )
 	{
-		JOptionPane.showMessageDialog( null, errorMsg, 
+		JOptionPane.showMessageDialog( null, criticalErrorMsg, 
 				Constants.APP_NAME + " - Critical Error", JOptionPane.ERROR_MESSAGE );
 	}
 }

@@ -40,7 +40,7 @@ public interface ErrorListener
 	/**
 	 * This method is called when a critical error occurs.
 	 * 
-	 * @param errorMsg The message to show.
+	 * @param criticalErrorMsg The message to show.
 	 */
-	public void exitErrorReported( String errorMsg );
+	public void criticalErrorReported( String criticalErrorMsg );
 }
