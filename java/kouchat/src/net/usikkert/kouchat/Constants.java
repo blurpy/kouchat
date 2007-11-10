@@ -37,4 +37,6 @@ public interface Constants
 	public static final String NETWORK_IP = "224.168.5.200";
 	public static final String NETWORK_CHARSET = "ISO-8859-15";
 	public static final String PROPERTY_CLIENT_UI = "chat.client.ui";
+	public static final String APP_FOLDER = System.getProperty( "user.home" )
+			+ System.getProperty( "file.separator" ) + ".kouchat" + System.getProperty( "file.separator" );
 }

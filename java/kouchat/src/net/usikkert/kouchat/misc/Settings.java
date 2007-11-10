@@ -22,6 +22,7 @@
 package net.usikkert.kouchat.misc;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -39,14 +40,15 @@ import net.usikkert.kouchat.util.Tools;
 
 public class Settings
 {
-	private static Logger log = Logger.getLogger( Settings.class.getName() );
-	private static final String FILENAME = System.getProperty( "user.home" ) + System.getProperty( "file.separator" ) + ".kouchat.ini";
+	private static final Logger log = Logger.getLogger( Settings.class.getName() );
+	private static final String FILENAME = Constants.APP_FOLDER + "kouchat.ini";
 	private static final Settings settings = new Settings();
 
 	private NickDTO me;
 	private int ownColor, sysColor;
 	private boolean sound, logging, debug;
 	private List<SettingsListener> listeners;
+	private ErrorHandler errorHandler;
 
 	private Settings()
 	{
@@ -61,7 +63,7 @@ public class Settings
 				" " + System.getProperty( Constants.PROPERTY_CLIENT_UI ) );
 		
 		listeners = new ArrayList<SettingsListener>();
-
+		errorHandler = ErrorHandler.getErrorHandler();
 		loadSettings();
 	}
 
@@ -74,6 +76,11 @@ public class Settings
 	{
 		FileWriter fileWriter = null;
 		BufferedWriter buffWriter = null;
+		
+		File appFolder = new File( Constants.APP_FOLDER );
+		
+		if ( !appFolder.exists() )
+			appFolder.mkdir();
 
 		try
 		{
@@ -95,7 +102,8 @@ public class Settings
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString() );
+			errorHandler.showError( "Settings could not be saved:\n " + e );
 		}
 
 		finally
