@@ -36,13 +36,16 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
+import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.NickDTO;
 
 public class NickListCellRenderer extends JLabel implements ListCellRenderer
 {
 	private static final long serialVersionUID = 1L;
-	private static Logger log = Logger.getLogger( NickListCellRenderer.class.getName() );
+	private static final Logger log = Logger.getLogger( NickListCellRenderer.class.getName() );
+	private static final String IMG_ENVELOPE = "/icons/envelope.png";
+	private static final String IMG_DOT = "/icons/dot.png";
 	
 	private ImageIcon envelope, dot;
 	
@@ -50,14 +53,25 @@ public class NickListCellRenderer extends JLabel implements ListCellRenderer
 	{
 		ErrorHandler errorHandler = ErrorHandler.getErrorHandler();
 		
-		URL envelope_url = getClass().getResource( "/icons/envelope.png" );
-		URL dot_url = getClass().getResource( "/icons/dot.png" );
+		URL envelope_url = getClass().getResource( IMG_ENVELOPE );
+		URL dot_url = getClass().getResource( IMG_DOT );
 		
 		if ( envelope_url == null || dot_url == null )
 		{
-			String error = "Missing images in icons folder. Quitting...";
+			String missing = "";
+			
+			if ( envelope_url == null && dot_url == null )
+				missing = "* " + IMG_ENVELOPE + "\n* " + IMG_DOT;
+			else if ( envelope_url == null )
+				missing = "* " + IMG_ENVELOPE;
+			else if ( dot_url == null )
+				missing = "* " + IMG_DOT;
+			
+			String error = "These images were expected, but not found:\n\n" + missing + "\n\n"
+					+ Constants.APP_NAME + " will now shutdown and quit...";
+			
 			log.log( Level.SEVERE, error );
-			errorHandler.showExitError( error );
+			errorHandler.showCriticalError( error );
 			System.exit( 1 );
 		}
 		
