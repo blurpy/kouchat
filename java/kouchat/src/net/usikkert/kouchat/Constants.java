@@ -24,7 +24,7 @@ package net.usikkert.kouchat;
 public interface Constants
 {
 	public static final String APP_NAME = "KouChat";
-	public static final String APP_VERSION = "0.9.0-beta";
+	public static final String APP_VERSION = "0.9.0";
 	public static final String APP_LICENSE = "GNU GPLv2";
 	public static final String APP_LICENSE_FILE = "COPYING";
 	public static final String APP_ICON = "/icons/kou_normal.png";
