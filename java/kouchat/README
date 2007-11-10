@@ -1,5 +1,5 @@
 
-- KouChat v0.6.1
+- KouChat v0.9.0
 
 A simple chat program for local networks, without the need for a server.
 
@@ -13,14 +13,16 @@ If you downloaded the src package, see INSTALL.
 
 To run: 'java -jar KouChat.jar'
 
-A good advice: make a shortcut, batch file or shell script to start the program.
-In Windows, use 'javaw' instead of 'java' to avoid the DOS box that pops up.
-
 Enjoy :)
 
 Copyright 2006-2007 Christian Ihle
 kontakt@usikkert.net
 http://www.usikkert.net/
 
-Source available under the GNU GPLv2.
+Source and graphics available under the GNU GPLv2.
 See COPYING for details.
+
+error.wav is created by Nuno Povoa
+and is part of the Oxygen theme (http://www.oxygen-icons.org/),
+available under the GNU Lesser General Public License
+(http://www.gnu.org/licenses/lgpl.html).
