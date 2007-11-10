@@ -21,7 +21,7 @@
 
 package net.usikkert.kouchat.ui;
 
-import java.awt.HeadlessException;
+import java.awt.GraphicsEnvironment;
 
 import net.usikkert.kouchat.ui.console.KouChatConsole;
 import net.usikkert.kouchat.ui.swing.KouChatFrame;
@@ -42,8 +42,7 @@ public class UIFactory
 	 * Two choices are available at this moment: 'swing' and 'console'.
 	 * 
 	 * @throws UIException If a ui has already been loaded, or if an
-	 * unknown ui was requested, or if something went wrong while
-	 * loading the ui.
+	 * unknown ui type was requested, or if no graphical environment was detected.
 	 */
 	public void loadUI( String ui ) throws UIException
 	{
@@ -56,15 +55,16 @@ public class UIFactory
 		{
 			if ( ui.equals( "swing" ) )
 			{
-				try
+				if ( GraphicsEnvironment.isHeadless() )
+				{
+					throw new UIException( "The Swing User Interface could not be loaded" +
+							" because a graphical environment could not be detected... " );
+				}
+				
+				else
 				{
 					new KouChatFrame();
 					done = true;
-				}
-
-				catch ( HeadlessException e )
-				{
-					throw new UIException( "The Swing User Interface could not be loaded: " + e.getMessage() );
 				}
 			}
 
