@@ -108,7 +108,8 @@ public class UDPSender
 		catch ( IOException e )
 		{
 			log.log( Level.SEVERE, e.getMessage(), e );
-			errorHandler.showError( "Failed to initialize network:\n" + e );
+			errorHandler.showError( "Failed to initialize network:\n" + e +
+					"\n\nYou will not be able to send private messages!" );
 		}
 	}
 }

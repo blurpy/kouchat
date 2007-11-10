@@ -55,7 +55,9 @@ public class MessageSender
 		catch ( IOException e )
 		{
 			log.log( Level.SEVERE, e.getMessage(), e );
-			errorHandler.showError( "Failed to initialize network:\n" + e );
+			errorHandler.showCriticalError( "Failed to initialize the network:\n" + e + "\n" +
+					Constants.APP_NAME + " will now shutdown and quit..." );
+			System.exit( 1 );
 		}
 	}
 

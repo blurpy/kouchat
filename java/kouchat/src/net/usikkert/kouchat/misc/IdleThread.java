@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.net.TransferList;
@@ -90,7 +91,9 @@ public class IdleThread extends Thread
 			{
 				log.log( Level.SEVERE, e.getMessage(), e );
 				run = false;
-				errorHandler.showError( "The idle thread failed:\n" + e );
+				errorHandler.showCriticalError( "The idle thread failed:\n" + e + "\n" +
+						Constants.APP_NAME + " will now shutdown and quit...");
+				System.exit( 1 );
 			}
 		}
 	}
