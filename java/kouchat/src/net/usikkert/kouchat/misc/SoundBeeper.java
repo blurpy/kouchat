@@ -53,7 +53,7 @@ public class SoundBeeper
 	/**
 	 * The file to play when beep() is run.
 	 */
-	private static final String BEEP_FILE = "/pop.wav";
+	private static final String BEEP_FILE = "/error.wav";
 	
 	/**
 	 * The number of milliseconds to wait after
@@ -69,14 +69,12 @@ public class SoundBeeper
 	private long closeTime;
 
 	/**
-	 * Default constructor. Loads an audio file into memory.
+	 * Default constructor.
 	 */
 	public SoundBeeper()
 	{
 		settings = Settings.getSettings();
 		errorHandler = ErrorHandler.getErrorHandler();
-		
-		loadAudioClip( BEEP_FILE );
 	}
 
 	/**
@@ -115,12 +113,10 @@ public class SoundBeeper
 	
 	/**
 	 * Loads an audio file.
-	 * 
-	 * @param fileName The name of the audio file to load.
 	 */
-	private void loadAudioClip( String fileName )
+	public void loadAudioFile()
 	{
-		URL url = getClass().getResource( fileName );
+		URL url = getClass().getResource( BEEP_FILE );
 		
 		if ( url != null )
 		{
@@ -137,10 +133,10 @@ public class SoundBeeper
 		
 		if ( audioFile == null || !audioFile.exists() )
 		{
-			log.log( Level.SEVERE, "Audio file not found: " + fileName );
+			log.log( Level.SEVERE, "Audio file not found: " + BEEP_FILE );
 			settings.setSound( false );
 			errorHandler.showError( "Could not initialize the sound..." +
-					"\nAudio file not found: " + fileName );
+					"\nAudio file not found: " + BEEP_FILE );
 		}
 	}
 
@@ -151,6 +147,9 @@ public class SoundBeeper
 	{
 		AudioInputStream stream = null;
 
+		if ( audioFile == null )
+			loadAudioFile();
+		
 		if ( audioFile != null )
 		{
 			try
@@ -203,9 +202,6 @@ public class SoundBeeper
 				}
 			}
 		}
-
-		else
-			settings.setSound( false );
 	}
 	
 	/**
