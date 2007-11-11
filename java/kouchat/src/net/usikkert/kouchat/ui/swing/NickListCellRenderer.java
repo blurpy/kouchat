@@ -83,46 +83,49 @@ public class NickListCellRenderer extends JLabel implements ListCellRenderer
 	{
 		NickDTO dto = (NickDTO) value;
 
-		if ( dto.isMe() )
+		if ( dto != null )
 		{
-			if ( dto.isAway() )
+			if ( dto.isMe() )
 			{
-				setFont( new Font( list.getFont().getName(), Font.BOLD, list.getFont().getSize() ) );
-				setForeground( Color.GRAY );
+				if ( dto.isAway() )
+				{
+					setFont( new Font( list.getFont().getName(), Font.BOLD, list.getFont().getSize() ) );
+					setForeground( Color.GRAY );
+				}
+
+				else
+				{
+					setFont( new Font( list.getFont().getName(), Font.BOLD, list.getFont().getSize() ) );
+					setForeground( Color.BLACK );
+				}
 			}
 
 			else
 			{
-				setFont( new Font( list.getFont().getName(), Font.BOLD, list.getFont().getSize() ) );
-				setForeground( Color.BLACK );
-			}
-		}
+				if ( dto.isAway() )
+				{
+					setFont( new Font( list.getFont().getName(), Font.PLAIN, list.getFont().getSize() ) );
+					setForeground( Color.GRAY );
+				}
 
-		else
-		{
-			if ( dto.isAway() )
-			{
-				setFont( new Font( list.getFont().getName(), Font.PLAIN, list.getFont().getSize() ) );
-				setForeground( Color.GRAY );
+				else
+				{
+					setFont( new Font( list.getFont().getName(), Font.PLAIN, list.getFont().getSize() ) );
+					setForeground( Color.BLACK );
+				}
 			}
 
+			if ( dto.isNewMsg() )
+				setIcon( envelope );
 			else
-			{
-				setFont( new Font( list.getFont().getName(), Font.PLAIN, list.getFont().getSize() ) );
-				setForeground( Color.BLACK );
-			}
+				setIcon( dot );
+
+			if ( dto.isWriting() )
+				setText( dto.getNick() + " *" );
+			else
+				setText( dto.getNick() );
 		}
 		
-		if ( dto.isNewMsg() )
-			setIcon( envelope );
-		else
-			setIcon( dot );
-
-		if ( dto.isWriting() )
-			setText( dto.getNick() + " *" );
-		else
-			setText( dto.getNick() );
-
 		if ( isSelected )
 			setBackground( list.getSelectionBackground() );
 		else

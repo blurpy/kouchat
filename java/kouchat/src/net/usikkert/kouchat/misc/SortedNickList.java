@@ -53,7 +53,10 @@ public class SortedNickList implements NickList
 
 	public NickDTO get( int pos )
 	{
-		return nickList.get( pos );
+		if ( pos < nickList.size() )
+			return nickList.get( pos );
+		else
+			return null;
 	}
 
 	public int indexOf( NickDTO nick )
