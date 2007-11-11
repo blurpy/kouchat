@@ -84,6 +84,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	private Mediator mediator;
 	private NickDTO user, me;
 	private FileTransferHandler fileTransferHandler;
+	private boolean newMsg;
 
 	/**
 	 * Creates a new privchat frame. To open the window, use setVisible().
@@ -237,24 +238,20 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	@Override
 	public void appendToPrivateChat( final String text, final int color )
 	{
-		SwingUtilities.invokeLater( new Runnable()
+		try
 		{
-			@Override
-			public void run()
-			{
-				try
-				{
-					StyleConstants.setForeground( chatAttr, new Color( color ) );
-					chatDoc.insertString( chatDoc.getLength(), text + "\n", chatAttr );
-					chatTP.setCaretPosition( chatDoc.getLength() );
-				}
+			StyleConstants.setForeground( chatAttr, new Color( color ) );
+			chatDoc.insertString( chatDoc.getLength(), text + "\n", chatAttr );
+			chatTP.setCaretPosition( chatDoc.getLength() );
+			
+			if ( !isVisible() )
+				newMsg = true;
+		}
 
-				catch ( BadLocationException e )
-				{
-					log.log( Level.SEVERE, e.getMessage(), e );
-				}
-			}
-		} );
+		catch ( BadLocationException e )
+		{
+			log.log( Level.SEVERE, e.getMessage(), e );
+		}
 	}
 
 	/**
@@ -277,6 +274,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		if ( visible )
 		{
 			setLocationRelativeTo( getParent() );
+			newMsg = false;
 
 			if ( user.isAway() || me.isAway() )
 				msgTF.setEnabled( false );
@@ -369,6 +367,18 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	public void setLoggedOff()
 	{
 		msgTF.setEnabled( false );
+
+		if ( !isVisible() && newMsg )
+		{
+			// Show the window so privmsgs don't get lost when a user logs off.
+			setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
+			setVisible( true );
+			setExtendedState( NORMAL );
+			toFront();
+		}
+		
+		// To stop the open dialog from showing if a file is dropped
+		user = null;
 	}
 
 	@Override
