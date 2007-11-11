@@ -196,6 +196,7 @@ public class Controller
 		messages.stop();
 		msgParser.stop();
 		privmsgParser.stop();
+		wList.setLoggedOn( false );
 	}
 
 	public void sendExposeMessage()
