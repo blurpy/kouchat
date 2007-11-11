@@ -84,6 +84,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 		setTitle( Constants.APP_NAME + " - File transfer" );
 		setResizable( false );
 		setIconImage( new ImageIcon( getClass().getResource( Constants.APP_ICON ) ).getImage() );
+		getRootPane().setDefaultButton( cancelB );
 
 		GroupLayout layout = new GroupLayout( getContentPane() );
 		getContentPane().setLayout( layout );
