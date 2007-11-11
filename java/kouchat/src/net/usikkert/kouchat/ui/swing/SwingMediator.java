@@ -88,8 +88,6 @@ public class SwingMediator implements Mediator, UserInterface
 		
 		uiMsg = new UIMessages( new MessageController( mainP, this ) );
 		controller = new Controller( this );
-		
-		sideP.setNickList( controller.getNickList() );
 
 		tList = controller.getTransferList();
 		settings = Settings.getSettings();
@@ -183,6 +181,7 @@ public class SwingMediator implements Mediator, UserInterface
 	{
 		controller.logOn();
 		updateTitleAndTray();
+		sideP.setNickList( controller.getNickList() );
 	}
 
 	@Override
