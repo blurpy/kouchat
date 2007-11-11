@@ -235,19 +235,26 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	 * @param color The color that the text should have.
 	 */
 	@Override
-	public void appendToPrivateChat( String text, int color )
+	public void appendToPrivateChat( final String text, final int color )
 	{
-		try
+		SwingUtilities.invokeLater( new Runnable()
 		{
-			StyleConstants.setForeground( chatAttr, new Color( color ) );
-			chatDoc.insertString( chatDoc.getLength(), text + "\n", chatAttr );
-			chatTP.setCaretPosition( chatDoc.getLength() );
-		}
+			@Override
+			public void run()
+			{
+				try
+				{
+					StyleConstants.setForeground( chatAttr, new Color( color ) );
+					chatDoc.insertString( chatDoc.getLength(), text + "\n", chatAttr );
+					chatTP.setCaretPosition( chatDoc.getLength() );
+				}
 
-		catch ( BadLocationException e )
-		{
-			log.log( Level.SEVERE, e.getMessage(), e );
-		}
+				catch ( BadLocationException e )
+				{
+					log.log( Level.SEVERE, e.getMessage(), e );
+				}
+			}
+		} );
 	}
 
 	/**

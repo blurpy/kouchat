@@ -94,19 +94,26 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		this.mediator = mediator;
 	}
 
-	public void appendToChat( String text, int color )
+	public void appendToChat( final String text, final int color )
 	{
-		try
+		SwingUtilities.invokeLater( new Runnable()
 		{
-			StyleConstants.setForeground( chatAttr, new Color( color ) );
-			chatDoc.insertString( chatDoc.getLength(), text + "\n", chatAttr );
-			chatTP.setCaretPosition( chatDoc.getLength() );
-		}
+			@Override
+			public void run()
+			{
+				try
+				{
+					StyleConstants.setForeground( chatAttr, new Color( color ) );
+					chatDoc.insertString( chatDoc.getLength(), text + "\n", chatAttr );
+					chatTP.setCaretPosition( chatDoc.getLength() );
+				}
 
-		catch ( BadLocationException e )
-		{
-			log.log( Level.SEVERE, e.getMessage(), e );
-		}
+				catch ( BadLocationException e )
+				{
+					log.log( Level.SEVERE, e.getMessage(), e );
+				}
+			}
+		} );
 	}
 
 	public JTextPane getChatTP()
