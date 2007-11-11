@@ -1,5 +1,12 @@
 
-- KouChat v0.9.0 ChangeLog
+- KouChat v0.9.1 ChangeLog
+
+* version 0.9.1 (11.11.2007):
+  - Fixed bug where it was possible to drop files in the privchat window of a logged out user
+  - If a user who has sent a privmsg logs off, the privchat window is shown
+  - Hopefully fixed issue where nicklist is empty after startup
+  - Made better dot and envelope icons
+
 
 * version 0.9.0 (10.11.2007):
   - Improved usability of settings dialog

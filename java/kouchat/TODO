@@ -1,9 +1,11 @@
 
-- KouChat v0.9.0 TODO
+- KouChat v0.9.1 TODO
 
 * Release v1.0.0:
  - Javadoc
+ - User guide
  - JUnit
+ - Create presentation on http://kouchat.googlecode.com/
  - Add command for:
    - Receive file
    - Abort file transfer
