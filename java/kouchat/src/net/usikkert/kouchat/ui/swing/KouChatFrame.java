@@ -24,6 +24,7 @@ package net.usikkert.kouchat.ui.swing;
 import net.usikkert.kouchat.Constants;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
@@ -87,6 +88,7 @@ public class KouChatFrame extends JFrame
 		setTitle( Constants.APP_NAME + " v" + Constants.APP_VERSION + " - (Not connected)" );
 		setIconImage( new ImageIcon( getClass().getResource( Constants.APP_ICON ) ).getImage() );
 		setSize( 650, 480 );
+		setMinimumSize( new Dimension( 450, 300 ) );
 		setDefaultCloseOperation( JFrame.DO_NOTHING_ON_CLOSE );
 		setVisible( true );
 
