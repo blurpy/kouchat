@@ -1,6 +1,11 @@
 
 - KouChat v0.9.1 ChangeLog
 
+* version 0.9.2 (xx.xx.2007):
+  - Added support for private chat in console mode
+  - Added minimum size
+
+
 * version 0.9.1 (11.11.2007):
   - Fixed bug where it was possible to drop files in the privchat window of a logged out user
   - If a user who has sent a privmsg logs off, the privchat window is shown
