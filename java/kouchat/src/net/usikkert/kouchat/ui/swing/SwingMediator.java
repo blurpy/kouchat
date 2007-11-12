@@ -562,7 +562,8 @@ public class SwingMediator implements Mediator, UserInterface
 	@Override
 	public void createPrivChat( NickDTO user )
 	{
-		user.setPrivchat( new PrivateChatFrame( this, user ) );
+		if ( user.getPrivchat() == null )
+			user.setPrivchat( new PrivateChatFrame( this, user ) );
 	}
 
 	@Override
