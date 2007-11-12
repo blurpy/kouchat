@@ -21,100 +21,70 @@
 
 package net.usikkert.kouchat.ui.console;
 
-import java.io.File;
-
-import net.usikkert.kouchat.misc.Controller;
-import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.NickDTO;
-import net.usikkert.kouchat.misc.UIMessages;
-import net.usikkert.kouchat.misc.UserInterface;
-import net.usikkert.kouchat.net.FileReceiver;
-import net.usikkert.kouchat.net.FileSender;
+import net.usikkert.kouchat.misc.PrivateChatWindow;
 
-public class ConsoleMediator implements UserInterface
+/**
+ * Very simple console support for private chat sessions.
+ * 
+ * @author Christian Ihle
+ */
+public class PrivateChatConsole implements PrivateChatWindow
 {
-	private UIMessages uiMsg;
-	private MessageController msgController;
-	private ConsoleChatWindow chat;
-	private Controller controller;
-	private ConsoleInput ci;
+	private NickDTO user;
 	
-	public ConsoleMediator()
+	/**
+	 * Constructor
+	 * 
+	 * @param user The user in this chat session.
+	 */
+	public PrivateChatConsole( NickDTO user )
 	{
-		chat = new ConsoleChatWindow();
-		msgController = new MessageController( chat, this );
-		uiMsg = new UIMessages( msgController );
-		uiMsg.showWelcomeMsg();
-		
-		controller = new Controller( this );
-		ci = new ConsoleInput( controller, this );
+		this.user = user;
 	}
 	
-	public void start()
-	{
-		controller.logOn();
-		ci.input();
-	}
-	
+	/**
+	 * Uses a simple System.out.println() to show messages.
+	 */
 	@Override
-	public boolean askFileSave( String user, String fileName, String size )
+	public void appendToPrivateChat( String text, int color )
 	{
-		uiMsg.showSaveWith();
+		System.out.println( "(privmsg) " + text );
+	}
+
+	@Override
+	public void clearChatText() {}
+
+	@Override
+	public String getChatText()
+	{
+		return "";
+	}
+
+	@Override
+	public NickDTO getUser()
+	{
+		return user;
+	}
+
+	@Override
+	public boolean isVisible()
+	{
 		return true;
 	}
 
 	@Override
-	public void changeAway( boolean away )
+	public void setAway( boolean away ) {}
+
+	@Override
+	public void setLoggedOff()
 	{
-		
+		user = null;
 	}
 
 	@Override
-	public void clearChat()
-	{
-		uiMsg.showNotSupported();
-	}
+	public void setVisible( boolean visible ) {}
 
 	@Override
-	public UIMessages getUIMessages()
-	{
-		return uiMsg;
-	}
-
-	@Override
-	public File showFileSave( String fileName )
-	{
-		return null;
-	}
-
-	@Override
-	public void showTopic()
-	{
-
-	}
-
-	@Override
-	public void showTransfer( FileReceiver fileRes )
-	{
-		new TransferHandler( fileRes );
-	}
-	
-	@Override
-	public void showTransfer( FileSender fileSend )
-	{
-		new TransferHandler( fileSend );
-	}
-
-	@Override
-	public void notifyMessageArrived()
-	{
-
-	}
-
-	@Override
-	public void createPrivChat( NickDTO user )
-	{
-		if ( user.getPrivchat() == null )
-			user.setPrivchat( new PrivateChatConsole( user ) );
-	}
+	public void updateNick() {}
 }
