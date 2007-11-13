@@ -23,6 +23,7 @@ package net.usikkert.kouchat.ui.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
@@ -109,6 +110,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	{
 		setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 		setSize( 460, 340 );
+		setMinimumSize( new Dimension( 300, 250 ) );
 		updateNick();
 		setIconImage( new ImageIcon( getClass().getResource( Constants.APP_ICON ) ).getImage() );
 
