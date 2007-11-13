@@ -276,10 +276,10 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 			setLocationRelativeTo( getParent() );
 			newMsg = false;
 
-			if ( user.isAway() || me.isAway() )
+			if ( user == null || user.isAway() || me.isAway() )
 				msgTF.setEnabled( false );
 		}
-
+		
 		super.setVisible( visible );
 	}
 
@@ -372,9 +372,8 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		{
 			// Show the window so privmsgs don't get lost when a user logs off.
 			setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
+			setExtendedState( ICONIFIED );
 			setVisible( true );
-			setExtendedState( NORMAL );
-			toFront();
 		}
 		
 		// To stop the open dialog from showing if a file is dropped
