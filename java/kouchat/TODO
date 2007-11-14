@@ -15,3 +15,4 @@
  - Allow changing font size?
  - Allow changing background color?
  - Flash taskbar when minimized or in background and msg is received?
+ - Use systray icon with envelope if privmsg is received while minimized?
