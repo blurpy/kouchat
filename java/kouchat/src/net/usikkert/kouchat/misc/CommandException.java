@@ -21,26 +21,26 @@
 
 package net.usikkert.kouchat.misc;
 
-public class AwayException extends Exception
+public class CommandException extends Exception
 {
 	private static final long serialVersionUID = 1L;
 
-	public AwayException()
+	public CommandException()
 	{
 		super();
 	}
 
-	public AwayException( String message, Throwable cause )
+	public CommandException( String message, Throwable cause )
 	{
 		super( message, cause );
 	}
 
-	public AwayException( String message )
+	public CommandException( String message )
 	{
 		super( message );
 	}
 
-	public AwayException( Throwable cause )
+	public CommandException( Throwable cause )
 	{
 		super( cause );
 	}

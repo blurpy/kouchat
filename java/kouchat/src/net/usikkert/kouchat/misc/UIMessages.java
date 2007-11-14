@@ -559,11 +559,11 @@ public class UIMessages
 	}
 
 	/**
-	 * Shows "Action not allowed while away..."
+	 * Shows "Action not allowed at this time..."
 	 */
 	public void showActionNotAllowed()
 	{
-		msgController.showSystemMessage( "Action not allowed while away..." );
+		msgController.showSystemMessage( "Action not allowed at this time..." );
 	}
 
 	/**

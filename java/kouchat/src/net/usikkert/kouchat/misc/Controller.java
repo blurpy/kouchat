@@ -108,9 +108,12 @@ public class Controller
 		}
 	}
 
-	public void changeAwayStatus( int code, boolean away, String awaymsg )
+	public void changeAwayStatus( int code, boolean away, String awaymsg ) throws CommandException
 	{
-		nickController.changeAwayStatus( code, away, awaymsg );
+		if ( code == me.getCode() && !isConnected() )
+			throw new CommandException( "You tried to change away mode without being connected. This should never happen..." );
+		else
+			nickController.changeAwayStatus( code, away, awaymsg );
 	}
 
 	public boolean isNickInUse( String nick )
@@ -123,18 +126,16 @@ public class Controller
 		return nickController.isNewUser( code );
 	}
 
-	public void changeMyNick( String nick ) throws AwayException
+	public void changeMyNick( String nick ) throws CommandException
 	{
-		if ( !me.isAway() )
+		if ( me.isAway() )
+			throw new CommandException( "You tried to change nick while away. This should never happen..." );
+		
+		else
 		{
 			changeNick( me.getCode(), nick );
 			messages.sendNickMessage();
 			Settings.getSettings().saveSettings();
-		}
-
-		else
-		{
-			throw new AwayException( "You tried to change nick while away. This should never happen..." );
 		}
 	}
 
@@ -208,20 +209,16 @@ public class Controller
 		messages.sendIdleMessage();
 	}
 
-	public void sendChatMessage( String msg ) throws AwayException
+	public void sendChatMessage( String msg ) throws CommandException
 	{
-		if ( !me.isAway() )
-		{
-			if ( msg.trim().length() > 0 )
-				messages.sendChatMessage( msg );
-			else
-				log.log( Level.WARNING, "You tried to send an empty chat message. This should never happen..." );
-		}
-
+		if ( !isConnected() )
+			throw new CommandException( "You tried to send a chat message without being connected. This should never happen..." );
+		else if ( me.isAway() )
+			throw new CommandException( "You tried to send a chat message while away. This should never happen..." );
+		else if ( msg.trim().length() == 0 )
+			throw new CommandException( "You tried to send an empty chat message. This should never happen..." );
 		else
-		{
-			throw new AwayException( "You tried to send a chat message while away. This should never happen..." );
-		}
+			messages.sendChatMessage( msg );
 	}
 
 	public void sendTopicMessage()
@@ -229,19 +226,19 @@ public class Controller
 		messages.sendTopicMessage( getTopic() );
 	}
 
-	public void changeTopic( String newTopic ) throws AwayException
+	public void changeTopic( String newTopic ) throws CommandException
 	{
-		if ( !me.isAway() )
+		if ( !isConnected() )
+			throw new CommandException( "You tried to change the topic without being connected. This should never happen..." );
+		else if ( me.isAway() )
+			throw new CommandException( "You tried to change the topic while away. This should never happen..." );
+
+		else
 		{
 			long time = System.currentTimeMillis();
 			TopicDTO topic = getTopic();
 			topic.changeTopic( newTopic, me.getNick(), time );
 			sendTopicMessage();
-		}
-
-		else
-		{
-			throw new AwayException( "You tried to change the topic while away. This should never happen..." );
 		}
 	}
 
@@ -270,12 +267,14 @@ public class Controller
 		messages.sendFileAccept( msgCode, port, fileHash, fileName );
 	}
 
-	public void sendFile( int sendToUserCode, long fileLength, int fileHash, String fileName ) throws AwayException
+	public void sendFile( int sendToUserCode, long fileLength, int fileHash, String fileName ) throws CommandException
 	{
-		if ( !me.isAway() )
-			messages.sendFile( sendToUserCode, fileLength, fileHash, fileName );
+		if ( !isConnected() )
+			throw new CommandException( "You tried to send a file without being connected. This should never happen..." );
+		else if ( me.isAway() )
+			throw new CommandException( "You tried to send a file while away. This should never happen..." );
 		else
-			throw new AwayException( "You tried to send a file while away. This should never happen..." );
+			messages.sendFile( sendToUserCode, fileLength, fileHash, fileName );
 	}
 
 	public TransferList getTransferList()
@@ -311,26 +310,18 @@ public class Controller
 		messages.sendClient();
 	}
 	
-	public void sendPrivateMessage( String privmsg, String userIP, int userPort, int userCode ) throws AwayException
+	public void sendPrivateMessage( String privmsg, String userIP, int userPort, int userCode ) throws CommandException
 	{
-		if ( !me.isAway() )
-		{
-			if ( privmsg.trim().length() > 0 )
-			{
-				if ( userPort == 0 )
-					log.log( Level.WARNING, "You tried to send a private chat message to a user with no available port number. This should never happen..." );
-				else
-					messages.sendPrivateMessage( privmsg, userIP, userPort, userCode );
-			}
-			
-			else
-				log.log( Level.WARNING, "You tried to send an empty private chat message. This should never happen..." );
-		}
-
+		if ( !isConnected() )
+			throw new CommandException( "You tried to send a private chat message without being connected. This should never happen..." );
+		else if ( me.isAway() )
+			throw new CommandException( "You tried to send a private chat message while away. This should never happen..." );
+		else if ( privmsg.trim().length() == 0 )
+			throw new CommandException( "You tried to send an empty private chat message. This should never happen..." );
+		else if ( userPort == 0 )
+			throw new CommandException( "You tried to send a private chat message to a user with no available port number. This should never happen..." );
 		else
-		{
-			throw new AwayException( "You tried to send a private chat message while away. This should never happen..." );
-		}
+			messages.sendPrivateMessage( privmsg, userIP, userPort, userCode );
 	}
 	
 	public void changeNewMessage( int code, boolean newMsg )

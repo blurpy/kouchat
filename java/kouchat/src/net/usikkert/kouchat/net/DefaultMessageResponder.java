@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
@@ -276,22 +277,30 @@ public class DefaultMessageResponder implements MessageResponder
 
 		else
 		{
-			NickDTO user = controller.getNick( userCode );
-			controller.changeAwayStatus( userCode, away, awayMsg );
-
-			if ( away )
-				uiMsg.showUserAway( user.getNick(), awayMsg );
-			else
-				uiMsg.showUserBack( user.getNick() );
-			
-			if ( user.getPrivchat() != null )
+			try
 			{
-				user.getPrivchat().setAway( away );
+				NickDTO user = controller.getNick( userCode );
+				controller.changeAwayStatus( userCode, away, awayMsg );
 				
 				if ( away )
-					uiMsg.showPrivateUserAway( user );
+					uiMsg.showUserAway( user.getNick(), awayMsg );
 				else
-					uiMsg.showPrivateUserBack( user );
+					uiMsg.showUserBack( user.getNick() );
+				
+				if ( user.getPrivchat() != null )
+				{
+					user.getPrivchat().setAway( away );
+					
+					if ( away )
+						uiMsg.showPrivateUserAway( user );
+					else
+						uiMsg.showPrivateUserBack( user );
+				}
+			}
+			
+			catch ( CommandException e )
+			{
+				log.log( Level.SEVERE, "Something very strange going on here...\n" + e );
 			}
 		}
 	}

@@ -90,10 +90,19 @@ public class CommandParser
 
 			else
 			{
-				controller.changeAwayStatus( me.getCode(), true, args.trim() );
-				controller.sendAwayMessage();
-				ui.changeAway( true );
-				uiMsg.showUserAway( "You", me.getAwayMsg() );
+				try
+				{
+					controller.changeAwayStatus( me.getCode(), true, args.trim() );
+					controller.sendAwayMessage();
+					ui.changeAway( true );
+					uiMsg.showUserAway( "You", me.getAwayMsg() );
+				}
+				
+				catch ( CommandException e )
+				{
+					log.log( Level.WARNING, e.toString() );
+					uiMsg.showActionNotAllowed();
+				}
 			}
 		}
 	}
@@ -102,10 +111,19 @@ public class CommandParser
 	{
 		if ( me.isAway() )
 		{
-			controller.changeAwayStatus( me.getCode(), false, "" );
-			controller.sendBackMessage();
-			ui.changeAway( false );
-			uiMsg.showUserBack( "You" );
+			try
+			{
+				controller.changeAwayStatus( me.getCode(), false, "" );
+				controller.sendBackMessage();
+				ui.changeAway( false );
+				uiMsg.showUserBack( "You" );
+			}
+			
+			catch ( CommandException e )
+			{
+				log.log( Level.WARNING, e.toString() );
+				uiMsg.showActionNotAllowed();
+			}
 		}
 
 		else
@@ -253,7 +271,7 @@ public class CommandParser
 					uiMsg.showPrivateOwnMessage( user, privmsg );
 				}
 				
-				catch ( AwayException e )
+				catch ( CommandException e )
 				{
 					log.log( Level.WARNING, e.getMessage() );
 					uiMsg.showActionNotAllowed();
@@ -300,7 +318,7 @@ public class CommandParser
 						ui.showTopic();
 					}
 
-					catch ( AwayException e )
+					catch ( CommandException e )
 					{
 						log.log( Level.WARNING, e.getMessage() );
 						uiMsg.showActionNotAllowed();
@@ -365,7 +383,7 @@ public class CommandParser
 				uiMsg.showOwnMessage( message );
 			}
 
-			catch ( AwayException e )
+			catch ( CommandException e )
 			{
 				log.log( Level.WARNING, e.getMessage() );
 				uiMsg.showActionNotAllowed();
@@ -404,7 +422,7 @@ public class CommandParser
 					ui.showTopic();
 				}
 
-				catch ( AwayException e )
+				catch ( CommandException e )
 				{
 					log.log( Level.WARNING, e.getMessage() );
 					uiMsg.showActionNotAllowed();
@@ -432,7 +450,7 @@ public class CommandParser
 				uiMsg.showSendRequest( file.getName(), size, user.getNick() );
 			}
 
-			catch ( AwayException e )
+			catch ( CommandException e )
 			{
 				log.log( Level.WARNING, e.getMessage() );
 				uiMsg.showActionNotAllowed();

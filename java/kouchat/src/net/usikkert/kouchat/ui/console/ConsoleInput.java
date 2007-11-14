@@ -28,7 +28,7 @@ import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.usikkert.kouchat.misc.AwayException;
+import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.CommandParser;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.NickDTO;
@@ -94,7 +94,7 @@ public class ConsoleInput
 								uiMsg.showOwnMessage( input );
 							}
 
-							catch ( AwayException e )
+							catch ( CommandException e )
 							{
 								log.log( Level.WARNING, e.getMessage() );
 								uiMsg.showActionNotAllowed();
