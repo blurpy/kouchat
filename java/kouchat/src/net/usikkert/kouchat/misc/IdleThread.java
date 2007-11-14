@@ -70,7 +70,7 @@ public class IdleThread extends Thread
 
 				if ( me.getLastIdle() < System.currentTimeMillis() - 20000 )
 				{
-					if ( controller.restartMsgReceiver() )
+					if ( controller.restart() )
 						me.setLastIdle( System.currentTimeMillis() );
 				}
 

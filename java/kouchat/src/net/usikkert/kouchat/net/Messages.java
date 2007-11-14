@@ -150,4 +150,9 @@ public class Messages
 		sender.stopSender();
 		udpSender.stopSender();
 	}
+
+	public void restart()
+	{
+		sender.restartSender();
+	}
 }

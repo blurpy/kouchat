@@ -42,7 +42,7 @@ public class MessageReceiver implements Runnable
 	private MulticastSocket mcSocket;
 	private InetAddress address;
 	private ReceiverListener listener;
-	private boolean run;
+	private boolean connected;
 	private Thread worker;
 	private ErrorHandler errorHandler;
 
@@ -58,7 +58,7 @@ public class MessageReceiver implements Runnable
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 			errorHandler.showCriticalError( "Failed to initialize the network:\n" + e + "\n" +
 					Constants.APP_NAME + " will now shutdown and quit..." );
 			System.exit( 1 );
@@ -67,7 +67,7 @@ public class MessageReceiver implements Runnable
 
 	public void run()
 	{
-		while ( run )
+		while ( connected )
 		{
 			try
 			{
@@ -83,14 +83,20 @@ public class MessageReceiver implements Runnable
 
 			catch ( IOException e )
 			{
-				log.log( Level.WARNING, e.getMessage() );
+				log.log( Level.WARNING, e.toString() );
 			}
 		}
+	}
+	
+	private void startThread()
+	{
+		worker = new Thread( this );
+		worker.start();
 	}
 
 	public void startReceiver()
 	{
-		if ( run )
+		if ( connected )
 		{
 			stopReceiver();
 		}
@@ -98,14 +104,13 @@ public class MessageReceiver implements Runnable
 		try
 		{
 			mcSocket.joinGroup( address );
-			run = true;
-			worker = new Thread( this );
-			worker.start();
+			connected = true;
+			startThread();
 		}
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, "Could not start receiver: " + e.toString() );
 		}
 	}
 
@@ -113,7 +118,7 @@ public class MessageReceiver implements Runnable
 	{
 		try
 		{
-			run = false;
+			connected = false;
 
 			if ( !mcSocket.isClosed() )
 			{
@@ -124,7 +129,7 @@ public class MessageReceiver implements Runnable
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 	}
 
@@ -141,7 +146,7 @@ public class MessageReceiver implements Runnable
 
 		catch ( IOException e )
 		{
-			log.log( Level.WARNING, e.getMessage() );
+			log.log( Level.WARNING, "Leaving group: " + e.toString() );
 		}
 
 		try
@@ -152,13 +157,14 @@ public class MessageReceiver implements Runnable
 
 		catch ( IOException e )
 		{
-			log.log( Level.WARNING, e.getMessage() );
+			log.log( Level.WARNING, "Joining group: " + e.toString() );
 		}
 
-		if ( !worker.isAlive() )
+		if ( success && ( worker == null || !worker.isAlive() ) )
 		{
-			log.log( Level.SEVERE, "Thread died. Restarting..." );
-			startReceiver();
+			log.log( Level.SEVERE, "Thread is dead. Starting..." );
+			connected = true;
+			startThread();
 		}
 
 		return success;

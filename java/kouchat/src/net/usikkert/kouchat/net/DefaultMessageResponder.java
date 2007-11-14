@@ -251,6 +251,7 @@ public class DefaultMessageResponder implements MessageResponder
 	@Override
 	public void meLogOn( String ipAddress )
 	{
+		controller.setConnected( true );
 		me.setIpAddress( ipAddress );
 		String date = Tools.dateToString( null, "EEEE, d MMMM yyyy" );
 		uiMsg.showTodayIs( date );

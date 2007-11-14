@@ -153,40 +153,29 @@ public class Controller
 		return nickController.getNick( nick );
 	}
 
+	private void sendLogOn()
+	{
+		messages.sendLogonMessage();
+		messages.sendClient();
+		messages.sendExposeMessage();
+		messages.sendGetTopicMessage();
+	}
+
+	// Not sure if this is the best way to set if I'm logged on or not
+	private void runDelayedLogon()
+	{
+		Timer timer = new Timer();
+		timer.schedule( new DelayedLogonTask(), 0 );
+	}
+
 	public void logOn()
 	{
 		msgParser.start();
 		privmsgParser.start();
 		messages.start();
-
-		messages.sendLogonMessage();
-		messages.sendClient();
-		messages.sendExposeMessage();
-		messages.sendGetTopicMessage();
+		sendLogOn();
 		idleThread.start();
-
-		// Not sure if this is the best way to set if I'm logged on or not
-		TimerTask delayedLogon = new TimerTask()
-		{
-			@Override
-			public void run()
-			{
-				try
-				{
-					Thread.sleep( 800 );
-				}
-
-				catch ( InterruptedException e )
-				{
-					log.log( Level.SEVERE, e.getMessage(), e );
-				}
-
-				wList.setLoggedOn( true );
-			}
-		};
-
-		Timer timer = new Timer();
-		timer.schedule( delayedLogon, 0 );
+		runDelayedLogon();
 	}
 
 	public void logOff()
@@ -299,9 +288,22 @@ public class Controller
 		return wList;
 	}
 
-	public boolean restartMsgReceiver()
+	public boolean restart()
 	{
-		return msgParser.restart();
+		messages.restart();
+
+		if ( msgParser.restart() )
+		{
+			if ( !isConnected() )
+			{
+				runDelayedLogon();
+				sendLogOn();
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 
 	public void sendClientInfo()
@@ -334,5 +336,35 @@ public class Controller
 	public void changeNewMessage( int code, boolean newMsg )
 	{
 		nickController.changeNewMessage( code, newMsg );
+	}
+	
+	public boolean isConnected()
+	{
+		return chatState.isConnected();
+	}
+
+	public void setConnected( boolean connected )
+	{
+		chatState.setConnected( connected );
+	}
+	
+	private class DelayedLogonTask extends TimerTask
+	{
+		@Override
+		public void run()
+		{
+			try
+			{
+				Thread.sleep( 800 );
+			}
+
+			catch ( InterruptedException e )
+			{
+				log.log( Level.SEVERE, e.getMessage(), e );
+			}
+
+			if ( isConnected() )
+				wList.setLoggedOn( true );
+		}
 	}
 }

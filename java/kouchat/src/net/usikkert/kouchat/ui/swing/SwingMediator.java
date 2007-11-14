@@ -102,6 +102,8 @@ public class SwingMediator implements Mediator, UserInterface
 			buttonP.disableMinimize();
 			menuBar.disableMinimize();
 		}
+
+		sideP.setNickList( controller.getNickList() );
 	}
 
 	@Override
@@ -181,7 +183,6 @@ public class SwingMediator implements Mediator, UserInterface
 	{
 		controller.logOn();
 		updateTitleAndTray();
-		sideP.setNickList( controller.getNickList() );
 	}
 
 	@Override
@@ -206,14 +207,23 @@ public class SwingMediator implements Mediator, UserInterface
 			String title = Constants.APP_NAME + " v" + Constants.APP_VERSION + " - Nick: " + me.getNick();
 			String tooltip = Constants.APP_NAME + " v" + Constants.APP_VERSION + " - " + me.getNick();
 
-			if ( me.isAway() )
+			if ( !controller.isConnected() )
 			{
-				title += " (Away)";
-				tooltip += " (Away)";
+				title += " - (Not connected)";
+				tooltip += " - (Not connected)";
 			}
-
-			if ( controller.getTopic().getTopic().length() > 0 )
-				title += " - Topic: " + controller.getTopic();
+			
+			else
+			{
+				if ( me.isAway() )
+				{
+					title += " (Away)";
+					tooltip += " (Away)";
+				}
+				
+				if ( controller.getTopic().getTopic().length() > 0 )
+					title += " - Topic: " + controller.getTopic();
+			}
 
 			gui.setTitle( title );
 			sysTray.setToolTip( tooltip );

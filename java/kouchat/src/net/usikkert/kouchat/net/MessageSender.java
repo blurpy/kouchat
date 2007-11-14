@@ -39,7 +39,7 @@ public class MessageSender
 
 	private MulticastSocket mcSocket;
 	private InetAddress address;
-	private boolean started;
+	private boolean connected;
 	private ErrorHandler errorHandler;
 
 	public MessageSender()
@@ -54,7 +54,7 @@ public class MessageSender
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 			errorHandler.showCriticalError( "Failed to initialize the network:\n" + e + "\n" +
 					Constants.APP_NAME + " will now shutdown and quit..." );
 			System.exit( 1 );
@@ -63,7 +63,7 @@ public class MessageSender
 
 	public void send( String message )
 	{
-		if ( started )
+		if ( connected )
 		{
 			try
 			{
@@ -82,7 +82,7 @@ public class MessageSender
 	{
 		try
 		{
-			started = false;
+			connected = false;
 
 			if ( !mcSocket.isClosed() )
 			{
@@ -93,7 +93,7 @@ public class MessageSender
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 	}
 
@@ -102,12 +102,21 @@ public class MessageSender
 		try
 		{
 			mcSocket.joinGroup( address );
-			started = true;
+			connected = true;
 		}
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, "Could not start sender: " + e.toString() );
+		}
+	}
+
+	public void restartSender()
+	{
+		if ( !connected )
+		{
+			log.log( Level.WARNING, "Restarting sender..." );
+			startSender();
 		}
 	}
 }

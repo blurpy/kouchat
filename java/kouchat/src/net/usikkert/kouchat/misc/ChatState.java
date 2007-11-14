@@ -24,12 +24,13 @@ package net.usikkert.kouchat.misc;
 public class ChatState
 {
 	private TopicDTO topic;
-	private boolean wrote;
+	private boolean wrote, connected;
 
 	public ChatState()
 	{
 		topic = new TopicDTO();
 		wrote = false;
+		connected = false;
 	}
 
 	public boolean isWrote()
@@ -45,5 +46,15 @@ public class ChatState
 	public TopicDTO getTopic()
 	{
 		return topic;
+	}
+
+	public boolean isConnected()
+	{
+		return connected;
+	}
+
+	public void setConnected( boolean connected )
+	{
+		this.connected = connected;
 	}
 }
