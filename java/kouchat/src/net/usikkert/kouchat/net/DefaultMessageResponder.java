@@ -257,6 +257,7 @@ public class DefaultMessageResponder implements MessageResponder
 		String date = Tools.dateToString( null, "EEEE, d MMMM yyyy" );
 		uiMsg.showTodayIs( date );
 		uiMsg.showMeLoggedOn( me.getNick(), ipAddress );
+		ui.showTopic();
 	}
 
 	@Override
