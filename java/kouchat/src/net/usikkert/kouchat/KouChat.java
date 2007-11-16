@@ -32,7 +32,7 @@ import net.usikkert.kouchat.ui.UIFactory;
  * 
  * Two different User Interfaces can be loaded from here.
  * Swing is the default, and a console version can be loaded
- * by using the -console argument.
+ * by using the --console argument.
  * 
  * @author Christian Ihle
  */
@@ -42,8 +42,8 @@ public class KouChat
 	 * The main method.
 	 * 
 	 * Takes two different arguments:<br />
-	 * -help, shows information about available commands.<br />
-	 * -console, starts KouChat in console mode.
+	 * --help, shows information about available commands.<br />
+	 * --console, starts KouChat in console mode.
 	 * 
 	 * @param args The arguments given when starting KouChat.
 	 */
@@ -53,22 +53,22 @@ public class KouChat
 		System.out.println( "By " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL + " - " + Constants.AUTHOR_WEB );
 		
 		if ( args.length == 0 )
-			System.out.println( "Use -help for more information..." );
+			System.out.println( "Use --help for more information..." );
 		
 		boolean swing = true;
 		boolean help = false;
 
 		for ( int i = 0; i < args.length; i++ )
 		{
-			if ( args[i].equals( "-console" ) )
+			if ( args[i].equals( "--console" ) )
 				swing = false;
 			
-			else if ( args[i].equals( "-help" ) )
+			else if ( args[i].equals( "--help" ) )
 				help = true;
 			
 			else
 			{
-				System.out.println( "\nUnknown argument '" + args[i] + "'. Use -help for more information..." );
+				System.out.println( "\nUnknown argument '" + args[i] + "'. Use --help for more information..." );
 				return;
 			}
 		}
@@ -76,8 +76,8 @@ public class KouChat
 		if ( help )
 		{
 			System.out.println( "\nCommands:" +
-					"\n -help \t\tshows this help message" +
-					"\n -console \tstarts " + Constants.APP_NAME + " in console mode" );
+					"\n --help \tshows this help message" +
+					"\n --console \tstarts " + Constants.APP_NAME + " in console mode" );
 			return;
 		}
 
