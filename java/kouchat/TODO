@@ -16,3 +16,4 @@
  - Flash taskbar when minimized or in background and msg is received?
  - Use systray icon with envelope if privmsg is received while minimized?
  - Detect links in chat?
+ - Use -- in commands instead of -
