@@ -1,5 +1,5 @@
 
-- KouChat v0.9.2 README
+- KouChat v0.9.3 README
 
 KouChat is a simple chat program for local networks, without the need for a server.
 
@@ -19,7 +19,7 @@ Enjoy :)
 
 Copyright 2006-2007 Christian Ihle
 kontakt@usikkert.net
-http://www.usikkert.net/
+http://kouchat.googlecode.com/
 
 Source and graphics available under the GNU GPLv2.
 See COPYING for details.
