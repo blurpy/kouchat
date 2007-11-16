@@ -30,7 +30,7 @@ public interface Constants
 	public static final String APP_ICON = "/icons/kou_normal.png";
 	public static final String AUTHOR_NAME = "Christian Ihle";
 	public static final String AUTHOR_MAIL = "kontakt@usikkert.net";
-	public static final String AUTHOR_WEB = "http://www.usikkert.net/";
+	public static final String AUTHOR_WEB = "http://kouchat.googlecode.com/";
 	public static final int NETWORK_CHAT_PORT = 40556;
 	public static final int NETWORK_PRIVCHAT_PORT = 40656;
 	public static final int NETWORK_FILE_TRANSFER_PORT = 40756;
