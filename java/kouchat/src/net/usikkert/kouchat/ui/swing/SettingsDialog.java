@@ -28,8 +28,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+
+import java.io.IOException;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -47,18 +47,20 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 
 public class SettingsDialog extends JDialog implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
 	
-	private JButton saveB, cancelB, chooseOwnColorB, chooseSysColorB;
-	private JTextField nickTF;
-	private JLabel nickL, ownColorL, sysColorL;
+	private JButton saveB, cancelB, chooseOwnColorB, chooseSysColorB, browserB;
+	private JTextField nickTF, browserTF;
+	private JLabel nickL, ownColorL, sysColorL, browserL;
 	private JCheckBox soundCB, loggingCB;
 	private Settings settings;
 	private Mediator mediator;
+	private ErrorHandler errorHandler;
 
 	public SettingsDialog()
 	{
@@ -98,10 +100,22 @@ public class SettingsDialog extends JDialog implements ActionListener
 		miscP.add( soundCB );
 		miscP.add( loggingCB );
 		miscP.setBorder( BorderFactory.createTitledBorder( "Misc" ) );
-		
+
+		browserL = new JLabel( "Browser: " );
+		browserTF = new JTextField( 12 );
+		browserB = new JButton( "Test" );
+		browserB.addActionListener( this );
+
+		JPanel browserP = new JPanel();
+		browserP.add( browserL );
+		browserP.add( browserTF );
+		browserP.add( browserB );
+		browserP.setBorder( BorderFactory.createTitledBorder( "Choose browser" ) );
+
 		JPanel centerP = new JPanel( new BorderLayout() );
-		centerP.add( colorP, BorderLayout.NORTH );
-		centerP.add( miscP, BorderLayout.CENTER );
+		centerP.add( colorP, BorderLayout.CENTER );
+		centerP.add( miscP, BorderLayout.SOUTH );
+		centerP.add( browserP, BorderLayout.NORTH );
 
 		JPanel buttonP = new JPanel();
 		saveB = new JButton( "OK" );
@@ -145,15 +159,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 		getRootPane().setDefaultButton( saveB );
 		
 		settings = Settings.getSettings();
-		
-		addWindowListener( new WindowAdapter()
-		{
-			@Override
-			public void windowActivated( WindowEvent e )
-			{
-				nickTF.requestFocusInWindow();
-			}
-		} );
+		errorHandler = ErrorHandler.getErrorHandler();
 	}
 	
 	public void setMediator( Mediator mediator )
@@ -176,6 +182,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 						settings.setOwnColor( ownColorL.getForeground().getRGB() );
 						settings.setSound( soundCB.isSelected() );
 						settings.setLogging( loggingCB.isSelected() );
+						settings.setBrowser( browserTF.getText() );
 						settings.saveSettings();
 						setVisible( false );
 					}
@@ -228,6 +235,28 @@ public class SettingsDialog extends JDialog implements ActionListener
 				}
 			} );
 		}
+		
+		else if ( e.getSource() == browserB )
+		{
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					String browser = browserTF.getText();
+					
+					try
+					{
+						Runtime.getRuntime().exec( browser + " " + Constants.AUTHOR_WEB );
+					}
+					
+					catch ( IOException e )
+					{
+						errorHandler.showError( "Could not open the browser '" + browser + "'. Try using the full path." );
+					}
+				}
+			} );
+		}
 	}
 
 	public void showSettings()
@@ -237,6 +266,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 		ownColorL.setForeground( new Color( settings.getOwnColor() ) );
 		soundCB.setSelected( settings.isSound() );
 		loggingCB.setSelected( settings.isLogging() );
+		browserTF.setText( settings.getBrowser() );
 		setVisible( true );
 	}
 }

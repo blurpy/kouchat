@@ -54,6 +54,7 @@ import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
+import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
@@ -73,7 +74,7 @@ import net.usikkert.kouchat.misc.Settings;
  */
 public class PrivateChatFrame extends JFrame implements ActionListener, KeyListener, PrivateChatWindow, FileDropSource
 {
-	private static Logger log = Logger.getLogger( PrivateChatFrame.class.getName() );
+	private static final Logger log = Logger.getLogger( PrivateChatFrame.class.getName() );
 	private static final long serialVersionUID = 1L;
 
 	private JTextPane chatTP;
@@ -124,6 +125,13 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		chatAttr = new SimpleAttributeSet();
 		chatDoc = chatTP.getStyledDocument();
 		JScrollPane chatScroll = new JScrollPane( chatTP );
+
+		URLMouseListener urlML = new URLMouseListener( chatTP );
+		chatTP.addMouseListener( urlML );
+		chatTP.addMouseMotionListener( urlML );
+
+		AbstractDocument doc = (AbstractDocument) chatDoc;
+		doc.setDocumentFilter( new URLDocumentFilter() );
 
 		msgTF = new JTextField();
 		msgTF.addActionListener( this );

@@ -49,6 +49,7 @@ public class Settings
 	private boolean sound, logging, debug;
 	private List<SettingsListener> listeners;
 	private ErrorHandler errorHandler;
+	private String browser;
 
 	private Settings()
 	{
@@ -98,6 +99,8 @@ public class Settings
 			buffWriter.write( "sound=" + sound );
 			buffWriter.newLine();
 			buffWriter.write( "debug=" + debug );
+			buffWriter.newLine();
+			buffWriter.write( "browser=" + browser );
 		}
 
 		catch ( IOException e )
@@ -194,6 +197,7 @@ public class Settings
 			logging = new Boolean( fileContents.getProperty( "logging" ) );
 			sound = new Boolean( fileContents.getProperty( "sound" ) );
 			debug = new Boolean( fileContents.getProperty( "debug" ) );
+			browser = fileContents.getProperty( "browser" );
 		}
 
 		catch ( FileNotFoundException e )
@@ -290,6 +294,16 @@ public class Settings
 	public void setDebug( boolean debug )
 	{
 		this.debug = debug;
+	}
+
+	public String getBrowser()
+	{
+		return browser;
+	}
+
+	public void setBrowser( String browser )
+	{
+		this.browser = browser;
 	}
 
 	private void fireSettingChanged( String setting )

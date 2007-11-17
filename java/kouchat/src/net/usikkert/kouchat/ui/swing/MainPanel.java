@@ -39,6 +39,7 @@ import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
+import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
@@ -51,7 +52,7 @@ import net.usikkert.kouchat.misc.CommandHistory;
 public class MainPanel extends JPanel implements ActionListener, CaretListener, ChatWindow, KeyListener
 {
 	private static final long serialVersionUID = 1L;
-	private static Logger log = Logger.getLogger( MainPanel.class.getName() );
+	private static final Logger log = Logger.getLogger( MainPanel.class.getName() );
 
 	private JScrollPane chatSP;
 	private JTextPane chatTP;
@@ -72,6 +73,13 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		chatAttr = new SimpleAttributeSet();
 		chatDoc = chatTP.getStyledDocument();
 
+		URLMouseListener urlML = new URLMouseListener( chatTP );
+		chatTP.addMouseListener( urlML );
+		chatTP.addMouseMotionListener( urlML );
+
+		AbstractDocument doc = (AbstractDocument) chatDoc;
+		doc.setDocumentFilter( new URLDocumentFilter() );
+
 		msgTF = new JTextField();
 		msgTF.addActionListener( this );
 		msgTF.addCaretListener( this );
@@ -85,7 +93,6 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		new ChatPopup( chatTP );
 
 		setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
-
 		cmdHistory = new CommandHistory();
 	}
 
