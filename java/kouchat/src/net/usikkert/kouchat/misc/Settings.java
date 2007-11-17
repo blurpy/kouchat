@@ -100,7 +100,8 @@ public class Settings
 			buffWriter.newLine();
 			buffWriter.write( "debug=" + debug );
 			buffWriter.newLine();
-			buffWriter.write( "browser=" + browser );
+			// Properties does not support loading back slash, so replace with forward slash
+			buffWriter.write( "browser=" + browser.replaceAll( "\\\\", "/" ) );
 		}
 
 		catch ( IOException e )
