@@ -22,18 +22,9 @@
 package net.usikkert.kouchat.ui.swing;
 
 import java.awt.Cursor;
-import java.awt.Desktop;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
-import java.io.IOException;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
@@ -41,8 +32,7 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import net.usikkert.kouchat.misc.ErrorHandler;
-import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.ui.util.UITools;
 
 /**
  * This listener adds support for opening a url in a browser
@@ -53,11 +43,7 @@ import net.usikkert.kouchat.misc.Settings;
  */
 public class URLMouseListener implements MouseListener, MouseMotionListener
 {
-	private static final Logger log = Logger.getLogger( URLMouseListener.class.getName() );
-
 	private Cursor handCursor;
-	private Settings settings;
-	private ErrorHandler errorHandler;
 	private JTextPane textPane;
 	private StyledDocument doc;
 
@@ -72,8 +58,6 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
 
 		doc = textPane.getStyledDocument();
 		handCursor = new Cursor( Cursor.HAND_CURSOR );
-		settings = Settings.getSettings();
-		errorHandler = ErrorHandler.getErrorHandler();
 	}
 
 	@Override
@@ -115,8 +99,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
 	public void mousePressed( MouseEvent e ) {}
 
 	/**
-	 * Opens a link in the browser. If no browser is
-	 * configured in the settings, the systems default browser is tried.
+	 * Opens the clicked link in a browser.
 	 */
 	@Override
 	public void mouseReleased( MouseEvent e )
@@ -140,50 +123,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
 						@Override
 						public void run()
 						{
-							String browser = settings.getBrowser();
-
-							// The default is to use the browser in the settings.
-							if ( browser != null && browser.trim().length() > 0  )
-							{
-								try
-								{
-									Runtime.getRuntime().exec( browser + " " + url );
-								}
-
-								catch ( IOException e )
-								{
-									log.log( Level.WARNING, e.toString() );
-									errorHandler.showError( "Could not open the browser '" + 
-											browser + "'. Please check the settings." );
-								}
-							}
-
-							// But if no browser is set there, try opening the system default browser
-							else if ( Desktop.isDesktopSupported() )
-							{
-								try
-								{
-									Desktop.getDesktop().browse( new URI( url ) );
-								}
-
-								catch ( IOException e )
-								{
-									log.log( Level.WARNING, e.toString() );
-									errorHandler.showError( "Could not open the default browser." +
-											" Please set a browser in the settings." );
-								}
-
-								catch ( URISyntaxException e )
-								{
-									log.log( Level.WARNING, e.toString() );
-								}
-							}
-
-							else
-							{
-								errorHandler.showError( "No browser detected." +
-										" A browser can be chosen in the settings." );
-							}
+							UITools.browse( url );
 						}
 					} );
 				}
