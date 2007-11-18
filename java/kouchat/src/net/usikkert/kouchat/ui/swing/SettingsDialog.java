@@ -23,6 +23,7 @@ package net.usikkert.kouchat.ui.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -31,6 +32,12 @@ import java.awt.event.KeyEvent;
 
 import java.io.File;
 import java.io.IOException;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -56,6 +63,7 @@ import net.usikkert.kouchat.misc.Settings;
 
 public class SettingsDialog extends JDialog implements ActionListener
 {
+	private static final Logger log = Logger.getLogger( SettingsDialog.class.getName() );
 	private static final long serialVersionUID = 1L;
 
 	private JButton saveB, cancelB, chooseOwnColorB, chooseSysColorB, testBrowserB, chooseBrowserB;
@@ -266,15 +274,44 @@ public class SettingsDialog extends JDialog implements ActionListener
 				public void run()
 				{
 					String browser = browserTF.getText();
-
-					try
+					
+					if ( browser.trim().length() > 0 )
 					{
-						Runtime.getRuntime().exec( browser + " " + Constants.APP_WEB );
+						try
+						{
+							Runtime.getRuntime().exec( browser + " " + Constants.APP_WEB );
+						}
+
+						catch ( IOException e )
+						{
+							errorHandler.showError( "Could not open the browser '" + browser +
+									"'. Try using the full path." );
+						}
 					}
-
-					catch ( IOException e )
+					
+					else if ( Desktop.isDesktopSupported() )
 					{
-						errorHandler.showError( "Could not open the browser '" + browser + "'. Try using the full path." );
+						try
+						{
+							Desktop.getDesktop().browse( new URI( Constants.APP_WEB ) );
+						}
+
+						catch ( IOException e )
+						{
+							errorHandler.showError( "Could not open the default browser." );
+						}
+
+						catch ( URISyntaxException e )
+						{
+							log.log( Level.WARNING, e.toString() );
+							errorHandler.showError( "That's strange, could not open " + Constants.APP_WEB );
+						}
+					}
+					
+					else
+					{
+						errorHandler.showError( "Your system does not support a default browser." +
+								" Please choose a browser manually." );
 					}
 				}
 			} );
