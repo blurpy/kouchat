@@ -1,5 +1,9 @@
 
-- KouChat v0.9.3 CHANGES
+- KouChat v0.9.4 CHANGES
+
+* version 0.9.4 (xx.xx.2007):
+  - Trying new fix for empty nick list
+
 
 * version 0.9.3 (18.11.2007):
   - Made sure KouChat can connect to a network when it's made available, if missing on startup
