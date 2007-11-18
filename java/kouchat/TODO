@@ -15,6 +15,5 @@
  - Allow changing background color?
  - Flash taskbar when minimized or in background and msg is received?
  - Use systray icon with envelope if privmsg is received while minimized?
- - Nick list is still empty sometimes on startup
  - Fix console error messages
  - Check if possible to go around udp packet loss

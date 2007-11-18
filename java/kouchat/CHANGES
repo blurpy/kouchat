@@ -9,6 +9,7 @@
   - Added support for opening urls in the chat by clicking on a link
   - Changed packet size to be 512 bytes instead of 1024 bytes
   - Set a limit of max 450 characters allowed to send
+  - Trying yet another fix for empty nicklist after startup
 
 
 * version 0.9.2 (13.11.2007):
