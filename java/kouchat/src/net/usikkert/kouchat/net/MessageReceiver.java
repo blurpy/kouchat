@@ -37,7 +37,6 @@ import net.usikkert.kouchat.misc.ErrorHandler;
 public class MessageReceiver implements Runnable
 {
 	private static Logger log = Logger.getLogger( MessageReceiver.class.getName() );
-	private static final int BYTESIZE = 1024;
 
 	private MulticastSocket mcSocket;
 	private InetAddress address;
@@ -71,7 +70,8 @@ public class MessageReceiver implements Runnable
 		{
 			try
 			{
-				DatagramPacket packet = new DatagramPacket( new byte[BYTESIZE], BYTESIZE );
+				DatagramPacket packet = new DatagramPacket(
+						new byte[Constants.NETWORK_PACKET_SIZE], Constants.NETWORK_PACKET_SIZE );
 
 				mcSocket.receive( packet );
 				String ip = packet.getAddress().getHostAddress();

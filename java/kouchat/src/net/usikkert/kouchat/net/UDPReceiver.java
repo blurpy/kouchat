@@ -43,7 +43,6 @@ import net.usikkert.kouchat.misc.Settings;
 public class UDPReceiver implements Runnable
 {
 	private static Logger log = Logger.getLogger( UDPReceiver.class.getName() );
-	private static final int BYTESIZE = 1024;
 
 	private DatagramSocket udpSocket;
 	private ReceiverListener listener;
@@ -69,7 +68,8 @@ public class UDPReceiver implements Runnable
 		{
 			try
 			{
-				DatagramPacket packet = new DatagramPacket( new byte[BYTESIZE], BYTESIZE );
+				DatagramPacket packet = new DatagramPacket(
+						new byte[Constants.NETWORK_PACKET_SIZE], Constants.NETWORK_PACKET_SIZE );
 
 				udpSocket.receive( packet );
 				String ip = packet.getAddress().getHostAddress();
