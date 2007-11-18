@@ -351,9 +351,20 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 			public void run()
 			{
 				if ( ke.getKeyCode() == KeyEvent.VK_UP )
-					msgTF.setText( cmdHistory.goUp() );
+				{
+					String up = cmdHistory.goUp();
+
+					if ( !msgTF.getText().equals( up ) )
+						msgTF.setText( up );
+				}
+
 				else if ( ke.getKeyCode() == KeyEvent.VK_DOWN )
-					msgTF.setText( cmdHistory.goDown() );
+				{
+					String down = cmdHistory.goDown();
+
+					if ( !msgTF.getText().equals( down ) )
+						msgTF.setText( down );
+				}
 			}
 		} );
 	}
