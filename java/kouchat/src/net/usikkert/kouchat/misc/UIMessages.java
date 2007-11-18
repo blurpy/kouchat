@@ -151,7 +151,7 @@ public class UIMessages
 	{
 		msgController.showSystemMessage( "This is " + Constants.APP_NAME + " v" + Constants.APP_VERSION +
 				", by " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL + 
-				" - " + Constants.AUTHOR_WEB );
+				" - " + Constants.APP_WEB );
 	}
 
 	/**

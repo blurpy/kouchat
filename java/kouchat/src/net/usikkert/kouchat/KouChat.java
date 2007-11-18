@@ -50,7 +50,7 @@ public class KouChat
 	public static void main( String[] args )
 	{
 		System.out.println( Constants.APP_NAME + " v" + Constants.APP_VERSION );
-		System.out.println( "By " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL + " - " + Constants.AUTHOR_WEB );
+		System.out.println( "By " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL + " - " + Constants.APP_WEB );
 		
 		if ( args.length == 0 )
 			System.out.println( "Use --help for more information..." );
