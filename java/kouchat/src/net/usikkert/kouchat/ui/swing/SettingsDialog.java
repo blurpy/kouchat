@@ -76,8 +76,8 @@ public class SettingsDialog extends JDialog implements ActionListener
 		nickP.add( nickTF );
 		nickP.setBorder( BorderFactory.createTitledBorder( "Choose nick" ) );
 
-		ownColorL = new JLabel( "This is how your own text color looks" );
-		sysColorL = new JLabel( "This is how the system text color looks" );
+		ownColorL = new JLabel( "Own text color looks like this" );
+		sysColorL = new JLabel( "System text color looks like this" );
 		chooseOwnColorB = new JButton( "Change" );
 		chooseOwnColorB.addActionListener( this );
 		chooseSysColorB = new JButton( "Change" );
@@ -112,7 +112,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 		browserL = new JLabel( "Browser: " );
 		browserTF = new JTextField( 22 );
 
-		JPanel browserTopP = new JPanel();
+		JPanel browserTopP = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
 		browserTopP.add( browserL );
 		browserTopP.add( browserTF );
 
