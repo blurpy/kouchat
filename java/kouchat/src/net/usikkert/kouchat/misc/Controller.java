@@ -321,6 +321,8 @@ public class Controller
 			throw new CommandException( "You tried to send a private chat message while away. This should never happen..." );
 		else if ( privmsg.trim().length() == 0 )
 			throw new CommandException( "You tried to send an empty private chat message. This should never happen..." );
+		else if ( privmsg.length() > Constants.MESSAGE_MAX_CHARACTERS )
+			throw new CommandException( "You tried to send a private chat message with more than " + Constants.MESSAGE_MAX_CHARACTERS + " characters. This is not allowed..." );
 		else if ( userPort == 0 )
 			throw new CommandException( "You tried to send a private chat message to a user with no available port number. This should never happen..." );
 		else
