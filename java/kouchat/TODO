@@ -1,5 +1,5 @@
 
-- KouChat v0.9.3 TODO
+- KouChat v0.9.4 TODO
 
 * Release v1.0.0:
  - Javadoc
@@ -17,3 +17,5 @@
  - Use systray icon with envelope if privmsg is received while minimized?
  - Fix console error messages
  - Check if possible to go around udp packet loss
+ - Tooltips in settings
+ - Still having issues with empty nick list on startup
