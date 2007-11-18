@@ -67,7 +67,8 @@ public class MessageSender
 		{
 			try
 			{
-				DatagramPacket packet = new DatagramPacket( message.getBytes( Constants.NETWORK_CHARSET ), message.length(), address, Constants.NETWORK_CHAT_PORT );
+				DatagramPacket packet = new DatagramPacket( message.getBytes(
+						Constants.NETWORK_CHARSET ), message.length(), address, Constants.NETWORK_CHAT_PORT );
 				mcSocket.send( packet );
 			}
 
