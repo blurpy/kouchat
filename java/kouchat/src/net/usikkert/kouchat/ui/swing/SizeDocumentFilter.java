@@ -36,7 +36,7 @@ import javax.swing.text.DocumentFilter;
 public class SizeDocumentFilter extends DocumentFilter
 {
 	private int maxCharacters;
-	
+
 	/**
 	 * Constructor.
 	 * 
@@ -47,28 +47,6 @@ public class SizeDocumentFilter extends DocumentFilter
 	{
 		this.maxCharacters = maxCharacters;
 	}
-	
-	/**
-	 * Inserts the parts of the text that fits within the character limit.
-	 */
-	@Override
-	public void insertString( FilterBypass fb, int offset, String text, AttributeSet attr ) throws BadLocationException
-	{
-		if ( ( fb.getDocument().getLength() + text.length() ) <= maxCharacters )
-			super.insertString( fb, offset, text, attr );
-		
-		else
-		{
-			int allowedSize = maxCharacters - fb.getDocument().getLength();
-			super.insertString( fb, offset, text.substring( 0, allowedSize ), attr );
-		}
-	}
-
-	@Override
-	public void remove( FilterBypass fb, int offset, int length ) throws BadLocationException
-	{
-		super.remove( fb, offset, length );
-	}
 
 	/**
 	 * Replaces the parts of the text that fits within the character limit.
@@ -76,13 +54,24 @@ public class SizeDocumentFilter extends DocumentFilter
 	@Override
 	public void replace( FilterBypass fb, int offset, int length, String text, AttributeSet attrs ) throws BadLocationException
 	{
-		if ( ( fb.getDocument().getLength() + text.length() ) <= maxCharacters )
-			super.replace( fb, offset, length, text, attrs );
-		
+		if ( text != null && text.length() > 0 )
+		{
+			if ( text.contains( "\n" ) )
+				text = text.replace( '\n', ' ' );
+
+			if ( ( fb.getDocument().getLength() + text.length() - length ) <= maxCharacters )
+				super.replace( fb, offset, length, text, attrs );
+
+			else
+			{
+				int allowedSize = maxCharacters - fb.getDocument().getLength();
+				super.replace( fb, offset, length, text.substring( 0, allowedSize ), attrs );
+			}
+		}
+
 		else
 		{
-			int allowedSize = maxCharacters - fb.getDocument().getLength();
-			super.replace( fb, offset, length, text.substring( 0, allowedSize ), attrs );
+			super.replace( fb, offset, length, text, attrs );
 		}
 	}
 }
