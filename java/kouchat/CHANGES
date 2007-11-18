@@ -1,7 +1,7 @@
 
 - KouChat v0.9.3 CHANGES
 
-* version 0.9.3 (xx.xx.2007):
+* version 0.9.3 (18.11.2007):
   - Made sure KouChat can connect to a network when it's made available, if missing on startup
   - Added more error checking in the controller to stop away and topic from being changed if not connected
   - Switched home page from http://www.usikkert.net/ to http://kouchat.googlecode.com/
