@@ -26,6 +26,7 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.net.DefaultPrivateMessageResponder;
 import net.usikkert.kouchat.net.MessageParser;
 import net.usikkert.kouchat.net.DefaultMessageResponder;
@@ -217,6 +218,8 @@ public class Controller
 			throw new CommandException( "You tried to send a chat message while away. This should never happen..." );
 		else if ( msg.trim().length() == 0 )
 			throw new CommandException( "You tried to send an empty chat message. This should never happen..." );
+		else if ( msg.length() > Constants.MESSAGE_MAX_CHARACTERS )
+			throw new CommandException( "You tried to send a chat message with more than " + Constants.MESSAGE_MAX_CHARACTERS + " characters. This is not allowed..." );
 		else
 			messages.sendChatMessage( msg );
 	}

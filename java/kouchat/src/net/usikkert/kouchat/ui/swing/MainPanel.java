@@ -46,6 +46,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ChatWindow;
 import net.usikkert.kouchat.misc.CommandHistory;
 
@@ -84,6 +85,9 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		msgTF.addActionListener( this );
 		msgTF.addCaretListener( this );
 		msgTF.addKeyListener( this );
+
+		AbstractDocument msgDoc = (AbstractDocument) msgTF.getDocument();
+		msgDoc.setDocumentFilter( new SizeDocumentFilter( Constants.MESSAGE_MAX_CHARACTERS ) );
 
 		add( chatSP, BorderLayout.CENTER );
 		add( sideP, BorderLayout.EAST );
