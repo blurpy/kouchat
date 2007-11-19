@@ -32,17 +32,14 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -68,11 +65,11 @@ import net.usikkert.kouchat.misc.PrivateChatWindow;
 import net.usikkert.kouchat.misc.Settings;
 
 /**
- * Used for private chat sessions.
+ * The window used for private chat sessions.
  * 
  * @author Christian Ihle
  */
-public class PrivateChatFrame extends JFrame implements ActionListener, KeyListener, PrivateChatWindow, FileDropSource
+public class PrivateChatFrame extends JFrame implements ActionListener, KeyListener, PrivateChatWindow, FileDropSource, WindowListener, FocusListener
 {
 	private static final Logger log = Logger.getLogger( PrivateChatFrame.class.getName() );
 	private static final long serialVersionUID = 1L;
@@ -80,6 +77,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	private JTextPane chatTP;
 	private MutableAttributeSet chatAttr;
 	private StyledDocument chatDoc;
+	private JMenu fileMenu, toolsMenu;
 	private JMenuItem clearMI, closeMI;
 	private JTextField msgTF;
 	private CommandHistory cmdHistory;
@@ -112,17 +110,17 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 		setSize( 460, 340 );
 		setMinimumSize( new Dimension( 300, 250 ) );
-		updateNick();
 		setIconImage( new ImageIcon( getClass().getResource( Constants.APP_ICON ) ).getImage() );
+		updateNick();
 
 		fileTransferHandler = new FileTransferHandler( this );
 		fileTransferHandler.setMediator( mediator );
 
+		chatAttr = new SimpleAttributeSet();
 		chatTP = new JTextPane();
 		chatTP.setEditable( false );
 		chatTP.setBorder( BorderFactory.createEmptyBorder( 4, 6, 4, 6 ) );
 		chatTP.setTransferHandler( fileTransferHandler );
-		chatAttr = new SimpleAttributeSet();
 		chatDoc = chatTP.getStyledDocument();
 		JScrollPane chatScroll = new JScrollPane( chatTP );
 
@@ -152,8 +150,9 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		closeMI.setMnemonic( 'C' );
 		closeMI.setText( "Close" );
 		closeMI.addActionListener( this );
+		closeMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0 ) );
 
-		final JMenu fileMenu = new JMenu();
+		fileMenu = new JMenu();
 		fileMenu.setMnemonic( 'F' );
 		fileMenu.setText( "File" );
 		fileMenu.add( closeMI );
@@ -163,7 +162,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		clearMI.setText( "Clear chat" );
 		clearMI.addActionListener( this );
 
-		final JMenu toolsMenu = new JMenu();
+		toolsMenu = new JMenu();
 		toolsMenu.setMnemonic( 'T' );
 		toolsMenu.setText( "Tools" );
 		toolsMenu.add( clearMI );
@@ -176,8 +175,19 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		new MsgPopup( msgTF );
 		new ChatPopup( chatTP );
 
-		/* If this window is focused, the textfield will get keyboard events
-		 * no matter which component in the window was focused when typing was started. */
+		getRootPane().addFocusListener( this );
+		addWindowListener( this );
+		fixTextFieldFocus();
+
+		cmdHistory = new CommandHistory();
+	}
+
+	/**
+	 * If this window is focused, the textfield will get the keyboard events
+	 * if the chat area was focused when typing was started.
+	 */
+	private void fixTextFieldFocus()
+	{
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher( new KeyEventDispatcher()
 		{
 			public boolean dispatchKeyEvent( KeyEvent e )
@@ -194,52 +204,6 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 					return false;
 			}
 		} );
-
-		// Make sure the menubar gets focus when navigating with the keyboard.
-		getRootPane().addFocusListener( new FocusListener()
-		{
-			@Override
-			public void focusGained( FocusEvent e ) {}
-
-			@Override
-			public void focusLost( FocusEvent e )
-			{
-				if ( fileMenu.isPopupMenuVisible() || toolsMenu.isPopupMenuVisible() )
-					getRootPane().requestFocusInWindow();
-			}
-		} );
-
-		// Hide with Escape key
-		KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0, false );
-
-		Action escapeAction = new AbstractAction()
-		{
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed( ActionEvent e )
-			{
-				setVisible( false );
-			}
-		};
-
-		backP.getInputMap( JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT ).put( escapeKeyStroke, "ESCAPE" );
-		backP.getActionMap().put( "ESCAPE", escapeAction );
-
-		addWindowListener( new WindowAdapter()
-		{
-			@Override
-			public void windowActivated( WindowEvent e )
-			{
-				chatTP.repaint();
-
-				// Focus the textfield when the window is shown.
-				if ( msgTF.isEnabled() )
-					msgTF.requestFocusInWindow();
-			}
-		} );
-
-		cmdHistory = new CommandHistory();
 	}
 
 	/**
@@ -256,7 +220,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 			StyleConstants.setForeground( chatAttr, new Color( color ) );
 			chatDoc.insertString( chatDoc.getLength(), text + "\n", chatAttr );
 			chatTP.setCaretPosition( chatDoc.getLength() );
-			
+
 			if ( !isVisible() )
 				newMsg = true;
 		}
@@ -279,7 +243,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	}
 
 	/**
-	 * Shows the privchat dialog.
+	 * Shows the privchat window.
 	 */
 	@Override
 	public void setVisible( boolean visible )
@@ -292,16 +256,14 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 			if ( user == null || user.isAway() || me.isAway() )
 				msgTF.setEnabled( false );
 		}
-		
+
 		super.setVisible( visible );
 	}
 
-	/**
-	 * Sends a message when the user presses the enter key.
-	 */
 	@Override
 	public void actionPerformed( ActionEvent e )
 	{
+		// Sends a message when the user presses the enter key.
 		if ( e.getSource() == msgTF )
 		{
 			SwingUtilities.invokeLater( new Runnable()
@@ -326,20 +288,14 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		}
 	}
 
-	/**
-	 * Not in use.
-	 */
 	@Override
 	public void keyPressed( KeyEvent arg0 ) {}
 
-	/**
-	 * Not in use.
-	 */
 	@Override
 	public void keyTyped( KeyEvent arg0 ) {}
 
 	/**
-	 * Browser through the history when the user
+	 * Browse through the history when the user
 	 * presses up or down.
 	 */
 	@Override
@@ -369,24 +325,37 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		} );
 	}
 
+	/**
+	 * Clears the text in the write area.
+	 */
 	@Override
 	public void clearChatText()
 	{
 		msgTF.setText( "" );
 	}
 
+	/**
+	 * Returns the contents of the write area.
+	 */
 	@Override
 	public String getChatText()
 	{
 		return msgTF.getText();
 	}
 
+	/**
+	 * Disables the write field if away.
+	 */
 	@Override
 	public void setAway( boolean away )
 	{
 		msgTF.setEnabled( !away );
 	}
 
+	/**
+	 * Disables the write field, and opens the window if
+	 * there are unread messages so they don't get lost.
+	 */
 	@Override
 	public void setLoggedOff()
 	{
@@ -394,19 +363,64 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 
 		if ( !isVisible() && newMsg )
 		{
-			// Show the window so privmsgs don't get lost when a user logs off.
 			setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
 			setExtendedState( ICONIFIED );
 			setVisible( true );
 		}
-		
-		// To stop the open dialog from showing if a file is dropped
+
+		// To stop the open dialog from showing if a file is drag and dropped
 		user = null;
 	}
 
+	/**
+	 * Updates the titlebar with the nick name of the user.
+	 */
 	@Override
 	public void updateNick()
 	{
 		setTitle( Constants.APP_NAME + " - Private chat with " + user.getNick() );
 	}
+
+	@Override
+	public void focusGained( FocusEvent e ) {}
+
+	/**
+	 * Make sure the menubar gets focus when navigating with the keyboard.
+	 */
+	@Override
+	public void focusLost( FocusEvent e )
+	{
+		if ( fileMenu.isPopupMenuVisible() || toolsMenu.isPopupMenuVisible() )
+			getRootPane().requestFocusInWindow();
+	}
+
+	/**
+	 * Focus the textfield when the window is shown.
+	 */
+	@Override
+	public void windowActivated( WindowEvent e )
+	{
+		chatTP.repaint();
+
+		if ( msgTF.isEnabled() )
+			msgTF.requestFocusInWindow();
+	}
+
+	@Override
+	public void windowClosed( WindowEvent e ) {}
+
+	@Override
+	public void windowClosing( WindowEvent e ) {}
+
+	@Override
+	public void windowDeactivated( WindowEvent e ) {}
+
+	@Override
+	public void windowDeiconified( WindowEvent e ) {}
+
+	@Override
+	public void windowIconified( WindowEvent e ) {}
+
+	@Override
+	public void windowOpened( WindowEvent e ) {}
 }

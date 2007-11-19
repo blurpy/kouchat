@@ -109,7 +109,8 @@ public class SwingMediator implements Mediator, UserInterface
 	@Override
 	public void minimize()
 	{
-		gui.setVisible( false );
+		if ( sysTray.isSystemTraySupport() )
+			gui.setVisible( false );
 	}
 
 	@Override

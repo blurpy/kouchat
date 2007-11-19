@@ -27,25 +27,25 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
-import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
-public class KouChatFrame extends JFrame
+/**
+ * This is the main chat window.
+ * 
+ * @author Christian Ihle
+ */
+public class KouChatFrame extends JFrame implements WindowListener, FocusListener
 {
 	private static final long serialVersionUID = 1L;
-	
+
 	private MainPanel mainP;
 	private SidePanel sideP;
 	private ButtonPanel buttonP;
@@ -58,14 +58,14 @@ public class KouChatFrame extends JFrame
 	{
 		System.setProperty( Constants.PROPERTY_CLIENT_UI, "Swing" );
 		new SwingPopupErrorHandler();
-		
+
 		buttonP = new ButtonPanel();
 		sideP = new SidePanel( buttonP );
 		mainP = new MainPanel( sideP );
 		sysTray = new SysTray();
 		settingsDialog = new SettingsDialog();
 		menuBar = new MenuBar();
-		
+
 		ComponentHandler compHandler = new ComponentHandler();
 		compHandler.setGui( this );
 		compHandler.setButtonPanel( buttonP );
@@ -74,7 +74,7 @@ public class KouChatFrame extends JFrame
 		compHandler.setSysTray( sysTray );
 		compHandler.setSettingsDialog( settingsDialog );
 		compHandler.setMenuBar( menuBar );
-		
+
 		mediator = new SwingMediator( compHandler );
 		buttonP.setMediator( mediator );
 		sideP.setMediator( mediator );
@@ -82,7 +82,7 @@ public class KouChatFrame extends JFrame
 		sysTray.setMediator( mediator );
 		settingsDialog.setMediator( mediator );
 		menuBar.setMediator( mediator );
-		
+
 		setJMenuBar( menuBar );
 		getContentPane().add( mainP, BorderLayout.CENTER );
 		setTitle( Constants.APP_NAME + " v" + Constants.APP_VERSION + " - (Not connected)" );
@@ -92,8 +92,28 @@ public class KouChatFrame extends JFrame
 		setDefaultCloseOperation( JFrame.DO_NOTHING_ON_CLOSE );
 		setVisible( true );
 
-		/* If this window is focused, the textfield will get keyboard events
-		 * no matter which component in the window was focused when typing was started. */
+		getRootPane().addFocusListener( this );
+		addWindowListener( this );
+		fixTextFieldFocus();
+
+		// Try to stop the gui from lagging during startup
+		SwingUtilities.invokeLater( new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				mediator.start();
+				mainP.getMsgTF().requestFocusInWindow();
+			}
+		} );
+	}
+	
+	/**
+	 * If this window is focused, the textfield will get the keyboard events
+	 * if the chat area or the nick list was focused when typing was started.
+	 */
+	private void fixTextFieldFocus()
+	{
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher( new KeyEventDispatcher()
 		{
 			@Override
@@ -111,75 +131,60 @@ public class KouChatFrame extends JFrame
 					return false;
 			}
 		} );
+	}
 
-		// Make sure the menubar gets focus when navigating with the keyboard.
-		getRootPane().addFocusListener( new FocusListener()
-		{
-			@Override
-			public void focusGained( FocusEvent e ) {}
+	@Override
+	public void focusGained( FocusEvent e ) {}
 
-			@Override
-			public void focusLost( FocusEvent e )
-			{
-				if ( menuBar.isPopupMenuVisible() )
-					getRootPane().requestFocusInWindow();
-			}
-		} );
+	/**
+	 * Make sure the menubar gets focus when navigating with the keyboard.
+	 */
+	@Override
+	public void focusLost( FocusEvent e )
+	{
+		if ( menuBar.isPopupMenuVisible() )
+			getRootPane().requestFocusInWindow();
+	}
 
-		// Minimize with Escape key
-		KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0, false );
-
-		Action escapeAction = new AbstractAction()
-		{
-			private static final long serialVersionUID = 1L;
-			
-			@Override
-			public void actionPerformed( ActionEvent e )
-			{
-				if ( sysTray.isSystemTraySupport() )
-					setVisible( false );
-			}
-		};
-		
-		mainP.getInputMap( JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT ).put( escapeKeyStroke, "ESCAPE" );
-		mainP.getActionMap().put( "ESCAPE", escapeAction );
-
-		addWindowListener( new WindowAdapter()
-		{
-			@Override
-			public void windowClosing( WindowEvent arg0 )
-			{
-				// Shut down the right way
-				SwingUtilities.invokeLater( new Runnable()
-				{
-					@Override
-					public void run()
-					{
-						mediator.quit();
-					}
-				} );
-			}
-			
-			@Override
-			public void windowActivated( WindowEvent e )
-			{
-				mainP.getChatTP().repaint();
-				sideP.getNicList().repaint();
-
-				// Focus the textfield when the window is shown.
-				mainP.getMsgTF().requestFocusInWindow();
-			}
-		} );
-
-		// Try to stop the gui from lagging during startup
+	/**
+	 * Shut down the right way.
+	 */
+	@Override
+	public void windowClosing( WindowEvent e )
+	{
 		SwingUtilities.invokeLater( new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				mediator.start();
-				mainP.getMsgTF().requestFocusInWindow();
+				mediator.quit();
 			}
 		} );
 	}
+
+	/**
+	 * Fix focus and repaint issues when the window gets focused.
+	 */
+	@Override
+	public void windowActivated( WindowEvent e )
+	{
+		mainP.getChatTP().repaint();
+		sideP.getNicList().repaint();
+		mainP.getMsgTF().requestFocusInWindow();
+	}
+
+	@Override
+	public void windowClosed( WindowEvent e ) {}
+
+	@Override
+	public void windowDeactivated( WindowEvent e ) {}
+
+	@Override
+	public void windowDeiconified( WindowEvent e ) {}
+
+	@Override
+	public void windowIconified( WindowEvent e ) {}
+
+	@Override
+	public void windowOpened( WindowEvent e ) {}
 }
