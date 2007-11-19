@@ -157,6 +157,11 @@ public class DefaultMessageResponder implements MessageResponder
 			newUser.setNick( "" + newUser.getCode() );
 		}
 
+		else if ( !Tools.isValidNick( newUser.getNick() ) )
+		{
+			newUser.setNick( "" + newUser.getCode() );
+		}
+
 		controller.getNickList().add( newUser );
 		uiMsg.showUserLoggedOn( newUser.getNick(), newUser.getIpAddress() );
 	}
@@ -170,6 +175,11 @@ public class DefaultMessageResponder implements MessageResponder
 		}
 
 		else if ( controller.isNickInUse( newUser.getNick() ) )
+		{
+			newUser.setNick( "" + newUser.getCode() );
+		}
+
+		else if ( !Tools.isValidNick( newUser.getNick() ) )
 		{
 			newUser.setNick( "" + newUser.getCode() );
 		}
