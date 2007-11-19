@@ -96,6 +96,7 @@ public class MessageParser implements ReceiverListener
 					NickDTO newUser = new NickDTO( msgNick, msgCode );
 					newUser.setIpAddress( ipAddress );
 					newUser.setLastIdle( System.currentTimeMillis() );
+					newUser.setLogonTime( System.currentTimeMillis() );
 
 					responder.userLogOn( newUser );
 				}
@@ -110,6 +111,8 @@ public class MessageParser implements ReceiverListener
 						user.setAway( true );
 
 					user.setLastIdle( System.currentTimeMillis() );
+					user.setLogonTime( System.currentTimeMillis() );
+
 					responder.userExposing( user );
 				}
 
