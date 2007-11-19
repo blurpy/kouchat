@@ -19,6 +19,5 @@
  - Check if possible to go around udp packet loss
  - Tooltips in settings
  - Still having issues with empty nick list on startup
- - Shortcuts for Tools menu
  - Tweak regex for urls
  - Split TODO into v1.0 and v1.1
