@@ -6,6 +6,7 @@
   - Added shortcuts for items in the Tools menu
   - Added missing check for invalid nick when other users log on
   - Set online variable to current time if client doesn't send that info
+  - Using menu accelerator instead of global KeyEventDispatcher to minimize on escape
 
 
 * version 0.9.3 (18.11.2007):
