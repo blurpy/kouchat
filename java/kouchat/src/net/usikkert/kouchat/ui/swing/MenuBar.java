@@ -23,10 +23,12 @@ package net.usikkert.kouchat.ui.swing;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.Constants;
@@ -62,12 +64,15 @@ public class MenuBar extends JMenuBar implements ActionListener
 		awayMI = new JMenuItem( "Set away" );
 		awayMI.setMnemonic( 'A' );
 		awayMI.addActionListener( this );
+		awayMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_F2, 0 ) );
 		topicMI = new JMenuItem( "Change topic" );
 		topicMI.setMnemonic( 'O' );
 		topicMI.addActionListener( this );
+		topicMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_F3, 0 ) );
 		settingsMI = new JMenuItem( "Settings" );
 		settingsMI.setMnemonic( 'S' );
 		settingsMI.addActionListener( this );
+		settingsMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_F4, 0 ) );
 
 		toolsMenu.add( clearMI );
 		toolsMenu.add( awayMI );
