@@ -21,3 +21,4 @@
  - Still having issues with empty nick list on startup
  - Tweak regex for urls
  - Split TODO into v1.0 and v1.1
+ - When someone logs on, and a user is selected, everyone in user list gets selected
