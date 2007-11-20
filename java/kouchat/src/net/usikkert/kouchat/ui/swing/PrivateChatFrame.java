@@ -38,8 +38,11 @@ import java.awt.event.WindowListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -150,7 +153,6 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		closeMI.setMnemonic( 'C' );
 		closeMI.setText( "Close" );
 		closeMI.addActionListener( this );
-		closeMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0 ) );
 
 		fileMenu = new JMenu();
 		fileMenu.setMnemonic( 'F' );
@@ -178,6 +180,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		getRootPane().addFocusListener( this );
 		addWindowListener( this );
 		fixTextFieldFocus();
+		hideWithEscape( backP );
 
 		cmdHistory = new CommandHistory();
 	}
@@ -204,6 +207,30 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 					return false;
 			}
 		} );
+	}
+
+	/**
+	 * Adds a shortcut to hide the window when escape is pressed.
+	 * 
+	 * @param panel The panel to add the shortcut to.
+	 */
+	private void hideWithEscape( JPanel panel )
+	{
+		KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0, false );
+
+		Action escapeAction = new AbstractAction()
+		{
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed( ActionEvent e )
+			{
+				close();
+			}
+		};
+
+		panel.getInputMap( JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT ).put( escapeKeyStroke, "ESCAPE" );
+		panel.getActionMap().put( "ESCAPE", escapeAction );
 	}
 
 	/**
@@ -243,7 +270,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	}
 
 	/**
-	 * Shows the privchat window.
+	 * Hides or shows the privchat window.
 	 */
 	@Override
 	public void setVisible( boolean visible )
@@ -279,16 +306,24 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 
 		else if ( e.getSource() == closeMI )
 		{
-			if ( user == null )
-				dispose();
-			else
-				setVisible( false );
+			close();
 		}
 
 		else if ( e.getSource() == clearMI )
 		{
 			chatTP.setText( "" );
 		}
+	}
+
+	/**
+	 * Closes or disposes the window depending on if the user is logged off or not.
+	 */
+	private void close()
+	{
+		if ( user == null )
+			dispose();
+		else
+			setVisible( false );
 	}
 
 	@Override

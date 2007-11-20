@@ -27,14 +27,19 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 /**
@@ -95,6 +100,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 		getRootPane().addFocusListener( this );
 		addWindowListener( this );
 		fixTextFieldFocus();
+		hideWithEscape();
 
 		// Try to stop the gui from lagging during startup
 		SwingUtilities.invokeLater( new Runnable()
@@ -107,7 +113,30 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 			}
 		} );
 	}
-	
+
+	/**
+	 * Adds a shortcut to hide the window when escape is pressed.
+	 */
+	private void hideWithEscape()
+	{
+		KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0, false );
+
+		Action escapeAction = new AbstractAction()
+		{
+			private static final long serialVersionUID = 1L;
+			
+			@Override
+			public void actionPerformed( ActionEvent e )
+			{
+				if ( sysTray.isSystemTraySupport() )
+					setVisible( false );
+			}
+		};
+		
+		mainP.getInputMap( JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT ).put( escapeKeyStroke, "ESCAPE" );
+		mainP.getActionMap().put( "ESCAPE", escapeAction );
+	}
+
 	/**
 	 * If this window is focused, the textfield will get the keyboard events
 	 * if the chat area or the nick list was focused when typing was started.

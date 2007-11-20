@@ -48,7 +48,6 @@ public class MenuBar extends JMenuBar implements ActionListener
 		minimizeMI = new JMenuItem( "Minimize" );
 		minimizeMI.setMnemonic( 'M' );
 		minimizeMI.addActionListener( this );
-		minimizeMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0 ) );
 		quitMI = new JMenuItem( "Quit" );
 		quitMI.setMnemonic( 'Q' );
 		quitMI.addActionListener( this );
