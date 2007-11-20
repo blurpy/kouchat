@@ -137,8 +137,8 @@ public class DefaultMessageResponder implements MessageResponder
 			
 			if ( user.getPrivchat() != null )
 			{
-				user.getPrivchat().setLoggedOff();
 				uiMsg.showPrivateLoggedOff( user );
+				user.getPrivchat().setLoggedOff();
 			}
 		}
 	}

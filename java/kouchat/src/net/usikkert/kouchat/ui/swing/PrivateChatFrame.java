@@ -279,7 +279,10 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 
 		else if ( e.getSource() == closeMI )
 		{
-			setVisible( false );
+			if ( user == null )
+				dispose();
+			else
+				setVisible( false );
 		}
 
 		else if ( e.getSource() == clearMI )
@@ -355,6 +358,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	/**
 	 * Disables the write field, and opens the window if
 	 * there are unread messages so they don't get lost.
+	 * If not, the window is disposed.
 	 */
 	@Override
 	public void setLoggedOff()
@@ -366,6 +370,11 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 			setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
 			setExtendedState( ICONIFIED );
 			setVisible( true );
+		}
+
+		else if ( !isVisible() )
+		{
+			dispose();
 		}
 
 		// To stop the open dialog from showing if a file is drag and dropped

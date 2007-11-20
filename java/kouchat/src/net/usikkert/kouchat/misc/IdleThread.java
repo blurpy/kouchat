@@ -117,8 +117,8 @@ public class IdleThread extends Thread
 		
 		if ( user.getPrivchat() != null )
 		{
-			user.getPrivchat().setLoggedOff();
 			ui.getUIMessages().showPrivateUserTimedOut( user );
+			user.getPrivchat().setLoggedOff();
 		}
 	}
 
