@@ -41,6 +41,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.ToolTipManager;
 
 /**
  * This is the main chat window.
@@ -87,6 +88,9 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 		sysTray.setMediator( mediator );
 		settingsDialog.setMediator( mediator );
 		menuBar.setMediator( mediator );
+
+		// Show tooltips for 10 seconds. Default is very short.
+		ToolTipManager.sharedInstance().setDismissDelay( 10000 );
 
 		setJMenuBar( menuBar );
 		getContentPane().add( mainP, BorderLayout.CENTER );
