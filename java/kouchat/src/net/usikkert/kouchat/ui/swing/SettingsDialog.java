@@ -184,8 +184,20 @@ public class SettingsDialog extends JDialog implements ActionListener
 		setTitle( Constants.APP_NAME + " - Settings" );
 		setResizable( false );
 		setModal( true );
+		hideWithEscape();
 
-		// Hide with Escape key
+		// So the save button activates using Enter
+		getRootPane().setDefaultButton( saveB );
+
+		settings = Settings.getSettings();
+		errorHandler = ErrorHandler.getErrorHandler();
+	}
+
+	/**
+	 * Adds a shortcut to hide the window when escape is pressed.
+	 */
+	private void hideWithEscape()
+	{
 		KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0, false );
 
 		Action escapeAction = new AbstractAction()
@@ -201,12 +213,6 @@ public class SettingsDialog extends JDialog implements ActionListener
 
 		getRootPane().getInputMap( JComponent.WHEN_IN_FOCUSED_WINDOW ).put( escapeKeyStroke, "ESCAPE" );
 		getRootPane().getActionMap().put( "ESCAPE", escapeAction );
-
-		// So the save button activates using Enter
-		getRootPane().setDefaultButton( saveB );
-
-		settings = Settings.getSettings();
-		errorHandler = ErrorHandler.getErrorHandler();
 	}
 
 	public void setMediator( Mediator mediator )
@@ -357,5 +363,6 @@ public class SettingsDialog extends JDialog implements ActionListener
 		loggingCB.setSelected( settings.isLogging() );
 		browserTF.setText( settings.getBrowser() );
 		setVisible( true );
+		nickTF.requestFocusInWindow();
 	}
 }
