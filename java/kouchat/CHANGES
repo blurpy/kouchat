@@ -7,6 +7,7 @@
   - Added missing check for invalid nick when other users log on
   - Set online variable to current time if client doesn't send that info
   - Making sure the privchat window is disposed when closed and user is logged off
+  - Set the nick list to single selection mode
 
 
 * version 0.9.3 (18.11.2007):

@@ -18,7 +18,6 @@
  - Fix console error messages
  - Check if possible to go around udp packet loss
  - Tooltips in settings
- - Still having issues with empty nick list on startup
+ - Still having issues with empty nick list on startup?
  - Tweak regex for urls
  - Split TODO into v1.0 and v1.1
- - When someone logs on, and a user is selected, everyone in user list gets selected
