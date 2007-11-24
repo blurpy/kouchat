@@ -35,6 +35,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.Constants;
@@ -61,12 +62,12 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 		setLayout( new BorderLayout( 2, 2 ) );
 
 		fileTransferHandler = new FileTransferHandler( this );
-		nickDLM = new NickListModel();
-		nickL = new JList( nickDLM );
+		nickL = new JList();
 		nickL.setCellRenderer( new NickListCellRenderer() );
 		nickL.setFixedCellWidth( 110 );
 		nickL.addMouseListener( this );
 		nickL.setTransferHandler( fileTransferHandler );
+		nickL.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 		nickSP = new JScrollPane( nickL );
 
 		add( nickSP, BorderLayout.CENTER );
@@ -102,7 +103,9 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 			@Override
 			public void run()
 			{
+				nickDLM = new NickListModel();
 				nickDLM.setNickList( nickList );
+				nickL.setModel( nickDLM );
 			}
 		} );
 	}

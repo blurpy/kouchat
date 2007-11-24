@@ -37,7 +37,6 @@ public class NickListModel extends AbstractListModel implements NickListListener
 	{
 		this.nickList = nickList;
 		nickList.addNickListListener( this );
-		fireContentsChanged( this, 0, nickList.size() -1 );
 	}
 
 	@Override
@@ -58,18 +57,18 @@ public class NickListModel extends AbstractListModel implements NickListListener
 	@Override
 	public void nickAdded( int pos )
 	{
-		fireIntervalAdded( this, 0, nickList.size() -1 );
+		fireIntervalAdded( this, pos, pos );
 	}
 
 	@Override
 	public void nickChanged( int pos )
 	{
-		fireContentsChanged( this, 0, nickList.size() -1 );
+		fireContentsChanged( this, pos, pos );
 	}
 
 	@Override
 	public void nickRemoved( int pos )
 	{
-		fireIntervalRemoved( this, 0, nickList.size() -1 );
+		fireIntervalRemoved( this, pos, pos );
 	}
 }

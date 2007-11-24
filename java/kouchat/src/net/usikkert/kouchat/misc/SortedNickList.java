@@ -45,7 +45,7 @@ public class SortedNickList implements NickList
 		if ( success )
 		{
 			Collections.sort( nickList );
-			fireNickAdded( nickList.size() -1 );
+			fireNickAdded( nickList.indexOf( nick ) );
 		}
 
 		return success;
@@ -85,7 +85,7 @@ public class SortedNickList implements NickList
 	{
 		NickDTO oldNick = nickList.set( pos, nick );
 		Collections.sort( nickList );
-		fireNickChanged( pos );
+		fireNickChanged( nickList.indexOf( nick ) );
 
 		return oldNick;
 	}
