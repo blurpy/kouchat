@@ -9,6 +9,7 @@
   - Making sure the privchat window is disposed when closed and user is logged off
   - Set the nick list to single selection mode
   - Added tooltips to some of the settings
+  - Fixed repaint issue with the scrollbar after being minimized to tray
 
 
 * version 0.9.3 (18.11.2007):
