@@ -42,17 +42,12 @@ import net.usikkert.kouchat.util.Tools;
 public class ChatLogger implements SettingsListener
 {
 	/**
-	 * The folder where log files are saved.
-	 */
-	private static final String LOG_FOLDER = Constants.APP_FOLDER + "logs";
-
-	/**
 	 * The name of the log file. Uses date, time, and milliseconds to make sure
 	 * it is unique.
 	 */
 	private static final String LOG_FILE = "kouchat-" + Tools.dateToString( null, "yyyy.MM.dd-HH.mm.ss-SSS" ) + ".log";
 
-	private static Logger log = Logger.getLogger( ChatLogger.class.getName() );
+	private static final Logger log = Logger.getLogger( ChatLogger.class.getName() );
 	
 	private Settings settings;
 	private BufferedWriter writer;
@@ -93,12 +88,12 @@ public class ChatLogger implements SettingsListener
 
 		try
 		{
-			File logdir = new File( LOG_FOLDER );
+			File logdir = new File( Constants.APP_LOG_FOLDER );
 
 			if ( !logdir.exists() )
 				logdir.mkdirs();
 
-			writer = new BufferedWriter( new FileWriter( LOG_FOLDER + File.separator + LOG_FILE ) );
+			writer = new BufferedWriter( new FileWriter( Constants.APP_LOG_FOLDER + LOG_FILE ) );
 			open = true;
 		}
 

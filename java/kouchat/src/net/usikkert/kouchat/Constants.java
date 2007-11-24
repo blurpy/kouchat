@@ -124,4 +124,10 @@ public interface Constants
 	public static final String APP_FOLDER = System.getProperty( "user.home" )
 			+ System.getProperty( "file.separator" ) + "." + APP_NAME.toLowerCase()
 			+ System.getProperty( "file.separator" );
+
+	/**
+	 * The folder where log files are stored.
+	 */
+	public static final String APP_LOG_FOLDER = APP_FOLDER + "logs"
+			+ System.getProperty( "file.separator" );
 }
