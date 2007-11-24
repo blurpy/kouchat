@@ -125,6 +125,11 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		return chatTP;
 	}
 
+	public JScrollPane getChatSP()
+	{
+		return chatSP;
+	}
+
 	public void clearChat()
 	{
 		chatTP.setText( "" );
