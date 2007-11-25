@@ -152,7 +152,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 			@Override
 			public boolean dispatchKeyEvent( KeyEvent e )
 			{
-				if ( e.getID() == KeyEvent.KEY_TYPED && isFocused() && ( e.getSource() == mainP.getChatTP() || e.getSource() == sideP.getNicList() ) ) 
+				if ( e.getID() == KeyEvent.KEY_TYPED && isFocused() && ( e.getSource() == mainP.getChatTP() || e.getSource() == sideP.getNickList() ) ) 
 				{
 					KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent( mainP.getMsgTF(), e );
 					mainP.getMsgTF().requestFocusInWindow();
@@ -202,7 +202,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 	public void windowActivated( WindowEvent e )
 	{
 		mainP.getChatSP().repaint();
-		sideP.getNicList().repaint();
+		sideP.getNickList().repaint();
 		mainP.getMsgTF().requestFocusInWindow();
 	}
 

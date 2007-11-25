@@ -108,7 +108,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 		return (NickDTO) nickL.getSelectedValue();
 	}
 	
-	public JList getNicList()
+	public JList getNickList()
 	{
 		return nickL;
 	}
