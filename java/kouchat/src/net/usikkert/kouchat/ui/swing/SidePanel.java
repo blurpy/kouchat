@@ -96,20 +96,10 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 		fileTransferHandler.setMediator( mediator );
 	}
 
-	public void setNickList( final NickList nickList )
+	public void setNickList( NickList nickList )
 	{
-		nickDLM = new NickListModel();
-		nickDLM.setNickList( nickList );
+		nickDLM = new NickListModel( nickList );
 		nickL.setModel( nickDLM );
-
-		SwingUtilities.invokeLater( new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				nickL.repaint();
-			}
-		} );
 	}
 
 	@Override

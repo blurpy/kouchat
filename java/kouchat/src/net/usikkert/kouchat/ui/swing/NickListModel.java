@@ -27,45 +27,69 @@ import net.usikkert.kouchat.event.NickListListener;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.NickList;
 
+/**
+ * This is the list model for the user list. It's just a facade above
+ * the real list containing the users, so it can deliver events on changes.
+ * 
+ * @author Christian Ihle
+ */
 public class NickListModel extends AbstractListModel implements NickListListener
 {
 	private static final long serialVersionUID = 1L;
 	
 	private NickList nickList;
 
-	public void setNickList( NickList nickList )
+	/**
+	 * Constructor. Adds this list model as a listener for events
+	 * from the real user list.
+	 * 
+	 * @param nickList The list where the real users are.
+	 */
+	public NickListModel( NickList nickList )
 	{
 		this.nickList = nickList;
 		nickList.addNickListListener( this );
 	}
 
+	/**
+	 * Returns the user at the specified index position.
+	 */
 	@Override
 	public NickDTO getElementAt( int index )
 	{
 		return nickList.get( index );
 	}
 
+	/**
+	 * Returns the number of users in the user list.
+	 */
 	@Override
 	public int getSize()
 	{
-		if ( nickList == null )
-			return 0;
-		else
-			return nickList.size();
+		return nickList.size();
 	}
 
+	/**
+	 * Sends a fireIntervalAdded() event.
+	 */
 	@Override
 	public void nickAdded( int pos )
 	{
 		fireIntervalAdded( this, pos, pos );
 	}
 
+	/**
+	 * Sends a fireContentsChanged() event.
+	 */
 	@Override
 	public void nickChanged( int pos )
 	{
 		fireContentsChanged( this, pos, pos );
 	}
 
+	/**
+	 * Sends a fireIntervalRemoved() event.
+	 */
 	@Override
 	public void nickRemoved( int pos )
 	{
