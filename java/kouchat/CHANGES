@@ -1,7 +1,7 @@
 
 - KouChat v0.9.4 CHANGES
 
-* version 0.9.4 (xx.xx.2007):
+* version 0.9.4 (25.11.2007):
   - Trying new fix for empty nick list
   - Added shortcuts for items in the Tools menu
   - Added missing check for invalid nick when other users log on

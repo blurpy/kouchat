@@ -3,20 +3,21 @@
 
 * Release v1.0.0:
  - Javadoc
- - User guide
  - JUnit
+ - User guide
  - Add command for:
    - Receive file
    - Abort file transfer
- - Auto completion for nick, command and files?
+ - Better console error messages
+ - Tweak regex for urls
+
+
+* Release v1.x:
  - Use encryption for privchat?
  - Use UTF-8 messages?
  - Allow changing font size?
  - Allow changing background color?
  - Flash taskbar when minimized or in background and msg is received?
  - Use systray icon with envelope if privmsg is received while minimized?
- - Fix console error messages
- - Check if possible to go around udp packet loss
- - Still having issues with empty nick list on startup?
- - Tweak regex for urls
- - Split TODO into v1.0 and v1.1
+ - Possible to go around udp packet loss?
+ - Auto completion for nick, command and files?
