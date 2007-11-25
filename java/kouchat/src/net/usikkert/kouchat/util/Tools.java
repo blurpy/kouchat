@@ -32,10 +32,20 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * A collection of static utility methods.
+ * 
+ * @author Christian Ihle
+ */
 public class Tools
 {
-	private static Logger log = Logger.getLogger( Tools.class.getName() );
+	private static final Logger log = Logger.getLogger( Tools.class.getName() );
 
+	/**
+	 * Creates a timestamp in the format [HH:MM:SS].
+	 * 
+	 * @return The current time.
+	 */
 	public static String getTime()
 	{
 		int h = Calendar.getInstance().get( Calendar.HOUR_OF_DAY );
@@ -45,6 +55,13 @@ public class Tools
 		return "[" + getDoubleDigit( h ) + ":" + getDoubleDigit( m ) + ":" + getDoubleDigit( s ) + "]";
 	}
 
+	/**
+	 * Checks if a number is lower than 10, and creates a string with
+	 * a 0 added at the start if that is the case. Useful for clocks.
+	 * 
+	 * @param number The number to check.
+	 * @return A string representation of the number.
+	 */
 	public static String getDoubleDigit( int number )
 	{
 		if ( number < 10 )
@@ -53,6 +70,14 @@ public class Tools
 			return "" + number;	
 	}
 
+	/**
+	 * Converts a date to a string, in the format specified.
+	 * 
+	 * @param d The date to convert to a string.
+	 * @param format The format to get the date in.
+	 * @return A converted date.
+	 * @see http://java.sun.com/javase/6/docs/api/java/text/SimpleDateFormat.html
+	 */
 	public static String dateToString( Date d, String format )
 	{
 		String date = "";
@@ -66,6 +91,14 @@ public class Tools
 		return date;
 	}
 
+	/**
+	 * Converts a string into a date, from the format specified.
+	 * 
+	 * @param s The string to convert into a date.
+	 * @param format The format of the date.
+	 * @return The string as a date.
+	 * @see http://java.sun.com/javase/6/docs/api/java/text/SimpleDateFormat.html
+	 */
 	public static Date stringToDate( String s, String format )
 	{
 		Date date = null;
@@ -84,6 +117,14 @@ public class Tools
 		return date;
 	}
 
+	/**
+	 * Get a decimal number as a string, in the specified format.
+	 * 
+	 * @param format The format to get the number.
+	 * @param number The number to add formatting to.
+	 * @return The formatted number.
+	 * @see http://java.sun.com/javase/6/docs/api/java/text/DecimalFormat.html
+	 */
 	public static String decimalFormat( String format, double number )
 	{
 		DecimalFormat formatter = new DecimalFormat( format );
@@ -105,6 +146,13 @@ public class Tools
 		return m.matches();
 	}
 
+	/**
+	 * Converts a number of bytes into megabytes or kilobytes,
+	 * depending on the size.
+	 * 
+	 * @param bytes The number of bytes to convert.
+	 * @return A string representation of the bytes.
+	 */
 	public static String byteToString( long bytes )
 	{
 		String size = "";
@@ -124,6 +172,12 @@ public class Tools
 		return size;
 	}
 
+	/**
+	 * Returns a string showing how long has passed from 'then' to now.
+	 * 
+	 * @param then An earlier time.
+	 * @return How long it's been since 'then'.
+	 */
 	public static String howLongFromNow( long then )
 	{
 		if ( then != 0 )
@@ -146,7 +200,7 @@ public class Tools
 		
 		else
 		{
-			return 0 + " days, 00:00:00";
+			return "0 days, 00:00:00";
 		}
 	}
 }
