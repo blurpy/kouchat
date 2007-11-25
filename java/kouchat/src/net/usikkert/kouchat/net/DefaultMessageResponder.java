@@ -360,7 +360,7 @@ public class DefaultMessageResponder implements MessageResponder
 	@Override
 	public void nickCrash()
 	{
-		me.setNick( "" + me.getCode() );
+		controller.changeNick( me.getCode(), "" + me.getCode() );
 		uiMsg.showNickCrash( settings.getMe().getNick() );
 		ui.showTopic();
 	}
