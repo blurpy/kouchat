@@ -22,6 +22,7 @@
 package net.usikkert.kouchat.ui.swing;
 
 import javax.swing.AbstractListModel;
+import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.event.NickListListener;
 import net.usikkert.kouchat.misc.NickDTO;
@@ -47,7 +48,6 @@ public class NickListModel extends AbstractListModel implements NickListListener
 	 */
 	public NickListModel( NickList nickList )
 	{
-		System.out.println( "NickListModel" );
 		this.nickList = nickList;
 		nickList.addNickListListener( this );
 	}
@@ -58,7 +58,6 @@ public class NickListModel extends AbstractListModel implements NickListListener
 	@Override
 	public NickDTO getElementAt( int index )
 	{
-		System.out.println( "getElementAt: " + index );
 		return nickList.get( index );
 	}
 
@@ -68,7 +67,6 @@ public class NickListModel extends AbstractListModel implements NickListListener
 	@Override
 	public int getSize()
 	{
-		System.out.println( "getSize: " + nickList.size() );
 		return nickList.size();
 	}
 
@@ -76,29 +74,47 @@ public class NickListModel extends AbstractListModel implements NickListListener
 	 * Sends a fireIntervalAdded() event.
 	 */
 	@Override
-	public void nickAdded( int pos )
+	public void nickAdded( final int pos )
 	{
-		System.out.println( "nickAdded: " + pos );
-		fireIntervalAdded( this, pos, pos );
+		SwingUtilities.invokeLater( new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				fireIntervalAdded( this, pos, pos );
+			}
+		} );
 	}
 
 	/**
 	 * Sends a fireContentsChanged() event.
 	 */
 	@Override
-	public void nickChanged( int pos )
+	public void nickChanged( final int pos )
 	{
-		System.out.println( "nickChanged: " + pos );
-		fireContentsChanged( this, pos, pos );
+		SwingUtilities.invokeLater( new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				fireContentsChanged( this, pos, pos );
+			}
+		} );
 	}
 
 	/**
 	 * Sends a fireIntervalRemoved() event.
 	 */
 	@Override
-	public void nickRemoved( int pos )
+	public void nickRemoved( final int pos )
 	{
-		System.out.println( "nickRemoved: " + pos );
-		fireIntervalRemoved( this, pos, pos );
+		SwingUtilities.invokeLater( new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				fireIntervalRemoved( this, pos, pos );
+			}
+		} );
 	}
 }
