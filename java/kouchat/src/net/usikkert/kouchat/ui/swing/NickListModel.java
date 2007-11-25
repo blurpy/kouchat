@@ -47,6 +47,7 @@ public class NickListModel extends AbstractListModel implements NickListListener
 	 */
 	public NickListModel( NickList nickList )
 	{
+		System.out.println( "NickListModel" );
 		this.nickList = nickList;
 		nickList.addNickListListener( this );
 	}
@@ -57,6 +58,7 @@ public class NickListModel extends AbstractListModel implements NickListListener
 	@Override
 	public NickDTO getElementAt( int index )
 	{
+		System.out.println( "getElementAt: " + index );
 		return nickList.get( index );
 	}
 
@@ -66,6 +68,7 @@ public class NickListModel extends AbstractListModel implements NickListListener
 	@Override
 	public int getSize()
 	{
+		System.out.println( "getSize: " + nickList.size() );
 		return nickList.size();
 	}
 
@@ -75,6 +78,7 @@ public class NickListModel extends AbstractListModel implements NickListListener
 	@Override
 	public void nickAdded( int pos )
 	{
+		System.out.println( "nickAdded: " + pos );
 		fireIntervalAdded( this, pos, pos );
 	}
 
@@ -84,6 +88,7 @@ public class NickListModel extends AbstractListModel implements NickListListener
 	@Override
 	public void nickChanged( int pos )
 	{
+		System.out.println( "nickChanged: " + pos );
 		fireContentsChanged( this, pos, pos );
 	}
 
@@ -93,6 +98,7 @@ public class NickListModel extends AbstractListModel implements NickListListener
 	@Override
 	public void nickRemoved( int pos )
 	{
+		System.out.println( "nickRemoved: " + pos );
 		fireIntervalRemoved( this, pos, pos );
 	}
 }
