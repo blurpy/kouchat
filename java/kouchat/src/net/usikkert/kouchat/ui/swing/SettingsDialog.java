@@ -61,6 +61,11 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 
+/**
+ * This is the dialog window used to change settings.
+ * 
+ * @author Christian Ihle
+ */
 public class SettingsDialog extends JDialog implements ActionListener
 {
 	private static final Logger log = Logger.getLogger( SettingsDialog.class.getName() );
@@ -74,6 +79,9 @@ public class SettingsDialog extends JDialog implements ActionListener
 	private Mediator mediator;
 	private ErrorHandler errorHandler;
 
+	/**
+	 * Constructor. Creates the dialog.
+	 */
 	public SettingsDialog()
 	{
 		nickL = new JLabel( "Nick:" );
@@ -122,7 +130,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 
 		loggingCB = new JCheckBox( "Enable logging" );
 		loggingCB.setToolTipText( "<html>Stores the conversation in the main chat to a log file in" +
-				"<br>" + Constants.APP_LOG_FOLDER + "." +
+				"<br>" + Constants.APP_LOG_FOLDER +
 				"<br>Only text written after this option was enabled will be stored.</html>" );
 
 		JPanel miscP = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
@@ -215,11 +223,20 @@ public class SettingsDialog extends JDialog implements ActionListener
 		getRootPane().getActionMap().put( "ESCAPE", escapeAction );
 	}
 
+	/**
+	 * Sets the mediator for this window.
+	 * 
+	 * @param mediator The mediator to use.
+	 */
 	public void setMediator( Mediator mediator )
 	{
 		this.mediator = mediator;
 	}
 
+	/**
+	 * Handles all the buttons in this window.
+	 */
+	@Override
 	public void actionPerformed( ActionEvent e )
 	{
 		if ( e.getSource() == saveB )
@@ -354,6 +371,9 @@ public class SettingsDialog extends JDialog implements ActionListener
 		}
 	}
 
+	/**
+	 * Loads the current settings, and shows the window.
+	 */
 	public void showSettings()
 	{
 		nickTF.setText( settings.getMe().getNick() );
