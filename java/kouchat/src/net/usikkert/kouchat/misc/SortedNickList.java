@@ -38,7 +38,7 @@ public class SortedNickList implements NickList
 		listeners = new ArrayList<NickListListener>();
 	}
 
-	public boolean add( NickDTO nick )
+	public synchronized boolean add( NickDTO nick )
 	{
 		boolean success = nickList.add( nick );
 
@@ -53,10 +53,7 @@ public class SortedNickList implements NickList
 
 	public NickDTO get( int pos )
 	{
-		if ( pos < nickList.size() )
-			return nickList.get( pos );
-		else
-			return null;
+		return nickList.get( pos );
 	}
 
 	public int indexOf( NickDTO nick )
@@ -64,7 +61,7 @@ public class SortedNickList implements NickList
 		return nickList.indexOf( nick );
 	}
 
-	public NickDTO remove( int pos )
+	public synchronized NickDTO remove( int pos )
 	{
 		NickDTO nick = nickList.remove( pos );
 		fireNickRemoved( pos );
@@ -72,7 +69,7 @@ public class SortedNickList implements NickList
 		return nick;
 	}
 
-	public boolean remove( NickDTO nick )
+	public synchronized boolean remove( NickDTO nick )
 	{
 		int pos = nickList.indexOf( nick );
 		boolean success = nickList.remove( nick );
@@ -81,7 +78,7 @@ public class SortedNickList implements NickList
 		return success;
 	}
 
-	public NickDTO set( int pos, NickDTO nick )
+	public synchronized NickDTO set( int pos, NickDTO nick )
 	{
 		NickDTO oldNick = nickList.set( pos, nick );
 		Collections.sort( nickList );
