@@ -125,7 +125,10 @@ public class NickListCellRenderer extends JLabel implements ListCellRenderer
 			else
 				setText( dto.getNick() );
 		}
-		
+
+		else
+			log.log( Level.WARNING, "Got a null list element..." );
+
 		if ( isSelected )
 			setBackground( list.getSelectionBackground() );
 		else
@@ -133,7 +136,6 @@ public class NickListCellRenderer extends JLabel implements ListCellRenderer
 
 		setEnabled( list.isEnabled() );
 		setOpaque( true );
-		
 		setBorder( BorderFactory.createEmptyBorder( 2, 4, 2, 4 ) );
 
 		return this;
