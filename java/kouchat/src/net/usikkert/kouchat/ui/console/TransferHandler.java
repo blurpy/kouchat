@@ -24,13 +24,26 @@ package net.usikkert.kouchat.ui.console;
 import net.usikkert.kouchat.event.FileTransferListener;
 import net.usikkert.kouchat.net.FileTransfer;
 
+/**
+ * This is the console inplementation of a file transfer listener.
+ * Does not do anything, but is needed to get file transfer support
+ * in console mode.
+ * 
+ * @author Christian Ihle
+ */
 public class TransferHandler implements FileTransferListener
 {
+	/**
+	 * Constructor. Registers this class as a listener of
+	 * file transfer events.
+	 * 
+	 * @param fileTransfer The file transfer to listen to.
+	 */
 	public TransferHandler( FileTransfer fileTransfer )
 	{
 		fileTransfer.registerListener( this );
 	}
-	
+
 	@Override
 	public void statusCompleted()
 	{

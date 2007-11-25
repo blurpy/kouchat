@@ -36,9 +36,14 @@ import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.UIMessages;
 import net.usikkert.kouchat.misc.UserInterface;
 
+/**
+ * Contains the main input loop for the console mode.
+ * 
+ * @author Christian Ihle
+ */
 public class ConsoleInput
 {
-	private static Logger log = Logger.getLogger( ConsoleInput.class.getName() );
+	private static final Logger log = Logger.getLogger( ConsoleInput.class.getName() );
 
 	private BufferedReader stdin;
 	private Controller controller;
@@ -46,6 +51,12 @@ public class ConsoleInput
 	private UIMessages uiMsg;
 	private NickDTO me;
 
+	/**
+	 * Constructor. Initializes input from System.in.
+	 * 
+	 * @param controller The controller to use.
+	 * @param ui The user interface to send messages to.
+	 */
 	public ConsoleInput( Controller controller, UserInterface ui )
 	{
 		this.controller = controller;
@@ -64,6 +75,9 @@ public class ConsoleInput
 		} );
 	}
 
+	/**
+	 * Starts a loop waiting for input. To stop the loop and exit the application, write /quit.
+	 */
 	public void input()
 	{
 		String input = "";

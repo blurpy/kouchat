@@ -31,6 +31,11 @@ import net.usikkert.kouchat.misc.UserInterface;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 
+/**
+ * This class is the binding between the controller and the console ui.
+ * 
+ * @author Christian Ihle
+ */
 public class ConsoleMediator implements UserInterface
 {
 	private UIMessages uiMsg;
@@ -38,24 +43,30 @@ public class ConsoleMediator implements UserInterface
 	private ConsoleChatWindow chat;
 	private Controller controller;
 	private ConsoleInput ci;
-	
+
+	/**
+	 * Constructor. Initializes the lower layers.
+	 */
 	public ConsoleMediator()
 	{
 		chat = new ConsoleChatWindow();
 		msgController = new MessageController( chat, this );
 		uiMsg = new UIMessages( msgController );
 		uiMsg.showWelcomeMsg();
-		
+
 		controller = new Controller( this );
 		ci = new ConsoleInput( controller, this );
 	}
-	
+
+	/**
+	 * Will logon to the network and start the input loop.
+	 */
 	public void start()
 	{
 		controller.logOn();
 		ci.input();
 	}
-	
+
 	@Override
 	public boolean askFileSave( String user, String fileName, String size )
 	{
@@ -66,7 +77,7 @@ public class ConsoleMediator implements UserInterface
 	@Override
 	public void changeAway( boolean away )
 	{
-		
+
 	}
 
 	@Override
@@ -98,7 +109,7 @@ public class ConsoleMediator implements UserInterface
 	{
 		new TransferHandler( fileRes );
 	}
-	
+
 	@Override
 	public void showTransfer( FileSender fileSend )
 	{

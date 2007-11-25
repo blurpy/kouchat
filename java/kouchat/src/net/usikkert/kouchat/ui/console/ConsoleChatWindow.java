@@ -23,8 +23,16 @@ package net.usikkert.kouchat.ui.console;
 
 import net.usikkert.kouchat.misc.ChatWindow;
 
+/**
+ * This is the console implementation of the chat window.
+ * 
+ * @author Christian Ihle
+ */
 public class ConsoleChatWindow implements ChatWindow
 {
+	/**
+	 * Shows messages with a simple System.out.println()
+	 */
 	@Override
 	public void appendToChat( String message, int color )
 	{
