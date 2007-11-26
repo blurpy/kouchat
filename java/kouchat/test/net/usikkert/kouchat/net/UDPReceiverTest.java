@@ -74,7 +74,7 @@ public class UDPReceiverTest implements ReceiverListener
 	{
 		res.registerReceiverListener( this );
 		testStartReceiver();
-		Thread.sleep( 10000 );
+		Thread.sleep( 4000 );
 	}
 
 	@Override

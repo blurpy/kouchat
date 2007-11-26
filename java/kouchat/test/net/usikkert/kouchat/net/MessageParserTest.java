@@ -68,20 +68,19 @@ public class MessageParserTest implements MessageResponder
 	@Test
 	public void testStop()
 	{
-		msgParser.stop();
+		//msgParser.stop();
 	}
 
 	@Test
 	public void testRestart()
 	{
-		msgParser.restart();
+		//msgParser.restart();
 	}
 
 	@Test
 	public void testMessageArrived()
 	{
-		msgParser.messageArrived( "15626995!LOGON#Snoopy:", "nilseteip" );
-		msgParser.messageArrived( "1951650c!PING_Snoopy:", "nilseteip" );
+		msgParser.messageArrived( "15626995!MSG#Ola:", "nilseteip" );
 	}
 
 	@Override
