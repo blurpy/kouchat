@@ -7,6 +7,10 @@
   <version>0.9.5-SNAPSHOT</version>
   <name>KouChat</name>
   <url>http://kouchat.googlecode.com/</url>
+  <description>
+    KouChat is a simple serverless chat client for local area networks.
+    It's written in Java, and is free software.
+  </description>
   <build>
     <defaultGoal>package</defaultGoal>
     <sourceDirectory>src/</sourceDirectory>
@@ -63,7 +67,7 @@
       <name>GNU General Public License, version 2</name>
       <url>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</url>
       <distribution>repo</distribution>
-      <comments>Free as in beer</comments>
+      <comments>Free as in beer.</comments>
     </license>
   </licenses>
   <developers>
