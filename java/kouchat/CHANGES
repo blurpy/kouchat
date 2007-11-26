@@ -1,5 +1,9 @@
 
-- KouChat v0.9.4 CHANGES
+- KouChat v0.9.5 CHANGES
+
+* version 0.9.5 (xx.xx.2007):
+  - Added Maven 2 support
+
 
 * version 0.9.4 (25.11.2007):
   - Trying new fix for empty nick list
