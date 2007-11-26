@@ -19,6 +19,13 @@
           <include>README</include>
         </includes>
       </resource>
+      <resource>
+        <directory>src/</directory>
+        <includes>
+          <include>error.wav</include>
+          <include>icons/</include>
+        </includes>
+      </resource>
     </resources>
     <plugins>
       <plugin>
