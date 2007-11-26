@@ -87,4 +87,12 @@
     <tag>trunk</tag>
     <url>http://kouchat.googlecode.com/svn/</url>
   </scm>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>
