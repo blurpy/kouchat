@@ -113,6 +113,8 @@ public class Controller
 	{
 		if ( code == me.getCode() && !isConnected() )
 			throw new CommandException( "You tried to change away mode without being connected. This should never happen..." );
+		else if ( awaymsg.length() > Constants.MESSAGE_MAX_CHARACTERS )
+			throw new CommandException( "You tried to set an away message with more than " + Constants.MESSAGE_MAX_CHARACTERS + " characters. This is not allowed..." );
 		else
 			nickController.changeAwayStatus( code, away, awaymsg );
 	}
@@ -235,6 +237,8 @@ public class Controller
 			throw new CommandException( "You tried to change the topic without being connected. This should never happen..." );
 		else if ( me.isAway() )
 			throw new CommandException( "You tried to change the topic while away. This should never happen..." );
+		else if ( newTopic.length() > Constants.MESSAGE_MAX_CHARACTERS )
+			throw new CommandException( "You tried to set a topic with more than " + Constants.MESSAGE_MAX_CHARACTERS + " characters. This is not allowed..." );
 
 		else
 		{
@@ -356,7 +360,7 @@ public class Controller
 
 			catch ( InterruptedException e )
 			{
-				log.log( Level.SEVERE, e.getMessage(), e );
+				log.log( Level.SEVERE, e.toString(), e );
 			}
 
 			if ( isConnected() )
