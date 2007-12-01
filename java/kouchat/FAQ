@@ -1,0 +1,77 @@
+
+- KouChat v0.9.5 Frequently Asked Questions
+
+1. What is Kou?
+
+Kou is a special cow character I've made. You can see Kou at the Super Kou
+project page (http://superkou.googlecode.com/).
+Kou is pronounced kind of like cows say mooooooo.
+
+
+2. KouChat crashed, or behaves strangely.
+
+First, make sure you are using the latest version. When you do, the easiest
+way to find the problem is for you to run KouChat from the console, like this:
+'java -jar kouchat-x.x.x-bin.jar'
+If you see any errors, write them down. When you can reproduce the problem,
+report it as an issue on this project page with as many details as possible.
+
+
+3. I minimized KouChat, and it's not visible on the taskbar anymore.
+
+Have a look in the system tray. There should be a small black and white icon
+there with a cow pattern. Click on it to open KouChat again.
+
+
+4. How do I change my nick name?
+
+Open the Tools menu, and choose Settings.
+
+
+5. How do I send files?
+
+Right click on a user in the user list on the right side, and choose
+"Send file". You can also drag and drop a file on a user in the list,
+or in a private chat window.
+
+
+6. How do I open a private chat?
+
+You can double click on a user in the user list, or you can right click on a
+user in the user list and choose "Private chat".
+
+
+7. The file chooser is horribly slow in Windows XP.
+
+This is a Java bug, see
+http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6578753
+As a workaround you can move any zip-files lying on the desktop
+to some other folder.
+
+
+8. How do I enable console mode?
+
+From a console, run KouChat like this:
+'java -jar kouchat-x.x.x-bin.jar --console'
+See /help for a list of commands you can use while in console mode.
+
+
+9. How come some messages don't show up in other clients?
+
+That's probably because of packet loss. KouChat use the UDP protocol,
+which does not resend lost packets. Packet loss is usually not a problem
+in wired networks, but wireless networks might have some loss.
+
+
+10. Where do the log files go?
+
+The logs are put in the ~/.kouchat/logs/ folder, sorted by date and time
+of creation. For those wondering, ~ means home folder.
+In Windows XP that's usually
+C:\Documents and Settings\Your Username\ and in Linux it's /home/username/.
+
+
+11. Why was the user list empty when I started KouChat?
+
+That was long known bug that I had a hard time finding. It should be fixed now,
+so please try using version 0.9.4 or newer.
