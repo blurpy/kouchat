@@ -186,7 +186,7 @@ public class UIMessages
 	/**
 	 * Shows "You logged on as nick from ipAddress"
 	 * 
-	 * @param user The nick you use
+	 * @param nick The nick you use
 	 * @param ipAddress You ip address
 	 */
 	public void showMeLoggedOn( String nick, String ipAddress )
@@ -198,8 +198,8 @@ public class UIMessages
 	 * Shows "user changed ip from oldIp to newIp"
 	 * 
 	 * @param user The user that changed ip
-	 * @param oldIp The old ip address
-	 * @param newIp The new ip address
+	 * @param oldIP The old ip address
+	 * @param newIP The new ip address
 	 */
 	public void showChangedIp( String user, String oldIP, String newIP )
 	{
@@ -209,7 +209,7 @@ public class UIMessages
 	/**
 	 * Shows "Nick crash, resetting nick to newNick"
 	 * 
-	 * @param nick The new nick
+	 * @param newNick The new nick
 	 */
 	public void showNickCrash( String newNick )
 	{

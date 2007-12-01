@@ -76,7 +76,7 @@ public class Tools
 	 * @param d The date to convert to a string.
 	 * @param format The format to get the date in.
 	 * @return A converted date.
-	 * @see http://java.sun.com/javase/6/docs/api/java/text/SimpleDateFormat.html
+	 * @see SimpleDateFormat
 	 */
 	public static String dateToString( Date d, String format )
 	{
@@ -97,7 +97,7 @@ public class Tools
 	 * @param s The string to convert into a date.
 	 * @param format The format of the date.
 	 * @return The string as a date.
-	 * @see http://java.sun.com/javase/6/docs/api/java/text/SimpleDateFormat.html
+	 * @see SimpleDateFormat
 	 */
 	public static Date stringToDate( String s, String format )
 	{
@@ -123,7 +123,7 @@ public class Tools
 	 * @param format The format to get the number.
 	 * @param number The number to add formatting to.
 	 * @return The formatted number.
-	 * @see http://java.sun.com/javase/6/docs/api/java/text/DecimalFormat.html
+	 * @see DecimalFormat
 	 */
 	public static String decimalFormat( String format, double number )
 	{

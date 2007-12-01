@@ -90,8 +90,6 @@ public class UDPReceiver implements Runnable
 	 * Creates a new UDP socket, and starts a thread listening
 	 * on the UDP port. If the UDP port is in use, a new port will be
 	 * tried instead.
-	 * 
-	 * @see Constants.NETWORK_UDP_PORT
 	 */
 	public void startReceiver()
 	{
