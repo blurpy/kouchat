@@ -10,7 +10,6 @@
    - Abort file transfer
  - Auto completion for nick, command and files?
  - Better console error messages
- - Tweak regex for urls
  - Fix cobertura and jar signing in maven
  - Show license in about box, and have clickable links
  - Fix gui error messages
