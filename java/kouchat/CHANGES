@@ -1,8 +1,10 @@
 
 - KouChat v0.9.5 CHANGES
 
-* version 0.9.5 (xx.xx.2007):
+* version 0.9.5 (02.12.2007):
   - Added Maven 2 support
+  - Fixed an error where saving settings for the first time without specifying
+    a browser would give a NullPointerException
 
 
 * version 0.9.4 (25.11.2007):
@@ -10,16 +12,20 @@
   - Added shortcuts for items in the Tools menu
   - Added missing check for invalid nick when other users log on
   - Set online variable to current time if client doesn't send that info
-  - Making sure the privchat window is disposed when closed and user is logged off
+  - Making sure the privchat window is disposed when closed and user
+    is logged off
   - Set the nick list to single selection mode
   - Added tooltips to some of the settings
   - Fixed repaint issue with the scrollbar after being minimized to tray
 
 
 * version 0.9.3 (18.11.2007):
-  - Made sure KouChat can connect to a network when it's made available, if missing on startup
-  - Added more error checking in the controller to stop away and topic from being changed if not connected
-  - Switched home page from http://www.usikkert.net/ to http://kouchat.googlecode.com/
+  - Made sure KouChat can connect to a network when it's made available,
+    if missing on startup
+  - Added more error checking in the controller to stop away and topic
+    from being changed if not connected
+  - Switched home page from http://www.usikkert.net/
+    to http://kouchat.googlecode.com/
   - Using -- instead of - for command line arguments
   - Added support for opening urls in the chat by clicking on a link
   - Changed packet size to be 512 bytes instead of 1024 bytes
@@ -31,11 +37,13 @@
   - Added support for private chat in console mode
   - Set a minimum size for the chat and privchat windows
   - New envelope icon again
-  - Privchats are opened in minimized mode instead of in front when a user logs out
+  - Privchats are opened in minimized mode instead of in front when
+    a user logs out
 
 
 * version 0.9.1 (11.11.2007):
-  - Fixed bug where it was possible to drop files in the privchat window of a logged out user
+  - Fixed bug where it was possible to drop files in the privchat
+    window of a logged out user
   - If a user who has sent a privmsg logs off, the privchat window is shown
   - Hopefully fixed issue where nicklist is empty after startup
   - Made better dot and envelope icons
@@ -65,7 +73,8 @@
 * version 0.6.1 (22.09.2007):
   - Fixed charset issues
   - Fixed Windows bug where text could not be selected in the chat
-  - Fixed Windows bug where right clicking the systray icon would hide and show the window
+  - Fixed Windows bug where right clicking the systray icon would
+    hide and show the window
   - Refactored a lot of the GUI code
   - New package structure
   - Improved file transfer
@@ -85,7 +94,8 @@
 
 * version 0.5.1 (15.03.2006):
   - Fixed focus on the textfield
-  - Added a temporary fix to make the gui update after being hidden in systray, when using jdk 1.6.0 betas
+  - Added a temporary fix to make the gui update after being hidden in systray,
+    when using jdk 1.6.0 betas
   - Added GPL license notes
   - Made my own icons
   - Made the systray tooltip and window title update at the same time
