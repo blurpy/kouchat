@@ -272,7 +272,7 @@ public class MessageParser implements ReceiverListener
 					
 					catch ( NumberFormatException e )
 					{
-						log.log( Level.WARNING, e.getMessage() );
+						log.log( Level.WARNING, e.toString() );
 					}
 					
 					responder.clientInfo( msgCode, client, timeSinceLogon, operatingSystem, privateChatPort );
@@ -293,12 +293,12 @@ public class MessageParser implements ReceiverListener
 
 		catch ( StringIndexOutOfBoundsException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 
 		catch ( NumberFormatException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 	}
 }

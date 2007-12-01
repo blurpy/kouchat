@@ -273,7 +273,7 @@ public class CommandParser
 				
 				catch ( CommandException e )
 				{
-					log.log( Level.WARNING, e.getMessage() );
+					log.log( Level.WARNING, e.toString() );
 					uiMsg.showActionNotAllowed();
 				}
 			}
@@ -320,7 +320,7 @@ public class CommandParser
 
 					catch ( CommandException e )
 					{
-						log.log( Level.WARNING, e.getMessage() );
+						log.log( Level.WARNING, e.toString() );
 						uiMsg.showActionNotAllowed();
 					}
 				}
@@ -385,7 +385,7 @@ public class CommandParser
 
 			catch ( CommandException e )
 			{
-				log.log( Level.WARNING, e.getMessage() );
+				log.log( Level.WARNING, e.toString() );
 				uiMsg.showActionNotAllowed();
 			}
 		}
@@ -424,7 +424,7 @@ public class CommandParser
 
 				catch ( CommandException e )
 				{
-					log.log( Level.WARNING, e.getMessage() );
+					log.log( Level.WARNING, e.toString() );
 					uiMsg.showActionNotAllowed();
 				}
 			}
@@ -452,7 +452,7 @@ public class CommandParser
 
 			catch ( CommandException e )
 			{
-				log.log( Level.WARNING, e.getMessage() );
+				log.log( Level.WARNING, e.toString() );
 				uiMsg.showActionNotAllowed();
 			}
 		}

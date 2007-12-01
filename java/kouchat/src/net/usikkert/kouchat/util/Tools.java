@@ -111,7 +111,7 @@ public class Tools
 
 		catch ( ParseException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 
 		return date;

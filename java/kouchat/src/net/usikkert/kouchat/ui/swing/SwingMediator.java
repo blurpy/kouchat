@@ -326,7 +326,7 @@ public class SwingMediator implements Mediator, UserInterface
 				
 				catch ( CommandException e )
 				{
-					log.log( Level.WARNING, e.getMessage() );
+					log.log( Level.WARNING, e.toString() );
 					uiMsg.showActionNotAllowed();
 				}
 			}
@@ -351,7 +351,7 @@ public class SwingMediator implements Mediator, UserInterface
 			
 			catch ( CommandException e )
 			{
-				log.log( Level.WARNING, e.getMessage() );
+				log.log( Level.WARNING, e.toString() );
 				uiMsg.showActionNotAllowed();
 			}
 		}

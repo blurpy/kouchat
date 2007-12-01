@@ -87,12 +87,12 @@ public class FileSender implements FileTransfer
 
 					catch ( UnknownHostException e )
 					{
-						log.log( Level.SEVERE, e.getMessage(), e );
+						log.log( Level.SEVERE, e.toString(), e );
 					}
 
 					catch ( IOException e )
 					{
-						log.log( Level.SEVERE, e.getMessage(), e );
+						log.log( Level.SEVERE, e.toString(), e );
 					}
 
 					try
@@ -102,7 +102,7 @@ public class FileSender implements FileTransfer
 
 					catch ( InterruptedException e )
 					{
-						log.log( Level.SEVERE, e.getMessage(), e );
+						log.log( Level.SEVERE, e.toString(), e );
 					}
 				}
 
@@ -156,13 +156,13 @@ public class FileSender implements FileTransfer
 
 			catch ( UnknownHostException e )
 			{
-				log.log( Level.SEVERE, e.getMessage(), e );
+				log.log( Level.SEVERE, e.toString(), e );
 				listener.statusFailed();
 			}
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.getMessage() );
+				log.log( Level.SEVERE, e.toString() );
 				listener.statusFailed();
 			}
 
@@ -188,7 +188,7 @@ public class FileSender implements FileTransfer
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 
 		try
@@ -199,7 +199,7 @@ public class FileSender implements FileTransfer
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 
 		try
@@ -213,7 +213,7 @@ public class FileSender implements FileTransfer
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 
 		try
@@ -227,7 +227,7 @@ public class FileSender implements FileTransfer
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 	}
 

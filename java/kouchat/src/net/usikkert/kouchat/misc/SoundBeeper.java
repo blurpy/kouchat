@@ -146,7 +146,7 @@ public class SoundBeeper
 
 			catch ( LineUnavailableException e )
 			{
-				log.log( Level.WARNING, "LineUnavailableException: " + e.getMessage() );
+				log.log( Level.WARNING, e.toString() );
 			}
 
 			finally

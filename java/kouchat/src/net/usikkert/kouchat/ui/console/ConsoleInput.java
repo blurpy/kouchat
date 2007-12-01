@@ -110,7 +110,7 @@ public class ConsoleInput
 
 							catch ( CommandException e )
 							{
-								log.log( Level.WARNING, e.getMessage() );
+								log.log( Level.WARNING, e.toString() );
 								uiMsg.showActionNotAllowed();
 							}
 						}
@@ -125,7 +125,7 @@ public class ConsoleInput
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.getMessage(), e );
+				log.log( Level.SEVERE, e.toString(), e );
 			}
 		}
 

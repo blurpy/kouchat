@@ -153,7 +153,7 @@ public class FileReceiver implements FileTransfer
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage() );
+			log.log( Level.SEVERE, e.toString() );
 			listener.statusFailed();
 		}
 
@@ -178,7 +178,7 @@ public class FileReceiver implements FileTransfer
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 
 		try
@@ -189,7 +189,7 @@ public class FileReceiver implements FileTransfer
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 
 		try
@@ -203,7 +203,7 @@ public class FileReceiver implements FileTransfer
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 
 		try
@@ -217,7 +217,7 @@ public class FileReceiver implements FileTransfer
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 
 		try
@@ -231,7 +231,7 @@ public class FileReceiver implements FileTransfer
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 	}
 
@@ -316,7 +316,7 @@ public class FileReceiver implements FileTransfer
 
 			catch ( InterruptedException e )
 			{
-				log.log( Level.SEVERE, e.getMessage(), e );
+				log.log( Level.SEVERE, e.toString(), e );
 			}
 
 			try
@@ -330,7 +330,7 @@ public class FileReceiver implements FileTransfer
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.getMessage(), e );
+				log.log( Level.SEVERE, e.toString(), e );
 			}
 		}
 	}

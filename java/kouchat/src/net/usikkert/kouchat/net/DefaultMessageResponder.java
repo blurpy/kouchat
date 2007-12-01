@@ -89,7 +89,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 						catch ( InterruptedException e )
 						{
-							log.log( Level.SEVERE, e.getMessage(), e );
+							log.log( Level.SEVERE, e.toString(), e );
 						}
 					}
 				}
@@ -424,7 +424,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 					catch ( InterruptedException e )
 					{
-						log.log( Level.SEVERE, e.getMessage(), e );
+						log.log( Level.SEVERE, e.toString(), e );
 					}
 				}
 
@@ -463,7 +463,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 							catch ( ServerException e )
 							{
-								log.log( Level.SEVERE, e.getMessage(), e );
+								log.log( Level.SEVERE, e.toString(), e );
 								uiMsg.showReceiveFailed( fileName, user );
 								controller.sendFileAbort( userCode, fileHash, fileName );
 								fileRes.cancel();
@@ -533,7 +533,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 					catch ( InterruptedException e )
 					{
-						log.log( Level.SEVERE, e.getMessage(), e );
+						log.log( Level.SEVERE, e.toString(), e );
 					}
 
 					if ( fileSend.transfer( port ) )

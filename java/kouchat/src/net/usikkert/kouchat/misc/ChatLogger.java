@@ -99,7 +99,7 @@ public class ChatLogger implements SettingsListener
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 			settings.setLogging( false );
 			errorHandler.showError( "Could not initialize the logging:\n" + e );
 		}
@@ -120,7 +120,7 @@ public class ChatLogger implements SettingsListener
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.getMessage(), e );
+				log.log( Level.SEVERE, e.toString(), e );
 			}
 
 			finally
@@ -148,7 +148,7 @@ public class ChatLogger implements SettingsListener
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.getMessage(), e );
+				log.log( Level.SEVERE, e.toString(), e );
 				close();
 			}
 		}

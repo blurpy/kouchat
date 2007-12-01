@@ -94,12 +94,12 @@ public class PrivateMessageParser implements ReceiverListener
 
 		catch ( StringIndexOutOfBoundsException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 
 		catch ( NumberFormatException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 	}
 }

@@ -116,7 +116,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 
 		catch ( BadLocationException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 	}
 

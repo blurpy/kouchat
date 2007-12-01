@@ -81,7 +81,7 @@ public class UDPReceiver implements Runnable
 
 			catch ( IOException e )
 			{
-				log.log( Level.WARNING, e.getMessage() );
+				log.log( Level.WARNING, e.toString() );
 			}
 		}
 	}
@@ -113,7 +113,7 @@ public class UDPReceiver implements Runnable
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.getMessage() + " " + port );
+				log.log( Level.SEVERE, e.toString() + " " + port );
 				
 				counter++;
 				port++;

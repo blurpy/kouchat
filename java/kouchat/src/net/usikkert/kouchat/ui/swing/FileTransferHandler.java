@@ -72,7 +72,7 @@ public class FileTransferHandler extends TransferHandler
 		
 		catch ( ClassNotFoundException e )
 		{
-			log.log( Level.WARNING, "ClassNotFoundException " + e.getMessage() );
+			log.log( Level.WARNING, e.toString() );
 		}
 	}
 
@@ -150,7 +150,7 @@ public class FileTransferHandler extends TransferHandler
 						
 						catch ( URISyntaxException e )
 						{
-							log.log( Level.WARNING, "URISyntaxException " + e.getMessage() );
+							log.log( Level.WARNING, e.toString() );
 						}	
 					}
 				}
@@ -172,12 +172,12 @@ public class FileTransferHandler extends TransferHandler
 
 			catch ( UnsupportedFlavorException e )
 			{
-				log.log( Level.WARNING, "UnsupportedFlavorException " + e.getMessage() );
+				log.log( Level.WARNING, e.toString() );
 			}
 
 			catch ( IOException e )
 			{
-				log.log( Level.WARNING, "IOException " + e.getMessage() );
+				log.log( Level.WARNING, e.toString() );
 			}
 		}
 

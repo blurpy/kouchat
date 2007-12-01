@@ -254,7 +254,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 
 		catch ( BadLocationException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 	}
 

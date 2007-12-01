@@ -89,7 +89,7 @@ public class IdleThread extends Thread
 
 			catch ( InterruptedException e )
 			{
-				log.log( Level.SEVERE, e.getMessage(), e );
+				log.log( Level.SEVERE, e.toString(), e );
 				run = false;
 				errorHandler.showCriticalError( "The idle thread failed:\n" + e + "\n" +
 						Constants.APP_NAME + " will now shutdown and quit...");

@@ -121,7 +121,7 @@ public class Settings
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.getMessage(), e );
+				log.log( Level.SEVERE, e.toString(), e );
 			}
 
 			try
@@ -132,7 +132,7 @@ public class Settings
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.getMessage(), e );
+				log.log( Level.SEVERE, e.toString(), e );
 			}
 
 			try
@@ -143,7 +143,7 @@ public class Settings
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.getMessage(), e );
+				log.log( Level.SEVERE, e.toString(), e );
 			}
 
 			try
@@ -154,7 +154,7 @@ public class Settings
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.getMessage(), e );
+				log.log( Level.SEVERE, e.toString(), e );
 			}
 		}
 	}
@@ -209,7 +209,7 @@ public class Settings
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.getMessage(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 
 		finally
@@ -222,7 +222,7 @@ public class Settings
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.getMessage(), e );
+				log.log( Level.SEVERE, e.toString(), e );
 			}
 		}
 	}
