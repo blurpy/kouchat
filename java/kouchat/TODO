@@ -1,5 +1,5 @@
 
-- KouChat v0.9.4 TODO
+- KouChat v0.9.5 TODO
 
 * Release v1.0.0:
  - Javadoc
@@ -8,8 +8,12 @@
  - Add command for:
    - Receive file
    - Abort file transfer
+ - Auto completion for nick, command and files?
  - Better console error messages
  - Tweak regex for urls
+ - Fix cobertura and jar signing in maven
+ - Show license in about box, and have clickable links
+ - Fix gui error messages
 
 
 * Release v1.x:
@@ -20,4 +24,3 @@
  - Flash taskbar when minimized or in background and msg is received?
  - Use systray icon with envelope if privmsg is received while minimized?
  - Possible to go around udp packet loss?
- - Auto completion for nick, command and files?

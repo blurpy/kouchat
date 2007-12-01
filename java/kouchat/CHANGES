@@ -5,6 +5,8 @@
   - Added Maven 2 support
   - Fixed an error where saving settings for the first time without specifying
     a browser would give a NullPointerException
+  - Added limit to the size of topic and away messages
+  - Cleaned up the error logging
 
 
 * version 0.9.4 (25.11.2007):
