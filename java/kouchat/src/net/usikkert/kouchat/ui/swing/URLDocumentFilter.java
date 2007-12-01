@@ -57,7 +57,7 @@ public class URLDocumentFilter extends DocumentFilter
 	public URLDocumentFilter()
 	{
 		protPattern = Pattern.compile( "\\w{2,}://\\S+.+" );
-		dotPattern = Pattern.compile( "\\w{1,}\\S*\\.\\p{Lower}{2,4}.+" );
+		dotPattern = Pattern.compile( "\\w{1,}\\S*\\.\\p{Lower}{2,4}.*" );
 		backslashPattern = Pattern.compile( "\\\\\\\\\\p{Alnum}.+" );
 	}
 
