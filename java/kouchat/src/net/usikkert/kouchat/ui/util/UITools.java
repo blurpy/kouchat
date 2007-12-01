@@ -84,8 +84,8 @@ public class UITools
 			catch ( IOException e )
 			{
 				log.log( Level.WARNING, e.toString() );
-				errorHandler.showError( "Could not open the default browser." +
-						" Please set a browser in the settings." );
+				errorHandler.showError( "Could not open '" + url + "' with the default browser." +
+						" Try setting a browser in the settings." );
 			}
 
 			catch ( URISyntaxException e )
