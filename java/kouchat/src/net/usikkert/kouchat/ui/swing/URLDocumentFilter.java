@@ -34,11 +34,10 @@ import javax.swing.text.StyledDocument;
  * This document filter is used to highlight urls added to a StyledDocument.
  * The current form of highlighting is underlining the url.
  * 
- * 4 different urls are recognized:<br />
- * http://url<br />
- * ftp://url<br />
- * www.url.domain<br />
- * ftp.url.domain<br />
+ * 3 different urls are recognized:<br />
+ * protocol://host<br />
+ * host.name<br />
+ * \\host<br />
  * 
  * @author Christian Ihle
  */
@@ -50,17 +49,16 @@ public class URLDocumentFilter extends DocumentFilter
 	 */
 	public static final String URL_ATTRIBUTE = "url.attribute";
 
-	private Pattern httpProtPattern, ftpProtPattern, webDotPattern, ftpDotPattern;
+	private Pattern protPattern, dotPattern, backslashPattern;
 
 	/**
 	 * Constructor. Creates regex patterns to use for url checking.
 	 */
 	public URLDocumentFilter()
 	{
-		httpProtPattern = Pattern.compile( "http://.+" );
-		ftpProtPattern = Pattern.compile( "ftp://.+" );
-		webDotPattern = Pattern.compile( "www\\..+\\..+" );
-		ftpDotPattern = Pattern.compile( "ftp\\..+\\..+" );
+		protPattern = Pattern.compile( "\\w{2,}://\\S+.+" );
+		dotPattern = Pattern.compile( "\\w{1,}\\S*\\.\\p{Lower}{2,4}.+" );
+		backslashPattern = Pattern.compile( "\\\\\\\\\\p{Alnum}.+" );
 	}
 
 	/**
@@ -69,36 +67,45 @@ public class URLDocumentFilter extends DocumentFilter
 	 * and saved in an attribute.
 	 */
 	@Override
-	public void insertString( FilterBypass fb, int offset, String text, AttributeSet attr ) throws BadLocationException
+	public void insertString( final FilterBypass fb, final int offset, final String text, AttributeSet attr ) throws BadLocationException
 	{
 		super.insertString( fb, offset, text, attr );
+		
+		// Make a copy now, or else it could change if another message comes
+		final MutableAttributeSet urlAttr = (MutableAttributeSet) attr.copyAttributes();
 
-		int startPos = findURLPos( text, 0 );
-
-		if ( startPos != -1 )
+		new Thread( new Runnable()
 		{
-			MutableAttributeSet urlAttr = (MutableAttributeSet) attr.copyAttributes();
-			StyleConstants.setUnderline( urlAttr, true );
-			StyledDocument doc = (StyledDocument) fb.getDocument();
-
-			while ( startPos != -1 )
+			@Override
+			public void run()
 			{
-				int stopPos = -1;
+				int startPos = findURLPos( text, 0 );
 
-				stopPos = text.indexOf( " ", startPos );
+				if ( startPos != -1 )
+				{
+					StyleConstants.setUnderline( urlAttr, true );
+					StyledDocument doc = (StyledDocument) fb.getDocument();
 
-				if ( stopPos == -1 )
-					stopPos = text.indexOf( "\n", startPos );
+					while ( startPos != -1 )
+					{
+						int stopPos = -1;
 
-				urlAttr.addAttribute( URL_ATTRIBUTE, text.substring( startPos, stopPos ) );
-				doc.setCharacterAttributes( offset + startPos, stopPos - startPos, urlAttr, false );
-				startPos = findURLPos( text, stopPos );
+						stopPos = text.indexOf( " ", startPos );
+
+						if ( stopPos == -1 )
+							stopPos = text.indexOf( "\n", startPos );
+
+						urlAttr.addAttribute( URL_ATTRIBUTE, text.substring( startPos, stopPos ) );
+						doc.setCharacterAttributes( offset + startPos, stopPos - startPos, urlAttr, false );
+						startPos = findURLPos( text, stopPos );
+					}
+				}
 			}
-		}
+		} ).start();
 	}
 
 	/**
-	 * Returns the position the first matching
+	 * Returns the position of the first matching
 	 * url in the text, starting from the specified offset.
 	 * 
 	 * @param text The text to find urls in.
@@ -108,43 +115,69 @@ public class URLDocumentFilter extends DocumentFilter
 	 */
 	private int findURLPos( String text, int offset )
 	{
-		int httpProt = text.indexOf( " http://", offset );
-		int ftpProt = text.indexOf( " ftp://", offset );
-		int wwwDot = text.indexOf( " www.", offset );
-		int ftpDot = text.indexOf( " ftp.", offset );
+		int prot = text.indexOf( "://", offset );
+		int dot = text.indexOf( ".", offset );
+		int backslash = text.indexOf( " \\", offset );
 
 		int firstMatch = -1;
+		boolean retry = true;
 
-		if ( httpProt != -1 && ( httpProt < firstMatch || firstMatch == -1 ) )
+		// Needs to loop because the text can get through the first test above,
+		// but fail the regex match. If another url exists after the failed regex
+		// match, it will not be found.
+		while ( retry )
 		{
-			String t = text.substring( httpProt +1, text.length() -1 );
+			retry = false;
 
-			if ( httpProtPattern.matcher( t ).matches() )
-				firstMatch = httpProt +1;
-		}
+			if ( prot != -1 && ( prot < firstMatch || firstMatch == -1 ) )
+			{
+				int protStart = text.lastIndexOf( ' ', prot ) +1;
+				String t = text.substring( protStart, text.length() -1 );
 
-		if ( ftpProt != -1 && ( ftpProt < firstMatch || firstMatch == -1 ) )
-		{
-			String t = text.substring( ftpProt +1, text.length() -1 );
+				if ( protPattern.matcher( t ).matches() )
+					firstMatch = protStart;
 
-			if ( ftpProtPattern.matcher( t ).matches() )
-				firstMatch = ftpProt +1;
-		}
+				else
+				{
+					prot = text.indexOf( "://", prot +1 );
 
-		if ( wwwDot != -1 && ( wwwDot < firstMatch || firstMatch == -1 ) )
-		{
-			String t = text.substring( wwwDot +1, text.length() -1 );
+					if ( prot != -1 && ( prot < firstMatch || firstMatch == -1 ) )
+						retry = true;
+				}
+			}
+			
+			if ( backslash != -1 && ( backslash < firstMatch || firstMatch == -1 ) )
+			{
+				String t = text.substring( backslash +1, text.length() -1 );
 
-			if ( webDotPattern.matcher( t ).matches() )
-				firstMatch = wwwDot +1;
-		}
+				if ( backslashPattern.matcher( t ).matches() )
+					firstMatch = backslash +1;
 
-		if ( ftpDot != -1 && ( ftpDot < firstMatch || firstMatch == -1 ) )
-		{
-			String t = text.substring( ftpDot +1, text.length() -1 );
+				else
+				{
+					backslash = text.indexOf( " \\", backslash +1 );
 
-			if ( ftpDotPattern.matcher( t ).matches() )
-				firstMatch = ftpDot +1;
+					if ( backslash != -1 && ( backslash < firstMatch || firstMatch == -1 ) )
+						retry = true;
+				}
+			}
+			
+			if ( dot != -1 && ( dot < firstMatch || firstMatch == -1 ) )
+			{
+				int dotStart = text.lastIndexOf( ' ', dot ) +1;
+				String t = text.substring( dotStart, text.length() -1 );
+
+				if ( dotPattern.matcher( t ).matches() )
+					firstMatch = dotStart;
+
+				else
+				{
+					dot = text.indexOf( ".", dot +1 );
+
+					if ( dot != -1 && ( dot < firstMatch || firstMatch == -1 ) )
+						retry = true;
+				}
+			}
 		}
 
 		return firstMatch;
