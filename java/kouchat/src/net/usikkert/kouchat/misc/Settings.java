@@ -65,6 +65,7 @@ public class Settings
 		
 		listeners = new ArrayList<SettingsListener>();
 		errorHandler = ErrorHandler.getErrorHandler();
+		browser = "";
 		loadSettings();
 	}
 
