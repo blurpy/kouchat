@@ -132,16 +132,16 @@ public class SoundBeeper
 			{
 				log.log( Level.SEVERE, e.toString() );
 				settings.setSound( false );
-				errorHandler.showError( "Could not initialize the sound..." +
-						"\nUnsupported file format: " + BEEP_FILE );
+				errorHandler.showError( "Could not initialize the sound..."
+						+ "\nUnsupported file format: " + BEEP_FILE );
 			}
 
 			catch ( IOException e )
 			{
 				log.log( Level.SEVERE, e.toString() );
 				settings.setSound( false );
-				errorHandler.showError( "Could not initialize the sound..." +
-						"\nAudio file could not be opened: " + BEEP_FILE );
+				errorHandler.showError( "Could not initialize the sound..."
+						+ "\nAudio file could not be opened: " + BEEP_FILE );
 			}
 
 			catch ( LineUnavailableException e )
@@ -183,8 +183,8 @@ public class SoundBeeper
 		{
 			log.log( Level.SEVERE, "Audio file not found: " + BEEP_FILE );
 			settings.setSound( false );
-			errorHandler.showError( "Could not initialize the sound..." +
-					"\nAudio file not found: " + BEEP_FILE );
+			errorHandler.showError( "Could not initialize the sound..."
+					+ "\nAudio file not found: " + BEEP_FILE );
 		}
 	}
 

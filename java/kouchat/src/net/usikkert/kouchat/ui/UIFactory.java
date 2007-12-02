@@ -57,8 +57,8 @@ public class UIFactory
 			{
 				if ( GraphicsEnvironment.isHeadless() )
 				{
-					throw new UIException( "The Swing User Interface could not be loaded" +
-							" because a graphical environment could not be detected... " );
+					throw new UIException( "The Swing User Interface could not be loaded"
+							+ " because a graphical environment could not be detected... " );
 				}
 
 				else

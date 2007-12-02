@@ -400,9 +400,9 @@ public class SwingMediator implements Mediator, UserInterface
 
 			else if ( !Tools.isValidNick( nick ) )
 			{
-				JOptionPane.showMessageDialog( null, "'" + nick + "' is not a valid nick name.\n\n" +
-						"A nick name can have between 1 and 10 characters.\nLegal characters are 'a-z'," +
-						" '0-9', '-' and '_'.", Constants.APP_NAME + " - Change nick", JOptionPane.WARNING_MESSAGE );
+				JOptionPane.showMessageDialog( null, "'" + nick + "' is not a valid nick name.\n\n"
+						+ "A nick name can have between 1 and 10 characters.\nLegal characters are 'a-z',"
+						+ " '0-9', '-' and '_'.", Constants.APP_NAME + " - Change nick", JOptionPane.WARNING_MESSAGE );
 			}
 
 			else
@@ -433,7 +433,7 @@ public class SwingMediator implements Mediator, UserInterface
 	}
 
 	@Override
-	public void transferCancelled( TransferDialog transferDialog)
+	public void transferCancelled( TransferDialog transferDialog )
 	{
 		if ( transferDialog.getCancelButtonText().equals( "Close" ) )
 			transferDialog.dispose();

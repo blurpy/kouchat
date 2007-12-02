@@ -93,12 +93,12 @@ public class SettingsDialog extends JDialog implements ActionListener
 		nickP.setBorder( BorderFactory.createTitledBorder( "Choose nick" ) );
 
 		ownColorL = new JLabel( "Own text color looks like this" );
-		ownColorL.setToolTipText( "<html>You and other users will see" +
-				"<br>the messages you write in this color.</html>" );
+		ownColorL.setToolTipText( "<html>You and other users will see"
+				+ "<br>the messages you write in this color.</html>" );
 
 		sysColorL = new JLabel( "System text color looks like this" );
-		sysColorL.setToolTipText( "<html>Information messages from the application" +
-				"<br>will be shown in this color.</html>" );
+		sysColorL.setToolTipText( "<html>Information messages from the application"
+				+ "<br>will be shown in this color.</html>" );
 
 		chooseOwnColorB = new JButton( "Change" );
 		chooseOwnColorB.addActionListener( this );
@@ -124,14 +124,14 @@ public class SettingsDialog extends JDialog implements ActionListener
 				BorderFactory.createEmptyBorder( 0, 5, 0, 5 ) ) );
 
 		soundCB = new JCheckBox( "Enable sound" );
-		soundCB.setToolTipText( "<html>Will give a short sound notification when" +
-				"<br>a new message is received if " + Constants.APP_NAME +
-				"<br>is minimized to the system tray.</html>" );
+		soundCB.setToolTipText( "<html>Will give a short sound notification when"
+				+ "<br>a new message is received if " + Constants.APP_NAME
+				+ "<br>is minimized to the system tray.</html>" );
 
 		loggingCB = new JCheckBox( "Enable logging" );
-		loggingCB.setToolTipText( "<html>Stores the conversation in the main chat to a log file in" +
-				"<br>" + Constants.APP_LOG_FOLDER +
-				"<br>Only text written after this option was enabled will be stored.</html>" );
+		loggingCB.setToolTipText( "<html>Stores the conversation in the main chat to a log file in"
+				+ "<br>" + Constants.APP_LOG_FOLDER
+				+ "<br>Only text written after this option was enabled will be stored.</html>" );
 
 		JPanel miscP = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
 		miscP.add( soundCB );
@@ -140,10 +140,10 @@ public class SettingsDialog extends JDialog implements ActionListener
 
 		browserL = new JLabel( "Browser: " );
 		browserTF = new JTextField( 22 );
-		browserTF.setToolTipText( "<html>When you click on a link in the chat it will open" +
-				"<br>in the browser defined here. If this field" +
-				"<br>is empty the default browser on your system" +
-				"<br>will be used, if possible.</html>" );
+		browserTF.setToolTipText( "<html>When you click on a link in the chat it will open"
+				+ "<br>in the browser defined here. If this field"
+				+ "<br>is empty the default browser on your system"
+				+ "<br>will be used, if possible.</html>" );
 
 		JPanel browserTopP = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
 		browserTopP.add( browserL );
@@ -324,8 +324,8 @@ public class SettingsDialog extends JDialog implements ActionListener
 
 						catch ( IOException e )
 						{
-							errorHandler.showError( "Could not open the browser '" + browser +
-									"'. Try using the full path." );
+							errorHandler.showError( "Could not open the browser '" + browser
+									+ "'. Try using the full path." );
 						}
 					}
 
@@ -350,8 +350,8 @@ public class SettingsDialog extends JDialog implements ActionListener
 
 					else
 					{
-						errorHandler.showError( "Your system does not support a default browser." +
-								" Please choose a browser manually." );
+						errorHandler.showError( "Your system does not support a default browser."
+								+ " Please choose a browser manually." );
 					}
 				}
 			} );

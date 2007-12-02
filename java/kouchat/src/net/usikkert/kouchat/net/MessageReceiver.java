@@ -58,8 +58,8 @@ public class MessageReceiver implements Runnable
 		catch ( IOException e )
 		{
 			log.log( Level.SEVERE, e.toString(), e );
-			errorHandler.showCriticalError( "Failed to initialize the network:\n" + e + "\n" +
-					Constants.APP_NAME + " will now shutdown and quit..." );
+			errorHandler.showCriticalError( "Failed to initialize the network:\n" + e + "\n"
+					+ Constants.APP_NAME + " will now shutdown and quit..." );
 			System.exit( 1 );
 		}
 	}

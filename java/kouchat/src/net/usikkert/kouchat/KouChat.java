@@ -84,9 +84,9 @@ public final class KouChat
 
 		if ( help )
 		{
-			System.out.println( "\nCommands:" +
-					"\n --help \tshows this help message" +
-					"\n --console \tstarts " + Constants.APP_NAME + " in console mode" );
+			System.out.println( "\nCommands:"
+					+ "\n --help \tshows this help message"
+					+ "\n --console \tstarts " + Constants.APP_NAME + " in console mode" );
 			return;
 		}
 

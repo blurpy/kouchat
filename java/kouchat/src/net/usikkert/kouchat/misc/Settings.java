@@ -60,8 +60,8 @@ public final class Settings
 		me.setLastIdle( System.currentTimeMillis() );
 		me.setLogonTime( System.currentTimeMillis() );
 		me.setOperatingSystem( System.getProperty( "os.name" ) );
-		me.setClient( Constants.APP_NAME + " v" + Constants.APP_VERSION +
-				" " + System.getProperty( Constants.PROPERTY_CLIENT_UI ) );
+		me.setClient( Constants.APP_NAME + " v" + Constants.APP_VERSION
+				+ " " + System.getProperty( Constants.PROPERTY_CLIENT_UI ) );
 
 		listeners = new ArrayList<SettingsListener>();
 		errorHandler = ErrorHandler.getErrorHandler();

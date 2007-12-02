@@ -128,15 +128,15 @@ public class Messages
 
 	public void sendClient()
 	{
-		sender.send( me.getCode() + "!CLIENT#" + me.getNick() + ":(" + me.getClient() +
-				")[" + ( System.currentTimeMillis() - me.getLogonTime() ) +
-				"]{" + me.getOperatingSystem() + "}<" + me.getPrivateChatPort() + ">" );
+		sender.send( me.getCode() + "!CLIENT#" + me.getNick() + ":(" + me.getClient()
+				+ ")[" + ( System.currentTimeMillis() - me.getLogonTime() )
+				+ "]{" + me.getOperatingSystem() + "}<" + me.getPrivateChatPort() + ">" );
 	}
 
 	public void sendPrivateMessage( String privmsg, String userIP, int userPort, int userCode )
 	{
-		udpSender.send( me.getCode() + "!PRIVMSG#" + me.getNick() + ":(" + userCode + ")" +
-				"[" + settings.getOwnColor() + "]" + privmsg, userIP, userPort );
+		udpSender.send( me.getCode() + "!PRIVMSG#" + me.getNick() + ":(" + userCode + ")"
+				+ "[" + settings.getOwnColor() + "]" + privmsg, userIP, userPort );
 	}
 
 	public void start()

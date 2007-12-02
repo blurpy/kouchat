@@ -106,20 +106,20 @@ public class UIMessages
 	 */
 	public void showCommands()
 	{
-		msgController.showSystemMessage( Constants.APP_NAME + " commands:\n" +
-				"/help - show this help message\n" +
-				"/about - information about " + Constants.APP_NAME + "\n" +
-				"/clear - clear all the text from the chat\n" +
-				"/whois <nick> - show information about a user\n" +
-				"/names - show the user list\n" +
-				"/nick <new nick> - changes your nick name\n" +
-				"/away <away message> - set status to away\n" +
-				"/back - set status to not away\n" +
-				"/send <nick> <file> - send a file to a user\n" +
-				"/msg <nick> <msg> - send a private message to a user\n" +
-				"/transfers - shows a list of all transfers and their status\n" +
-				"/topic <optional new topic> - prints the current topic, or changes the topic\n" +
-				"//<text> - send the text as a normal message, with a single slash" );
+		msgController.showSystemMessage( Constants.APP_NAME + " commands:\n"
+				+ "/help - show this help message\n"
+				+ "/about - information about " + Constants.APP_NAME + "\n"
+				+ "/clear - clear all the text from the chat\n"
+				+ "/whois <nick> - show information about a user\n"
+				+ "/names - show the user list\n"
+				+ "/nick <new nick> - changes your nick name\n"
+				+ "/away <away message> - set status to away\n"
+				+ "/back - set status to not away\n"
+				+ "/send <nick> <file> - send a file to a user\n"
+				+ "/msg <nick> <msg> - send a private message to a user\n"
+				+ "/transfers - shows a list of all transfers and their status\n"
+				+ "/topic <optional new topic> - prints the current topic, or changes the topic\n"
+				+ "//<text> - send the text as a normal message, with a single slash" );
 	}
 
 	/**
@@ -148,9 +148,9 @@ public class UIMessages
 	 */
 	public void showAbout()
 	{
-		msgController.showSystemMessage( "This is " + Constants.APP_NAME + " v" + Constants.APP_VERSION +
-				", by " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL +
-				" - " + Constants.APP_WEB );
+		msgController.showSystemMessage( "This is " + Constants.APP_NAME + " v" + Constants.APP_VERSION
+				+ ", by " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL
+				+ " - " + Constants.APP_WEB );
 	}
 
 	/**
@@ -454,10 +454,10 @@ public class UIMessages
 		if ( user.isAway() )
 			info += " (Away)";
 
-		info += ":\nIP address: " + user.getIpAddress() +
-				"\nClient: " + user.getClient() +
-				"\nOperating System: " + user.getOperatingSystem() +
-				"\nOnline: " + Tools.howLongFromNow( user.getLogonTime() );
+		info += ":\nIP address: " + user.getIpAddress()
+				+ "\nClient: " + user.getClient()
+				+ "\nOperating System: " + user.getOperatingSystem()
+				+ "\nOnline: " + Tools.howLongFromNow( user.getLogonTime() );
 
 		if ( user.isAway() )
 			info += "\nAway message: " + user.getAwayMsg();
