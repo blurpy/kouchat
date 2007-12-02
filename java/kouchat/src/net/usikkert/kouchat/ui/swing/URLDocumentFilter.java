@@ -56,9 +56,9 @@ public class URLDocumentFilter extends DocumentFilter
 	 */
 	public URLDocumentFilter()
 	{
-		protPattern = Pattern.compile( "\\w{2,}://\\w{1,}\\S+.+" );
-		wwwPattern = Pattern.compile( "www\\.\\w{1,}\\S+\\.\\S+.+" );
-		ftpPattern = Pattern.compile( "ftp\\.\\w{1,}\\S+\\.\\S+.+" );
+		protPattern = Pattern.compile( "\\w{2,}://\\w+\\S+.+" );
+		wwwPattern = Pattern.compile( "www\\.\\w+\\S+\\.\\S+.+" );
+		ftpPattern = Pattern.compile( "ftp\\.\\w+\\S+\\.\\S+.+" );
 	}
 
 	/**
