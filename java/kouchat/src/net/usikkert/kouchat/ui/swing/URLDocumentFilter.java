@@ -36,8 +36,8 @@ import javax.swing.text.StyledDocument;
  * 
  * 3 different urls are recognized:<br />
  * protocol://host<br />
- * host.name<br />
- * \\host<br />
+ * www.host.name<br />
+ * ftp.host.name<br />
  * 
  * @author Christian Ihle
  */
@@ -49,16 +49,16 @@ public class URLDocumentFilter extends DocumentFilter
 	 */
 	public static final String URL_ATTRIBUTE = "url.attribute";
 
-	private Pattern protPattern, dotPattern, backslashPattern;
+	private Pattern protPattern, wwwPattern, ftpPattern;
 
 	/**
 	 * Constructor. Creates regex patterns to use for url checking.
 	 */
 	public URLDocumentFilter()
 	{
-		protPattern = Pattern.compile( "\\w{2,}://\\S+.+" );
-		dotPattern = Pattern.compile( "\\w{1,}\\S*\\.\\p{Lower}{2,4}.*" );
-		backslashPattern = Pattern.compile( "\\\\\\\\\\p{Alnum}.+" );
+		protPattern = Pattern.compile( "\\w{2,}://\\w{1,}\\S+.+" );
+		wwwPattern = Pattern.compile( "www\\.\\w{1,}\\S+\\.\\S+.+" );
+		ftpPattern = Pattern.compile( "ftp\\.\\w{1,}\\S+\\.\\S+.+" );
 	}
 
 	/**
@@ -116,8 +116,8 @@ public class URLDocumentFilter extends DocumentFilter
 	private int findURLPos( String text, int offset )
 	{
 		int prot = text.indexOf( "://", offset );
-		int dot = text.indexOf( ".", offset );
-		int backslash = text.indexOf( " \\", offset );
+		int www = text.indexOf( " www", offset );
+		int ftp = text.indexOf( " ftp", offset );
 
 		int firstMatch = -1;
 		boolean retry = true;
@@ -146,35 +146,34 @@ public class URLDocumentFilter extends DocumentFilter
 				}
 			}
 			
-			if ( backslash != -1 && ( backslash < firstMatch || firstMatch == -1 ) )
+			if ( www != -1 && ( www < firstMatch || firstMatch == -1 ) )
 			{
-				String t = text.substring( backslash +1, text.length() -1 );
+				String t = text.substring( www +1, text.length() -1 );
 
-				if ( backslashPattern.matcher( t ).matches() )
-					firstMatch = backslash +1;
+				if ( wwwPattern.matcher( t ).matches() )
+					firstMatch = www +1;
 
 				else
 				{
-					backslash = text.indexOf( " \\", backslash +1 );
+					www = text.indexOf( " www", www +1 );
 
-					if ( backslash != -1 && ( backslash < firstMatch || firstMatch == -1 ) )
+					if ( www != -1 && ( www < firstMatch || firstMatch == -1 ) )
 						retry = true;
 				}
 			}
 			
-			if ( dot != -1 && ( dot < firstMatch || firstMatch == -1 ) )
+			if ( ftp != -1 && ( ftp < firstMatch || firstMatch == -1 ) )
 			{
-				int dotStart = text.lastIndexOf( ' ', dot ) +1;
-				String t = text.substring( dotStart, text.length() -1 );
+				String t = text.substring( ftp +1, text.length() -1 );
 
-				if ( dotPattern.matcher( t ).matches() )
-					firstMatch = dotStart;
+				if ( ftpPattern.matcher( t ).matches() )
+					firstMatch = ftp +1;
 
 				else
 				{
-					dot = text.indexOf( ".", dot +1 );
+					ftp = text.indexOf( " ftp", ftp +1 );
 
-					if ( dot != -1 && ( dot < firstMatch || firstMatch == -1 ) )
+					if ( ftp != -1 && ( ftp < firstMatch || firstMatch == -1 ) )
 						retry = true;
 				}
 			}
