@@ -83,16 +83,28 @@ public class MsgPopup extends JPopupMenu implements MouseListener, ActionListene
 	}
 
 	@Override
-	public void mouseClicked( MouseEvent e ) {}
+	public void mouseClicked( MouseEvent e )
+	{
+
+	}
 
 	@Override
-	public void mouseEntered( MouseEvent e ) {}
+	public void mouseEntered( MouseEvent e )
+	{
+
+	}
 
 	@Override
-	public void mouseExited( MouseEvent e ) {}
+	public void mouseExited( MouseEvent e )
+	{
+
+	}
 
 	@Override
-	public void mousePressed( MouseEvent e ) {}
+	public void mousePressed( MouseEvent e )
+	{
+
+	}
 
 	/**
 	 * Shows the popup menu if right mouse button was used.

@@ -237,7 +237,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 
 		String fileName = fileTransfer.getFileName();
 
-		if ( fileName.length() >=42 )
+		if ( fileName.length() >= 42 )
 		{
 			String shortName = fileName.substring( 0, 40 ) + "...";
 			file2L.setText( shortName );

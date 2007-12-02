@@ -49,7 +49,10 @@ public final class UITools
 	/**
 	 * Private constructor. Only static methods here.
 	 */
-	private UITools() {}
+	private UITools()
+	{
+
+	}
 
 	/**
 	 * Opens a url in a browser. The first choice is taken from the settings,

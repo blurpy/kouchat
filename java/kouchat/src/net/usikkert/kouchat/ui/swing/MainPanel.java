@@ -170,10 +170,16 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 	}
 
 	@Override
-	public void keyPressed( KeyEvent arg0 ) {}
+	public void keyPressed( KeyEvent e )
+	{
+
+	}
 
 	@Override
-	public void keyTyped( KeyEvent arg0 ) {}
+	public void keyTyped( KeyEvent e )
+	{
+
+	}
 
 	@Override
 	public void keyReleased( final KeyEvent ke )

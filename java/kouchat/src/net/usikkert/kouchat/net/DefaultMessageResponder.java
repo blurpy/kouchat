@@ -494,7 +494,7 @@ public class DefaultMessageResponder implements MessageResponder
 					log.log( Level.SEVERE, "Could not find user: " + user );
 				}
 			}
-		}.start();
+		} .start();
 	}
 
 	@Override
@@ -549,7 +549,7 @@ public class DefaultMessageResponder implements MessageResponder
 					tList.removeFileSender( fileSend );
 				}
 			}
-		}.start();
+		} .start();
 	}
 
 	@Override

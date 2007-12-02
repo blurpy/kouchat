@@ -53,7 +53,10 @@ public class PrivateChatConsole implements PrivateChatWindow
 	}
 
 	@Override
-	public void clearChatText() {}
+	public void clearChatText()
+	{
+
+	}
 
 	@Override
 	public String getChatText()
@@ -74,7 +77,10 @@ public class PrivateChatConsole implements PrivateChatWindow
 	}
 
 	@Override
-	public void setAway( boolean away ) {}
+	public void setAway( boolean away )
+	{
+
+	}
 
 	@Override
 	public void setLoggedOff()
@@ -83,8 +89,14 @@ public class PrivateChatConsole implements PrivateChatWindow
 	}
 
 	@Override
-	public void setVisible( boolean visible ) {}
+	public void setVisible( boolean visible )
+	{
+
+	}
 
 	@Override
-	public void updateNick() {}
+	public void updateNick()
+	{
+
+	}
 }

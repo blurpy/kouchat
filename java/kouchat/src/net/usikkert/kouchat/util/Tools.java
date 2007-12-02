@@ -42,7 +42,10 @@ public final class Tools
 	/**
 	 * Private constructor. Only static methods here.
 	 */
-	private Tools() {}
+	private Tools()
+	{
+
+	}
 
 	private static final Logger LOG = Logger.getLogger( Tools.class.getName() );
 

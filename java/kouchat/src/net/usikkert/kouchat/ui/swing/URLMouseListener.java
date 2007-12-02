@@ -61,7 +61,10 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
 	}
 
 	@Override
-	public void mouseDragged( MouseEvent e ) {}
+	public void mouseDragged( MouseEvent e )
+	{
+
+	}
 
 	/**
 	 * Updates the mouse cursor when hovering over a link.
@@ -87,16 +90,28 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
 	}
 
 	@Override
-	public void mouseClicked( MouseEvent e ) {}
+	public void mouseClicked( MouseEvent e )
+	{
+
+	}
 
 	@Override
-	public void mouseEntered( MouseEvent e ) {}
+	public void mouseEntered( MouseEvent e )
+	{
+
+	}
 
 	@Override
-	public void mouseExited( MouseEvent e ) {}
+	public void mouseExited( MouseEvent e )
+	{
+
+	}
 
 	@Override
-	public void mousePressed( MouseEvent e ) {}
+	public void mousePressed( MouseEvent e )
+	{
+
+	}
 
 	/**
 	 * Opens the clicked link in a browser.

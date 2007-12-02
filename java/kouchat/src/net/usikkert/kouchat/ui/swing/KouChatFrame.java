@@ -167,7 +167,10 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 	}
 
 	@Override
-	public void focusGained( FocusEvent e ) {}
+	public void focusGained( FocusEvent e )
+	{
+
+	}
 
 	/**
 	 * Make sure the menubar gets focus when navigating with the keyboard.
@@ -207,17 +210,32 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 	}
 
 	@Override
-	public void windowClosed( WindowEvent e ) {}
+	public void windowClosed( WindowEvent e )
+	{
+
+	}
 
 	@Override
-	public void windowDeactivated( WindowEvent e ) {}
+	public void windowDeactivated( WindowEvent e )
+	{
+
+	}
 
 	@Override
-	public void windowDeiconified( WindowEvent e ) {}
+	public void windowDeiconified( WindowEvent e )
+	{
+
+	}
 
 	@Override
-	public void windowIconified( WindowEvent e ) {}
+	public void windowIconified( WindowEvent e )
+	{
+
+	}
 
 	@Override
-	public void windowOpened( WindowEvent e ) {}
+	public void windowOpened( WindowEvent e )
+	{
+
+	}
 }

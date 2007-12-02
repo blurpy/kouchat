@@ -71,7 +71,7 @@ public class CommandHistory
 
 		if ( command.trim().length() == 0 )
 			add = false;
-		else if ( history.size() > 0 && command.equals( history.get( history.size() -1 ) ) )
+		else if ( history.size() > 0 && command.equals( history.get( history.size() - 1 ) ) )
 			add = false;
 
 		if ( add )
@@ -83,7 +83,7 @@ public class CommandHistory
 		}
 
 		if ( history.size() > 0 )
-			cursor = history.size() -1;
+			cursor = history.size() - 1;
 
 		direction = Direction.MIDDLE;
 	}
@@ -122,7 +122,7 @@ public class CommandHistory
 
 		if ( history.size() > 0 )
 		{
-			if ( cursor < history.size() -1 )
+			if ( cursor < history.size() - 1 )
 			{
 				cursor++;
 				direction = Direction.DOWN;

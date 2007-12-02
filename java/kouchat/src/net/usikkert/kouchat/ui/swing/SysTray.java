@@ -91,7 +91,7 @@ public class SysTray implements ActionListener, MouseListener
 				{
 					missing += missingList.get( i );
 
-					if ( i < missingList.size() -1 )
+					if ( i < missingList.size() - 1 )
 						missing += "\n";
 				}
 
@@ -219,14 +219,26 @@ public class SysTray implements ActionListener, MouseListener
 	}
 
 	@Override
-	public void mouseEntered( MouseEvent arg0 ) {}
+	public void mouseEntered( MouseEvent e )
+	{
+
+	}
 
 	@Override
-	public void mouseExited( MouseEvent arg0 ) {}
+	public void mouseExited( MouseEvent e )
+	{
+
+	}
 
 	@Override
-	public void mousePressed( MouseEvent arg0 ) {}
+	public void mousePressed( MouseEvent e )
+	{
+
+	}
 
 	@Override
-	public void mouseReleased( MouseEvent arg0 ) {}
+	public void mouseReleased( MouseEvent e )
+	{
+
+	}
 }

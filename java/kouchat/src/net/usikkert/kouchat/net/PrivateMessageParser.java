@@ -69,12 +69,12 @@ public class PrivateMessageParser implements ReceiverListener
 
 			int fromCode = Integer.parseInt( message.substring( 0, exclamation ) );
 
-			String type = message.substring( exclamation +1, hash );
-			String msg = message.substring( colon +1, message.length() );
+			String type = message.substring( exclamation + 1, hash );
+			String msg = message.substring( colon + 1, message.length() );
 
 			int leftPara = msg.indexOf( "(" );
 			int rightPara = msg.indexOf( ")" );
-			int toCode = Integer.parseInt( msg.substring( leftPara +1, rightPara ) );
+			int toCode = Integer.parseInt( msg.substring( leftPara + 1, rightPara ) );
 
 			NickDTO tempme = settings.getMe();
 
@@ -84,8 +84,8 @@ public class PrivateMessageParser implements ReceiverListener
 				{
 					int leftBracket = msg.indexOf( "[" );
 					int rightBracket = msg.indexOf( "]" );
-					int rgb = Integer.parseInt( msg.substring( leftBracket +1, rightBracket ) );
-					String privmsg = msg.substring( rightBracket +1, msg.length() );
+					int rgb = Integer.parseInt( msg.substring( leftBracket + 1, rightBracket ) );
+					String privmsg = msg.substring( rightBracket + 1, msg.length() );
 
 					privmsgResponder.messageArrived( fromCode, privmsg, rgb );
 				}

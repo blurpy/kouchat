@@ -123,7 +123,7 @@ public class UDPReceiver implements Runnable
 		{
 			String error = "Failed to initialize udp network:" +
 					"\nNo available listening port between " + Constants.NETWORK_PRIVCHAT_PORT +
-					" and " + ( port -1 ) + "." +
+					" and " + ( port - 1 ) + "." +
 					"\n\nYou will not be able to receive private messages!";
 
 			log.log( Level.SEVERE, error );

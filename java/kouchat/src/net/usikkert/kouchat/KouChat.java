@@ -42,7 +42,10 @@ public final class KouChat
 	 * Private constructor. This class should be run like an application,
 	 * not instantiated.
 	 */
-	private KouChat() {}
+	private KouChat()
+	{
+
+	}
 
 	/**
 	 * The main method.

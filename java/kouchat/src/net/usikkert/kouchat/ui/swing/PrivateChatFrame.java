@@ -195,7 +195,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		{
 			public boolean dispatchKeyEvent( KeyEvent e )
 			{
-				if( e.getID() == KeyEvent.KEY_TYPED && isFocused() && e.getSource() == chatTP )
+				if ( e.getID() == KeyEvent.KEY_TYPED && isFocused() && e.getSource() == chatTP )
 				{
 					KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent( msgTF, e );
 					msgTF.requestFocusInWindow();
@@ -327,10 +327,16 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	}
 
 	@Override
-	public void keyPressed( KeyEvent arg0 ) {}
+	public void keyPressed( KeyEvent e )
+	{
+
+	}
 
 	@Override
-	public void keyTyped( KeyEvent arg0 ) {}
+	public void keyTyped( KeyEvent e )
+	{
+
+	}
 
 	/**
 	 * Browse through the history when the user
@@ -426,7 +432,10 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	}
 
 	@Override
-	public void focusGained( FocusEvent e ) {}
+	public void focusGained( FocusEvent e )
+	{
+
+	}
 
 	/**
 	 * Make sure the menubar gets focus when navigating with the keyboard.
@@ -451,20 +460,38 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	}
 
 	@Override
-	public void windowClosed( WindowEvent e ) {}
+	public void windowClosed( WindowEvent e )
+	{
+
+	}
 
 	@Override
-	public void windowClosing( WindowEvent e ) {}
+	public void windowClosing( WindowEvent e )
+	{
+
+	}
 
 	@Override
-	public void windowDeactivated( WindowEvent e ) {}
+	public void windowDeactivated( WindowEvent e )
+	{
+
+	}
 
 	@Override
-	public void windowDeiconified( WindowEvent e ) {}
+	public void windowDeiconified( WindowEvent e )
+	{
+
+	}
 
 	@Override
-	public void windowIconified( WindowEvent e ) {}
+	public void windowIconified( WindowEvent e )
+	{
+
+	}
 
 	@Override
-	public void windowOpened( WindowEvent e ) {}
+	public void windowOpened( WindowEvent e )
+	{
+
+	}
 }

@@ -74,9 +74,9 @@ public class MessageParser implements ReceiverListener
 			int colon = message.indexOf( ":" );
 
 			int msgCode = Integer.parseInt( message.substring( 0, exclamation ) );
-			String type = message.substring( exclamation +1, hash );
-			String msgNick = message.substring( hash +1, colon );
-			String msg = message.substring( colon +1, message.length() );
+			String type = message.substring( exclamation + 1, hash );
+			String msgNick = message.substring( hash + 1, colon );
+			String msg = message.substring( colon + 1, message.length() );
 
 			NickDTO tempme = settings.getMe();
 
@@ -86,9 +86,9 @@ public class MessageParser implements ReceiverListener
 				{
 					int leftBracket = msg.indexOf( "[" );
 					int rightBracket = msg.indexOf( "]" );
-					int rgb = Integer.parseInt( msg.substring( leftBracket +1, rightBracket ) );
+					int rgb = Integer.parseInt( msg.substring( leftBracket + 1, rightBracket ) );
 
-					responder.messageArrived( msgCode, msg.substring( rightBracket +1, msg.length() ), rgb );
+					responder.messageArrived( msgCode, msg.substring( rightBracket + 1, msg.length() ), rgb );
 				}
 
 				else if ( type.equals( "LOGON" ) )
@@ -168,13 +168,13 @@ public class MessageParser implements ReceiverListener
 
 					if ( rightBracket != -1 && leftBracket != -1 )
 					{
-						String theNick = msg.substring( leftPara +1, rightPara );
-						long theTime = Long.parseLong( msg.substring( leftBracket +1, rightBracket ) );
+						String theNick = msg.substring( leftPara + 1, rightPara );
+						long theTime = Long.parseLong( msg.substring( leftBracket + 1, rightBracket ) );
 						String theTopic = null;
 
 						if ( msg.length() > rightBracket + 1 )
 						{
-							theTopic = msg.substring( rightBracket +1, msg.length() );
+							theTopic = msg.substring( rightBracket + 1, msg.length() );
 						}
 
 						responder.topicChanged( msgCode, theTopic, theNick, theTime );
@@ -195,7 +195,7 @@ public class MessageParser implements ReceiverListener
 				{
 					int leftPara = msg.indexOf( "(" );
 					int rightPara = msg.indexOf( ")" );
-					int fileCode = Integer.parseInt( msg.substring( leftPara +1, rightPara ) );
+					int fileCode = Integer.parseInt( msg.substring( leftPara + 1, rightPara ) );
 
 					if ( fileCode == tempme.getCode() )
 					{
@@ -203,9 +203,9 @@ public class MessageParser implements ReceiverListener
 						int rightCurly = msg.indexOf( "}" );
 						int leftBracket = msg.indexOf( "[" );
 						int rightBracket = msg.indexOf( "]" );
-						int port = Integer.parseInt( msg.substring( leftBracket +1, rightBracket ) );
-						int fileHash = Integer.parseInt( msg.substring( leftCurly +1, rightCurly ) );
-						String fileName = msg.substring( rightCurly +1, msg.length() );
+						int port = Integer.parseInt( msg.substring( leftBracket + 1, rightBracket ) );
+						int fileHash = Integer.parseInt( msg.substring( leftCurly + 1, rightCurly ) );
+						String fileName = msg.substring( rightCurly + 1, msg.length() );
 
 						responder.fileSendAccepted( msgCode, fileName, fileHash, port );
 					}
@@ -215,14 +215,14 @@ public class MessageParser implements ReceiverListener
 				{
 					int leftPara = msg.indexOf( "(" );
 					int rightPara = msg.indexOf( ")" );
-					int fileCode = Integer.parseInt( msg.substring( leftPara +1, rightPara ) );
+					int fileCode = Integer.parseInt( msg.substring( leftPara + 1, rightPara ) );
 
 					if ( fileCode == tempme.getCode() )
 					{
 						int leftCurly = msg.indexOf( "{" );
 						int rightCurly = msg.indexOf( "}" );
-						String fileName = msg.substring( rightCurly +1, msg.length() );
-						int fileHash = Integer.parseInt( msg.substring( leftCurly +1, rightCurly ) );
+						String fileName = msg.substring( rightCurly + 1, msg.length() );
+						int fileHash = Integer.parseInt( msg.substring( leftCurly + 1, rightCurly ) );
 
 						responder.fileSendAborted( msgCode, fileName, fileHash );
 					}
@@ -232,7 +232,7 @@ public class MessageParser implements ReceiverListener
 				{
 					int leftPara = msg.indexOf( "(" );
 					int rightPara = msg.indexOf( ")" );
-					int fileCode = Integer.parseInt( msg.substring( leftPara +1, rightPara ) );
+					int fileCode = Integer.parseInt( msg.substring( leftPara + 1, rightPara ) );
 
 					if ( fileCode == tempme.getCode() )
 					{
@@ -240,9 +240,9 @@ public class MessageParser implements ReceiverListener
 						int rightCurly = msg.indexOf( "}" );
 						int leftBracket = msg.indexOf( "[" );
 						int rightBracket = msg.indexOf( "]" );
-						long byteSize = Long.parseLong( msg.substring( leftBracket +1, rightBracket ) );
-						String fileName = msg.substring( rightCurly +1, msg.length() );
-						int fileHash = Integer.parseInt( msg.substring( leftCurly +1, rightCurly ) );
+						long byteSize = Long.parseLong( msg.substring( leftBracket + 1, rightBracket ) );
+						String fileName = msg.substring( rightCurly + 1, msg.length() );
+						int fileHash = Integer.parseInt( msg.substring( leftCurly + 1, rightCurly ) );
 
 						responder.fileSend( msgCode, byteSize, fileName, msgNick, fileHash, fileCode );
 					}
@@ -259,15 +259,15 @@ public class MessageParser implements ReceiverListener
 					int lessThan = msg.indexOf( "<" );
 					int greaterThan = msg.indexOf( ">" );
 
-					String client = msg.substring( leftPara +1, rightPara );
-					long timeSinceLogon = Long.parseLong( msg.substring( leftBracket +1, rightBracket ) );
-					String operatingSystem = msg.substring( leftCurly +1, rightCurly );
+					String client = msg.substring( leftPara + 1, rightPara );
+					long timeSinceLogon = Long.parseLong( msg.substring( leftBracket + 1, rightBracket ) );
+					String operatingSystem = msg.substring( leftCurly + 1, rightCurly );
 
 					int privateChatPort = 0;
 
 					try
 					{
-						privateChatPort = Integer.parseInt( msg.substring( lessThan +1, greaterThan ) );
+						privateChatPort = Integer.parseInt( msg.substring( lessThan + 1, greaterThan ) );
 					}
 
 					catch ( NumberFormatException e )

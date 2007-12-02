@@ -343,7 +343,7 @@ public class CommandParser
 			NickDTO nick = list.get( i );
 			nickList += nick.getNick();
 
-			if ( i < list.size() -1 )
+			if ( i < list.size() - 1 )
 				nickList += ", ";
 		}
 
