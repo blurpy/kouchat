@@ -30,7 +30,7 @@ import javax.swing.text.DocumentFilter;
  * Practical for use in the text field where users write
  * messages to send, so they know when a message is too
  * long before it is sent.
- * 
+ *
  * @author Christian Ihle
  */
 public class SizeDocumentFilter extends DocumentFilter
@@ -39,7 +39,7 @@ public class SizeDocumentFilter extends DocumentFilter
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param maxCharacters The maximum number of characters the
 	 * Document can contain.
 	 */

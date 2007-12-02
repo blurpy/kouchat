@@ -44,12 +44,12 @@ import javax.swing.text.JTextComponent;
 /**
  * This takes care of drag and drop of files to send.
  * When a file is dropped the mediator opens the file.
- * 
+ *
  * @author Christian Ihle
  */
 public class FileTransferHandler extends TransferHandler
 {
-	private static final Logger log = Logger.getLogger( FileTransferHandler.class.getName() );
+	private static final Logger LOG = Logger.getLogger( FileTransferHandler.class.getName() );
 	private static final long serialVersionUID = 1L;
 
 	private Mediator mediator;
@@ -58,27 +58,27 @@ public class FileTransferHandler extends TransferHandler
 
 	/**
 	 * Constructor. Sets the file drop source.
-	 * 
+	 *
 	 * @param fileDropSource The source to find which user the file was dropped on.
 	 */
 	public FileTransferHandler( FileDropSource fileDropSource )
 	{
 		this.fileDropSource = fileDropSource;
-		
+
 		try
 		{
 			uriListFlavor = new DataFlavor( "text/uri-list;class=java.lang.String" );
 		}
-		
+
 		catch ( ClassNotFoundException e )
 		{
-			log.log( Level.WARNING, e.toString() );
+			LOG.log( Level.WARNING, e.toString() );
 		}
 	}
 
 	/**
 	 * Sets the mediator to use for opening the dropped file.
-	 * 
+	 *
 	 * @param mediator The mediator to use.
 	 */
 	public void setMediator( Mediator mediator )
@@ -93,10 +93,7 @@ public class FileTransferHandler extends TransferHandler
 	@Override
 	public boolean canImport( TransferSupport support )
 	{
-		if ( support.isDataFlavorSupported( DataFlavor.javaFileListFlavor ) || support.isDataFlavorSupported( uriListFlavor ) )
-			return true;
-		else
-			return false;
+		return support.isDataFlavorSupported( DataFlavor.javaFileListFlavor ) || support.isDataFlavorSupported( uriListFlavor );
 	}
 
 	/**
@@ -113,24 +110,24 @@ public class FileTransferHandler extends TransferHandler
 			try
 			{
 				File file = null;
-				
+
 				if ( support.isDataFlavorSupported( DataFlavor.javaFileListFlavor ) )
 				{
 					List<File> fileList = (List<File>) support.getTransferable().getTransferData( DataFlavor.javaFileListFlavor );
-					
+
 					if ( fileList.size() > 0 )
 						file = fileList.get( 0 );
 				}
-				
+
 				else if ( support.isDataFlavorSupported( uriListFlavor ) )
 				{
 					Object data = support.getTransferable().getTransferData( uriListFlavor );
-					
+
 					if ( data != null )
 					{
 						String[] uriList = data.toString().split( "\r\n" );
 						String fileURI = "";
-						
+
 						for ( int i = 0; i < uriList.length; i++ )
 						{
 							if ( uriList[i].startsWith( "file:/" ) )
@@ -139,45 +136,45 @@ public class FileTransferHandler extends TransferHandler
 								break;
 							}
 						}
-						
+
 						try
 						{
 							URI uri = new URI( fileURI );
-							
+
 							if ( uri != null )
 								file = new File( uri );
 						}
-						
+
 						catch ( URISyntaxException e )
 						{
-							log.log( Level.WARNING, e.toString() );
-						}	
+							LOG.log( Level.WARNING, e.toString() );
+						}
 					}
 				}
-				
+
 				else
 				{
-					log.log( Level.WARNING, "Data flavor not supported..." );
+					LOG.log( Level.WARNING, "Data flavor not supported..." );
 				}
-				
+
 				if ( file != null )
 				{
 					mediator.sendFile( fileDropSource.getUser(), file );
 					return true;
 				}
-				
+
 				else
-					log.log( Level.WARNING, "No file dropped..." );
+					LOG.log( Level.WARNING, "No file dropped..." );
 			}
 
 			catch ( UnsupportedFlavorException e )
 			{
-				log.log( Level.WARNING, e.toString() );
+				LOG.log( Level.WARNING, e.toString() );
 			}
 
 			catch ( IOException e )
 			{
-				log.log( Level.WARNING, e.toString() );
+				LOG.log( Level.WARNING, e.toString() );
 			}
 		}
 

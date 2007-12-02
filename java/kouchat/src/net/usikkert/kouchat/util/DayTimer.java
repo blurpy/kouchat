@@ -31,7 +31,7 @@ import net.usikkert.kouchat.misc.UserInterface;
 /**
  * Notifies the user interface when the day changes.
  * Checks every hour, in case daylight saving changes the time.
- * 
+ *
  * @author Christian Ihle
  */
 public class DayTimer extends TimerTask
@@ -43,7 +43,7 @@ public class DayTimer extends TimerTask
 	public DayTimer( UserInterface ui )
 	{
 		this.ui = ui;
-		
+
 		Calendar cal = Calendar.getInstance();
 		cal.set( Calendar.HOUR_OF_DAY, 0 );
 		cal.set( Calendar.MINUTE, 0 );

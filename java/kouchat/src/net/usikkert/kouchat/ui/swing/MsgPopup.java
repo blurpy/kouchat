@@ -35,7 +35,7 @@ import javax.swing.text.DefaultEditorKit;
 
 /**
  * Shows a popup menu with copy, cut, paste and clear menu items.
- * 
+ *
  * @author Christian Ihle
  */
 public class MsgPopup extends JPopupMenu implements MouseListener, ActionListener
@@ -47,7 +47,7 @@ public class MsgPopup extends JPopupMenu implements MouseListener, ActionListene
 
 	/**
 	 * Constructor. Creates the menu.
-	 * 
+	 *
 	 * @param msgTF The text field to use the popup on.
 	 */
 	public MsgPopup( JTextField msgTF )

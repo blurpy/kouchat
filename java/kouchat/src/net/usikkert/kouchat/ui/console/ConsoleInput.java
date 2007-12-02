@@ -38,12 +38,12 @@ import net.usikkert.kouchat.misc.UserInterface;
 
 /**
  * Contains the main input loop for the console mode.
- * 
+ *
  * @author Christian Ihle
  */
 public class ConsoleInput
 {
-	private static final Logger log = Logger.getLogger( ConsoleInput.class.getName() );
+	private static final Logger LOG = Logger.getLogger( ConsoleInput.class.getName() );
 
 	private BufferedReader stdin;
 	private Controller controller;
@@ -53,7 +53,7 @@ public class ConsoleInput
 
 	/**
 	 * Constructor. Initializes input from System.in.
-	 * 
+	 *
 	 * @param controller The controller to use.
 	 * @param ui The user interface to send messages to.
 	 */
@@ -110,7 +110,7 @@ public class ConsoleInput
 
 							catch ( CommandException e )
 							{
-								log.log( Level.WARNING, e.toString() );
+								LOG.log( Level.WARNING, e.toString() );
 								uiMsg.showActionNotAllowed();
 							}
 						}
@@ -125,7 +125,7 @@ public class ConsoleInput
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.toString(), e );
+				LOG.log( Level.SEVERE, e.toString(), e );
 			}
 		}
 

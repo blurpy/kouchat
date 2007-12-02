@@ -38,11 +38,11 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.SettingsListener;
 import net.usikkert.kouchat.util.Tools;
 
-public class Settings
+public final class Settings
 {
-	private static final Logger log = Logger.getLogger( Settings.class.getName() );
+	private static final Logger LOG = Logger.getLogger( Settings.class.getName() );
 	private static final String FILENAME = Constants.APP_FOLDER + "kouchat.ini";
-	private static final Settings settings = new Settings();
+	private static final Settings SETTINGS = new Settings();
 
 	private NickDTO me;
 	private int ownColor, sysColor;
@@ -60,9 +60,9 @@ public class Settings
 		me.setLastIdle( System.currentTimeMillis() );
 		me.setLogonTime( System.currentTimeMillis() );
 		me.setOperatingSystem( System.getProperty( "os.name" ) );
-		me.setClient( Constants.APP_NAME + " v" + Constants.APP_VERSION + 
+		me.setClient( Constants.APP_NAME + " v" + Constants.APP_VERSION +
 				" " + System.getProperty( Constants.PROPERTY_CLIENT_UI ) );
-		
+
 		listeners = new ArrayList<SettingsListener>();
 		errorHandler = ErrorHandler.getErrorHandler();
 		browser = "";
@@ -71,16 +71,16 @@ public class Settings
 
 	public static Settings getSettings()
 	{
-		return settings;
+		return SETTINGS;
 	}
 
 	public void saveSettings()
 	{
 		FileWriter fileWriter = null;
 		BufferedWriter buffWriter = null;
-		
+
 		File appFolder = new File( Constants.APP_FOLDER );
-		
+
 		if ( !appFolder.exists() )
 			appFolder.mkdir();
 
@@ -107,7 +107,7 @@ public class Settings
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.toString() );
+			LOG.log( Level.SEVERE, e.toString() );
 			errorHandler.showError( "Settings could not be saved:\n " + e );
 		}
 
@@ -121,7 +121,7 @@ public class Settings
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.toString(), e );
+				LOG.log( Level.SEVERE, e.toString(), e );
 			}
 
 			try
@@ -132,7 +132,7 @@ public class Settings
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.toString(), e );
+				LOG.log( Level.SEVERE, e.toString(), e );
 			}
 
 			try
@@ -143,7 +143,7 @@ public class Settings
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.toString(), e );
+				LOG.log( Level.SEVERE, e.toString(), e );
 			}
 
 			try
@@ -154,7 +154,7 @@ public class Settings
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.toString(), e );
+				LOG.log( Level.SEVERE, e.toString(), e );
 			}
 		}
 	}
@@ -183,7 +183,7 @@ public class Settings
 
 			catch ( NumberFormatException e )
 			{
-				log.log( Level.WARNING, "Could not read setting for owncolor.." );
+				LOG.log( Level.WARNING, "Could not read setting for owncolor.." );
 			}
 
 			try
@@ -193,7 +193,7 @@ public class Settings
 
 			catch ( NumberFormatException e )
 			{
-				log.log( Level.WARNING, "Could not read setting for syscolor.." );
+				LOG.log( Level.WARNING, "Could not read setting for syscolor.." );
 			}
 
 			logging = new Boolean( fileContents.getProperty( "logging" ) );
@@ -204,12 +204,12 @@ public class Settings
 
 		catch ( FileNotFoundException e )
 		{
-			log.log( Level.WARNING, "Could not find " + FILENAME + ", using default settings..." );
+			LOG.log( Level.WARNING, "Could not find " + FILENAME + ", using default settings..." );
 		}
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.toString(), e );
+			LOG.log( Level.SEVERE, e.toString(), e );
 		}
 
 		finally
@@ -222,7 +222,7 @@ public class Settings
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.toString(), e );
+				LOG.log( Level.SEVERE, e.toString(), e );
 			}
 		}
 	}
@@ -287,7 +287,7 @@ public class Settings
 			fireSettingChanged( "logging" );
 		}
 	}
-	
+
 	public boolean isDebug()
 	{
 		return debug;
@@ -315,12 +315,12 @@ public class Settings
 			listener.settingChanged( setting );
 		}
 	}
-	
+
 	public void addSettingsListener( SettingsListener listener )
 	{
 		listeners.add( listener );
 	}
-	
+
 	public void removeSettingsListener( SettingsListener listener )
 	{
 		listeners.remove( listener );

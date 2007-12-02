@@ -45,7 +45,7 @@ public class MessageParser implements ReceiverListener
 		receiver = new MessageReceiver();
 		receiver.registerReceiverListener( this );
 	}
-	
+
 	public void start()
 	{
 		receiver.startReceiver();
@@ -247,7 +247,7 @@ public class MessageParser implements ReceiverListener
 						responder.fileSend( msgCode, byteSize, fileName, msgNick, fileHash, fileCode );
 					}
 				}
-				
+
 				else if ( type.equals( "CLIENT" ) )
 				{
 					int leftPara = msg.indexOf( "(" );
@@ -258,23 +258,23 @@ public class MessageParser implements ReceiverListener
 					int rightCurly = msg.indexOf( "}" );
 					int lessThan = msg.indexOf( "<" );
 					int greaterThan = msg.indexOf( ">" );
-					
+
 					String client = msg.substring( leftPara +1, rightPara );
 					long timeSinceLogon = Long.parseLong( msg.substring( leftBracket +1, rightBracket ) );
 					String operatingSystem = msg.substring( leftCurly +1, rightCurly );
-					
+
 					int privateChatPort = 0;
-					
+
 					try
 					{
 						privateChatPort = Integer.parseInt( msg.substring( lessThan +1, greaterThan ) );
 					}
-					
+
 					catch ( NumberFormatException e )
 					{
 						log.log( Level.WARNING, e.toString() );
 					}
-					
+
 					responder.clientInfo( msgCode, client, timeSinceLogon, operatingSystem, privateChatPort );
 				}
 			}

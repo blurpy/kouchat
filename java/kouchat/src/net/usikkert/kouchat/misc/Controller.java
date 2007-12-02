@@ -133,7 +133,7 @@ public class Controller
 	{
 		if ( me.isAway() )
 			throw new CommandException( "You tried to change nick while away. This should never happen..." );
-		
+
 		else
 		{
 			changeNick( me.getCode(), nick );
@@ -316,7 +316,7 @@ public class Controller
 	{
 		messages.sendClient();
 	}
-	
+
 	public void sendPrivateMessage( String privmsg, String userIP, int userPort, int userCode ) throws CommandException
 	{
 		if ( !isConnected() )
@@ -332,12 +332,12 @@ public class Controller
 		else
 			messages.sendPrivateMessage( privmsg, userIP, userPort, userCode );
 	}
-	
+
 	public void changeNewMessage( int code, boolean newMsg )
 	{
 		nickController.changeNewMessage( code, newMsg );
 	}
-	
+
 	public boolean isConnected()
 	{
 		return chatState.isConnected();
@@ -347,7 +347,7 @@ public class Controller
 	{
 		chatState.setConnected( connected );
 	}
-	
+
 	private class DelayedLogonTask extends TimerTask
 	{
 		@Override

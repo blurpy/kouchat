@@ -33,7 +33,7 @@ public class NickDTO implements Comparable<NickDTO>
 	{
 		this.nick = nick;
 		this.code = code;
-		
+
 		lastIdle = 0;
 		awayMsg = "";
 		writing = false;

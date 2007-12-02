@@ -31,7 +31,7 @@ import net.usikkert.kouchat.misc.ErrorHandler;
 /**
  * This is the implementation of the error listener for use
  * in the swing gui. When an error occurs, a message box is shown.
- * 
+ *
  * @author Christian Ihle
  */
 public class SwingPopupErrorHandler implements ErrorListener
@@ -44,7 +44,7 @@ public class SwingPopupErrorHandler implements ErrorListener
 	{
 		ErrorHandler.getErrorHandler().addErrorListener( this );
 	}
-	
+
 	/**
 	 * Shows an error message in a non-blocking JOptionPane message box.
 	 */
@@ -68,7 +68,7 @@ public class SwingPopupErrorHandler implements ErrorListener
 	@Override
 	public void criticalErrorReported( String criticalErrorMsg )
 	{
-		JOptionPane.showMessageDialog( null, criticalErrorMsg, 
+		JOptionPane.showMessageDialog( null, criticalErrorMsg,
 				Constants.APP_NAME + " - Critical Error", JOptionPane.ERROR_MESSAGE );
 	}
 }

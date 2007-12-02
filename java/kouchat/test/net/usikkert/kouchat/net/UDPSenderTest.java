@@ -30,7 +30,7 @@ import org.junit.Test;
 public class UDPSenderTest
 {
 	private UDPSender sender;
-	
+
 	@Before
 	public void setUp() throws Exception
 	{

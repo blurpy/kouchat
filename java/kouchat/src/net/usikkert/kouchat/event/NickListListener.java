@@ -24,14 +24,14 @@ package net.usikkert.kouchat.event;
 /**
  * This interface can be used to be notified when
  * the nick list is updated.
- * 
+ *
  * @author Christian Ihle
  */
 public interface NickListListener
 {
 	/**
 	 * A new user has been added to the nick list.
-	 * 
+	 *
 	 * @param pos The position in the nick list where
 	 * the user was added.
 	 */
@@ -40,14 +40,14 @@ public interface NickListListener
 	/**
 	 * A user has updated some of its fields,
 	 * so the ui needs to refresh.
-	 * 
+	 *
 	 * @param pos  The position of the changed user in the nick list.
 	 */
 	public void nickChanged( int pos );
 
 	/**
 	 * A user has been removed from the nick list.
-	 * 
+	 *
 	 * @param pos The position where the user used to be in the nick list.
 	 */
 	public void nickRemoved( int pos );

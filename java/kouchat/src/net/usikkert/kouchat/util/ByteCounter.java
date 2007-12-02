@@ -23,7 +23,7 @@ package net.usikkert.kouchat.util;
 
 /**
  * Used for calculating number of bytes per second.
- * 
+ *
  * @author Christian Ihle
  */
 public class ByteCounter

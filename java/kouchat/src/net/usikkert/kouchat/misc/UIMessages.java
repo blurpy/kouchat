@@ -30,27 +30,26 @@ import net.usikkert.kouchat.util.Tools;
  * messages consistent and quick to change. It also means that
  * these messages do not need to be reimplemented by different
  * user interfaces.
- * 
- * @author Christian Ihle
  *
+ * @author Christian Ihle
  */
 public class UIMessages
 {
 	private MessageController msgController;
-	
+
 	/**
-	 * Default constructor
-	 * 
+	 * Default constructor.
+	 *
 	 * @param msgController The controller that decides how to deal with messages
 	 */
 	public UIMessages( MessageController msgController )
 	{
 		this.msgController = msgController;
 	}
-	
+
 	/**
 	 * Shows a users message, with the users color.
-	 * 
+	 *
 	 * @param user The user that sent the message
 	 * @param message The message
 	 * @param color The color to show the message with
@@ -59,40 +58,40 @@ public class UIMessages
 	{
 		msgController.showUserMessage( user, message, color );
 	}
-	
+
 	/**
-	 * Shows your own message
-	 * 
+	 * Shows your own message.
+	 *
 	 * @param message The message to show
 	 */
 	public void showOwnMessage( String message )
 	{
 		msgController.showOwnMessage( message );
 	}
-	
+
 	/**
 	 * Shows "user logged off..."
-	 * 
+	 *
 	 * @param user The user that logged off
 	 */
 	public void showLoggedOff( String user )
 	{
 		msgController.showSystemMessage( user + " logged off..." );
 	}
-	
+
 	/**
 	 * Shows "user removed the topic..."
-	 * 
+	 *
 	 * @param user The user that removed the topic
 	 */
 	public void showTopicRemoved( String user )
 	{
 		msgController.showSystemMessage( user + " removed the topic..." );
 	}
-	
+
 	/**
 	 * Shows "user changed the topic to: topic"
-	 * 
+	 *
 	 * @param user The user that changed the topic
 	 * @param topic The new topic
 	 */
@@ -100,7 +99,7 @@ public class UIMessages
 	{
 		msgController.showSystemMessage( user + " changed the topic to: " + topic );
 	}
-	
+
 	/**
 	 * Shows information about the commands /help, /about, /clear,
 	 * /whois, /names, /nick, /away, /back, /send, /msg, /transfers, /topic and //text
@@ -122,10 +121,10 @@ public class UIMessages
 				"/topic <optional new topic> - prints the current topic, or changes the topic\n" +
 				"//<text> - send the text as a normal message, with a single slash" );
 	}
-	
+
 	/**
 	 * Shows "user went away: awayMsg"
-	 * 
+	 *
 	 * @param user The user that went away
 	 * @param awayMsg The away message the user set
 	 */
@@ -133,10 +132,10 @@ public class UIMessages
 	{
 		msgController.showSystemMessage( user + " went away: " + awayMsg );
 	}
-	
+
 	/**
 	 * Shows "user came back..."
-	 * 
+	 *
 	 * @param user The user that came back
 	 */
 	public void showUserBack( String user )
@@ -150,7 +149,7 @@ public class UIMessages
 	public void showAbout()
 	{
 		msgController.showSystemMessage( "This is " + Constants.APP_NAME + " v" + Constants.APP_VERSION +
-				", by " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL + 
+				", by " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL +
 				" - " + Constants.APP_WEB );
 	}
 
@@ -164,7 +163,7 @@ public class UIMessages
 
 	/**
 	 * Shows "user logged on from ipAddress..."
-	 * 
+	 *
 	 * @param user The user that logged on
 	 * @param ipAddress The ip address of the user that logged on
 	 */
@@ -175,7 +174,7 @@ public class UIMessages
 
 	/**
 	 * Shows "Today is date"
-	 * 
+	 *
 	 * @param date The time and date right now
 	 */
 	public void showTodayIs( String date )
@@ -185,7 +184,7 @@ public class UIMessages
 
 	/**
 	 * Shows "You logged on as nick from ipAddress"
-	 * 
+	 *
 	 * @param nick The nick you use
 	 * @param ipAddress You ip address
 	 */
@@ -196,7 +195,7 @@ public class UIMessages
 
 	/**
 	 * Shows "user changed ip from oldIp to newIp"
-	 * 
+	 *
 	 * @param user The user that changed ip
 	 * @param oldIP The old ip address
 	 * @param newIP The new ip address
@@ -208,7 +207,7 @@ public class UIMessages
 
 	/**
 	 * Shows "Nick crash, resetting nick to newNick"
-	 * 
+	 *
 	 * @param newNick The new nick
 	 */
 	public void showNickCrash( String newNick )
@@ -218,7 +217,7 @@ public class UIMessages
 
 	/**
 	 * Shows "oldNick changed nick to newNick"
-	 * 
+	 *
 	 * @param oldNick The old nick
 	 * @param newNick The new nick
 	 */
@@ -229,7 +228,7 @@ public class UIMessages
 
 	/**
 	 * Shows "user showed up unexpectedly from ipAddress"
-	 * 
+	 *
 	 * @param user The user that shows up
 	 * @param ipAddress The ip of that user
 	 */
@@ -240,7 +239,7 @@ public class UIMessages
 
 	/**
 	 * Shows "Topic is: topic (set by user at date)"
-	 * 
+	 *
 	 * @param topic The topic to show
 	 * @param user The user that set that topic
 	 * @param date The time and date when that topic was set
@@ -252,7 +251,7 @@ public class UIMessages
 
 	/**
 	 * Shows "Unknown command 'command'. Type /help for a list of commands."
-	 * 
+	 *
 	 * @param command
 	 */
 	public void showUnknownCommand( String command )
@@ -262,7 +261,7 @@ public class UIMessages
 
 	/**
 	 * Shows "user timed out..."
-	 * 
+	 *
 	 * @param user The user that timed out
 	 */
 	public void showUserTimedOut( String user )
@@ -272,7 +271,7 @@ public class UIMessages
 
 	/**
 	 * Shows "Day changed to date"
-	 * 
+	 *
 	 * @param date The time and date when the day changed
 	 */
 	public void showDayChanged( String date )
@@ -282,7 +281,7 @@ public class UIMessages
 
 	/**
 	 * Shows "user accepted sending of fileName"
-	 * 
+	 *
 	 * @param user The user that accepted the file
 	 * @param fileName The name of the file that was accepted
 	 */
@@ -293,7 +292,7 @@ public class UIMessages
 
 	/**
 	 * Shows "fileName successfully sent to user"
-	 * 
+	 *
 	 * @param fileName The file that was sent
 	 * @param user The that got the file
 	 */
@@ -304,7 +303,7 @@ public class UIMessages
 
 	/**
 	 * Shows "Failed to send fileName to user"
-	 * 
+	 *
 	 * @param fileName The file that failed to be sent
 	 * @param user The user that did not get the file
 	 */
@@ -315,7 +314,7 @@ public class UIMessages
 
 	/**
 	 * Shows "Failed to receive fileName from user"
-	 * 
+	 *
 	 * @param fileName The file that failed to be received
 	 * @param user The user that tried to send that file
 	 */
@@ -326,20 +325,20 @@ public class UIMessages
 
 	/**
 	 * Shows "Successfully received orgFileName from user, and saved as newFileName"
-	 * 
+	 *
 	 * @param orgFileName The file name sent by user
 	 * @param user The user that sent the file
 	 * @param newFileName The file name the file is saved as
 	 */
 	public void showReceiveSuccess( String orgFileName, String user, String newFileName )
 	{
-		msgController.showSystemMessage( "Successfully received " + orgFileName 
+		msgController.showSystemMessage( "Successfully received " + orgFileName
 				+ " from " + user + ", and saved as " + newFileName );
 	}
 
 	/**
 	 * Shows "You declined to receive fileName from user"
-	 * 
+	 *
 	 * @param fileName The file you declined
 	 * @param user The user that tried to send that file
 	 */
@@ -358,7 +357,7 @@ public class UIMessages
 
 	/**
 	 * Shows "Trying to send the file fileName [fileSize] to user"
-	 * 
+	 *
 	 * @param fileName The name of the file to send
 	 * @param fileSize The size of the file to send
 	 * @param user The user that will get the file
@@ -370,7 +369,7 @@ public class UIMessages
 
 	/**
 	 * Shows "You cancelled sending of fileName to user"
-	 * 
+	 *
 	 * @param fileName The name of the file that was sent
 	 * @param user The user that got the file
 	 */
@@ -381,7 +380,7 @@ public class UIMessages
 
 	/**
 	 * Shows "user is trying to send the file fileName [fileSize]"
-	 * 
+	 *
 	 * @param user The user trying to send you a file
 	 * @param fileName The name of the file
 	 * @param fileSize The size of the file
@@ -393,7 +392,7 @@ public class UIMessages
 
 	/**
 	 * Shows "user aborted sending of fileName"
-	 * 
+	 *
 	 * @param user The user that aborted the sending
 	 * @param fileName The name of the file
 	 */
@@ -404,7 +403,7 @@ public class UIMessages
 
 	/**
 	 * Shows "/away - you are already away: 'awayMsg'"
-	 * 
+	 *
 	 * @param awayMsg The away message
 	 */
 	public void showCmdAwayAlready( String awayMsg )
@@ -430,7 +429,7 @@ public class UIMessages
 
 	/**
 	 * Shows "/whois - no such user 'user'"
-	 * 
+	 *
 	 * @param user The user that was not found
 	 */
 	public void showCmdWhoisNoUser( String user )
@@ -445,16 +444,16 @@ public class UIMessages
 	 * Operating System:<br />
 	 * Online:<br />
 	 * Away message:"
-	 * 
+	 *
 	 * @param user The user to show info about
 	 */
 	public void showCmdWhois( NickDTO user )
 	{
 		String info = "/whois - " + user.getNick();
-		
+
 		if ( user.isAway() )
 			info += " (Away)";
-		
+
 		info += ":\nIP address: " + user.getIpAddress() +
 				"\nClient: " + user.getClient() +
 				"\nOperating System: " + user.getOperatingSystem() +
@@ -476,7 +475,7 @@ public class UIMessages
 
 	/**
 	 * Shows "/send - no such user 'user'"
-	 * 
+	 *
 	 * @param user The user that was not found
 	 */
 	public void showCmdSendNoUser( String user )
@@ -486,7 +485,7 @@ public class UIMessages
 
 	/**
 	 * Shows "/send - no such file 'file'"
-	 * 
+	 *
 	 * @param file The file that was not found
 	 */
 	public void showCmdSendNoFile( String file )
@@ -512,7 +511,7 @@ public class UIMessages
 
 	/**
 	 * Shows "/nick - 'nick' is in use by someone else..."
-	 * 
+	 *
 	 * @param nick The nick in use
 	 */
 	public void showCmdNickInUse( String nick )
@@ -522,7 +521,7 @@ public class UIMessages
 
 	/**
 	 * Shows "/nick - 'nick' is not a valid nick name. (1-10 letters)"
-	 * 
+	 *
 	 * @param nick The nick that is not valid
 	 */
 	public void showCmdNickNotValid( String nick )
@@ -532,7 +531,7 @@ public class UIMessages
 
 	/**
 	 * Show "/nick - you are already called 'nick'"
-	 * 
+	 *
 	 * @param nick Your nick
 	 */
 	public void showCmdNickAlreadyCalled( String nick )
@@ -542,14 +541,14 @@ public class UIMessages
 
 	/**
 	 * Shows "Users: nickList"
-	 * 
+	 *
 	 * @param nickList A list of nick names
 	 */
 	public void showNickList( String nickList )
 	{
 		msgController.showSystemMessage( "Users: " + nickList );
 	}
-	
+
 	/**
 	 * Shows "/back - you are not away..."
 	 */
@@ -576,7 +575,7 @@ public class UIMessages
 
 	/**
 	 * Shows "File transfers: senders receivers"
-	 * 
+	 *
 	 * @param senders A list of file send transfer
 	 * @param receivers A list of file receive transfers
 	 */
@@ -592,7 +591,7 @@ public class UIMessages
 	{
 		msgController.showSystemMessage( "To save the file, use /receive" );
 	}
-	
+
 	/**
 	 * Shows "/msg - missing arguments &lt;nick&gt; &lt;msg&gt;"
 	 */
@@ -600,7 +599,7 @@ public class UIMessages
 	{
 		msgController.showSystemMessage( "/msg - missing arguments <nick> <msg>" );
 	}
-	
+
 	/**
 	 * Shows "/msg - no point in doing that!"
 	 */
@@ -608,30 +607,30 @@ public class UIMessages
 	{
 		msgController.showSystemMessage( "/msg - no point in doing that!" );
 	}
-	
+
 	/**
 	 * Shows "/msg - no such user 'user'"
-	 * 
+	 *
 	 * @param user The user that was not found
 	 */
 	public void showCmdMsgNoUser( String user )
 	{
 		msgController.showSystemMessage( "/msg - no such user '" + user + "'" );
 	}
-	
+
 	/**
 	 * Shows "/msg - user can't receive private chat messages..."
-	 * 
+	 *
 	 * @param user The user who could not receive private chat messages.
 	 */
 	public void showCmdMsgNoPort( String user )
 	{
 		msgController.showSystemMessage( "/msg - " + user + " can't receive private chat messages..." );
 	}
-	
+
 	/**
 	 * Shows a users private message, with the user's color.
-	 * 
+	 *
 	 * @param user The user that sent the private message
 	 * @param privmsg The private message
 	 * @param color The color to show the message with
@@ -640,10 +639,10 @@ public class UIMessages
 	{
 		msgController.showPrivateUserMessage( user, privmsg, color );
 	}
-	
+
 	/**
 	 * Shows your own private message
-	 * 
+	 *
 	 * @param user The user that got you sent the message to
 	 * @param privmsg The private message to show
 	 */
@@ -651,10 +650,10 @@ public class UIMessages
 	{
 		msgController.showPrivateOwnMessage( user, privmsg );
 	}
-	
+
 	/**
 	 * Shows "user logged off..."
-	 * 
+	 *
 	 * @param user The user that logged off
 	 */
 	public void showPrivateLoggedOff( NickDTO user )
@@ -664,7 +663,7 @@ public class UIMessages
 
 	/**
 	 * Shows "user timed out..."
-	 * 
+	 *
 	 * @param user The user that timed out
 	 */
 	public void showPrivateUserTimedOut( NickDTO user )
@@ -674,7 +673,7 @@ public class UIMessages
 
 	/**
 	 * Shows "oldNick changed nick to newNick"
-	 * 
+	 *
 	 * @param oldNick The old nick
 	 * @param user The user that changed nick
 	 */
@@ -685,7 +684,7 @@ public class UIMessages
 
 	/**
 	 * Shows "user went away: awayMsg"
-	 * 
+	 *
 	 * @param user The user that went away
 	 */
 	public void showPrivateUserAway( NickDTO user )
@@ -695,7 +694,7 @@ public class UIMessages
 
 	/**
 	 * Shows "user came back..."
-	 * 
+	 *
 	 * @param user The user that came back
 	 */
 	public void showPrivateUserBack( NickDTO user )

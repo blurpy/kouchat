@@ -30,72 +30,72 @@ public class ComponentHandler
 	private ButtonPanel buttonPanel;
 	private KouChatFrame gui;
 	private MainPanel mainPanel;
-	
+
 	public SidePanel getSidePanel()
 	{
 		return sidePanel;
 	}
-	
+
 	public void setSidePanel( SidePanel sidePanel )
 	{
 		this.sidePanel = sidePanel;
 	}
-	
+
 	public SettingsDialog getSettingsDialog()
 	{
 		return settingsDialog;
 	}
-	
+
 	public void setSettingsDialog( SettingsDialog settingsDialog )
 	{
 		this.settingsDialog = settingsDialog;
 	}
-	
+
 	public SysTray getSysTray()
 	{
 		return sysTray;
 	}
-	
+
 	public void setSysTray( SysTray sysTray )
 	{
 		this.sysTray = sysTray;
 	}
-	
+
 	public MenuBar getMenuBar()
 	{
 		return menuBar;
 	}
-	
+
 	public void setMenuBar( MenuBar menuBar )
 	{
 		this.menuBar = menuBar;
 	}
-	
+
 	public ButtonPanel getButtonPanel()
 	{
 		return buttonPanel;
 	}
-	
+
 	public void setButtonPanel( ButtonPanel buttonPanel )
 	{
 		this.buttonPanel = buttonPanel;
 	}
-	
+
 	public KouChatFrame getGui()
 	{
 		return gui;
 	}
-	
+
 	public void setGui( KouChatFrame gui )
 	{
 		this.gui = gui;
 	}
-	
+
 	public MainPanel getMainPanel()
 	{
 		return mainPanel;
 	}
-	
+
 	public void setMainPanel( MainPanel mainPanel )
 	{
 		this.mainPanel = mainPanel;

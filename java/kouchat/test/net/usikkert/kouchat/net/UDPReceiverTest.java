@@ -32,7 +32,7 @@ import org.junit.Test;
 public class UDPReceiverTest implements ReceiverListener
 {
 	private UDPReceiver res;
-	
+
 	@Before
 	public void setUp() throws Exception
 	{

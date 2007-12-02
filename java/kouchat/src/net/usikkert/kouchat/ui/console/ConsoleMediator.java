@@ -33,7 +33,7 @@ import net.usikkert.kouchat.net.FileSender;
 
 /**
  * This class is the binding between the controller and the console ui.
- * 
+ *
  * @author Christian Ihle
  */
 public class ConsoleMediator implements UserInterface

@@ -112,7 +112,7 @@ public class FileSender implements FileTransfer
 					fis = new FileInputStream( file );
 					os = sock.getOutputStream();
 
-					byte b[] = new byte[1024];
+					byte[] b = new byte[1024];
 					transferred = 0;
 					percent = 0;
 					int tmpTransferred = 0;

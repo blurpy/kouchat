@@ -77,7 +77,7 @@ public class TransferList
 
 		return list;
 	}
-	
+
 	public List<FileSender> getFileSenders()
 	{
 		List<FileSender> list = new ArrayList<FileSender>();
@@ -114,7 +114,7 @@ public class TransferList
 
 		return list;
 	}
-	
+
 	public List<FileReceiver> getFileReceivers()
 	{
 		List<FileReceiver> list = new ArrayList<FileReceiver>();

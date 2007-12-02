@@ -53,7 +53,7 @@ import net.usikkert.kouchat.misc.CommandHistory;
 public class MainPanel extends JPanel implements ActionListener, CaretListener, ChatWindow, KeyListener
 {
 	private static final long serialVersionUID = 1L;
-	private static final Logger log = Logger.getLogger( MainPanel.class.getName() );
+	private static final Logger LOG = Logger.getLogger( MainPanel.class.getName() );
 
 	private JScrollPane chatSP;
 	private JTextPane chatTP;
@@ -116,7 +116,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 
 		catch ( BadLocationException e )
 		{
-			log.log( Level.SEVERE, e.toString(), e );
+			LOG.log( Level.SEVERE, e.toString(), e );
 		}
 	}
 

@@ -31,19 +31,19 @@ import net.usikkert.kouchat.misc.NickList;
 /**
  * This is the list model for the user list. It's just a facade above
  * the real list containing the users, so it can deliver events on changes.
- * 
+ *
  * @author Christian Ihle
  */
 public class NickListModel extends AbstractListModel implements NickListListener
 {
 	private static final long serialVersionUID = 1L;
-	
+
 	private NickList nickList;
 
 	/**
 	 * Constructor. Adds this list model as a listener for events
 	 * from the real user list.
-	 * 
+	 *
 	 * @param nickList The list where the real users are.
 	 */
 	public NickListModel( NickList nickList )

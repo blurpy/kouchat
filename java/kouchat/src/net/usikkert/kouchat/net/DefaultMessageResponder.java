@@ -39,7 +39,7 @@ import net.usikkert.kouchat.util.Tools;
 
 /**
  * This class responds to events from the message parser.
- * 
+ *
  * @author Christian Ihle
  */
 public class DefaultMessageResponder implements MessageResponder
@@ -134,7 +134,7 @@ public class DefaultMessageResponder implements MessageResponder
 		{
 			controller.getNickList().remove( user );
 			uiMsg.showLoggedOff( user.getNick() );
-			
+
 			if ( user.getPrivchat() != null )
 			{
 				uiMsg.showPrivateLoggedOff( user );
@@ -292,23 +292,23 @@ public class DefaultMessageResponder implements MessageResponder
 			{
 				NickDTO user = controller.getNick( userCode );
 				controller.changeAwayStatus( userCode, away, awayMsg );
-				
+
 				if ( away )
 					uiMsg.showUserAway( user.getNick(), awayMsg );
 				else
 					uiMsg.showUserBack( user.getNick() );
-				
+
 				if ( user.getPrivchat() != null )
 				{
 					user.getPrivchat().setAway( away );
-					
+
 					if ( away )
 						uiMsg.showPrivateUserAway( user );
 					else
 						uiMsg.showPrivateUserBack( user );
 				}
 			}
-			
+
 			catch ( CommandException e )
 			{
 				log.log( Level.SEVERE, "Something very strange going on here...\n" + e );
@@ -388,7 +388,7 @@ public class DefaultMessageResponder implements MessageResponder
 			String oldNick = user.getNick();
 			controller.changeNick( userCode, newNick );
 			uiMsg.showNickChanged( oldNick, newNick );
-			
+
 			if ( user.getPrivchat() != null )
 			{
 				uiMsg.showPrivateNickChanged( user, oldNick );
@@ -564,7 +564,7 @@ public class DefaultMessageResponder implements MessageResponder
 			user.setOperatingSystem( operatingSystem );
 			user.setPrivateChatPort( privateChatPort );
 		}
-		
+
 		else
 			log.log( Level.SEVERE, "Could not find user: " + userCode );
 	}

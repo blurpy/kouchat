@@ -116,7 +116,7 @@ public class NickController
 			}
 		}
 	}
-	
+
 	public void changeNewMessage( int code, boolean newMsg )
 	{
 		for ( int i = 0; i < nickList.size(); i++ )

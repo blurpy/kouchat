@@ -38,7 +38,7 @@ import net.usikkert.kouchat.ui.util.UITools;
  * This listener adds support for opening a url in a browser
  * by clicking on a link. The mouse cursor will also change when
  * hovering over a link.
- * 
+ *
  * @author Christian Ihle
  */
 public class URLMouseListener implements MouseListener, MouseMotionListener
@@ -49,7 +49,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param textPane The text pane this listener is registered to.
 	 */
 	public URLMouseListener( JTextPane textPane )

@@ -26,23 +26,23 @@ import net.usikkert.kouchat.misc.PrivateChatWindow;
 
 /**
  * Very simple console support for private chat sessions.
- * 
+ *
  * @author Christian Ihle
  */
 public class PrivateChatConsole implements PrivateChatWindow
 {
 	private NickDTO user;
-	
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param user The user in this chat session.
 	 */
 	public PrivateChatConsole( NickDTO user )
 	{
 		this.user = user;
 	}
-	
+
 	/**
 	 * Uses a simple System.out.println() to show messages.
 	 */

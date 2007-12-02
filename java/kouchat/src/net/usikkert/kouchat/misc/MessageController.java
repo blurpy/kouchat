@@ -26,7 +26,7 @@ import net.usikkert.kouchat.util.Tools;
 /**
  * Formats different kind of messages for display in a chat window,
  * and logs them to file.
- * 
+ *
  * @author Christian Ihle
  */
 public class MessageController
@@ -36,10 +36,10 @@ public class MessageController
 	private ChatWindow chat;
 	private ChatLogger cLog;
 	private UserInterface ui;
-	
+
 	/**
 	 * Initializes log and loads settings.
-	 * 
+	 *
 	 * @param chat The user interface object to write the formatted messages to.
 	 * @param ui The user interface.
 	 */
@@ -47,17 +47,17 @@ public class MessageController
 	{
 		this.chat = chat;
 		this.ui = ui;
-		
+
 		settings = Settings.getSettings();
 		me = settings.getMe();
 		cLog = new ChatLogger();
 	}
-	
+
 	/**
 	 * This is a message from another user. The result will look like this:<br />
 	 * [hour:min:sec] &lt;user&gt; message<br />
 	 * The message will be shown in the color spesified.
-	 * 
+	 *
 	 * @param user The user who wrote the message.
 	 * @param message The text the user write.
 	 * @param color The color the user chose for the message.
@@ -74,7 +74,7 @@ public class MessageController
 	 * will look like this:<br />
 	 * [hour:min:sec] *** message<br />
 	 * The message will be shown in the color spesified in the settings.
-	 * 
+	 *
 	 * @param message The system message to show.
 	 */
 	public void showSystemMessage( String message )
@@ -89,7 +89,7 @@ public class MessageController
 	 * meant to be seen by all other users. It will look like this:<br />
 	 * [hour:min:sec] &lt;nick&gt; message<br />
 	 * The message will be shown in the color spesified in the settings.
-	 * 
+	 *
 	 * @param message The message written by the application user.
 	 */
 	public void showOwnMessage( String message )
@@ -103,7 +103,7 @@ public class MessageController
 	{
 		if ( user.getPrivchat() == null )
 			ui.createPrivChat( user );
-		
+
 		String msg = Tools.getTime() + " <" + user + ">: " + privmsg;
 		user.getPrivchat().appendToPrivateChat( msg, color );
 	}
@@ -112,7 +112,7 @@ public class MessageController
 	{
 		if ( user.getPrivchat() == null )
 			ui.createPrivChat( user );
-		
+
 		String msg = Tools.getTime() + " <" + me.getNick() + ">: " + privmsg;
 		user.getPrivchat().appendToPrivateChat( msg, settings.getOwnColor() );
 	}

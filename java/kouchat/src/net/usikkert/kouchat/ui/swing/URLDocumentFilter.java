@@ -33,12 +33,12 @@ import javax.swing.text.StyledDocument;
 /**
  * This document filter is used to highlight urls added to a StyledDocument.
  * The current form of highlighting is underlining the url.
- * 
+ *
  * 3 different urls are recognized:<br />
  * protocol://host<br />
  * www.host.name<br />
  * ftp.host.name<br />
- * 
+ *
  * @author Christian Ihle
  */
 public class URLDocumentFilter extends DocumentFilter
@@ -70,7 +70,7 @@ public class URLDocumentFilter extends DocumentFilter
 	public void insertString( final FilterBypass fb, final int offset, final String text, AttributeSet attr ) throws BadLocationException
 	{
 		super.insertString( fb, offset, text, attr );
-		
+
 		// Make a copy now, or else it could change if another message comes
 		final MutableAttributeSet urlAttr = (MutableAttributeSet) attr.copyAttributes();
 
@@ -107,7 +107,7 @@ public class URLDocumentFilter extends DocumentFilter
 	/**
 	 * Returns the position of the first matching
 	 * url in the text, starting from the specified offset.
-	 * 
+	 *
 	 * @param text The text to find urls in.
 	 * @param offset Where in the text to begin the search.
 	 * @return The position of the first character in the url, or -1
@@ -145,7 +145,7 @@ public class URLDocumentFilter extends DocumentFilter
 						retry = true;
 				}
 			}
-			
+
 			if ( www != -1 && ( www < firstMatch || firstMatch == -1 ) )
 			{
 				String t = text.substring( www +1, text.length() -1 );
@@ -161,7 +161,7 @@ public class URLDocumentFilter extends DocumentFilter
 						retry = true;
 				}
 			}
-			
+
 			if ( ftp != -1 && ( ftp < firstMatch || firstMatch == -1 ) )
 			{
 				String t = text.substring( ftp +1, text.length() -1 );

@@ -23,7 +23,7 @@ package net.usikkert.kouchat;
 
 /**
  * This interface contains constants used globally in the application.
- * 
+ *
  * @author Christian Ihle
  */
 public interface Constants

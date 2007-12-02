@@ -69,12 +69,12 @@ import net.usikkert.kouchat.misc.Settings;
 
 /**
  * The window used for private chat sessions.
- * 
+ *
  * @author Christian Ihle
  */
 public class PrivateChatFrame extends JFrame implements ActionListener, KeyListener, PrivateChatWindow, FileDropSource, WindowListener, FocusListener
 {
-	private static final Logger log = Logger.getLogger( PrivateChatFrame.class.getName() );
+	private static final Logger LOG = Logger.getLogger( PrivateChatFrame.class.getName() );
 	private static final long serialVersionUID = 1L;
 
 	private JTextPane chatTP;
@@ -91,7 +91,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 
 	/**
 	 * Creates a new privchat frame. To open the window, use setVisible().
-	 * 
+	 *
 	 * @param mediator The mediator to command.
 	 * @param user The user in the private chat.
 	 */
@@ -211,7 +211,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 
 	/**
 	 * Adds a shortcut to hide the window when escape is pressed.
-	 * 
+	 *
 	 * @param panel The panel to add the shortcut to.
 	 */
 	private void hideWithEscape( JPanel panel )
@@ -235,7 +235,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 
 	/**
 	 * Adds a new line to the chat.
-	 * 
+	 *
 	 * @param text The line of text to add.
 	 * @param color The color that the text should have.
 	 */
@@ -254,13 +254,13 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 
 		catch ( BadLocationException e )
 		{
-			log.log( Level.SEVERE, e.toString(), e );
+			LOG.log( Level.SEVERE, e.toString(), e );
 		}
 	}
 
 	/**
 	 * Returns the user from this private chat.
-	 * 
+	 *
 	 * @return Private chat user.
 	 */
 	@Override

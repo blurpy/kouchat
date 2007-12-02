@@ -29,18 +29,18 @@ import net.usikkert.kouchat.event.ErrorListener;
 /**
  * This is a singleton class for reporting errors to listeners.
  * These errors will be shown to the user of the application.
- * 
+ *
  * @author Christian Ihle
  */
-public class ErrorHandler
+public final class ErrorHandler
 {
 	/**
 	 * The single instance of this class.
 	 */
 	private static final ErrorHandler INSTANCE = new ErrorHandler();
-	
+
 	private List<ErrorListener> listeners;
-	
+
 	/**
 	 * Private constructor.
 	 */
@@ -48,20 +48,20 @@ public class ErrorHandler
 	{
 		listeners = new ArrayList<ErrorListener>();
 	}
-	
+
 	/**
 	 * Will return the only instance of this class.
-	 * 
+	 *
 	 * @return The only instance of ErrorHandler.
 	 */
 	public static ErrorHandler getErrorHandler()
 	{
 		return INSTANCE;
 	}
-	
+
 	/**
 	 * This method notifies the listeners that an error has occured.
-	 * 
+	 *
 	 * @param errorMsg The message to deliver to the listeners.
 	 */
 	public void showError( String errorMsg )
@@ -71,10 +71,10 @@ public class ErrorHandler
 			listener.errorReported( errorMsg );
 		}
 	}
-	
+
 	/**
 	 * This method notifies the listeners that a critical error has occured.
-	 * 
+	 *
 	 * @param criticalErrorMsg The message to deliver to the listeners.
 	 */
 	public void showCriticalError( String criticalErrorMsg )
@@ -84,20 +84,20 @@ public class ErrorHandler
 			listener.criticalErrorReported( criticalErrorMsg );
 		}
 	}
-	
+
 	/**
 	 * Adds a new error listener.
-	 * 
+	 *
 	 * @param listener The class to add as a listener.
 	 */
 	public void addErrorListener( ErrorListener listener )
 	{
 		listeners.add( listener );
 	}
-	
+
 	/**
 	 * Removes an error listener.
-	 * 
+	 *
 	 * @param listener The class to remove as a listener.
 	 */
 	public void removeErrorListener( ErrorListener listener )

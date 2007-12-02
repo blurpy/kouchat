@@ -51,7 +51,7 @@ import net.usikkert.kouchat.Constants;
  * This is a more fancy message dialog.
  * The text with information is selectable, for
  * easy copy and paste.
- * 
+ *
  * @author Christian Ihle
  */
 public class MessageDialog extends JDialog
@@ -60,10 +60,10 @@ public class MessageDialog extends JDialog
 
 	private JLabel appNameL;
 	private JTextArea infoTA;
-	
+
 	/**
 	 * Creates a new MessageDialog. To open the dialog, use setVisible().
-	 * 
+	 *
 	 * @param parent The parent frame.
 	 * @param modal If the dialog should block or not.
 	 */
@@ -89,7 +89,7 @@ public class MessageDialog extends JDialog
 		appNameL.setFont( new Font( "Dialog", 0, 22 ) );
 		appNameL.setIcon( icon );
 		appNameL.setText( " No top text" );
-		
+
 		JPanel northP = new JPanel();
 		northP.setBackground( Color.WHITE );
 		northP.setBorder( BorderFactory.createMatteBorder( 0, 0, 1,	0, Color.BLACK ) );
@@ -108,9 +108,9 @@ public class MessageDialog extends JDialog
 				dispose();
 			}
 		} );
-		
+
 		getRootPane().setDefaultButton( okB );
-		
+
 		JPanel southP = new JPanel();
 		southP.setLayout( new FlowLayout( FlowLayout.CENTER, 12, 12 ) );
 		southP.add( okB );
@@ -119,7 +119,7 @@ public class MessageDialog extends JDialog
 
 		JLabel iconIconL = new JLabel();
 		iconIconL.setIcon( UIManager.getDefaults().getIcon( "OptionPane.informationIcon" ) );
-		
+
 		JPanel leftP = new JPanel();
 		leftP.setLayout( new FlowLayout( FlowLayout.CENTER, 12, 12 ) );
 		leftP.add( iconIconL );
@@ -132,24 +132,24 @@ public class MessageDialog extends JDialog
 		infoTA.setBorder( BorderFactory.createEmptyBorder( 0, 0, 0,	0 ) );
 		infoTA.setOpaque( false );
 		infoTA.setText( "No content" );
-		
+
 		JScrollPane infoScroll = new JScrollPane( infoTA );
 		infoScroll.setBorder( null );
-		
+
 		JPanel centerP = new JPanel();
 		centerP.setBorder( BorderFactory.createEmptyBorder( 12, 2, 0, 12 ) );
 		centerP.setLayout( new BorderLayout() );
 		centerP.add( infoScroll, BorderLayout.CENTER );
 
 		getContentPane().add( centerP, BorderLayout.CENTER );
-		
+
 		// Close with Escape key
 		KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0, false );
 
 		Action escapeAction = new AbstractAction()
 		{
 			private static final long serialVersionUID = 1L;
-			
+
 			@Override
 			public void actionPerformed( ActionEvent e )
 			{
@@ -160,20 +160,20 @@ public class MessageDialog extends JDialog
 		getRootPane().getInputMap( JComponent.WHEN_IN_FOCUSED_WINDOW ).put( escapeKeyStroke, "ESCAPE" );
 		getRootPane().getActionMap().put( "ESCAPE", escapeAction );
 	}
-	
+
 	/**
 	 * This is the text shown at the top (below the titlebar), to the left of the icon.
-	 * 
+	 *
 	 * @param text The text to show.
 	 */
 	public void setTopText( String text )
 	{
 		appNameL.setText( " " + text );
 	}
-	
+
 	/**
 	 * This is the main content. The text here is selectable.
-	 * 
+	 *
 	 * @param info The text to add.
 	 */
 	public void setContent( String info )

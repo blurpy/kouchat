@@ -63,12 +63,12 @@ import net.usikkert.kouchat.misc.Settings;
 
 /**
  * This is the dialog window used to change settings.
- * 
+ *
  * @author Christian Ihle
  */
 public class SettingsDialog extends JDialog implements ActionListener
 {
-	private static final Logger log = Logger.getLogger( SettingsDialog.class.getName() );
+	private static final Logger LOG = Logger.getLogger( SettingsDialog.class.getName() );
 	private static final long serialVersionUID = 1L;
 
 	private JButton saveB, cancelB, chooseOwnColorB, chooseSysColorB, testBrowserB, chooseBrowserB;
@@ -211,7 +211,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 		Action escapeAction = new AbstractAction()
 		{
 			private static final long serialVersionUID = 1L;
-			
+
 			@Override
 			public void actionPerformed( ActionEvent e )
 			{
@@ -225,7 +225,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 
 	/**
 	 * Sets the mediator for this window.
-	 * 
+	 *
 	 * @param mediator The mediator to use.
 	 */
 	public void setMediator( Mediator mediator )
@@ -314,7 +314,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 				public void run()
 				{
 					String browser = browserTF.getText();
-					
+
 					if ( browser.trim().length() > 0 )
 					{
 						try
@@ -328,7 +328,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 									"'. Try using the full path." );
 						}
 					}
-					
+
 					else if ( Desktop.isDesktopSupported() )
 					{
 						try
@@ -343,11 +343,11 @@ public class SettingsDialog extends JDialog implements ActionListener
 
 						catch ( URISyntaxException e )
 						{
-							log.log( Level.WARNING, e.toString() );
+							LOG.log( Level.WARNING, e.toString() );
 							errorHandler.showError( "That's strange, could not open " + Constants.APP_WEB );
 						}
 					}
-					
+
 					else
 					{
 						errorHandler.showError( "Your system does not support a default browser." +

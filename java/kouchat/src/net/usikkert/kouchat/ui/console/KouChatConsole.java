@@ -25,13 +25,13 @@ import net.usikkert.kouchat.Constants;
 
 /**
  * Loads KouChat in console mode.
- * 
+ *
  * @author Christian Ihle
  */
 public class KouChatConsole
 {
 	private ConsoleMediator mediator;
-	
+
 	/**
 	 * Default constructor. Initializes the User Interface and
 	 * the necessary services.

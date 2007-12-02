@@ -25,14 +25,14 @@ import net.usikkert.kouchat.misc.NickDTO;
 
 /**
  * Used to find out which user a file was dragged and dropped on.
- * 
+ *
  * @author Christian Ihle
  */
 public interface FileDropSource
 {
 	/**
 	 * Get the user.
-	 * 
+	 *
 	 * @return The user.
 	 */
 	public NickDTO getUser();

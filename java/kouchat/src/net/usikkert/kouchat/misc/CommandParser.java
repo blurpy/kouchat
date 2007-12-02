@@ -97,7 +97,7 @@ public class CommandParser
 					ui.changeAway( true );
 					uiMsg.showUserAway( "You", me.getAwayMsg() );
 				}
-				
+
 				catch ( CommandException e )
 				{
 					log.log( Level.WARNING, e.toString() );
@@ -118,7 +118,7 @@ public class CommandParser
 				ui.changeAway( false );
 				uiMsg.showUserBack( "You" );
 			}
-			
+
 			catch ( CommandException e )
 			{
 				log.log( Level.WARNING, e.toString() );
@@ -224,7 +224,7 @@ public class CommandParser
 			}
 		}
 	}
-	
+
 	private void cmdMsg( String args )
 	{
 		String[] argsArray = args.split( "\\s" );
@@ -243,12 +243,12 @@ public class CommandParser
 			{
 				uiMsg.showCmdMsgNoUser( nick );
 			}
-			
+
 			else if ( user == me )
 			{
 				uiMsg.showCmdMsgNoPoint();
 			}
-			
+
 			else if ( user.getPrivateChatPort() == 0 )
 			{
 				uiMsg.showCmdMsgNoPort( user.getNick() );
@@ -270,7 +270,7 @@ public class CommandParser
 					controller.sendPrivateMessage( privmsg, user.getIpAddress(), user.getPrivateChatPort(), user.getCode() );
 					uiMsg.showPrivateOwnMessage( user, privmsg );
 				}
-				
+
 				catch ( CommandException e )
 				{
 					log.log( Level.WARNING, e.toString() );
@@ -349,15 +349,15 @@ public class CommandParser
 
 		uiMsg.showNickList( nickList );
 	}
-	
+
 	private void cmdTransfers()
 	{
 		List<FileSender> fsList = controller.getTransferList().getFileSenders();
 		List<FileReceiver> frList = controller.getTransferList().getFileReceivers();
-		
+
 		String senders = "Sending:";
 		String receivers = "\nReceiving:";
-		
+
 		for ( FileSender fs : fsList )
 		{
 			senders += "\n" + fs.getFileName() + " [" + Tools.byteToString( fs.getFileSize() ) + "] (" + fs.getPercent() + "%) to " + fs.getNick().getNick();
@@ -367,7 +367,7 @@ public class CommandParser
 		{
 			receivers += "\n" + fr.getFileName() + " [" + Tools.byteToString( fr.getFileSize() ) + "] (" + fr.getPercent() + "%) from " + fr.getNick().getNick();
 		}
-		
+
 		uiMsg.showTransfers( senders, receivers );
 	}
 
@@ -400,7 +400,7 @@ public class CommandParser
 	{
 		uiMsg.showUnknownCommand( command );
 	}
-	
+
 	public void fixTopic( String newTopic )
 	{
 		if ( !me.isAway() )
@@ -505,7 +505,7 @@ public class CommandParser
 			else
 				cmdUnknown( command );
 		}
-		
+
 		else
 			cmdUnknown( command );
 	}

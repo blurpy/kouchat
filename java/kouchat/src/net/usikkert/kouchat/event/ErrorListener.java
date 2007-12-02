@@ -25,21 +25,21 @@ package net.usikkert.kouchat.event;
  * This is the listener interface used by the ErrorHandler.
  * The implementing class should be able to show the error message
  * to the user of the application.
- * 
+ *
  * @author Christian Ihle
  */
 public interface ErrorListener
 {
 	/**
 	 * This method is called when an error occurs.
-	 * 
+	 *
 	 * @param errorMsg The message to show.
 	 */
 	public void errorReported( String errorMsg );
 
 	/**
 	 * This method is called when a critical error occurs.
-	 * 
+	 *
 	 * @param criticalErrorMsg The message to show.
 	 */
 	public void criticalErrorReported( String criticalErrorMsg );

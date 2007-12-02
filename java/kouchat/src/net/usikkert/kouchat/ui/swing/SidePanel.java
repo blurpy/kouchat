@@ -107,7 +107,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 	{
 		return (NickDTO) nickL.getSelectedValue();
 	}
-	
+
 	public JList getNickList()
 	{
 		return nickL;
@@ -125,10 +125,10 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 				{
 					NickDTO user = (NickDTO) nickDLM.getElementAt( nickL.getSelectedIndex() );
 					String info = "Information about " + user.getNick();
-					
+
 					if ( user.isAway() )
 						info += " (Away)";
-					
+
 					info += ".\n\nIP address: " + user.getIpAddress() +
 							"\nClient: " + user.getClient() +
 							"\nOperating System: " + user.getOperatingSystem() +
@@ -136,7 +136,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 
 					if ( user.isAway() )
 						info += "\nAway message: " + user.getAwayMsg();
-					
+
 					JOptionPane.showMessageDialog( null, info, Constants.APP_NAME + " - Info", JOptionPane.INFORMATION_MESSAGE );
 				}
 			} );
@@ -153,7 +153,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 				}
 			} );
 		}
-		
+
 		else if ( e.getSource() == privchatMI )
 		{
 			SwingUtilities.invokeLater( new Runnable()
@@ -222,7 +222,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 					sendfileMI.setVisible( true );
 					sendfileMI.setEnabled( false );
 					privchatMI.setVisible( true );
-					
+
 					if ( temp.getPrivateChatPort() == 0 )
 						privchatMI.setEnabled( false );
 					else
@@ -234,7 +234,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 					sendfileMI.setVisible( true );
 					sendfileMI.setEnabled( true );
 					privchatMI.setVisible( true );
-					
+
 					if ( temp.getPrivateChatPort() == 0 )
 						privchatMI.setEnabled( false );
 					else
@@ -243,11 +243,11 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 
 				nickMenu.show( nickL, e.getX(), e.getY() );
 			}
-			
+
 			else if ( e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2 && nickL.getSelectedIndex() != -1 )
 			{
 				NickDTO user = (NickDTO) nickDLM.getElementAt( nickL.getSelectedIndex() );
-				
+
 				if ( user != me && user.getPrivateChatPort() != 0 )
 					mediator.showPrivChat( user );
 			}

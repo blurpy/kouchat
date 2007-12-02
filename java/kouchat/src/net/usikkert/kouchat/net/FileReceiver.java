@@ -38,7 +38,7 @@ import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.util.ByteCounter;
 
 public class FileReceiver implements FileTransfer
-{	
+{
 	private static Logger log = Logger.getLogger( FileReceiver.class.getName() );
 
 	private NickDTO nick;
@@ -114,7 +114,7 @@ public class FileReceiver implements FileTransfer
 				fos = new FileOutputStream( file );
 				is = sock.getInputStream();
 
-				byte b[] = new byte[1024];
+				byte[] b = new byte[1024];
 				transferred = 0;
 				percent = 0;
 				int tmpTransferred = 0;

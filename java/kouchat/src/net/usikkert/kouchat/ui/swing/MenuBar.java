@@ -36,7 +36,7 @@ import net.usikkert.kouchat.Constants;
 public class MenuBar extends JMenuBar implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
-	
+
 	private JMenu fileMenu, toolsMenu, helpMenu;
 	private JMenuItem minimizeMI, quitMI, clearMI, awayMI, topicMI, settingsMI, aboutMI, commandsMI;
 	private Mediator mediator;
@@ -97,7 +97,7 @@ public class MenuBar extends JMenuBar implements ActionListener
 		add( toolsMenu );
 		add( helpMenu );
 	}
-	
+
 	public void setMediator( Mediator mediator )
 	{
 		this.mediator = mediator;
@@ -108,12 +108,12 @@ public class MenuBar extends JMenuBar implements ActionListener
 		settingsMI.setEnabled( !away );
 		topicMI.setEnabled( !away );
 	}
-	
+
 	public void disableMinimize()
 	{
 		minimizeMI.setEnabled( false );
 	}
-	
+
 	public boolean isPopupMenuVisible()
 	{
 		return fileMenu.isPopupMenuVisible() || toolsMenu.isPopupMenuVisible() || helpMenu.isPopupMenuVisible();
@@ -214,13 +214,13 @@ public class MenuBar extends JMenuBar implements ActionListener
 				public void run()
 				{
 					MessageDialog aboutD = new MessageDialog( null, true );
-					
+
 					aboutD.setTitle( Constants.APP_NAME + " - About" );
 					aboutD.setTopText( Constants.APP_NAME + " v" + Constants.APP_VERSION );
 					aboutD.setContent( "Copyright 2006-2007 by " + Constants.AUTHOR_NAME + "\n" + Constants.AUTHOR_MAIL
 							+ "\n" + Constants.APP_WEB + "\n\nSource available under the " + Constants.APP_LICENSE
 							+ ".\nSee " + Constants.APP_LICENSE_FILE + " for details." );
-					
+
 					aboutD.setVisible( true );
 				}
 			} );

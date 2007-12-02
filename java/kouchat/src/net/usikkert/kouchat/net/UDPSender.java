@@ -36,7 +36,7 @@ import net.usikkert.kouchat.misc.ErrorHandler;
 /**
  * Sends UDP packets directly to a user. Useful for private chat,
  * where not everyone should get the packets.
- * 
+ *
  * @author Christian Ihle
  */
 public class UDPSender
@@ -57,7 +57,7 @@ public class UDPSender
 
 	/**
 	 * Sends a packet with a message to a user.
-	 * 
+	 *
 	 * @param message The message to send.
 	 * @param ip The ip address of the user.
 	 * @param port The port to send the message to.

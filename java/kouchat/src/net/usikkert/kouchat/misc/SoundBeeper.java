@@ -37,7 +37,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * Can load an audio file, and play it.
- * 
+ *
  * @author Christian Ihle
  */
 public class SoundBeeper
@@ -48,7 +48,7 @@ public class SoundBeeper
 	 * The file to play when beep() is run.
 	 */
 	private static final String BEEP_FILE = "/error.wav";
-	
+
 	/**
 	 * The number of milliseconds to wait after
 	 * beeping before closing.
@@ -85,7 +85,7 @@ public class SoundBeeper
 					open();
 				else
 					audioClip.setFramePosition( 0 );
-				
+
 				if ( audioClip != null )
 				{
 					audioClip.start();
@@ -97,7 +97,7 @@ public class SoundBeeper
 						closeTimer.start();
 					}
 				}
-				
+
 				else
 					log.log( Level.SEVERE, "Audio clip missing..." );
 			}
@@ -114,7 +114,7 @@ public class SoundBeeper
 		if ( resourceStream != null )
 		{
 			AudioInputStream audioStream = null;
-			
+
 			try
 			{
 				audioStream = AudioSystem.getAudioInputStream( resourceStream );
@@ -163,7 +163,7 @@ public class SoundBeeper
 						log.log( Level.WARNING, e.toString() );
 					}
 				}
-				
+
 				if ( audioStream != null )
 				{
 					try
@@ -178,7 +178,7 @@ public class SoundBeeper
 				}
 			}
 		}
-		
+
 		else
 		{
 			log.log( Level.SEVERE, "Audio file not found: " + BEEP_FILE );
@@ -187,7 +187,7 @@ public class SoundBeeper
 					"\nAudio file not found: " + BEEP_FILE );
 		}
 	}
-	
+
 	/**
 	 * Closes the audio file and frees the resources used.
 	 */
@@ -200,10 +200,10 @@ public class SoundBeeper
 			audioClip = null;
 		}
 	}
-	
+
 	/**
 	 * A simple thread used for freeing sound resources when finished.
-	 * 
+	 *
 	 * @author Christian Ihle
 	 */
 	private class CloseTimer implements Runnable
@@ -217,13 +217,13 @@ public class SoundBeeper
 				{
 					Thread.sleep( 1000 );
 				}
-				
+
 				catch ( InterruptedException e )
 				{
 					log.log( Level.WARNING, e.toString() );
 				}
 			}
-			
+
 			close();
 			closeTimer = null;
 		}

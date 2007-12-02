@@ -26,35 +26,41 @@ import net.usikkert.kouchat.ui.UIFactory;
 
 /**
  * This class contains KouChat's main method.
- * 
+ *
  * It prints out some information at the console, and
  * parses the arguments, if any.
- * 
+ *
  * Two different User Interfaces can be loaded from here.
  * Swing is the default, and a console version can be loaded
  * by using the --console argument.
- * 
+ *
  * @author Christian Ihle
  */
-public class KouChat
+public final class KouChat
 {
 	/**
+	 * Private constructor. This class should be run like an application,
+	 * not instantiated.
+	 */
+	private KouChat() {}
+
+	/**
 	 * The main method.
-	 * 
+	 *
 	 * Takes two different arguments:<br />
 	 * --help, shows information about available commands.<br />
 	 * --console, starts KouChat in console mode.
-	 * 
+	 *
 	 * @param args The arguments given when starting KouChat.
 	 */
 	public static void main( String[] args )
 	{
 		System.out.println( Constants.APP_NAME + " v" + Constants.APP_VERSION );
 		System.out.println( "By " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL + " - " + Constants.APP_WEB );
-		
+
 		if ( args.length == 0 )
 			System.out.println( "Use --help for more information..." );
-		
+
 		boolean swing = true;
 		boolean help = false;
 
@@ -62,17 +68,17 @@ public class KouChat
 		{
 			if ( args[i].equals( "--console" ) )
 				swing = false;
-			
+
 			else if ( args[i].equals( "--help" ) )
 				help = true;
-			
+
 			else
 			{
 				System.out.println( "\nUnknown argument '" + args[i] + "'. Use --help for more information..." );
 				return;
 			}
 		}
-		
+
 		if ( help )
 		{
 			System.out.println( "\nCommands:" +
@@ -88,7 +94,7 @@ public class KouChat
 				System.out.println( "\nLoading Swing User Interface...\n" );
 				new UIFactory().loadUI( "swing" );
 			}
-			
+
 			else
 			{
 				System.out.println( "\nLoading Console User Interface...\n" );

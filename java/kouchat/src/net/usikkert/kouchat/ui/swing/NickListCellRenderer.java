@@ -43,42 +43,42 @@ import net.usikkert.kouchat.misc.NickDTO;
 public class NickListCellRenderer extends JLabel implements ListCellRenderer
 {
 	private static final long serialVersionUID = 1L;
-	private static final Logger log = Logger.getLogger( NickListCellRenderer.class.getName() );
+	private static final Logger LOG = Logger.getLogger( NickListCellRenderer.class.getName() );
 	private static final String IMG_ENVELOPE = "/icons/envelope.png";
 	private static final String IMG_DOT = "/icons/dot.png";
-	
+
 	private ImageIcon envelope, dot;
-	
+
 	public NickListCellRenderer()
 	{
 		ErrorHandler errorHandler = ErrorHandler.getErrorHandler();
-		
-		URL envelope_url = getClass().getResource( IMG_ENVELOPE );
-		URL dot_url = getClass().getResource( IMG_DOT );
-		
-		if ( envelope_url == null || dot_url == null )
+
+		URL envelopeURL = getClass().getResource( IMG_ENVELOPE );
+		URL dotURL = getClass().getResource( IMG_DOT );
+
+		if ( envelopeURL == null || dotURL == null )
 		{
 			String missing = "";
-			
-			if ( envelope_url == null && dot_url == null )
+
+			if ( envelopeURL == null && dotURL == null )
 				missing = "* " + IMG_ENVELOPE + "\n* " + IMG_DOT;
-			else if ( envelope_url == null )
+			else if ( envelopeURL == null )
 				missing = "* " + IMG_ENVELOPE;
-			else if ( dot_url == null )
+			else if ( dotURL == null )
 				missing = "* " + IMG_DOT;
-			
+
 			String error = "These images were expected, but not found:\n\n" + missing + "\n\n"
 					+ Constants.APP_NAME + " will now shutdown and quit...";
-			
-			log.log( Level.SEVERE, error );
+
+			LOG.log( Level.SEVERE, error );
 			errorHandler.showCriticalError( error );
 			System.exit( 1 );
 		}
-		
-		envelope = new ImageIcon( envelope_url );
-		dot = new ImageIcon( dot_url );
+
+		envelope = new ImageIcon( envelopeURL );
+		dot = new ImageIcon( dotURL );
 	}
-	
+
 	public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
 	{
 		NickDTO dto = (NickDTO) value;
@@ -127,7 +127,7 @@ public class NickListCellRenderer extends JLabel implements ListCellRenderer
 		}
 
 		else
-			log.log( Level.WARNING, "Got a null list element..." );
+			LOG.log( Level.WARNING, "Got a null list element..." );
 
 		if ( isSelected )
 			setBackground( list.getSelectionBackground() );

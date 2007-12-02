@@ -45,7 +45,7 @@ public class MessageSender
 	public MessageSender()
 	{
 		errorHandler = ErrorHandler.getErrorHandler();
-		
+
 		try
 		{
 			mcSocket = new MulticastSocket( Constants.NETWORK_CHAT_PORT );

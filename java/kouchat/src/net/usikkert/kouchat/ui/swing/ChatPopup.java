@@ -35,7 +35,7 @@ import javax.swing.text.DefaultEditorKit;
 
 /**
  * Shows a popup menu with copy and select all menu items.
- * 
+ *
  * @author Christian Ihle
  */
 public class ChatPopup extends JPopupMenu implements MouseListener, ActionListener
@@ -47,7 +47,7 @@ public class ChatPopup extends JPopupMenu implements MouseListener, ActionListen
 
 	/**
 	 * Constructor. Creates the menu.
-	 * 
+	 *
 	 * @param chatTP The text pane to use the popup on.
 	 */
 	public ChatPopup( JTextPane chatTP )

@@ -45,7 +45,7 @@ import javax.swing.ToolTipManager;
 
 /**
  * This is the main chat window.
- * 
+ *
  * @author Christian Ihle
  */
 public class KouChatFrame extends JFrame implements WindowListener, FocusListener
@@ -128,7 +128,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 		Action escapeAction = new AbstractAction()
 		{
 			private static final long serialVersionUID = 1L;
-			
+
 			@Override
 			public void actionPerformed( ActionEvent e )
 			{
@@ -136,7 +136,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 					setVisible( false );
 			}
 		};
-		
+
 		mainP.getInputMap( JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT ).put( escapeKeyStroke, "ESCAPE" );
 		mainP.getActionMap().put( "ESCAPE", escapeAction );
 	}
@@ -152,7 +152,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 			@Override
 			public boolean dispatchKeyEvent( KeyEvent e )
 			{
-				if ( e.getID() == KeyEvent.KEY_TYPED && isFocused() && ( e.getSource() == mainP.getChatTP() || e.getSource() == sideP.getNickList() ) ) 
+				if ( e.getID() == KeyEvent.KEY_TYPED && isFocused() && ( e.getSource() == mainP.getChatTP() || e.getSource() == sideP.getNickList() ) )
 				{
 					KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent( mainP.getMsgTF(), e );
 					mainP.getMsgTF().requestFocusInWindow();

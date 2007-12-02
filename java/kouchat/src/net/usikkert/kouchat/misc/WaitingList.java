@@ -28,7 +28,7 @@ import java.util.List;
  * This waiting list is used to store unknown users while asking them to identify.
  * Usually it's users that timed out at some point, and are returning. By doing this,
  * messages from unknown users can be held back until they have identified themselves.
- * 
+ *
  * @author Christian Ihle
  */
 public class WaitingList

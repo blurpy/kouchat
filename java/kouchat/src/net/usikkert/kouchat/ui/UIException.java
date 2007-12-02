@@ -24,7 +24,7 @@ package net.usikkert.kouchat.ui;
 /**
  * Used in the ui factory to notify the main class
  * if there is a problem with the loading of the ui.
- * 
+ *
  * @author Christian Ihle
  */
 public class UIException extends Exception

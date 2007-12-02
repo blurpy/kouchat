@@ -28,7 +28,7 @@ import net.usikkert.kouchat.ui.swing.KouChatFrame;
 
 /**
  * This factory decides which User Interface to load.
- * 
+ *
  * @author Christian Ihle
  */
 public class UIFactory
@@ -37,10 +37,10 @@ public class UIFactory
 
 	/**
 	 * Loads the User Interface matching the ui argument.
-	 * 
+	 *
 	 * @param ui Which ui to load.
 	 * Two choices are available at this moment: 'swing' and 'console'.
-	 * 
+	 *
 	 * @throws UIException If a ui has already been loaded, or if an
 	 * unknown ui type was requested, or if no graphical environment was detected.
 	 */
@@ -60,7 +60,7 @@ public class UIFactory
 					throw new UIException( "The Swing User Interface could not be loaded" +
 							" because a graphical environment could not be detected... " );
 				}
-				
+
 				else
 				{
 					new KouChatFrame();

@@ -24,7 +24,7 @@ package net.usikkert.kouchat.net;
 public class ServerException extends Exception
 {
 	private static final long serialVersionUID = 1L;
-	
+
 	public ServerException( String msg, Throwable exception )
 	{
 		super( msg, exception );

@@ -51,7 +51,7 @@ public class IdleThread extends Thread
 		me = Settings.getSettings().getMe();
 		tList = controller.getTransferList();
 		errorHandler = ErrorHandler.getErrorHandler();
-		
+
 		run = true;
 	}
 
@@ -97,7 +97,7 @@ public class IdleThread extends Thread
 			}
 		}
 	}
-	
+
 	private void userTimedOut( NickDTO user )
 	{
 		List<FileSender> fsList = tList.getFileSenders( user );
@@ -114,7 +114,7 @@ public class IdleThread extends Thread
 		}
 
 		ui.getUIMessages().showUserTimedOut( user.getNick() );
-		
+
 		if ( user.getPrivchat() != null )
 		{
 			ui.getUIMessages().showPrivateUserTimedOut( user );

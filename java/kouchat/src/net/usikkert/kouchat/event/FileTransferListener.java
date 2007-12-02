@@ -25,7 +25,7 @@ package net.usikkert.kouchat.event;
  * This interface needs to be implemented by the ui to add support
  * for file transfers. The methods here are called when
  * file transfer states change.
- * 
+ *
  * @author Christian Ihle
  */
 public interface FileTransferListener
@@ -37,7 +37,7 @@ public interface FileTransferListener
 
 	/**
 	 * Called when the file transfer process is started, but before
-	 * connection has been established. 
+	 * connection has been established.
 	 */
 	public void statusConnecting();
 

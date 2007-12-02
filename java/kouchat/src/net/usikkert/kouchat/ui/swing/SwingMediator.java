@@ -53,13 +53,13 @@ import net.usikkert.kouchat.util.Tools;
  * This class is a mediator for the gui, and gets all the events from the gui layer
  * that needs access to other components, or classes in lower layers. It is also
  * the interface for classes in lower layers to update the gui.
- * 
+ *
  * @author Christian Ihle
  */
 public class SwingMediator implements Mediator, UserInterface
 {
 	private static Logger log = Logger.getLogger( SwingMediator.class.getName() );
-	
+
 	private SidePanel sideP;
 	private SettingsDialog settingsDialog;
 	private KouChatFrame gui;
@@ -85,7 +85,7 @@ public class SwingMediator implements Mediator, UserInterface
 		sysTray = compHandler.getSysTray();
 		menuBar = compHandler.getMenuBar();
 		buttonP = compHandler.getButtonPanel();
-		
+
 		uiMsg = new UIMessages( new MessageController( mainP, this ) );
 		controller = new Controller( this );
 
@@ -96,7 +96,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 		uiMsg.showWelcomeMsg();
 		beeper = new SoundBeeper();
-		
+
 		if ( !sysTray.isSystemTraySupport() )
 		{
 			buttonP.disableMinimize();
@@ -139,7 +139,7 @@ public class SwingMediator implements Mediator, UserInterface
 					changeAway( false );
 					uiMsg.showUserBack( "You" );
 				}
-				
+
 				catch ( CommandException e )
 				{
 					log.log( Level.WARNING, e.toString() );
@@ -169,7 +169,7 @@ public class SwingMediator implements Mediator, UserInterface
 					changeAway( true );
 					uiMsg.showUserAway( "You", me.getAwayMsg() );
 				}
-				
+
 				catch ( CommandException e )
 				{
 					log.log( Level.WARNING, e.toString() );
@@ -233,7 +233,7 @@ public class SwingMediator implements Mediator, UserInterface
 				title += " - (Not connected)";
 				tooltip += " - (Not connected)";
 			}
-			
+
 			else
 			{
 				if ( me.isAway() )
@@ -241,7 +241,7 @@ public class SwingMediator implements Mediator, UserInterface
 					title += " (Away)";
 					tooltip += " (Away)";
 				}
-				
+
 				if ( controller.getTopic().getTopic().length() > 0 )
 					title += " - Topic: " + controller.getTopic();
 			}
@@ -261,7 +261,7 @@ public class SwingMediator implements Mediator, UserInterface
 		{
 			if ( gui.getExtendedState() == JFrame.ICONIFIED )
 				gui.setExtendedState( JFrame.NORMAL );
-			
+
 			gui.setVisible( true );
 			gui.toFront();
 		}
@@ -281,15 +281,15 @@ public class SwingMediator implements Mediator, UserInterface
 			JOptionPane.showMessageDialog( null, "No point in doing that!", Constants.APP_NAME
 					+ " - Warning", JOptionPane.WARNING_MESSAGE );
 		}
-		
+
 		else if ( user != null && !user.isAway() && !me.isAway() )
 		{
 			JFileChooser chooser = new JFileChooser();
 			chooser.setDialogTitle( Constants.APP_NAME + " - Open" );
-			
+
 			if ( selectedFile != null && selectedFile.exists() )
 				chooser.setSelectedFile( selectedFile );
-			
+
 			int returnVal = chooser.showOpenDialog( null );
 
 			if ( returnVal == JFileChooser.APPROVE_OPTION )
@@ -323,7 +323,7 @@ public class SwingMediator implements Mediator, UserInterface
 					controller.sendChatMessage( line );
 					uiMsg.showOwnMessage( line );
 				}
-				
+
 				catch ( CommandException e )
 				{
 					log.log( Level.WARNING, e.toString() );
@@ -334,13 +334,13 @@ public class SwingMediator implements Mediator, UserInterface
 
 		mainP.getMsgTF().setText( "" );
 	}
-	
+
 	@Override
 	public void writePrivate( PrivateChatWindow privchat )
 	{
 		String line = privchat.getChatText();
 		NickDTO user = privchat.getUser();
-		
+
 		if ( line.trim().length() > 0 )
 		{
 			try
@@ -348,7 +348,7 @@ public class SwingMediator implements Mediator, UserInterface
 				controller.sendPrivateMessage( line, user.getIpAddress(), user.getPrivateChatPort(), user.getCode() );
 				uiMsg.showPrivateOwnMessage( user, line );
 			}
-			
+
 			catch ( CommandException e )
 			{
 				log.log( Level.WARNING, e.toString() );
@@ -414,7 +414,7 @@ public class SwingMediator implements Mediator, UserInterface
 					updateTitleAndTray();
 					return true;
 				}
-				
+
 				catch ( CommandException e )
 				{
 					log.log( Level.SEVERE, e.toString() );
@@ -481,10 +481,7 @@ public class SwingMediator implements Mediator, UserInterface
 				+ fileName + " (" + size + ")\nAccept?", Constants.APP_NAME + " - File send",
 				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0] );
 
-		if ( choice == JOptionPane.YES_OPTION )
-			return true;
-		else
-			return false;
+		return choice == JOptionPane.YES_OPTION;
 	}
 
 	@Override
@@ -539,7 +536,7 @@ public class SwingMediator implements Mediator, UserInterface
 	{
 		new TransferDialog( this, fileRes );
 	}
-	
+
 	@Override
 	public void showTransfer( FileSender fileSend )
 	{
@@ -568,15 +565,15 @@ public class SwingMediator implements Mediator, UserInterface
 		updateAwayInPrivChats( away );
 		updateTitleAndTray();
 	}
-	
+
 	private void updateAwayInPrivChats( boolean away )
 	{
 		NickList list = controller.getNickList();
-		
+
 		for ( int i = 0; i < list.size(); i++ )
 		{
 			NickDTO user = list.get( i );
-			
+
 			if ( user.getPrivchat() != null && !user.isAway() )
 			{
 				user.getPrivchat().setAway( away );
@@ -602,7 +599,7 @@ public class SwingMediator implements Mediator, UserInterface
 	{
 		if ( user.getPrivchat() == null )
 			user.setPrivchat( new PrivateChatFrame( this, user ) );
-		
+
 		user.getPrivchat().setVisible( true );
 		controller.changeNewMessage( user.getCode(), false );
 	}

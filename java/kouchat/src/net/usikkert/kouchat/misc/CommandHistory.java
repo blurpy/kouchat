@@ -28,7 +28,7 @@ import java.util.List;
  * Saves a number of commands in a history list.
  * The current position in the history is marked by a cursor which
  * can be moved up or down to return the previous or next command.
- * 
+ *
  * @author Christian Ihle
  */
 public class CommandHistory
@@ -37,8 +37,14 @@ public class CommandHistory
 	 * Defines the max number of commands to save in the history.
 	 */
 	private static final int MAX_COMMANDS = 50;
-	
-	private enum Direction { UP, MIDDLE, DOWN };
+
+	private enum Direction
+	{
+		UP,
+		MIDDLE,
+		DOWN
+	};
+
 	private Direction direction;
 	private int cursor;
 	private List<String> history;
@@ -56,7 +62,7 @@ public class CommandHistory
 	 * Adds a new command to the list, and resets the cursor.
 	 * The command will only be added if it is not empty, and
 	 * not identical to the previous command.
-	 * 
+	 *
 	 * @param command The command to add to the list.
 	 */
 	public void add( String command )
@@ -85,7 +91,7 @@ public class CommandHistory
 	/**
 	 * Moves the cursor up in the history list, to find the previous command.
 	 * If the list is empty, it will return an empty string.
-	 * 
+	 *
 	 * @return The previous command.
 	 */
 	public String goUp()
@@ -96,18 +102,18 @@ public class CommandHistory
 		{
 			if ( direction != Direction.MIDDLE && cursor > 0 )
 				cursor--;
-			
+
 			direction = Direction.UP;
 			up = history.get( cursor );
 		}
-		
+
 		return up;
 	}
 
 	/**
 	 * Moves the cursor down in the history list, to find the next command.
 	 * If the list is empty, or at the end, it will return an empty string.
-	 * 
+	 *
 	 * @return The next command.
 	 */
 	public String goDown()
@@ -122,7 +128,7 @@ public class CommandHistory
 				direction = Direction.DOWN;
 				down = history.get( cursor );
 			}
-			
+
 			else
 				direction = Direction.MIDDLE;
 		}

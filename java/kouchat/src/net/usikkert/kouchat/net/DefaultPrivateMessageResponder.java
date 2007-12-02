@@ -31,7 +31,7 @@ import net.usikkert.kouchat.misc.UserInterface;
 
 /**
  * This class responds to events from the message parser.
- * 
+ *
  * @author Christian Ihle
  */
 public class DefaultPrivateMessageResponder implements PrivateMessageResponder
@@ -59,15 +59,15 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 
 			if ( user.isAway() )
 				log.log( Level.WARNING, "Got message from " + user.getNick() + " which is away: " + msg );
-			
+
 			else if ( user.getPrivateChatPort() == 0 )
 				log.log( Level.WARNING, "Got message from " + user.getNick() + " which has no reply port: " + msg );
-			
+
 			else
 			{
 				uiMsg.showPrivateUserMessage( user, msg, color );
 				ui.notifyMessageArrived();
-				
+
 				if ( !user.getPrivchat().isVisible() )
 					controller.changeNewMessage( user.getCode(), true );
 			}

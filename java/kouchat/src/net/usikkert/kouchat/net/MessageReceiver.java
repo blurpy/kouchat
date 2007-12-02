@@ -48,7 +48,7 @@ public class MessageReceiver implements Runnable
 	public MessageReceiver()
 	{
 		errorHandler = ErrorHandler.getErrorHandler();
-		
+
 		try
 		{
 			mcSocket = new MulticastSocket( Constants.NETWORK_CHAT_PORT );
@@ -87,7 +87,7 @@ public class MessageReceiver implements Runnable
 			}
 		}
 	}
-	
+
 	private void startThread()
 	{
 		worker = new Thread( this );

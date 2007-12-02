@@ -36,7 +36,7 @@ import net.usikkert.kouchat.util.Tools;
 /**
  * This is a simple logger. Creates a new unique log file for each time open()
  * is called.
- * 
+ *
  * @author Christian Ihle
  */
 public class ChatLogger implements SettingsListener
@@ -47,8 +47,8 @@ public class ChatLogger implements SettingsListener
 	 */
 	private static final String LOG_FILE = "kouchat-" + Tools.dateToString( null, "yyyy.MM.dd-HH.mm.ss-SSS" ) + ".log";
 
-	private static final Logger log = Logger.getLogger( ChatLogger.class.getName() );
-	
+	private static final Logger LOG = Logger.getLogger( ChatLogger.class.getName() );
+
 	private Settings settings;
 	private BufferedWriter writer;
 	private boolean open;
@@ -62,14 +62,14 @@ public class ChatLogger implements SettingsListener
 	{
 		settings = Settings.getSettings();
 		settings.addSettingsListener( this );
-		
+
 		errorHandler = ErrorHandler.getErrorHandler();
-		
+
 		if ( settings.isLogging() )
 		{
 			open();
 		}
-		
+
 		Runtime.getRuntime().addShutdownHook( new Thread()
 		{
 			public void run()
@@ -99,7 +99,7 @@ public class ChatLogger implements SettingsListener
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.toString(), e );
+			LOG.log( Level.SEVERE, e.toString(), e );
 			settings.setLogging( false );
 			errorHandler.showError( "Could not initialize the logging:\n" + e );
 		}
@@ -120,7 +120,7 @@ public class ChatLogger implements SettingsListener
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.toString(), e );
+				LOG.log( Level.SEVERE, e.toString(), e );
 			}
 
 			finally
@@ -132,7 +132,7 @@ public class ChatLogger implements SettingsListener
 
 	/**
 	 * Adds a new line of text to the current open log file, if any.
-	 * 
+	 *
 	 * @param line The line of text to add to the log.
 	 */
 	public void append( String line )
@@ -148,7 +148,7 @@ public class ChatLogger implements SettingsListener
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.toString(), e );
+				LOG.log( Level.SEVERE, e.toString(), e );
 				close();
 			}
 		}
@@ -156,7 +156,7 @@ public class ChatLogger implements SettingsListener
 
 	/**
 	 * Returns if a log file is opened for writing or not.
-	 * 
+	 *
 	 * @return True if a log file is open.
 	 */
 	public boolean isOpen()
@@ -179,7 +179,7 @@ public class ChatLogger implements SettingsListener
 					open();
 				}
 			}
-			
+
 			else
 			{
 				close();

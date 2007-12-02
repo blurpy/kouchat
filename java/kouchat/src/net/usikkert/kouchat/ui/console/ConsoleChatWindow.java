@@ -25,7 +25,7 @@ import net.usikkert.kouchat.misc.ChatWindow;
 
 /**
  * This is the console implementation of the chat window.
- * 
+ *
  * @author Christian Ihle
  */
 public class ConsoleChatWindow implements ChatWindow

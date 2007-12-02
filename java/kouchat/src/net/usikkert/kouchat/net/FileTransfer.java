@@ -26,7 +26,12 @@ import net.usikkert.kouchat.misc.NickDTO;
 
 public interface FileTransfer
 {
-	public enum Direction { SEND, RECEIVE };
+	public enum Direction
+	{
+		SEND,
+		RECEIVE
+	};
+
 	public Direction getDirection();
 	public String getFileName();
 	public NickDTO getNick();

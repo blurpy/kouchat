@@ -34,16 +34,21 @@ import java.util.regex.Pattern;
 
 /**
  * A collection of static utility methods.
- * 
+ *
  * @author Christian Ihle
  */
-public class Tools
+public final class Tools
 {
-	private static final Logger log = Logger.getLogger( Tools.class.getName() );
+	/**
+	 * Private constructor. Only static methods here.
+	 */
+	private Tools() {}
+
+	private static final Logger LOG = Logger.getLogger( Tools.class.getName() );
 
 	/**
 	 * Creates a timestamp in the format [HH:MM:SS].
-	 * 
+	 *
 	 * @return The current time.
 	 */
 	public static String getTime()
@@ -58,7 +63,7 @@ public class Tools
 	/**
 	 * Checks if a number is lower than 10, and creates a string with
 	 * a 0 added at the start if that is the case. Useful for clocks.
-	 * 
+	 *
 	 * @param number The number to check.
 	 * @return A string representation of the number.
 	 */
@@ -67,12 +72,12 @@ public class Tools
 		if ( number < 10 )
 			return "0" + number;
 		else
-			return "" + number;	
+			return "" + number;
 	}
 
 	/**
 	 * Converts a date to a string, in the format specified.
-	 * 
+	 *
 	 * @param d The date to convert to a string.
 	 * @param format The format to get the date in.
 	 * @return A converted date.
@@ -93,7 +98,7 @@ public class Tools
 
 	/**
 	 * Converts a string into a date, from the format specified.
-	 * 
+	 *
 	 * @param s The string to convert into a date.
 	 * @param format The format of the date.
 	 * @return The string as a date.
@@ -111,7 +116,7 @@ public class Tools
 
 		catch ( ParseException e )
 		{
-			log.log( Level.SEVERE, e.toString(), e );
+			LOG.log( Level.SEVERE, e.toString(), e );
 		}
 
 		return date;
@@ -119,7 +124,7 @@ public class Tools
 
 	/**
 	 * Get a decimal number as a string, in the specified format.
-	 * 
+	 *
 	 * @param format The format to get the number.
 	 * @param number The number to add formatting to.
 	 * @return The formatted number.
@@ -139,17 +144,17 @@ public class Tools
 	{
 		if ( nick == null )
 			return false;
-		
+
 		Pattern p = Pattern.compile( "[\\p{Alnum}[-_]]{1,10}" );
 		Matcher m = p.matcher( nick );
-		
+
 		return m.matches();
 	}
 
 	/**
 	 * Converts a number of bytes into megabytes or kilobytes,
 	 * depending on the size.
-	 * 
+	 *
 	 * @param bytes The number of bytes to convert.
 	 * @return A string representation of the bytes.
 	 */
@@ -174,7 +179,7 @@ public class Tools
 
 	/**
 	 * Returns a string showing how long has passed from 'then' to now.
-	 * 
+	 *
 	 * @param then An earlier time.
 	 * @return How long it's been since 'then'.
 	 */
@@ -184,7 +189,7 @@ public class Tools
 		{
 			long diff = System.currentTimeMillis() - then;
 			long totSec = diff / 1000;
-			
+
 			int oneday = 86400;
 			int onehour = 3600;
 			int onemin = 60;
@@ -197,7 +202,7 @@ public class Tools
 			return days + " days, " + getDoubleDigit( hours ) + ":" + getDoubleDigit( minutes )
 					+ ":" + getDoubleDigit( seconds );
 		}
-		
+
 		else
 		{
 			return "0 days, 00:00:00";

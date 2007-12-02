@@ -37,7 +37,7 @@ import net.usikkert.kouchat.misc.Settings;
 /**
  * Receives UDP packets sent directly to the IP address
  * of this machine.
- * 
+ *
  * @author Christian Ihle
  */
 public class UDPReceiver implements Runnable
@@ -112,7 +112,7 @@ public class UDPReceiver implements Runnable
 			catch ( IOException e )
 			{
 				log.log( Level.SEVERE, e.toString() + " " + port );
-				
+
 				counter++;
 				port++;
 				Settings.getSettings().getMe().setPrivateChatPort( 0 );
@@ -125,7 +125,7 @@ public class UDPReceiver implements Runnable
 					"\nNo available listening port between " + Constants.NETWORK_PRIVCHAT_PORT +
 					" and " + ( port -1 ) + "." +
 					"\n\nYou will not be able to receive private messages!";
-			
+
 			log.log( Level.SEVERE, error );
 			errorHandler.showError( error );
 		}
@@ -147,7 +147,7 @@ public class UDPReceiver implements Runnable
 	/**
 	 * Sets the listener who will receive all the messages
 	 * from the UDP packets.
-	 * 
+	 *
 	 * @param listener The object to register as a listener.
 	 */
 	public void registerReceiverListener( ReceiverListener listener )

@@ -39,12 +39,12 @@ public class PrivateMessageParser implements ReceiverListener
 	public PrivateMessageParser( PrivateMessageResponder privmsgResponder )
 	{
 		this.privmsgResponder = privmsgResponder;
-		
+
 		settings = Settings.getSettings();
 		receiver = new UDPReceiver();
 		receiver.registerReceiverListener( this );
 	}
-	
+
 	public void start()
 	{
 		receiver.startReceiver();
@@ -68,10 +68,10 @@ public class PrivateMessageParser implements ReceiverListener
 			int colon = message.indexOf( ":" );
 
 			int fromCode = Integer.parseInt( message.substring( 0, exclamation ) );
-			
+
 			String type = message.substring( exclamation +1, hash );
 			String msg = message.substring( colon +1, message.length() );
-			
+
 			int leftPara = msg.indexOf( "(" );
 			int rightPara = msg.indexOf( ")" );
 			int toCode = Integer.parseInt( msg.substring( leftPara +1, rightPara ) );

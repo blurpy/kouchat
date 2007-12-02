@@ -24,14 +24,14 @@ package net.usikkert.kouchat.event;
 /**
  * This is the interface used by classes wishing to be notified
  * when a setting is changed in Settings.
- * 
+ *
  * @author Christian Ihle
  */
 public interface SettingsListener
 {
 	/**
 	 * When a setting is changed, this method is called.
-	 * 
+	 *
 	 * @param setting The setting which was changed.
 	 */
 	public void settingChanged( String setting );

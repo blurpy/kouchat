@@ -37,25 +37,30 @@ import net.usikkert.kouchat.misc.Settings;
 /**
  * This is a collection of practical and reusable methods
  * for ui use.
- * 
+ *
  * @author Christian Ihle
  */
-public class UITools
+public final class UITools
 {
-	private static final Logger log = Logger.getLogger( UITools.class.getName() );
-	private static final ErrorHandler errorHandler = ErrorHandler.getErrorHandler();
-	private static final Settings settings = Settings.getSettings();
-	
+	private static final Logger LOG = Logger.getLogger( UITools.class.getName() );
+	private static final ErrorHandler ERRORHANDLER = ErrorHandler.getErrorHandler();
+	private static final Settings SETTINGS = Settings.getSettings();
+
+	/**
+	 * Private constructor. Only static methods here.
+	 */
+	private UITools() {}
+
 	/**
 	 * Opens a url in a browser. The first choice is taken from the settings,
 	 * but if no browser i configured there, the systems default browser
 	 * is tried.
-	 * 
+	 *
 	 * @param url The url to open in the browser.
 	 */
 	public static void browse( String url )
 	{
-		String browser = settings.getBrowser();
+		String browser = SETTINGS.getBrowser();
 
 		// The default is to use the browser in the settings.
 		if ( browser != null && browser.trim().length() > 0  )
@@ -67,8 +72,8 @@ public class UITools
 
 			catch ( IOException e )
 			{
-				log.log( Level.WARNING, e.toString() );
-				errorHandler.showError( "Could not open the browser '" + 
+				LOG.log( Level.WARNING, e.toString() );
+				ERRORHANDLER.showError( "Could not open the browser '" +
 						browser + "'. Please check the settings." );
 			}
 		}
@@ -83,21 +88,21 @@ public class UITools
 
 			catch ( IOException e )
 			{
-				log.log( Level.WARNING, e.toString() );
-				errorHandler.showError( "Could not open '" + url + "' with the default browser." +
+				LOG.log( Level.WARNING, e.toString() );
+				ERRORHANDLER.showError( "Could not open '" + url + "' with the default browser." +
 						" Try setting a browser in the settings." );
 			}
 
 			catch ( URISyntaxException e )
 			{
-				log.log( Level.WARNING, e.toString() );
+				LOG.log( Level.WARNING, e.toString() );
 			}
 		}
 
 		else
 		{
-			errorHandler.showError( "No browser detected." +
-					" A browser can be chosen in the settings." );
+			ERRORHANDLER.showError( "No browser detected." +
+			" A browser can be chosen in the settings." );
 		}
 	}
 }
