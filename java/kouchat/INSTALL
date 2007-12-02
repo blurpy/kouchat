@@ -13,7 +13,7 @@ To compile, stay in the root folder where pom.xml is, and run:
 'mvn'
 
 That's it! You should have a ready-to-use kouchat-0.9.5.jar file
-in the root folder.
+in the target folder.
 
 
 * The easy way
