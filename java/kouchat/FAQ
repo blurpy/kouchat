@@ -12,7 +12,7 @@ Kou is pronounced kind of like cows say mooooooo.
 
 First, make sure you are using the latest version. When you do, the easiest
 way to find the problem is for you to run KouChat from the console, like this:
-'java -jar kouchat-x.x.x-bin.jar'
+'java -jar kouchat-x.x.x.jar'
 If you see any errors, write them down. When you can reproduce the problem,
 report it as an issue on this project page with as many details as possible.
 
@@ -52,7 +52,7 @@ to some other folder.
 8. How do I enable console mode?
 
 From a console, run KouChat like this:
-'java -jar kouchat-x.x.x-bin.jar --console'
+'java -jar kouchat-x.x.x.jar --console'
 See /help for a list of commands you can use while in console mode.
 
 
