@@ -53,6 +53,19 @@
           <target>1.6</target>
         </configuration>
       </plugin>
+      <plugin> 
+        <groupId>org.apache.maven.plugins</groupId> 
+        <artifactId>maven-surefire-plugin</artifactId> 
+        <configuration> 
+          <systemProperties> 
+            <property> 
+              <name>net.sourceforge.cobertura.datafile</name> 
+              <value>target/cobertura/cobertura.ser</value> 
+            </property> 
+          </systemProperties> 
+          <testFailureIgnore>true</testFailureIgnore> 
+        </configuration> 
+      </plugin>
     </plugins>
   </build>
   <dependencies>
@@ -66,7 +79,7 @@
   <licenses>
     <license>
       <name>GNU General Public License, version 2</name>
-      <url>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</url>
+      <url>http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt</url>
       <distribution>repo</distribution>
       <comments>Free as in beer.</comments>
     </license>
@@ -97,6 +110,17 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <configLocation>config/checkstyle_checks.xml</configLocation>
+        </configuration>
       </plugin>
     </plugins>
   </reporting>
