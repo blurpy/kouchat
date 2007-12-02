@@ -12,7 +12,7 @@ from http://maven.apache.org/
 To compile, stay in the root folder where pom.xml is, and run:
 'mvn'
 
-That's it! You should have a ready-to-use kouchat-0.9.5-bin.jar file
+That's it! You should have a ready-to-use kouchat-0.9.5.jar file
 in the root folder.
 
 
@@ -28,7 +28,7 @@ To run the program:
 'java net.usikkert.kouchat.KouChat'
 
 To make a jar file:
-'jar cvmf ../manifest.txt kouchat-0.9.5-bin.jar net/usikkert/kouchat/*.class net/usikkert/kouchat/*/*.class net/usikkert/kouchat/*/*/*.class icons/*.png error.wav -C .. README -C .. COPYING -C .. FAQ'
+'jar cvmf ../manifest.txt kouchat-0.9.5.jar net/usikkert/kouchat/*.class net/usikkert/kouchat/*/*.class net/usikkert/kouchat/*/*/*.class icons/*.png error.wav -C .. README -C .. COPYING -C .. FAQ'
 
 In Windows, you might need to change '/' with '\' and ':' with ';'
 and possibly more ;)

@@ -4,7 +4,7 @@
   <groupId>net.usikkert.kouchat</groupId>
   <artifactId>kouchat</artifactId>
   <packaging>jar</packaging>
-  <version>0.9.5-bin</version>
+  <version>0.9.5</version>
   <name>KouChat</name>
   <url>http://kouchat.googlecode.com/</url>
   <description>
@@ -81,7 +81,7 @@
       <name>GNU General Public License, version 2</name>
       <url>http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt</url>
       <distribution>repo</distribution>
-      <comments>Free as in beer.</comments>
+      <comments>Free as in beer :)</comments>
     </license>
   </licenses>
   <developers>
@@ -119,7 +119,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
-          <configLocation>config/checkstyle_checks.xml</configLocation>
+          <configLocation>kouchat_checks.xml</configLocation>
         </configuration>
       </plugin>
     </plugins>

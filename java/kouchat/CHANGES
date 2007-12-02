@@ -8,6 +8,7 @@
   - Added limit to the size of topic and away messages
   - Cleaned up the error logging
   - Tweaked url regex
+  - Fixed lots of checkstyle warnings
 
 
 * version 0.9.4 (25.11.2007):

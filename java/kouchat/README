@@ -7,10 +7,10 @@ It's written in Java, and is free software.
 If you don't have Java installed, go to
 http://www.java.com/ and download Java SE 6 Runtime Environment.
 
-KouChat can usually be started by clicking on the kouchat-0.9.5-bin.jar file,
+KouChat can usually be started by clicking on the kouchat-0.9.5.jar file,
 just like any other application.
 
-You can also start KouChat from the console: 'java -jar kouchat-0.9.5-bin.jar'
+You can also start KouChat from the console: 'java -jar kouchat-0.9.5.jar'
 
 Enjoy :)
 
