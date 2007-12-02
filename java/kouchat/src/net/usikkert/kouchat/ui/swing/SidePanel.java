@@ -73,7 +73,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 		add( nickSP, BorderLayout.CENTER );
 		add( buttonP, BorderLayout.SOUTH );
 
-		nickMenu = new JPopupMenu ();
+		nickMenu = new JPopupMenu();
 		infoMI = new JMenuItem( "Information" );
 		infoMI.setMnemonic( 'I' );
 		infoMI.addActionListener( this );
