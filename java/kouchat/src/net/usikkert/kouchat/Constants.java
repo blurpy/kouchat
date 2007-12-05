@@ -36,7 +36,7 @@ public interface Constants
 	/**
 	 * The application version.
 	 */
-	public static final String APP_VERSION = "0.9.5";
+	public static final String APP_VERSION = "0.9.6-dev";
 
 	/**
 	 * Which license the application has.

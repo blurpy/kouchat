@@ -4,7 +4,7 @@
   <groupId>net.usikkert.kouchat</groupId>
   <artifactId>kouchat</artifactId>
   <packaging>jar</packaging>
-  <version>0.9.5</version>
+  <version>0.9.6-dev</version>
   <name>KouChat</name>
   <url>http://kouchat.googlecode.com/</url>
   <description>
@@ -110,6 +110,11 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <links>
+            <url>http://java.sun.com/javase/6/docs/api/</url>
+          </links>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
