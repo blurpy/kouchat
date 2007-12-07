@@ -69,8 +69,8 @@ public class UDPSender
 			try
 			{
 				InetAddress address = InetAddress.getByName( ip );
-				DatagramPacket packet = new DatagramPacket( message.getBytes( Constants.NETWORK_CHARSET ),
-						message.length(), address, port );
+				byte[] encodedMsg = message.getBytes( Constants.NETWORK_CHARSET );
+				DatagramPacket packet = new DatagramPacket( encodedMsg, encodedMsg.length, address, port );
 				udpSocket.send( packet );
 			}
 

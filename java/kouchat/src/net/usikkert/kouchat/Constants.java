@@ -104,7 +104,7 @@ public interface Constants
 	 * The character set used for sending and receiving
 	 * udp packets.
 	 */
-	public static final String NETWORK_CHARSET = "ISO-8859-15";
+	public static final String NETWORK_CHARSET = "UTF-8";
 
 	/**
 	 * Name of the property used to save and retrieve
