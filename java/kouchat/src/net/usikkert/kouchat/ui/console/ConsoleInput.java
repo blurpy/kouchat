@@ -82,13 +82,13 @@ public class ConsoleInput
 	{
 		String input = "";
 
-		while ( !input.startsWith( "/quit" ) )
+		while ( input != null && !input.startsWith( "/quit" ) )
 		{
 			try
 			{
 				input = stdin.readLine();
 
-				if ( input.trim().length() > 0 )
+				if ( input != null && input.trim().length() > 0 )
 				{
 					if ( input.startsWith( "/" ) )
 					{
