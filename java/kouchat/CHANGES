@@ -4,6 +4,7 @@
 * version 0.9.6 (xx.xx.2007):
   - Changed message encoding to UTF-8
   - Changed message size limits to use number of bytes instead of characters
+  - Added default colors to messages
 
 
 * version 0.9.5 (02.12.2007):
