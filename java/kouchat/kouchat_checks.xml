@@ -111,6 +111,7 @@
         <module name="TodoComment"/>
         <module name="UpperEll"/>
         <module name="Header">
+            <property name="severity" value="error"/>
             <property name="headerFile" value="header.txt"/>
         </module>
     </module>
