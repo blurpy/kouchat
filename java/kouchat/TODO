@@ -1,5 +1,5 @@
 
-- KouChat v0.9.5 TODO
+- KouChat v0.9.6 TODO
 
 * Release v1.0.0:
  - Javadoc
@@ -12,11 +12,11 @@
  - Better console error messages
  - Show license in about box, and have clickable links
  - Fix gui error messages
+ - Play sound when a file transfer popup is shown
 
 
 * Release v1.x:
  - Use encryption for privchat?
- - Use UTF-8 messages?
  - Allow changing font size?
  - Allow changing background color?
  - Flash taskbar when minimized or in background and msg is received?
