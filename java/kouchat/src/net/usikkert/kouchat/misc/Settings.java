@@ -68,6 +68,7 @@ public final class Settings
 		browser = "";
 		ownColor = -15987646;
 		sysColor = -16759040;
+		sound = true;
 
 		loadSettings();
 	}
