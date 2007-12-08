@@ -87,7 +87,6 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	private Mediator mediator;
 	private NickDTO user, me;
 	private FileTransferHandler fileTransferHandler;
-	private boolean newMsg;
 
 	/**
 	 * Creates a new privchat frame. To open the window, use setVisible().
@@ -247,9 +246,6 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 			StyleConstants.setForeground( chatAttr, new Color( color ) );
 			chatDoc.insertString( chatDoc.getLength(), text + "\n", chatAttr );
 			chatTP.setCaretPosition( chatDoc.getLength() );
-
-			if ( !isVisible() )
-				newMsg = true;
 		}
 
 		catch ( BadLocationException e )
@@ -278,7 +274,6 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		if ( visible )
 		{
 			setLocationRelativeTo( getParent() );
-			newMsg = false;
 
 			if ( user == null || user.isAway() || me.isAway() )
 				msgTF.setEnabled( false );
@@ -406,7 +401,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	{
 		msgTF.setEnabled( false );
 
-		if ( !isVisible() && newMsg )
+		if ( !isVisible() && user.isNewMsg() )
 		{
 			setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
 			setExtendedState( ICONIFIED );
