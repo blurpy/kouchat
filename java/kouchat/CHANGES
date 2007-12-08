@@ -4,12 +4,12 @@
 * version 0.9.6 (09.12.2007):
   - Changed message encoding to UTF-8
   - Changed message size limits to use number of bytes instead of characters
-  - Added default colors to messages when no saved settings are found
+  - Better default colors for messages when no saved settings are found
   - Enable sound by default when no saved settings are found
   - Fixed a bug where the privchat window would show up even if there was
     no new messages when the user logged off
   - Fixed NullPointerException when using ctrl+c to quit from console mode
-  - Added sound notification when the file transfer popup is shown
+  - Added sound notification when popup is shown to ask to receive a file
 
 
 * version 0.9.5 (02.12.2007):
