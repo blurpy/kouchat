@@ -25,8 +25,10 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
+import net.usikkert.kouchat.util.Tools;
+
 /**
- * Limits the number of characters a Document can contain.
+ * Limits the number of bytes a Document can contain.
  * Practical for use in the text field where users write
  * messages to send, so they know when a message is too
  * long before it is sent.
@@ -35,21 +37,25 @@ import javax.swing.text.DocumentFilter;
  */
 public class SizeDocumentFilter extends DocumentFilter
 {
-	private int maxCharacters;
+	private int maxBytes;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param maxCharacters The maximum number of characters the
+	 * @param maxBytes The maximum number of bytes the
 	 * Document can contain.
 	 */
-	public SizeDocumentFilter( int maxCharacters )
+	public SizeDocumentFilter( int maxBytes )
 	{
-		this.maxCharacters = maxCharacters;
+		this.maxBytes = maxBytes;
 	}
 
 	/**
-	 * Replaces the parts of the text that fits within the character limit.
+	 * Replaces the parts of the text that fits within the byte limit.
+	 * This got a bit more complicated than I thought, because of the varying
+	 * size of characters in different character sets.
+	 *
+	 * Also removes tabs and newlines.
 	 */
 	@Override
 	public void replace( FilterBypass fb, int offset, int length, String text, AttributeSet attrs ) throws BadLocationException
@@ -59,13 +65,47 @@ public class SizeDocumentFilter extends DocumentFilter
 			if ( text.contains( "\n" ) )
 				text = text.replace( '\n', ' ' );
 
-			if ( ( fb.getDocument().getLength() + text.length() - length ) <= maxCharacters )
+			if ( text.contains( "\t" ) )
+				text = text.replace( '\t', ' ' );
+
+			String docText = fb.getDocument().getText( 0, fb.getDocument().getLength() );
+			int textLength = Tools.getBytes( text );
+			int docLength = Tools.getBytes( docText );
+			int removedLength = Tools.getBytes( docText.substring( offset, offset + length ) );
+
+			if ( ( docLength + textLength - removedLength ) <= maxBytes )
+			{
 				super.replace( fb, offset, length, text, attrs );
+			}
 
 			else
 			{
-				int allowedSize = maxCharacters - fb.getDocument().getLength();
-				super.replace( fb, offset, length, text.substring( 0, allowedSize ), attrs );
+				String replaceText = "";
+				int replaceTextSize = 0;
+				int allowedSize = maxBytes - docLength;
+
+				for ( int i = 0; i < text.length(); i++ )
+				{
+					if ( replaceTextSize < allowedSize )
+					{
+						String tmpChar = "" + text.charAt( i );
+						int tmpCharSize = Tools.getBytes( tmpChar );
+
+						if ( replaceTextSize + tmpCharSize <= allowedSize )
+						{
+							replaceText += tmpChar;
+							replaceTextSize += tmpCharSize;
+						}
+
+						else
+							break;
+					}
+
+					else
+						break;
+				}
+
+				super.replace( fb, offset, length, replaceText, attrs );
 			}
 		}
 

@@ -139,7 +139,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		msgTF.addKeyListener( this );
 
 		AbstractDocument msgDoc = (AbstractDocument) msgTF.getDocument();
-		msgDoc.setDocumentFilter( new SizeDocumentFilter( Constants.MESSAGE_MAX_CHARACTERS ) );
+		msgDoc.setDocumentFilter( new SizeDocumentFilter( Constants.MESSAGE_MAX_BYTES ) );
 
 		JPanel backP = new JPanel();
 		backP.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );

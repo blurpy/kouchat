@@ -21,6 +21,7 @@
 
 package net.usikkert.kouchat.util;
 
+import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,6 +32,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.usikkert.kouchat.Constants;
 
 /**
  * A collection of static utility methods.
@@ -209,6 +212,26 @@ public final class Tools
 		else
 		{
 			return "0 days, 00:00:00";
+		}
+	}
+
+	/**
+	 * Returns the number of bytes a String consists of.
+	 *
+	 * @param text The text to count the bytes in.
+	 * @return Number of bytes found in the text.
+	 */
+	public static int getBytes( String text )
+	{
+		try
+		{
+			return text.getBytes( Constants.MESSAGE_CHARSET ).length;
+		}
+
+		catch ( UnsupportedEncodingException e )
+		{
+			LOG.log( Level.SEVERE, e.toString(), e );
+			return 0;
 		}
 	}
 }

@@ -67,8 +67,16 @@ public class MessageSender
 		{
 			try
 			{
-				byte[] encodedMsg = message.getBytes( Constants.NETWORK_CHARSET );
-				DatagramPacket packet = new DatagramPacket( encodedMsg, encodedMsg.length, address, Constants.NETWORK_CHAT_PORT );
+				byte[] encodedMsg = message.getBytes( Constants.MESSAGE_CHARSET );
+				int size = encodedMsg.length;
+
+				if ( size > Constants.NETWORK_PACKET_SIZE )
+				{
+					log.log( Level.WARNING, "Message was " + size + " bytes, which is too large.\n"
+							+ " The receiver might not get the complete message.\n'" + message + "'" );
+				}
+
+				DatagramPacket packet = new DatagramPacket( encodedMsg, size, address, Constants.NETWORK_CHAT_PORT );
 				mcSocket.send( packet );
 			}
 

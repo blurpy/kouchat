@@ -87,7 +87,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		msgTF.addKeyListener( this );
 
 		AbstractDocument msgDoc = (AbstractDocument) msgTF.getDocument();
-		msgDoc.setDocumentFilter( new SizeDocumentFilter( Constants.MESSAGE_MAX_CHARACTERS ) );
+		msgDoc.setDocumentFilter( new SizeDocumentFilter( Constants.MESSAGE_MAX_BYTES ) );
 
 		add( chatSP, BorderLayout.CENTER );
 		add( sideP, BorderLayout.EAST );

@@ -36,6 +36,7 @@ import net.usikkert.kouchat.net.PrivateMessageParser;
 import net.usikkert.kouchat.net.PrivateMessageResponder;
 import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.util.DayTimer;
+import net.usikkert.kouchat.util.Tools;
 
 public class Controller
 {
@@ -113,8 +114,8 @@ public class Controller
 	{
 		if ( code == me.getCode() && !isConnected() )
 			throw new CommandException( "You tried to change away mode without being connected. This should never happen..." );
-		else if ( awaymsg.length() > Constants.MESSAGE_MAX_CHARACTERS )
-			throw new CommandException( "You tried to set an away message with more than " + Constants.MESSAGE_MAX_CHARACTERS + " characters. This is not allowed..." );
+		else if ( Tools.getBytes( awaymsg ) > Constants.MESSAGE_MAX_BYTES )
+			throw new CommandException( "You tried to set an away message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes. This is not allowed..." );
 		else
 			nickController.changeAwayStatus( code, away, awaymsg );
 	}
@@ -220,8 +221,8 @@ public class Controller
 			throw new CommandException( "You tried to send a chat message while away. This should never happen..." );
 		else if ( msg.trim().length() == 0 )
 			throw new CommandException( "You tried to send an empty chat message. This should never happen..." );
-		else if ( msg.length() > Constants.MESSAGE_MAX_CHARACTERS )
-			throw new CommandException( "You tried to send a chat message with more than " + Constants.MESSAGE_MAX_CHARACTERS + " characters. This is not allowed..." );
+		else if ( Tools.getBytes( msg ) > Constants.MESSAGE_MAX_BYTES )
+			throw new CommandException( "You tried to send a chat message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes. This is not allowed..." );
 		else
 			messages.sendChatMessage( msg );
 	}
@@ -237,8 +238,8 @@ public class Controller
 			throw new CommandException( "You tried to change the topic without being connected. This should never happen..." );
 		else if ( me.isAway() )
 			throw new CommandException( "You tried to change the topic while away. This should never happen..." );
-		else if ( newTopic.length() > Constants.MESSAGE_MAX_CHARACTERS )
-			throw new CommandException( "You tried to set a topic with more than " + Constants.MESSAGE_MAX_CHARACTERS + " characters. This is not allowed..." );
+		else if ( Tools.getBytes( newTopic ) > Constants.MESSAGE_MAX_BYTES )
+			throw new CommandException( "You tried to set a topic with more than " + Constants.MESSAGE_MAX_BYTES + " bytes. This is not allowed..." );
 
 		else
 		{
@@ -280,6 +281,8 @@ public class Controller
 			throw new CommandException( "You tried to send a file without being connected. This should never happen..." );
 		else if ( me.isAway() )
 			throw new CommandException( "You tried to send a file while away. This should never happen..." );
+		else if ( Tools.getBytes( fileName ) > Constants.MESSAGE_MAX_BYTES )
+			throw new CommandException( "You tried to send a file with a name with more than " + Constants.MESSAGE_MAX_BYTES + " bytes. This is not allowed..." );
 		else
 			messages.sendFile( sendToUserCode, fileLength, fileHash, fileName );
 	}
@@ -325,8 +328,8 @@ public class Controller
 			throw new CommandException( "You tried to send a private chat message while away. This should never happen..." );
 		else if ( privmsg.trim().length() == 0 )
 			throw new CommandException( "You tried to send an empty private chat message. This should never happen..." );
-		else if ( privmsg.length() > Constants.MESSAGE_MAX_CHARACTERS )
-			throw new CommandException( "You tried to send a private chat message with more than " + Constants.MESSAGE_MAX_CHARACTERS + " characters. This is not allowed..." );
+		else if ( Tools.getBytes( privmsg ) > Constants.MESSAGE_MAX_BYTES )
+			throw new CommandException( "You tried to send a private chat message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes. This is not allowed..." );
 		else if ( userPort == 0 )
 			throw new CommandException( "You tried to send a private chat message to a user with no available port number. This should never happen..." );
 		else

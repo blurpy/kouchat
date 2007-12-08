@@ -101,10 +101,9 @@ public interface Constants
 	public static final String NETWORK_IP = "224.168.5.200";
 
 	/**
-	 * The character set used for sending and receiving
-	 * udp packets.
+	 * The character set used for messages.
 	 */
-	public static final String NETWORK_CHARSET = "UTF-8";
+	public static final String MESSAGE_CHARSET = "UTF-8";
 
 	/**
 	 * Name of the property used to save and retrieve
@@ -113,10 +112,10 @@ public interface Constants
 	public static final String PROPERTY_CLIENT_UI = "chat.client.ui";
 
 	/**
-	 * Max number of characters allowed in a message to send
+	 * Max number of bytes allowed in a message to send
 	 * over a udp connection.
 	 */
-	public static final int MESSAGE_MAX_CHARACTERS = 450;
+	public static final int MESSAGE_MAX_BYTES = 450;
 
 	/**
 	 * The folder where the application can save files.
