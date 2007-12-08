@@ -12,7 +12,6 @@
  - Better console error messages
  - Show license in about box, and have clickable links
  - Fix gui error messages
- - Play sound when a file transfer popup is shown
 
 
 * Release v1.x:

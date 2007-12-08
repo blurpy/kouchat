@@ -476,6 +476,8 @@ public class SwingMediator implements Mediator, UserInterface
 	@Override
 	public boolean askFileSave( String user, String fileName, String size )
 	{
+		beeper.beep();
+
 		Object[] options = { "Yes", "Cancel" };
 		int choice = JOptionPane.showOptionDialog( null, user + " wants to send you the file "
 				+ fileName + " (" + size + ")\nAccept?", Constants.APP_NAME + " - File send",
