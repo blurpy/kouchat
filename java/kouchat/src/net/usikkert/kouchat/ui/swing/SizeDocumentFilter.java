@@ -62,9 +62,11 @@ public class SizeDocumentFilter extends DocumentFilter
 	{
 		if ( text != null && text.length() > 0 )
 		{
+			// Replace newlines with space
 			if ( text.contains( "\n" ) )
 				text = text.replace( '\n', ' ' );
 
+			// Replace tabs with space
 			if ( text.contains( "\t" ) )
 				text = text.replace( '\t', ' ' );
 
@@ -73,11 +75,14 @@ public class SizeDocumentFilter extends DocumentFilter
 			int docLength = Tools.getBytes( docText );
 			int removedLength = Tools.getBytes( docText.substring( offset, offset + length ) );
 
+			// Everything OK, insert the text as it is.
 			if ( ( docLength + textLength - removedLength ) <= maxBytes )
 			{
 				super.replace( fb, offset, length, text, attrs );
 			}
 
+			// Text too big to fit. Will need to find out which
+			// characters that can be inserted without going over the limit.
 			else
 			{
 				String replaceText = "";
@@ -109,6 +114,7 @@ public class SizeDocumentFilter extends DocumentFilter
 			}
 		}
 
+		// Empty text, just continue normally.
 		else
 		{
 			super.replace( fb, offset, length, text, attrs );
