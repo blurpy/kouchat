@@ -36,7 +36,7 @@ import net.usikkert.kouchat.misc.ErrorHandler;
 
 public class MessageReceiver implements Runnable
 {
-	private static Logger log = Logger.getLogger( MessageReceiver.class.getName() );
+	private static final Logger LOG = Logger.getLogger( MessageReceiver.class.getName() );
 
 	private MulticastSocket mcSocket;
 	private InetAddress address;
@@ -57,7 +57,7 @@ public class MessageReceiver implements Runnable
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.toString(), e );
+			LOG.log( Level.SEVERE, e.toString(), e );
 			errorHandler.showCriticalError( "Failed to initialize the network:\n" + e + "\n"
 					+ Constants.APP_NAME + " will now shutdown and quit..." );
 			System.exit( 1 );
@@ -83,7 +83,7 @@ public class MessageReceiver implements Runnable
 
 			catch ( IOException e )
 			{
-				log.log( Level.WARNING, e.toString() );
+				LOG.log( Level.WARNING, e.toString() );
 			}
 		}
 	}
@@ -110,7 +110,7 @@ public class MessageReceiver implements Runnable
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, "Could not start receiver: " + e.toString() );
+			LOG.log( Level.SEVERE, "Could not start receiver: " + e.toString() );
 		}
 	}
 
@@ -129,13 +129,13 @@ public class MessageReceiver implements Runnable
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.toString(), e );
+			LOG.log( Level.SEVERE, e.toString(), e );
 		}
 	}
 
 	public boolean restartReceiver()
 	{
-		log.log( Level.WARNING, "Restarting receiver..." );
+		LOG.log( Level.WARNING, "Restarting receiver..." );
 
 		boolean success = false;
 
@@ -146,7 +146,7 @@ public class MessageReceiver implements Runnable
 
 		catch ( IOException e )
 		{
-			log.log( Level.WARNING, "Leaving group: " + e.toString() );
+			LOG.log( Level.WARNING, "Leaving group: " + e.toString() );
 		}
 
 		try
@@ -157,12 +157,12 @@ public class MessageReceiver implements Runnable
 
 		catch ( IOException e )
 		{
-			log.log( Level.WARNING, "Joining group: " + e.toString() );
+			LOG.log( Level.WARNING, "Joining group: " + e.toString() );
 		}
 
 		if ( success && ( worker == null || !worker.isAlive() ) )
 		{
-			log.log( Level.SEVERE, "Thread is dead. Starting..." );
+			LOG.log( Level.SEVERE, "Thread is dead. Starting..." );
 			connected = true;
 			startThread();
 		}

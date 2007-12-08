@@ -42,7 +42,7 @@ import net.usikkert.kouchat.misc.Settings;
  */
 public class UDPReceiver implements Runnable
 {
-	private static Logger log = Logger.getLogger( UDPReceiver.class.getName() );
+	private static final Logger LOG = Logger.getLogger( UDPReceiver.class.getName() );
 
 	private DatagramSocket udpSocket;
 	private ReceiverListener listener;
@@ -81,7 +81,7 @@ public class UDPReceiver implements Runnable
 
 			catch ( IOException e )
 			{
-				log.log( Level.WARNING, e.toString() );
+				LOG.log( Level.WARNING, e.toString() );
 			}
 		}
 	}
@@ -111,7 +111,7 @@ public class UDPReceiver implements Runnable
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.toString() + " " + port );
+				LOG.log( Level.SEVERE, e.toString() + " " + port );
 
 				counter++;
 				port++;
@@ -126,7 +126,7 @@ public class UDPReceiver implements Runnable
 					+ " and " + ( port - 1 ) + "."
 					+ "\n\nYou will not be able to receive private messages!";
 
-			log.log( Level.SEVERE, error );
+			LOG.log( Level.SEVERE, error );
 			errorHandler.showError( error );
 		}
 	}

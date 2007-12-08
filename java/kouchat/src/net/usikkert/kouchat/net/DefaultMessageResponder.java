@@ -44,7 +44,7 @@ import net.usikkert.kouchat.util.Tools;
  */
 public class DefaultMessageResponder implements MessageResponder
 {
-	private static Logger log = Logger.getLogger( DefaultMessageResponder.class.getName() );
+	private static final Logger LOG = Logger.getLogger( DefaultMessageResponder.class.getName() );
 
 	private Controller controller;
 	private NickDTO me;
@@ -89,7 +89,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 						catch ( InterruptedException e )
 						{
-							log.log( Level.SEVERE, e.toString(), e );
+							LOG.log( Level.SEVERE, e.toString(), e );
 						}
 					}
 				}
@@ -107,7 +107,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 				else
 				{
-					log.log( Level.SEVERE, "Could not find user: " + userCode );
+					LOG.log( Level.SEVERE, "Could not find user: " + userCode );
 				}
 			}
 		};
@@ -311,7 +311,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 			catch ( CommandException e )
 			{
-				log.log( Level.SEVERE, "Something very strange going on here...\n" + e );
+				LOG.log( Level.SEVERE, "Something very strange going on here...\n" + e );
 			}
 		}
 	}
@@ -424,7 +424,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 					catch ( InterruptedException e )
 					{
-						log.log( Level.SEVERE, e.toString(), e );
+						LOG.log( Level.SEVERE, e.toString(), e );
 					}
 				}
 
@@ -463,7 +463,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 							catch ( ServerException e )
 							{
-								log.log( Level.SEVERE, e.toString(), e );
+								LOG.log( Level.SEVERE, e.toString(), e );
 								uiMsg.showReceiveFailed( fileName, user );
 								controller.sendFileAbort( userCode, fileHash, fileName );
 								fileRes.cancel();
@@ -491,7 +491,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 				else
 				{
-					log.log( Level.SEVERE, "Could not find user: " + user );
+					LOG.log( Level.SEVERE, "Could not find user: " + user );
 				}
 			}
 		} .start();
@@ -533,7 +533,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 					catch ( InterruptedException e )
 					{
-						log.log( Level.SEVERE, e.toString(), e );
+						LOG.log( Level.SEVERE, e.toString(), e );
 					}
 
 					if ( fileSend.transfer( port ) )
@@ -566,6 +566,6 @@ public class DefaultMessageResponder implements MessageResponder
 		}
 
 		else
-			log.log( Level.SEVERE, "Could not find user: " + userCode );
+			LOG.log( Level.SEVERE, "Could not find user: " + userCode );
 	}
 }

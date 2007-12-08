@@ -34,7 +34,7 @@ import net.usikkert.kouchat.util.Tools;
 
 public class CommandParser
 {
-	private static Logger log = Logger.getLogger( CommandParser.class.getName() );
+	private static final Logger LOG = Logger.getLogger( CommandParser.class.getName() );
 
 	private Controller controller;
 	private UserInterface ui;
@@ -100,7 +100,7 @@ public class CommandParser
 
 				catch ( CommandException e )
 				{
-					log.log( Level.WARNING, e.toString() );
+					LOG.log( Level.WARNING, e.toString() );
 					uiMsg.showActionNotAllowed();
 				}
 			}
@@ -121,7 +121,7 @@ public class CommandParser
 
 			catch ( CommandException e )
 			{
-				log.log( Level.WARNING, e.toString() );
+				LOG.log( Level.WARNING, e.toString() );
 				uiMsg.showActionNotAllowed();
 			}
 		}
@@ -273,7 +273,7 @@ public class CommandParser
 
 				catch ( CommandException e )
 				{
-					log.log( Level.WARNING, e.toString() );
+					LOG.log( Level.WARNING, e.toString() );
 					uiMsg.showActionNotAllowed();
 				}
 			}
@@ -320,7 +320,7 @@ public class CommandParser
 
 					catch ( CommandException e )
 					{
-						log.log( Level.WARNING, e.toString() );
+						LOG.log( Level.WARNING, e.toString() );
 						uiMsg.showActionNotAllowed();
 					}
 				}
@@ -385,7 +385,7 @@ public class CommandParser
 
 			catch ( CommandException e )
 			{
-				log.log( Level.WARNING, e.toString() );
+				LOG.log( Level.WARNING, e.toString() );
 				uiMsg.showActionNotAllowed();
 			}
 		}
@@ -424,7 +424,7 @@ public class CommandParser
 
 				catch ( CommandException e )
 				{
-					log.log( Level.WARNING, e.toString() );
+					LOG.log( Level.WARNING, e.toString() );
 					uiMsg.showActionNotAllowed();
 				}
 			}
@@ -452,7 +452,7 @@ public class CommandParser
 
 			catch ( CommandException e )
 			{
-				log.log( Level.WARNING, e.toString() );
+				LOG.log( Level.WARNING, e.toString() );
 				uiMsg.showActionNotAllowed();
 			}
 		}

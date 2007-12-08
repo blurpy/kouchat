@@ -58,7 +58,7 @@ import net.usikkert.kouchat.util.Tools;
  */
 public class SwingMediator implements Mediator, UserInterface
 {
-	private static Logger log = Logger.getLogger( SwingMediator.class.getName() );
+	private static final Logger LOG = Logger.getLogger( SwingMediator.class.getName() );
 
 	private SidePanel sideP;
 	private SettingsDialog settingsDialog;
@@ -142,7 +142,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 				catch ( CommandException e )
 				{
-					log.log( Level.WARNING, e.toString() );
+					LOG.log( Level.WARNING, e.toString() );
 					JOptionPane.showMessageDialog( null, "You are not allowed to change away mode at this time...",
 							Constants.APP_NAME + " - Change away", JOptionPane.WARNING_MESSAGE );
 				}
@@ -172,7 +172,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 				catch ( CommandException e )
 				{
-					log.log( Level.WARNING, e.toString() );
+					LOG.log( Level.WARNING, e.toString() );
 					JOptionPane.showMessageDialog( null, "You are not allowed to change away mode at this time...",
 							Constants.APP_NAME + " - Change away", JOptionPane.WARNING_MESSAGE );
 				}
@@ -326,7 +326,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 				catch ( CommandException e )
 				{
-					log.log( Level.WARNING, e.toString() );
+					LOG.log( Level.WARNING, e.toString() );
 					uiMsg.showActionNotAllowed();
 				}
 			}
@@ -351,7 +351,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 			catch ( CommandException e )
 			{
-				log.log( Level.WARNING, e.toString() );
+				LOG.log( Level.WARNING, e.toString() );
 				uiMsg.showActionNotAllowed();
 			}
 		}
@@ -417,7 +417,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 				catch ( CommandException e )
 				{
-					log.log( Level.SEVERE, e.toString() );
+					LOG.log( Level.SEVERE, e.toString() );
 					JOptionPane.showMessageDialog( null, "You are not allowed to change nick at this time...",
 							Constants.APP_NAME + " - Change nick", JOptionPane.WARNING_MESSAGE );
 				}

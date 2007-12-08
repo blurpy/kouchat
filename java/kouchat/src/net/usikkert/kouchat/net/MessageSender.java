@@ -35,7 +35,7 @@ import net.usikkert.kouchat.misc.ErrorHandler;
 
 public class MessageSender
 {
-	private static Logger log = Logger.getLogger( MessageSender.class.getName() );
+	private static final Logger LOG = Logger.getLogger( MessageSender.class.getName() );
 
 	private MulticastSocket mcSocket;
 	private InetAddress address;
@@ -54,7 +54,7 @@ public class MessageSender
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.toString(), e );
+			LOG.log( Level.SEVERE, e.toString(), e );
 			errorHandler.showCriticalError( "Failed to initialize the network:\n" + e + "\n"
 					+ Constants.APP_NAME + " will now shutdown and quit..." );
 			System.exit( 1 );
@@ -72,7 +72,7 @@ public class MessageSender
 
 				if ( size > Constants.NETWORK_PACKET_SIZE )
 				{
-					log.log( Level.WARNING, "Message was " + size + " bytes, which is too large.\n"
+					LOG.log( Level.WARNING, "Message was " + size + " bytes, which is too large.\n"
 							+ " The receiver might not get the complete message.\n'" + message + "'" );
 				}
 
@@ -82,7 +82,7 @@ public class MessageSender
 
 			catch ( IOException e )
 			{
-				log.log( Level.WARNING, "Could not send message: " + message );
+				LOG.log( Level.WARNING, "Could not send message: " + message );
 			}
 		}
 	}
@@ -102,7 +102,7 @@ public class MessageSender
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.toString(), e );
+			LOG.log( Level.SEVERE, e.toString(), e );
 		}
 	}
 
@@ -116,7 +116,7 @@ public class MessageSender
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, "Could not start sender: " + e.toString() );
+			LOG.log( Level.SEVERE, "Could not start sender: " + e.toString() );
 		}
 	}
 
@@ -124,7 +124,7 @@ public class MessageSender
 	{
 		if ( !connected )
 		{
-			log.log( Level.WARNING, "Restarting sender..." );
+			LOG.log( Level.WARNING, "Restarting sender..." );
 			startSender();
 		}
 	}

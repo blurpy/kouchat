@@ -36,7 +36,7 @@ import net.usikkert.kouchat.misc.UserInterface;
  */
 public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 {
-	private static Logger log = Logger.getLogger( DefaultPrivateMessageResponder.class.getName() );
+	private static final Logger LOG = Logger.getLogger( DefaultPrivateMessageResponder.class.getName() );
 
 	private Controller controller;
 	private UserInterface ui;
@@ -58,10 +58,10 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 			NickDTO user = controller.getNick( userCode );
 
 			if ( user.isAway() )
-				log.log( Level.WARNING, "Got message from " + user.getNick() + " which is away: " + msg );
+				LOG.log( Level.WARNING, "Got message from " + user.getNick() + " which is away: " + msg );
 
 			else if ( user.getPrivateChatPort() == 0 )
-				log.log( Level.WARNING, "Got message from " + user.getNick() + " which has no reply port: " + msg );
+				LOG.log( Level.WARNING, "Got message from " + user.getNick() + " which has no reply port: " + msg );
 
 			else
 			{
@@ -75,7 +75,7 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 
 		else
 		{
-			log.log( Level.SEVERE, "Could not find user: " + userCode );
+			LOG.log( Level.SEVERE, "Could not find user: " + userCode );
 		}
 	}
 }

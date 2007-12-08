@@ -41,7 +41,7 @@ import net.usikkert.kouchat.misc.ErrorHandler;
  */
 public class UDPSender
 {
-	private static Logger log = Logger.getLogger( UDPSender.class.getName() );
+	private static final Logger LOG = Logger.getLogger( UDPSender.class.getName() );
 
 	private DatagramSocket udpSocket;
 	private boolean started;
@@ -74,7 +74,7 @@ public class UDPSender
 
 				if ( size > Constants.NETWORK_PACKET_SIZE )
 				{
-					log.log( Level.WARNING, "Message was " + size + " bytes, which is too large.\n"
+					LOG.log( Level.WARNING, "Message was " + size + " bytes, which is too large.\n"
 							+ " The receiver might not get the complete message.\n'" + message + "'" );
 				}
 
@@ -84,7 +84,7 @@ public class UDPSender
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, "Could not send message: " + message );
+				LOG.log( Level.SEVERE, "Could not send message: " + message );
 			}
 		}
 	}
@@ -115,7 +115,7 @@ public class UDPSender
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.toString(), e );
+			LOG.log( Level.SEVERE, e.toString(), e );
 			errorHandler.showError( "Failed to initialize network:\n" + e
 					+ "\n\nYou will not be able to send private messages!" );
 		}

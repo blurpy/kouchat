@@ -30,7 +30,7 @@ import net.usikkert.kouchat.misc.Settings;
 
 public class PrivateMessageParser implements ReceiverListener
 {
-	private static Logger log = Logger.getLogger( PrivateMessageParser.class.getName() );
+	private static final Logger LOG = Logger.getLogger( PrivateMessageParser.class.getName() );
 
 	private UDPReceiver receiver;
 	private Settings settings;
@@ -94,12 +94,12 @@ public class PrivateMessageParser implements ReceiverListener
 
 		catch ( StringIndexOutOfBoundsException e )
 		{
-			log.log( Level.SEVERE, e.toString(), e );
+			LOG.log( Level.SEVERE, e.toString(), e );
 		}
 
 		catch ( NumberFormatException e )
 		{
-			log.log( Level.SEVERE, e.toString(), e );
+			LOG.log( Level.SEVERE, e.toString(), e );
 		}
 	}
 }

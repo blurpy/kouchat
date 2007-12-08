@@ -30,7 +30,7 @@ import net.usikkert.kouchat.misc.Settings;
 
 public class MessageParser implements ReceiverListener
 {
-	private static Logger log = Logger.getLogger( MessageParser.class.getName() );
+	private static final Logger LOG = Logger.getLogger( MessageParser.class.getName() );
 
 	private MessageReceiver receiver;
 	private MessageResponder responder;
@@ -272,7 +272,7 @@ public class MessageParser implements ReceiverListener
 
 					catch ( NumberFormatException e )
 					{
-						log.log( Level.WARNING, e.toString() );
+						LOG.log( Level.WARNING, e.toString() );
 					}
 
 					responder.clientInfo( msgCode, client, timeSinceLogon, operatingSystem, privateChatPort );
@@ -293,12 +293,12 @@ public class MessageParser implements ReceiverListener
 
 		catch ( StringIndexOutOfBoundsException e )
 		{
-			log.log( Level.SEVERE, e.toString(), e );
+			LOG.log( Level.SEVERE, e.toString(), e );
 		}
 
 		catch ( NumberFormatException e )
 		{
-			log.log( Level.SEVERE, e.toString(), e );
+			LOG.log( Level.SEVERE, e.toString(), e );
 		}
 	}
 }

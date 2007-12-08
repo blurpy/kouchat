@@ -39,7 +39,7 @@ import net.usikkert.kouchat.util.ByteCounter;
 
 public class FileReceiver implements FileTransfer
 {
-	private static Logger log = Logger.getLogger( FileReceiver.class.getName() );
+	private static final Logger LOG = Logger.getLogger( FileReceiver.class.getName() );
 
 	private NickDTO nick;
 	private int percent;
@@ -82,7 +82,7 @@ public class FileReceiver implements FileTransfer
 
 			catch ( IOException e )
 			{
-				log.log( Level.WARNING, "Could not open " + port, e );
+				LOG.log( Level.WARNING, "Could not open " + port, e );
 				port++;
 			}
 
@@ -153,7 +153,7 @@ public class FileReceiver implements FileTransfer
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.toString() );
+			LOG.log( Level.SEVERE, e.toString() );
 			listener.statusFailed();
 		}
 
@@ -178,7 +178,7 @@ public class FileReceiver implements FileTransfer
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.toString(), e );
+			LOG.log( Level.SEVERE, e.toString(), e );
 		}
 
 		try
@@ -189,7 +189,7 @@ public class FileReceiver implements FileTransfer
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.toString(), e );
+			LOG.log( Level.SEVERE, e.toString(), e );
 		}
 
 		try
@@ -203,7 +203,7 @@ public class FileReceiver implements FileTransfer
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.toString(), e );
+			LOG.log( Level.SEVERE, e.toString(), e );
 		}
 
 		try
@@ -217,7 +217,7 @@ public class FileReceiver implements FileTransfer
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.toString(), e );
+			LOG.log( Level.SEVERE, e.toString(), e );
 		}
 
 		try
@@ -231,7 +231,7 @@ public class FileReceiver implements FileTransfer
 
 		catch ( IOException e )
 		{
-			log.log( Level.SEVERE, e.toString(), e );
+			LOG.log( Level.SEVERE, e.toString(), e );
 		}
 	}
 
@@ -317,7 +317,7 @@ public class FileReceiver implements FileTransfer
 
 			catch ( InterruptedException e )
 			{
-				log.log( Level.SEVERE, e.toString(), e );
+				LOG.log( Level.SEVERE, e.toString(), e );
 			}
 
 			try
@@ -331,7 +331,7 @@ public class FileReceiver implements FileTransfer
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.toString(), e );
+				LOG.log( Level.SEVERE, e.toString(), e );
 			}
 		}
 	}

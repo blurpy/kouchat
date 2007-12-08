@@ -40,7 +40,7 @@ import net.usikkert.kouchat.util.Tools;
 
 public class Controller
 {
-	private static Logger log = Logger.getLogger( Controller.class.getName() );
+	private static final Logger LOG = Logger.getLogger( Controller.class.getName() );
 
 	private ChatState chatState;
 	private NickController nickController;
@@ -363,7 +363,7 @@ public class Controller
 
 			catch ( InterruptedException e )
 			{
-				log.log( Level.SEVERE, e.toString(), e );
+				LOG.log( Level.SEVERE, e.toString(), e );
 			}
 
 			if ( isConnected() )

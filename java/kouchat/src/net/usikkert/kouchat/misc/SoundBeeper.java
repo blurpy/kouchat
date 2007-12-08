@@ -42,7 +42,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  */
 public class SoundBeeper
 {
-	private static Logger log = Logger.getLogger( SoundBeeper.class.getName() );
+	private static final Logger LOG = Logger.getLogger( SoundBeeper.class.getName() );
 
 	/**
 	 * The file to play when beep() is run.
@@ -99,7 +99,7 @@ public class SoundBeeper
 				}
 
 				else
-					log.log( Level.SEVERE, "Audio clip missing..." );
+					LOG.log( Level.SEVERE, "Audio clip missing..." );
 			}
 		}
 	}
@@ -130,7 +130,7 @@ public class SoundBeeper
 
 			catch ( UnsupportedAudioFileException e )
 			{
-				log.log( Level.SEVERE, e.toString() );
+				LOG.log( Level.SEVERE, e.toString() );
 				settings.setSound( false );
 				errorHandler.showError( "Could not initialize the sound..."
 						+ "\nUnsupported file format: " + BEEP_FILE );
@@ -138,7 +138,7 @@ public class SoundBeeper
 
 			catch ( IOException e )
 			{
-				log.log( Level.SEVERE, e.toString() );
+				LOG.log( Level.SEVERE, e.toString() );
 				settings.setSound( false );
 				errorHandler.showError( "Could not initialize the sound..."
 						+ "\nAudio file could not be opened: " + BEEP_FILE );
@@ -146,7 +146,7 @@ public class SoundBeeper
 
 			catch ( LineUnavailableException e )
 			{
-				log.log( Level.WARNING, e.toString() );
+				LOG.log( Level.WARNING, e.toString() );
 			}
 
 			finally
@@ -160,7 +160,7 @@ public class SoundBeeper
 
 					catch ( IOException e )
 					{
-						log.log( Level.WARNING, e.toString() );
+						LOG.log( Level.WARNING, e.toString() );
 					}
 				}
 
@@ -173,7 +173,7 @@ public class SoundBeeper
 
 					catch ( IOException e )
 					{
-						log.log( Level.WARNING, e.toString() );
+						LOG.log( Level.WARNING, e.toString() );
 					}
 				}
 			}
@@ -181,7 +181,7 @@ public class SoundBeeper
 
 		else
 		{
-			log.log( Level.SEVERE, "Audio file not found: " + BEEP_FILE );
+			LOG.log( Level.SEVERE, "Audio file not found: " + BEEP_FILE );
 			settings.setSound( false );
 			errorHandler.showError( "Could not initialize the sound..."
 					+ "\nAudio file not found: " + BEEP_FILE );
@@ -220,7 +220,7 @@ public class SoundBeeper
 
 				catch ( InterruptedException e )
 				{
-					log.log( Level.WARNING, e.toString() );
+					LOG.log( Level.WARNING, e.toString() );
 				}
 			}
 
