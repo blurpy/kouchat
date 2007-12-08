@@ -66,6 +66,9 @@ public final class Settings
 		listeners = new ArrayList<SettingsListener>();
 		errorHandler = ErrorHandler.getErrorHandler();
 		browser = "";
+		ownColor = -15987646;
+		sysColor = -16759040;
+
 		loadSettings();
 	}
 
