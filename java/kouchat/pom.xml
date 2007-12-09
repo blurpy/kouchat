@@ -136,6 +136,10 @@
           <targetJdk>1.5</targetJdk>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+      </plugin>
     </plugins>
   </reporting>
 </project>
