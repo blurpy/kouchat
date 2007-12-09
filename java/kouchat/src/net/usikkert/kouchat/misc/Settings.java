@@ -200,9 +200,9 @@ public final class Settings
 				LOG.log( Level.WARNING, "Could not read setting for syscolor.." );
 			}
 
-			logging = new Boolean( fileContents.getProperty( "logging" ) );
-			sound = new Boolean( fileContents.getProperty( "sound" ) );
-			debug = new Boolean( fileContents.getProperty( "debug" ) );
+			logging = Boolean.valueOf( fileContents.getProperty( "logging" ) );
+			sound = Boolean.valueOf( fileContents.getProperty( "sound" ) );
+			debug = Boolean.valueOf( fileContents.getProperty( "debug" ) );
 			browser = fileContents.getProperty( "browser" );
 		}
 
