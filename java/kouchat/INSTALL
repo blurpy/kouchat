@@ -1,37 +1,13 @@
 
 - KouChat v0.9.6 INSTALL
 
-There are 2 ways to compile KouChat. The easy way, and the easiest way :)
-
-
-* The easiest way
-
-The easiest way is by using Maven. If you don't have Maven, download
-from http://maven.apache.org/
+The recommended way to build KouChat is by using Maven.
+If you don't have Maven, download from http://maven.apache.org/
 
 To compile, stay in the root folder where pom.xml is, and run:
 'mvn'
 
 That's it! You should have a ready-to-use kouchat-0.9.6.jar file
 in the target folder.
-
-
-* The easy way
-
-The easy way is more manual. To run these commands,
-you need to be in the src folder.
-
-To compile the source:
-'javac net/usikkert/kouchat/KouChat.java'
-
-To run the program:
-'java net.usikkert.kouchat.KouChat'
-
-To make a jar file:
-'jar cvmf ../manifest.txt kouchat-0.9.6.jar net/usikkert/kouchat/*.class net/usikkert/kouchat/*/*.class net/usikkert/kouchat/*/*/*.class icons/*.png error.wav -C .. README -C .. COPYING -C .. FAQ'
-
-In Windows, you might need to change '/' with '\' and ':' with ';'
-and possibly more ;)
-
 
 Have fun! :)
