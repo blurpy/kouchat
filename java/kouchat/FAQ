@@ -68,7 +68,7 @@ in wired networks, but wireless networks might have some loss.
 The logs are put in the ~/.kouchat/logs/ folder, sorted by date and time
 of creation. For those wondering, ~ means home folder.
 In Windows XP that's usually
-C:\Documents and Settings\Your Username\ and in Linux it's /home/username/.
+C:\Documents and Settings\Your Username\ and in Linux it's /home/username/
 
 
 11. Why was the user list empty when I started KouChat?
@@ -84,11 +84,11 @@ the normal Windows character sets. A common DOS charset is cp850 and a
 common Windows charset is cp1252. I've found 2 ways to go around this problem:
 
 * Change the console charset to match the Windows charset.
-  For this to work you need a console font which supports the chosen charset,
-  like Lucida Console. Then use the command 'chcp' and the charset number
-  for your system: 'chcp 1252'.
+  If your Windows charset is cp1252, just run the command 'chcp 1252' before
+  starting KouChat like normal. For this to work you need a console font
+  which supports the chosen charset, like Lucida Console.
 
 * Change the Java charset to match the console charset.
   You can get the current console charset by running the command 'chcp'.
-  Then use that when starting KouChat:
+  Then use the charset number when starting KouChat:
   'java -Dfile.encoding=850 -jar kouchat-x.x.x.jar --console'.
