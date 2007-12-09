@@ -34,8 +34,8 @@ import net.usikkert.kouchat.event.SettingsListener;
 import net.usikkert.kouchat.util.Tools;
 
 /**
- * This is a simple logger. Creates a new unique log file for each time open()
- * is called.
+ * This is a simple logger. Creates a new unique log file for each time
+ * KouChat is started.
  *
  * @author Christian Ihle
  */
