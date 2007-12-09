@@ -22,6 +22,8 @@
           <include>COPYING</include>
           <include>README</include>
           <include>FAQ</include>
+          <include>CHANGES</include>
+          <include>kou_shortcut.*</include>
         </includes>
       </resource>
       <resource>
