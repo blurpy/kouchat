@@ -80,7 +80,8 @@ public class ChatLogger implements SettingsListener
 	}
 
 	/**
-	 * Opens a new log file for writing.
+	 * Opens the log file for writing.
+	 * Will append if the log file already exists.
 	 */
 	public void open()
 	{
@@ -93,7 +94,7 @@ public class ChatLogger implements SettingsListener
 			if ( !logdir.exists() )
 				logdir.mkdirs();
 
-			writer = new BufferedWriter( new FileWriter( Constants.APP_LOG_FOLDER + LOG_FILE ) );
+			writer = new BufferedWriter( new FileWriter( Constants.APP_LOG_FOLDER + LOG_FILE, true ) );
 			open = true;
 		}
 

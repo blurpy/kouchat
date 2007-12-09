@@ -10,6 +10,8 @@
     no new messages when the user logged off
   - Fixed NullPointerException when using ctrl+c to quit from console mode
   - Added sound notification when popup is shown to ask to receive a file
+  - Fixed a bug where the logger would overwrite the log file instead of
+    append to it if the option was enabled and disabled more than once
 
 
 * version 0.9.5 (02.12.2007):
