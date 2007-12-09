@@ -4,7 +4,7 @@
   <groupId>net.usikkert.kouchat</groupId>
   <artifactId>kouchat</artifactId>
   <packaging>jar</packaging>
-  <version>0.9.6</version>
+  <version>0.9.7-dev</version>
   <name>KouChat</name>
   <url>http://kouchat.googlecode.com/</url>
   <description>
@@ -127,6 +127,13 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
           <configLocation>kouchat_checks.xml</configLocation>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <configuration>
+          <targetJdk>1.5</targetJdk>
         </configuration>
       </plugin>
     </plugins>
