@@ -126,7 +126,8 @@ public class SettingsDialog extends JDialog implements ActionListener
 		soundCB = new JCheckBox( "Enable sound" );
 		soundCB.setToolTipText( "<html>Will give a short sound notification when"
 				+ "<br>a new message is received if " + Constants.APP_NAME
-				+ "<br>is minimized to the system tray.</html>" );
+				+ "<br>is minimized to the system tray, and"
+				+ "<br>when asked to receive a file.</html>" );
 
 		loggingCB = new JCheckBox( "Enable logging" );
 		loggingCB.setToolTipText( "<html>Stores the conversation in the main chat to a log file in"
