@@ -22,6 +22,7 @@
 package net.usikkert.kouchat.ui.swing;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.ui.util.UITools;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -42,6 +43,7 @@ import javax.swing.JFrame;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
+import javax.swing.UIManager;
 
 /**
  * This is the main chat window.
@@ -63,6 +65,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 	public KouChatFrame()
 	{
 		System.setProperty( Constants.PROPERTY_CLIENT_UI, "Swing" );
+		UITools.changeLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
 		new SwingPopupErrorHandler();
 
 		buttonP = new ButtonPanel();

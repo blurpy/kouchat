@@ -1,5 +1,9 @@
 
-- KouChat v0.9.6 CHANGES
+- KouChat v0.9.7 CHANGES
+
+* version 0.9.7 (xx.12.2007):
+  - Switched to use the system look and feel by default
+
 
 * version 0.9.6 (09.12.2007):
   - Changed message encoding to UTF-8

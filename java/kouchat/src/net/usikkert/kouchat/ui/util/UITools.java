@@ -31,6 +31,9 @@ import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 
@@ -106,6 +109,40 @@ public final class UITools
 		{
 			ERRORHANDLER.showError( "No browser detected."
 					+ " A browser can be chosen in the settings." );
+		}
+	}
+
+	/**
+	 * Changes the Swing Look And Feel.
+	 * Ignores any exceptions, as this is not critical.
+	 *
+	 * @param lookAndFeelClassName The name of the LookAndFeel class to use.
+	 */
+	public static void changeLookAndFeel( String lookAndFeelClassName )
+	{
+		try
+		{
+			UIManager.setLookAndFeel( lookAndFeelClassName );
+		}
+
+		catch ( ClassNotFoundException e )
+		{
+			LOG.log( Level.WARNING, e.toString() );
+		}
+
+		catch ( InstantiationException e )
+		{
+			LOG.log( Level.WARNING, e.toString() );
+		}
+
+		catch ( IllegalAccessException e )
+		{
+			LOG.log( Level.WARNING, e.toString() );
+		}
+
+		catch ( UnsupportedLookAndFeelException e )
+		{
+			LOG.log( Level.WARNING, e.toString() );
 		}
 	}
 }
