@@ -12,6 +12,7 @@
  - Better console error messages
  - Show license in about box, and have clickable links
  - Fix gui error messages
+ - Fix text length in file transfer dialog
 
 
 * Release v1.x:
