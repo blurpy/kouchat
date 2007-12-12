@@ -57,7 +57,7 @@ public class ButtonPanel extends JPanel implements ActionListener
 		minimizeB.addActionListener( this );
 		add( minimizeB );
 
-		setBorder( BorderFactory.createEmptyBorder( 1, 1, 2, 1 ) );
+		setBorder( BorderFactory.createEmptyBorder( 1, -1, 1, 1 ) );
 	}
 
 	public void setMediator( Mediator mediator )

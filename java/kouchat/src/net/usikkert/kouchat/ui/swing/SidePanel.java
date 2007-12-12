@@ -22,6 +22,7 @@
 package net.usikkert.kouchat.ui.swing;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -29,6 +30,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -64,7 +66,6 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 		fileTransferHandler = new FileTransferHandler( this );
 		nickL = new JList();
 		nickL.setCellRenderer( new NickListCellRenderer() );
-		nickL.setFixedCellWidth( 110 );
 		nickL.addMouseListener( this );
 		nickL.setTransferHandler( fileTransferHandler );
 		nickL.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -86,6 +87,9 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 		nickMenu.add( infoMI );
 		nickMenu.add( sendfileMI );
 		nickMenu.add( privchatMI );
+
+		setPreferredSize( new Dimension( 110, 0 ) );
+		setBorder( BorderFactory.createEmptyBorder( 0, -1, 0, 0 ) );
 
 		me = Settings.getSettings().getMe();
 	}

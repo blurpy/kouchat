@@ -23,6 +23,7 @@ package net.usikkert.kouchat.ui.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -34,6 +35,7 @@ import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
@@ -70,7 +72,9 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		chatTP = new JTextPane();
 		chatTP.setEditable( false );
 		chatTP.setBorder( BorderFactory.createEmptyBorder( 4, 6, 4, 6 ) );
+
 		chatSP = new JScrollPane( chatTP );
+		chatSP.setMinimumSize( new Dimension( 290, 200 ) );
 		chatAttr = new SimpleAttributeSet();
 		chatDoc = chatTP.getStyledDocument();
 
@@ -89,8 +93,13 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		AbstractDocument msgDoc = (AbstractDocument) msgTF.getDocument();
 		msgDoc.setDocumentFilter( new SizeDocumentFilter( Constants.MESSAGE_MAX_BYTES ) );
 
-		add( chatSP, BorderLayout.CENTER );
-		add( sideP, BorderLayout.EAST );
+		JSplitPane splitP = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, chatSP, sideP );
+		splitP.setResizeWeight( 1.0 );
+		splitP.setContinuousLayout( true );
+		splitP.setDividerSize( 4 );
+		splitP.setBorder( null );
+
+		add( splitP, BorderLayout.CENTER );
 		add( msgTF, BorderLayout.SOUTH );
 
 		new MsgPopup( msgTF );

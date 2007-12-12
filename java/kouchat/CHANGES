@@ -3,6 +3,7 @@
 
 * version 0.9.7 (xx.12.2007):
   - Switched to use the system look and feel by default
+  - Added drag handle between nick list and chat area
 
 
 * version 0.9.6 (09.12.2007):
