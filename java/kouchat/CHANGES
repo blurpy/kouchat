@@ -3,7 +3,9 @@
 
 * version 0.9.7 (xx.12.2007):
   - Switched to use the system look and feel by default
-  - Added drag handle between nick list and chat area
+  - Tweaked placement of some components in the gui
+  - Tweaked the cell renderer for the nick list to work better
+    with system look and feel
 
 
 * version 0.9.6 (09.12.2007):
