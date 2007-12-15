@@ -358,7 +358,7 @@ public class Controller
 		{
 			try
 			{
-				Thread.sleep( 800 );
+				Thread.sleep( 1500 );
 			}
 
 			catch ( InterruptedException e )
