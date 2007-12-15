@@ -315,6 +315,12 @@ public class Controller
 		return false;
 	}
 
+	public void updateAfterTimeout()
+	{
+		if ( nickController.isTimeoutUsers() )
+			messages.sendExposeMessage();
+	}
+
 	public void sendClientInfo()
 	{
 		messages.sendClient();

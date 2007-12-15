@@ -74,6 +74,8 @@ public class IdleThread extends Thread
 						me.setLastIdle( System.currentTimeMillis() );
 				}
 
+				boolean timeout = false;
+
 				for ( int i = 0; i < nickList.size(); i++ )
 				{
 					NickDTO temp = nickList.get( i );
@@ -82,9 +84,13 @@ public class IdleThread extends Thread
 					{
 						nickList.remove( temp );
 						userTimedOut( temp );
+						timeout = true;
 						i--;
 					}
 				}
+
+				if ( timeout )
+					controller.updateAfterTimeout();
 			}
 
 			catch ( InterruptedException e )

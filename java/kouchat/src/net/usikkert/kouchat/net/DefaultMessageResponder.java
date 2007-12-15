@@ -257,6 +257,16 @@ public class DefaultMessageResponder implements MessageResponder
 				controller.getNickList().add( user );
 			}
 		}
+
+		else
+		{
+			NickDTO orgUser = controller.getNick( user.getCode() );
+
+			if ( !orgUser.getNick().equals( user.getNick() ) )
+			{
+				nickChanged( user.getCode(), user.getNick() );
+			}
+		}
 	}
 
 	@Override
@@ -384,15 +394,18 @@ public class DefaultMessageResponder implements MessageResponder
 
 		else
 		{
-			NickDTO user = controller.getNick( userCode );
-			String oldNick = user.getNick();
-			controller.changeNick( userCode, newNick );
-			uiMsg.showNickChanged( oldNick, newNick );
-
-			if ( user.getPrivchat() != null )
+			if ( !controller.isNickInUse( newNick ) && Tools.isValidNick( newNick ) )
 			{
-				uiMsg.showPrivateNickChanged( user, oldNick );
-				user.getPrivchat().updateNick();
+				NickDTO user = controller.getNick( userCode );
+				String oldNick = user.getNick();
+				controller.changeNick( userCode, newNick );
+				uiMsg.showNickChanged( oldNick, newNick );
+
+				if ( user.getPrivchat() != null )
+				{
+					uiMsg.showPrivateNickChanged( user, oldNick );
+					user.getPrivchat().updateNick();
+				}
 			}
 		}
 	}

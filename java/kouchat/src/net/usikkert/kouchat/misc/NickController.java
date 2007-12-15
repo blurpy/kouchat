@@ -168,6 +168,19 @@ public class NickController
 		return newUser;
 	}
 
+	public boolean isTimeoutUsers()
+	{
+		for ( int i = 0; i < nickList.size(); i++ )
+		{
+			NickDTO temp = nickList.get( i );
+
+			if ( temp.getNick().equals( "" + temp.getCode() ) )
+				return true;
+		}
+
+		return false;
+	}
+
 	public NickList getNickList()
 	{
 		return nickList;
