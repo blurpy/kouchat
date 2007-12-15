@@ -46,7 +46,7 @@ public final class Settings
 
 	private NickDTO me;
 	private int ownColor, sysColor;
-	private boolean sound, logging, debug;
+	private boolean sound, logging, debug, nativeLnF;
 	private List<SettingsListener> listeners;
 	private ErrorHandler errorHandler;
 	private String browser;
@@ -69,6 +69,7 @@ public final class Settings
 		ownColor = -15987646;
 		sysColor = -16759040;
 		sound = true;
+		nativeLnF = true;
 
 		loadSettings();
 	}
@@ -107,6 +108,9 @@ public final class Settings
 			buffWriter.newLine();
 			// Properties does not support loading back slash, so replace with forward slash
 			buffWriter.write( "browser=" + browser.replaceAll( "\\\\", "/" ) );
+			buffWriter.newLine();
+			buffWriter.write( "nativelnf=" + nativeLnF );
+			buffWriter.newLine();
 		}
 
 		catch ( IOException e )
@@ -204,6 +208,7 @@ public final class Settings
 			sound = Boolean.valueOf( fileContents.getProperty( "sound" ) );
 			debug = Boolean.valueOf( fileContents.getProperty( "debug" ) );
 			browser = fileContents.getProperty( "browser" );
+			nativeLnF = Boolean.valueOf( fileContents.getProperty( "nativelnf" ) );
 		}
 
 		catch ( FileNotFoundException e )
@@ -310,6 +315,16 @@ public final class Settings
 	public void setBrowser( String browser )
 	{
 		this.browser = browser;
+	}
+
+	public boolean isNativeLnF()
+	{
+		return nativeLnF;
+	}
+
+	public void setNativeLnF( boolean nativeLnF )
+	{
+		this.nativeLnF = nativeLnF;
 	}
 
 	private void fireSettingChanged( String setting )

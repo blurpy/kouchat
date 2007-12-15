@@ -60,6 +60,7 @@ import javax.swing.SwingUtilities;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.ui.util.UITools;
 
 /**
  * This is the dialog window used to change settings.
@@ -74,7 +75,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 	private JButton saveB, cancelB, chooseOwnColorB, chooseSysColorB, testBrowserB, chooseBrowserB;
 	private JTextField nickTF, browserTF;
 	private JLabel nickL, ownColorL, sysColorL, browserL;
-	private JCheckBox soundCB, loggingCB;
+	private JCheckBox soundCB, loggingCB, nativeLnFCB;
 	private Settings settings;
 	private Mediator mediator;
 	private ErrorHandler errorHandler;
@@ -134,9 +135,18 @@ public class SettingsDialog extends JDialog implements ActionListener
 				+ "<br>" + Constants.APP_LOG_FOLDER
 				+ "<br>Only text written after this option was enabled will be stored.</html>" );
 
-		JPanel miscP = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
+		nativeLnFCB = new JCheckBox( "Use native look" );
+		nativeLnFCB.setToolTipText( "<html>Makes " + Constants.APP_NAME + " blend more with the look and"
+				+ "<br>feel of your Operating System. A restart is"
+				+ "<br>required before the changes are visible.</html>" );
+
+		if ( !UITools.isSystemLookAndFeelSupported() )
+			nativeLnFCB.setEnabled( false );
+
+		JPanel miscP = new JPanel( new GridLayout( 2, 2 ) );
 		miscP.add( soundCB );
 		miscP.add( loggingCB );
+		miscP.add( nativeLnFCB );
 		miscP.setBorder( BorderFactory.createTitledBorder( "Misc" ) );
 
 		browserL = new JLabel( "Browser: " );
@@ -254,6 +264,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 						settings.setSound( soundCB.isSelected() );
 						settings.setLogging( loggingCB.isSelected() );
 						settings.setBrowser( browserTF.getText() );
+						settings.setNativeLnF( nativeLnFCB.isSelected() );
 						settings.saveSettings();
 						setVisible( false );
 					}
@@ -383,6 +394,10 @@ public class SettingsDialog extends JDialog implements ActionListener
 		soundCB.setSelected( settings.isSound() );
 		loggingCB.setSelected( settings.isLogging() );
 		browserTF.setText( settings.getBrowser() );
+
+		if ( nativeLnFCB.isEnabled() )
+			nativeLnFCB.setSelected( settings.isNativeLnF() );
+
 		setVisible( true );
 		nickTF.requestFocusInWindow();
 	}

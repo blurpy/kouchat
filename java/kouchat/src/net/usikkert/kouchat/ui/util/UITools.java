@@ -113,36 +113,49 @@ public final class UITools
 	}
 
 	/**
-	 * Changes the Swing Look And Feel.
+	 * Changes to the system Look And Feel.
 	 * Ignores any exceptions, as this is not critical.
-	 *
-	 * @param lookAndFeelClassName The name of the LookAndFeel class to use.
 	 */
-	public static void changeLookAndFeel( String lookAndFeelClassName )
+	public static void setSystemLookAndFeel()
 	{
-		try
+		if ( isSystemLookAndFeelSupported() )
 		{
-			UIManager.setLookAndFeel( lookAndFeelClassName );
-		}
+			try
+			{
+				UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
+			}
 
-		catch ( ClassNotFoundException e )
-		{
-			LOG.log( Level.WARNING, e.toString() );
-		}
+			catch ( ClassNotFoundException e )
+			{
+				LOG.log( Level.WARNING, e.toString() );
+			}
 
-		catch ( InstantiationException e )
-		{
-			LOG.log( Level.WARNING, e.toString() );
-		}
+			catch ( InstantiationException e )
+			{
+				LOG.log( Level.WARNING, e.toString() );
+			}
 
-		catch ( IllegalAccessException e )
-		{
-			LOG.log( Level.WARNING, e.toString() );
-		}
+			catch ( IllegalAccessException e )
+			{
+				LOG.log( Level.WARNING, e.toString() );
+			}
 
-		catch ( UnsupportedLookAndFeelException e )
-		{
-			LOG.log( Level.WARNING, e.toString() );
+			catch ( UnsupportedLookAndFeelException e )
+			{
+				LOG.log( Level.WARNING, e.toString() );
+			}
 		}
+	}
+
+	/**
+	 * Checks if the system look and feel differs
+	 * from the cross platform look and feel.
+	 *
+	 * @return True if the system look and feel is different
+	 * from the cross platform look and feel.
+	 */
+	public static boolean isSystemLookAndFeelSupported()
+	{
+		return !UIManager.getSystemLookAndFeelClassName().equals( UIManager.getCrossPlatformLookAndFeelClassName() );
 	}
 }
