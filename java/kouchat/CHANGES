@@ -3,7 +3,7 @@
 
 * version 0.9.7 (xx.12.2007):
   - Switched to use the system look and feel by default
-  - Tweaked placement of some components in the gui
+  - Tweaked borders
   - Tweaked the cell renderer for the nick list to work better
     with system look and feel
   - Increased delayed logon timer, to avoid getting messages that
