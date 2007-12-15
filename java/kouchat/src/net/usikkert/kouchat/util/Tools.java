@@ -28,6 +28,7 @@ import java.text.SimpleDateFormat;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -92,7 +93,7 @@ public final class Tools
 	public static String dateToString( Date d, String format )
 	{
 		String date = "";
-		SimpleDateFormat formatter = new SimpleDateFormat( format );
+		SimpleDateFormat formatter = new SimpleDateFormat( format, Locale.ENGLISH );
 
 		if ( d == null )
 			d = new Date();
