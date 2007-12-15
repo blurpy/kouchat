@@ -3,7 +3,8 @@
 
 * version 0.9.7 (xx.12.2007):
   - Switched to use the system look and feel by default
-  - Tweaked borders
+  - Added option to switch between system lnf and cross platform lnf
+  - Tweaked margins between components
   - Tweaked the cell renderer for the nick list to work better
     with the system look and feel
   - Increased delayed logon timer, to avoid getting messages about
