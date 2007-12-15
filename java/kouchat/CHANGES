@@ -5,9 +5,11 @@
   - Switched to use the system look and feel by default
   - Tweaked borders
   - Tweaked the cell renderer for the nick list to work better
-    with system look and feel
-  - Increased delayed logon timer, to avoid getting messages that
-    users suddenly showed up, if startup is slow
+    with the system look and feel
+  - Increased delayed logon timer, to avoid getting messages about
+    users suddenly showing up, if startup is slow
+  - Changed to show the date in English instead of the local language
+  - Removed "..." from a lot of messages
 
 
 * version 0.9.6 (09.12.2007):
