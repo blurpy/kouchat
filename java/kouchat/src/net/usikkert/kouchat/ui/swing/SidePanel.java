@@ -30,7 +30,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -89,8 +88,6 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 		nickMenu.add( privchatMI );
 
 		setPreferredSize( new Dimension( 110, 0 ) );
-		setBorder( BorderFactory.createEmptyBorder( 0, -1, 0, 0 ) );
-
 		me = Settings.getSettings().getMe();
 	}
 

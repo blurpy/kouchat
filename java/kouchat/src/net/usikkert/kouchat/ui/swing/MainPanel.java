@@ -35,7 +35,6 @@ import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
@@ -93,13 +92,8 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		AbstractDocument msgDoc = (AbstractDocument) msgTF.getDocument();
 		msgDoc.setDocumentFilter( new SizeDocumentFilter( Constants.MESSAGE_MAX_BYTES ) );
 
-		JSplitPane splitP = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, chatSP, sideP );
-		splitP.setResizeWeight( 1.0 );
-		splitP.setContinuousLayout( true );
-		splitP.setDividerSize( 4 );
-		splitP.setBorder( null );
-
-		add( splitP, BorderLayout.CENTER );
+		add( chatSP, BorderLayout.CENTER );
+		add( sideP, BorderLayout.EAST );
 		add( msgTF, BorderLayout.SOUTH );
 
 		new MsgPopup( msgTF );
