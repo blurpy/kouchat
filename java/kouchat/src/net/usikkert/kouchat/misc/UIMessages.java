@@ -70,23 +70,23 @@ public class UIMessages
 	}
 
 	/**
-	 * Shows "user logged off..."
+	 * Shows "user logged off"
 	 *
 	 * @param user The user that logged off
 	 */
 	public void showLoggedOff( String user )
 	{
-		msgController.showSystemMessage( user + " logged off..." );
+		msgController.showSystemMessage( user + " logged off" );
 	}
 
 	/**
-	 * Shows "user removed the topic..."
+	 * Shows "user removed the topic"
 	 *
 	 * @param user The user that removed the topic
 	 */
 	public void showTopicRemoved( String user )
 	{
-		msgController.showSystemMessage( user + " removed the topic..." );
+		msgController.showSystemMessage( user + " removed the topic" );
 	}
 
 	/**
@@ -134,13 +134,13 @@ public class UIMessages
 	}
 
 	/**
-	 * Shows "user came back..."
+	 * Shows "user came back"
 	 *
 	 * @param user The user that came back
 	 */
 	public void showUserBack( String user )
 	{
-		msgController.showSystemMessage( user + " came back..." );
+		msgController.showSystemMessage( user + " came back" );
 	}
 
 	/**
@@ -154,22 +154,22 @@ public class UIMessages
 	}
 
 	/**
-	 * Shows "no topic set..."
+	 * Shows "no topic set"
 	 */
 	public void showNoTopic()
 	{
-		msgController.showSystemMessage( "No topic set..." );
+		msgController.showSystemMessage( "No topic set" );
 	}
 
 	/**
-	 * Shows "user logged on from ipAddress..."
+	 * Shows "user logged on from ipAddress"
 	 *
 	 * @param user The user that logged on
 	 * @param ipAddress The ip address of the user that logged on
 	 */
 	public void showUserLoggedOn( String user, String ipAddress )
 	{
-		msgController.showSystemMessage( user + " logged on from " + ipAddress + "..." );
+		msgController.showSystemMessage( user + " logged on from " + ipAddress );
 	}
 
 	/**
@@ -234,7 +234,7 @@ public class UIMessages
 	 */
 	public void showShowedUnexpectedly( String user, String ipAddress )
 	{
-		msgController.showSystemMessage( user + " showed up unexpectedly from " + ipAddress + "..." );
+		msgController.showSystemMessage( user + " showed up unexpectedly from " + ipAddress );
 	}
 
 	/**
@@ -256,17 +256,17 @@ public class UIMessages
 	 */
 	public void showUnknownCommand( String command )
 	{
-		msgController.showSystemMessage( "Unknown command '" + command + "'. Type /help for a list of commands." );
+		msgController.showSystemMessage( "Unknown command '" + command + "'. Type /help for a list of commands" );
 	}
 
 	/**
-	 * Shows "user timed out..."
+	 * Shows "user timed out"
 	 *
 	 * @param user The user that timed out
 	 */
 	public void showUserTimedOut( String user )
 	{
-		msgController.showSystemMessage( user + " timed out..." );
+		msgController.showSystemMessage( user + " timed out" );
 	}
 
 	/**
@@ -510,13 +510,13 @@ public class UIMessages
 	}
 
 	/**
-	 * Shows "/nick - 'nick' is in use by someone else..."
+	 * Shows "/nick - 'nick' is in use by someone else"
 	 *
 	 * @param nick The nick in use
 	 */
 	public void showCmdNickInUse( String nick )
 	{
-		msgController.showSystemMessage( "/nick - '" + nick + "' is in use by someone else..." );
+		msgController.showSystemMessage( "/nick - '" + nick + "' is in use by someone else" );
 	}
 
 	/**
@@ -550,27 +550,27 @@ public class UIMessages
 	}
 
 	/**
-	 * Shows "/back - you are not away..."
+	 * Shows "/back - you are not away"
 	 */
 	public void showCmdBackNotAway()
 	{
-		msgController.showSystemMessage( "/back - you are not away..." );
+		msgController.showSystemMessage( "/back - you are not away" );
 	}
 
 	/**
-	 * Shows "Action not allowed at this time..."
+	 * Shows "Action not allowed at this time"
 	 */
 	public void showActionNotAllowed()
 	{
-		msgController.showSystemMessage( "Action not allowed at this time..." );
+		msgController.showSystemMessage( "Action not allowed at this time" );
 	}
 
 	/**
-	 * Shows "Operation not supported..."
+	 * Shows "Operation not supported"
 	 */
 	public void showNotSupported()
 	{
-		msgController.showSystemMessage( "Operation not supported..." );
+		msgController.showSystemMessage( "Operation not supported" );
 	}
 
 	/**
@@ -619,13 +619,13 @@ public class UIMessages
 	}
 
 	/**
-	 * Shows "/msg - user can't receive private chat messages..."
+	 * Shows "/msg - user can't receive private chat messages"
 	 *
 	 * @param user The user who could not receive private chat messages.
 	 */
 	public void showCmdMsgNoPort( String user )
 	{
-		msgController.showSystemMessage( "/msg - " + user + " can't receive private chat messages..." );
+		msgController.showSystemMessage( "/msg - " + user + " can't receive private chat messages" );
 	}
 
 	/**
@@ -652,23 +652,23 @@ public class UIMessages
 	}
 
 	/**
-	 * Shows "user logged off..."
+	 * Shows "user logged off"
 	 *
 	 * @param user The user that logged off
 	 */
 	public void showPrivateLoggedOff( NickDTO user )
 	{
-		msgController.showPrivateSystemMessage( user, user.getNick() + " logged off..." );
+		msgController.showPrivateSystemMessage( user, user.getNick() + " logged off" );
 	}
 
 	/**
-	 * Shows "user timed out..."
+	 * Shows "user timed out"
 	 *
 	 * @param user The user that timed out
 	 */
 	public void showPrivateUserTimedOut( NickDTO user )
 	{
-		msgController.showPrivateSystemMessage( user, user.getNick() + " timed out..." );
+		msgController.showPrivateSystemMessage( user, user.getNick() + " timed out" );
 	}
 
 	/**
@@ -693,12 +693,12 @@ public class UIMessages
 	}
 
 	/**
-	 * Shows "user came back..."
+	 * Shows "user came back"
 	 *
 	 * @param user The user that came back
 	 */
 	public void showPrivateUserBack( NickDTO user )
 	{
-		msgController.showPrivateSystemMessage( user, user.getNick() + " came back..." );
+		msgController.showPrivateSystemMessage( user, user.getNick() + " came back" );
 	}
 }
