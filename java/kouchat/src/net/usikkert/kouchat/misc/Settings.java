@@ -208,7 +208,7 @@ public final class Settings
 
 		catch ( FileNotFoundException e )
 		{
-			LOG.log( Level.WARNING, "Could not find " + FILENAME + ", using default settings..." );
+			LOG.log( Level.WARNING, "Could not find " + FILENAME + ", using default settings." );
 		}
 
 		catch ( IOException e )

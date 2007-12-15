@@ -179,9 +179,9 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 		status2L.setForeground( new Color( 0, 176, 0 ) );
 
 		if ( fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE )
-			status2L.setText( "Receiving complete..." );
+			status2L.setText( "File successfully received" );
 		else if ( fileTransfer.getDirection() == FileTransfer.Direction.SEND )
-			status2L.setText( "Sending complete..." );
+			status2L.setText( "File successfully sent" );
 
 		cancelB.setText( "Close" );
 	}
@@ -198,9 +198,9 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 		status2L.setForeground( Color.RED );
 
 		if ( fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE )
-			status2L.setText( "Receiving failed..." );
+			status2L.setText( "Failed to receive file" );
 		else if ( fileTransfer.getDirection() == FileTransfer.Direction.SEND )
-			status2L.setText( "Sending failed..." );
+			status2L.setText( "Failed to send file" );
 
 		cancelB.setText( "Close" );
 	}

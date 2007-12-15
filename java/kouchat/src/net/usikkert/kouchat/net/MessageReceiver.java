@@ -59,7 +59,7 @@ public class MessageReceiver implements Runnable
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 			errorHandler.showCriticalError( "Failed to initialize the network:\n" + e + "\n"
-					+ Constants.APP_NAME + " will now shutdown and quit..." );
+					+ Constants.APP_NAME + " will now shutdown." );
 			System.exit( 1 );
 		}
 	}
@@ -135,7 +135,7 @@ public class MessageReceiver implements Runnable
 
 	public boolean restartReceiver()
 	{
-		LOG.log( Level.WARNING, "Restarting receiver..." );
+		LOG.log( Level.WARNING, "Restarting receiver." );
 
 		boolean success = false;
 
@@ -162,7 +162,7 @@ public class MessageReceiver implements Runnable
 
 		if ( success && ( worker == null || !worker.isAlive() ) )
 		{
-			LOG.log( Level.SEVERE, "Thread is dead. Starting..." );
+			LOG.log( Level.SEVERE, "Thread is dead. Restarting." );
 			connected = true;
 			startThread();
 		}

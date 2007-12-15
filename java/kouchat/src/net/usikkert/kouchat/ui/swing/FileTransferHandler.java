@@ -154,7 +154,7 @@ public class FileTransferHandler extends TransferHandler
 
 				else
 				{
-					LOG.log( Level.WARNING, "Data flavor not supported..." );
+					LOG.log( Level.WARNING, "Data flavor not supported." );
 				}
 
 				if ( file != null )
@@ -164,7 +164,7 @@ public class FileTransferHandler extends TransferHandler
 				}
 
 				else
-					LOG.log( Level.WARNING, "No file dropped..." );
+					LOG.log( Level.WARNING, "No file dropped." );
 			}
 
 			catch ( UnsupportedFlavorException e )

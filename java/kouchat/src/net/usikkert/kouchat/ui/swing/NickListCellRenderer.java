@@ -82,7 +82,7 @@ public class NickListCellRenderer extends JLabel implements ListCellRenderer
 				missing = "* " + IMG_DOT;
 
 			String error = "These images were expected, but not found:\n\n" + missing + "\n\n"
-					+ Constants.APP_NAME + " will now shutdown and quit...";
+					+ Constants.APP_NAME + " will now shutdown.";
 
 			LOG.log( Level.SEVERE, error );
 			errorHandler.showCriticalError( error );
@@ -148,7 +148,7 @@ public class NickListCellRenderer extends JLabel implements ListCellRenderer
 		}
 
 		else
-			LOG.log( Level.WARNING, "Got a null list element..." );
+			LOG.log( Level.WARNING, "Got a null list element." );
 
 		setEnabled( list.isEnabled() );
 		setComponentOrientation( list.getComponentOrientation() );

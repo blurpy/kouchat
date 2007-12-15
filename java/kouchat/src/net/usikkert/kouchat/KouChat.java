@@ -62,7 +62,7 @@ public final class KouChat
 		System.out.println( "By " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL + " - " + Constants.APP_WEB );
 
 		if ( args.length == 0 )
-			System.out.println( "Use --help for more information..." );
+			System.out.println( "Use --help for more information" );
 
 		boolean swing = true;
 		boolean help = false;
@@ -77,7 +77,7 @@ public final class KouChat
 
 			else
 			{
-				System.out.println( "\nUnknown argument '" + args[i] + "'. Use --help for more information..." );
+				System.out.println( "\nUnknown argument '" + args[i] + "'. Use --help for more information" );
 				return;
 			}
 		}
@@ -94,13 +94,13 @@ public final class KouChat
 		{
 			if ( swing )
 			{
-				System.out.println( "\nLoading Swing User Interface...\n" );
+				System.out.println( "\nLoading Swing User Interface\n" );
 				new UIFactory().loadUI( "swing" );
 			}
 
 			else
 			{
-				System.out.println( "\nLoading Console User Interface...\n" );
+				System.out.println( "\nLoading Console User Interface\n" );
 				new UIFactory().loadUI( "console" );
 			}
 		}

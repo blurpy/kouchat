@@ -70,7 +70,7 @@ public class ConsoleInput
 		{
 			public void run()
 			{
-				System.out.println( "Quitting... Bye!" );
+				System.out.println( "Quitting - good bye!" );
 			}
 		} );
 	}

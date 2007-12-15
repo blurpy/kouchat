@@ -96,7 +96,7 @@ public class SysTray implements ActionListener, MouseListener
 				}
 
 				String error = "These images were expected, but not found:\n\n" + missing + "\n\n"
-						+ Constants.APP_NAME + " will now shutdown and quit...";
+						+ Constants.APP_NAME + " will now shutdown.";
 
 				LOG.log( Level.SEVERE, error );
 				errorHandler.showCriticalError( error );
@@ -130,13 +130,13 @@ public class SysTray implements ActionListener, MouseListener
 				// This happens if the System Tray is hidden on a system
 				// that actually supports a System Tray.
 				LOG.log( Level.SEVERE, e.toString() );
-				errorHandler.showError( "System Tray is not visible. Deactivating System Tray support..." );
+				errorHandler.showError( "System Tray is not visible. Deactivating System Tray support." );
 			}
 		}
 
 		else
 		{
-			String error = "System Tray is not supported. Deactivating System Tray support...";
+			String error = "System Tray is not supported. Deactivating System Tray support.";
 			LOG.log( Level.SEVERE, error );
 			errorHandler.showError( error );
 		}

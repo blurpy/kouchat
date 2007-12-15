@@ -92,7 +92,7 @@ public class IdleThread extends Thread
 				LOG.log( Level.SEVERE, e.toString(), e );
 				run = false;
 				errorHandler.showCriticalError( "The idle thread failed:\n" + e + "\n"
-						+ Constants.APP_NAME + " will now shutdown and quit..." );
+						+ Constants.APP_NAME + " will now shutdown." );
 				System.exit( 1 );
 			}
 		}

@@ -99,7 +99,7 @@ public class SoundBeeper
 				}
 
 				else
-					LOG.log( Level.SEVERE, "Audio clip missing..." );
+					LOG.log( Level.SEVERE, "Audio clip missing." );
 			}
 		}
 	}
@@ -132,7 +132,7 @@ public class SoundBeeper
 			{
 				LOG.log( Level.SEVERE, e.toString() );
 				settings.setSound( false );
-				errorHandler.showError( "Could not initialize the sound..."
+				errorHandler.showError( "Could not initialize the sound."
 						+ "\nUnsupported file format: " + BEEP_FILE );
 			}
 
@@ -140,7 +140,7 @@ public class SoundBeeper
 			{
 				LOG.log( Level.SEVERE, e.toString() );
 				settings.setSound( false );
-				errorHandler.showError( "Could not initialize the sound..."
+				errorHandler.showError( "Could not initialize the sound."
 						+ "\nAudio file could not be opened: " + BEEP_FILE );
 			}
 
@@ -183,7 +183,7 @@ public class SoundBeeper
 		{
 			LOG.log( Level.SEVERE, "Audio file not found: " + BEEP_FILE );
 			settings.setSound( false );
-			errorHandler.showError( "Could not initialize the sound..."
+			errorHandler.showError( "Could not initialize the sound."
 					+ "\nAudio file not found: " + BEEP_FILE );
 		}
 	}

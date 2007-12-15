@@ -54,7 +54,7 @@ public class UDPReceiverTest implements ReceiverListener
 	@Test
 	public void testRun()
 	{
-		// Don't test the run method of a thread...
+		// Don't test the run method of a thread
 	}
 
 	@Test

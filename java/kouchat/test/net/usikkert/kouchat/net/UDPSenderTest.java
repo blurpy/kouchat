@@ -53,7 +53,7 @@ public class UDPSenderTest
 	public void testSend()
 	{
 		testStartSender();
-		sender.send( "testing testing...", "192.168.1.4", 1234 );
+		sender.send( "testing testing", "192.168.1.4", 1234 );
 	}
 
 	@Test

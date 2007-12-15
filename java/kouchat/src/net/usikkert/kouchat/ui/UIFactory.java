@@ -48,7 +48,7 @@ public class UIFactory
 	{
 		if ( done )
 		{
-			throw new UIException( "A User Interface has already been loaded..." );
+			throw new UIException( "A User Interface has already been loaded." );
 		}
 
 		else
@@ -58,7 +58,7 @@ public class UIFactory
 				if ( GraphicsEnvironment.isHeadless() )
 				{
 					throw new UIException( "The Swing User Interface could not be loaded"
-							+ " because a graphical environment could not be detected... " );
+							+ " because a graphical environment could not be detected." );
 				}
 
 				else
@@ -76,7 +76,7 @@ public class UIFactory
 
 			else
 			{
-				throw new UIException( "Unknown User Interface requested..." );
+				throw new UIException( "Unknown User Interface requested." );
 			}
 		}
 	}

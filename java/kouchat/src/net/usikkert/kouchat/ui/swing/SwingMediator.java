@@ -143,7 +143,7 @@ public class SwingMediator implements Mediator, UserInterface
 				catch ( CommandException e )
 				{
 					LOG.log( Level.WARNING, e.toString() );
-					JOptionPane.showMessageDialog( null, "You are not allowed to change away mode at this time...",
+					JOptionPane.showMessageDialog( null, "You are not allowed to change away mode at this time.",
 							Constants.APP_NAME + " - Change away", JOptionPane.WARNING_MESSAGE );
 				}
 			}
@@ -173,7 +173,7 @@ public class SwingMediator implements Mediator, UserInterface
 				catch ( CommandException e )
 				{
 					LOG.log( Level.WARNING, e.toString() );
-					JOptionPane.showMessageDialog( null, "You are not allowed to change away mode at this time...",
+					JOptionPane.showMessageDialog( null, "You are not allowed to change away mode at this time.",
 							Constants.APP_NAME + " - Change away", JOptionPane.WARNING_MESSAGE );
 				}
 			}
@@ -394,7 +394,7 @@ public class SwingMediator implements Mediator, UserInterface
 		{
 			if ( controller.isNickInUse( nick ) )
 			{
-				JOptionPane.showMessageDialog( null, "The nick is in use by someone else...", Constants.APP_NAME
+				JOptionPane.showMessageDialog( null, "The nick is in use by someone else.", Constants.APP_NAME
 						+ " - Change nick", JOptionPane.WARNING_MESSAGE );
 			}
 
@@ -418,7 +418,7 @@ public class SwingMediator implements Mediator, UserInterface
 				catch ( CommandException e )
 				{
 					LOG.log( Level.SEVERE, e.toString() );
-					JOptionPane.showMessageDialog( null, "You are not allowed to change nick at this time...",
+					JOptionPane.showMessageDialog( null, "You are not allowed to change nick at this time.",
 							Constants.APP_NAME + " - Change nick", JOptionPane.WARNING_MESSAGE );
 				}
 			}

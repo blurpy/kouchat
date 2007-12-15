@@ -62,7 +62,7 @@ public class MessageParserTest implements MessageResponder
 	@Test
 	public void testMessageParser()
 	{
-		// Already done that...
+		// Already done that
 	}
 
 	@Test

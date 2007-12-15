@@ -113,9 +113,9 @@ public class Controller
 	public void changeAwayStatus( int code, boolean away, String awaymsg ) throws CommandException
 	{
 		if ( code == me.getCode() && !isConnected() )
-			throw new CommandException( "You tried to change away mode without being connected. This should never happen..." );
+			throw new CommandException( "You tried to change away mode without being connected. This should never happen." );
 		else if ( Tools.getBytes( awaymsg ) > Constants.MESSAGE_MAX_BYTES )
-			throw new CommandException( "You tried to set an away message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes. This is not allowed..." );
+			throw new CommandException( "You tried to set an away message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes. This is not allowed." );
 		else
 			nickController.changeAwayStatus( code, away, awaymsg );
 	}
@@ -133,7 +133,7 @@ public class Controller
 	public void changeMyNick( String nick ) throws CommandException
 	{
 		if ( me.isAway() )
-			throw new CommandException( "You tried to change nick while away. This should never happen..." );
+			throw new CommandException( "You tried to change nick while away. This should never happen." );
 
 		else
 		{
@@ -216,13 +216,13 @@ public class Controller
 	public void sendChatMessage( String msg ) throws CommandException
 	{
 		if ( !isConnected() )
-			throw new CommandException( "You tried to send a chat message without being connected. This should never happen..." );
+			throw new CommandException( "You tried to send a chat message without being connected. This should never happen." );
 		else if ( me.isAway() )
-			throw new CommandException( "You tried to send a chat message while away. This should never happen..." );
+			throw new CommandException( "You tried to send a chat message while away. This should never happen." );
 		else if ( msg.trim().length() == 0 )
-			throw new CommandException( "You tried to send an empty chat message. This should never happen..." );
+			throw new CommandException( "You tried to send an empty chat message. This should never happen." );
 		else if ( Tools.getBytes( msg ) > Constants.MESSAGE_MAX_BYTES )
-			throw new CommandException( "You tried to send a chat message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes. This is not allowed..." );
+			throw new CommandException( "You tried to send a chat message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes. This is not allowed." );
 		else
 			messages.sendChatMessage( msg );
 	}
@@ -235,11 +235,11 @@ public class Controller
 	public void changeTopic( String newTopic ) throws CommandException
 	{
 		if ( !isConnected() )
-			throw new CommandException( "You tried to change the topic without being connected. This should never happen..." );
+			throw new CommandException( "You tried to change the topic without being connected. This should never happen." );
 		else if ( me.isAway() )
-			throw new CommandException( "You tried to change the topic while away. This should never happen..." );
+			throw new CommandException( "You tried to change the topic while away. This should never happen." );
 		else if ( Tools.getBytes( newTopic ) > Constants.MESSAGE_MAX_BYTES )
-			throw new CommandException( "You tried to set a topic with more than " + Constants.MESSAGE_MAX_BYTES + " bytes. This is not allowed..." );
+			throw new CommandException( "You tried to set a topic with more than " + Constants.MESSAGE_MAX_BYTES + " bytes. This is not allowed." );
 
 		else
 		{
@@ -278,11 +278,11 @@ public class Controller
 	public void sendFile( int sendToUserCode, long fileLength, int fileHash, String fileName ) throws CommandException
 	{
 		if ( !isConnected() )
-			throw new CommandException( "You tried to send a file without being connected. This should never happen..." );
+			throw new CommandException( "You tried to send a file without being connected. This should never happen." );
 		else if ( me.isAway() )
-			throw new CommandException( "You tried to send a file while away. This should never happen..." );
+			throw new CommandException( "You tried to send a file while away. This should never happen." );
 		else if ( Tools.getBytes( fileName ) > Constants.MESSAGE_MAX_BYTES )
-			throw new CommandException( "You tried to send a file with a name with more than " + Constants.MESSAGE_MAX_BYTES + " bytes. This is not allowed..." );
+			throw new CommandException( "You tried to send a file with a name with more than " + Constants.MESSAGE_MAX_BYTES + " bytes. This is not allowed." );
 		else
 			messages.sendFile( sendToUserCode, fileLength, fileHash, fileName );
 	}
@@ -323,15 +323,15 @@ public class Controller
 	public void sendPrivateMessage( String privmsg, String userIP, int userPort, int userCode ) throws CommandException
 	{
 		if ( !isConnected() )
-			throw new CommandException( "You tried to send a private chat message without being connected. This should never happen..." );
+			throw new CommandException( "You tried to send a private chat message without being connected. This should never happen." );
 		else if ( me.isAway() )
-			throw new CommandException( "You tried to send a private chat message while away. This should never happen..." );
+			throw new CommandException( "You tried to send a private chat message while away. This should never happen." );
 		else if ( privmsg.trim().length() == 0 )
-			throw new CommandException( "You tried to send an empty private chat message. This should never happen..." );
+			throw new CommandException( "You tried to send an empty private chat message. This should never happen." );
 		else if ( Tools.getBytes( privmsg ) > Constants.MESSAGE_MAX_BYTES )
-			throw new CommandException( "You tried to send a private chat message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes. This is not allowed..." );
+			throw new CommandException( "You tried to send a private chat message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes. This is not allowed." );
 		else if ( userPort == 0 )
-			throw new CommandException( "You tried to send a private chat message to a user with no available port number. This should never happen..." );
+			throw new CommandException( "You tried to send a private chat message to a user with no available port number. This should never happen." );
 		else
 			messages.sendPrivateMessage( privmsg, userIP, userPort, userCode );
 	}

@@ -56,7 +56,7 @@ public class MessageSender
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 			errorHandler.showCriticalError( "Failed to initialize the network:\n" + e + "\n"
-					+ Constants.APP_NAME + " will now shutdown and quit..." );
+					+ Constants.APP_NAME + " will now shutdown." );
 			System.exit( 1 );
 		}
 	}
@@ -124,7 +124,7 @@ public class MessageSender
 	{
 		if ( !connected )
 		{
-			LOG.log( Level.WARNING, "Restarting sender..." );
+			LOG.log( Level.WARNING, "Restarting sender." );
 			startSender();
 		}
 	}
