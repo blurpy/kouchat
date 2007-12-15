@@ -99,7 +99,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		new MsgPopup( msgTF );
 		new ChatPopup( chatTP );
 
-		setBorder( BorderFactory.createEmptyBorder( 2, 2, 2, 2 ) );
+		setBorder( BorderFactory.createEmptyBorder( 2, 3, 2, 2 ) );
 		cmdHistory = new CommandHistory();
 	}
 
