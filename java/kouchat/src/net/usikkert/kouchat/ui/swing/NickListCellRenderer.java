@@ -35,11 +35,18 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.NickDTO;
 
+/**
+ * This class renders the rows in the nick list.
+ *
+ * @author Christian Ihle
+ */
 public class NickListCellRenderer extends JLabel implements ListCellRenderer
 {
 	private static final long serialVersionUID = 1L;
@@ -48,7 +55,14 @@ public class NickListCellRenderer extends JLabel implements ListCellRenderer
 	private static final String IMG_DOT = "/icons/dot.png";
 
 	private ImageIcon envelope, dot;
+	private Border selectedBorder, normalBorder;
 
+	/**
+	 * Default constructor.
+	 *
+	 * Initializes resources, and shuts down the application
+	 * if this fails.
+	 */
 	public NickListCellRenderer()
 	{
 		ErrorHandler errorHandler = ErrorHandler.getErrorHandler();
@@ -77,43 +91,50 @@ public class NickListCellRenderer extends JLabel implements ListCellRenderer
 
 		envelope = new ImageIcon( envelopeURL );
 		dot = new ImageIcon( dotURL );
+		normalBorder = BorderFactory.createEmptyBorder( 2, 4, 2, 4 );
+		selectedBorder = BorderFactory.createCompoundBorder(
+				UIManager.getBorder( "List.focusCellHighlightBorder" ),
+				BorderFactory.createEmptyBorder( 1, 3, 1, 3 ) );
+
+		setOpaque( true );
 	}
 
+	/**
+	 * Displays an icon and the user's nick name.
+	 *
+	 * If the user is away, the nick name is shown in gray.
+	 * If the user is "me", the nick name is shown in bold.
+	 * If the user has a new message, the icon changes to an envelope.
+	 * If the user is writing, the nick name will have a star next to it.
+	 */
+	@Override
 	public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
 	{
+		if ( isSelected )
+		{
+			setBackground( list.getSelectionBackground() );
+			setForeground( list.getSelectionForeground() );
+			setBorder( selectedBorder );
+		}
+
+		else
+		{
+			setBackground( list.getBackground() );
+			setForeground( list.getForeground() );
+			setBorder( normalBorder );
+		}
+
 		NickDTO dto = (NickDTO) value;
 
 		if ( dto != null )
 		{
 			if ( dto.isMe() )
-			{
-				if ( dto.isAway() )
-				{
-					setFont( new Font( list.getFont().getName(), Font.BOLD, list.getFont().getSize() ) );
-					setForeground( Color.GRAY );
-				}
-
-				else
-				{
-					setFont( new Font( list.getFont().getName(), Font.BOLD, list.getFont().getSize() ) );
-					setForeground( Color.BLACK );
-				}
-			}
-
+				setFont( list.getFont().deriveFont( Font.BOLD ) );
 			else
-			{
-				if ( dto.isAway() )
-				{
-					setFont( new Font( list.getFont().getName(), Font.PLAIN, list.getFont().getSize() ) );
-					setForeground( Color.GRAY );
-				}
+				setFont( list.getFont().deriveFont( Font.PLAIN ) );
 
-				else
-				{
-					setFont( new Font( list.getFont().getName(), Font.PLAIN, list.getFont().getSize() ) );
-					setForeground( Color.BLACK );
-				}
-			}
+			if ( dto.isAway() )
+				setForeground( Color.GRAY );
 
 			if ( dto.isNewMsg() )
 				setIcon( envelope );
@@ -129,14 +150,8 @@ public class NickListCellRenderer extends JLabel implements ListCellRenderer
 		else
 			LOG.log( Level.WARNING, "Got a null list element..." );
 
-		if ( isSelected )
-			setBackground( list.getSelectionBackground() );
-		else
-			setBackground( list.getBackground() );
-
 		setEnabled( list.isEnabled() );
-		setOpaque( true );
-		setBorder( BorderFactory.createEmptyBorder( 2, 4, 2, 4 ) );
+		setComponentOrientation( list.getComponentOrientation() );
 
 		return this;
 	}
