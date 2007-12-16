@@ -1,5 +1,5 @@
 
-- KouChat v0.9.6 Frequently Asked Questions
+- KouChat v0.9.7 Frequently Asked Questions
 
 1. What is Kou?
 
@@ -92,3 +92,11 @@ common Windows charset is cp1252. I've found 2 ways to go around this problem:
   You can get the current console charset by running the command 'chcp'.
   Then use the charset number when starting KouChat:
   'java -Dfile.encoding=850 -jar kouchat-x.x.x.jar --console'.
+
+13. Why is the option "Use native look" disabled on some platforms?
+
+That happens if your platform does not have a SystemLookAndFeel.
+The most common platform without a SystemLookAndFeel is KDE, since the
+SystemLookAndFeel for Linux is GTK+ based, and will only be used in Gnome.
+See http://java.sun.com/docs/books/tutorial/uiswing/lookandfeel/plaf.html
+for more information about Look and Feels.
