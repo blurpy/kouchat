@@ -87,7 +87,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 		nickMenu.add( sendfileMI );
 		nickMenu.add( privchatMI );
 
-		setPreferredSize( new Dimension( 110, 0 ) );
+		setPreferredSize( new Dimension( 114, 0 ) );
 		me = Settings.getSettings().getMe();
 	}
 
