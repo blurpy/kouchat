@@ -208,7 +208,9 @@ public final class Settings
 			sound = Boolean.valueOf( fileContents.getProperty( "sound" ) );
 			debug = Boolean.valueOf( fileContents.getProperty( "debug" ) );
 			browser = fileContents.getProperty( "browser" );
-			nativeLnF = Boolean.valueOf( fileContents.getProperty( "nativelnf" ) );
+
+			if ( fileContents.getProperty( "nativelnf" ) != null )
+				nativeLnF = Boolean.valueOf( fileContents.getProperty( "nativelnf" ) );
 		}
 
 		catch ( FileNotFoundException e )
