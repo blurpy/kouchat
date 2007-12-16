@@ -205,9 +205,11 @@ public final class Settings
 			}
 
 			logging = Boolean.valueOf( fileContents.getProperty( "logging" ) );
-			sound = Boolean.valueOf( fileContents.getProperty( "sound" ) );
 			debug = Boolean.valueOf( fileContents.getProperty( "debug" ) );
 			browser = fileContents.getProperty( "browser" );
+
+			if ( fileContents.getProperty( "sound" ) != null )
+				sound = Boolean.valueOf( fileContents.getProperty( "sound" ) );
 
 			if ( fileContents.getProperty( "nativelnf" ) != null )
 				nativeLnF = Boolean.valueOf( fileContents.getProperty( "nativelnf" ) );
