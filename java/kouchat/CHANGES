@@ -1,7 +1,7 @@
 
 - KouChat v0.9.7 CHANGES
 
-* version 0.9.7 (xx.12.2007):
+* version 0.9.7 (16.12.2007):
   - Switched to use the system look and feel by default
   - Added option to switch between system lnf and cross platform lnf
   - Tweaked margins between components
