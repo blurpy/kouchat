@@ -12,6 +12,8 @@
   - Changed to show the date in English instead of the local language
   - Removed "..." from a lot of messages
   - Added a check to make sure the nick list is in sync after timeouts
+  - Changed from JTextArea to JLabel in the About box, to make it look better
+    with the GTK+ look and feel
 
 
 * version 0.9.6 (09.12.2007):

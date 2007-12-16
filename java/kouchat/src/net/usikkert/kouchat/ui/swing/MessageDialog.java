@@ -39,8 +39,6 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
@@ -58,8 +56,7 @@ public class MessageDialog extends JDialog
 {
 	private static final long serialVersionUID = 1L;
 
-	private JLabel appNameL;
-	private JTextArea infoTA;
+	private JLabel appNameL, contentL;
 
 	/**
 	 * Creates a new MessageDialog. To open the dialog, use setVisible().
@@ -126,20 +123,12 @@ public class MessageDialog extends JDialog
 
 		getContentPane().add( leftP, BorderLayout.LINE_START );
 
-		infoTA = new JTextArea();
-		infoTA.setEditable( false );
-		infoTA.setFont( new Font( "Dialog", Font.BOLD, 12 ) );
-		infoTA.setBorder( BorderFactory.createEmptyBorder( 0, 0, 0,	0 ) );
-		infoTA.setOpaque( false );
-		infoTA.setText( "No content" );
-
-		JScrollPane infoScroll = new JScrollPane( infoTA );
-		infoScroll.setBorder( null );
+		contentL = new JLabel( "No content" );
 
 		JPanel centerP = new JPanel();
 		centerP.setBorder( BorderFactory.createEmptyBorder( 12, 2, 0, 12 ) );
 		centerP.setLayout( new BorderLayout() );
-		centerP.add( infoScroll, BorderLayout.CENTER );
+		centerP.add( contentL, BorderLayout.CENTER );
 
 		getContentPane().add( centerP, BorderLayout.CENTER );
 
@@ -178,7 +167,7 @@ public class MessageDialog extends JDialog
 	 */
 	public void setContent( String info )
 	{
-		infoTA.setText( info );
+		contentL.setText( info );
 	}
 
 	/**
