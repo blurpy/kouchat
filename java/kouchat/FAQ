@@ -93,6 +93,7 @@ common Windows charset is cp1252. I've found 2 ways to go around this problem:
   Then use the charset number when starting KouChat:
   'java -Dfile.encoding=850 -jar kouchat-x.x.x.jar --console'.
 
+
 13. Why is the option "Use native look" disabled on some platforms?
 
 That happens if your platform does not have a SystemLookAndFeel.
