@@ -23,6 +23,7 @@ package net.usikkert.kouchat;
 
 import net.usikkert.kouchat.ui.UIException;
 import net.usikkert.kouchat.ui.UIFactory;
+import net.usikkert.kouchat.util.UncaughtExceptionLogger;
 
 /**
  * This class contains KouChat's main method.
@@ -89,6 +90,9 @@ public final class KouChat
 					+ "\n --console \tstarts " + Constants.APP_NAME + " in console mode" );
 			return;
 		}
+
+		// Initialize as early as possible to catch all exceptions
+		new UncaughtExceptionLogger();
 
 		try
 		{
