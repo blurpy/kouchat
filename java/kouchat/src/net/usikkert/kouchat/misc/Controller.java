@@ -53,10 +53,11 @@ public class Controller
 	private TransferList tList;
 	private WaitingList wList;
 	private NickDTO me;
+	private Timer delayedLogonTimer;
 
 	public Controller( UserInterface ui )
 	{
-		Runtime.getRuntime().addShutdownHook( new Thread()
+		Runtime.getRuntime().addShutdownHook( new Thread( "ControllerShutdownHook" )
 		{
 			public void run()
 			{
@@ -76,6 +77,7 @@ public class Controller
 		msgParser = new MessageParser( msgResponder );
 		privmsgParser = new PrivateMessageParser( privmsgResponder );
 		messages = new Messages();
+		delayedLogonTimer = new Timer( "DelayedLogonTimer" );
 
 		new DayTimer( ui );
 	}
@@ -169,8 +171,7 @@ public class Controller
 	// Not sure if this is the best way to set if I'm logged on or not
 	private void runDelayedLogon()
 	{
-		Timer timer = new Timer();
-		timer.schedule( new DelayedLogonTask(), 0 );
+		delayedLogonTimer.schedule( new DelayedLogonTask(), 0 );
 	}
 
 	public void logOn()
@@ -373,7 +374,11 @@ public class Controller
 			}
 
 			if ( isConnected() )
+			{
 				wList.setLoggedOn( true );
+				// To stop the timer from running in the background
+				delayedLogonTimer.cancel();
+			}
 		}
 	}
 }
