@@ -103,7 +103,7 @@ public class UDPReceiver implements Runnable
 			{
 				udpSocket = new DatagramSocket( port );
 				run = true;
-				worker = new Thread( this );
+				worker = new Thread( this, "UDPReceiverWorker" );
 				worker.start();
 				done = true;
 				Settings.getSettings().getMe().setPrivateChatPort( port );

@@ -90,7 +90,7 @@ public class MessageReceiver implements Runnable
 
 	private void startThread()
 	{
-		worker = new Thread( this );
+		worker = new Thread( this, "MessageReceiverWorker" );
 		worker.start();
 	}
 

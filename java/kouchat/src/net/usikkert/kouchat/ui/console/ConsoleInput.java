@@ -66,7 +66,7 @@ public class ConsoleInput
 		cmdParser = new CommandParser( controller, ui );
 		me = Settings.getSettings().getMe();
 
-		Runtime.getRuntime().addShutdownHook( new Thread()
+		Runtime.getRuntime().addShutdownHook( new Thread( "ConsoleInputShutdownHook" )
 		{
 			public void run()
 			{

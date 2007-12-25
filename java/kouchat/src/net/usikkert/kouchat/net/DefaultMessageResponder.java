@@ -70,7 +70,7 @@ public class DefaultMessageResponder implements MessageResponder
 	public void messageArrived( final int userCode, final String msg, final int color )
 	{
 		// A little hack to stop messages from showing before the user is logged on
-		Thread t = new Thread()
+		Thread t = new Thread( "DefaultMessageResponderMessageArrived" )
 		{
 			public void run()
 			{
@@ -420,7 +420,7 @@ public class DefaultMessageResponder implements MessageResponder
 			controller.sendGetTopicMessage();
 		}
 
-		new Thread()
+		new Thread( "DefaultMessageResponderFileSend" )
 		{
 			public void run()
 			{
@@ -527,7 +527,7 @@ public class DefaultMessageResponder implements MessageResponder
 	@Override
 	public void fileSendAccepted( final int userCode, final String fileName, final int fileHash, final int port )
 	{
-		new Thread()
+		new Thread( "DefaultMessageResponderFileSendAccepted" )
 		{
 			public void run()
 			{

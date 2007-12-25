@@ -51,7 +51,7 @@ public class DayTimer extends TimerTask
 
 		long interval = 1000 * 60 * 60; // 1 hour
 
-		Timer timer = new Timer();
+		Timer timer = new Timer( "DayTimer" );
 		timer.scheduleAtFixedRate( this, new Date( cal.getTimeInMillis() ), interval );
 	}
 

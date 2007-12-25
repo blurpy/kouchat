@@ -53,6 +53,7 @@ public class IdleThread extends Thread
 		errorHandler = ErrorHandler.getErrorHandler();
 
 		run = true;
+		setName( "IdleThread" );
 	}
 
 	public void run()

@@ -70,7 +70,7 @@ public class ChatLogger implements SettingsListener
 			open();
 		}
 
-		Runtime.getRuntime().addShutdownHook( new Thread()
+		Runtime.getRuntime().addShutdownHook( new Thread( "ChatLoggerShutdownHook" )
 		{
 			public void run()
 			{

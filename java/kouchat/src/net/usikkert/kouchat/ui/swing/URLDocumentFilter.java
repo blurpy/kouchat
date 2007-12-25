@@ -101,7 +101,7 @@ public class URLDocumentFilter extends DocumentFilter
 					}
 				}
 			}
-		} ).start();
+		}, "URLDocumentFilterInsertString" ).start();
 	}
 
 	/**

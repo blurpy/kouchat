@@ -307,6 +307,11 @@ public class FileReceiver implements FileTransfer
 	// No point in waiting for a connection forever
 	private class TimeoutThread extends Thread
 	{
+		public TimeoutThread()
+		{
+			setName( "TimeoutThread" );
+		}
+
 		@Override
 		public void run()
 		{

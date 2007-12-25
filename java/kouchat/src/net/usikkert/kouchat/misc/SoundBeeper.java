@@ -93,7 +93,7 @@ public class SoundBeeper
 
 					if ( closeTimer == null )
 					{
-						closeTimer = new Thread( new CloseTimer() );
+						closeTimer = new Thread( new CloseTimer(), "SoundBeeperCloseTimer" );
 						closeTimer.start();
 					}
 				}
