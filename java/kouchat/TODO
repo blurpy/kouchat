@@ -1,24 +1,12 @@
 
-- KouChat v0.9.7 TODO
+- KouChat v0.9.8 TODO
 
 * Release v1.0.0:
- - Javadoc
- - JUnit
- - User guide
  - Add command for:
    - Receive file
    - Abort file transfer
- - Auto completion for nick, command and files?
+ - Auto completion for nick names
  - Better console error messages
- - Show license in about box, and have clickable links
+ - Show license in about box
  - Fix gui error messages
  - Fix text length in file transfer dialog
-
-
-* Release v1.x:
- - Use encryption for privchat?
- - Allow changing font size?
- - Allow changing background color?
- - Flash taskbar when minimized or in background and msg is received?
- - Use systray icon with envelope if privmsg is received while minimized?
- - Possible to go around udp packet loss?
