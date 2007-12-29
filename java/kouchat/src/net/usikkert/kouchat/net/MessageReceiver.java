@@ -116,20 +116,24 @@ public class MessageReceiver implements Runnable
 
 	public void stopReceiver()
 	{
+		connected = false;
+
 		try
 		{
-			connected = false;
-
 			if ( !mcSocket.isClosed() )
 			{
 				mcSocket.leaveGroup( address );
-				mcSocket.close();
 			}
 		}
 
 		catch ( IOException e )
 		{
-			LOG.log( Level.SEVERE, e.toString(), e );
+			LOG.log( Level.WARNING, e.toString() );
+		}
+
+		if ( !mcSocket.isClosed() )
+		{
+			mcSocket.close();
 		}
 	}
 
