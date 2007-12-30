@@ -41,12 +41,12 @@ import net.usikkert.kouchat.misc.PrivateChatWindow;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.SoundBeeper;
 import net.usikkert.kouchat.misc.TopicDTO;
-import net.usikkert.kouchat.misc.UIMessages;
-import net.usikkert.kouchat.misc.UserInterface;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.net.TransferList;
+import net.usikkert.kouchat.ui.UIMessages;
+import net.usikkert.kouchat.ui.UserInterface;
 import net.usikkert.kouchat.util.Tools;
 
 /**

@@ -26,8 +26,8 @@ import java.util.logging.Logger;
 
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.NickDTO;
-import net.usikkert.kouchat.misc.UIMessages;
-import net.usikkert.kouchat.misc.UserInterface;
+import net.usikkert.kouchat.ui.UIMessages;
+import net.usikkert.kouchat.ui.UserInterface;
 
 /**
  * This class responds to events from the message parser.

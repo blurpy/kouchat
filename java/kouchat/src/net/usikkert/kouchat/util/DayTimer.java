@@ -26,7 +26,7 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import net.usikkert.kouchat.misc.UserInterface;
+import net.usikkert.kouchat.ui.UserInterface;
 
 /**
  * Notifies the user interface when the day changes.

@@ -35,6 +35,7 @@ import net.usikkert.kouchat.net.Messages;
 import net.usikkert.kouchat.net.PrivateMessageParser;
 import net.usikkert.kouchat.net.PrivateMessageResponder;
 import net.usikkert.kouchat.net.TransferList;
+import net.usikkert.kouchat.ui.UserInterface;
 import net.usikkert.kouchat.util.DayTimer;
 import net.usikkert.kouchat.util.Tools;
 

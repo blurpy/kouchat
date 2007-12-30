@@ -26,10 +26,10 @@ import java.io.File;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.NickDTO;
-import net.usikkert.kouchat.misc.UIMessages;
-import net.usikkert.kouchat.misc.UserInterface;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
+import net.usikkert.kouchat.ui.UIMessages;
+import net.usikkert.kouchat.ui.UserInterface;
 
 /**
  * This class is the binding between the controller and the console ui.

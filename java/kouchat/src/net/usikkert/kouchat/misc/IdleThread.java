@@ -29,6 +29,7 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.net.TransferList;
+import net.usikkert.kouchat.ui.UserInterface;
 
 public class IdleThread extends Thread
 {

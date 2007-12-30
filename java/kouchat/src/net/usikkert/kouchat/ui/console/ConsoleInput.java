@@ -33,8 +33,8 @@ import net.usikkert.kouchat.misc.CommandParser;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
-import net.usikkert.kouchat.misc.UIMessages;
-import net.usikkert.kouchat.misc.UserInterface;
+import net.usikkert.kouchat.ui.UIMessages;
+import net.usikkert.kouchat.ui.UserInterface;
 
 /**
  * Contains the main input loop for the console mode.

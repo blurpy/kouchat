@@ -30,6 +30,8 @@ import java.util.logging.Logger;
 
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
+import net.usikkert.kouchat.ui.UIMessages;
+import net.usikkert.kouchat.ui.UserInterface;
 import net.usikkert.kouchat.util.Tools;
 
 public class CommandParser
