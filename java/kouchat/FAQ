@@ -1,5 +1,5 @@
 
-- KouChat v0.9.7 Frequently Asked Questions
+- KouChat v0.9.8 Frequently Asked Questions
 
 1. What is Kou?
 
@@ -67,8 +67,12 @@ in wired networks, but wireless networks might have some loss.
 
 The logs are put in the ~/.kouchat/logs/ folder, sorted by date and time
 of creation. For those wondering, ~ means home folder.
-In Windows XP that's usually
-C:\Documents and Settings\Your Username\ and in Linux it's /home/username/
+
+Examples:
+
+* Windows XP - C:\Documents and Settings\Your Username\.kouchat\logs\
+* Windows Vista - C:\Users\Your Username\.kouchat\logs\
+* Linux - /home/username/.kouchat/logs/
 
 
 11. Why was the user list empty when I started KouChat?
@@ -101,3 +105,15 @@ The most common platform without a SystemLookAndFeel is KDE, since the
 SystemLookAndFeel for Linux is GTK+ based, and will only be used in Gnome.
 See http://java.sun.com/docs/books/tutorial/uiswing/lookandfeel/plaf.html
 for more information about Look and Feels.
+
+
+14. Where can I find an icon to use for shortcuts?
+
+There is an icon available inside kouchat-x.x.x.jar, in two different
+formats:
+
+* kou_shortcut.ico
+* kou_shortcut.png
+
+To find these, you can just open the jar file in a decompression utility
+like WinZip or 7-Zip.
