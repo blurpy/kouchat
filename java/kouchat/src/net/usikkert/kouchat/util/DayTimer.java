@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.ui.UserInterface;
 
 /**
@@ -36,34 +37,54 @@ import net.usikkert.kouchat.ui.UserInterface;
  */
 public class DayTimer extends TimerTask
 {
-	private boolean done;
-	private UserInterface ui;
+	/**
+	 * Which hour of the day the timer should notify about
+	 * day change.
+	 */
 	private static final int NOTIFY_HOUR = 0;
 
-	public DayTimer( UserInterface ui )
+	/**
+	 * How often the timer should check if the day has changed,
+	 * in milliseconds. Currently set to 1 hour.
+	 */
+	private static final long TIMER_INTERVAL = 1000 * 60 * 60;
+
+	private final MessageController msgController;
+	private boolean done;
+
+	/**
+	 * Constructor. Starts the timer.
+	 *
+	 * @param ui The user interface.
+	 */
+	public DayTimer( final UserInterface ui )
 	{
-		this.ui = ui;
+		msgController = ui.getMessageController();
 
 		Calendar cal = Calendar.getInstance();
-		cal.set( Calendar.HOUR_OF_DAY, 0 );
+		cal.set( Calendar.HOUR_OF_DAY, NOTIFY_HOUR );
 		cal.set( Calendar.MINUTE, 0 );
 		cal.set( Calendar.SECOND, 0 );
 
-		long interval = 1000 * 60 * 60; // 1 hour
-
 		Timer timer = new Timer( "DayTimer" );
-		timer.scheduleAtFixedRate( this, new Date( cal.getTimeInMillis() ), interval );
+		timer.scheduleAtFixedRate( this, new Date( cal.getTimeInMillis() ), TIMER_INTERVAL );
 	}
 
+	/**
+	 * This method is run by the timer every hour, and
+	 * compares the current time against the time when
+	 * the day changes.
+	 */
 	@Override
 	public void run()
 	{
 		int hour = Calendar.getInstance().get( Calendar.HOUR_OF_DAY );
 
+		// Needs an extra check, so the message only shows once a day.
 		if ( hour == NOTIFY_HOUR && !done )
 		{
 			String date = Tools.dateToString( null, "EEEE, d MMMM yyyy" );
-			ui.getUIMessages().showDayChanged( date );
+			msgController.showSystemMessage( "Day changed to " + date );
 			done = true;
 		}
 

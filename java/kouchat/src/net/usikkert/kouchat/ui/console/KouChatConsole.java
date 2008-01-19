@@ -30,7 +30,7 @@ import net.usikkert.kouchat.Constants;
  */
 public class KouChatConsole
 {
-	private ConsoleMediator mediator;
+	private final ConsoleMediator mediator;
 
 	/**
 	 * Default constructor. Initializes the User Interface and

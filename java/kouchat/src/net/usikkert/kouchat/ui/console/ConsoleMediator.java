@@ -23,12 +23,12 @@ package net.usikkert.kouchat.ui.console;
 
 import java.io.File;
 
+import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
-import net.usikkert.kouchat.ui.UIMessages;
 import net.usikkert.kouchat.ui.UserInterface;
 
 /**
@@ -38,11 +38,10 @@ import net.usikkert.kouchat.ui.UserInterface;
  */
 public class ConsoleMediator implements UserInterface
 {
-	private UIMessages uiMsg;
-	private MessageController msgController;
-	private ConsoleChatWindow chat;
-	private Controller controller;
-	private ConsoleInput ci;
+	private final MessageController msgController;
+	private final ConsoleChatWindow chat;
+	private final Controller controller;
+	private final ConsoleInput ci;
 
 	/**
 	 * Constructor. Initializes the lower layers.
@@ -51,9 +50,7 @@ public class ConsoleMediator implements UserInterface
 	{
 		chat = new ConsoleChatWindow();
 		msgController = new MessageController( chat, this );
-		uiMsg = new UIMessages( msgController );
-		uiMsg.showWelcomeMsg();
-
+		msgController.showSystemMessage( "Welcome to " + Constants.APP_NAME + " v" + Constants.APP_VERSION + "!" );
 		controller = new Controller( this );
 		ci = new ConsoleInput( controller, this );
 	}
@@ -67,65 +64,97 @@ public class ConsoleMediator implements UserInterface
 		ci.input();
 	}
 
+	/**
+	 * Shows information about how to save the file, then
+	 * returns true.
+	 */
 	@Override
-	public boolean askFileSave( String user, String fileName, String size )
+	public boolean askFileSave( final String user, final String fileName, final String size )
 	{
-		uiMsg.showSaveWith();
+		msgController.showSystemMessage( "To save the file, use /receive" );
 		return true;
 	}
 
+	/**
+	 * Not implemented.
+	 */
 	@Override
-	public void changeAway( boolean away )
+	public void changeAway( final boolean away )
 	{
 
 	}
 
+	/**
+	 * Shows a message that says this is not supported.
+	 */
 	@Override
 	public void clearChat()
 	{
-		uiMsg.showNotSupported();
+		msgController.showSystemMessage( "Clear chat is not supported in console mode" );
 	}
 
+	/**
+	 * Returns null.
+	 */
 	@Override
-	public UIMessages getUIMessages()
-	{
-		return uiMsg;
-	}
-
-	@Override
-	public File showFileSave( String fileName )
+	public File showFileSave( final String fileName )
 	{
 		return null;
 	}
 
+	/**
+	 * Not implemented.
+	 */
 	@Override
 	public void showTopic()
 	{
 
 	}
 
+	/**
+	 * Creates a new {@link TransferHandler}.
+	 */
 	@Override
-	public void showTransfer( FileReceiver fileRes )
+	public void showTransfer( final FileReceiver fileRes )
 	{
 		new TransferHandler( fileRes );
 	}
 
+	/**
+	 * Creates a new {@link TransferHandler}.
+	 */
 	@Override
-	public void showTransfer( FileSender fileSend )
+	public void showTransfer( final FileSender fileSend )
 	{
 		new TransferHandler( fileSend );
 	}
 
+	/**
+	 * Not implemented.
+	 */
 	@Override
 	public void notifyMessageArrived()
 	{
 
 	}
 
+	/**
+	 * If the user does not have a private chat yet,
+	 * a new {@link PrivateChatConsole} is created.
+	 */
 	@Override
-	public void createPrivChat( NickDTO user )
+	public void createPrivChat( final NickDTO user )
 	{
 		if ( user.getPrivchat() == null )
 			user.setPrivchat( new PrivateChatConsole( user ) );
+	}
+
+	/**
+	 * Returns the message controller for console mode.
+	 */
+	@Override
+	public MessageController getMessageController()
+	{
+		return msgController;
 	}
 }

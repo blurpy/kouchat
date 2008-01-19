@@ -38,62 +38,87 @@ public class PrivateChatConsole implements PrivateChatWindow
 	 *
 	 * @param user The user in this chat session.
 	 */
-	public PrivateChatConsole( NickDTO user )
+	public PrivateChatConsole( final NickDTO user )
 	{
 		this.user = user;
 	}
 
 	/**
-	 * Uses a simple System.out.println() to show messages.
+	 * Uses a simple System.out.println() to show messages,
+	 * with (privmsg) in front of them.
 	 */
 	@Override
-	public void appendToPrivateChat( String text, int color )
+	public void appendToPrivateChat( final String text, final int color )
 	{
 		System.out.println( "(privmsg) " + text );
 	}
 
+	/**
+	 * Not implemented.
+	 */
 	@Override
 	public void clearChatText()
 	{
 
 	}
 
+	/**
+	 * Will always return an empty string.
+	 */
 	@Override
 	public String getChatText()
 	{
 		return "";
 	}
 
+	/**
+	 * Returns the user in this private chat.
+	 */
 	@Override
 	public NickDTO getUser()
 	{
 		return user;
 	}
 
+	/**
+	 * Will always return true.
+	 */
 	@Override
 	public boolean isVisible()
 	{
 		return true;
 	}
 
+	/**
+	 * Not implemented.
+	 */
 	@Override
-	public void setAway( boolean away )
+	public void setAway( final boolean away )
 	{
 
 	}
 
+	/**
+	 * Sets the user to null.
+	 */
 	@Override
 	public void setLoggedOff()
 	{
 		user = null;
 	}
 
+	/**
+	 * Not implemented.
+	 */
 	@Override
-	public void setVisible( boolean visible )
+	public void setVisible( final boolean visible )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 */
 	@Override
 	public void updateNick()
 	{

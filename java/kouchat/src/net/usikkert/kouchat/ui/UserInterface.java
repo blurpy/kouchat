@@ -23,20 +23,96 @@ package net.usikkert.kouchat.ui;
 
 import java.io.File;
 
+import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 
+/**
+ * This interface makes it possible for other layers to
+ * update the user interface without knowing which
+ * user interface that is currently in use.
+ *
+ * The application needs an implementation of this interface
+ * for each type of user interface available.
+ *
+ * @author Christian Ihle
+ */
 public interface UserInterface
 {
-	public boolean askFileSave( String user, String fileName, String size );
-	public File showFileSave( String fileName );
-	public void showTransfer( FileReceiver fileRes );
-	public void showTransfer( FileSender fileSend );
-	public void showTopic();
-	public void clearChat();
-	public void changeAway( boolean away );
-	public void notifyMessageArrived();
-	public UIMessages getUIMessages();
-	public void createPrivChat( NickDTO user );
+	/**
+	 * Will ask the user to accept or reject a file transfer from
+	 * another user.
+	 *
+	 * @param user The user that's sending the file.
+	 * @param fileName The name of the file to save.
+	 * @param size The size of the file, in readable format.
+	 * @return True if the user wants to receive the file, or false if not.
+	 */
+	boolean askFileSave( String user, String fileName, String size );
+
+	/**
+	 * Asks the user where to save the file.
+	 *
+	 * @param fileName Name of the file to save.
+	 * @return A file object with information about where
+	 * to save the file. Or null to reject the file transfer.
+	 */
+	File showFileSave( String fileName );
+
+	/**
+	 * Creates a {@link FileTransferListener} for the file receiver,
+	 * and updates the ui of changes to the file reception.
+	 *
+	 * @param fileRes The file reception object.
+	 */
+	void showTransfer( FileReceiver fileRes );
+
+	/**
+	 * Creates a FileTransferListener for the file sender,
+	 * and updates the ui of changes to the file being sent.
+	 *
+	 * @param fileSend The file sending object.
+	 */
+	void showTransfer( FileSender fileSend );
+
+	/**
+	 * Updates the ui after a topic or user info change.
+	 */
+	void showTopic();
+
+	/**
+	 * Clears all the text from the chat window.
+	 */
+	void clearChat();
+
+	/**
+	 * Updates the ui when the user changes away state.
+	 *
+	 * @param away If the user is away.
+	 */
+	void changeAway( boolean away );
+
+	/**
+	 * A new message has arrived. Update the ui
+	 * if necessary.
+	 */
+	void notifyMessageArrived();
+
+	/**
+	 * Returns the message controller.
+	 *
+	 * @return The message controller.
+	 */
+	MessageController getMessageController();
+
+	/**
+	 * Creates a new {@link PrivateChatWindow}, of the
+	 * correct type for this ui, if the user does not
+	 * already have a window associated.
+	 *
+	 * @param user The user to update with a
+	 * {@link PrivateChatWindow}
+	 */
+	void createPrivChat( NickDTO user );
 }

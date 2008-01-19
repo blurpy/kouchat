@@ -28,31 +28,50 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
-import net.usikkert.kouchat.ui.UIMessages;
 import net.usikkert.kouchat.ui.UserInterface;
 import net.usikkert.kouchat.util.Tools;
 
+/**
+ * Parses and executes commands. A command starts with a slash, and can
+ * have arguments.
+ *
+ * @author Christian Ihle
+ */
 public class CommandParser
 {
 	private static final Logger LOG = Logger.getLogger( CommandParser.class.getName() );
 
-	private Controller controller;
-	private UserInterface ui;
-	private NickDTO me;
-	private UIMessages uiMsg;
+	private final Controller controller;
+	private final UserInterface ui;
+	private final MessageController msgController;
+	private final NickDTO me;
 
-	public CommandParser( Controller controller, UserInterface ui )
+	/**
+	 * Constructor.
+	 *
+	 * @param controller The controller.
+	 * @param ui The user interface.
+	 */
+	public CommandParser( final Controller controller, final UserInterface ui )
 	{
 		this.controller = controller;
 		this.ui = ui;
 
+		msgController = ui.getMessageController();
 		me = Settings.getSettings().getMe();
-		uiMsg = ui.getUIMessages();
 	}
 
-	private void cmdTopic( String args )
+	/**
+	 * Command: <em>/topic &lt;optional new topic&gt;</em>.
+	 * Prints the current topic if no arguments are supplied,
+	 * or changes the topic. To remove the topic, use a space as the argument.
+	 *
+	 * @param args Nothing, or the new topic.
+	 */
+	private void cmdTopic( final String args )
 	{
 		if ( args.length() == 0 )
 		{
@@ -60,13 +79,13 @@ public class CommandParser
 
 			if ( topic.getTopic().equals( "" ) )
 			{
-				uiMsg.showNoTopic();
+				msgController.showSystemMessage( "No topic set" );
 			}
 
 			else
 			{
 				String date = Tools.dateToString( new Date( topic.getTime() ), "HH:mm:ss, dd. MMM. yy" );
-				uiMsg.showTopic( topic.getTopic(), topic.getNick(), date );
+				msgController.showSystemMessage( "Topic is: " + topic.getTopic() + " (set by " + topic.getNick() + " at " + date + ")" );
 			}
 		}
 
@@ -76,18 +95,24 @@ public class CommandParser
 		}
 	}
 
-	private void cmdAway( String args )
+	/**
+	 * Command: <em>/away &lt;away message&gt;</em>.
+	 * Set status to away.
+	 *
+	 * @param args The away message.
+	 */
+	private void cmdAway( final String args )
 	{
 		if ( me.isAway() )
 		{
-			uiMsg.showCmdAwayAlready( me.getAwayMsg() );
+			msgController.showSystemMessage( "/away - you are already away: '" + me.getAwayMsg() + "'" );
 		}
 
 		else
 		{
 			if ( args.trim().length() == 0 )
 			{
-				uiMsg.showCmdAwayMissingArgs();
+				msgController.showSystemMessage( "/away - missing argument <away message>" );
 			}
 
 			else
@@ -97,18 +122,22 @@ public class CommandParser
 					controller.changeAwayStatus( me.getCode(), true, args.trim() );
 					controller.sendAwayMessage();
 					ui.changeAway( true );
-					uiMsg.showUserAway( "You", me.getAwayMsg() );
+					msgController.showSystemMessage( "You went away: " + me.getAwayMsg() );
 				}
 
-				catch ( CommandException e )
+				catch ( final CommandException e )
 				{
 					LOG.log( Level.WARNING, e.toString() );
-					uiMsg.showActionNotAllowed();
+					msgController.showSystemMessage( e.toString() );
 				}
 			}
 		}
 	}
 
+	/**
+	 * Command: <em>/back</em>.
+	 * Set status to not away.
+	 */
 	private void cmdBack()
 	{
 		if ( me.isAway() )
@@ -118,42 +147,62 @@ public class CommandParser
 				controller.changeAwayStatus( me.getCode(), false, "" );
 				controller.sendBackMessage();
 				ui.changeAway( false );
-				uiMsg.showUserBack( "You" );
+				msgController.showSystemMessage( "You came back" );
 			}
 
-			catch ( CommandException e )
+			catch ( final CommandException e )
 			{
 				LOG.log( Level.WARNING, e.toString() );
-				uiMsg.showActionNotAllowed();
+				msgController.showSystemMessage( e.toString() );
 			}
 		}
 
 		else
 		{
-			uiMsg.showCmdBackNotAway();
+			msgController.showSystemMessage( "/back - you are not away" );
 		}
 	}
 
+	/**
+	 * Command: <em>/clear</em>.
+	 * Clear all the text from the chat.
+	 */
 	private void cmdClear()
 	{
 		ui.clearChat();
 	}
 
+	/**
+	 * Command: <em>/about</em>.
+	 * Show information about the application.
+	 */
 	private void cmdAbout()
 	{
-		uiMsg.showAbout();
+		msgController.showSystemMessage( "This is " + Constants.APP_NAME + " v" + Constants.APP_VERSION
+				+ ", by " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL
+				+ " - " + Constants.APP_WEB );
 	}
 
+	/**
+	 * Command: <em>/help</em>.
+	 * Shows a list of commands.
+	 */
 	private void cmdHelp()
 	{
-		uiMsg.showCommands();
+		showCommands();
 	}
 
-	private void cmdWhois( String args )
+	/**
+	 * Command: <em>/whois &lt;nick&gt;</em>.
+	 * Show information about a user.
+	 *
+	 * @param args The user to show information about.
+	 */
+	private void cmdWhois( final String args )
 	{
 		if ( args.trim().length() == 0 )
 		{
-			uiMsg.showCmdWhoisMissingArgs();
+			msgController.showSystemMessage( "/whois - missing argument <nick>" );
 		}
 
 		else
@@ -165,23 +214,43 @@ public class CommandParser
 
 			if ( user == null )
 			{
-				uiMsg.showCmdWhoisNoUser( nick );
+				msgController.showSystemMessage( "/whois - no such user '" + nick + "'" );
 			}
 
 			else
 			{
-				uiMsg.showCmdWhois( user );
+				String info = "/whois - " + user.getNick();
+
+				if ( user.isAway() )
+					info += " (Away)";
+
+				info += ":\nIP address: " + user.getIpAddress()
+						+ "\nClient: " + user.getClient()
+						+ "\nOperating System: " + user.getOperatingSystem()
+						+ "\nOnline: " + Tools.howLongFromNow( user.getLogonTime() );
+
+				if ( user.isAway() )
+					info += "\nAway message: " + user.getAwayMsg();
+
+				msgController.showSystemMessage( info );
 			}
 		}
 	}
 
-	private void cmdSend( String args )
+	/**
+	 * Command: <em>/send &lt;nick&gt; &lt;file&gt;</em>.
+	 * Send a file to a user.
+	 *
+	 * @param args First argument is the user to send to, and the second is
+	 * the file to send to the user.
+	 */
+	private void cmdSend( final String args )
 	{
 		String[] argsArray = args.split( "\\s" );
 
 		if ( argsArray.length <= 2 )
 		{
-			uiMsg.showCmdSendMissingArgs();
+			msgController.showSystemMessage( "/send - missing arguments <nick> <file>" );
 		}
 
 		else
@@ -193,7 +262,7 @@ public class CommandParser
 			{
 				if ( user == null )
 				{
-					uiMsg.showCmdSendNoUser( nick );
+					msgController.showSystemMessage( "/send - no such user '" + nick + "'" );
 				}
 
 				else
@@ -215,25 +284,32 @@ public class CommandParser
 
 					else
 					{
-						uiMsg.showCmdSendNoFile( file );
+						msgController.showSystemMessage( "/send - no such file '" + file + "'" );
 					}
 				}
 			}
 
 			else
 			{
-				uiMsg.showCmdSendNoPoint();
+				msgController.showSystemMessage( "/send - no point in doing that!" );
 			}
 		}
 	}
 
-	private void cmdMsg( String args )
+	/**
+	 * Command: <em>/msg &lt;nick&gt; &lt;msg&gt;</em>.
+	 * Send a private message to a user.
+	 *
+	 * @param args The first argument is the user to send to, and the
+	 * second is the private message to the user.
+	 */
+	private void cmdMsg( final String args )
 	{
 		String[] argsArray = args.split( "\\s" );
 
 		if ( argsArray.length <= 2 )
 		{
-			uiMsg.showCmdMsgMissingArgs();
+			msgController.showSystemMessage( "/msg - missing arguments <nick> <msg>" );
 		}
 
 		else
@@ -243,17 +319,17 @@ public class CommandParser
 
 			if ( user == null )
 			{
-				uiMsg.showCmdMsgNoUser( nick );
+				msgController.showSystemMessage( "/msg - no such user '" + nick + "'" );
 			}
 
 			else if ( user == me )
 			{
-				uiMsg.showCmdMsgNoPoint();
+				msgController.showSystemMessage( "/msg - no point in doing that!" );
 			}
 
 			else if ( user.getPrivateChatPort() == 0 )
 			{
-				uiMsg.showCmdMsgNoPort( user.getNick() );
+				msgController.showSystemMessage( "/msg - " + user.getNick() + " can't receive private chat messages" );
 			}
 
 			else
@@ -270,28 +346,29 @@ public class CommandParser
 				try
 				{
 					controller.sendPrivateMessage( privmsg, user.getIpAddress(), user.getPrivateChatPort(), user.getCode() );
-					uiMsg.showPrivateOwnMessage( user, privmsg );
+					msgController.showPrivateOwnMessage( user, privmsg );
 				}
 
-				catch ( CommandException e )
+				catch ( final CommandException e )
 				{
 					LOG.log( Level.WARNING, e.toString() );
-					uiMsg.showActionNotAllowed();
+					msgController.showSystemMessage( e.toString() );
 				}
 			}
 		}
 	}
 
-	private void cmdNick( String args )
+	/**
+	 * Command: <em>/nick &lt;new nick&gt;</em>.
+	 * Changes your nick name.
+	 *
+	 * @param args The nick to change to.
+	 */
+	private void cmdNick( final String args )
 	{
 		if ( args.trim().length() == 0 )
 		{
-			uiMsg.showCmdNickMissingArgs();
-		}
-
-		else if ( me.isAway() )
-		{
-			uiMsg.showActionNotAllowed();
+			msgController.showSystemMessage( "/nick - missing argument <nick>" );
 		}
 
 		else
@@ -303,12 +380,12 @@ public class CommandParser
 			{
 				if ( controller.isNickInUse( nick ) )
 				{
-					uiMsg.showCmdNickInUse( nick );
+					msgController.showSystemMessage( "/nick - '" + nick + "' is in use by someone else" );
 				}
 
 				else if ( !Tools.isValidNick( nick ) )
 				{
-					uiMsg.showCmdNickNotValid( nick );
+					msgController.showSystemMessage( "/nick - '" + nick + "' is not a valid nick name. (1-10 letters)" );
 				}
 
 				else
@@ -316,25 +393,29 @@ public class CommandParser
 					try
 					{
 						controller.changeMyNick( nick );
-						uiMsg.showNickChanged( "You", me.getNick() );
+						msgController.showSystemMessage( "You changed nick to " + me.getNick() );
 						ui.showTopic();
 					}
 
-					catch ( CommandException e )
+					catch ( final CommandException e )
 					{
 						LOG.log( Level.WARNING, e.toString() );
-						uiMsg.showActionNotAllowed();
+						msgController.showSystemMessage( e.toString() );
 					}
 				}
 			}
 
 			else
 			{
-				uiMsg.showCmdNickAlreadyCalled( nick );
+				msgController.showSystemMessage( "/nick - you are already called '" + nick + "'" );
 			}
 		}
 	}
 
+	/**
+	 * Command: <em>/names</em>.
+	 * Shows a list of connected users.
+	 */
 	private void cmdNames()
 	{
 		NickList list = controller.getNickList();
@@ -349,9 +430,13 @@ public class CommandParser
 				nickList += ", ";
 		}
 
-		uiMsg.showNickList( nickList );
+		msgController.showSystemMessage( "Users: " + nickList );
 	}
 
+	/**
+	 * Command: <em>/transfers</em>.
+	 * Shows a list of all transfers and their status.
+	 */
 	private void cmdTransfers()
 	{
 		List<FileSender> fsList = controller.getTransferList().getFileSenders();
@@ -370,102 +455,130 @@ public class CommandParser
 			receivers += "\n" + fr.getFileName() + " [" + Tools.byteToString( fr.getFileSize() ) + "] (" + fr.getPercent() + "%) from " + fr.getNick().getNick();
 		}
 
-		uiMsg.showTransfers( senders, receivers );
+		msgController.showSystemMessage( "File transfers:\n" + senders + receivers );
 	}
 
-	private void cmdSlash( String line )
+	/**
+	 * Command: <em>//&lt;text&gt;</em>.
+	 * Sends the text as a message, instead of parsing it as a command.
+	 *
+	 * @param line The text starting with a slash.
+	 */
+	private void cmdSlash( final String line )
 	{
-		if ( !me.isAway() )
+		String message = line.replaceFirst( "/", "" );
+
+		try
 		{
-			String message = line.replaceFirst( "/", "" );
-
-			try
-			{
-				controller.sendChatMessage( message );
-				uiMsg.showOwnMessage( message );
-			}
-
-			catch ( CommandException e )
-			{
-				LOG.log( Level.WARNING, e.toString() );
-				uiMsg.showActionNotAllowed();
-			}
+			controller.sendChatMessage( message );
+			msgController.showOwnMessage( message );
 		}
 
-		else
+		catch ( final CommandException e )
 		{
-			uiMsg.showActionNotAllowed();
+			LOG.log( Level.WARNING, e.toString() );
+			msgController.showSystemMessage( e.toString() );
 		}
 	}
 
-	private void cmdUnknown( String command )
+	/**
+	 * Command: <em>/'anything'</em>.
+	 * The command was not recognized by the parser.
+	 *
+	 * @param command The unknown command.
+	 */
+	private void cmdUnknown( final String command )
 	{
-		uiMsg.showUnknownCommand( command );
+		msgController.showSystemMessage( "Unknown command '" + command + "'. Type /help for a list of commands" );
 	}
 
-	public void fixTopic( String newTopic )
+	/**
+	 * Updates the topic. If the new topic is empty, the topic will be removed.
+	 *
+	 * @param newTopic The new topic to use.
+	 */
+	public void fixTopic( final String newTopic )
 	{
-		if ( !me.isAway() )
-		{
-			TopicDTO topic = controller.getTopic();
-			newTopic = newTopic.trim();
+		TopicDTO topic = controller.getTopic();
+		String trimTopic = newTopic.trim();
 
-			if ( !newTopic.equals( topic.getTopic().trim() ) )
-			{
-				try
-				{
-					controller.changeTopic( newTopic );
-
-					if ( newTopic.length() > 0 )
-						uiMsg.showTopicChanged( "You", newTopic );
-					else
-						uiMsg.showTopicRemoved( "You" );
-
-					ui.showTopic();
-				}
-
-				catch ( CommandException e )
-				{
-					LOG.log( Level.WARNING, e.toString() );
-					uiMsg.showActionNotAllowed();
-				}
-			}
-		}
-
-		else
-		{
-			uiMsg.showActionNotAllowed();
-		}
-	}
-
-	public void sendFile( NickDTO user, File file )
-	{
-		if ( !me.isAway() )
+		if ( !trimTopic.equals( topic.getTopic().trim() ) )
 		{
 			try
 			{
-				controller.sendFile( user.getCode(), file.length(), file.hashCode(), file.getName() );
-				FileSender fileSend = new FileSender( user, file );
-				ui.showTransfer( fileSend );
-				controller.getTransferList().addFileSender( fileSend );
-				String size = Tools.byteToString( file.length() );
-				uiMsg.showSendRequest( file.getName(), size, user.getNick() );
+				controller.changeTopic( trimTopic );
+
+				if ( trimTopic.length() > 0 )
+					msgController.showSystemMessage( "You changed the topic to: " + trimTopic );
+				else
+					msgController.showSystemMessage( "You removed the topic" );
+
+				ui.showTopic();
 			}
 
-			catch ( CommandException e )
+			catch ( final CommandException e )
 			{
 				LOG.log( Level.WARNING, e.toString() );
-				uiMsg.showActionNotAllowed();
+				msgController.showSystemMessage( e.toString() );
 			}
-		}
-
-		else
-		{
-			uiMsg.showActionNotAllowed();
 		}
 	}
 
-	public void parse( String line )
+	/**
+	 * Sends a file to a user.
+	 *
+	 * @param user The user to send to.
+	 * @param file The file to send to the user.
+	 */
+	public void sendFile( final NickDTO user, final File file )
+	{
+		try
+		{
+			controller.sendFile( user.getCode(), file.length(), file.hashCode(), file.getName() );
+			FileSender fileSend = new FileSender( user, file );
+			ui.showTransfer( fileSend );
+			controller.getTransferList().addFileSender( fileSend );
+			String size = Tools.byteToString( file.length() );
+			msgController.showSystemMessage( "Trying to send the file "
+					+ file.getName() + " [" + size + "] to " + user.getNick() );
+		}
+
+		catch ( final CommandException e )
+		{
+			LOG.log( Level.WARNING, e.toString() );
+			msgController.showSystemMessage( e.toString() );
+		}
+	}
+
+	/**
+	 * Shows a list of all the supported commands, with a short description.
+	 */
+	public void showCommands()
+	{
+		msgController.showSystemMessage( Constants.APP_NAME + " commands:\n"
+				+ "/help - show this help message\n"
+				+ "/about - information about " + Constants.APP_NAME + "\n"
+				+ "/clear - clear all the text from the chat\n"
+				+ "/whois <nick> - show information about a user\n"
+				+ "/names - show the user list\n"
+				+ "/nick <new nick> - changes your nick name\n"
+				+ "/away <away message> - set status to away\n"
+				+ "/back - set status to not away\n"
+				+ "/send <nick> <file> - send a file to a user\n"
+				+ "/msg <nick> <msg> - send a private message to a user\n"
+				+ "/transfers - shows a list of all transfers and their status\n"
+				+ "/topic <optional new topic> - prints the current topic, or changes the topic\n"
+				+ "//<text> - send the text as a normal message, with a single slash" );
+	}
+
+	/**
+	 * Parses the line to split the command from the arguments.
+	 * The command is then checked against valid options and redirected
+	 * to the appropriate method.
+	 *
+	 * @param line The command in its raw form.
+	 */
+	public void parse( final String line )
 	{
 		String command = "";
 

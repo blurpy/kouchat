@@ -25,8 +25,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.misc.Controller;
+import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.NickDTO;
-import net.usikkert.kouchat.ui.UIMessages;
 import net.usikkert.kouchat.ui.UserInterface;
 
 /**
@@ -38,18 +38,29 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 {
 	private static final Logger LOG = Logger.getLogger( DefaultPrivateMessageResponder.class.getName() );
 
-	private Controller controller;
-	private UserInterface ui;
-	private UIMessages uiMsg;
+	private final Controller controller;
+	private final UserInterface ui;
+	private final MessageController msgController;
 
-	public DefaultPrivateMessageResponder( Controller controller, UserInterface ui )
+	/**
+	 * Constructor.
+	 *
+	 * @param controller The controller.
+	 * @param ui The user interface.
+	 */
+	public DefaultPrivateMessageResponder( final Controller controller, final UserInterface ui )
 	{
 		this.controller = controller;
 		this.ui = ui;
 
-		uiMsg = ui.getUIMessages();
+		msgController = ui.getMessageController();
 	}
 
+	/**
+	 * Shows the message in the user's private chat window,
+	 * and notifies the user interface that a new message
+	 * has arrived.
+	 */
 	@Override
 	public void messageArrived( final int userCode, final String msg, final int color )
 	{
@@ -65,7 +76,7 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 
 			else
 			{
-				uiMsg.showPrivateUserMessage( user, msg, color );
+				msgController.showPrivateUserMessage( user, msg, color );
 				ui.notifyMessageArrived();
 
 				if ( !user.getPrivchat().isVisible() )

@@ -29,11 +29,11 @@ import java.util.logging.Logger;
 
 import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.Controller;
+import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.TopicDTO;
 import net.usikkert.kouchat.misc.WaitingList;
-import net.usikkert.kouchat.ui.UIMessages;
 import net.usikkert.kouchat.ui.UserInterface;
 import net.usikkert.kouchat.util.Tools;
 
@@ -46,26 +46,35 @@ public class DefaultMessageResponder implements MessageResponder
 {
 	private static final Logger LOG = Logger.getLogger( DefaultMessageResponder.class.getName() );
 
-	private Controller controller;
-	private NickDTO me;
-	private Settings settings;
-	private TransferList tList;
-	private WaitingList wList;
-	private UserInterface ui;
-	private UIMessages uiMsg;
+	private final Controller controller;
+	private final NickDTO me;
+	private final TransferList tList;
+	private final WaitingList wList;
+	private final UserInterface ui;
+	private final MessageController msgController;
 
-	public DefaultMessageResponder( Controller controller, UserInterface ui )
+	/**
+	 * Constructor.
+	 *
+	 * @param controller The controller to use for communication.
+	 * @param ui The user interface to update.
+	 */
+	public DefaultMessageResponder( final Controller controller, final UserInterface ui )
 	{
 		this.controller = controller;
 		this.ui = ui;
 
-		uiMsg = ui.getUIMessages();
-		settings = Settings.getSettings();
-		me = settings.getMe();
+		msgController = ui.getMessageController();
+		me = Settings.getSettings().getMe();
 		tList = controller.getTransferList();
 		wList = controller.getWaitingList();
 	}
 
+	/**
+	 * Shows a message from a user in the user interface.
+	 * If the user that sent the message does not yet exist in the user list,
+	 * the user is asked to identify itself before the message is shown.
+	 */
 	@Override
 	public void messageArrived( final int userCode, final String msg, final int color )
 	{
@@ -87,7 +96,7 @@ public class DefaultMessageResponder implements MessageResponder
 							sleep( 50 );
 						}
 
-						catch ( InterruptedException e )
+						catch ( final InterruptedException e )
 						{
 							LOG.log( Level.SEVERE, e.toString(), e );
 						}
@@ -100,7 +109,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 					if ( !user.isAway() )
 					{
-						uiMsg.showUserMessage( user.getNick(), msg, color );
+						msgController.showUserMessage( user.getNick(), msg, color );
 						ui.notifyMessageArrived();
 					}
 				}
@@ -125,26 +134,35 @@ public class DefaultMessageResponder implements MessageResponder
 			t.run();
 	}
 
+	/**
+	 * When a user logs off it is removed from the user list, and
+	 * any open private chat window is notified.
+	 */
 	@Override
-	public void userLogOff( int userCode )
+	public void userLogOff( final int userCode )
 	{
 		NickDTO user = controller.getNick( userCode );
 
 		if ( user != null )
 		{
 			controller.getNickList().remove( user );
-			uiMsg.showLoggedOff( user.getNick() );
+			msgController.showSystemMessage( user.getNick() + " logged off" );
 
 			if ( user.getPrivchat() != null )
 			{
-				uiMsg.showPrivateLoggedOff( user );
+				msgController.showPrivateSystemMessage( user, user.getNick() + " logged off" );
 				user.getPrivchat().setLoggedOff();
 			}
 		}
 	}
 
+	/**
+	 * When a user logs on, the user is added to the user list.
+	 * If the user's nick name is not valid, it is reset, and reported if
+	 * it is identical to the application user's nick.
+	 */
 	@Override
-	public void userLogOn( NickDTO newUser )
+	public void userLogOn( final NickDTO newUser )
 	{
 		if ( me.getNick().trim().equalsIgnoreCase( newUser.getNick() ) )
 		{
@@ -163,10 +181,17 @@ public class DefaultMessageResponder implements MessageResponder
 		}
 
 		controller.getNickList().add( newUser );
-		uiMsg.showUserLoggedOn( newUser.getNick(), newUser.getIpAddress() );
+		msgController.showSystemMessage( newUser.getNick() + " logged on from " + newUser.getIpAddress() );
 	}
 
-	private void userShowedUp( NickDTO newUser )
+	/**
+	 * If a user exposes itself without having sent a logon message first,
+	 * and the expose is not part of the application startup, the user
+	 * is checked and added to the user list.
+	 *
+	 * @param newUser The unknown user.
+	 */
+	private void userShowedUp( final NickDTO newUser )
 	{
 		if ( me.getNick().trim().equalsIgnoreCase( newUser.getNick() ) )
 		{
@@ -185,11 +210,14 @@ public class DefaultMessageResponder implements MessageResponder
 		}
 
 		controller.getNickList().add( newUser );
-		uiMsg.showShowedUnexpectedly( newUser.getNick(), newUser.getIpAddress() );
+		msgController.showSystemMessage( newUser.getNick() + " showed up unexpectedly from " + newUser.getIpAddress() );
 	}
 
+	/**
+	 * Updates the topic, and shows it.
+	 */
 	@Override
-	public void topicChanged( int userCode, String newTopic, String nick, long time )
+	public void topicChanged( final int userCode, final String newTopic, final String nick, final long time )
 	{
 		if ( controller.isNewUser( userCode ) )
 		{
@@ -210,13 +238,14 @@ public class DefaultMessageResponder implements MessageResponder
 					{
 						if ( wList.isLoggedOn() )
 						{
-							uiMsg.showTopicChanged( nick, newTopic );
+							msgController.showSystemMessage( nick + " changed the topic to: " + newTopic );
 						}
 
+						// Shown during startup.
 						else
 						{
 							String date = Tools.dateToString( new Date( time ), "HH:mm:ss, dd. MMM. yy" );
-							uiMsg.showTopic( newTopic, nick, date );
+							msgController.showSystemMessage( "Topic is: " + newTopic + " (set by " + nick + " at " + date + ")" );
 						}
 
 						topic.changeTopic( newTopic, nick, time );
@@ -228,7 +257,7 @@ public class DefaultMessageResponder implements MessageResponder
 				{
 					if ( !topic.getTopic().equals( newTopic ) && time > topic.getTime() && wList.isLoggedOn() )
 					{
-						uiMsg.showTopicRemoved( nick );
+						msgController.showSystemMessage( nick + " removed the topic" );
 						topic.changeTopic( "", "", time );
 						ui.showTopic();
 					}
@@ -237,8 +266,12 @@ public class DefaultMessageResponder implements MessageResponder
 		}
 	}
 
+	/**
+	 * Adds unknown users that are exposing themselves.
+	 * This happens mostly during startup, but can also happen after a timeout.
+	 */
 	@Override
-	public void userExposing( NickDTO user )
+	public void userExposing( final NickDTO user )
 	{
 		if ( controller.isNewUser( user.getCode() ) )
 		{
@@ -262,6 +295,7 @@ public class DefaultMessageResponder implements MessageResponder
 		{
 			NickDTO orgUser = controller.getNick( user.getCode() );
 
+			// When users timeout, there can become sync issues
 			if ( !orgUser.getNick().equals( user.getNick() ) )
 			{
 				nickChanged( user.getCode(), user.getNick() );
@@ -269,25 +303,36 @@ public class DefaultMessageResponder implements MessageResponder
 		}
 	}
 
+	/**
+	 * When the user has logged on to the network, the application updates
+	 * the status.
+	 */
 	@Override
-	public void meLogOn( String ipAddress )
+	public void meLogOn( final String ipAddress )
 	{
 		controller.setConnected( true );
 		me.setIpAddress( ipAddress );
 		String date = Tools.dateToString( null, "EEEE, d MMMM yyyy" );
-		uiMsg.showTodayIs( date );
-		uiMsg.showMeLoggedOn( me.getNick(), ipAddress );
+		msgController.showSystemMessage( "Today is " + date );
+		msgController.showSystemMessage( "You logged on as " + me.getNick() + " from " + ipAddress );
 		ui.showTopic();
 	}
 
+	/**
+	 * Updates the writing status of the user.
+	 */
 	@Override
-	public void writingChanged( int userCode, boolean writing )
+	public void writingChanged( final int userCode, final boolean writing )
 	{
 		controller.changeWriting( userCode, writing );
 	}
 
+	/**
+	 * Updates the away status for the user, both in the main window
+	 * and in the private chat window.
+	 */
 	@Override
-	public void awayChanged( int userCode, boolean away, String awayMsg )
+	public void awayChanged( final int userCode, final boolean away, final String awayMsg )
 	{
 		if ( controller.isNewUser( userCode ) )
 		{
@@ -304,42 +349,50 @@ public class DefaultMessageResponder implements MessageResponder
 				controller.changeAwayStatus( userCode, away, awayMsg );
 
 				if ( away )
-					uiMsg.showUserAway( user.getNick(), awayMsg );
+					msgController.showSystemMessage( user.getNick() + " went away: " + awayMsg );
 				else
-					uiMsg.showUserBack( user.getNick() );
+					msgController.showSystemMessage( user.getNick() + " came back" );
 
 				if ( user.getPrivchat() != null )
 				{
 					user.getPrivchat().setAway( away );
 
 					if ( away )
-						uiMsg.showPrivateUserAway( user );
+						msgController.showPrivateSystemMessage( user, user.getNick() + " went away: " + user.getAwayMsg() );
 					else
-						uiMsg.showPrivateUserBack( user );
+						msgController.showPrivateSystemMessage( user, user.getNick() + " came back" );
 				}
 			}
 
-			catch ( CommandException e )
+			catch ( final CommandException e )
 			{
 				LOG.log( Level.SEVERE, "Something very strange going on here...\n" + e );
 			}
 		}
 	}
 
+	/**
+	 * Updates the idle time of the application user,
+	 * and checks if the ip address has changed.
+	 */
 	@Override
-	public void meIdle( String ipAddress )
+	public void meIdle( final String ipAddress )
 	{
 		me.setLastIdle( System.currentTimeMillis() );
 
 		if ( !me.getIpAddress().equals( ipAddress ) )
 		{
-			uiMsg.showChangedIp( "You", me.getIpAddress(), ipAddress );
+			msgController.showSystemMessage( "You changed ip from " + me.getIpAddress() + " to " + ipAddress );
 			me.setIpAddress( ipAddress );
 		}
 	}
 
+	/**
+	 * Updates the idle time of the user,
+	 * and checks if the user's ip address has changed.
+	 */
 	@Override
-	public void userIdle( int userCode, String ipAddress )
+	public void userIdle( final int userCode, final String ipAddress )
 	{
 		if ( controller.isNewUser( userCode ) )
 		{
@@ -355,26 +408,36 @@ public class DefaultMessageResponder implements MessageResponder
 
 			if ( !user.getIpAddress().equals( ipAddress ) )
 			{
-				uiMsg.showChangedIp( user.getNick(), user.getIpAddress(), ipAddress );
+				msgController.showSystemMessage( user.getNick() + " changed ip from " + user.getIpAddress() + " to " + ipAddress );
 				user.setIpAddress( ipAddress );
 			}
 		}
 	}
 
+	/**
+	 * Sends the current topic.
+	 */
 	@Override
 	public void topicRequested()
 	{
 		controller.sendTopicMessage();
 	}
 
+	/**
+	 * Someone sent a message that the application user's nick is
+	 * in use, so the nick is reset.
+	 */
 	@Override
 	public void nickCrash()
 	{
 		controller.changeNick( me.getCode(), "" + me.getCode() );
-		uiMsg.showNickCrash( settings.getMe().getNick() );
+		msgController.showSystemMessage( "Nick crash, resetting nick to " + me.getNick() );
 		ui.showTopic();
 	}
 
+	/**
+	 * Sends information about this client to the other clients.
+	 */
 	@Override
 	public void exposeRequested()
 	{
@@ -382,8 +445,11 @@ public class DefaultMessageResponder implements MessageResponder
 		controller.sendClientInfo();
 	}
 
+	/**
+	 * Changes the nick of a user, if valid.
+	 */
 	@Override
-	public void nickChanged( int userCode, String newNick )
+	public void nickChanged( final int userCode, final String newNick )
 	{
 		if ( controller.isNewUser( userCode ) )
 		{
@@ -394,22 +460,35 @@ public class DefaultMessageResponder implements MessageResponder
 
 		else
 		{
+			NickDTO user = controller.getNick( userCode );
+
 			if ( !controller.isNickInUse( newNick ) && Tools.isValidNick( newNick ) )
 			{
-				NickDTO user = controller.getNick( userCode );
 				String oldNick = user.getNick();
 				controller.changeNick( userCode, newNick );
-				uiMsg.showNickChanged( oldNick, newNick );
+				msgController.showSystemMessage( oldNick + " changed nick to " + newNick );
 
 				if ( user.getPrivchat() != null )
 				{
-					uiMsg.showPrivateNickChanged( user, oldNick );
+					msgController.showPrivateSystemMessage( user, oldNick + " changed nick to " + user.getNick() );
 					user.getPrivchat().updateNick();
 				}
+			}
+
+			else
+			{
+				LOG.log( Level.SEVERE, user.getNick() + " tried to change nick to '" + newNick + "', which is invalid" );
 			}
 		}
 	}
 
+	/**
+	 * Asks if the application user wants to receive a file from another user,
+	 * and if so, starts a server listening for a file transfer.
+	 *
+	 * If the user does not exist in the user list, it's asked to identify
+	 * itself first.
+	 */
 	@Override
 	public void fileSend( final int userCode, final long byteSize, final String fileName, final String user, final int fileHash, final int fileCode )
 	{
@@ -435,7 +514,7 @@ public class DefaultMessageResponder implements MessageResponder
 						sleep( 50 );
 					}
 
-					catch ( InterruptedException e )
+					catch ( final InterruptedException e )
 					{
 						LOG.log( Level.SEVERE, e.toString(), e );
 					}
@@ -444,7 +523,7 @@ public class DefaultMessageResponder implements MessageResponder
 				if ( !controller.isNewUser( userCode ) )
 				{
 					String size = Tools.byteToString( byteSize );
-					uiMsg.showReceiveRequest( user, fileName, size );
+					msgController.showSystemMessage( user + " is trying to send the file " + fileName + " [" + size + "]" );
 
 					if ( ui.askFileSave( user, fileName, size ) )
 					{
@@ -464,20 +543,21 @@ public class DefaultMessageResponder implements MessageResponder
 
 								if ( fileRes.transfer() )
 								{
-									uiMsg.showReceiveSuccess( fileName, user, file.getName() );
+									msgController.showSystemMessage( "Successfully received " + fileName
+											+ " from " + user + ", and saved as " + file.getName() );
 								}
 
 								else
 								{
-									uiMsg.showReceiveFailed( fileName, user );
+									msgController.showSystemMessage( "Failed to receive " + fileName + " from " + user );
 									fileRes.cancel();
 								}
 							}
 
-							catch ( ServerException e )
+							catch ( final ServerException e )
 							{
 								LOG.log( Level.SEVERE, e.toString(), e );
-								uiMsg.showReceiveFailed( fileName, user );
+								msgController.showSystemMessage( "Failed to receive " + fileName + " from " + user );
 								controller.sendFileAbort( userCode, fileHash, fileName );
 								fileRes.cancel();
 							}
@@ -490,14 +570,14 @@ public class DefaultMessageResponder implements MessageResponder
 
 						else
 						{
-							uiMsg.showReceiveDeclined( fileName, user );
+							msgController.showSystemMessage( "You declined to receive " + fileName + " from " + user );
 							controller.sendFileAbort( userCode, fileHash, fileName );
 						}
 					}
 
 					else
 					{
-						uiMsg.showReceiveDeclined( fileName, user );
+						msgController.showSystemMessage( "You declined to receive " + fileName + " from " + user );
 						controller.sendFileAbort( userCode, fileHash, fileName );
 					}
 				}
@@ -510,8 +590,12 @@ public class DefaultMessageResponder implements MessageResponder
 		} .start();
 	}
 
+	/**
+	 * The other user stopped a file transfer from the application user.
+	 * Updates the status in the file sender.
+	 */
 	@Override
-	public void fileSendAborted( int userCode, String fileName, int fileHash )
+	public void fileSendAborted( final int userCode, final String fileName, final int fileHash )
 	{
 		NickDTO user = controller.getNick( userCode );
 		FileSender fileSend = tList.getFileSender( user, fileName, fileHash );
@@ -519,11 +603,15 @@ public class DefaultMessageResponder implements MessageResponder
 		if ( fileSend != null )
 		{
 			fileSend.cancel();
-			uiMsg.showSendAborted( user.getNick(), fileName );
+			msgController.showSystemMessage( user.getNick() + " aborted sending of " + fileName );
 			tList.removeFileSender( fileSend );
 		}
 	}
 
+	/**
+	 * The other user has accepted a file transfer. Will try to connect to the
+	 * user to send the file.
+	 */
 	@Override
 	public void fileSendAccepted( final int userCode, final String fileName, final int fileHash, final int port )
 	{
@@ -531,12 +619,12 @@ public class DefaultMessageResponder implements MessageResponder
 		{
 			public void run()
 			{
-				NickDTO fUser = controller.getNick( userCode );
-				FileSender fileSend = tList.getFileSender( fUser, fileName, fileHash );
+				NickDTO user = controller.getNick( userCode );
+				FileSender fileSend = tList.getFileSender( user, fileName, fileHash );
 
 				if ( fileSend != null )
 				{
-					uiMsg.showSendAccepted( fUser.getNick(), fileName );
+					msgController.showSystemMessage( user.getNick() + " accepted sending of " + fileName );
 
 					// Give the server some time to set up the connection first
 					try
@@ -544,19 +632,19 @@ public class DefaultMessageResponder implements MessageResponder
 						Thread.sleep( 200 );
 					}
 
-					catch ( InterruptedException e )
+					catch ( final InterruptedException e )
 					{
 						LOG.log( Level.SEVERE, e.toString(), e );
 					}
 
 					if ( fileSend.transfer( port ) )
 					{
-						uiMsg.showSendSuccess( fileName, fUser.getNick() );
+						msgController.showSystemMessage( fileName + " successfully sent to " + user.getNick() );
 					}
 
 					else
 					{
-						uiMsg.showSendFailed( fileName, fUser.getNick() );
+						msgController.showSystemMessage( "Failed to send " + fileName + " to " + user.getNick() );
 					}
 
 					tList.removeFileSender( fileSend );
@@ -565,8 +653,11 @@ public class DefaultMessageResponder implements MessageResponder
 		} .start();
 	}
 
+	/**
+	 * Returns information about this client.
+	 */
 	@Override
-	public void clientInfo( int userCode, String client, long timeSinceLogon, String operatingSystem, int privateChatPort )
+	public void clientInfo( final int userCode, final String client, final long timeSinceLogon, final String operatingSystem, final int privateChatPort )
 	{
 		NickDTO user = controller.getNick( userCode );
 

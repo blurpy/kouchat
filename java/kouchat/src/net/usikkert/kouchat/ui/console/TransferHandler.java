@@ -39,41 +39,59 @@ public class TransferHandler implements FileTransferListener
 	 *
 	 * @param fileTransfer The file transfer to listen to.
 	 */
-	public TransferHandler( FileTransfer fileTransfer )
+	public TransferHandler( final FileTransfer fileTransfer )
 	{
 		fileTransfer.registerListener( this );
 	}
 
+	/**
+	 * Not implemented.
+	 */
 	@Override
 	public void statusCompleted()
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 */
 	@Override
 	public void statusConnecting()
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 */
 	@Override
 	public void statusFailed()
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 */
 	@Override
 	public void statusTransferring()
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 */
 	@Override
 	public void statusWaiting()
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 */
 	@Override
 	public void transferUpdate()
 	{

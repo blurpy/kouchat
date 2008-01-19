@@ -31,9 +31,7 @@ import java.util.logging.Logger;
 import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.CommandParser;
 import net.usikkert.kouchat.misc.Controller;
-import net.usikkert.kouchat.misc.NickDTO;
-import net.usikkert.kouchat.misc.Settings;
-import net.usikkert.kouchat.ui.UIMessages;
+import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.ui.UserInterface;
 
 /**
@@ -45,11 +43,10 @@ public class ConsoleInput
 {
 	private static final Logger LOG = Logger.getLogger( ConsoleInput.class.getName() );
 
-	private BufferedReader stdin;
-	private Controller controller;
-	private CommandParser cmdParser;
-	private UIMessages uiMsg;
-	private NickDTO me;
+	private final BufferedReader stdin;
+	private final Controller controller;
+	private final CommandParser cmdParser;
+	private final MessageController msgController;
 
 	/**
 	 * Constructor. Initializes input from System.in.
@@ -57,14 +54,13 @@ public class ConsoleInput
 	 * @param controller The controller to use.
 	 * @param ui The user interface to send messages to.
 	 */
-	public ConsoleInput( Controller controller, UserInterface ui )
+	public ConsoleInput( final Controller controller, final UserInterface ui )
 	{
 		this.controller = controller;
 
-		uiMsg = ui.getUIMessages();
+		msgController = ui.getMessageController();
 		stdin = new BufferedReader( new InputStreamReader( System.in ) );
 		cmdParser = new CommandParser( controller, ui );
-		me = Settings.getSettings().getMe();
 
 		Runtime.getRuntime().addShutdownHook( new Thread( "ConsoleInputShutdownHook" )
 		{
@@ -100,30 +96,22 @@ public class ConsoleInput
 
 					else
 					{
-						if ( !me.isAway() )
+						try
 						{
-							try
-							{
-								controller.sendChatMessage( input );
-								uiMsg.showOwnMessage( input );
-							}
-
-							catch ( CommandException e )
-							{
-								LOG.log( Level.WARNING, e.toString() );
-								uiMsg.showActionNotAllowed();
-							}
+							controller.sendChatMessage( input );
+							msgController.showOwnMessage( input );
 						}
 
-						else
+						catch ( final CommandException e )
 						{
-							uiMsg.showActionNotAllowed();
+							LOG.log( Level.WARNING, e.toString() );
+							msgController.showSystemMessage( e.toString() );
 						}
 					}
 				}
 			}
 
-			catch ( IOException e )
+			catch ( final IOException e )
 			{
 				LOG.log( Level.SEVERE, e.toString(), e );
 			}
