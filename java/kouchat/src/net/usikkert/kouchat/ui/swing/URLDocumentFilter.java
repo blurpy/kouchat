@@ -67,7 +67,7 @@ public class URLDocumentFilter extends DocumentFilter
 	 * and saved in an attribute.
 	 */
 	@Override
-	public void insertString( final FilterBypass fb, final int offset, final String text, AttributeSet attr ) throws BadLocationException
+	public void insertString( final FilterBypass fb, final int offset, final String text, final AttributeSet attr ) throws BadLocationException
 	{
 		super.insertString( fb, offset, text, attr );
 
@@ -113,7 +113,7 @@ public class URLDocumentFilter extends DocumentFilter
 	 * @return The position of the first character in the url, or -1
 	 * if no url was found.
 	 */
-	private int findURLPos( String text, int offset )
+	private int findURLPos( final String text, final int offset )
 	{
 		int prot = text.indexOf( "://", offset );
 		int www = text.indexOf( " www", offset );

@@ -42,15 +42,15 @@ public class ChatPopup extends JPopupMenu implements MouseListener, ActionListen
 {
 	private static final long serialVersionUID = 1L;
 
-	private JMenuItem copyMI, selectAllMI;
-	private JTextPane chatTP;
+	private final JMenuItem copyMI, selectAllMI;
+	private final JTextPane chatTP;
 
 	/**
 	 * Constructor. Creates the menu.
 	 *
 	 * @param chatTP The text pane to use the popup on.
 	 */
-	public ChatPopup( JTextPane chatTP )
+	public ChatPopup( final JTextPane chatTP )
 	{
 		this.chatTP = chatTP;
 
@@ -71,25 +71,25 @@ public class ChatPopup extends JPopupMenu implements MouseListener, ActionListen
 	}
 
 	@Override
-	public void mouseClicked( MouseEvent e )
+	public void mouseClicked( final MouseEvent e )
 	{
 
 	}
 
 	@Override
-	public void mouseEntered( MouseEvent e )
+	public void mouseEntered( final MouseEvent e )
 	{
 
 	}
 
 	@Override
-	public void mouseExited( MouseEvent e )
+	public void mouseExited( final MouseEvent e )
 	{
 
 	}
 
 	@Override
-	public void mousePressed( MouseEvent e )
+	public void mousePressed( final MouseEvent e )
 	{
 
 	}
@@ -98,7 +98,7 @@ public class ChatPopup extends JPopupMenu implements MouseListener, ActionListen
 	 * Shows the popup menu if right mouse button was used.
 	 */
 	@Override
-	public void mouseReleased( MouseEvent e )
+	public void mouseReleased( final MouseEvent e )
 	{
 		if ( isPopupTrigger( e ) )
 		{
@@ -120,7 +120,7 @@ public class ChatPopup extends JPopupMenu implements MouseListener, ActionListen
 	 * Selects all the text.
 	 */
 	@Override
-	public void actionPerformed( ActionEvent e )
+	public void actionPerformed( final ActionEvent e )
 	{
 		chatTP.requestFocusInWindow();
 		chatTP.selectAll();

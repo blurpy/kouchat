@@ -30,6 +30,9 @@ public class ByteCounter
 {
 	private long lastTime, spentTime, bytesPerSec, bytesPerSecCounter;
 
+	/**
+	 * Resets the byte counter to zero.
+	 */
 	public void reset()
 	{
 		lastTime = System.currentTimeMillis();
@@ -38,7 +41,14 @@ public class ByteCounter
 		bytesPerSecCounter = 0;
 	}
 
-	public void update( long bytes )
+	/**
+	 * Updates the byte counter and time spent.
+	 * If the time spent is a second or more, the number of
+	 * bytes is saved and the counters are reset.
+	 *
+	 * @param bytes Number of bytes to add to the counter.
+	 */
+	public void update( final long bytes )
 	{
 		long currentTime = System.currentTimeMillis();
 		spentTime += currentTime - lastTime;
@@ -53,6 +63,11 @@ public class ByteCounter
 		}
 	}
 
+	/**
+	 * Gets the current number of bytes per seconds.
+	 *
+	 * @return The current number of bytes per second.
+	 */
 	public long getBytesPerSec()
 	{
 		return bytesPerSec;

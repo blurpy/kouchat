@@ -57,7 +57,7 @@ public final class KouChat
 	 *
 	 * @param args The arguments given when starting KouChat.
 	 */
-	public static void main( String[] args )
+	public static void main( final String[] args )
 	{
 		System.out.println( Constants.APP_NAME + " v" + Constants.APP_VERSION );
 		System.out.println( "By " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL + " - " + Constants.APP_WEB );
@@ -109,7 +109,7 @@ public final class KouChat
 			}
 		}
 
-		catch ( UIException e )
+		catch ( final UIException e )
 		{
 			System.err.println( e );
 		}

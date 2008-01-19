@@ -56,7 +56,7 @@ public class Controller
 	private NickDTO me;
 	private Timer delayedLogonTimer;
 
-	public Controller( UserInterface ui )
+	public Controller( final UserInterface ui )
 	{
 		Runtime.getRuntime().addShutdownHook( new Thread( "ControllerShutdownHook" )
 		{
@@ -98,7 +98,7 @@ public class Controller
 		return chatState.isWrote();
 	}
 
-	public void changeWriting( int code, boolean writing )
+	public void changeWriting( final int code, final boolean writing )
 	{
 		nickController.changeWriting( code, writing );
 
@@ -113,7 +113,7 @@ public class Controller
 		}
 	}
 
-	public void changeAwayStatus( int code, boolean away, String awaymsg ) throws CommandException
+	public void changeAwayStatus( final int code, final boolean away, final String awaymsg ) throws CommandException
 	{
 		if ( code == me.getCode() && !isConnected() )
 			throw new CommandException( "You tried to change away mode without being connected. This should never happen." );
@@ -123,17 +123,17 @@ public class Controller
 			nickController.changeAwayStatus( code, away, awaymsg );
 	}
 
-	public boolean isNickInUse( String nick )
+	public boolean isNickInUse( final String nick )
 	{
 		return nickController.isNickInUse( nick );
 	}
 
-	public boolean isNewUser( int code )
+	public boolean isNewUser( final int code )
 	{
 		return nickController.isNewUser( code );
 	}
 
-	public void changeMyNick( String nick ) throws CommandException
+	public void changeMyNick( final String nick ) throws CommandException
 	{
 		if ( me.isAway() )
 			throw new CommandException( "You tried to change nick while away. This should never happen." );
@@ -146,17 +146,17 @@ public class Controller
 		}
 	}
 
-	public void changeNick( int code, String nick )
+	public void changeNick( final int code, final String nick )
 	{
 		nickController.changeNick( code, nick );
 	}
 
-	public NickDTO getNick( int code )
+	public NickDTO getNick( final int code )
 	{
 		return nickController.getNick( code );
 	}
 
-	public NickDTO getNick( String nick )
+	public NickDTO getNick( final String nick )
 	{
 		return nickController.getNick( nick );
 	}
@@ -215,7 +215,7 @@ public class Controller
 		messages.sendIdleMessage();
 	}
 
-	public void sendChatMessage( String msg ) throws CommandException
+	public void sendChatMessage( final String msg ) throws CommandException
 	{
 		if ( !isConnected() )
 			throw new CommandException( "You tried to send a chat message without being connected. This should never happen." );
@@ -234,7 +234,7 @@ public class Controller
 		messages.sendTopicMessage( getTopic() );
 	}
 
-	public void changeTopic( String newTopic ) throws CommandException
+	public void changeTopic( final String newTopic ) throws CommandException
 	{
 		if ( !isConnected() )
 			throw new CommandException( "You tried to change the topic without being connected. This should never happen." );
@@ -262,22 +262,22 @@ public class Controller
 		messages.sendBackMessage();
 	}
 
-	public void sendNickCrashMessage( String nick )
+	public void sendNickCrashMessage( final String nick )
 	{
 		messages.sendNickCrashMessage( nick );
 	}
 
-	public void sendFileAbort( int msgCode, int fileHash, String fileName )
+	public void sendFileAbort( final int msgCode, final int fileHash, final String fileName )
 	{
 		messages.sendFileAbort( msgCode, fileHash, fileName );
 	}
 
-	public void sendFileAccept( int msgCode, int port, int fileHash, String fileName )
+	public void sendFileAccept( final int msgCode, final int port, final int fileHash, final String fileName )
 	{
 		messages.sendFileAccept( msgCode, port, fileHash, fileName );
 	}
 
-	public void sendFile( int sendToUserCode, long fileLength, int fileHash, String fileName ) throws CommandException
+	public void sendFile( final int sendToUserCode, final long fileLength, final int fileHash, final String fileName ) throws CommandException
 	{
 		if ( !isConnected() )
 			throw new CommandException( "You tried to send a file without being connected. This should never happen." );
@@ -328,7 +328,7 @@ public class Controller
 		messages.sendClient();
 	}
 
-	public void sendPrivateMessage( String privmsg, String userIP, int userPort, int userCode ) throws CommandException
+	public void sendPrivateMessage( final String privmsg, final String userIP, final int userPort, final int userCode ) throws CommandException
 	{
 		if ( !isConnected() )
 			throw new CommandException( "You tried to send a private chat message without being connected. This should never happen." );
@@ -344,7 +344,7 @@ public class Controller
 			messages.sendPrivateMessage( privmsg, userIP, userPort, userCode );
 	}
 
-	public void changeNewMessage( int code, boolean newMsg )
+	public void changeNewMessage( final int code, final boolean newMsg )
 	{
 		nickController.changeNewMessage( code, newMsg );
 	}
@@ -354,7 +354,7 @@ public class Controller
 		return chatState.isConnected();
 	}
 
-	public void setConnected( boolean connected )
+	public void setConnected( final boolean connected )
 	{
 		chatState.setConnected( connected );
 	}
@@ -369,7 +369,7 @@ public class Controller
 				Thread.sleep( 1500 );
 			}
 
-			catch ( InterruptedException e )
+			catch ( final InterruptedException e )
 			{
 				LOG.log( Level.SEVERE, e.toString(), e );
 			}

@@ -60,12 +60,12 @@ public class ButtonPanel extends JPanel implements ActionListener
 		setBorder( BorderFactory.createEmptyBorder( 0, 0, 1, 1 ) );
 	}
 
-	public void setMediator( Mediator mediator )
+	public void setMediator( final Mediator mediator )
 	{
 		this.mediator = mediator;
 	}
 
-	public void setAwayState( boolean away )
+	public void setAwayState( final boolean away )
 	{
 		topicB.setEnabled( !away );
 	}
@@ -76,7 +76,7 @@ public class ButtonPanel extends JPanel implements ActionListener
 	}
 
 	@Override
-	public void actionPerformed( ActionEvent e )
+	public void actionPerformed( final ActionEvent e )
 	{
 		if ( e.getSource() == minimizeB )
 		{

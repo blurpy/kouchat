@@ -98,12 +98,12 @@ public class MenuBar extends JMenuBar implements ActionListener
 		add( helpMenu );
 	}
 
-	public void setMediator( Mediator mediator )
+	public void setMediator( final Mediator mediator )
 	{
 		this.mediator = mediator;
 	}
 
-	public void setAwayState( boolean away )
+	public void setAwayState( final boolean away )
 	{
 		settingsMI.setEnabled( !away );
 		topicMI.setEnabled( !away );
@@ -120,7 +120,7 @@ public class MenuBar extends JMenuBar implements ActionListener
 	}
 
 	@Override
-	public void actionPerformed( ActionEvent e )
+	public void actionPerformed( final ActionEvent e )
 	{
 		if ( e.getSource() == quitMI )
 		{

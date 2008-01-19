@@ -34,7 +34,7 @@ public class ConsoleChatWindow implements ChatWindow
 	 * Shows messages with a simple System.out.println()
 	 */
 	@Override
-	public void appendToChat( String message, int color )
+	public void appendToChat( final String message, final int color )
 	{
 		System.out.println( message );
 	}

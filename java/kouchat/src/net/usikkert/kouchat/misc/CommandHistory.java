@@ -47,7 +47,7 @@ public class CommandHistory
 
 	private Direction direction;
 	private int cursor;
-	private List<String> history;
+	private final List<String> history;
 
 	/**
 	 * Default constructor.
@@ -65,7 +65,7 @@ public class CommandHistory
 	 *
 	 * @param command The command to add to the list.
 	 */
-	public void add( String command )
+	public void add( final String command )
 	{
 		boolean add = true;
 

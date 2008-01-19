@@ -22,6 +22,7 @@
 package net.usikkert.kouchat.util;
 
 import java.io.UnsupportedEncodingException;
+
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -74,7 +75,7 @@ public final class Tools
 	 * @param number The number to check.
 	 * @return A string representation of the number.
 	 */
-	public static String getDoubleDigit( int number )
+	public static String getDoubleDigit( final int number )
 	{
 		if ( number < 10 )
 			return "0" + number;
@@ -90,15 +91,15 @@ public final class Tools
 	 * @return A converted date.
 	 * @see SimpleDateFormat
 	 */
-	public static String dateToString( Date d, String format )
+	public static String dateToString( final Date d, final String format )
 	{
 		String date = "";
 		SimpleDateFormat formatter = new SimpleDateFormat( format, Locale.ENGLISH );
 
 		if ( d == null )
-			d = new Date();
-
-		date = formatter.format( d );
+			date = formatter.format( new Date() );
+		else
+			date = formatter.format( d );
 
 		return date;
 	}
@@ -111,7 +112,7 @@ public final class Tools
 	 * @return The string as a date.
 	 * @see SimpleDateFormat
 	 */
-	public static Date stringToDate( String s, String format )
+	public static Date stringToDate( final String s, final String format )
 	{
 		Date date = null;
 		SimpleDateFormat formatter = new SimpleDateFormat( format );
@@ -121,7 +122,7 @@ public final class Tools
 			date = formatter.parse( s );
 		}
 
-		catch ( ParseException e )
+		catch ( final ParseException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 		}
@@ -137,7 +138,7 @@ public final class Tools
 	 * @return The formatted number.
 	 * @see DecimalFormat
 	 */
-	public static String decimalFormat( String format, double number )
+	public static String decimalFormat( final String format, final double number )
 	{
 		DecimalFormat formatter = new DecimalFormat( format );
 		return formatter.format( number );
@@ -147,7 +148,7 @@ public final class Tools
 	 * Nick is valid if it consists of between 1 and 10 characters
 	 * of type [a-Z], [0-9], '-' and '_'.
 	 */
-	public static boolean isValidNick( String nick )
+	public static boolean isValidNick( final String nick )
 	{
 		if ( nick == null )
 			return false;
@@ -165,7 +166,7 @@ public final class Tools
 	 * @param bytes The number of bytes to convert.
 	 * @return A string representation of the bytes.
 	 */
-	public static String byteToString( long bytes )
+	public static String byteToString( final long bytes )
 	{
 		String size = "";
 		double kbSize = bytes / 1024.0;
@@ -190,7 +191,7 @@ public final class Tools
 	 * @param then An earlier time.
 	 * @return How long it's been since 'then'.
 	 */
-	public static String howLongFromNow( long then )
+	public static String howLongFromNow( final long then )
 	{
 		if ( then != 0 )
 		{
@@ -222,14 +223,14 @@ public final class Tools
 	 * @param text The text to count the bytes in.
 	 * @return Number of bytes found in the text.
 	 */
-	public static int getBytes( String text )
+	public static int getBytes( final String text )
 	{
 		try
 		{
 			return text.getBytes( Constants.MESSAGE_CHARSET ).length;
 		}
 
-		catch ( UnsupportedEncodingException e )
+		catch ( final UnsupportedEncodingException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 			return 0;

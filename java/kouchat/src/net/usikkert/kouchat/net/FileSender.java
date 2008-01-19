@@ -41,19 +41,20 @@ public class FileSender implements FileTransfer
 {
 	private static final Logger LOG = Logger.getLogger( FileSender.class.getName() );
 
-	private NickDTO nick;
+	private final NickDTO nick;
+	private final File file;
+	private final ByteCounter bCounter;
+	private final Direction direction;
+
 	private int percent;
 	private long transferred;
-	private File file;
 	private boolean sent, cancel, waiting;
 	private FileTransferListener listener;
-	private Direction direction;
-	private ByteCounter bCounter;
 	private FileInputStream fis;
 	private OutputStream os;
 	private Socket sock;
 
-	public FileSender( NickDTO nick, File file )
+	public FileSender( final NickDTO nick, final File file )
 	{
 		this.nick = nick;
 		this.file = file;
@@ -63,7 +64,7 @@ public class FileSender implements FileTransfer
 		waiting = true;
 	}
 
-	public boolean transfer( int port )
+	public boolean transfer( final int port )
 	{
 		if ( !cancel )
 		{
@@ -85,12 +86,12 @@ public class FileSender implements FileTransfer
 						sock = new Socket( InetAddress.getByName( nick.getIpAddress() ), port );
 					}
 
-					catch ( UnknownHostException e )
+					catch ( final UnknownHostException e )
 					{
 						LOG.log( Level.SEVERE, e.toString(), e );
 					}
 
-					catch ( IOException e )
+					catch ( final IOException e )
 					{
 						LOG.log( Level.SEVERE, e.toString(), e );
 					}
@@ -100,7 +101,7 @@ public class FileSender implements FileTransfer
 						Thread.sleep( 100 );
 					}
 
-					catch ( InterruptedException e )
+					catch ( final InterruptedException e )
 					{
 						LOG.log( Level.SEVERE, e.toString(), e );
 					}
@@ -154,13 +155,13 @@ public class FileSender implements FileTransfer
 				}
 			}
 
-			catch ( UnknownHostException e )
+			catch ( final UnknownHostException e )
 			{
 				LOG.log( Level.SEVERE, e.toString(), e );
 				listener.statusFailed();
 			}
 
-			catch ( IOException e )
+			catch ( final IOException e )
 			{
 				LOG.log( Level.SEVERE, e.toString() );
 				listener.statusFailed();
@@ -186,7 +187,7 @@ public class FileSender implements FileTransfer
 			}
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 		}
@@ -197,7 +198,7 @@ public class FileSender implements FileTransfer
 				os.flush();
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 		}
@@ -211,7 +212,7 @@ public class FileSender implements FileTransfer
 			}
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 		}
@@ -225,7 +226,7 @@ public class FileSender implements FileTransfer
 			}
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 		}
@@ -304,7 +305,7 @@ public class FileSender implements FileTransfer
 	}
 
 	@Override
-	public void registerListener( FileTransferListener listener )
+	public void registerListener( final FileTransferListener listener )
 	{
 		this.listener = listener;
 		listener.statusWaiting();

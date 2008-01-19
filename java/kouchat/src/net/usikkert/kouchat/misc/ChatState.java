@@ -21,11 +21,31 @@
 
 package net.usikkert.kouchat.misc;
 
+/**
+ * This class keeps some information about the current state of the chat.
+ *
+ * @author Christian Ihle
+ */
 public class ChatState
 {
-	private TopicDTO topic;
-	private boolean wrote, connected;
+	/**
+	 * This keeps information about the current topic in the chat.
+	 */
+	private final TopicDTO topic;
 
+	/**
+	 * Whether the application user was writing at the moment this was updated.
+	 */
+	private boolean wrote;
+
+	/**
+	 * Whether the application is connected to the network.
+	 */
+	private boolean connected;
+
+	/**
+	 * Constructor.
+	 */
 	public ChatState()
 	{
 		topic = new TopicDTO();
@@ -33,27 +53,52 @@ public class ChatState
 		connected = false;
 	}
 
+	/**
+	 * Returns if the application user wrote the last time this was updated.
+	 *
+	 * @return True if the application user wrote the last time this was updated.
+	 */
 	public boolean isWrote()
 	{
 		return wrote;
 	}
 
-	public void setWrote( boolean wrote )
+	/**
+	 * Sets if the application user is writing at this moment.
+	 *
+	 * @param wrote True if the application user is writing at this moment.
+	 */
+	public void setWrote( final boolean wrote )
 	{
 		this.wrote = wrote;
 	}
 
+	/**
+	 * Gets the object containing the current topic information.
+	 *
+	 * @return The current topic.
+	 */
 	public TopicDTO getTopic()
 	{
 		return topic;
 	}
 
+	/**
+	 * Returns if the application is connected to the network.
+	 *
+	 * @return True if the application is connected to the network.
+	 */
 	public boolean isConnected()
 	{
 		return connected;
 	}
 
-	public void setConnected( boolean connected )
+	/**
+	 * Sets if the application is connected to the network.
+	 *
+	 * @param connected If the application is connected to the network.
+	 */
+	public void setConnected( final boolean connected )
 	{
 		this.connected = connected;
 	}

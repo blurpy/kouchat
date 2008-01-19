@@ -61,7 +61,7 @@ public class FileTransferHandler extends TransferHandler
 	 *
 	 * @param fileDropSource The source to find which user the file was dropped on.
 	 */
-	public FileTransferHandler( FileDropSource fileDropSource )
+	public FileTransferHandler( final FileDropSource fileDropSource )
 	{
 		this.fileDropSource = fileDropSource;
 
@@ -70,7 +70,7 @@ public class FileTransferHandler extends TransferHandler
 			uriListFlavor = new DataFlavor( "text/uri-list;class=java.lang.String" );
 		}
 
-		catch ( ClassNotFoundException e )
+		catch ( final ClassNotFoundException e )
 		{
 			LOG.log( Level.WARNING, e.toString() );
 		}
@@ -81,7 +81,7 @@ public class FileTransferHandler extends TransferHandler
 	 *
 	 * @param mediator The mediator to use.
 	 */
-	public void setMediator( Mediator mediator )
+	public void setMediator( final Mediator mediator )
 	{
 		this.mediator = mediator;
 	}
@@ -91,7 +91,7 @@ public class FileTransferHandler extends TransferHandler
 	 * Returns false if the data is of any other type.
 	 */
 	@Override
-	public boolean canImport( TransferSupport support )
+	public boolean canImport( final TransferSupport support )
 	{
 		return support.isDataFlavorSupported( DataFlavor.javaFileListFlavor ) || support.isDataFlavorSupported( uriListFlavor );
 	}
@@ -103,7 +103,7 @@ public class FileTransferHandler extends TransferHandler
 	 */
 	@SuppressWarnings( "unchecked" )
 	@Override
-	public boolean importData( TransferSupport support )
+	public boolean importData( final TransferSupport support )
 	{
 		if ( canImport( support ) )
 		{
@@ -145,7 +145,7 @@ public class FileTransferHandler extends TransferHandler
 								file = new File( uri );
 						}
 
-						catch ( URISyntaxException e )
+						catch ( final URISyntaxException e )
 						{
 							LOG.log( Level.WARNING, e.toString() );
 						}
@@ -167,12 +167,12 @@ public class FileTransferHandler extends TransferHandler
 					LOG.log( Level.WARNING, "No file dropped." );
 			}
 
-			catch ( UnsupportedFlavorException e )
+			catch ( final UnsupportedFlavorException e )
 			{
 				LOG.log( Level.WARNING, e.toString() );
 			}
 
-			catch ( IOException e )
+			catch ( final IOException e )
 			{
 				LOG.log( Level.WARNING, e.toString() );
 			}
@@ -186,7 +186,7 @@ public class FileTransferHandler extends TransferHandler
 	 * this transfer handler is registered on.
 	 */
 	@Override
-	protected Transferable createTransferable( JComponent c )
+	protected Transferable createTransferable( final JComponent c )
 	{
 		if ( c instanceof JTextComponent )
 		{
@@ -208,7 +208,7 @@ public class FileTransferHandler extends TransferHandler
 	 * To enable copy to clipboard.
 	 */
 	@Override
-	public int getSourceActions( JComponent c )
+	public int getSourceActions( final JComponent c )
 	{
 		return COPY;
 	}

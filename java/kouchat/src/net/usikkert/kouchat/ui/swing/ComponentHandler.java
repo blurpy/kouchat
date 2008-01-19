@@ -36,7 +36,7 @@ public class ComponentHandler
 		return sidePanel;
 	}
 
-	public void setSidePanel( SidePanel sidePanel )
+	public void setSidePanel( final SidePanel sidePanel )
 	{
 		this.sidePanel = sidePanel;
 	}
@@ -46,7 +46,7 @@ public class ComponentHandler
 		return settingsDialog;
 	}
 
-	public void setSettingsDialog( SettingsDialog settingsDialog )
+	public void setSettingsDialog( final SettingsDialog settingsDialog )
 	{
 		this.settingsDialog = settingsDialog;
 	}
@@ -56,7 +56,7 @@ public class ComponentHandler
 		return sysTray;
 	}
 
-	public void setSysTray( SysTray sysTray )
+	public void setSysTray( final SysTray sysTray )
 	{
 		this.sysTray = sysTray;
 	}
@@ -66,7 +66,7 @@ public class ComponentHandler
 		return menuBar;
 	}
 
-	public void setMenuBar( MenuBar menuBar )
+	public void setMenuBar( final MenuBar menuBar )
 	{
 		this.menuBar = menuBar;
 	}
@@ -76,7 +76,7 @@ public class ComponentHandler
 		return buttonPanel;
 	}
 
-	public void setButtonPanel( ButtonPanel buttonPanel )
+	public void setButtonPanel( final ButtonPanel buttonPanel )
 	{
 		this.buttonPanel = buttonPanel;
 	}
@@ -86,7 +86,7 @@ public class ComponentHandler
 		return gui;
 	}
 
-	public void setGui( KouChatFrame gui )
+	public void setGui( final KouChatFrame gui )
 	{
 		this.gui = gui;
 	}
@@ -96,7 +96,7 @@ public class ComponentHandler
 		return mainPanel;
 	}
 
-	public void setMainPanel( MainPanel mainPanel )
+	public void setMainPanel( final MainPanel mainPanel )
 	{
 		this.mainPanel = mainPanel;
 	}

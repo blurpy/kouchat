@@ -21,26 +21,49 @@
 
 package net.usikkert.kouchat.misc;
 
+/**
+ * This is used when the user does an illegal operation.
+ *
+ * @author Christian Ihle
+ */
 public class CommandException extends Exception
 {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Creates a CommandException with no message or cause.
+	 */
 	public CommandException()
 	{
 		super();
 	}
 
-	public CommandException( String message, Throwable cause )
+	/**
+	 * Creates a CommandException with the specified message and cause.
+	 *
+	 * @param message The exception message to use.
+	 * @param cause The cause of the exception.
+	 */
+	public CommandException( final String message, final Throwable cause )
 	{
 		super( message, cause );
 	}
 
-	public CommandException( String message )
+	/**
+	 * Creates a CommandException with the specified message.
+	 *
+	 * @param message The exception message to use.
+	 */
+	public CommandException( final String message )
 	{
 		super( message );
 	}
 
-	public CommandException( Throwable cause )
+	/**
+	 * Creates a CommandException with the specified cause.
+	 * @param cause The cause of the exception.
+	 */
+	public CommandException( final Throwable cause )
 	{
 		super( cause );
 	}

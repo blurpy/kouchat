@@ -21,8 +21,6 @@
 
 package net.usikkert.kouchat.net;
 
-//import static org.junit.Assert.*;
-
 import net.usikkert.kouchat.misc.NickDTO;
 
 import org.junit.After;
@@ -84,7 +82,7 @@ public class MessageParserTest implements MessageResponder
 	}
 
 	@Override
-	public void awayChanged( int userCode, boolean away, String awayMsg )
+	public void awayChanged( final int userCode, final boolean away, final String awayMsg )
 	{
 
 	}
@@ -96,43 +94,44 @@ public class MessageParserTest implements MessageResponder
 	}
 
 	@Override
-	public void fileSend( int userCode, long byteSize, String fileName, String user, int fileHash, int fileCode )
+	public void fileSend( final int userCode, final long byteSize, final String fileName,
+			final String user, final int fileHash, final int fileCode )
 	{
 
 	}
 
 	@Override
-	public void fileSendAborted( int userCode, String fileName, int fileHash )
+	public void fileSendAborted( final int userCode, final String fileName, final int fileHash )
 	{
 
 	}
 
 	@Override
-	public void fileSendAccepted( int userCode, String fileName, int fileHash, int port )
+	public void fileSendAccepted( final int userCode, final String fileName, final int fileHash, final int port )
 	{
 
 	}
 
 	@Override
-	public void meIdle( String ipAddress )
+	public void meIdle( final String ipAddress )
 	{
 
 	}
 
 	@Override
-	public void meLogOn( String ipAddress )
+	public void meLogOn( final String ipAddress )
 	{
 
 	}
 
 	@Override
-	public void messageArrived( int userCode, String msg, int color )
+	public void messageArrived( final int userCode, final String msg, final int color )
 	{
 
 	}
 
 	@Override
-	public void nickChanged( int userCode, String newNick )
+	public void nickChanged( final int userCode, final String newNick )
 	{
 
 	}
@@ -144,7 +143,7 @@ public class MessageParserTest implements MessageResponder
 	}
 
 	@Override
-	public void topicChanged( int userCode, String newTopic, String nick, long time )
+	public void topicChanged( final int userCode, final String newTopic, final String nick, final long time )
 	{
 
 	}
@@ -156,37 +155,38 @@ public class MessageParserTest implements MessageResponder
 	}
 
 	@Override
-	public void userExposing( NickDTO user )
+	public void userExposing( final NickDTO user )
 	{
 
 	}
 
 	@Override
-	public void userIdle( int userCode, String ipAddress )
+	public void userIdle( final int userCode, final String ipAddress )
 	{
 
 	}
 
 	@Override
-	public void userLogOff( int userCode )
+	public void userLogOff( final int userCode )
 	{
 
 	}
 
 	@Override
-	public void userLogOn( NickDTO newUser )
+	public void userLogOn( final NickDTO newUser )
 	{
 
 	}
 
 	@Override
-	public void writingChanged( int userCode, boolean writing )
+	public void writingChanged( final int userCode, final boolean writing )
 	{
 
 	}
 
 	@Override
-	public void clientInfo( int userCode, String client, long logonTime, String operatingSystem, int privateChatPort )
+	public void clientInfo( final int userCode, final String client, final long logonTime,
+			final String operatingSystem, final int privateChatPort )
 	{
 
 	}

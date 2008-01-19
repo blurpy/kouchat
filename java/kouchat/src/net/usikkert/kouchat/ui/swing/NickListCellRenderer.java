@@ -54,8 +54,8 @@ public class NickListCellRenderer extends JLabel implements ListCellRenderer
 	private static final String IMG_ENVELOPE = "/icons/envelope.png";
 	private static final String IMG_DOT = "/icons/dot.png";
 
-	private ImageIcon envelope, dot;
-	private Border selectedBorder, normalBorder;
+	private final ImageIcon envelope, dot;
+	private final Border selectedBorder, normalBorder;
 
 	/**
 	 * Default constructor.
@@ -108,7 +108,8 @@ public class NickListCellRenderer extends JLabel implements ListCellRenderer
 	 * If the user is writing, the nick name will have a star next to it.
 	 */
 	@Override
-	public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
+	public Component getListCellRendererComponent( final JList list, final Object value,
+			final int index, final boolean isSelected, final boolean cellHasFocus )
 	{
 		if ( isSelected )
 		{

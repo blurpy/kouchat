@@ -29,7 +29,7 @@ public class NickDTO implements Comparable<NickDTO>
 	private boolean writing, away, me, newMsg;
 	private PrivateChatWindow privchat;
 
-	public NickDTO( String nick, int code )
+	public NickDTO( final String nick, final int code )
 	{
 		this.nick = nick;
 		this.code = code;
@@ -53,7 +53,7 @@ public class NickDTO implements Comparable<NickDTO>
 		return me;
 	}
 
-	public void setMe( boolean me )
+	public void setMe( final boolean me )
 	{
 		this.me = me;
 	}
@@ -63,7 +63,7 @@ public class NickDTO implements Comparable<NickDTO>
 		return code;
 	}
 
-	public void setCode( int code )
+	public void setCode( final int code )
 	{
 		this.code = code;
 	}
@@ -73,7 +73,7 @@ public class NickDTO implements Comparable<NickDTO>
 		return nick;
 	}
 
-	public void setNick( String nick )
+	public void setNick( final String nick )
 	{
 		this.nick = nick;
 	}
@@ -83,7 +83,7 @@ public class NickDTO implements Comparable<NickDTO>
 		return lastIdle;
 	}
 
-	public void setLastIdle( long lastIdle )
+	public void setLastIdle( final long lastIdle )
 	{
 		this.lastIdle = lastIdle;
 	}
@@ -93,7 +93,7 @@ public class NickDTO implements Comparable<NickDTO>
 		return away;
 	}
 
-	public void setAway( boolean away )
+	public void setAway( final boolean away )
 	{
 		this.away = away;
 	}
@@ -103,7 +103,7 @@ public class NickDTO implements Comparable<NickDTO>
 		return awayMsg;
 	}
 
-	public void setAwayMsg( String awayMsg )
+	public void setAwayMsg( final String awayMsg )
 	{
 		this.awayMsg = awayMsg;
 	}
@@ -113,7 +113,7 @@ public class NickDTO implements Comparable<NickDTO>
 		return writing;
 	}
 
-	public void setWriting( boolean writing )
+	public void setWriting( final boolean writing )
 	{
 		this.writing = writing;
 	}
@@ -123,7 +123,7 @@ public class NickDTO implements Comparable<NickDTO>
 		return ipAddress;
 	}
 
-	public void setIpAddress( String ipAddress )
+	public void setIpAddress( final String ipAddress )
 	{
 		this.ipAddress = ipAddress;
 	}
@@ -133,7 +133,7 @@ public class NickDTO implements Comparable<NickDTO>
 		return operatingSystem;
 	}
 
-	public void setOperatingSystem( String operatingSystem )
+	public void setOperatingSystem( final String operatingSystem )
 	{
 		this.operatingSystem = operatingSystem;
 	}
@@ -143,7 +143,7 @@ public class NickDTO implements Comparable<NickDTO>
 		return logonTime;
 	}
 
-	public void setLogonTime( long logonTime )
+	public void setLogonTime( final long logonTime )
 	{
 		this.logonTime = logonTime;
 	}
@@ -153,7 +153,7 @@ public class NickDTO implements Comparable<NickDTO>
 		return client;
 	}
 
-	public void setClient( String client )
+	public void setClient( final String client )
 	{
 		this.client = client;
 	}
@@ -163,7 +163,7 @@ public class NickDTO implements Comparable<NickDTO>
 		return privchat;
 	}
 
-	public void setPrivchat( PrivateChatWindow privchat )
+	public void setPrivchat( final PrivateChatWindow privchat )
 	{
 		this.privchat = privchat;
 	}
@@ -173,7 +173,7 @@ public class NickDTO implements Comparable<NickDTO>
 		return newMsg;
 	}
 
-	public void setNewMsg( boolean newMsg )
+	public void setNewMsg( final boolean newMsg )
 	{
 		this.newMsg = newMsg;
 	}
@@ -183,7 +183,7 @@ public class NickDTO implements Comparable<NickDTO>
 		return privateChatPort;
 	}
 
-	public void setPrivateChatPort( int privateChatPort )
+	public void setPrivateChatPort( final int privateChatPort )
 	{
 		this.privateChatPort = privateChatPort;
 	}
@@ -195,7 +195,7 @@ public class NickDTO implements Comparable<NickDTO>
 	}
 
 	@Override
-	public int compareTo( NickDTO compNick )
+	public int compareTo( final NickDTO compNick )
 	{
 		return nick.compareToIgnoreCase( compNick.getNick() );
 	}

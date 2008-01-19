@@ -44,11 +44,13 @@ public final class Settings
 	private static final String FILENAME = Constants.APP_FOLDER + "kouchat.ini";
 	private static final Settings SETTINGS = new Settings();
 
-	private NickDTO me;
+	private final NickDTO me;
+	private final List<SettingsListener> listeners;
+	private final ErrorHandler errorHandler;
+
+	// The settings
 	private int ownColor, sysColor;
 	private boolean sound, logging, debug, nativeLnF;
-	private List<SettingsListener> listeners;
-	private ErrorHandler errorHandler;
 	private String browser;
 
 	private Settings()
@@ -113,7 +115,7 @@ public final class Settings
 			buffWriter.newLine();
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.SEVERE, e.toString() );
 			errorHandler.showError( "Settings could not be saved:\n " + e );
@@ -127,7 +129,7 @@ public final class Settings
 					buffWriter.flush();
 			}
 
-			catch ( IOException e )
+			catch ( final IOException e )
 			{
 				LOG.log( Level.SEVERE, e.toString(), e );
 			}
@@ -138,7 +140,7 @@ public final class Settings
 					fileWriter.flush();
 			}
 
-			catch ( IOException e )
+			catch ( final IOException e )
 			{
 				LOG.log( Level.SEVERE, e.toString(), e );
 			}
@@ -149,7 +151,7 @@ public final class Settings
 					buffWriter.close();
 			}
 
-			catch ( IOException e )
+			catch ( final IOException e )
 			{
 				LOG.log( Level.SEVERE, e.toString(), e );
 			}
@@ -160,7 +162,7 @@ public final class Settings
 					fileWriter.close();
 			}
 
-			catch ( IOException e )
+			catch ( final IOException e )
 			{
 				LOG.log( Level.SEVERE, e.toString(), e );
 			}
@@ -189,7 +191,7 @@ public final class Settings
 				ownColor = Integer.parseInt( fileContents.getProperty( "owncolor" ) );
 			}
 
-			catch ( NumberFormatException e )
+			catch ( final NumberFormatException e )
 			{
 				LOG.log( Level.WARNING, "Could not read setting for owncolor.." );
 			}
@@ -199,7 +201,7 @@ public final class Settings
 				sysColor = Integer.parseInt( fileContents.getProperty( "syscolor" ) );
 			}
 
-			catch ( NumberFormatException e )
+			catch ( final NumberFormatException e )
 			{
 				LOG.log( Level.WARNING, "Could not read setting for syscolor.." );
 			}
@@ -215,12 +217,12 @@ public final class Settings
 				nativeLnF = Boolean.valueOf( fileContents.getProperty( "nativelnf" ) );
 		}
 
-		catch ( FileNotFoundException e )
+		catch ( final FileNotFoundException e )
 		{
 			LOG.log( Level.WARNING, "Could not find " + FILENAME + ", using default settings." );
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 		}
@@ -233,7 +235,7 @@ public final class Settings
 					fileStream.close();
 			}
 
-			catch ( IOException e )
+			catch ( final IOException e )
 			{
 				LOG.log( Level.SEVERE, e.toString(), e );
 			}
@@ -250,7 +252,7 @@ public final class Settings
 		return ownColor;
 	}
 
-	public void setOwnColor( int ownColor )
+	public void setOwnColor( final int ownColor )
 	{
 		if ( this.ownColor != ownColor )
 		{
@@ -264,7 +266,7 @@ public final class Settings
 		return sysColor;
 	}
 
-	public void setSysColor( int sysColor )
+	public void setSysColor( final int sysColor )
 	{
 		if ( this.sysColor != sysColor )
 		{
@@ -278,7 +280,7 @@ public final class Settings
 		return sound;
 	}
 
-	public void setSound( boolean sound )
+	public void setSound( final boolean sound )
 	{
 		if ( this.sound != sound )
 		{
@@ -292,7 +294,7 @@ public final class Settings
 		return logging;
 	}
 
-	public void setLogging( boolean logging )
+	public void setLogging( final boolean logging )
 	{
 		if ( this.logging != logging )
 		{
@@ -306,7 +308,7 @@ public final class Settings
 		return debug;
 	}
 
-	public void setDebug( boolean debug )
+	public void setDebug( final boolean debug )
 	{
 		this.debug = debug;
 	}
@@ -316,7 +318,7 @@ public final class Settings
 		return browser;
 	}
 
-	public void setBrowser( String browser )
+	public void setBrowser( final String browser )
 	{
 		this.browser = browser;
 	}
@@ -326,12 +328,12 @@ public final class Settings
 		return nativeLnF;
 	}
 
-	public void setNativeLnF( boolean nativeLnF )
+	public void setNativeLnF( final boolean nativeLnF )
 	{
 		this.nativeLnF = nativeLnF;
 	}
 
-	private void fireSettingChanged( String setting )
+	private void fireSettingChanged( final String setting )
 	{
 		for ( SettingsListener listener : listeners )
 		{
@@ -339,12 +341,12 @@ public final class Settings
 		}
 	}
 
-	public void addSettingsListener( SettingsListener listener )
+	public void addSettingsListener( final SettingsListener listener )
 	{
 		listeners.add( listener );
 	}
 
-	public void removeSettingsListener( SettingsListener listener )
+	public void removeSettingsListener( final SettingsListener listener )
 	{
 		listeners.remove( listener );
 	}

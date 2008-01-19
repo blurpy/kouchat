@@ -35,7 +35,7 @@ public class NickController
 		nickList.add( me );
 	}
 
-	public NickDTO getNick( int code )
+	public NickDTO getNick( final int code )
 	{
 		NickDTO dto = null;
 
@@ -53,7 +53,7 @@ public class NickController
 		return dto;
 	}
 
-	public NickDTO getNick( String nick )
+	public NickDTO getNick( final String nick )
 	{
 		NickDTO dto = null;
 
@@ -71,7 +71,7 @@ public class NickController
 		return dto;
 	}
 
-	public void changeNick( int code, String nick )
+	public void changeNick( final int code, final String nick )
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
@@ -86,7 +86,7 @@ public class NickController
 		}
 	}
 
-	public void changeAwayStatus( int code, boolean away, String awaymsg )
+	public void changeAwayStatus( final int code, final boolean away, final String awaymsg )
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
@@ -102,7 +102,7 @@ public class NickController
 		}
 	}
 
-	public void changeWriting( int code, boolean writing )
+	public void changeWriting( final int code, final boolean writing )
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
@@ -117,7 +117,7 @@ public class NickController
 		}
 	}
 
-	public void changeNewMessage( int code, boolean newMsg )
+	public void changeNewMessage( final int code, final boolean newMsg )
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
@@ -132,7 +132,7 @@ public class NickController
 		}
 	}
 
-	public boolean isNickInUse( String nick )
+	public boolean isNickInUse( final String nick )
 	{
 		boolean inUse = false;
 
@@ -150,7 +150,7 @@ public class NickController
 		return inUse;
 	}
 
-	public boolean isNewUser( int code )
+	public boolean isNewUser( final int code )
 	{
 		boolean newUser = true;
 

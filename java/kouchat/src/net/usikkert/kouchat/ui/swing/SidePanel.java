@@ -49,16 +49,17 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 {
 	private static final long serialVersionUID = 1L;
 
-	private JPopupMenu nickMenu;
-	private JMenuItem infoMI, sendfileMI, privchatMI;
-	private JScrollPane nickSP;
-	private JList nickL;
+	private final JPopupMenu nickMenu;
+	private final JMenuItem infoMI, sendfileMI, privchatMI;
+	private final JScrollPane nickSP;
+	private final JList nickL;
+	private final NickDTO me;
+	private final FileTransferHandler fileTransferHandler;
+
 	private NickListModel nickDLM;
 	private Mediator mediator;
-	private NickDTO me;
-	private FileTransferHandler fileTransferHandler;
 
-	public SidePanel( ButtonPanel buttonP )
+	public SidePanel( final ButtonPanel buttonP )
 	{
 		setLayout( new BorderLayout( 2, 2 ) );
 
@@ -91,13 +92,13 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 		me = Settings.getSettings().getMe();
 	}
 
-	public void setMediator( Mediator mediator )
+	public void setMediator( final Mediator mediator )
 	{
 		this.mediator = mediator;
 		fileTransferHandler.setMediator( mediator );
 	}
 
-	public void setNickList( NickList nickList )
+	public void setNickList( final NickList nickList )
 	{
 		nickDLM = new NickListModel( nickList );
 		nickL.setModel( nickDLM );
@@ -115,7 +116,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 	}
 
 	@Override
-	public void actionPerformed( ActionEvent e )
+	public void actionPerformed( final ActionEvent e )
 	{
 		if ( e.getSource() == infoMI )
 		{
@@ -170,25 +171,25 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 	}
 
 	@Override
-	public void mouseClicked( MouseEvent e )
+	public void mouseClicked( final MouseEvent e )
 	{
 
 	}
 
 	@Override
-	public void mouseEntered( MouseEvent e )
+	public void mouseEntered( final MouseEvent e )
 	{
 
 	}
 
 	@Override
-	public void mouseExited( MouseEvent e )
+	public void mouseExited( final MouseEvent e )
 	{
 
 	}
 
 	@Override
-	public void mousePressed( MouseEvent e )
+	public void mousePressed( final MouseEvent e )
 	{
 		if ( e.getSource() == nickL )
 		{
@@ -213,7 +214,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 	}
 
 	@Override
-	public void mouseReleased( MouseEvent e )
+	public void mouseReleased( final MouseEvent e )
 	{
 		if ( e.getSource() == nickL )
 		{

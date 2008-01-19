@@ -72,43 +72,39 @@ import net.usikkert.kouchat.misc.Settings;
  *
  * @author Christian Ihle
  */
-public class PrivateChatFrame extends JFrame implements ActionListener, KeyListener, PrivateChatWindow, FileDropSource, WindowListener, FocusListener
+public class PrivateChatFrame extends JFrame implements ActionListener, KeyListener,
+		PrivateChatWindow, FileDropSource, WindowListener, FocusListener
 {
 	private static final Logger LOG = Logger.getLogger( PrivateChatFrame.class.getName() );
 	private static final long serialVersionUID = 1L;
 
-	private JTextPane chatTP;
-	private MutableAttributeSet chatAttr;
-	private StyledDocument chatDoc;
-	private JMenu fileMenu, toolsMenu;
-	private JMenuItem clearMI, closeMI;
-	private JTextField msgTF;
-	private CommandHistory cmdHistory;
-	private Mediator mediator;
-	private NickDTO user, me;
-	private FileTransferHandler fileTransferHandler;
+	private final JTextPane chatTP;
+	private final MutableAttributeSet chatAttr;
+	private final StyledDocument chatDoc;
+	private final JMenu fileMenu, toolsMenu;
+	private final JMenuItem clearMI, closeMI;
+	private final JTextField msgTF;
+	private final CommandHistory cmdHistory;
+	private final Mediator mediator;
+	private final NickDTO me;
+	private final FileTransferHandler fileTransferHandler;
+
+	private NickDTO user;
 
 	/**
-	 * Creates a new privchat frame. To open the window, use setVisible().
+	 * Creates a new private chat frame. To open the window, use setVisible().
 	 *
 	 * @param mediator The mediator to command.
 	 * @param user The user in the private chat.
 	 */
-	public PrivateChatFrame( Mediator mediator, NickDTO user )
+	public PrivateChatFrame( final Mediator mediator, final NickDTO user )
 	{
 		this.mediator = mediator;
 		this.user = user;
 
 		me = Settings.getSettings().getMe();
 		user.setPrivchat( this );
-		initComponents();
-	}
 
-	/**
-	 * Initializes the components.
-	 */
-	private void initComponents()
-	{
 		setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 		setSize( 460, 340 );
 		setMinimumSize( new Dimension( 300, 250 ) );
@@ -185,14 +181,14 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	}
 
 	/**
-	 * If this window is focused, the textfield will get the keyboard events
+	 * If this window is focused, the text field will get the keyboard events
 	 * if the chat area was focused when typing was started.
 	 */
 	private void fixTextFieldFocus()
 	{
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher( new KeyEventDispatcher()
 		{
-			public boolean dispatchKeyEvent( KeyEvent e )
+			public boolean dispatchKeyEvent( final KeyEvent e )
 			{
 				if ( e.getID() == KeyEvent.KEY_TYPED && isFocused() && e.getSource() == chatTP )
 				{
@@ -213,7 +209,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	 *
 	 * @param panel The panel to add the shortcut to.
 	 */
-	private void hideWithEscape( JPanel panel )
+	private void hideWithEscape( final JPanel panel )
 	{
 		KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0, false );
 
@@ -222,7 +218,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void actionPerformed( ActionEvent e )
+			public void actionPerformed( final ActionEvent e )
 			{
 				close();
 			}
@@ -248,7 +244,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 			chatTP.setCaretPosition( chatDoc.getLength() );
 		}
 
-		catch ( BadLocationException e )
+		catch ( final BadLocationException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 		}
@@ -266,10 +262,10 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	}
 
 	/**
-	 * Hides or shows the privchat window.
+	 * Hides or shows the private chat window.
 	 */
 	@Override
-	public void setVisible( boolean visible )
+	public void setVisible( final boolean visible )
 	{
 		if ( visible )
 		{
@@ -283,7 +279,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	}
 
 	@Override
-	public void actionPerformed( ActionEvent e )
+	public void actionPerformed( final ActionEvent e )
 	{
 		// Sends a message when the user presses the enter key.
 		if ( e.getSource() == msgTF )
@@ -322,13 +318,13 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	}
 
 	@Override
-	public void keyPressed( KeyEvent e )
+	public void keyPressed( final KeyEvent e )
 	{
 
 	}
 
 	@Override
-	public void keyTyped( KeyEvent e )
+	public void keyTyped( final KeyEvent e )
 	{
 
 	}
@@ -386,7 +382,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	 * Disables the write field if away.
 	 */
 	@Override
-	public void setAway( boolean away )
+	public void setAway( final boolean away )
 	{
 		msgTF.setEnabled( !away );
 	}
@@ -427,7 +423,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	}
 
 	@Override
-	public void focusGained( FocusEvent e )
+	public void focusGained( final FocusEvent e )
 	{
 
 	}
@@ -436,17 +432,17 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	 * Make sure the menubar gets focus when navigating with the keyboard.
 	 */
 	@Override
-	public void focusLost( FocusEvent e )
+	public void focusLost( final FocusEvent e )
 	{
 		if ( fileMenu.isPopupMenuVisible() || toolsMenu.isPopupMenuVisible() )
 			getRootPane().requestFocusInWindow();
 	}
 
 	/**
-	 * Focus the textfield when the window is shown.
+	 * Focus the text field when the window is shown.
 	 */
 	@Override
-	public void windowActivated( WindowEvent e )
+	public void windowActivated( final WindowEvent e )
 	{
 		chatTP.repaint();
 
@@ -455,37 +451,37 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	}
 
 	@Override
-	public void windowClosed( WindowEvent e )
+	public void windowClosed( final WindowEvent e )
 	{
 
 	}
 
 	@Override
-	public void windowClosing( WindowEvent e )
+	public void windowClosing( final WindowEvent e )
 	{
 
 	}
 
 	@Override
-	public void windowDeactivated( WindowEvent e )
+	public void windowDeactivated( final WindowEvent e )
 	{
 
 	}
 
 	@Override
-	public void windowDeiconified( WindowEvent e )
+	public void windowDeiconified( final WindowEvent e )
 	{
 
 	}
 
 	@Override
-	public void windowIconified( WindowEvent e )
+	public void windowIconified( final WindowEvent e )
 	{
 
 	}
 
 	@Override
-	public void windowOpened( WindowEvent e )
+	public void windowOpened( final WindowEvent e )
 	{
 
 	}
