@@ -44,6 +44,8 @@ import net.usikkert.kouchat.Constants;
  */
 public final class Tools
 {
+	private static final Logger LOG = Logger.getLogger( Tools.class.getName() );
+
 	/**
 	 * Private constructor. Only static methods here.
 	 */
@@ -51,8 +53,6 @@ public final class Tools
 	{
 
 	}
-
-	private static final Logger LOG = Logger.getLogger( Tools.class.getName() );
 
 	/**
 	 * Creates a timestamp in the format [HH:MM:SS].
