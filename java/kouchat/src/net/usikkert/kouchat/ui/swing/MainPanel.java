@@ -56,15 +56,15 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger( MainPanel.class.getName() );
 
-	private JScrollPane chatSP;
-	private JTextPane chatTP;
-	private MutableAttributeSet chatAttr;
-	private StyledDocument chatDoc;
-	private JTextField msgTF;
+	private final JScrollPane chatSP;
+	private final JTextPane chatTP;
+	private final MutableAttributeSet chatAttr;
+	private final StyledDocument chatDoc;
+	private final JTextField msgTF;
+	private final CommandHistory cmdHistory;
 	private Mediator mediator;
-	private CommandHistory cmdHistory;
 
-	public MainPanel( SidePanel sideP )
+	public MainPanel( final SidePanel sideP )
 	{
 		setLayout( new BorderLayout( 2, 2 ) );
 
@@ -103,7 +103,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		cmdHistory = new CommandHistory();
 	}
 
-	public void setMediator( Mediator mediator )
+	public void setMediator( final Mediator mediator )
 	{
 		this.mediator = mediator;
 	}
@@ -117,7 +117,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 			chatTP.setCaretPosition( chatDoc.getLength() );
 		}
 
-		catch ( BadLocationException e )
+		catch ( final BadLocationException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 		}
@@ -143,7 +143,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		return msgTF;
 	}
 
-	public void caretUpdate( CaretEvent e )
+	public void caretUpdate( final CaretEvent e )
 	{
 		SwingUtilities.invokeLater( new Runnable()
 		{
@@ -156,7 +156,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 	}
 
 	@Override
-	public void actionPerformed( ActionEvent e )
+	public void actionPerformed( final ActionEvent e )
 	{
 		if ( e.getSource() == msgTF )
 		{
@@ -173,13 +173,13 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 	}
 
 	@Override
-	public void keyPressed( KeyEvent e )
+	public void keyPressed( final KeyEvent e )
 	{
 
 	}
 
 	@Override
-	public void keyTyped( KeyEvent e )
+	public void keyTyped( final KeyEvent e )
 	{
 
 	}

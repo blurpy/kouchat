@@ -39,7 +39,7 @@ public final class ErrorHandler
 	 */
 	private static final ErrorHandler INSTANCE = new ErrorHandler();
 
-	private List<ErrorListener> listeners;
+	private final List<ErrorListener> listeners;
 
 	/**
 	 * Private constructor.
@@ -64,7 +64,7 @@ public final class ErrorHandler
 	 *
 	 * @param errorMsg The message to deliver to the listeners.
 	 */
-	public void showError( String errorMsg )
+	public void showError( final String errorMsg )
 	{
 		for ( ErrorListener listener : listeners )
 		{
@@ -77,7 +77,7 @@ public final class ErrorHandler
 	 *
 	 * @param criticalErrorMsg The message to deliver to the listeners.
 	 */
-	public void showCriticalError( String criticalErrorMsg )
+	public void showCriticalError( final String criticalErrorMsg )
 	{
 		for ( ErrorListener listener : listeners )
 		{
@@ -90,7 +90,7 @@ public final class ErrorHandler
 	 *
 	 * @param listener The class to add as a listener.
 	 */
-	public void addErrorListener( ErrorListener listener )
+	public void addErrorListener( final ErrorListener listener )
 	{
 		listeners.add( listener );
 	}
@@ -100,7 +100,7 @@ public final class ErrorHandler
 	 *
 	 * @param listener The class to remove as a listener.
 	 */
-	public void removeErrorListener( ErrorListener listener )
+	public void removeErrorListener( final ErrorListener listener )
 	{
 		listeners.remove( listener );
 	}

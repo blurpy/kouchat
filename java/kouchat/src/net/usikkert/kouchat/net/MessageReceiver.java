@@ -43,7 +43,7 @@ public class MessageReceiver implements Runnable
 	private ReceiverListener listener;
 	private boolean connected;
 	private Thread worker;
-	private ErrorHandler errorHandler;
+	private final ErrorHandler errorHandler;
 
 	public MessageReceiver()
 	{
@@ -55,7 +55,7 @@ public class MessageReceiver implements Runnable
 			address = InetAddress.getByName( Constants.NETWORK_IP );
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 			errorHandler.showCriticalError( "Failed to initialize the network:\n" + e + "\n"
@@ -81,7 +81,7 @@ public class MessageReceiver implements Runnable
 					listener.messageArrived( message, ip );
 			}
 
-			catch ( IOException e )
+			catch ( final IOException e )
 			{
 				LOG.log( Level.WARNING, e.toString() );
 			}
@@ -108,7 +108,7 @@ public class MessageReceiver implements Runnable
 			startThread();
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.SEVERE, "Could not start receiver: " + e.toString() );
 		}
@@ -126,7 +126,7 @@ public class MessageReceiver implements Runnable
 			}
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.WARNING, e.toString() );
 		}
@@ -148,7 +148,7 @@ public class MessageReceiver implements Runnable
 			mcSocket.leaveGroup( address );
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.WARNING, "Leaving group: " + e.toString() );
 		}
@@ -159,7 +159,7 @@ public class MessageReceiver implements Runnable
 			success = true;
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.WARNING, "Joining group: " + e.toString() );
 		}
@@ -174,7 +174,7 @@ public class MessageReceiver implements Runnable
 		return success;
 	}
 
-	public void registerReceiverListener( ReceiverListener listener )
+	public void registerReceiverListener( final ReceiverListener listener )
 	{
 		this.listener = listener;
 	}

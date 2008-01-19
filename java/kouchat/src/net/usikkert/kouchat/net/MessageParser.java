@@ -32,12 +32,12 @@ public class MessageParser implements ReceiverListener
 {
 	private static final Logger LOG = Logger.getLogger( MessageParser.class.getName() );
 
-	private MessageReceiver receiver;
-	private MessageResponder responder;
-	private Settings settings;
+	private final MessageReceiver receiver;
+	private final MessageResponder responder;
+	private final Settings settings;
 	private boolean loggedOn;
 
-	public MessageParser( MessageResponder responder )
+	public MessageParser( final MessageResponder responder )
 	{
 		this.responder = responder;
 
@@ -62,7 +62,7 @@ public class MessageParser implements ReceiverListener
 	}
 
 	@Override
-	public void messageArrived( String message, String ipAddress )
+	public void messageArrived( final String message, final String ipAddress )
 	{
 		if ( settings.isDebug() )
 			System.out.println( message );
@@ -270,7 +270,7 @@ public class MessageParser implements ReceiverListener
 						privateChatPort = Integer.parseInt( msg.substring( lessThan + 1, greaterThan ) );
 					}
 
-					catch ( NumberFormatException e )
+					catch ( final NumberFormatException e )
 					{
 						LOG.log( Level.WARNING, e.toString() );
 					}
@@ -291,12 +291,12 @@ public class MessageParser implements ReceiverListener
 			}
 		}
 
-		catch ( StringIndexOutOfBoundsException e )
+		catch ( final StringIndexOutOfBoundsException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 		}
 
-		catch ( NumberFormatException e )
+		catch ( final NumberFormatException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 		}

@@ -32,11 +32,11 @@ public class PrivateMessageParser implements ReceiverListener
 {
 	private static final Logger LOG = Logger.getLogger( PrivateMessageParser.class.getName() );
 
-	private UDPReceiver receiver;
-	private Settings settings;
-	private PrivateMessageResponder privmsgResponder;
+	private final UDPReceiver receiver;
+	private final Settings settings;
+	private final PrivateMessageResponder privmsgResponder;
 
-	public PrivateMessageParser( PrivateMessageResponder privmsgResponder )
+	public PrivateMessageParser( final PrivateMessageResponder privmsgResponder )
 	{
 		this.privmsgResponder = privmsgResponder;
 
@@ -56,7 +56,7 @@ public class PrivateMessageParser implements ReceiverListener
 	}
 
 	@Override
-	public void messageArrived( String message, String ipAddress )
+	public void messageArrived( final String message, final String ipAddress )
 	{
 		if ( settings.isDebug() )
 			System.out.println( message );
@@ -92,12 +92,12 @@ public class PrivateMessageParser implements ReceiverListener
 			}
 		}
 
-		catch ( StringIndexOutOfBoundsException e )
+		catch ( final StringIndexOutOfBoundsException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 		}
 
-		catch ( NumberFormatException e )
+		catch ( final NumberFormatException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 		}

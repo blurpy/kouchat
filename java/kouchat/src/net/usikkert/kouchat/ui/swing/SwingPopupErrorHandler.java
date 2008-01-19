@@ -66,7 +66,7 @@ public class SwingPopupErrorHandler implements ErrorListener
 	 * Shows a critical error message in a JOptionPane message box.
 	 */
 	@Override
-	public void criticalErrorReported( String criticalErrorMsg )
+	public void criticalErrorReported( final String criticalErrorMsg )
 	{
 		JOptionPane.showMessageDialog( null, criticalErrorMsg,
 				Constants.APP_NAME + " - Critical Error", JOptionPane.ERROR_MESSAGE );

@@ -41,20 +41,22 @@ public class FileReceiver implements FileTransfer
 {
 	private static final Logger LOG = Logger.getLogger( FileReceiver.class.getName() );
 
-	private NickDTO nick;
+	private final NickDTO nick;
+	private final long size;
+	private final File file;
+	private final Direction direction;
+	private final ByteCounter bCounter;
+
 	private int percent;
-	private long transferred, size;
-	private File file;
+	private long transferred;
 	private boolean received, cancel;
 	private FileTransferListener listener;
-	private Direction direction;
-	private ByteCounter bCounter;
 	private ServerSocket sSock;
 	private Socket sock;
 	private FileOutputStream fos;
 	private InputStream is;
 
-	public FileReceiver( NickDTO nick, File file, long size )
+	public FileReceiver( final NickDTO nick, final File file, final long size )
 	{
 		this.nick = nick;
 		this.file = file;
@@ -80,7 +82,7 @@ public class FileReceiver implements FileTransfer
 				done = true;
 			}
 
-			catch ( IOException e )
+			catch ( final IOException e )
 			{
 				LOG.log( Level.WARNING, "Could not open " + port, e );
 				port++;
@@ -151,7 +153,7 @@ public class FileReceiver implements FileTransfer
 			}
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.SEVERE, e.toString() );
 			listener.statusFailed();
@@ -176,7 +178,7 @@ public class FileReceiver implements FileTransfer
 			}
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 		}
@@ -187,7 +189,7 @@ public class FileReceiver implements FileTransfer
 				fos.flush();
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 		}
@@ -201,7 +203,7 @@ public class FileReceiver implements FileTransfer
 			}
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 		}
@@ -215,7 +217,7 @@ public class FileReceiver implements FileTransfer
 			}
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 		}
@@ -229,7 +231,7 @@ public class FileReceiver implements FileTransfer
 			}
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 		}
@@ -298,7 +300,7 @@ public class FileReceiver implements FileTransfer
 	}
 
 	@Override
-	public void registerListener( FileTransferListener listener )
+	public void registerListener( final FileTransferListener listener )
 	{
 		this.listener = listener;
 		listener.statusWaiting();
@@ -320,7 +322,7 @@ public class FileReceiver implements FileTransfer
 				sleep( 15000 );
 			}
 
-			catch ( InterruptedException e )
+			catch ( final InterruptedException e )
 			{
 				LOG.log( Level.SEVERE, e.toString(), e );
 			}
@@ -334,7 +336,7 @@ public class FileReceiver implements FileTransfer
 				}
 			}
 
-			catch ( IOException e )
+			catch ( final IOException e )
 			{
 				LOG.log( Level.SEVERE, e.toString(), e );
 			}

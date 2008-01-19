@@ -42,15 +42,15 @@ public class MsgPopup extends JPopupMenu implements MouseListener, ActionListene
 {
 	private static final long serialVersionUID = 1L;
 
-	private JMenuItem copyMI, pasteMI, cutMI, clearMI;
-	private JTextField msgTF;
+	private final JMenuItem copyMI, pasteMI, cutMI, clearMI;
+	private final JTextField msgTF;
 
 	/**
 	 * Constructor. Creates the menu.
 	 *
 	 * @param msgTF The text field to use the popup on.
 	 */
-	public MsgPopup( JTextField msgTF )
+	public MsgPopup( final JTextField msgTF )
 	{
 		this.msgTF = msgTF;
 
@@ -83,25 +83,25 @@ public class MsgPopup extends JPopupMenu implements MouseListener, ActionListene
 	}
 
 	@Override
-	public void mouseClicked( MouseEvent e )
+	public void mouseClicked( final MouseEvent e )
 	{
 
 	}
 
 	@Override
-	public void mouseEntered( MouseEvent e )
+	public void mouseEntered( final MouseEvent e )
 	{
 
 	}
 
 	@Override
-	public void mouseExited( MouseEvent e )
+	public void mouseExited( final MouseEvent e )
 	{
 
 	}
 
 	@Override
-	public void mousePressed( MouseEvent e )
+	public void mousePressed( final MouseEvent e )
 	{
 
 	}
@@ -110,7 +110,7 @@ public class MsgPopup extends JPopupMenu implements MouseListener, ActionListene
 	 * Shows the popup menu if right mouse button was used.
 	 */
 	@Override
-	public void mouseReleased( MouseEvent e )
+	public void mouseReleased( final MouseEvent e )
 	{
 		if ( isPopupTrigger( e ) && msgTF.isEnabled() )
 		{
@@ -141,7 +141,7 @@ public class MsgPopup extends JPopupMenu implements MouseListener, ActionListene
 	 * Clears the text in the text field.
 	 */
 	@Override
-	public void actionPerformed( ActionEvent e )
+	public void actionPerformed( final ActionEvent e )
 	{
 		msgTF.setText( "" );
 	}

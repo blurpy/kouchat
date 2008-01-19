@@ -72,13 +72,13 @@ public class SettingsDialog extends JDialog implements ActionListener
 	private static final Logger LOG = Logger.getLogger( SettingsDialog.class.getName() );
 	private static final long serialVersionUID = 1L;
 
-	private JButton saveB, cancelB, chooseOwnColorB, chooseSysColorB, testBrowserB, chooseBrowserB;
-	private JTextField nickTF, browserTF;
-	private JLabel nickL, ownColorL, sysColorL, browserL;
-	private JCheckBox soundCB, loggingCB, nativeLnFCB;
-	private Settings settings;
+	private final JButton saveB, cancelB, chooseOwnColorB, chooseSysColorB, testBrowserB, chooseBrowserB;
+	private final JTextField nickTF, browserTF;
+	private final JLabel nickL, ownColorL, sysColorL, browserL;
+	private final JCheckBox soundCB, loggingCB, nativeLnFCB;
+	private final Settings settings;
+	private final ErrorHandler errorHandler;
 	private Mediator mediator;
-	private ErrorHandler errorHandler;
 
 	/**
 	 * Constructor. Creates the dialog.
@@ -224,7 +224,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void actionPerformed( ActionEvent e )
+			public void actionPerformed( final ActionEvent e )
 			{
 				setVisible( false );
 			}
@@ -239,7 +239,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 	 *
 	 * @param mediator The mediator to use.
 	 */
-	public void setMediator( Mediator mediator )
+	public void setMediator( final Mediator mediator )
 	{
 		this.mediator = mediator;
 	}
@@ -248,7 +248,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 	 * Handles all the buttons in this window.
 	 */
 	@Override
-	public void actionPerformed( ActionEvent e )
+	public void actionPerformed( final ActionEvent e )
 	{
 		if ( e.getSource() == saveB )
 		{
@@ -334,7 +334,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 							Runtime.getRuntime().exec( browser + " " + Constants.APP_WEB );
 						}
 
-						catch ( IOException e )
+						catch ( final IOException e )
 						{
 							errorHandler.showError( "Could not open the browser '" + browser
 									+ "'. Try using the full path." );
@@ -348,12 +348,12 @@ public class SettingsDialog extends JDialog implements ActionListener
 							Desktop.getDesktop().browse( new URI( Constants.APP_WEB ) );
 						}
 
-						catch ( IOException e )
+						catch ( final IOException e )
 						{
 							errorHandler.showError( "Could not open the default browser." );
 						}
 
-						catch ( URISyntaxException e )
+						catch ( final URISyntaxException e )
 						{
 							LOG.log( Level.WARNING, e.toString() );
 							errorHandler.showError( "That's strange, could not open " + Constants.APP_WEB );

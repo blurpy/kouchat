@@ -45,26 +45,18 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 {
 	private static final long serialVersionUID = 1L;
 
-	private JButton cancelB;
-	private JLabel file1L, file2L, dest1L, dest2L, trans1L, trans2L, source1L, source2L, status1L, status2L;
-	private JProgressBar filePB;
-	private FileTransfer fileTransfer;
+	private final JButton cancelB;
+	private final JLabel file1L, file2L, dest1L, dest2L, trans1L, trans2L, source1L, source2L, status1L, status2L;
+	private final JProgressBar filePB;
+	private final FileTransfer fileTransfer;
+	private final Mediator mediator;
 	private String fileSize;
-	private Mediator mediator;
 
-	public TransferDialog( Mediator mediator, FileTransfer fileTransfer )
+	public TransferDialog( final Mediator mediator, final FileTransfer fileTransfer )
 	{
 		this.mediator = mediator;
 		this.fileTransfer = fileTransfer;
 
-		initComponents();
-		setVisible( true );
-
-		fileTransfer.registerListener( this );
-	}
-
-	private void initComponents()
-	{
 		cancelB = new JButton( "Cancel" );
 		cancelB.addActionListener( this );
 		filePB = new JProgressBar( 0, 100 );
@@ -150,9 +142,11 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 		);
 
 		pack();
+		setVisible( true );
+		fileTransfer.registerListener( this );
 	}
 
-	public void setCancelButtonText( String text )
+	public void setCancelButtonText( final String text )
 	{
 		cancelB.setText( text );
 	}
@@ -168,7 +162,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 	}
 
 	@Override
-	public void actionPerformed( ActionEvent e )
+	public void actionPerformed( final ActionEvent e )
 	{
 		mediator.transferCancelled( this );
 	}

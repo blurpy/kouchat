@@ -58,8 +58,8 @@ public class SysTray implements ActionListener, MouseListener
 	private PopupMenu menu;
 	private MenuItem quitMI;
 	private Mediator mediator;
-	private ErrorHandler errorHandler;
 	private boolean systemTraySupported;
+	private final ErrorHandler errorHandler;
 
 	public SysTray()
 	{
@@ -125,7 +125,7 @@ public class SysTray implements ActionListener, MouseListener
 				systemTraySupported = true;
 			}
 
-			catch ( AWTException e )
+			catch ( final AWTException e )
 			{
 				// This happens if the System Tray is hidden on a system
 				// that actually supports a System Tray.
@@ -147,7 +147,7 @@ public class SysTray implements ActionListener, MouseListener
 		return systemTraySupported;
 	}
 
-	public void setMediator( Mediator mediator )
+	public void setMediator( final Mediator mediator )
 	{
 		this.mediator = mediator;
 	}
@@ -188,14 +188,14 @@ public class SysTray implements ActionListener, MouseListener
 		}
 	}
 
-	public void setToolTip( String toolTip )
+	public void setToolTip( final String toolTip )
 	{
 		if ( trayIcon != null )
 			trayIcon.setToolTip( toolTip );
 	}
 
 	@Override
-	public void actionPerformed( ActionEvent e )
+	public void actionPerformed( final ActionEvent e )
 	{
 		if ( e.getSource() == quitMI )
 		{
@@ -204,7 +204,7 @@ public class SysTray implements ActionListener, MouseListener
 	}
 
 	@Override
-	public void mouseClicked( MouseEvent e )
+	public void mouseClicked( final MouseEvent e )
 	{
 		if ( e.getSource() == trayIcon && e.getButton() == MouseEvent.BUTTON1 )
 		{
@@ -219,25 +219,25 @@ public class SysTray implements ActionListener, MouseListener
 	}
 
 	@Override
-	public void mouseEntered( MouseEvent e )
+	public void mouseEntered( final MouseEvent e )
 	{
 
 	}
 
 	@Override
-	public void mouseExited( MouseEvent e )
+	public void mouseExited( final MouseEvent e )
 	{
 
 	}
 
 	@Override
-	public void mousePressed( MouseEvent e )
+	public void mousePressed( final MouseEvent e )
 	{
 
 	}
 
 	@Override
-	public void mouseReleased( MouseEvent e )
+	public void mouseReleased( final MouseEvent e )
 	{
 
 	}

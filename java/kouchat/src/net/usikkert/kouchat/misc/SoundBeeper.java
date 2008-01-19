@@ -55,9 +55,9 @@ public class SoundBeeper
 	 */
 	private static final int WAIT_PERIOD = 5000;
 
+	private final Settings settings;
+	private final ErrorHandler errorHandler;
 	private Clip audioClip;
-	private Settings settings;
-	private ErrorHandler errorHandler;
 	private Thread closeTimer;
 	private long closeTime;
 
@@ -128,7 +128,7 @@ public class SoundBeeper
 				}
 			}
 
-			catch ( UnsupportedAudioFileException e )
+			catch ( final UnsupportedAudioFileException e )
 			{
 				LOG.log( Level.SEVERE, e.toString() );
 				settings.setSound( false );
@@ -136,7 +136,7 @@ public class SoundBeeper
 						+ "\nUnsupported file format: " + BEEP_FILE );
 			}
 
-			catch ( IOException e )
+			catch ( final IOException e )
 			{
 				LOG.log( Level.SEVERE, e.toString() );
 				settings.setSound( false );
@@ -144,7 +144,7 @@ public class SoundBeeper
 						+ "\nAudio file could not be opened: " + BEEP_FILE );
 			}
 
-			catch ( LineUnavailableException e )
+			catch ( final LineUnavailableException e )
 			{
 				LOG.log( Level.WARNING, e.toString() );
 			}
@@ -158,7 +158,7 @@ public class SoundBeeper
 						resourceStream.close();
 					}
 
-					catch ( IOException e )
+					catch ( final IOException e )
 					{
 						LOG.log( Level.WARNING, e.toString() );
 					}
@@ -171,7 +171,7 @@ public class SoundBeeper
 						audioStream.close();
 					}
 
-					catch ( IOException e )
+					catch ( final IOException e )
 					{
 						LOG.log( Level.WARNING, e.toString() );
 					}
@@ -218,7 +218,7 @@ public class SoundBeeper
 					Thread.sleep( 1000 );
 				}
 
-				catch ( InterruptedException e )
+				catch ( final InterruptedException e )
 				{
 					LOG.log( Level.WARNING, e.toString() );
 				}

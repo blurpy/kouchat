@@ -49,10 +49,10 @@ public class ChatLogger implements SettingsListener
 
 	private static final Logger LOG = Logger.getLogger( ChatLogger.class.getName() );
 
-	private Settings settings;
+	private final Settings settings;
+	private final ErrorHandler errorHandler;
 	private BufferedWriter writer;
 	private boolean open;
-	private ErrorHandler errorHandler;
 
 	/**
 	 * Default constructor. Adds a shutdown hook to make sure the log file
@@ -98,7 +98,7 @@ public class ChatLogger implements SettingsListener
 			open = true;
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 			settings.setLogging( false );
@@ -119,7 +119,7 @@ public class ChatLogger implements SettingsListener
 				writer.close();
 			}
 
-			catch ( IOException e )
+			catch ( final IOException e )
 			{
 				LOG.log( Level.SEVERE, e.toString(), e );
 			}
@@ -136,7 +136,7 @@ public class ChatLogger implements SettingsListener
 	 *
 	 * @param line The line of text to add to the log.
 	 */
-	public void append( String line )
+	public void append( final String line )
 	{
 		if ( open )
 		{
@@ -147,7 +147,7 @@ public class ChatLogger implements SettingsListener
 				writer.flush();
 			}
 
-			catch ( IOException e )
+			catch ( final IOException e )
 			{
 				LOG.log( Level.SEVERE, e.toString(), e );
 				close();
@@ -169,7 +169,7 @@ public class ChatLogger implements SettingsListener
 	 * Opens or closes the log file when the logging setting is changed.
 	 */
 	@Override
-	public void settingChanged( String setting )
+	public void settingChanged( final String setting )
 	{
 		if ( setting.equals( "logging" ) )
 		{

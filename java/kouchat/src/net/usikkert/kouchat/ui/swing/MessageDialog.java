@@ -46,9 +46,8 @@ import javax.swing.WindowConstants;
 import net.usikkert.kouchat.Constants;
 
 /**
- * This is a more fancy message dialog.
- * The text with information is selectable, for
- * easy copy and paste.
+ * This is a more fancy message dialog. The text with information is selectable,
+ * for easy copy and paste.
  *
  * @author Christian Ihle
  */
@@ -56,7 +55,7 @@ public class MessageDialog extends JDialog
 {
 	private static final long serialVersionUID = 1L;
 
-	private JLabel appNameL, contentL;
+	private final JLabel appNameL, contentL;
 
 	/**
 	 * Creates a new MessageDialog. To open the dialog, use setVisible().
@@ -64,17 +63,10 @@ public class MessageDialog extends JDialog
 	 * @param parent The parent frame.
 	 * @param modal If the dialog should block or not.
 	 */
-	public MessageDialog( Frame parent, boolean modal )
+	public MessageDialog( final Frame parent, final boolean modal )
 	{
 		super( parent, modal );
-		initComponents();
-	}
 
-	/**
-	 * Sets up all the components in the dialog.
-	 */
-	private void initComponents()
-	{
 		setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
 		setTitle( Constants.APP_NAME + " - Missing title" );
 		setResizable( false );
@@ -100,7 +92,7 @@ public class MessageDialog extends JDialog
 		okB.addActionListener( new ActionListener()
 		{
 			@Override
-			public void actionPerformed( ActionEvent e )
+			public void actionPerformed( final ActionEvent e )
 			{
 				dispose();
 			}
@@ -140,7 +132,7 @@ public class MessageDialog extends JDialog
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void actionPerformed( ActionEvent e )
+			public void actionPerformed( final ActionEvent e )
 			{
 				dispose();
 			}
@@ -155,7 +147,7 @@ public class MessageDialog extends JDialog
 	 *
 	 * @param text The text to show.
 	 */
-	public void setTopText( String text )
+	public void setTopText( final String text )
 	{
 		appNameL.setText( " " + text );
 	}
@@ -165,7 +157,7 @@ public class MessageDialog extends JDialog
 	 *
 	 * @param info The text to add.
 	 */
-	public void setContent( String info )
+	public void setContent( final String info )
 	{
 		contentL.setText( info );
 	}
@@ -174,7 +166,7 @@ public class MessageDialog extends JDialog
 	 * Shows the Message Dialog.
 	 */
 	@Override
-	public void setVisible( boolean visible )
+	public void setVisible( final boolean visible )
 	{
 		pack();
 		setLocationRelativeTo( getParent() );

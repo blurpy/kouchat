@@ -48,7 +48,7 @@ public class UDPReceiver implements Runnable
 	private ReceiverListener listener;
 	private boolean run;
 	private Thread worker;
-	private ErrorHandler errorHandler;
+	private final ErrorHandler errorHandler;
 
 	/**
 	 * Default constructor.
@@ -79,7 +79,7 @@ public class UDPReceiver implements Runnable
 					listener.messageArrived( message, ip );
 			}
 
-			catch ( IOException e )
+			catch ( final IOException e )
 			{
 				LOG.log( Level.WARNING, e.toString() );
 			}
@@ -109,7 +109,7 @@ public class UDPReceiver implements Runnable
 				Settings.getSettings().getMe().setPrivateChatPort( port );
 			}
 
-			catch ( IOException e )
+			catch ( final IOException e )
 			{
 				LOG.log( Level.SEVERE, e.toString() + " " + port );
 
@@ -150,7 +150,7 @@ public class UDPReceiver implements Runnable
 	 *
 	 * @param listener The object to register as a listener.
 	 */
-	public void registerReceiverListener( ReceiverListener listener )
+	public void registerReceiverListener( final ReceiverListener listener )
 	{
 		this.listener = listener;
 	}

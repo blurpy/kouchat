@@ -40,7 +40,7 @@ public class MessageSender
 	private MulticastSocket mcSocket;
 	private InetAddress address;
 	private boolean connected;
-	private ErrorHandler errorHandler;
+	private final ErrorHandler errorHandler;
 
 	public MessageSender()
 	{
@@ -52,7 +52,7 @@ public class MessageSender
 			address = InetAddress.getByName( Constants.NETWORK_IP );
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 			errorHandler.showCriticalError( "Failed to initialize the network:\n" + e + "\n"
@@ -61,7 +61,7 @@ public class MessageSender
 		}
 	}
 
-	public void send( String message )
+	public void send( final String message )
 	{
 		if ( connected )
 		{
@@ -80,7 +80,7 @@ public class MessageSender
 				mcSocket.send( packet );
 			}
 
-			catch ( IOException e )
+			catch ( final IOException e )
 			{
 				LOG.log( Level.WARNING, "Could not send message: " + message );
 			}
@@ -99,7 +99,7 @@ public class MessageSender
 			}
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.WARNING, e.toString() );
 		}
@@ -118,7 +118,7 @@ public class MessageSender
 			connected = true;
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.SEVERE, "Could not start sender: " + e.toString() );
 		}

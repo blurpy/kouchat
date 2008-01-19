@@ -45,7 +45,7 @@ public class UDPSender
 
 	private DatagramSocket udpSocket;
 	private boolean started;
-	private ErrorHandler errorHandler;
+	private final ErrorHandler errorHandler;
 
 	/**
 	 * Default constructor.
@@ -62,7 +62,7 @@ public class UDPSender
 	 * @param ip The ip address of the user.
 	 * @param port The port to send the message to.
 	 */
-	public void send( String message, String ip, int port )
+	public void send( final String message, final String ip, final int port )
 	{
 		if ( started )
 		{
@@ -82,7 +82,7 @@ public class UDPSender
 				udpSocket.send( packet );
 			}
 
-			catch ( IOException e )
+			catch ( final IOException e )
 			{
 				LOG.log( Level.SEVERE, "Could not send message: " + message );
 			}
@@ -113,7 +113,7 @@ public class UDPSender
 			started = true;
 		}
 
-		catch ( IOException e )
+		catch ( final IOException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 			errorHandler.showError( "Failed to initialize network:\n" + e

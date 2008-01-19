@@ -54,14 +54,14 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 {
 	private static final long serialVersionUID = 1L;
 
-	private MainPanel mainP;
-	private SidePanel sideP;
-	private ButtonPanel buttonP;
-	private Mediator mediator;
-	private SysTray sysTray;
-	private SettingsDialog settingsDialog;
-	private MenuBar menuBar;
-	private Settings settings;
+	private final MainPanel mainP;
+	private final SidePanel sideP;
+	private final ButtonPanel buttonP;
+	private final Mediator mediator;
+	private final SysTray sysTray;
+	private final SettingsDialog settingsDialog;
+	private final MenuBar menuBar;
+	private final Settings settings;
 
 	public KouChatFrame()
 	{
@@ -138,7 +138,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void actionPerformed( ActionEvent e )
+			public void actionPerformed( final ActionEvent e )
 			{
 				if ( sysTray.isSystemTraySupport() )
 					setVisible( false );
@@ -150,7 +150,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 	}
 
 	/**
-	 * If this window is focused, the textfield will get the keyboard events
+	 * If this window is focused, the text field will get the keyboard events
 	 * if the chat area or the nick list was focused when typing was started.
 	 */
 	private void fixTextFieldFocus()
@@ -158,7 +158,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher( new KeyEventDispatcher()
 		{
 			@Override
-			public boolean dispatchKeyEvent( KeyEvent e )
+			public boolean dispatchKeyEvent( final KeyEvent e )
 			{
 				if ( e.getID() == KeyEvent.KEY_TYPED && isFocused() && ( e.getSource() == mainP.getChatTP() || e.getSource() == sideP.getNickList() ) )
 				{
@@ -175,7 +175,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 	}
 
 	@Override
-	public void focusGained( FocusEvent e )
+	public void focusGained( final FocusEvent e )
 	{
 
 	}
@@ -184,7 +184,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 	 * Make sure the menubar gets focus when navigating with the keyboard.
 	 */
 	@Override
-	public void focusLost( FocusEvent e )
+	public void focusLost( final FocusEvent e )
 	{
 		if ( menuBar.isPopupMenuVisible() )
 			getRootPane().requestFocusInWindow();
@@ -194,7 +194,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 	 * Shut down the right way.
 	 */
 	@Override
-	public void windowClosing( WindowEvent e )
+	public void windowClosing( final WindowEvent e )
 	{
 		SwingUtilities.invokeLater( new Runnable()
 		{
@@ -210,7 +210,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 	 * Fix focus and repaint issues when the window gets focused.
 	 */
 	@Override
-	public void windowActivated( WindowEvent e )
+	public void windowActivated( final WindowEvent e )
 	{
 		mainP.getChatSP().repaint();
 		sideP.getNickList().repaint();
@@ -218,31 +218,31 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 	}
 
 	@Override
-	public void windowClosed( WindowEvent e )
+	public void windowClosed( final WindowEvent e )
 	{
 
 	}
 
 	@Override
-	public void windowDeactivated( WindowEvent e )
+	public void windowDeactivated( final WindowEvent e )
 	{
 
 	}
 
 	@Override
-	public void windowDeiconified( WindowEvent e )
+	public void windowDeiconified( final WindowEvent e )
 	{
 
 	}
 
 	@Override
-	public void windowIconified( WindowEvent e )
+	public void windowIconified( final WindowEvent e )
 	{
 
 	}
 
 	@Override
-	public void windowOpened( WindowEvent e )
+	public void windowOpened( final WindowEvent e )
 	{
 
 	}
