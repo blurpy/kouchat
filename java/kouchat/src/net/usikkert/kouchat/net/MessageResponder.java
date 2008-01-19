@@ -25,22 +25,22 @@ import net.usikkert.kouchat.misc.NickDTO;
 
 public interface MessageResponder
 {
-	public void messageArrived( int userCode, String msg, int color );
-	public void topicChanged( int userCode, String newTopic, String nick, long time );
-	public void topicRequested();
-	public void awayChanged( int userCode, boolean away, String awayMsg );
-	public void nickChanged( int userCode, String newNick );
-	public void nickCrash();
-	public void meLogOn( String ipAddress );
-	public void userLogOn( NickDTO newUser );
-	public void userLogOff( int userCode );
-	public void userExposing( NickDTO user );
-	public void exposeRequested();
-	public void writingChanged( int userCode, boolean writing );
-	public void meIdle( String ipAddress );
-	public void userIdle( int userCode, String ipAddress );
-	public void fileSend( int userCode, long byteSize, String fileName, String user, int fileHash, int fileCode );
-	public void fileSendAborted( int userCode, String fileName, int fileHash );
-	public void fileSendAccepted( int userCode, String fileName, int fileHash, int port );
-	public void clientInfo( int userCode, String client, long timeSinceLogon, String operatingSystem, int privateChatPort );
+	void messageArrived( int userCode, String msg, int color );
+	void topicChanged( int userCode, String newTopic, String nick, long time );
+	void topicRequested();
+	void awayChanged( int userCode, boolean away, String awayMsg );
+	void nickChanged( int userCode, String newNick );
+	void nickCrash();
+	void meLogOn( String ipAddress );
+	void userLogOn( NickDTO newUser );
+	void userLogOff( int userCode );
+	void userExposing( NickDTO user );
+	void exposeRequested();
+	void writingChanged( int userCode, boolean writing );
+	void meIdle( String ipAddress );
+	void userIdle( int userCode, String ipAddress );
+	void fileSend( int userCode, long byteSize, String fileName, String user, int fileHash, int fileCode );
+	void fileSendAborted( int userCode, String fileName, int fileHash );
+	void fileSendAccepted( int userCode, String fileName, int fileHash, int port );
+	void clientInfo( int userCode, String client, long timeSinceLogon, String operatingSystem, int privateChatPort );
 }

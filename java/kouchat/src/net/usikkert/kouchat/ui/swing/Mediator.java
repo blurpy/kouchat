@@ -28,21 +28,21 @@ import net.usikkert.kouchat.misc.PrivateChatWindow;
 
 public interface Mediator
 {
-	public void minimize();
-	public void clearChat();
-	public void setAway();
-	public void setTopic();
-	public void start();
-	public void quit();
-	public void updateTitleAndTray();
-	public void showWindow();
-	public void showSettings();
-	public void sendFile( NickDTO user, File selectedFile );
-	public void write();
-	public void writePrivate( PrivateChatWindow privchat );
-	public void updateWriting();
-	public boolean changeNick( String nick );
-	public void transferCancelled( TransferDialog transferDialog );
-	public void showCommands();
-	public void showPrivChat( NickDTO user );
+	void minimize();
+	void clearChat();
+	void setAway();
+	void setTopic();
+	void start();
+	void quit();
+	void updateTitleAndTray();
+	void showWindow();
+	void showSettings();
+	void sendFile( NickDTO user, File selectedFile );
+	void write();
+	void writePrivate( PrivateChatWindow privchat );
+	void updateWriting();
+	boolean changeNick( String nick );
+	void transferCancelled( TransferDialog transferDialog );
+	void showCommands();
+	void showPrivChat( NickDTO user );
 }

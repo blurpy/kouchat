@@ -38,7 +38,7 @@ public class NickListModel extends AbstractListModel implements NickListListener
 {
 	private static final long serialVersionUID = 1L;
 
-	private NickList nickList;
+	private final NickList nickList;
 
 	/**
 	 * Constructor. Adds this list model as a listener for events
@@ -46,7 +46,7 @@ public class NickListModel extends AbstractListModel implements NickListListener
 	 *
 	 * @param nickList The list where the real users are.
 	 */
-	public NickListModel( NickList nickList )
+	public NickListModel( final NickList nickList )
 	{
 		this.nickList = nickList;
 		nickList.addNickListListener( this );
@@ -56,7 +56,7 @@ public class NickListModel extends AbstractListModel implements NickListListener
 	 * Returns the user at the specified index position.
 	 */
 	@Override
-	public NickDTO getElementAt( int index )
+	public NickDTO getElementAt( final int index )
 	{
 		return nickList.get( index );
 	}

@@ -29,8 +29,8 @@ import net.usikkert.kouchat.event.NickListListener;
 
 public class SortedNickList implements NickList
 {
-	private List<NickDTO> nickList;
-	private List<NickListListener> listeners;
+	private final List<NickDTO> nickList;
+	private final List<NickListListener> listeners;
 
 	public SortedNickList()
 	{
@@ -38,7 +38,7 @@ public class SortedNickList implements NickList
 		listeners = new ArrayList<NickListListener>();
 	}
 
-	public boolean add( NickDTO nick )
+	public boolean add( final NickDTO nick )
 	{
 		boolean success = nickList.add( nick );
 
@@ -51,7 +51,7 @@ public class SortedNickList implements NickList
 		return success;
 	}
 
-	public NickDTO get( int pos )
+	public NickDTO get( final int pos )
 	{
 		if ( pos < nickList.size() )
 			return nickList.get( pos );
@@ -59,12 +59,12 @@ public class SortedNickList implements NickList
 			return null;
 	}
 
-	public int indexOf( NickDTO nick )
+	public int indexOf( final NickDTO nick )
 	{
 		return nickList.indexOf( nick );
 	}
 
-	public NickDTO remove( int pos )
+	public NickDTO remove( final int pos )
 	{
 		NickDTO nick = nickList.remove( pos );
 		fireNickRemoved( pos );
@@ -72,7 +72,7 @@ public class SortedNickList implements NickList
 		return nick;
 	}
 
-	public boolean remove( NickDTO nick )
+	public boolean remove( final NickDTO nick )
 	{
 		int pos = nickList.indexOf( nick );
 		boolean success = nickList.remove( nick );
@@ -81,7 +81,7 @@ public class SortedNickList implements NickList
 		return success;
 	}
 
-	public NickDTO set( int pos, NickDTO nick )
+	public NickDTO set( final int pos, final NickDTO nick )
 	{
 		NickDTO oldNick = nickList.set( pos, nick );
 		Collections.sort( nickList );
@@ -95,17 +95,17 @@ public class SortedNickList implements NickList
 		return nickList.size();
 	}
 
-	public void addNickListListener( NickListListener listener )
+	public void addNickListListener( final NickListListener listener )
 	{
 		listeners.add( listener );
 	}
 
-	public void removeNickListListener( NickListListener listener )
+	public void removeNickListListener( final NickListListener listener )
 	{
 		listeners.remove( listener );
 	}
 
-	private void fireNickAdded( int pos )
+	private void fireNickAdded( final int pos )
 	{
 		for ( NickListListener listener : listeners )
 		{
@@ -113,7 +113,7 @@ public class SortedNickList implements NickList
 		}
 	}
 
-	private void fireNickChanged( int pos )
+	private void fireNickChanged( final int pos )
 	{
 		for ( NickListListener listener : listeners )
 		{
@@ -121,7 +121,7 @@ public class SortedNickList implements NickList
 		}
 	}
 
-	private void fireNickRemoved( int pos )
+	private void fireNickRemoved( final int pos )
 	{
 		for ( NickListListener listener : listeners )
 		{

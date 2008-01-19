@@ -34,5 +34,5 @@ public interface SettingsListener
 	 *
 	 * @param setting The setting which was changed.
 	 */
-	public void settingChanged( String setting );
+	void settingChanged( String setting );
 }

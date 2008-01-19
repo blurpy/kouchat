@@ -23,5 +23,5 @@ package net.usikkert.kouchat.net;
 
 public interface PrivateMessageResponder
 {
-	public void messageArrived( int userCode, String msg, int color );
+	void messageArrived( int userCode, String msg, int color );
 }

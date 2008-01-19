@@ -61,6 +61,7 @@ public class CommandException extends Exception
 
 	/**
 	 * Creates a CommandException with the specified cause.
+	 *
 	 * @param cause The cause of the exception.
 	 */
 	public CommandException( final Throwable cause )

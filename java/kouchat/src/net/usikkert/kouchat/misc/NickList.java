@@ -25,13 +25,13 @@ import net.usikkert.kouchat.event.NickListListener;
 
 public interface NickList
 {
-	public boolean add( NickDTO nick );
-	public NickDTO get( int pos );
-	public int indexOf( NickDTO nick );
-	public NickDTO remove( int pos );
-	public boolean remove( NickDTO nick );
-	public NickDTO set( int pos, NickDTO nick );
-	public int size();
-	public void addNickListListener( NickListListener listener );
-	public void removeNickListListener( NickListListener listener );
+	boolean add( NickDTO nick );
+	NickDTO get( int pos );
+	int indexOf( NickDTO nick );
+	NickDTO remove( int pos );
+	boolean remove( NickDTO nick );
+	NickDTO set( int pos, NickDTO nick );
+	int size();
+	void addNickListListener( NickListListener listener );
+	void removeNickListListener( NickListListener listener );
 }

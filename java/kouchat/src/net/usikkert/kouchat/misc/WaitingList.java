@@ -25,15 +25,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This waiting list is used to store unknown users while asking them to identify.
- * Usually it's users that timed out at some point, and are returning. By doing this,
- * messages from unknown users can be held back until they have identified themselves.
+ * This waiting list is used to store unknown users while asking them to
+ * identify. Usually it's users that timed out at some point, and are returning.
+ * By doing this, messages from unknown users can be held back until they
+ * have identified themselves.
  *
  * @author Christian Ihle
  */
 public class WaitingList
 {
-	private List<Integer> users;
+	private final List<Integer> users;
 	private boolean loggedOn;
 
 	public WaitingList()
@@ -41,17 +42,17 @@ public class WaitingList
 		users = new ArrayList<Integer>();
 	}
 
-	public void addWaitingUser( int userCode )
+	public void addWaitingUser( final int userCode )
 	{
 		users.add( userCode );
 	}
 
-	public boolean isWaitingUser( int userCode )
+	public boolean isWaitingUser( final int userCode )
 	{
 		return users.contains( userCode );
 	}
 
-	public void removeWaitingUser( int userCode )
+	public void removeWaitingUser( final int userCode )
 	{
 		users.remove( new Integer( userCode ) );
 	}
@@ -61,7 +62,7 @@ public class WaitingList
 		return loggedOn;
 	}
 
-	public void setLoggedOn( boolean loggedOn )
+	public void setLoggedOn( final boolean loggedOn )
 	{
 		this.loggedOn = loggedOn;
 	}

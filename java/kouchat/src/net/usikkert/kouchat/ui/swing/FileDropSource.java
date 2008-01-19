@@ -35,5 +35,5 @@ public interface FileDropSource
 	 *
 	 * @return The user.
 	 */
-	public NickDTO getUser();
+	NickDTO getUser();
 }

@@ -35,7 +35,7 @@ public interface NickListListener
 	 * @param pos The position in the nick list where
 	 * the user was added.
 	 */
-	public void nickAdded( int pos );
+	void nickAdded( int pos );
 
 	/**
 	 * A user has updated some of its fields,
@@ -43,12 +43,12 @@ public interface NickListListener
 	 *
 	 * @param pos  The position of the changed user in the nick list.
 	 */
-	public void nickChanged( int pos );
+	void nickChanged( int pos );
 
 	/**
 	 * A user has been removed from the nick list.
 	 *
 	 * @param pos The position where the user used to be in the nick list.
 	 */
-	public void nickRemoved( int pos );
+	void nickRemoved( int pos );
 }

@@ -62,6 +62,7 @@ public class UIException extends Exception
 
 	/**
 	 * Creates a UIException with the specified cause.
+	 *
 	 * @param cause The cause of the exception.
 	 */
 	public UIException( final Throwable cause )

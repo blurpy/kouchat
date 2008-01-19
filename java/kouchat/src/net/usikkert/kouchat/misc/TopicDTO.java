@@ -33,14 +33,14 @@ public class TopicDTO
 		time = 0;
 	}
 
-	public TopicDTO( String topic, String nick, long time )
+	public TopicDTO( final String topic, final String nick, final long time )
 	{
 		this.topic = topic;
 		this.nick = nick;
 		this.time = time;
 	}
 
-	public void changeTopic( String topic, String nick, long time )
+	public void changeTopic( final String topic, final String nick, final long time )
 	{
 		this.topic = topic;
 		this.nick = nick;
@@ -52,7 +52,7 @@ public class TopicDTO
 		return nick;
 	}
 
-	public void setNick( String nick )
+	public void setNick( final String nick )
 	{
 		this.nick = nick;
 	}
@@ -62,7 +62,7 @@ public class TopicDTO
 		return time;
 	}
 
-	public void setTime( long time )
+	public void setTime( final long time )
 	{
 		this.time = time;
 	}
@@ -72,7 +72,7 @@ public class TopicDTO
 		return topic;
 	}
 
-	public void setTopic( String topic )
+	public void setTopic( final String topic )
 	{
 		this.topic = topic;
 	}

@@ -43,16 +43,16 @@ import net.usikkert.kouchat.ui.util.UITools;
  */
 public class URLMouseListener implements MouseListener, MouseMotionListener
 {
-	private Cursor handCursor;
-	private JTextPane textPane;
-	private StyledDocument doc;
+	private final Cursor handCursor;
+	private final JTextPane textPane;
+	private final StyledDocument doc;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param textPane The text pane this listener is registered to.
 	 */
-	public URLMouseListener( JTextPane textPane )
+	public URLMouseListener( final JTextPane textPane )
 	{
 		this.textPane = textPane;
 
@@ -61,7 +61,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
 	}
 
 	@Override
-	public void mouseDragged( MouseEvent e )
+	public void mouseDragged( final MouseEvent e )
 	{
 
 	}
@@ -70,7 +70,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
 	 * Updates the mouse cursor when hovering over a link.
 	 */
 	@Override
-	public void mouseMoved( MouseEvent e )
+	public void mouseMoved( final MouseEvent e )
 	{
 		int mousePos = textPane.viewToModel( e.getPoint() );
 
@@ -90,25 +90,25 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
 	}
 
 	@Override
-	public void mouseClicked( MouseEvent e )
+	public void mouseClicked( final MouseEvent e )
 	{
 
 	}
 
 	@Override
-	public void mouseEntered( MouseEvent e )
+	public void mouseEntered( final MouseEvent e )
 	{
 
 	}
 
 	@Override
-	public void mouseExited( MouseEvent e )
+	public void mouseExited( final MouseEvent e )
 	{
 
 	}
 
 	@Override
-	public void mousePressed( MouseEvent e )
+	public void mousePressed( final MouseEvent e )
 	{
 
 	}
@@ -117,7 +117,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
 	 * Opens the clicked link in a browser.
 	 */
 	@Override
-	public void mouseReleased( MouseEvent e )
+	public void mouseReleased( final MouseEvent e )
 	{
 		if ( e.getButton() == MouseEvent.BUTTON1 )
 		{

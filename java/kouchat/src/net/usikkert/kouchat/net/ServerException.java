@@ -21,17 +21,51 @@
 
 package net.usikkert.kouchat.net;
 
+/**
+ * This exception is used when there are problems with starting a server.
+ *
+ * @author Christian Ihle
+ */
 public class ServerException extends Exception
 {
 	private static final long serialVersionUID = 1L;
 
-	public ServerException( String msg, Throwable exception )
+	/**
+	 * Creates a ServerException with no message or cause.
+	 */
+	public ServerException()
 	{
-		super( msg, exception );
+		super();
 	}
 
-	public ServerException( String msg )
+	/**
+	 * Creates a ServerException with the specified message and cause.
+	 *
+	 * @param message The exception message to use.
+	 * @param cause The cause of the exception.
+	 */
+	public ServerException( final String message, final Throwable cause )
 	{
-		super( msg );
+		super( message, cause );
+	}
+
+	/**
+	 * Creates a ServerException with the specified message.
+	 *
+	 * @param message The exception message to use.
+	 */
+	public ServerException( final String message )
+	{
+		super( message );
+	}
+
+	/**
+	 * Creates a ServerException with the specified cause.
+	 *
+	 * @param cause The cause of the exception.
+	 */
+	public ServerException( final Throwable cause )
+	{
+		super( cause );
 	}
 }

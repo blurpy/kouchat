@@ -64,7 +64,7 @@ public final class UITools
 	 *
 	 * @param url The url to open in the browser.
 	 */
-	public static void browse( String url )
+	public static void browse( final String url )
 	{
 		String browser = SETTINGS.getBrowser();
 
@@ -76,7 +76,7 @@ public final class UITools
 				Runtime.getRuntime().exec( browser + " " + url );
 			}
 
-			catch ( IOException e )
+			catch ( final IOException e )
 			{
 				LOG.log( Level.WARNING, e.toString() );
 				ERRORHANDLER.showError( "Could not open the browser '"
@@ -92,14 +92,14 @@ public final class UITools
 				Desktop.getDesktop().browse( new URI( url ) );
 			}
 
-			catch ( IOException e )
+			catch ( final IOException e )
 			{
 				LOG.log( Level.WARNING, e.toString() );
 				ERRORHANDLER.showError( "Could not open '" + url + "' with the default browser."
 						+ " Try setting a browser in the settings." );
 			}
 
-			catch ( URISyntaxException e )
+			catch ( final URISyntaxException e )
 			{
 				LOG.log( Level.WARNING, e.toString() );
 			}
@@ -125,22 +125,22 @@ public final class UITools
 				UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
 			}
 
-			catch ( ClassNotFoundException e )
+			catch ( final ClassNotFoundException e )
 			{
 				LOG.log( Level.WARNING, e.toString() );
 			}
 
-			catch ( InstantiationException e )
+			catch ( final InstantiationException e )
 			{
 				LOG.log( Level.WARNING, e.toString() );
 			}
 
-			catch ( IllegalAccessException e )
+			catch ( final IllegalAccessException e )
 			{
 				LOG.log( Level.WARNING, e.toString() );
 			}
 
-			catch ( UnsupportedLookAndFeelException e )
+			catch ( final UnsupportedLookAndFeelException e )
 			{
 				LOG.log( Level.WARNING, e.toString() );
 			}

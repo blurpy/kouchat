@@ -33,31 +33,31 @@ public interface FileTransferListener
 	/**
 	 * Called before anything has happened yet.
 	 */
-	public void statusWaiting();
+	void statusWaiting();
 
 	/**
 	 * Called when the file transfer process is started, but before
 	 * connection has been established.
 	 */
-	public void statusConnecting();
+	void statusConnecting();
 
 	/**
 	 * Called when a file is transferring.
 	 */
-	public void statusTransferring();
+	void statusTransferring();
 
 	/**
 	 * Called when a file transfer finished successfully.
 	 */
-	public void statusCompleted();
+	void statusCompleted();
 
 	/**
 	 * Called if for some reason the transfer failed.
 	 */
-	public void statusFailed();
+	void statusFailed();
 
 	/**
 	 * Used to notify that more of the transfer has completed.
 	 */
-	public void transferUpdate();
+	void transferUpdate();
 }

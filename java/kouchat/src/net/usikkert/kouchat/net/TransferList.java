@@ -28,8 +28,8 @@ import net.usikkert.kouchat.misc.NickDTO;
 
 public class TransferList
 {
-	private List<FileSender> senders;
-	private List<FileReceiver> receivers;
+	private final List<FileSender> senders;
+	private final List<FileReceiver> receivers;
 
 	public TransferList()
 	{
@@ -37,17 +37,17 @@ public class TransferList
 		receivers = new ArrayList<FileReceiver>();
 	}
 
-	public void addFileSender( FileSender fileSender )
+	public void addFileSender( final FileSender fileSender )
 	{
 		senders.add( fileSender );
 	}
 
-	public void removeFileSender( FileSender fileSender )
+	public void removeFileSender( final FileSender fileSender )
 	{
 		senders.remove( fileSender );
 	}
 
-	public FileSender getFileSender( NickDTO user, String fileName, int fileHash )
+	public FileSender getFileSender( final NickDTO user, final String fileName, final int fileHash )
 	{
 		FileSender fileSender = null;
 
@@ -63,7 +63,7 @@ public class TransferList
 		return fileSender;
 	}
 
-	public List<FileSender> getFileSenders( NickDTO user )
+	public List<FileSender> getFileSenders( final NickDTO user )
 	{
 		List<FileSender> list = new ArrayList<FileSender>();
 
@@ -90,17 +90,17 @@ public class TransferList
 		return list;
 	}
 
-	public void addFileReceiver( FileReceiver fileReceiver )
+	public void addFileReceiver( final FileReceiver fileReceiver )
 	{
 		receivers.add( fileReceiver );
 	}
 
-	public void removeFileReceiver( FileReceiver fileReceiver )
+	public void removeFileReceiver( final FileReceiver fileReceiver )
 	{
 		receivers.remove( fileReceiver );
 	}
 
-	public List<FileReceiver> getFileReceivers( NickDTO user )
+	public List<FileReceiver> getFileReceivers( final NickDTO user )
 	{
 		List<FileReceiver> list = new ArrayList<FileReceiver>();
 

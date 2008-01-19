@@ -32,15 +32,15 @@ public interface FileTransfer
 		RECEIVE
 	};
 
-	public Direction getDirection();
-	public String getFileName();
-	public NickDTO getNick();
-	public int getPercent();
-	public long getTransferred();
-	public long getFileSize();
-	public long getSpeed();
-	public void cancel();
-	public boolean isCanceled();
-	public boolean isTransferred();
-	public void registerListener( FileTransferListener listener );
+	Direction getDirection();
+	String getFileName();
+	NickDTO getNick();
+	int getPercent();
+	long getTransferred();
+	long getFileSize();
+	long getSpeed();
+	void cancel();
+	boolean isCanceled();
+	boolean isTransferred();
+	void registerListener( FileTransferListener listener );
 }

@@ -23,5 +23,5 @@ package net.usikkert.kouchat.misc;
 
 public interface ChatWindow
 {
-	public void appendToChat( String message, int color );
+	void appendToChat( String message, int color );
 }

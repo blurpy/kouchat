@@ -23,13 +23,13 @@ package net.usikkert.kouchat.misc;
 
 public interface PrivateChatWindow
 {
-	public void appendToPrivateChat( String text, int color );
-	public NickDTO getUser();
-	public String getChatText();
-	public void clearChatText();
-	public void setVisible( boolean visible );
-	public boolean isVisible();
-	public void setAway( boolean away );
-	public void setLoggedOff();
-	public void updateNick();
+	void appendToPrivateChat( String text, int color );
+	NickDTO getUser();
+	String getChatText();
+	void clearChatText();
+	void setVisible( boolean visible );
+	boolean isVisible();
+	void setAway( boolean away );
+	void setLoggedOff();
+	void updateNick();
 }

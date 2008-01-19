@@ -78,7 +78,7 @@ public class UDPReceiverTest implements ReceiverListener
 	}
 
 	@Override
-	public void messageArrived( String message, String ipAddress )
+	public void messageArrived( final String message, final String ipAddress )
 	{
 		// Not part of the testing. Just to see if it works.
 		System.out.println( message );

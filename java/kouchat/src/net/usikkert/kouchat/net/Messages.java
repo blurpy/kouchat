@@ -27,10 +27,10 @@ import net.usikkert.kouchat.misc.TopicDTO;
 
 public class Messages
 {
-	private UDPSender udpSender;
-	private MessageSender sender;
-	private NickDTO me;
-	private Settings settings;
+	private final UDPSender udpSender;
+	private final MessageSender sender;
+	private final NickDTO me;
+	private final Settings settings;
 
 	public Messages()
 	{
@@ -45,9 +45,10 @@ public class Messages
 		sender.send( me.getCode() + "!IDLE#" + me.getNick() + ":" );
 	}
 
-	public void sendTopicMessage( TopicDTO topic )
+	public void sendTopicMessage( final TopicDTO topic )
 	{
-		sender.send( me.getCode() + "!TOPIC#" + me.getNick() + ":" + "(" + topic.getNick()	+ ")" + "[" + topic.getTime() + "]" + topic.getTopic() );
+		sender.send( me.getCode() + "!TOPIC#" + me.getNick() + ":" + "(" + topic.getNick()
+				+ ")" + "[" + topic.getTime() + "]" + topic.getTopic() );
 	}
 
 	public void sendAwayMessage()
@@ -60,7 +61,7 @@ public class Messages
 		sender.send( me.getCode() + "!BACK#" + me.getNick() + ":" );
 	}
 
-	public void sendChatMessage( String msg )
+	public void sendChatMessage( final String msg )
 	{
 		sender.send( me.getCode() + "!MSG#" + me.getNick() + ":[" + settings.getOwnColor() + "]" + msg );
 	}
@@ -105,22 +106,26 @@ public class Messages
 		sender.send( me.getCode() + "!NICK#" + me.getNick() + ":" );
 	}
 
-	public void sendNickCrashMessage( String nick )
+	public void sendNickCrashMessage( final String nick )
 	{
 		sender.send( me.getCode() + "!NICKCRASH#" + me.getNick() + ":" + nick );
 	}
 
-	public void sendFileAbort( int msgCode, int fileHash, String fileName )
+	public void sendFileAbort( final int msgCode, final int fileHash, final String fileName )
 	{
-		sender.send( me.getCode() + "!SENDFILEABORT#" + me.getNick() + ":(" + msgCode + "){" + fileHash + "}" + fileName );
+		sender.send( me.getCode() + "!SENDFILEABORT#" + me.getNick() + ":(" + msgCode
+				+ "){" + fileHash + "}" + fileName );
 	}
 
-	public void sendFileAccept( int msgCode, int port, int fileHash, String fileName )
+	public void sendFileAccept( final int msgCode, final int port,
+			final int fileHash, final String fileName )
 	{
-		sender.send( me.getCode() + "!SENDFILEACCEPT#" + me.getNick() + ":(" + msgCode + ")[" + port + "]{" + fileHash + "}" + fileName );
+		sender.send( me.getCode() + "!SENDFILEACCEPT#" + me.getNick() + ":("
+				+ msgCode + ")[" + port + "]{" + fileHash + "}" + fileName );
 	}
 
-	public void sendFile( int sendToUserCode, long fileLength, int fileHash, String fileName )
+	public void sendFile( final int sendToUserCode, final long fileLength,
+			final int fileHash, final String fileName )
 	{
 		sender.send( me.getCode() + "!SENDFILE#" + me.getNick() + ":(" + sendToUserCode + ")" + "["
 				+ fileLength + "]{" + fileHash + "}" + fileName );
@@ -133,7 +138,8 @@ public class Messages
 				+ "]{" + me.getOperatingSystem() + "}<" + me.getPrivateChatPort() + ">" );
 	}
 
-	public void sendPrivateMessage( String privmsg, String userIP, int userPort, int userCode )
+	public void sendPrivateMessage( final String privmsg, final String userIP,
+			final int userPort, final int userCode )
 	{
 		udpSender.send( me.getCode() + "!PRIVMSG#" + me.getNick() + ":(" + userCode + ")"
 				+ "[" + settings.getOwnColor() + "]" + privmsg, userIP, userPort );
