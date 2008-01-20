@@ -1,10 +1,15 @@
 
 - KouChat v0.9.8 CHANGES
 
-* version 0.9.8 (xx.xx.200x):
+* version 0.9.8 (xx.xx.2008):
   - Gave names to threads
   - Added uncaught exception handler to log uncaught exceptions
   - Made sure the delayed logon timer stops when done
+  - Moved UserInterface to the ui package
+  - Removed UIMessages
+  - Improved error messages shown in the user interface
+  - Added the final keyword to lots of variables
+  - Made ConsoleInput a thread
 
 
 * version 0.9.7 (16.12.2007):

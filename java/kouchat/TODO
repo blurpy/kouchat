@@ -2,11 +2,14 @@
 - KouChat v0.9.8 TODO
 
 * Release v1.0.0:
+ - Javadoc
  - Add command for:
    - Receive file
    - Abort file transfer
  - Auto completion for nick names
- - Better console error messages
- - Show license in about box
- - Fix gui error messages
- - Fix text length in file transfer dialog
+
+
+* Release v0.9.8:
+  - Fix text length in file transfer dialog
+  - Show license and faq in help menu
+  - Update checkstyle, final and redundant modifiers
