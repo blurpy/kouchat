@@ -27,9 +27,9 @@
         </includes>
       </resource>
       <resource>
-        <directory>src/</directory>
+        <directory>resources/</directory>
         <includes>
-          <include>error.wav</include>
+          <include>sounds/</include>
           <include>icons/</include>
         </includes>
       </resource>
