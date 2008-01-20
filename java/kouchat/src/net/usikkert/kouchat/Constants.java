@@ -1,6 +1,6 @@
 
 /***************************************************************************
- *   Copyright 2006-2007 by Christian Ihle                                 *
+ *   Copyright 2006-2008 by Christian Ihle                                 *
  *   kontakt@usikkert.net                                                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -52,6 +52,11 @@ public interface Constants
 	 * The home page of this application.
 	 */
 	String APP_WEB = "http://kouchat.googlecode.com/";
+
+	/**
+	 * Copyright from year, to year.
+	 */
+	String APP_COPYRIGHT_YEARS = "2006-2008";
 
 	/**
 	 * Name of the author of this application.

@@ -1,6 +1,6 @@
 
 /***************************************************************************
- *   Copyright 2006-2007 by Christian Ihle                                 *
+ *   Copyright 2006-2008 by Christian Ihle                                 *
  *   kontakt@usikkert.net                                                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -291,7 +291,7 @@ public class MenuBar extends JMenuBar implements ActionListener
 
 					aboutD.setTitle( Constants.APP_NAME + " - About" );
 					aboutD.setTopText( Constants.APP_NAME + " v" + Constants.APP_VERSION );
-					aboutD.setContent( "<html>Copyright 2006-2007 by " + Constants.AUTHOR_NAME + "."
+					aboutD.setContent( "<html>Copyright " + Constants.APP_COPYRIGHT_YEARS + " by " + Constants.AUTHOR_NAME + "."
 							+ "<br>" + Constants.AUTHOR_MAIL
 							+ "<br>" + Constants.APP_WEB
 							+ "<br>"
