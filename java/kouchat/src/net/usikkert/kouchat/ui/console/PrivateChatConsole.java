@@ -48,9 +48,9 @@ public class PrivateChatConsole implements PrivateChatWindow
 	 * with (privmsg) in front of them.
 	 */
 	@Override
-	public void appendToPrivateChat( final String text, final int color )
+	public void appendToPrivateChat( final String message, final int color )
 	{
-		System.out.println( "(privmsg) " + text );
+		System.out.println( "(privmsg) " + message );
 	}
 
 	/**

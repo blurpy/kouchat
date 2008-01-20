@@ -108,12 +108,12 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		this.mediator = mediator;
 	}
 
-	public void appendToChat( final String text, final int color )
+	public void appendToChat( final String message, final int color )
 	{
 		try
 		{
 			StyleConstants.setForeground( chatAttr, new Color( color ) );
-			chatDoc.insertString( chatDoc.getLength(), text + "\n", chatAttr );
+			chatDoc.insertString( chatDoc.getLength(), message + "\n", chatAttr );
 			chatTP.setCaretPosition( chatDoc.getLength() );
 		}
 

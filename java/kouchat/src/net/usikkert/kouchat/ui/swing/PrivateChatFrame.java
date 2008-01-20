@@ -231,16 +231,16 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	/**
 	 * Adds a new line to the chat.
 	 *
-	 * @param text The line of text to add.
+	 * @param message The line of text to add.
 	 * @param color The color that the text should have.
 	 */
 	@Override
-	public void appendToPrivateChat( final String text, final int color )
+	public void appendToPrivateChat( final String message, final int color )
 	{
 		try
 		{
 			StyleConstants.setForeground( chatAttr, new Color( color ) );
-			chatDoc.insertString( chatDoc.getLength(), text + "\n", chatAttr );
+			chatDoc.insertString( chatDoc.getLength(), message + "\n", chatAttr );
 			chatTP.setCaretPosition( chatDoc.getLength() );
 		}
 
