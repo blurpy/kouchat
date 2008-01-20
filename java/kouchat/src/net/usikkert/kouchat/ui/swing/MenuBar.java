@@ -33,14 +33,24 @@ import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.Constants;
 
+/**
+ * This is the main menubar for the application.
+ *
+ * @author Christian Ihle
+ */
 public class MenuBar extends JMenuBar implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
 
-	private JMenu fileMenu, toolsMenu, helpMenu;
-	private JMenuItem minimizeMI, quitMI, clearMI, awayMI, topicMI, settingsMI, aboutMI, commandsMI;
+	private final JMenu fileMenu, toolsMenu, helpMenu;
+	private final JMenuItem minimizeMI, quitMI;
+	private final JMenuItem clearMI, awayMI, topicMI, settingsMI;
+	private final JMenuItem aboutMI, commandsMI, faqMI, licenseMI;
 	private Mediator mediator;
 
+	/**
+	 * Constructor. Creates the menubar.
+	 */
 	public MenuBar()
 	{
 		fileMenu = new JMenu( "File" );
@@ -82,6 +92,12 @@ public class MenuBar extends JMenuBar implements ActionListener
 
 		helpMenu = new JMenu( "Help" );
 		helpMenu.setMnemonic( 'H' );
+		faqMI = new JMenuItem( "FAQ" );
+		faqMI.setMnemonic( 'F' );
+		faqMI.addActionListener( this );
+		licenseMI = new JMenuItem( "License" );
+		licenseMI.setMnemonic( 'L' );
+		licenseMI.addActionListener( this );
 		commandsMI = new JMenuItem( "Commands" );
 		commandsMI.setMnemonic( 'C' );
 		commandsMI.addActionListener( this );
@@ -89,6 +105,9 @@ public class MenuBar extends JMenuBar implements ActionListener
 		aboutMI.setMnemonic( 'A' );
 		aboutMI.addActionListener( this );
 
+		helpMenu.add( faqMI );
+		helpMenu.add( licenseMI );
+		helpMenu.addSeparator();
 		helpMenu.add( commandsMI );
 		helpMenu.addSeparator();
 		helpMenu.add( aboutMI );
@@ -98,30 +117,52 @@ public class MenuBar extends JMenuBar implements ActionListener
 		add( helpMenu );
 	}
 
+	/**
+	 * Sets the mediator to use.
+	 *
+	 * @param mediator The mediator to set.
+	 */
 	public void setMediator( final Mediator mediator )
 	{
 		this.mediator = mediator;
 	}
 
+	/**
+	 * If away, the settings and topic menu items are disabled.
+	 *
+	 * @param away If away or not.
+	 */
 	public void setAwayState( final boolean away )
 	{
 		settingsMI.setEnabled( !away );
 		topicMI.setEnabled( !away );
 	}
 
+	/**
+	 * Disables the minimize button.
+	 */
 	public void disableMinimize()
 	{
 		minimizeMI.setEnabled( false );
 	}
 
+	/**
+	 * Checks if any of the menus are visible.
+	 *
+	 * @return True if at least one menu is visible.
+	 */
 	public boolean isPopupMenuVisible()
 	{
 		return fileMenu.isPopupMenuVisible() || toolsMenu.isPopupMenuVisible() || helpMenu.isPopupMenuVisible();
 	}
 
+	/**
+	 * ActionListener for the menu items.
+	 */
 	@Override
 	public void actionPerformed( final ActionEvent e )
 	{
+		// File/Quit
 		if ( e.getSource() == quitMI )
 		{
 			SwingUtilities.invokeLater( new Runnable()
@@ -134,6 +175,7 @@ public class MenuBar extends JMenuBar implements ActionListener
 			} );
 		}
 
+		// Tools/Settings
 		else if ( e.getSource() == settingsMI )
 		{
 			SwingUtilities.invokeLater( new Runnable()
@@ -146,6 +188,7 @@ public class MenuBar extends JMenuBar implements ActionListener
 			} );
 		}
 
+		// File/Minimize
 		else if ( e.getSource() == minimizeMI )
 		{
 			SwingUtilities.invokeLater( new Runnable()
@@ -158,6 +201,7 @@ public class MenuBar extends JMenuBar implements ActionListener
 			} );
 		}
 
+		// Tools/Set away
 		else if ( e.getSource() == awayMI )
 		{
 			SwingUtilities.invokeLater( new Runnable()
@@ -170,6 +214,7 @@ public class MenuBar extends JMenuBar implements ActionListener
 			} );
 		}
 
+		// Tools/Change topic
 		else if ( e.getSource() == topicMI )
 		{
 			SwingUtilities.invokeLater( new Runnable()
@@ -182,6 +227,7 @@ public class MenuBar extends JMenuBar implements ActionListener
 			} );
 		}
 
+		// Tools/Clear chat
 		else if ( e.getSource() == clearMI )
 		{
 			SwingUtilities.invokeLater( new Runnable()
@@ -194,6 +240,33 @@ public class MenuBar extends JMenuBar implements ActionListener
 			} );
 		}
 
+		// Help/FAQ
+		else if ( e.getSource() == faqMI )
+		{
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					new TextViewerDialog( Constants.FILE_FAQ, "Frequently Asked Questions" );
+				}
+			} );
+		}
+
+		// Help/License
+		else if ( e.getSource() == licenseMI )
+		{
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					new TextViewerDialog( Constants.FILE_LICENSE, Constants.APP_LICENSE_NAME );
+				}
+			} );
+		}
+
+		// Help/Commands
 		else if ( e.getSource() == commandsMI )
 		{
 			SwingUtilities.invokeLater( new Runnable()
@@ -206,6 +279,7 @@ public class MenuBar extends JMenuBar implements ActionListener
 			} );
 		}
 
+		// Help/About
 		else if ( e.getSource() == aboutMI )
 		{
 			SwingUtilities.invokeLater( new Runnable()
@@ -221,8 +295,8 @@ public class MenuBar extends JMenuBar implements ActionListener
 							+ "<br>" + Constants.AUTHOR_MAIL
 							+ "<br>" + Constants.APP_WEB
 							+ "<br>"
-							+ "<br>Source available under the " + Constants.APP_LICENSE + "."
-							+ "<br>See " + Constants.APP_LICENSE_FILE + " for details.</html>" );
+							+ "<br>Source available under the " + Constants.APP_LICENSE_NAME + "."
+							+ "<br>See the license for details.</html>" );
 
 					aboutD.setVisible( true );
 				}

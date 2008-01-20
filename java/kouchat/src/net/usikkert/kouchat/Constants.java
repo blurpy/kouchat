@@ -41,12 +41,7 @@ public interface Constants
 	/**
 	 * Which license the application has.
 	 */
-	String APP_LICENSE = "GNU GPLv2";
-
-	/**
-	 * Which file to find the license text.
-	 */
-	String APP_LICENSE_FILE = "COPYING";
+	String APP_LICENSE_NAME = "GNU GPLv2";
 
 	/**
 	 * The icon used to identify the application.
@@ -127,6 +122,15 @@ public interface Constants
 	/**
 	 * The folder where log files are stored.
 	 */
-	String APP_LOG_FOLDER = APP_FOLDER + "logs"
-			+ System.getProperty( "file.separator" );
+	String APP_LOG_FOLDER = APP_FOLDER + "logs" + System.getProperty( "file.separator" );
+
+	/**
+	 * Which file to find the license text.
+	 */
+	String FILE_LICENSE = "COPYING";
+
+	/**
+	 * Which file to find the frequently asked questions.
+	 */
+	String FILE_FAQ = "FAQ";
 }
