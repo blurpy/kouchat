@@ -58,6 +58,7 @@ public class ConsoleInput extends Thread
 	{
 		this.controller = controller;
 
+		setName( "ConsoleInputThread" );
 		msgController = ui.getMessageController();
 		stdin = new BufferedReader( new InputStreamReader( System.in ) );
 		cmdParser = new CommandParser( controller, ui );
