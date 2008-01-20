@@ -48,8 +48,8 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.misc.ChatWindow;
 import net.usikkert.kouchat.misc.CommandHistory;
+import net.usikkert.kouchat.ui.ChatWindow;
 
 public class MainPanel extends JPanel implements ActionListener, CaretListener, ChatWindow, KeyListener
 {

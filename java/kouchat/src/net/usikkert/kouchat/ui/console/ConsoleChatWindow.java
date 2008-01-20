@@ -21,7 +21,7 @@
 
 package net.usikkert.kouchat.ui.console;
 
-import net.usikkert.kouchat.misc.ChatWindow;
+import net.usikkert.kouchat.ui.ChatWindow;
 
 /**
  * This is the console implementation of the chat window.

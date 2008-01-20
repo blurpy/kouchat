@@ -21,6 +21,8 @@
 
 package net.usikkert.kouchat.misc;
 
+import net.usikkert.kouchat.ui.PrivateChatWindow;
+
 public class NickDTO implements Comparable<NickDTO>
 {
 	private String nick, awayMsg, ipAddress, operatingSystem, client;

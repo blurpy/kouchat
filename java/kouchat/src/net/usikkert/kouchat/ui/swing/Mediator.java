@@ -24,7 +24,7 @@ package net.usikkert.kouchat.ui.swing;
 import java.io.File;
 
 import net.usikkert.kouchat.misc.NickDTO;
-import net.usikkert.kouchat.misc.PrivateChatWindow;
+import net.usikkert.kouchat.ui.PrivateChatWindow;
 
 public interface Mediator
 {

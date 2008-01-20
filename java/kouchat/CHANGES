@@ -5,7 +5,7 @@
   - Gave names to threads
   - Added uncaught exception handler to log uncaught exceptions
   - Made sure the delayed logon timer stops when done
-  - Moved UserInterface to the ui package
+  - Moved some ui-interfaces to the ui package
   - Removed UIMessages
   - Improved error messages shown in the user interface
   - Added the final keyword to lots of variables

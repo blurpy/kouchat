@@ -64,8 +64,8 @@ import javax.swing.text.StyledDocument;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.CommandHistory;
 import net.usikkert.kouchat.misc.NickDTO;
-import net.usikkert.kouchat.misc.PrivateChatWindow;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.ui.PrivateChatWindow;
 
 /**
  * The window used for private chat sessions.

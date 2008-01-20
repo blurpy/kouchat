@@ -22,7 +22,7 @@
 package net.usikkert.kouchat.ui.console;
 
 import net.usikkert.kouchat.misc.NickDTO;
-import net.usikkert.kouchat.misc.PrivateChatWindow;
+import net.usikkert.kouchat.ui.PrivateChatWindow;
 
 /**
  * Very simple console support for private chat sessions.
