@@ -39,7 +39,7 @@ import net.usikkert.kouchat.ui.UserInterface;
  *
  * @author Christian Ihle
  */
-public class ConsoleInput
+public class ConsoleInput extends Thread
 {
 	private static final Logger LOG = Logger.getLogger( ConsoleInput.class.getName() );
 
@@ -72,9 +72,10 @@ public class ConsoleInput
 	}
 
 	/**
-	 * Starts a loop waiting for input. To stop the loop and exit the application, write /quit.
+	 * Starts a loop waiting for input.
+	 * To stop the loop and exit the application, write /quit.
 	 */
-	public void input()
+	public void run()
 	{
 		String input = "";
 
@@ -104,8 +105,7 @@ public class ConsoleInput
 
 						catch ( final CommandException e )
 						{
-							LOG.log( Level.WARNING, e.toString() );
-							msgController.showSystemMessage( e.toString() );
+							msgController.showSystemMessage( e.getMessage() );
 						}
 					}
 				}

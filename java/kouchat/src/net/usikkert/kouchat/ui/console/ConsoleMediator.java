@@ -44,7 +44,8 @@ public class ConsoleMediator implements UserInterface
 	private final ConsoleInput ci;
 
 	/**
-	 * Constructor. Initializes the lower layers.
+	 * Constructor.
+	 * Initializes the lower layers, and starts the input loop thread.
 	 */
 	public ConsoleMediator()
 	{
@@ -53,15 +54,15 @@ public class ConsoleMediator implements UserInterface
 		msgController.showSystemMessage( "Welcome to " + Constants.APP_NAME + " v" + Constants.APP_VERSION + "!" );
 		controller = new Controller( this );
 		ci = new ConsoleInput( controller, this );
+		ci.start();
 	}
 
 	/**
-	 * Will logon to the network and start the input loop.
+	 * Will log on to the network.
 	 */
 	public void start()
 	{
 		controller.logOn();
-		ci.input();
 	}
 
 	/**
