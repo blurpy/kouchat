@@ -47,7 +47,7 @@ public class SoundBeeper
 	/**
 	 * The file to play when beep() is run.
 	 */
-	private static final String BEEP_FILE = "/error.wav";
+	private static final String BEEP_FILE = "/sounds/error.wav";
 
 	/**
 	 * The number of milliseconds to wait after
