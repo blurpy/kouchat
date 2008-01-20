@@ -102,7 +102,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 
 		setJMenuBar( menuBar );
 		getContentPane().add( mainP, BorderLayout.CENTER );
-		setTitle( Constants.APP_NAME + " v" + Constants.APP_VERSION + " - (Not connected)" );
+		setTitle( Constants.APP_NAME + " v" + Constants.APP_VERSION + " - (Not started)" );
 		setIconImage( new ImageIcon( getClass().getResource( Constants.APP_ICON ) ).getImage() );
 		setSize( 650, 480 );
 		setMinimumSize( new Dimension( 450, 300 ) );
@@ -113,6 +113,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 		addWindowListener( this );
 		fixTextFieldFocus();
 		hideWithEscape();
+		mediator.updateTitleAndTray();
 
 		// Try to stop the gui from lagging during startup
 		SwingUtilities.invokeLater( new Runnable()

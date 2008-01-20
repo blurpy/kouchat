@@ -117,7 +117,7 @@ public class SysTray implements ActionListener, MouseListener
 			trayIcon = new TrayIcon( kouIconNormal, "", menu );
 			trayIcon.setImageAutoSize( true );
 			trayIcon.addMouseListener( this );
-			trayIcon.setToolTip( Constants.APP_NAME + " v" + Constants.APP_VERSION + " - (Not connected)" );
+			trayIcon.setToolTip( Constants.APP_NAME + " v" + Constants.APP_VERSION + " - (Not started)" );
 
 			try
 			{

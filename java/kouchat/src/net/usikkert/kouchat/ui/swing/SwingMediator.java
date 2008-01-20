@@ -23,9 +23,6 @@ package net.usikkert.kouchat.ui.swing;
 
 import java.io.File;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -57,8 +54,6 @@ import net.usikkert.kouchat.util.Tools;
  */
 public class SwingMediator implements Mediator, UserInterface
 {
-	private static final Logger LOG = Logger.getLogger( SwingMediator.class.getName() );
-
 	private final SidePanel sideP;
 	private final SettingsDialog settingsDialog;
 	private final KouChatFrame gui;
@@ -158,8 +153,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 				catch ( final CommandException e )
 				{
-					LOG.log( Level.WARNING, e.toString() );
-					JOptionPane.showMessageDialog( null, "You are not allowed to change away mode at this time.",
+					JOptionPane.showMessageDialog( null, e.getMessage(),
 							Constants.APP_NAME + " - Change away", JOptionPane.WARNING_MESSAGE );
 				}
 			}
@@ -188,8 +182,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 				catch ( final CommandException e )
 				{
-					LOG.log( Level.WARNING, e.toString() );
-					JOptionPane.showMessageDialog( null, "You are not allowed to change away mode at this time.",
+					JOptionPane.showMessageDialog( null, e.getMessage(),
 							Constants.APP_NAME + " - Change away", JOptionPane.WARNING_MESSAGE );
 				}
 			}
@@ -370,8 +363,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 				catch ( final CommandException e )
 				{
-					LOG.log( Level.WARNING, e.toString() );
-					msgController.showSystemMessage( e.toString() );
+					msgController.showSystemMessage( e.getMessage() );
 				}
 			}
 		}
@@ -399,8 +391,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 			catch ( final CommandException e )
 			{
-				LOG.log( Level.WARNING, e.toString() );
-				msgController.showSystemMessage( e.toString() );
+				msgController.showPrivateSystemMessage( user, e.getMessage() );
 			}
 		}
 
@@ -474,8 +465,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 				catch ( final CommandException e )
 				{
-					LOG.log( Level.SEVERE, e.toString() );
-					JOptionPane.showMessageDialog( null, "You are not allowed to change nick at this time.",
+					JOptionPane.showMessageDialog( null, e.getMessage(),
 							Constants.APP_NAME + " - Change nick", JOptionPane.WARNING_MESSAGE );
 				}
 			}
@@ -671,9 +661,22 @@ public class SwingMediator implements Mediator, UserInterface
 		{
 			NickDTO user = list.get( i );
 
-			if ( user.getPrivchat() != null && !user.isAway() )
+			if ( user.getPrivchat() != null )
 			{
-				user.getPrivchat().setAway( away );
+				if ( !user.isAway() )
+				{
+					user.getPrivchat().setAway( away );
+				}
+
+				if ( away )
+				{
+					msgController.showPrivateSystemMessage( user, "You went away: " + me.getAwayMsg() );
+				}
+
+				else
+				{
+					msgController.showPrivateSystemMessage( user, "You came back" );
+				}
 			}
 		}
 	}

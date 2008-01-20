@@ -22,7 +22,8 @@
 package net.usikkert.kouchat.misc;
 
 /**
- * This is used when the user does an illegal operation.
+ * This is used to give the application user direct feedback when doing
+ * an illegal operation. Don't use technical messages.
  *
  * @author Christian Ihle
  */

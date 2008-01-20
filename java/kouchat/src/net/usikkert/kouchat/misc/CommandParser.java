@@ -25,8 +25,6 @@ import java.io.File;
 
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.net.FileReceiver;
@@ -42,8 +40,6 @@ import net.usikkert.kouchat.util.Tools;
  */
 public class CommandParser
 {
-	private static final Logger LOG = Logger.getLogger( CommandParser.class.getName() );
-
 	private final Controller controller;
 	private final UserInterface ui;
 	private final MessageController msgController;
@@ -127,8 +123,7 @@ public class CommandParser
 
 				catch ( final CommandException e )
 				{
-					LOG.log( Level.WARNING, e.toString() );
-					msgController.showSystemMessage( e.toString() );
+					msgController.showSystemMessage( e.getMessage() );
 				}
 			}
 		}
@@ -152,8 +147,7 @@ public class CommandParser
 
 			catch ( final CommandException e )
 			{
-				LOG.log( Level.WARNING, e.toString() );
-				msgController.showSystemMessage( e.toString() );
+				msgController.showSystemMessage( e.getMessage() );
 			}
 		}
 
@@ -351,8 +345,7 @@ public class CommandParser
 
 				catch ( final CommandException e )
 				{
-					LOG.log( Level.WARNING, e.toString() );
-					msgController.showSystemMessage( e.toString() );
+					msgController.showSystemMessage( e.getMessage() );
 				}
 			}
 		}
@@ -399,8 +392,7 @@ public class CommandParser
 
 					catch ( final CommandException e )
 					{
-						LOG.log( Level.WARNING, e.toString() );
-						msgController.showSystemMessage( e.toString() );
+						msgController.showSystemMessage( e.getMessage() );
 					}
 				}
 			}
@@ -476,8 +468,7 @@ public class CommandParser
 
 		catch ( final CommandException e )
 		{
-			LOG.log( Level.WARNING, e.toString() );
-			msgController.showSystemMessage( e.toString() );
+			msgController.showSystemMessage( e.getMessage() );
 		}
 	}
 
@@ -518,8 +509,7 @@ public class CommandParser
 
 			catch ( final CommandException e )
 			{
-				LOG.log( Level.WARNING, e.toString() );
-				msgController.showSystemMessage( e.toString() );
+				msgController.showSystemMessage( e.getMessage() );
 			}
 		}
 	}
@@ -545,8 +535,7 @@ public class CommandParser
 
 		catch ( final CommandException e )
 		{
-			LOG.log( Level.WARNING, e.toString() );
-			msgController.showSystemMessage( e.toString() );
+			msgController.showSystemMessage( e.getMessage() );
 		}
 	}
 
