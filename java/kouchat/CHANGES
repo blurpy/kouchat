@@ -10,6 +10,8 @@
   - Improved error messages shown in the user interface
   - Added the final keyword to lots of variables
   - Made ConsoleInput a thread
+  - Reorganized resources
+  - Added faq and license to the help menu
 
 
 * version 0.9.7 (16.12.2007):
