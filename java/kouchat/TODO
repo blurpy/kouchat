@@ -11,5 +11,4 @@
 
 * Release v0.9.8:
   - Fix text length in file transfer dialog
-  - Show license and faq in help menu
-  - Update checkstyle, final and redundant modifiers
+  - Update faq with owner info, and feature request info
