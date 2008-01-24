@@ -4,7 +4,7 @@
 1. What is Kou?
 
 Kou is a special cow character I've made. You can see Kou at the Super Kou
-project page (http://superkou.googlecode.com/).
+project page http://superkou.googlecode.com/
 Kou is pronounced kind of like cows say mooooooo.
 
 
@@ -13,8 +13,10 @@ Kou is pronounced kind of like cows say mooooooo.
 First, make sure you are using the latest version. When you do, the easiest
 way to find the problem is for you to run KouChat from the console, like this:
 'java -jar kouchat-x.x.x.jar'
+
 If you see any errors, write them down. When you can reproduce the problem,
-report it as an issue on this project page with as many details as possible.
+report it as an issue on http://kouchat.googlecode.com/ with as many details
+as possible. Set 'blurpy' as the owner of the issue, so I'll be notified.
 
 
 3. I minimized KouChat, and it's not visible on the taskbar anymore.
@@ -58,7 +60,7 @@ See /help for a list of commands you can use while in console mode.
 
 9. How come some messages don't show up in other clients?
 
-That's probably because of packet loss. KouChat use the UDP protocol,
+That's probably because of packet loss. KouChat uses the UDP protocol,
 which does not resend lost packets. Packet loss is usually not a problem
 in wired networks, but wireless networks might have some loss.
 
@@ -75,13 +77,7 @@ Examples:
 * Linux - /home/username/.kouchat/logs/
 
 
-11. Why was the user list empty when I started KouChat?
-
-That was long known bug that I had a hard time finding. It should be fixed now,
-so please try using version 0.9.4 or newer.
-
-
-12. Why do non-ascii characters look wrong when using console mode in Windows?
+11. Why do non-ascii characters look wrong when using console mode in Windows?
 
 That's because the Windows console uses the old DOS character sets instead of
 the normal Windows character sets. A common DOS charset is cp850 and a
@@ -98,7 +94,7 @@ common Windows charset is cp1252. I've found 2 ways to go around this problem:
   'java -Dfile.encoding=850 -jar kouchat-x.x.x.jar --console'.
 
 
-13. Why is the option "Use native look" disabled on some platforms?
+12. Why is the option "Use native look" disabled on some platforms?
 
 That happens if your platform does not have a SystemLookAndFeel.
 The most common platform without a SystemLookAndFeel is KDE, since the
@@ -107,7 +103,7 @@ See http://java.sun.com/docs/books/tutorial/uiswing/lookandfeel/plaf.html
 for more information about Look and Feels.
 
 
-14. Where can I find an icon to use for shortcuts?
+13. Where can I find an icon to use for shortcuts?
 
 There is an icon available inside kouchat-x.x.x.jar, in two different
 formats:
