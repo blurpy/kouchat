@@ -47,6 +47,7 @@ public class MenuBar extends JMenuBar implements ActionListener
 	private final JMenuItem clearMI, awayMI, topicMI, settingsMI;
 	private final JMenuItem aboutMI, commandsMI, faqMI, licenseMI;
 	private Mediator mediator;
+	private TextViewerDialog faqViewer, licenseViewer;
 
 	/**
 	 * Constructor. Creates the menubar.
@@ -248,7 +249,13 @@ public class MenuBar extends JMenuBar implements ActionListener
 				@Override
 				public void run()
 				{
-					new TextViewerDialog( Constants.FILE_FAQ, "Frequently Asked Questions" );
+					if ( faqViewer == null )
+					{
+						faqViewer = new TextViewerDialog( Constants.FILE_FAQ,
+								"Frequently Asked Questions", true );
+					}
+
+					faqViewer.setVisible( true );
 				}
 			} );
 		}
@@ -261,7 +268,13 @@ public class MenuBar extends JMenuBar implements ActionListener
 				@Override
 				public void run()
 				{
-					new TextViewerDialog( Constants.FILE_LICENSE, Constants.APP_LICENSE_NAME );
+					if ( licenseViewer == null )
+					{
+						licenseViewer = new TextViewerDialog( Constants.FILE_LICENSE,
+								Constants.APP_LICENSE_NAME, false );
+					}
+
+					licenseViewer.setVisible( true );
 				}
 			} );
 		}

@@ -21,7 +21,12 @@
 
 package net.usikkert.kouchat.ui.swing;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Point;
+import java.awt.Rectangle;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,7 +41,13 @@ import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.WindowConstants;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyledDocument;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
@@ -52,59 +63,102 @@ public class TextViewerDialog extends JDialog
 	private static final long serialVersionUID = 1L;
 
 	private final ErrorHandler errorHandler;
-	private final JTextArea viewerTA;
+	private final JTextPane viewerTP;
+	private final JScrollPane viewerScroll;
+	private final MutableAttributeSet viewerAttr;
+	private final StyledDocument viewerDoc;
+	private final String textFile;
+	private boolean fileOpened;
 
 	/**
 	 * Constructor.
 	 *
-	 * If the file is read properly, the dialog is shown. If not,
-	 * the dialog is disposed and an error message is shown instead.
+	 * Creates the dialog window, and opens the file.
 	 *
 	 * @param textFile The text file to open and view.
 	 * @param title The title to use for the dialog window.
+	 * @param links True to enabled support for opening urls by clicking on them.
 	 */
-	public TextViewerDialog( final String textFile, final String title )
+	public TextViewerDialog( final String textFile, final String title, final boolean links )
 	{
+		this.textFile = textFile;
 		errorHandler = ErrorHandler.getErrorHandler();
 
-		viewerTA = new JTextArea();
-		viewerTA.setFont( new Font( "Monospaced", Font.PLAIN, 12 ) );
-		viewerTA.setColumns( 80 );
-		viewerTA.setRows( 24 );
-		viewerTA.setEditable( false );
+		viewerTP = new JTextPane();
+		viewerTP.setFont( new Font( "Monospaced", Font.PLAIN, viewerTP.getFont().getSize() ) );
+		viewerTP.setEditable( false );
+		viewerDoc = viewerTP.getStyledDocument();
 
-		JScrollPane viewerScroll = new JScrollPane( viewerTA );
-
-		JPanel panel = new JPanel();
-		panel.setBorder( BorderFactory.createEmptyBorder( 2, 1, 1, 1 ) );
-		panel.add( viewerScroll );
-		add( panel );
-
-		setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
-		setResizable( false );
-		setTitle( Constants.APP_NAME + " - " + title );
-
-		if ( openFile( textFile ) )
+		// Enables the url support
+		if ( links )
 		{
-			pack();
-			setVisible( true );
+			URLMouseListener urlML = new URLMouseListener( viewerTP );
+			viewerTP.addMouseListener( urlML );
+			viewerTP.addMouseMotionListener( urlML );
+			AbstractDocument doc = (AbstractDocument) viewerDoc;
+			doc.setDocumentFilter( new URLDocumentFilter() );
+		}
+
+		new ChatPopup( viewerTP );
+		viewerAttr = new SimpleAttributeSet();
+		viewerScroll = new JScrollPane( viewerTP );
+
+		JPanel panel = new JPanel( new BorderLayout() );
+		panel.setBorder( BorderFactory.createEmptyBorder( 5, 4, 4, 4 ) );
+		panel.add( viewerScroll, BorderLayout.CENTER );
+		add( panel, BorderLayout.CENTER );
+
+		// To get 80 columns and 24 rows
+		FontMetrics fm = viewerTP.getFontMetrics( viewerTP.getFont() );
+		int width = fm.charWidth( '_' ) * 80;
+		int height = fm.getHeight() * 24;
+		viewerTP.setPreferredSize( new Dimension( width, height ) );
+
+		setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
+		setTitle( Constants.APP_NAME + " - " + title );
+		readFile();
+		pack();
+	}
+
+	/**
+	 * Shows the window if the text file was opened, and scrolls to the
+	 * beginning of the text.
+	 */
+	@Override
+	public void setVisible( final boolean visible )
+	{
+		if ( fileOpened )
+		{
+			if ( visible )
+			{
+				try
+				{
+					Rectangle r = viewerTP.modelToView( 0 );
+					viewerScroll.getViewport().setViewPosition( new Point( r.x, r.y ) );
+				}
+
+				catch ( final BadLocationException e )
+				{
+					LOG.log( Level.SEVERE, e.toString() );
+				}
+			}
+
+			super.setVisible( visible );
 		}
 
 		else
 		{
-			dispose();
+			errorHandler.showError( "The file " + textFile + " could not be opened." );
 		}
 	}
 
 	/**
-	 * Opens the text file, and adds the contents to the text area.
+	 * Reads the text file, and adds the contents to the text area.
 	 *
-	 * @param textFile The text file to open.
 	 * @return True if the text file was read without any problems.
 	 */
-	private boolean openFile( final String textFile )
+	private void readFile()
 	{
-		boolean open = false;
 		URL fileURL = getClass().getResource( "/" + textFile );
 
 		if ( fileURL != null )
@@ -117,17 +171,21 @@ public class TextViewerDialog extends JDialog
 
 				while ( reader.ready() )
 				{
-					viewerTA.append( reader.readLine() + "\n" );
+					viewerDoc.insertString( viewerDoc.getLength(), reader.readLine() + "\n", viewerAttr );
 				}
 
-				viewerTA.setCaretPosition( 0 );
-				open = true;
+				viewerTP.setCaretPosition( 0 );
+				fileOpened = true;
 			}
 
 			catch ( final IOException e )
 			{
 				LOG.log( Level.SEVERE, e.toString() );
-				errorHandler.showError( "Could not open " + textFile );
+			}
+
+			catch ( final BadLocationException e )
+			{
+				LOG.log( Level.SEVERE, e.toString() );
 			}
 
 			finally
@@ -150,9 +208,6 @@ public class TextViewerDialog extends JDialog
 		else
 		{
 			LOG.log( Level.SEVERE, "Text file not found: " + textFile );
-			errorHandler.showError( "Text file not found: " + textFile );
 		}
-
-		return open;
 	}
 }
