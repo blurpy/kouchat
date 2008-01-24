@@ -102,6 +102,7 @@ public class TextViewerDialog extends JDialog
 		new ChatPopup( viewerTP );
 		viewerAttr = new SimpleAttributeSet();
 		viewerScroll = new JScrollPane( viewerTP );
+		viewerScroll.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS );
 
 		JPanel panel = new JPanel( new BorderLayout() );
 		panel.setBorder( BorderFactory.createEmptyBorder( 5, 4, 4, 4 ) );
