@@ -117,6 +117,7 @@ public class TextViewerDialog extends JDialog
 
 		setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 		setTitle( Constants.APP_NAME + " - " + title );
+		setResizable(false);
 		readFile();
 		pack();
 	}
