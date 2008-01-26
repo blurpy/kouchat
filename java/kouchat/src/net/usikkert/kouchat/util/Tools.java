@@ -45,6 +45,7 @@ import net.usikkert.kouchat.Constants;
 public final class Tools
 {
 	private static final Logger LOG = Logger.getLogger( Tools.class.getName() );
+	private static final Pattern VALID_NICK = Pattern.compile( "[\\p{Alnum}[-_]]{1,10}" );
 
 	/**
 	 * Private constructor. Only static methods here.
@@ -153,9 +154,7 @@ public final class Tools
 		if ( nick == null )
 			return false;
 
-		Pattern p = Pattern.compile( "[\\p{Alnum}[-_]]{1,10}" );
-		Matcher m = p.matcher( nick );
-
+		Matcher m = VALID_NICK.matcher( nick );
 		return m.matches();
 	}
 
