@@ -1,8 +1,11 @@
 
-- KouChat v0.9.8 TODO
+- KouChat v0.9.9 TODO
 
 * Release v1.0.0:
  - Javadoc
+
+
+* Release v0.9.9:
  - Add command for:
    - Receive file
    - Abort file transfer
