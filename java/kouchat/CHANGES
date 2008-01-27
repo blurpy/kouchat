@@ -1,7 +1,7 @@
 
 - KouChat v0.9.8 CHANGES
 
-* version 0.9.8 (xx.xx.2008):
+* version 0.9.8 (27.01.2008):
   - Gave names to threads
   - Added uncaught exception handler to log uncaught exceptions
   - Made sure the delayed logon timer stops when done
