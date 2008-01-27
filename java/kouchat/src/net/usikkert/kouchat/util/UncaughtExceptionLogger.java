@@ -21,8 +21,6 @@
 
 package net.usikkert.kouchat.util;
 
-import java.lang.Thread.UncaughtExceptionHandler;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,7 +30,7 @@ import java.util.logging.Logger;
  *
  * @author Christian Ihle
  */
-public class UncaughtExceptionLogger implements UncaughtExceptionHandler
+public class UncaughtExceptionLogger implements Thread.UncaughtExceptionHandler
 {
 	private static final Logger LOG = Logger.getLogger( UncaughtExceptionLogger.class.getName() );
 
@@ -48,6 +46,9 @@ public class UncaughtExceptionLogger implements UncaughtExceptionHandler
 	/**
 	 * Logs the exception with information about which thread
 	 * the exception happened in.
+	 *
+	 * @param thread The thread that got the exception.
+	 * @param throwable The exception the thread got.
 	 */
 	@Override
 	public void uncaughtException( final Thread thread, final Throwable throwable )
