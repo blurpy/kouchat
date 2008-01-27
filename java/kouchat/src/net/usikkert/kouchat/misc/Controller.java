@@ -125,14 +125,27 @@ public class Controller
 	}
 
 	/**
-	 * TODO
-	 * @return
+	 * Returns if the application user wrote the last time
+	 * {@link #changeWriting(int, boolean)} was called.
+	 *
+	 * @return If the user wrote.
+	 * @see ChatState#isWrote()
 	 */
 	public boolean isWrote()
 	{
 		return chatState.isWrote();
 	}
 
+	/**
+	 * Updates the write state for the user. This is useful to see which
+	 * users are currently writing.
+	 *
+	 * If the user is the application user, messages will be sent to the
+	 * other clients to notify of changes.
+	 *
+	 * @param code The user code for the user to update.
+	 * @param writing True if the user is writing.
+	 */
 	public void changeWriting( final int code, final boolean writing )
 	{
 		nickController.changeWriting( code, writing );
@@ -148,6 +161,15 @@ public class Controller
 		}
 	}
 
+	/**
+	 * Updates the away status and the away message for the user.
+	 *
+	 * @param code The user code for the user to update.
+	 * @param away If the user is away or not.
+	 * @param awaymsg The away message for that user.
+	 * @throws CommandException If there is no connection to the network,
+	 * 		or the user tries to set an away message that is to long.
+	 */
 	public void changeAwayStatus( final int code, final boolean away, final String awaymsg ) throws CommandException
 	{
 		if ( code == me.getCode() && !isConnected() )
@@ -158,16 +180,35 @@ public class Controller
 			nickController.changeAwayStatus( code, away, awaymsg );
 	}
 
+	/**
+	 * Checks if the nick is in use by another user.
+	 *
+	 * @param nick The nick to check.
+	 * @return True if the nick is already in use.
+	 */
 	public boolean isNickInUse( final String nick )
 	{
 		return nickController.isNickInUse( nick );
 	}
 
+	/**
+	 * Checks if the user with that user code is already in the user list.
+	 *
+	 * @param code The user code of the user to check.
+	 * @return True if the user is not in the user list.
+	 */
 	public boolean isNewUser( final int code )
 	{
 		return nickController.isNewUser( code );
 	}
 
+	/**
+	 * Changes the nick for the application user, sends a message over the
+	 * network to notify the other clients of the change, and saves the changes.
+	 *
+	 * @param nick The new nick for the application user.
+	 * @throws CommandException If the user is away.
+	 */
 	public void changeMyNick( final String nick ) throws CommandException
 	{
 		if ( me.isAway() )
@@ -181,21 +222,43 @@ public class Controller
 		}
 	}
 
+	/**
+	 * Changes the nick of the user.
+	 *
+	 * @param code The user code for the user.
+	 * @param nick The new nick for the user.
+	 */
 	public void changeNick( final int code, final String nick )
 	{
 		nickController.changeNick( code, nick );
 	}
 
+	/**
+	 * Gets the user with the specified user code.
+	 *
+	 * @param code The user code for the user.
+	 * @return The user with the specified user code, or <em>null</em> if not found.
+	 */
 	public NickDTO getNick( final int code )
 	{
 		return nickController.getNick( code );
 	}
 
+	/**
+	 * Gets the user with the specified nick name.
+	 *
+	 * @param nick The nick name to check for.
+	 * @return The user with the specified nick name, or <em>null</em> if not found.
+	 */
 	public NickDTO getNick( final String nick )
 	{
 		return nickController.getNick( nick );
 	}
 
+	/**
+	 * Sends the necessary network messages to log the user onto the network
+	 * and query for the users and state.
+	 */
 	private void sendLogOn()
 	{
 		messages.sendLogonMessage();
@@ -204,12 +267,17 @@ public class Controller
 		messages.sendGetTopicMessage();
 	}
 
-	// Not sure if this is the best way to set if I'm logged on or not
+	/**
+	 * This should be run after a successful logon, to update the connection state.
+	 */
 	private void runDelayedLogon()
 	{
 		delayedLogonTimer.schedule( new DelayedLogonTask(), 0 );
 	}
 
+	/**
+	 * Logs this client onto the network, and starts some necessary threads.
+	 */
 	public void logOn()
 	{
 		msgParser.start();
@@ -220,6 +288,9 @@ public class Controller
 		runDelayedLogon();
 	}
 
+	/**
+	 * Logs this client off the network, and stops the threads.
+	 */
 	public void logOff()
 	{
 		idleThread.stopThread();
@@ -230,26 +301,49 @@ public class Controller
 		wList.setLoggedOn( false );
 	}
 
+	/**
+	 * Sends a message over the network, asking the other clients to identify
+	 * themselves.
+	 */
 	public void sendExposeMessage()
 	{
 		messages.sendExposeMessage();
 	}
 
+	/**
+	 * Sends a message over the network to identify this client.
+	 */
 	public void sendExposingMessage()
 	{
 		messages.sendExposingMessage();
 	}
 
+	/**
+	 * Sends a message over the network to ask for the current topic.
+	 */
 	public void sendGetTopicMessage()
 	{
 		messages.sendGetTopicMessage();
 	}
 
+	/**
+	 * Sends a message over the network to notify other clients that this
+	 * client is still alive.
+	 */
 	public void sendIdleMessage()
 	{
 		messages.sendIdleMessage();
 	}
 
+	/**
+	 * Sends a chat message over the network, to all the other users.
+	 *
+	 * @param msg The message to send.
+	 * @throws CommandException If there is no connection to the network,
+	 * 		or the application user is away,
+	 * 		or the message is empty,
+	 * 		or the message is too long.
+	 */
 	public void sendChatMessage( final String msg ) throws CommandException
 	{
 		if ( !isConnected() )
@@ -264,11 +358,22 @@ public class Controller
 			messages.sendChatMessage( msg );
 	}
 
+	/**
+	 * Sends a message over the network with the current topic.
+	 */
 	public void sendTopicMessage()
 	{
 		messages.sendTopicMessage( getTopic() );
 	}
 
+	/**
+	 * Changes the topic, and sends a notification to the other clients.
+	 *
+	 * @param newTopic The new topic to set.
+	 * @throws CommandException If there is no connection to the network,
+	 * 		or the application user is away,
+	 * 		or the topic is too long.
+	 */
 	public void changeTopic( final String newTopic ) throws CommandException
 	{
 		if ( !isConnected() )
@@ -287,31 +392,76 @@ public class Controller
 		}
 	}
 
+	/**
+	 * Sends a message over the network with the current away message, to
+	 * notify the other clients that the application user has gone away.
+	 */
 	public void sendAwayMessage()
 	{
 		messages.sendAwayMessage();
 	}
 
+	/**
+	 * Sends a message over the network to notify the other clients that
+	 * the application user is back from away.
+	 */
 	public void sendBackMessage()
 	{
 		messages.sendBackMessage();
 	}
 
+	/**
+	 * Sends a message over the network to notify the other clients that
+	 * a client has tried to logon using the nick name of the
+	 * application user.
+	 *
+	 * @param nick The nick that is already in use by the application user.
+	 */
 	public void sendNickCrashMessage( final String nick )
 	{
 		messages.sendNickCrashMessage( nick );
 	}
 
-	public void sendFileAbort( final int msgCode, final int fileHash, final String fileName )
+	/**
+	 * Sends a message over the network to notify the file sender that you
+	 * aborted the file transfer.
+	 *
+	 * @param userCode The user code of the user sending a file.
+	 * @param fileHash The unique hash code of the file.
+	 * @param fileName The name of the file.
+	 */
+	public void sendFileAbort( final int userCode, final int fileHash, final String fileName )
 	{
-		messages.sendFileAbort( msgCode, fileHash, fileName );
+		messages.sendFileAbort( userCode, fileHash, fileName );
 	}
 
-	public void sendFileAccept( final int msgCode, final int port, final int fileHash, final String fileName )
+	/**
+	 * Sends a message over the network to notify the file sender that you
+	 * accepted the file transfer.
+	 *
+	 * @param userCode The user code of the user sending a file.
+	 * @param port The port the file sender can connect to on this client
+	 * 		to start the file transfer.
+	 * @param fileHash The unique hash code of the file.
+	 * @param fileName The name of the file.
+	 */
+	public void sendFileAccept( final int userCode, final int port, final int fileHash, final String fileName )
 	{
-		messages.sendFileAccept( msgCode, port, fileHash, fileName );
+		messages.sendFileAccept( userCode, port, fileHash, fileName );
 	}
 
+	/**
+	 * Sends a message over the network to notify another user that the
+	 * application user wants to send a file.
+	 *
+	 * @param sendToUserCode The user code of the user asked to receive a file.
+	 * @param fileLength The size of the file, in bytes.
+	 * @param fileHash The unique hash code of the file.
+	 * @param fileName The name of the file.
+	 * @throws CommandException If there is no connection to the network,
+	 * 		or the application user is away,
+	 * 		or the file name is too long.
+	 */
 	public void sendFile( final int sendToUserCode, final long fileLength, final int fileHash, final String fileName ) throws CommandException
 	{
 		if ( !isConnected() )
@@ -324,16 +474,31 @@ public class Controller
 			messages.sendFile( sendToUserCode, fileLength, fileHash, fileName );
 	}
 
+	/**
+	 * Gets the list of current transfers.
+	 *
+	 * @return The list of transfers.
+	 */
 	public TransferList getTransferList()
 	{
 		return tList;
 	}
 
+	/**
+	 * Gets the list of unidentified users.
+	 *
+	 * @return The list of unidentified users.
+	 */
 	public WaitingList getWaitingList()
 	{
 		return wList;
 	}
 
+	/**
+	 * Restarts the sending and receiving network connections.
+	 *
+	 * @return True if the restart was a success.
+	 */
 	public boolean restart()
 	{
 		messages.restart();
@@ -352,17 +517,38 @@ public class Controller
 		return false;
 	}
 
+	/**
+	 * If any users have timed out because of missed idle messages, then
+	 * send a message over the network to ask all clients to identify
+	 * themselves again.
+	 */
 	public void updateAfterTimeout()
 	{
 		if ( nickController.isTimeoutUsers() )
 			messages.sendExposeMessage();
 	}
 
+	/**
+	 * Sends a message over the network with more information about this client.
+	 */
 	public void sendClientInfo()
 	{
 		messages.sendClient();
 	}
 
+	/**
+	 * Sends a private chat message over the network, to the specified user.
+	 *
+	 * @param privmsg The private message to send.
+	 * @param userIP The ip address of the specified user.
+	 * @param userPort The port to send the private message to.
+	 * @param userCode The user code of the user to send the private message to.
+	 * @throws CommandException If there is no connection to the network,
+	 * 		or the application user is away,
+	 * 		or the private message is empty,
+	 * 		or the private message is too long,
+	 * 		or the specified user has no port to send the private message to.
+	 */
 	public void sendPrivateMessage( final String privmsg, final String userIP, final int userPort, final int userCode ) throws CommandException
 	{
 		if ( !isConnected() )
@@ -379,23 +565,50 @@ public class Controller
 			messages.sendPrivateMessage( privmsg, userIP, userPort, userCode );
 	}
 
+	/**
+	 * Updates if the user has unread private messages for the
+	 * application user.
+	 *
+	 * @param code The user code for the user to update.
+	 * @param newMsg True if the user has unread private messages.
+	 */
 	public void changeNewMessage( final int code, final boolean newMsg )
 	{
 		nickController.changeNewMessage( code, newMsg );
 	}
 
+	/**
+	 * Returns if the client is logged on to the network.
+	 *
+	 * @return True if the client is logged on to the network.
+	 */
 	public boolean isConnected()
 	{
 		return chatState.isConnected();
 	}
 
+	/**
+	 * Sets if the client is logged on to the network.
+	 *
+	 * @param connected True if logged on to the network.
+	 */
 	public void setConnected( final boolean connected )
 	{
 		chatState.setConnected( connected );
 	}
 
+	/**
+	 * This timer task sleeps for 1.5 seconds before updating the
+	 * {@link WaitingList} to set the status to logged on if the
+	 * client was successful in connecting to the network.
+	 *
+	 * @author Christian Ihle
+	 */
 	private class DelayedLogonTask extends TimerTask
 	{
+		/**
+		 * The task runs as a thread.
+		 */
 		@Override
 		public void run()
 		{
