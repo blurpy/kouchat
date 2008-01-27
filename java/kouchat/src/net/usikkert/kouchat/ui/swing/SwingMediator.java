@@ -101,6 +101,7 @@ public class SwingMediator implements Mediator, UserInterface
 		}
 
 		sideP.setNickList( controller.getNickList() );
+		mainP.setAutoCompleter( controller.getAutoCompleter() );
 		msgController.showSystemMessage( "Welcome to " + Constants.APP_NAME + " v" + Constants.APP_VERSION + "!" );
 	}
 

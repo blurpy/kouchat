@@ -21,14 +21,17 @@
 
 package net.usikkert.kouchat.ui.swing;
 
+import java.awt.AWTKeyStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,9 +51,19 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.autocomplete.AutoCompleter;
 import net.usikkert.kouchat.misc.CommandHistory;
 import net.usikkert.kouchat.ui.ChatWindow;
 
+/**
+ * This is the panel containing the main chat area, the input field,
+ * and the {@link SidePanel} on the right side.
+ * <br><br>
+ * The chat area has url recognition, and a right click menu. The input
+ * field has tab-completion, command history, and a right click menu.
+ *
+ * @author Christian Ihle
+ */
 public class MainPanel extends JPanel implements ActionListener, CaretListener, ChatWindow, KeyListener
 {
 	private static final long serialVersionUID = 1L;
@@ -62,8 +75,14 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 	private final StyledDocument chatDoc;
 	private final JTextField msgTF;
 	private final CommandHistory cmdHistory;
+	private AutoCompleter autoCompleter;
 	private Mediator mediator;
 
+	/**
+	 * Constructor. Creates the panel.
+	 *
+	 * @param sideP The panel on the right, containing the nick list and the buttons.
+	 */
 	public MainPanel( final SidePanel sideP )
 	{
 		setLayout( new BorderLayout( 2, 2 ) );
@@ -89,6 +108,10 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		msgTF.addCaretListener( this );
 		msgTF.addKeyListener( this );
 
+		// Make sure tab generates key events
+		msgTF.setFocusTraversalKeys( KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
+				new HashSet<AWTKeyStroke>() );
+
 		AbstractDocument msgDoc = (AbstractDocument) msgTF.getDocument();
 		msgDoc.setDocumentFilter( new SizeDocumentFilter( Constants.MESSAGE_MAX_BYTES ) );
 
@@ -103,11 +126,30 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		cmdHistory = new CommandHistory();
 	}
 
+	/**
+	 * Sets the mediator to use in the listeners.
+	 *
+	 * @param mediator The mediator to use.
+	 */
 	public void setMediator( final Mediator mediator )
 	{
 		this.mediator = mediator;
 	}
 
+	/**
+	 * Sets the ready-to-use autocompleter for the input field.
+	 *
+	 * @param autoCompleter The autocompleter to use.
+	 */
+	public void setAutoCompleter( final AutoCompleter autoCompleter )
+	{
+		this.autoCompleter = autoCompleter;
+	}
+
+	/**
+	 * Adds the message to the chat area, in the chosen color.
+	 */
+	@Override
 	public void appendToChat( final String message, final int color )
 	{
 		try
@@ -123,26 +165,48 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		}
 	}
 
+	/**
+	 * Gets the chat area.
+	 *
+	 * @return The chat area.
+	 */
 	public JTextPane getChatTP()
 	{
 		return chatTP;
 	}
 
+	/**
+	 * Gets the chat area's scrollpane.
+	 *
+	 * @return The chat area's scrollpane.
+	 */
 	public JScrollPane getChatSP()
 	{
 		return chatSP;
 	}
 
+	/**
+	 * Clears all the text from the chat area.
+	 */
 	public void clearChat()
 	{
 		chatTP.setText( "" );
 	}
 
+	/**
+	 * Gets the input field.
+	 *
+	 * @return The input field.
+	 */
 	public JTextField getMsgTF()
 	{
 		return msgTF;
 	}
 
+	/**
+	 * Updates the write status after the caret has moved.
+	 */
+	@Override
 	public void caretUpdate( final CaretEvent e )
 	{
 		SwingUtilities.invokeLater( new Runnable()
@@ -155,9 +219,14 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		} );
 	}
 
+	/**
+	 * When enter is pressed in the input field, the text is added to the
+	 * command history, and the mediator shows the text in the chat area.
+	 */
 	@Override
 	public void actionPerformed( final ActionEvent e )
 	{
+		// The input field
 		if ( e.getSource() == msgTF )
 		{
 			SwingUtilities.invokeLater( new Runnable()
@@ -172,18 +241,52 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		}
 	}
 
+	/**
+	 * When tab is pressed while in the input field, the word at the
+	 * caret position will be autocompleted if any suggestions are found.
+	 */
 	@Override
-	public void keyPressed( final KeyEvent e )
+	public void keyPressed( final KeyEvent ke )
+	{
+		SwingUtilities.invokeLater( new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				// Tab-completion
+				if ( ke.getKeyCode() == KeyEvent.VK_TAB && ke.getModifiers() == 0 )
+				{
+					if ( autoCompleter != null )
+					{
+						int caretPos = msgTF.getCaretPosition();
+						String orgText = msgTF.getText();
+						String newText = autoCompleter.completeWord( orgText, caretPos );
+
+						if ( newText.length() > 0 )
+						{
+							msgTF.setText( newText );
+							msgTF.setCaretPosition( autoCompleter.getNewCaretPosition() );
+						}
+					}
+				}
+			}
+		} );
+	}
+
+	/**
+	 * Not implemented.
+	 */
+	@Override
+	public void keyTyped( final KeyEvent ke )
 	{
 
 	}
 
-	@Override
-	public void keyTyped( final KeyEvent e )
-	{
-
-	}
-
+	/**
+	 * After some text has been added to the command history, it can
+	 * be accessed by browsing through the history with the up and down
+	 * keys while focus is on the input field.
+	 */
 	@Override
 	public void keyReleased( final KeyEvent ke )
 	{
@@ -192,6 +295,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 			@Override
 			public void run()
 			{
+				// Command history up
 				if ( ke.getKeyCode() == KeyEvent.VK_UP )
 				{
 					String up = cmdHistory.goUp();
@@ -200,6 +304,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 						msgTF.setText( up );
 				}
 
+				// Command history down
 				else if ( ke.getKeyCode() == KeyEvent.VK_DOWN )
 				{
 					String down = cmdHistory.goDown();

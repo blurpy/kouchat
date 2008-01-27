@@ -27,6 +27,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.autocomplete.AutoCompleter;
+import net.usikkert.kouchat.autocomplete.CommandAutoCompleteList;
+import net.usikkert.kouchat.autocomplete.NickAutoCompleteList;
 import net.usikkert.kouchat.net.DefaultPrivateMessageResponder;
 import net.usikkert.kouchat.net.MessageParser;
 import net.usikkert.kouchat.net.DefaultMessageResponder;
@@ -39,6 +42,17 @@ import net.usikkert.kouchat.ui.UserInterface;
 import net.usikkert.kouchat.util.DayTimer;
 import net.usikkert.kouchat.util.Tools;
 
+/**
+ * This controller gives access to the network and the state of the
+ * application, like the user list and the topic.
+ * <br><br>
+ * When changing state, use the methods available <strong>here</strong> instead
+ * of doing it manually, to make sure the state is consistent.
+ * <br><br>
+ * To connect to the network, use {@link #logOn()}.
+ *
+ * @author Christian Ihle
+ */
 public class Controller
 {
 	private static final Logger LOG = Logger.getLogger( Controller.class.getName() );
@@ -56,10 +70,17 @@ public class Controller
 	private final NickDTO me;
 	private final Timer delayedLogonTimer;
 
+	/**
+	 * Constructor. Initializes the controller, but does not log on to
+	 * the network.
+	 *
+	 * @param ui The active user interface object.
+	 */
 	public Controller( final UserInterface ui )
 	{
 		Runtime.getRuntime().addShutdownHook( new Thread( "ControllerShutdownHook" )
 		{
+			@Override
 			public void run()
 			{
 				logOff();
@@ -83,16 +104,30 @@ public class Controller
 		new DayTimer( ui );
 	}
 
+	/**
+	 * Gets the current topic.
+	 *
+	 * @return The current topic.
+	 */
 	public TopicDTO getTopic()
 	{
 		return chatState.getTopic();
 	}
 
+	/**
+	 * Gets the list of online users.
+	 *
+	 * @return The user list.
+	 */
 	public NickList getNickList()
 	{
 		return nickController.getNickList();
 	}
 
+	/**
+	 * TODO
+	 * @return
+	 */
 	public boolean isWrote()
 	{
 		return chatState.isWrote();
@@ -381,5 +416,20 @@ public class Controller
 				delayedLogonTimer.cancel();
 			}
 		}
+	}
+
+	/**
+	 * Creates a new instance of the {@link AutoCompleter}, with
+	 * a {@link CommandAutoCompleteList} and a {@link NickAutoCompleteList}.
+	 *
+	 * @return A new instance of a ready-to-use AutoCompleter.
+	 */
+	public AutoCompleter getAutoCompleter()
+	{
+		AutoCompleter autoCompleter = new AutoCompleter();
+		autoCompleter.addAutoCompleteList( new CommandAutoCompleteList() );
+		autoCompleter.addAutoCompleteList(  new NickAutoCompleteList( getNickList() ) );
+
+		return autoCompleter;
 	}
 }
