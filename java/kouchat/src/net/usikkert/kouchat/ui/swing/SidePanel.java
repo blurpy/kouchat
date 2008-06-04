@@ -125,7 +125,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 				@Override
 				public void run()
 				{
-					NickDTO user = (NickDTO) nickDLM.getElementAt( nickL.getSelectedIndex() );
+					NickDTO user = nickDLM.getElementAt( nickL.getSelectedIndex() );
 					String info = "Information about " + user.getNick();
 
 					if ( user.isAway() )
@@ -163,7 +163,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 				@Override
 				public void run()
 				{
-					NickDTO user = (NickDTO) nickDLM.getElementAt( nickL.getSelectedIndex() );
+					NickDTO user = nickDLM.getElementAt( nickL.getSelectedIndex() );
 					mediator.showPrivChat( user );
 				}
 			} );
@@ -220,7 +220,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 		{
 			if ( nickMenu.isPopupTrigger( e ) && nickL.getSelectedIndex() != -1 )
 			{
-				NickDTO temp = (NickDTO) nickDLM.getElementAt( nickL.getSelectedIndex() );
+				NickDTO temp = nickDLM.getElementAt( nickL.getSelectedIndex() );
 
 				if ( temp.isMe() )
 				{
@@ -257,7 +257,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 
 			else if ( e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2 && nickL.getSelectedIndex() != -1 )
 			{
-				NickDTO user = (NickDTO) nickDLM.getElementAt( nickL.getSelectedIndex() );
+				NickDTO user = nickDLM.getElementAt( nickL.getSelectedIndex() );
 
 				if ( user != me && user.getPrivateChatPort() != 0 )
 					mediator.showPrivChat( user );
