@@ -52,8 +52,8 @@ public class FileTransferHandler extends TransferHandler
 	private static final Logger LOG = Logger.getLogger( FileTransferHandler.class.getName() );
 	private static final long serialVersionUID = 1L;
 
+	private final FileDropSource fileDropSource;
 	private Mediator mediator;
-	private FileDropSource fileDropSource;
 	private DataFlavor uriListFlavor;
 
 	/**
