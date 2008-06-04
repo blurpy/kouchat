@@ -2,6 +2,16 @@
 - KouChat v0.9.9 CHANGES
 
 * version 0.9.9 (xx.xx.2008):
+  - Better information about why drag and drop does not work while away
+  - Fix for opening privchat from main chat while privchat already open,
+  	so it wont reposition
+  - Started using validation of input parameters
+  - Added (Away) to the title of privchats if the user is away, and reorganized title
+    so it's easier to find in the taskbar
+  - Added [!!] to windows with activity, for notification
+  - Improved network interface selection
+  - Added JMX support
+  - Added network information JMX MBean
 
 
 * version 0.9.8 (27.01.2008):

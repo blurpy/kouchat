@@ -140,6 +140,15 @@ public class ConsoleMediator implements UserInterface
 	}
 
 	/**
+	 * Not implemented.
+	 */
+	@Override
+	public void notifyPrivateMessageArrived( final NickDTO user )
+	{
+
+	}
+
+	/**
 	 * If the user does not have a private chat yet,
 	 * a new {@link PrivateChatConsole} is created.
 	 */
@@ -157,5 +166,23 @@ public class ConsoleMediator implements UserInterface
 	public MessageController getMessageController()
 	{
 		return msgController;
+	}
+
+	/**
+	 * Will always return true.
+	 */
+	@Override
+	public boolean isFocused()
+	{
+		return true;
+	}
+
+	/**
+	 * Will always return true.
+	 */
+	@Override
+	public boolean isVisible()
+	{
+		return true;
 	}
 }

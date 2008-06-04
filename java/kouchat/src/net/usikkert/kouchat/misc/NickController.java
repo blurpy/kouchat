@@ -125,7 +125,7 @@ public class NickController
 
 			if ( temp.getCode() == code )
 			{
-				temp.setNewMsg( newMsg );
+				temp.setNewPrivMsg( newMsg );
 				nickList.set( i, temp );
 				break;
 			}

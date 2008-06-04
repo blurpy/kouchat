@@ -90,4 +90,11 @@ public interface PrivateChatWindow
 	 * Gives the window a chance to update after a nick change.
 	 */
 	void updateNick();
+
+	/**
+	 * Checks if the window is focused at the moment.
+	 *
+	 * @return True if the window is focused.
+	 */
+	boolean isFocused();
 }

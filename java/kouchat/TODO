@@ -10,3 +10,5 @@
    - Receive file
    - Abort file transfer
  - Fix text length in file transfer dialog
+ - Test more network in Vista
+ - Switch titlebar icon on windows with activity?

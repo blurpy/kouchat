@@ -45,4 +45,5 @@ public interface Mediator
 	void transferCancelled( TransferDialog transferDialog );
 	void showCommands();
 	void showPrivChat( NickDTO user );
+	void activatedPrivChat( NickDTO user );
 }

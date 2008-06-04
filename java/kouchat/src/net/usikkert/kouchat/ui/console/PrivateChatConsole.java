@@ -90,6 +90,15 @@ public class PrivateChatConsole implements PrivateChatWindow
 	}
 
 	/**
+	 * Will always return true.
+	 */
+	@Override
+	public boolean isFocused()
+	{
+		return true;
+	}
+
+	/**
 	 * Not implemented.
 	 */
 	@Override

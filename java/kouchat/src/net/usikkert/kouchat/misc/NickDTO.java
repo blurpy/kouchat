@@ -23,14 +23,25 @@ package net.usikkert.kouchat.misc;
 
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 
+/**
+ * This class represents a user in the chat.
+ *
+ * @author Christian Ihle
+ */
 public class NickDTO implements Comparable<NickDTO>
 {
 	private String nick, awayMsg, ipAddress, operatingSystem, client;
 	private int code, privateChatPort;
 	private long lastIdle, logonTime;
-	private boolean writing, away, me, newMsg;
+	private boolean writing, away, me, newPrivMsg, online, newMsg;
 	private PrivateChatWindow privchat;
 
+	/**
+	 * Constructor. Initializes variables.
+	 *
+	 * @param nick The nick name of the user.
+	 * @param code A unique code identifying the user.
+	 */
 	public NickDTO( final String nick, final int code )
 	{
 		this.nick = nick;
@@ -48,6 +59,8 @@ public class NickDTO implements Comparable<NickDTO>
 		newMsg = false;
 		privateChatPort = 0;
 		privchat = null;
+		online = true;
+		newPrivMsg = false;
 	}
 
 	public boolean isMe()
@@ -190,12 +203,42 @@ public class NickDTO implements Comparable<NickDTO>
 		this.privateChatPort = privateChatPort;
 	}
 
+	public boolean isOnline()
+	{
+		return online;
+	}
+
+	public void setOnline( final boolean online )
+	{
+		this.online = online;
+	}
+
+	public boolean isNewPrivMsg()
+	{
+		return newPrivMsg;
+	}
+
+	public void setNewPrivMsg( final boolean newPrivMsg )
+	{
+		this.newPrivMsg = newPrivMsg;
+	}
+
+	/**
+	 * Returns the nick name.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String toString()
 	{
 		return nick;
 	}
 
+	/**
+	 * Sorts by nick name alphabetically.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int compareTo( final NickDTO compNick )
 	{

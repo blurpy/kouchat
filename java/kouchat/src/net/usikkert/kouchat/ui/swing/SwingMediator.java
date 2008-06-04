@@ -248,8 +248,13 @@ public class SwingMediator implements Mediator, UserInterface
 	{
 		if ( me != null )
 		{
-			String title = Constants.APP_NAME + " v" + Constants.APP_VERSION + " - Nick: " + me.getNick();
-			String tooltip = Constants.APP_NAME + " v" + Constants.APP_VERSION + " - " + me.getNick();
+			String title = Constants.APP_NAME + " v" + Constants.APP_VERSION + " - ";
+			String tooltip = title + me.getNick();
+
+			if ( me.isNewMsg() )
+				title += "[!!] ";
+
+			title += me.getNick();
 
 			if ( !controller.isConnected() )
 			{
@@ -310,13 +315,35 @@ public class SwingMediator implements Mediator, UserInterface
 	@Override
 	public void sendFile( final NickDTO user, final File selectedFile )
 	{
-		if ( me == user )
+		if ( user == null )
+			return;
+
+		else if ( user.isMe() )
 		{
-			JOptionPane.showMessageDialog( null, "No point in doing that!", Constants.APP_NAME
+			JOptionPane.showMessageDialog( null, "You cannot send files to yourself.", Constants.APP_NAME
 					+ " - Warning", JOptionPane.WARNING_MESSAGE );
 		}
 
-		else if ( user != null && !user.isAway() && !me.isAway() )
+		else if ( me.isAway() )
+		{
+			JOptionPane.showMessageDialog( null, "You cannot send files while you are away.",
+					Constants.APP_NAME + " - Warning", JOptionPane.WARNING_MESSAGE );
+		}
+
+		else if ( user.isAway() )
+		{
+			JOptionPane.showMessageDialog( null, "You cannot send files to " + user.getNick() + ", which is away.",
+					Constants.APP_NAME + " - Warning", JOptionPane.WARNING_MESSAGE );
+		}
+
+		else if ( !user.isOnline() )
+		{
+			JOptionPane.showMessageDialog( null, "You cannot send files to " + user.getNick()
+					+ ", which is not online anymore.",
+					Constants.APP_NAME + " - Warning", JOptionPane.WARNING_MESSAGE );
+		}
+
+		else
 		{
 			JFileChooser chooser = new JFileChooser();
 			chooser.setDialogTitle( Constants.APP_NAME + " - Open" );
@@ -514,22 +541,124 @@ public class SwingMediator implements Mediator, UserInterface
 	}
 
 	/**
-	 * When a new message arrives, and the application is minimized to the
-	 * system tray, the system tray icon needs to be updated to show activity.
-	 * If sound is enabled, a beep will be played as well.
+	 * Notifies the user of a new message in different ways,
+	 * depending on the state of the main chat window.
+	 *
+	 * <ul>
+	 *   <li><i>Main chat in focus</i> - do nothing</li>
+	 *   <li><i>Main chat out of focus</i> - beep, update main chat title</li>
+	 *   <li><i>Main chat hidden</i> - beep, update systray</li>
+	 * </ul>
 	 */
 	@Override
 	public void notifyMessageArrived()
 	{
-		if ( !gui.isVisible() && me.isAway() )
+		// Main chat hidden - beep, update systray
+		if ( !gui.isVisible() )
 		{
-			sysTray.setAwayActivityState();
+			if ( me.isAway() )
+				sysTray.setAwayActivityState();
+
+			else
+			{
+				sysTray.setNormalActivityState();
+				beeper.beep();
+			}
 		}
 
-		else if ( !gui.isVisible() )
+		// Main chat out of focus - beep, update main chat title
+		else if ( !gui.isFocused() )
 		{
-			sysTray.setNormalActivityState();
-			beeper.beep();
+			updateTitleAndTray();
+
+			if ( !me.isAway() )
+				beeper.beep();
+		}
+	}
+
+	/**
+	 * Notifies the user of new private message in different ways,
+	 * depending on the state of the main chat window and the private
+	 * chat window.
+	 *
+	 * <br /><br />
+	 *
+	 * A private message can never be sent while the sender
+	 * or receiver is away, so this method assumes that is the case.
+	 *
+	 * <ul>
+	 *   <li><b>Main chat in focus</b></li>
+	 *   <ul>
+	 *     <li><i>Private chat in focus</i> - not possible</li>
+	 *     <li><i>Private chat out of focus</i> - update privchat title</li>
+	 *     <li><i>Private chat hidden</i> - do nothing</li>
+	 *   </ul>
+	 *
+	 *   <li><b>Main chat out of focus</b></li>
+	 *	 <ul>
+	 *     <li><i>Private chat in focus</i> - do nothing</li>
+	 *	   <li><i>Private chat out of focus</i> - beep, update privchat title</li>
+	 *	   <li><i>Private chat hidden</i> - beep, update main chat title</li>
+	 *   </ul>
+	 *
+	 *   <li><b>Main chat hidden</b></li>
+	 *   <ul>
+	 *	   <li><i>Private chat in focus</i> - do nothing</li>
+	 *	   <li><i>Private chat out of focus</i> - beep, update privchat title</li>
+	 *	   <li><i>Private chat hidden</i> - beep, update systray</li>
+	 *   </ul>
+	 * </ul>
+	 *
+	 * @param user The user that sent the private message.
+	 */
+	@Override
+	public void notifyPrivateMessageArrived( final NickDTO user )
+	{
+		PrivateChatWindow privchat = user.getPrivchat();
+
+		// Main chat hidden
+		if ( !gui.isVisible() )
+		{
+			// Private chat hidden - beep, update systray
+			if ( !privchat.isVisible() )
+			{
+				sysTray.setNormalActivityState();
+				beeper.beep();
+			}
+
+			// Private chat out of focus - beep, update privchat title
+			else if ( !privchat.isFocused() )
+			{
+				privchat.updateNick();
+				beeper.beep();
+			}
+		}
+
+		// Main chat out of focus
+		else if ( !gui.isFocused() )
+		{
+			// Private chat hidden - beep, update main chat title
+			if ( !privchat.isVisible() )
+			{
+				me.setNewMsg( true );
+				updateTitleAndTray();
+				beeper.beep();
+			}
+
+			// Private chat out of focus - beep, update privchat title
+			else if ( !privchat.isFocused() )
+			{
+				privchat.updateNick();
+				beeper.beep();
+			}
+		}
+
+		// Main chat in focus
+		else if ( gui.isFocused() )
+		{
+			// Private chat out of focus - update privchat title
+			if ( privchat.isVisible() && !privchat.isFocused() )
+				privchat.updateNick();
 		}
 	}
 
@@ -705,11 +834,39 @@ public class SwingMediator implements Mediator, UserInterface
 	}
 
 	/**
+	 * Resets the new private message field of the user.
+	 */
+	@Override
+	public void activatedPrivChat( final NickDTO user )
+	{
+		if ( user.isNewPrivMsg() )
+			controller.changeNewMessage( user.getCode(), false );
+	}
+
+	/**
 	 * Returns the message controller for swing.
 	 */
 	@Override
 	public MessageController getMessageController()
 	{
 		return msgController;
+	}
+
+	/**
+	 * Returns if the main chat is in focus.
+	 */
+	@Override
+	public boolean isFocused()
+	{
+		return gui.isFocused();
+	}
+
+	/**
+	 * Returns if the main chat is visible.
+	 */
+	@Override
+	public boolean isVisible()
+	{
+		return gui.isVisible();
 	}
 }

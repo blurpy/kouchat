@@ -81,6 +81,7 @@ public class DefaultMessageResponder implements MessageResponder
 		// A little hack to stop messages from showing before the user is logged on
 		Thread t = new Thread( "DefaultMessageResponderMessageArrived" )
 		{
+			@Override
 			public void run()
 			{
 				if ( isAlive() )
@@ -110,6 +111,11 @@ public class DefaultMessageResponder implements MessageResponder
 					if ( !user.isAway() )
 					{
 						msgController.showUserMessage( user.getNick(), msg, color );
+
+						// Visible but not in front
+						if ( ui.isVisible() && !ui.isFocused() )
+							me.setNewMsg( true );
+
 						ui.notifyMessageArrived();
 					}
 				}
@@ -145,6 +151,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 		if ( user != null )
 		{
+			user.setOnline( false );
 			controller.getNickList().remove( user );
 			msgController.showSystemMessage( user.getNick() + " logged off" );
 
@@ -501,6 +508,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 		new Thread( "DefaultMessageResponderFileSend" )
 		{
+			@Override
 			public void run()
 			{
 				int counter = 0;
@@ -617,6 +625,7 @@ public class DefaultMessageResponder implements MessageResponder
 	{
 		new Thread( "DefaultMessageResponderFileSendAccepted" )
 		{
+			@Override
 			public void run()
 			{
 				NickDTO user = controller.getNick( userCode );

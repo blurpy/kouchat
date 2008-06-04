@@ -100,6 +100,13 @@ public interface UserInterface
 	void notifyMessageArrived();
 
 	/**
+	 * A new private message has arrived. Update the ui if necessary.
+	 *
+	 * @param user The user which sent a message.
+	 */
+	void notifyPrivateMessageArrived( NickDTO user );
+
+	/**
 	 * Returns the message controller.
 	 *
 	 * @return The message controller.
@@ -115,4 +122,18 @@ public interface UserInterface
 	 * {@link PrivateChatWindow}
 	 */
 	void createPrivChat( NickDTO user );
+
+	/**
+	 * Checks if the main chat is visible.
+	 *
+	 * @return True if the main chat is visible.
+	 */
+	boolean isVisible();
+
+	/**
+	 * Checks if the main chat is in focus.
+	 *
+	 * @return True if the main chat is in focus.
+	 */
+	boolean isFocused();
 }

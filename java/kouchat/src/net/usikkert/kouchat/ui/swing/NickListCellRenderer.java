@@ -137,7 +137,7 @@ public class NickListCellRenderer extends JLabel implements ListCellRenderer
 			if ( dto.isAway() )
 				setForeground( Color.GRAY );
 
-			if ( dto.isNewMsg() )
+			if ( dto.isNewPrivMsg() )
 				setIcon( envelope );
 			else
 				setIcon( dot );

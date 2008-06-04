@@ -22,6 +22,7 @@
 package net.usikkert.kouchat.ui.swing;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.ui.util.UITools;
 
@@ -62,11 +63,13 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 	private final SettingsDialog settingsDialog;
 	private final MenuBar menuBar;
 	private final Settings settings;
+	private final NickDTO me;
 
 	public KouChatFrame()
 	{
 		System.setProperty( Constants.PROPERTY_CLIENT_UI, "Swing" );
 		settings = Settings.getSettings();
+		me = settings.getMe();
 
 		if ( settings.isNativeLnF() )
 			UITools.setSystemLookAndFeel();
@@ -216,6 +219,12 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 		mainP.getChatSP().repaint();
 		sideP.getNickList().repaint();
 		mainP.getMsgTF().requestFocusInWindow();
+
+		if ( me.isNewMsg() )
+		{
+			me.setNewMsg( false );
+			mediator.updateTitleAndTray();
+		}
 	}
 
 	@Override

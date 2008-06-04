@@ -66,6 +66,7 @@ import net.usikkert.kouchat.misc.CommandHistory;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * The window used for private chat sessions.
@@ -86,10 +87,8 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	private final JTextField msgTF;
 	private final CommandHistory cmdHistory;
 	private final Mediator mediator;
-	private final NickDTO me;
+	private final NickDTO me, user;
 	private final FileTransferHandler fileTransferHandler;
-
-	private NickDTO user;
 
 	/**
 	 * Creates a new private chat frame. To open the window, use setVisible().
@@ -99,6 +98,9 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	 */
 	public PrivateChatFrame( final Mediator mediator, final NickDTO user )
 	{
+		Validate.notNull( mediator, "Mediator can not be null" );
+		Validate.notNull( user, "User can not be null" );
+
 		this.mediator = mediator;
 		this.user = user;
 
@@ -269,9 +271,11 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	{
 		if ( visible )
 		{
-			setLocationRelativeTo( getParent() );
+			// Stop the window from jumping around the screen if it's already visible
+			if ( !isVisible() )
+				setLocationRelativeTo( getParent() );
 
-			if ( user == null || user.isAway() || me.isAway() )
+			if ( !user.isOnline() || user.isAway() || me.isAway() )
 				msgTF.setEnabled( false );
 		}
 
@@ -311,7 +315,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	 */
 	private void close()
 	{
-		if ( user == null )
+		if ( !user.isOnline() )
 			dispose();
 		else
 			setVisible( false );
@@ -385,6 +389,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	public void setAway( final boolean away )
 	{
 		msgTF.setEnabled( !away );
+		updateNick();
 	}
 
 	/**
@@ -397,7 +402,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	{
 		msgTF.setEnabled( false );
 
-		if ( !isVisible() && user.isNewMsg() )
+		if ( !isVisible() && user.isNewPrivMsg() )
 		{
 			setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
 			setExtendedState( ICONIFIED );
@@ -408,18 +413,27 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		{
 			dispose();
 		}
-
-		// To stop the open dialog from showing if a file is drag and dropped
-		user = null;
 	}
 
 	/**
-	 * Updates the titlebar with the nick name of the user.
+	 * Updates the titlebar with information about the private chat.
+	 * Activity from the other user will result in <code>[!!]</code> being
+	 * added to the start of the title.
 	 */
 	@Override
 	public void updateNick()
 	{
-		setTitle( Constants.APP_NAME + " - Private chat with " + user.getNick() );
+		String title = user.getNick();
+
+		if ( user.isAway() )
+			title += " (Away)";
+
+		title += " - " + Constants.APP_NAME;
+
+		if ( user.isNewPrivMsg() && !isFocused() && isVisible() )
+			setTitle( "[!!] " + title );
+		else
+			setTitle( title );
 	}
 
 	@Override
@@ -445,6 +459,8 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	public void windowActivated( final WindowEvent e )
 	{
 		chatTP.repaint();
+		mediator.activatedPrivChat( user );
+		updateNick();
 
 		if ( msgTF.isEnabled() )
 			msgTF.requestFocusInWindow();

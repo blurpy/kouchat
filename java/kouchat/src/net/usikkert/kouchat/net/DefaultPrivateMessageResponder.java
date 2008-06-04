@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.ui.UserInterface;
 
 /**
@@ -41,6 +42,7 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 	private final Controller controller;
 	private final UserInterface ui;
 	private final MessageController msgController;
+	private final NickDTO me;
 
 	/**
 	 * Constructor.
@@ -52,6 +54,7 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 	{
 		this.controller = controller;
 		this.ui = ui;
+		me = Settings.getSettings().getMe();
 
 		msgController = ui.getMessageController();
 	}
@@ -68,7 +71,10 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 		{
 			NickDTO user = controller.getNick( userCode );
 
-			if ( user.isAway() )
+			if ( me.isAway() )
+				LOG.log( Level.WARNING, "Got message from " + user.getNick() + " while away: " + msg );
+
+			else if ( user.isAway() )
 				LOG.log( Level.WARNING, "Got message from " + user.getNick() + " which is away: " + msg );
 
 			else if ( user.getPrivateChatPort() == 0 )
@@ -77,10 +83,12 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 			else
 			{
 				msgController.showPrivateUserMessage( user, msg, color );
-				ui.notifyMessageArrived();
 
-				if ( !user.getPrivchat().isVisible() )
+				// Not visible, or not in front
+				if ( !user.getPrivchat().isVisible() || !user.getPrivchat().isFocused() )
 					controller.changeNewMessage( user.getCode(), true );
+
+				ui.notifyPrivateMessageArrived( user );
 			}
 		}
 
