@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.net.NetworkInterface;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -114,8 +115,19 @@ public class MessageSender
 	{
 		try
 		{
-			mcSocket.joinGroup( address );
-			connected = true;
+			NetworkInterface networkInterface = NetworkSelector.selectNetworkInterface();
+
+			if ( networkInterface != null )
+			{
+				mcSocket.setNetworkInterface( networkInterface );
+				mcSocket.joinGroup( address );
+				connected = true;
+			}
+
+			else
+			{
+				LOG.log( Level.SEVERE, "No network interface found." );
+			}
 		}
 
 		catch ( final IOException e )
