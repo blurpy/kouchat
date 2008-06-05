@@ -21,6 +21,7 @@
 
 package net.usikkert.kouchat.net;
 
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -106,7 +107,21 @@ public class NetworkInformation implements NetworkInformationMBean
 		while ( inetAddresses.hasMoreElements() )
 		{
 			InetAddress inetAddress = inetAddresses.nextElement();
-			ipaddr += inetAddress.getHostAddress() + " ";
+			if ( inetAddress instanceof Inet4Address )
+				ipaddr += inetAddress.getHostAddress() + " ";
+		}
+
+		String hwaddress = "";
+		byte[] address = netif.getHardwareAddress();
+
+		// Convert byte array to hex format
+		if ( address != null )
+		{
+			for ( int i = 0; i < address.length; i++ ) {
+				hwaddress += String.format( "%02x", address[i] );
+				if ( i % 1 == 0 && i != address.length -1 )
+					hwaddress += "-";
+			}
 		}
 
 		return "Interface name: " + netif.getDisplayName() + "\n"
@@ -116,6 +131,7 @@ public class NetworkInformation implements NetworkInformationMBean
 				+ "Is p2p: " + netif.isPointToPoint() + "\n"
 				+ "Is virtual: " + netif.isVirtual() + "\n"
 				+ "Supports multicast: " + netif.supportsMulticast() + "\n"
+				+ "MAC address: " + hwaddress.toUpperCase() + "\n" 
 				+ "IP addresses: " + ipaddr + "\n\n";
 	}
 }
