@@ -12,3 +12,8 @@
  - Fix text length in file transfer dialog
  - Test more network in Vista
  - Switch titlebar icon on windows with activity?
+ - Show only ipv4 addresses, and show hw address in jmx bean
+ - Add restart network method to jmx bean
+ - Add select network method to jmx bean
+ - Try restarting both sender and receiver
+ - Add thread that checks if network isUp, and switch if not
