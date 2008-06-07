@@ -46,7 +46,7 @@ public class UDPReceiver implements Runnable
 
 	private DatagramSocket udpSocket;
 	private ReceiverListener listener;
-	private boolean run;
+	private boolean connected;
 	private Thread worker;
 	private final ErrorHandler errorHandler;
 
@@ -64,7 +64,7 @@ public class UDPReceiver implements Runnable
 	 */
 	public void run()
 	{
-		while ( run )
+		while ( connected )
 		{
 			try
 			{
@@ -93,41 +93,50 @@ public class UDPReceiver implements Runnable
 	 */
 	public void startReceiver()
 	{
-		int port = Constants.NETWORK_PRIVCHAT_PORT;
-		int counter = 0;
-		boolean done = false;
+		LOG.log( Level.INFO, "Connecting..." );
 
-		while ( counter < 10 && !done )
+		if ( connected )
 		{
-			try
-			{
-				udpSocket = new DatagramSocket( port );
-				run = true;
-				worker = new Thread( this, "UDPReceiverWorker" );
-				worker.start();
-				done = true;
-				Settings.getSettings().getMe().setPrivateChatPort( port );
-			}
-
-			catch ( final IOException e )
-			{
-				LOG.log( Level.SEVERE, e.toString() + " " + port );
-
-				counter++;
-				port++;
-				Settings.getSettings().getMe().setPrivateChatPort( 0 );
-			}
+			LOG.log( Level.INFO, "Already connected." );
 		}
 
-		if ( !done )
+		else
 		{
-			String error = "Failed to initialize udp network:"
+			int port = Constants.NETWORK_PRIVCHAT_PORT;
+			int counter = 0;
+
+			while ( counter < 10 && !connected )
+			{
+				try
+				{
+					udpSocket = new DatagramSocket( port );
+					connected = true;
+					worker = new Thread( this, "UDPReceiverWorker" );
+					worker.start();
+					Settings.getSettings().getMe().setPrivateChatPort( port );
+					LOG.log( Level.INFO, "Connected." );
+				}
+
+				catch ( final IOException e )
+				{
+					LOG.log( Level.SEVERE, e.toString() + " " + port );
+
+					counter++;
+					port++;
+					Settings.getSettings().getMe().setPrivateChatPort( 0 );
+				}
+			}
+
+			if ( !connected )
+			{
+				String error = "Failed to initialize udp network:"
 					+ "\nNo available listening port between " + Constants.NETWORK_PRIVCHAT_PORT
 					+ " and " + ( port - 1 ) + "."
 					+ "\n\nYou will not be able to receive private messages!";
 
-			LOG.log( Level.SEVERE, error );
-			errorHandler.showError( error );
+				LOG.log( Level.SEVERE, error );
+				errorHandler.showError( error );
+			}
 		}
 	}
 
@@ -136,11 +145,23 @@ public class UDPReceiver implements Runnable
 	 */
 	public void stopReceiver()
 	{
-		run = false;
+		LOG.log( Level.INFO, "Disconnecting..." );
 
-		if ( udpSocket != null && !udpSocket.isClosed() )
+		if ( !connected )
 		{
-			udpSocket.close();
+			LOG.log( Level.INFO, "Not connected." );
+		}
+
+		else
+		{
+			connected = false;
+
+			if ( udpSocket != null && !udpSocket.isClosed() )
+			{
+				udpSocket.close();
+			}
+
+			LOG.log( Level.INFO, "Disconnected." );
 		}
 	}
 

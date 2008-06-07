@@ -19,40 +19,20 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.misc;
-
-import java.util.ArrayList;
-import java.util.List;
+package net.usikkert.kouchat.event;
 
 /**
- * This waiting list is used to store unknown users while asking them to
- * identify. Usually it's users that timed out at some point, and are returning.
- * By doing this, messages from unknown users can be held back until they
- * have identified themselves.
+ * Implement this interface and register as a listener with
+ * {@link NetworkService#registerNetworkConnectionListener(NetworkConnectionListener)}
+ * to get notified of changes in the network connection.
  *
  * @author Christian Ihle
  */
-public class WaitingList
+public interface NetworkConnectionListener
 {
-	private final List<Integer> users;
+	/** The connection to the network was lost. */
+	void networkWentDown();
 
-	public WaitingList()
-	{
-		users = new ArrayList<Integer>();
-	}
-
-	public void addWaitingUser( final int userCode )
-	{
-		users.add( userCode );
-	}
-
-	public boolean isWaitingUser( final int userCode )
-	{
-		return users.contains( userCode );
-	}
-
-	public void removeWaitingUser( final int userCode )
-	{
-		users.remove( new Integer( userCode ) );
-	}
+	/** The connection to the network came up and is ready for use. */
+	void networkCameUp();
 }

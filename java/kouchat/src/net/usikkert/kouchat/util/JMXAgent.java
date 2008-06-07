@@ -33,7 +33,13 @@ import javax.management.MalformedObjectNameException;
 import javax.management.NotCompliantMBeanException;
 import javax.management.ObjectName;
 
+import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.misc.Controller;
+import net.usikkert.kouchat.misc.ControllerInformation;
+import net.usikkert.kouchat.misc.ControllerInformationMBean;
+import net.usikkert.kouchat.net.ConnectionWorker;
 import net.usikkert.kouchat.net.NetworkInformation;
+import net.usikkert.kouchat.net.NetworkInformationMBean;
 
 /**
  * Registers JMX MBeans.
@@ -45,6 +51,7 @@ import net.usikkert.kouchat.net.NetworkInformation;
  *
  * <ul>
  *   <li>{@link NetworkInformation}</li>
+ *   <li>{@link ControllerInformation}</li>
  * </ul>
  *
  * @author Christian Ihle
@@ -57,15 +64,23 @@ public class JMXAgent
 	/**
 	 * Default constructor. Registers the MBeans, and logs any failures.
 	 */
-	public JMXAgent()
+	public JMXAgent( final Controller controller, final ConnectionWorker connectionWorker )
 	{
 		MBeanServer platformMBeanServer = ManagementFactory.getPlatformMBeanServer();
 
 		try
 		{
 			// NetworkInformation MBean
-			ObjectName networkInfoName = new ObjectName( "KouChat:name=Network" );
-			platformMBeanServer.registerMBean( new NetworkInformation(), networkInfoName );
+			ObjectName networkInfoName = new ObjectName(
+					Constants.APP_NAME + ":name=" + NetworkInformationMBean.NAME );
+			platformMBeanServer.registerMBean(
+					new NetworkInformation( connectionWorker ), networkInfoName );
+
+			// ControllerInformation MBean
+			ObjectName controllerInfoName = new ObjectName(
+					Constants.APP_NAME + ":name=" + ControllerInformationMBean.NAME );
+			platformMBeanServer.registerMBean(
+					new ControllerInformation( controller ), controllerInfoName );
 		}
 
 		catch ( final MalformedObjectNameException e )

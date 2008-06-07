@@ -26,20 +26,38 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
+
+import net.usikkert.kouchat.util.Validate;
 
 /**
- * This is a JMX MBean for getting information about the current network status.
+ * This is a JMX MBean for the network service.
  *
  * @author Christian Ihle
  */
 public class NetworkInformation implements NetworkInformationMBean
 {
+	/** Information and control of the network. */
+	private final ConnectionWorker connectionWorker;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param connectionWorker To get information about the network, and control the network.
+	 */
+	public NetworkInformation( final ConnectionWorker connectionWorker )
+	{
+		Validate.notNull( connectionWorker, "Connection worker can not be null" );
+		this.connectionWorker = connectionWorker;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public String showCurrentNetwork() throws SocketException
 	{
-		NetworkInterface networkInterface = NetworkSelector.getCurrentNetworkInterface();
+		NetworkInterface networkInterface = connectionWorker.getCurrentNetworkInterface();
 
 		if ( networkInterface == null )
 			return "No current network interface.";
@@ -49,44 +67,61 @@ public class NetworkInformation implements NetworkInformationMBean
 
 	/** {@inheritDoc} */
 	@Override
-	public String showUsableNetworks() throws SocketException
+	public String[] showUsableNetworks() throws SocketException
 	{
-		StringBuilder sb = new StringBuilder();
+		List<String> list = new ArrayList<String>();
 
 		Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
 
 		if ( networkInterfaces == null )
-			return "No usable network interfaces detected.";
+			return new String[] { "No network interfaces detected." };
 
 		while ( networkInterfaces.hasMoreElements() )
 		{
 			NetworkInterface netif = networkInterfaces.nextElement();
 
-			if ( NetworkSelector.isUsable( netif ) )
-				sb.append( getNetworkInterfaceInfo( netif ) );
+			if ( connectionWorker.isUsable( netif ) )
+				list.add( getNetworkInterfaceInfo( netif ) );
 		}
 
-		return sb.toString();
+		if ( list.size() == 0 )
+			return new String[] { "No usable network interfaces detected." };
+
+		return list.toArray( new String[0] );
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public String showAllNetworks() throws SocketException
+	public String[] showAllNetworks() throws SocketException
 	{
-		StringBuilder sb = new StringBuilder();
+		List<String> list = new ArrayList<String>();
 
 		Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
 
 		if ( networkInterfaces == null )
-			return "No network interfaces detected.";
+			return new String[] { "No network interfaces detected." };
 
 		while ( networkInterfaces.hasMoreElements() )
 		{
 			NetworkInterface netif = networkInterfaces.nextElement();
-			sb.append( getNetworkInterfaceInfo( netif ) );
+			list.add( getNetworkInterfaceInfo( netif ) );
 		}
 
-		return sb.toString();
+		return list.toArray( new String[0] );
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void disconnect()
+	{
+		connectionWorker.stop();
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void connect()
+	{
+		connectionWorker.start();
 	}
 
 	/**
@@ -117,9 +152,10 @@ public class NetworkInformation implements NetworkInformationMBean
 		// Convert byte array to hex format
 		if ( address != null )
 		{
-			for ( int i = 0; i < address.length; i++ ) {
+			for ( int i = 0; i < address.length; i++ )
+			{
 				hwaddress += String.format( "%02x", address[i] );
-				if ( i % 1 == 0 && i != address.length -1 )
+				if ( i % 1 == 0 && i != address.length - 1 )
 					hwaddress += "-";
 			}
 		}
@@ -131,7 +167,7 @@ public class NetworkInformation implements NetworkInformationMBean
 				+ "Is p2p: " + netif.isPointToPoint() + "\n"
 				+ "Is virtual: " + netif.isVirtual() + "\n"
 				+ "Supports multicast: " + netif.supportsMulticast() + "\n"
-				+ "MAC address: " + hwaddress.toUpperCase() + "\n" 
-				+ "IP addresses: " + ipaddr + "\n\n";
+				+ "MAC address: " + hwaddress.toUpperCase() + "\n"
+				+ "IP addresses: " + ipaddr;
 	}
 }

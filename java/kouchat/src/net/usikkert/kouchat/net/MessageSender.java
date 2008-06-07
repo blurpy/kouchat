@@ -49,7 +49,6 @@ public class MessageSender
 
 		try
 		{
-			mcSocket = new MulticastSocket( Constants.NETWORK_CHAT_PORT );
 			address = InetAddress.getByName( Constants.NETWORK_IP );
 		}
 
@@ -90,38 +89,60 @@ public class MessageSender
 
 	public void stopSender()
 	{
-		connected = false;
+		LOG.log( Level.INFO, "Disconnecting..." );
 
-		try
+		if ( !connected )
 		{
+			LOG.log( Level.INFO, "Not connected." );
+		}
+
+		else
+		{
+			connected = false;
+
+			try
+			{
+				if ( !mcSocket.isClosed() )
+				{
+					mcSocket.leaveGroup( address );
+				}
+			}
+
+			catch ( final IOException e )
+			{
+				LOG.log( Level.WARNING, e.toString() );
+			}
+
 			if ( !mcSocket.isClosed() )
 			{
-				mcSocket.leaveGroup( address );
+				mcSocket.close();
+				mcSocket = null;
 			}
-		}
 
-		catch ( final IOException e )
-		{
-			LOG.log( Level.WARNING, e.toString() );
-		}
-
-		if ( !mcSocket.isClosed() )
-		{
-			mcSocket.close();
+			LOG.log( Level.INFO, "Disconnected." );
 		}
 	}
 
-	public void startSender()
+	public boolean startSender( final NetworkInterface networkInterface )
 	{
+		LOG.log( Level.INFO, "Connecting..." );
+
 		try
 		{
-			NetworkInterface networkInterface = NetworkSelector.selectNetworkInterface();
-
-			if ( networkInterface != null )
+			if ( connected )
 			{
+				LOG.log( Level.INFO, "Already connected." );
+			}
+
+			else if ( networkInterface != null )
+			{
+				if ( mcSocket == null )
+					mcSocket = new MulticastSocket( Constants.NETWORK_CHAT_PORT );
+
 				mcSocket.setNetworkInterface( networkInterface );
 				mcSocket.joinGroup( address );
 				connected = true;
+				LOG.log( Level.INFO, "Connected to " + mcSocket.getNetworkInterface().getDisplayName() + "." );
 			}
 
 			else
@@ -134,14 +155,7 @@ public class MessageSender
 		{
 			LOG.log( Level.SEVERE, "Could not start sender: " + e.toString() );
 		}
-	}
 
-	public void restartSender()
-	{
-		if ( !connected )
-		{
-			LOG.log( Level.WARNING, "Restarting sender." );
-			startSender();
-		}
+		return connected;
 	}
 }

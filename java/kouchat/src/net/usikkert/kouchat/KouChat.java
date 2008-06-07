@@ -23,7 +23,6 @@ package net.usikkert.kouchat;
 
 import net.usikkert.kouchat.ui.UIException;
 import net.usikkert.kouchat.ui.UIFactory;
-import net.usikkert.kouchat.util.JMXAgent;
 import net.usikkert.kouchat.util.UncaughtExceptionLogger;
 
 /**
@@ -94,9 +93,6 @@ public final class KouChat
 
 		// Initialize as early as possible to catch all exceptions
 		new UncaughtExceptionLogger();
-
-		// Expose JMX MBeans
-		new JMXAgent();
 
 		try
 		{

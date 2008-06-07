@@ -28,9 +28,7 @@ public class TopicDTO
 
 	public TopicDTO()
 	{
-		topic = "";
-		nick = "";
-		time = 0;
+		resetTopic();
 	}
 
 	public TopicDTO( final String topic, final String nick, final long time )
@@ -45,6 +43,13 @@ public class TopicDTO
 		this.topic = topic;
 		this.nick = nick;
 		this.time = time;
+	}
+
+	public void resetTopic()
+	{
+		topic = "";
+		nick = "";
+		time = 0;
 	}
 
 	public String getNick()

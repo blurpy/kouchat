@@ -102,7 +102,6 @@ public class SwingMediator implements Mediator, UserInterface
 
 		sideP.setNickList( controller.getNickList() );
 		mainP.setAutoCompleter( controller.getAutoCompleter() );
-		msgController.showSystemMessage( "Welcome to " + Constants.APP_NAME + " v" + Constants.APP_VERSION + "!" );
 	}
 
 	/**
@@ -258,8 +257,17 @@ public class SwingMediator implements Mediator, UserInterface
 
 			if ( !controller.isConnected() )
 			{
-				title += " - (Not connected)";
-				tooltip += " - (Not connected)";
+				if ( controller.getChatState().isLoggedOn() )
+				{
+					title += " - (Connection lost)";
+					tooltip += " - (Connection lost)";
+				}
+
+				else
+				{
+					title += " - (Not connected)";
+					tooltip += " - (Not connected)";
+				}
 			}
 
 			else

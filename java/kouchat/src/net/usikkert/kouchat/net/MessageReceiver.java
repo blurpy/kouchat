@@ -52,7 +52,6 @@ public class MessageReceiver implements Runnable
 
 		try
 		{
-			mcSocket = new MulticastSocket( Constants.NETWORK_CHAT_PORT );
 			address = InetAddress.getByName( Constants.NETWORK_IP );
 		}
 
@@ -91,27 +90,31 @@ public class MessageReceiver implements Runnable
 
 	private void startThread()
 	{
+		LOG.log( Level.INFO, "Starting." );
 		worker = new Thread( this, "MessageReceiverWorker" );
 		worker.start();
 	}
 
-	public void startReceiver()
+	public boolean startReceiver( final NetworkInterface networkInterface )
 	{
-		if ( connected )
-		{
-			stopReceiver();
-		}
+		LOG.log( Level.INFO, "Connecting..." );
 
 		try
 		{
-			NetworkInterface networkInterface = NetworkSelector.selectNetworkInterface();
-
-			if ( networkInterface != null )
+			if ( connected )
 			{
+				LOG.log( Level.INFO, "Already connected." );
+			}
+
+			else if ( networkInterface != null )
+			{
+				if ( mcSocket == null )
+					mcSocket = new MulticastSocket( Constants.NETWORK_CHAT_PORT );
+
 				mcSocket.setNetworkInterface( networkInterface );
 				mcSocket.joinGroup( address );
 				connected = true;
-				startThread();
+				LOG.log( Level.INFO, "Connected to " + mcSocket.getNetworkInterface().getDisplayName() + "." );
 			}
 
 			else
@@ -124,77 +127,49 @@ public class MessageReceiver implements Runnable
 		{
 			LOG.log( Level.SEVERE, "Could not start receiver: " + e.toString() );
 		}
+
+		if ( connected && ( worker == null || !worker.isAlive() ) )
+		{
+			startThread();
+		}
+
+		return connected;
 	}
 
 	public void stopReceiver()
 	{
-		connected = false;
+		LOG.log( Level.INFO, "Disconnecting..." );
 
-		try
+		if ( !connected )
 		{
+			LOG.log( Level.INFO, "Not connected." );
+		}
+
+		else
+		{
+			connected = false;
+
+			try
+			{
+				if ( !mcSocket.isClosed() )
+				{
+					mcSocket.leaveGroup( address );
+				}
+			}
+
+			catch ( final IOException e )
+			{
+				LOG.log( Level.WARNING, e.toString() );
+			}
+
 			if ( !mcSocket.isClosed() )
 			{
-				mcSocket.leaveGroup( address );
-			}
-		}
-
-		catch ( final IOException e )
-		{
-			LOG.log( Level.WARNING, e.toString() );
-		}
-
-		if ( !mcSocket.isClosed() )
-		{
-			mcSocket.close();
-		}
-	}
-
-	public boolean restartReceiver()
-	{
-		LOG.log( Level.WARNING, "Restarting receiver." );
-
-		boolean success = false;
-
-		try
-		{
-			mcSocket.leaveGroup( address );
-		}
-
-		catch ( final IOException e )
-		{
-			LOG.log( Level.WARNING, "Leaving group: " + e.toString() );
-		}
-
-		try
-		{
-			NetworkInterface networkInterface = NetworkSelector.selectNetworkInterface();
-
-			if ( networkInterface != null )
-			{
-				mcSocket.setNetworkInterface( networkInterface );
-				mcSocket.joinGroup( address );
-				success = true;
+				mcSocket.close();
+				mcSocket = null;
 			}
 
-			else
-			{
-				LOG.log( Level.SEVERE, "No network interface found." );
-			}
+			LOG.log( Level.INFO, "Disconnected." );
 		}
-
-		catch ( final IOException e )
-		{
-			LOG.log( Level.WARNING, "Joining group: " + e.toString() );
-		}
-
-		if ( success && ( worker == null || !worker.isAlive() ) )
-		{
-			LOG.log( Level.SEVERE, "Thread is dead. Restarting." );
-			connected = true;
-			startThread();
-		}
-
-		return success;
 	}
 
 	public void registerReceiverListener( final ReceiverListener listener )

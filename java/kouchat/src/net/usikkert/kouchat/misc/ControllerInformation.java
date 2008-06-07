@@ -21,38 +21,37 @@
 
 package net.usikkert.kouchat.misc;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * This waiting list is used to store unknown users while asking them to
- * identify. Usually it's users that timed out at some point, and are returning.
- * By doing this, messages from unknown users can be held back until they
- * have identified themselves.
+ * This is a JMX MBean for the controller.
  *
  * @author Christian Ihle
  */
-public class WaitingList
+public class ControllerInformation implements ControllerInformationMBean
 {
-	private final List<Integer> users;
+	/** The controller. */
+	private final Controller controller;
 
-	public WaitingList()
+	/**
+	 * Constructor.
+	 *
+	 * @param controller The controller.
+	 */
+	public ControllerInformation( final Controller controller )
 	{
-		users = new ArrayList<Integer>();
+		this.controller = controller;
 	}
 
-	public void addWaitingUser( final int userCode )
+	/** {@inheritDoc} */
+	@Override
+	public void logOn()
 	{
-		users.add( userCode );
+		controller.logOn();
 	}
 
-	public boolean isWaitingUser( final int userCode )
+	/** {@inheritDoc} */
+	@Override
+	public void logOff()
 	{
-		return users.contains( userCode );
-	}
-
-	public void removeWaitingUser( final int userCode )
-	{
-		users.remove( new Integer( userCode ) );
+		controller.logOff( true );
 	}
 }

@@ -32,27 +32,13 @@ public class PrivateMessageParser implements ReceiverListener
 {
 	private static final Logger LOG = Logger.getLogger( PrivateMessageParser.class.getName() );
 
-	private final UDPReceiver receiver;
 	private final Settings settings;
 	private final PrivateMessageResponder privmsgResponder;
 
 	public PrivateMessageParser( final PrivateMessageResponder privmsgResponder )
 	{
 		this.privmsgResponder = privmsgResponder;
-
 		settings = Settings.getSettings();
-		receiver = new UDPReceiver();
-		receiver.registerReceiverListener( this );
-	}
-
-	public void start()
-	{
-		receiver.startReceiver();
-	}
-
-	public void stop()
-	{
-		receiver.stopReceiver();
 	}
 
 	@Override

@@ -44,7 +44,7 @@ public class UDPSender
 	private static final Logger LOG = Logger.getLogger( UDPSender.class.getName() );
 
 	private DatagramSocket udpSocket;
-	private boolean started;
+	private boolean connected;
 	private final ErrorHandler errorHandler;
 
 	/**
@@ -64,7 +64,7 @@ public class UDPSender
 	 */
 	public void send( final String message, final String ip, final int port )
 	{
-		if ( started )
+		if ( connected )
 		{
 			try
 			{
@@ -94,11 +94,23 @@ public class UDPSender
 	 */
 	public void stopSender()
 	{
-		started = false;
+		LOG.log( Level.INFO, "Disconnecting..." );
 
-		if ( udpSocket != null && !udpSocket.isClosed() )
+		if ( !connected )
 		{
-			udpSocket.close();
+			LOG.log( Level.INFO, "Not connected." );
+		}
+
+		else
+		{
+			connected = false;
+
+			if ( udpSocket != null && !udpSocket.isClosed() )
+			{
+				udpSocket.close();
+			}
+
+			LOG.log( Level.INFO, "Disconnected." );
 		}
 	}
 
@@ -107,17 +119,28 @@ public class UDPSender
 	 */
 	public void startSender()
 	{
-		try
+		LOG.log( Level.INFO, "Connecting..." );
+
+		if ( connected )
 		{
-			udpSocket = new DatagramSocket();
-			started = true;
+			LOG.log( Level.INFO, "Already connected." );
 		}
 
-		catch ( final IOException e )
+		else
 		{
-			LOG.log( Level.SEVERE, e.toString(), e );
-			errorHandler.showError( "Failed to initialize network:\n" + e
-					+ "\n\nYou will not be able to send private messages!" );
+			try
+			{
+				udpSocket = new DatagramSocket();
+				connected = true;
+				LOG.log( Level.INFO, "Connected." );
+			}
+
+			catch ( final IOException e )
+			{
+				LOG.log( Level.SEVERE, e.toString(), e );
+				errorHandler.showError( "Failed to initialize network:\n" + e
+						+ "\n\nYou will not be able to send private messages!" );
+			}
 		}
 	}
 }

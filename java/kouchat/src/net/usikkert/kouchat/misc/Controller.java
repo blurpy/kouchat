@@ -21,6 +21,7 @@
 
 package net.usikkert.kouchat.misc;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -30,17 +31,23 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.autocomplete.AutoCompleter;
 import net.usikkert.kouchat.autocomplete.CommandAutoCompleteList;
 import net.usikkert.kouchat.autocomplete.NickAutoCompleteList;
+import net.usikkert.kouchat.event.NetworkConnectionListener;
 import net.usikkert.kouchat.net.DefaultPrivateMessageResponder;
+import net.usikkert.kouchat.net.FileReceiver;
+import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.net.MessageParser;
 import net.usikkert.kouchat.net.DefaultMessageResponder;
 import net.usikkert.kouchat.net.MessageResponder;
 import net.usikkert.kouchat.net.Messages;
+import net.usikkert.kouchat.net.NetworkService;
 import net.usikkert.kouchat.net.PrivateMessageParser;
 import net.usikkert.kouchat.net.PrivateMessageResponder;
 import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.ui.UserInterface;
 import net.usikkert.kouchat.util.DayTimer;
+import net.usikkert.kouchat.util.JMXAgent;
 import net.usikkert.kouchat.util.Tools;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This controller gives access to the network and the state of the
@@ -53,12 +60,13 @@ import net.usikkert.kouchat.util.Tools;
  *
  * @author Christian Ihle
  */
-public class Controller
+public class Controller implements NetworkConnectionListener
 {
 	private static final Logger LOG = Logger.getLogger( Controller.class.getName() );
 
 	private final ChatState chatState;
 	private final NickController nickController;
+	private final NetworkService networkService;
 	private final Messages messages;
 	private final MessageParser msgParser;
 	private final PrivateMessageParser privmsgParser;
@@ -68,7 +76,8 @@ public class Controller
 	private final TransferList tList;
 	private final WaitingList wList;
 	private final NickDTO me;
-	private final Timer delayedLogonTimer;
+	private final UserInterface ui;
+	private final MessageController msgController;
 
 	/**
 	 * Constructor. Initializes the controller, but does not log on to
@@ -78,12 +87,16 @@ public class Controller
 	 */
 	public Controller( final UserInterface ui )
 	{
+		Validate.notNull( ui, "User interface can not be null" );
+		this.ui = ui;
+
 		Runtime.getRuntime().addShutdownHook( new Thread( "ControllerShutdownHook" )
 		{
 			@Override
 			public void run()
 			{
-				logOff();
+				logOff( false );
+				shutdown();
 			}
 		} );
 
@@ -94,14 +107,24 @@ public class Controller
 		tList = new TransferList();
 		wList = new WaitingList();
 		idleThread = new IdleThread( this, ui );
+		networkService = new NetworkService();
 		msgResponder = new DefaultMessageResponder( this, ui );
 		privmsgResponder = new DefaultPrivateMessageResponder( this, ui );
 		msgParser = new MessageParser( msgResponder );
+		networkService.registerMessageReceiverListener( msgParser );
 		privmsgParser = new PrivateMessageParser( privmsgResponder );
-		messages = new Messages();
-		delayedLogonTimer = new Timer( "DelayedLogonTimer" );
+		networkService.registerUDPReceiverListener( privmsgParser );
+		messages = new Messages( networkService );
+		networkService.registerNetworkConnectionListener( this );
+		msgController = ui.getMessageController();
 
+		new JMXAgent( this, networkService.getConnectionWorker() );
 		new DayTimer( ui );
+		idleThread.start();
+
+		msgController.showSystemMessage( "Welcome to " + Constants.APP_NAME + " v" + Constants.APP_VERSION + "!" );
+		String date = Tools.dateToString( null, "EEEE, d MMMM yyyy" );
+		msgController.showSystemMessage( "Today is " + date );
 	}
 
 	/**
@@ -272,33 +295,99 @@ public class Controller
 	 */
 	private void runDelayedLogon()
 	{
+		Timer delayedLogonTimer = new Timer( "DelayedLogonTimer" );
 		delayedLogonTimer.schedule( new DelayedLogonTask(), 0 );
 	}
 
 	/**
-	 * Logs this client onto the network, and starts some necessary threads.
+	 * Logs this client onto the network.
 	 */
 	public void logOn()
 	{
-		msgParser.start();
-		privmsgParser.start();
-		messages.start();
-		sendLogOn();
-		idleThread.start();
-		runDelayedLogon();
+		if ( !networkService.isConnectionWorkerAlive() )
+			networkService.connect();
 	}
 
 	/**
-	 * Logs this client off the network, and stops the threads.
+	 * Logs this client off the network.
+	 *
+	 * <br /><br />
+	 *
+	 * <strong>Note:</strong> removeUsers should not be true when called
+	 * from a ShutdownHook, as that will lead to a deadlock. See
+	 * http://bugs.sun.com/bugdatabase/view_bug.do;?bug_id=6261550 for details.
+	 *
+	 * @param removeUsers Set to true to remove users from the nick list.
 	 */
-	public void logOff()
+	public void logOff( final boolean removeUsers )
+	{
+		messages.sendLogoffMessage();
+		chatState.setLoggedOn( false );
+		chatState.setLogonCompleted( false );
+		networkService.disconnect();
+		getTopic().resetTopic();
+		if ( removeUsers )
+			removeAllUsers();
+		me.reset();
+	}
+
+	/**
+	 * Cancels all file transfers, sets all users as logged off,
+	 * and removes them from the nick list.
+	 */
+	private void removeAllUsers()
+	{
+		NickList nickList = getNickList();
+
+		for ( int i = 0; i < nickList.size(); i++ )
+		{
+			NickDTO user = nickList.get( i );
+
+			if ( !user.isMe() )
+			{
+				user.setOnline( false );
+				cancelFileTransfers( user );
+				nickList.remove( user );
+
+				if ( user.getPrivchat() != null )
+				{
+					msgController.showPrivateSystemMessage( user, "You logged off" );
+					user.getPrivchat().setLoggedOff();
+				}
+
+				i--;
+			}
+		}
+	}
+
+	/**
+	 * Cancels all file transfers for that user.
+	 *
+	 * @param user The user to cancel for.
+	 */
+	public void cancelFileTransfers( final NickDTO user )
+	{
+		List<FileSender> fsList = tList.getFileSenders( user );
+		List<FileReceiver> frList = tList.getFileReceivers( user );
+
+		for ( FileSender fs : fsList )
+		{
+			fs.cancel();
+		}
+
+		for ( FileReceiver fr : frList )
+		{
+			fr.cancel();
+		}
+	}
+
+	/**
+	 * Prepares the application for shutdown.
+	 * Should <strong>only</strong> be called when the application shuts down.
+	 */
+	private void shutdown()
 	{
 		idleThread.stopThread();
-		messages.sendLogoffMessage();
-		messages.stop();
-		msgParser.stop();
-		privmsgParser.stop();
-		wList.setLoggedOn( false );
 	}
 
 	/**
@@ -495,29 +584,6 @@ public class Controller
 	}
 
 	/**
-	 * Restarts the sending and receiving network connections.
-	 *
-	 * @return True if the restart was a success.
-	 */
-	public boolean restart()
-	{
-		messages.restart();
-
-		if ( msgParser.restart() )
-		{
-			if ( !isConnected() )
-			{
-				runDelayedLogon();
-				sendLogOn();
-			}
-
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * If any users have timed out because of missed idle messages, then
 	 * send a message over the network to ask all clients to identify
 	 * themselves again.
@@ -584,17 +650,7 @@ public class Controller
 	 */
 	public boolean isConnected()
 	{
-		return chatState.isConnected();
-	}
-
-	/**
-	 * Sets if the client is logged on to the network.
-	 *
-	 * @param connected True if logged on to the network.
-	 */
-	public void setConnected( final boolean connected )
-	{
-		chatState.setConnected( connected );
+		return networkService.isNetworkUp() && chatState.isLoggedOn();
 	}
 
 	/**
@@ -622,11 +678,11 @@ public class Controller
 				LOG.log( Level.SEVERE, e.toString(), e );
 			}
 
-			if ( isConnected() )
+			if ( networkService.isNetworkUp() )
 			{
-				wList.setLoggedOn( true );
+				chatState.setLogonCompleted( true );
 				// To stop the timer from running in the background
-				delayedLogonTimer.cancel();
+				cancel();
 			}
 		}
 	}
@@ -641,8 +697,55 @@ public class Controller
 	{
 		AutoCompleter autoCompleter = new AutoCompleter();
 		autoCompleter.addAutoCompleteList( new CommandAutoCompleteList() );
-		autoCompleter.addAutoCompleteList(  new NickAutoCompleteList( getNickList() ) );
+		autoCompleter.addAutoCompleteList( new NickAutoCompleteList( getNickList() ) );
 
 		return autoCompleter;
+	}
+
+	/**
+	 * Makes sure the application reacts when the network is available.
+	 */
+	@Override
+	public void networkCameUp()
+	{
+		// Network came up after a logon
+		if ( !chatState.isLoggedOn() )
+		{
+			runDelayedLogon();
+			sendLogOn();
+		}
+
+		// Network came up after a timeout
+		else
+		{
+			ui.showTopic();
+			msgController.showSystemMessage( "You are connected to the network again" );
+			messages.sendGetTopicMessage();
+			messages.sendExposeMessage();
+		}
+	}
+
+	/**
+	 * Makes sure the application reacts when the network is unavailable.
+	 */
+	@Override
+	public void networkWentDown()
+	{
+		ui.showTopic();
+
+		if ( chatState.isLoggedOn() )
+			msgController.showSystemMessage( "You lost contact with the network" );
+		else
+			msgController.showSystemMessage( "You logged off" );
+	}
+
+	/**
+	 * Gets the chat state.
+	 *
+	 * @return The chat state.
+	 */
+	public ChatState getChatState()
+	{
+		return chatState;
 	}
 }

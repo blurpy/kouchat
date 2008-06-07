@@ -24,12 +24,15 @@ package net.usikkert.kouchat.net;
 import java.net.SocketException;
 
 /**
- * This is the JMX MBean interface for getting information about the current network status.
+ * This is the JMX MBean interface for the network service.
  *
  * @author Christian Ihle
  */
 public interface NetworkInformationMBean
 {
+	/** The name of this MBean. */
+	String NAME = "Network";
+
 	/**
 	 * Shows the current connected network.
 	 *
@@ -44,7 +47,7 @@ public interface NetworkInformationMBean
 	 * @return A string with information.
 	 * @throws SocketException In case of network errors.
 	 */
-	String showUsableNetworks() throws SocketException;
+	String[] showUsableNetworks() throws SocketException;
 
 	/**
 	 * Shows all the available networks.
@@ -52,5 +55,11 @@ public interface NetworkInformationMBean
 	 * @return A string with information.
 	 * @throws SocketException In case of network errors.
 	 */
-	String showAllNetworks() throws SocketException;
+	String[] showAllNetworks() throws SocketException;
+
+	/** Disconnects from the network, without logging off. */
+	void disconnect();
+
+	/** Connects to the network. */
+	void connect();
 }

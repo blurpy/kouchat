@@ -24,116 +24,116 @@ package net.usikkert.kouchat.net;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.TopicDTO;
+import net.usikkert.kouchat.util.Validate;
 
 public class Messages
 {
-	private final UDPSender udpSender;
-	private final MessageSender sender;
+	private final NetworkService networkService;
 	private final NickDTO me;
 	private final Settings settings;
 
-	public Messages()
+	public Messages( final NetworkService networkService )
 	{
-		udpSender = new UDPSender();
-		sender = new MessageSender();
+		Validate.notNull( networkService, "Network service can not be null" );
+		this.networkService = networkService;
 		settings = Settings.getSettings();
 		me = settings.getMe();
 	}
 
 	public void sendIdleMessage()
 	{
-		sender.send( me.getCode() + "!IDLE#" + me.getNick() + ":" );
+		networkService.sendMulticastMsg( me.getCode() + "!IDLE#" + me.getNick() + ":" );
 	}
 
 	public void sendTopicMessage( final TopicDTO topic )
 	{
-		sender.send( me.getCode() + "!TOPIC#" + me.getNick() + ":" + "(" + topic.getNick()
+		networkService.sendMulticastMsg( me.getCode() + "!TOPIC#" + me.getNick() + ":" + "(" + topic.getNick()
 				+ ")" + "[" + topic.getTime() + "]" + topic.getTopic() );
 	}
 
 	public void sendAwayMessage()
 	{
-		sender.send( me.getCode() + "!AWAY#" + me.getNick() + ":" + me.getAwayMsg() );
+		networkService.sendMulticastMsg( me.getCode() + "!AWAY#" + me.getNick() + ":" + me.getAwayMsg() );
 	}
 
 	public void sendBackMessage()
 	{
-		sender.send( me.getCode() + "!BACK#" + me.getNick() + ":" );
+		networkService.sendMulticastMsg( me.getCode() + "!BACK#" + me.getNick() + ":" );
 	}
 
 	public void sendChatMessage( final String msg )
 	{
-		sender.send( me.getCode() + "!MSG#" + me.getNick() + ":[" + settings.getOwnColor() + "]" + msg );
+		networkService.sendMulticastMsg( me.getCode() + "!MSG#" + me.getNick() + ":[" + settings.getOwnColor() + "]" + msg );
 	}
 
 	public void sendLogonMessage()
 	{
-		sender.send( me.getCode() + "!LOGON#" + me.getNick() + ":" );
+		networkService.sendMulticastMsg( me.getCode() + "!LOGON#" + me.getNick() + ":" );
 	}
 
 	public void sendLogoffMessage()
 	{
-		sender.send( me.getCode() + "!LOGOFF#" + me.getNick() + ":" );
+		networkService.sendMulticastMsg( me.getCode() + "!LOGOFF#" + me.getNick() + ":" );
 	}
 
 	public void sendExposeMessage()
 	{
-		sender.send( me.getCode() + "!EXPOSE#" + me.getNick() + ":" );
+		networkService.sendMulticastMsg( me.getCode() + "!EXPOSE#" + me.getNick() + ":" );
 	}
 
 	public void sendExposingMessage()
 	{
-		sender.send( me.getCode() + "!EXPOSING#" + me.getNick() + ":" + me.getAwayMsg() );
+		networkService.sendMulticastMsg( me.getCode() + "!EXPOSING#" + me.getNick() + ":" + me.getAwayMsg() );
 	}
 
 	public void sendGetTopicMessage()
 	{
-		sender.send( me.getCode() + "!GETTOPIC#" + me.getNick() + ":" );
+		networkService.sendMulticastMsg( me.getCode() + "!GETTOPIC#" + me.getNick() + ":" );
 	}
 
 	public void sendWritingMessage()
 	{
-		sender.send( me.getCode() + "!WRITING#" + me.getNick() + ":" );
+		networkService.sendMulticastMsg( me.getCode() + "!WRITING#" + me.getNick() + ":" );
 	}
 
 	public void sendStoppedWritingMessage()
 	{
-		sender.send( me.getCode() + "!STOPPEDWRITING#" + me.getNick() + ":" );
+		networkService.sendMulticastMsg( me.getCode() + "!STOPPEDWRITING#" + me.getNick() + ":" );
 	}
 
 	public void sendNickMessage()
 	{
-		sender.send( me.getCode() + "!NICK#" + me.getNick() + ":" );
+		networkService.sendMulticastMsg( me.getCode() + "!NICK#" + me.getNick() + ":" );
 	}
 
 	public void sendNickCrashMessage( final String nick )
 	{
-		sender.send( me.getCode() + "!NICKCRASH#" + me.getNick() + ":" + nick );
+		networkService.sendMulticastMsg( me.getCode() + "!NICKCRASH#" + me.getNick() + ":" + nick );
 	}
 
 	public void sendFileAbort( final int msgCode, final int fileHash, final String fileName )
 	{
-		sender.send( me.getCode() + "!SENDFILEABORT#" + me.getNick() + ":(" + msgCode
+		networkService.sendMulticastMsg( me.getCode() + "!SENDFILEABORT#" + me.getNick() + ":(" + msgCode
 				+ "){" + fileHash + "}" + fileName );
 	}
 
 	public void sendFileAccept( final int msgCode, final int port,
 			final int fileHash, final String fileName )
 	{
-		sender.send( me.getCode() + "!SENDFILEACCEPT#" + me.getNick() + ":("
+		networkService.sendMulticastMsg( me.getCode() + "!SENDFILEACCEPT#" + me.getNick() + ":("
 				+ msgCode + ")[" + port + "]{" + fileHash + "}" + fileName );
 	}
 
 	public void sendFile( final int sendToUserCode, final long fileLength,
 			final int fileHash, final String fileName )
 	{
-		sender.send( me.getCode() + "!SENDFILE#" + me.getNick() + ":(" + sendToUserCode + ")" + "["
+		networkService.sendMulticastMsg( me.getCode() + "!SENDFILE#" + me.getNick() + ":(" + sendToUserCode + ")" + "["
 				+ fileLength + "]{" + fileHash + "}" + fileName );
 	}
 
 	public void sendClient()
 	{
-		sender.send( me.getCode() + "!CLIENT#" + me.getNick() + ":(" + me.getClient()
+		networkService.sendMulticastMsg( me.getCode() + "!CLIENT#" + me.getNick() + ":(" + me.getClient()
 				+ ")[" + ( System.currentTimeMillis() - me.getLogonTime() )
 				+ "]{" + me.getOperatingSystem() + "}<" + me.getPrivateChatPort() + ">" );
 	}
@@ -141,24 +141,7 @@ public class Messages
 	public void sendPrivateMessage( final String privmsg, final String userIP,
 			final int userPort, final int userCode )
 	{
-		udpSender.send( me.getCode() + "!PRIVMSG#" + me.getNick() + ":(" + userCode + ")"
+		networkService.sendUDPMsg( me.getCode() + "!PRIVMSG#" + me.getNick() + ":(" + userCode + ")"
 				+ "[" + settings.getOwnColor() + "]" + privmsg, userIP, userPort );
-	}
-
-	public void start()
-	{
-		sender.startSender();
-		udpSender.startSender();
-	}
-
-	public void stop()
-	{
-		sender.stopSender();
-		udpSender.stopSender();
-	}
-
-	public void restart()
-	{
-		sender.restartSender();
 	}
 }

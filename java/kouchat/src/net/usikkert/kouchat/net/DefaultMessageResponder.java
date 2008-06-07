@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.usikkert.kouchat.misc.ChatState;
 import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
@@ -52,6 +53,7 @@ public class DefaultMessageResponder implements MessageResponder
 	private final WaitingList wList;
 	private final UserInterface ui;
 	private final MessageController msgController;
+	private final ChatState chatState;
 
 	/**
 	 * Constructor.
@@ -68,6 +70,7 @@ public class DefaultMessageResponder implements MessageResponder
 		me = Settings.getSettings().getMe();
 		tList = controller.getTransferList();
 		wList = controller.getWaitingList();
+		chatState = controller.getChatState();
 	}
 
 	/**
@@ -151,6 +154,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 		if ( user != null )
 		{
+			controller.cancelFileTransfers( user );
 			user.setOnline( false );
 			controller.getNickList().remove( user );
 			msgController.showSystemMessage( user.getNick() + " logged off" );
@@ -243,7 +247,7 @@ public class DefaultMessageResponder implements MessageResponder
 				{
 					if ( !newTopic.equals( topic.getTopic() ) && time > topic.getTime() )
 					{
-						if ( wList.isLoggedOn() )
+						if ( chatState.isLogonCompleted() )
 						{
 							msgController.showSystemMessage( nick + " changed the topic to: " + newTopic );
 						}
@@ -262,7 +266,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 				else
 				{
-					if ( !topic.getTopic().equals( newTopic ) && time > topic.getTime() && wList.isLoggedOn() )
+					if ( !topic.getTopic().equals( newTopic ) && time > topic.getTime() && chatState.isLogonCompleted() )
 					{
 						msgController.showSystemMessage( nick + " removed the topic" );
 						topic.changeTopic( "", "", time );
@@ -283,7 +287,7 @@ public class DefaultMessageResponder implements MessageResponder
 		if ( controller.isNewUser( user.getCode() ) )
 		{
 			// Usually this happens when someone returns from a timeout
-			if ( wList.isLoggedOn() )
+			if ( chatState.isLogonCompleted() )
 			{
 				if ( wList.isWaitingUser( user.getCode() ) )
 					wList.removeWaitingUser( user.getCode() );
@@ -307,6 +311,11 @@ public class DefaultMessageResponder implements MessageResponder
 			{
 				nickChanged( user.getCode(), user.getNick() );
 			}
+
+			if ( !orgUser.getAwayMsg().equals( user.getAwayMsg() ) )
+			{
+				awayChanged( user.getCode(), user.isAway(), user.getAwayMsg() );
+			}
 		}
 	}
 
@@ -317,10 +326,8 @@ public class DefaultMessageResponder implements MessageResponder
 	@Override
 	public void meLogOn( final String ipAddress )
 	{
-		controller.setConnected( true );
+		chatState.setLoggedOn( true );
 		me.setIpAddress( ipAddress );
-		String date = Tools.dateToString( null, "EEEE, d MMMM yyyy" );
-		msgController.showSystemMessage( "Today is " + date );
 		msgController.showSystemMessage( "You logged on as " + me.getNick() + " from " + ipAddress );
 		ui.showTopic();
 	}
@@ -387,7 +394,7 @@ public class DefaultMessageResponder implements MessageResponder
 	{
 		me.setLastIdle( System.currentTimeMillis() );
 
-		if ( !me.getIpAddress().equals( ipAddress ) )
+		if ( !me.getIpAddress().equals( ipAddress ) && chatState.isLoggedOn() )
 		{
 			msgController.showSystemMessage( "You changed ip from " + me.getIpAddress() + " to " + ipAddress );
 			me.setIpAddress( ipAddress );

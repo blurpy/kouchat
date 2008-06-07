@@ -32,7 +32,6 @@ public class MessageParser implements ReceiverListener
 {
 	private static final Logger LOG = Logger.getLogger( MessageParser.class.getName() );
 
-	private final MessageReceiver receiver;
 	private final MessageResponder responder;
 	private final Settings settings;
 	private boolean loggedOn;
@@ -40,25 +39,7 @@ public class MessageParser implements ReceiverListener
 	public MessageParser( final MessageResponder responder )
 	{
 		this.responder = responder;
-
 		settings = Settings.getSettings();
-		receiver = new MessageReceiver();
-		receiver.registerReceiverListener( this );
-	}
-
-	public void start()
-	{
-		receiver.startReceiver();
-	}
-
-	public void stop()
-	{
-		receiver.stopReceiver();
-	}
-
-	public boolean restart()
-	{
-		return receiver.restartReceiver();
 	}
 
 	@Override

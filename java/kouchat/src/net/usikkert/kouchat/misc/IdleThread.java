@@ -21,15 +21,11 @@
 
 package net.usikkert.kouchat.misc;
 
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.net.FileReceiver;
-import net.usikkert.kouchat.net.FileSender;
-import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.ui.UserInterface;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This thread is responsible for sending a special "idle"
@@ -43,6 +39,7 @@ import net.usikkert.kouchat.ui.UserInterface;
  */
 public class IdleThread extends Thread
 {
+	/** The logger. */
 	private static final Logger LOG = Logger.getLogger( IdleThread.class.getName() );
 
 	/**
@@ -50,15 +47,6 @@ public class IdleThread extends Thread
 	 * idle message will be sent.
 	 */
 	private static final int IDLE_TIME = 15000;
-
-	/**
-	 * When the network is working correctly this client will
-	 * receive its own idle messages as well. If the client
-	 * does not receive one of its own idle messages after
-	 * this number of milliseconds, then something is wrong,
-	 * and a restart of the network will be initiated.
-	 */
-	private static final int RESTART_TIME = 20000;
 
 	/**
 	 * If an idle message has not been received from another
@@ -70,10 +58,9 @@ public class IdleThread extends Thread
 	private final Controller controller;
 	private final NickList nickList;
 	private final NickDTO me;
-	private final TransferList tList;
-	private final ErrorHandler errorHandler;
 	private final MessageController msgController;
 
+	/** The thread runs while this is true. */
 	private boolean run;
 
 	/**
@@ -84,12 +71,12 @@ public class IdleThread extends Thread
 	 */
 	public IdleThread( final Controller controller, final UserInterface ui )
 	{
+		Validate.notNull( controller, "Controller can not be null" );
+		Validate.notNull( ui, "User interface can not be null" );
 		this.controller = controller;
 
 		nickList = controller.getNickList();
 		me = Settings.getSettings().getMe();
-		tList = controller.getTransferList();
-		errorHandler = ErrorHandler.getErrorHandler();
 		msgController = ui.getMessageController();
 
 		run = true;
@@ -102,9 +89,8 @@ public class IdleThread extends Thread
 	 * <li>Sends idle messages
 	 * <li>Restarts the network if there are problems
 	 * <li>Removes timed out clients
-	 *
-	 * The application will exit if this thread is interrupted.
 	 */
+	@Override
 	public void run()
 	{
 		// In case of any error messages during startup
@@ -112,70 +98,49 @@ public class IdleThread extends Thread
 
 		while ( run )
 		{
+			controller.sendIdleMessage();
+			boolean timeout = false;
+
+			for ( int i = 0; i < nickList.size(); i++ )
+			{
+				NickDTO temp = nickList.get( i );
+
+				if ( temp.getCode() != me.getCode() && temp.getLastIdle() < System.currentTimeMillis() - TIMEOUT )
+				{
+					nickList.remove( temp );
+					userTimedOut( temp );
+					timeout = true;
+					i--;
+				}
+			}
+
+			if ( timeout )
+				controller.updateAfterTimeout();
+
 			try
 			{
 				sleep( IDLE_TIME );
-
-				controller.sendIdleMessage();
-
-				if ( me.getLastIdle() < System.currentTimeMillis() - RESTART_TIME )
-				{
-					if ( controller.restart() )
-						me.setLastIdle( System.currentTimeMillis() );
-				}
-
-				boolean timeout = false;
-
-				for ( int i = 0; i < nickList.size(); i++ )
-				{
-					NickDTO temp = nickList.get( i );
-
-					if ( temp.getCode() != me.getCode() && temp.getLastIdle() < System.currentTimeMillis() - TIMEOUT )
-					{
-						nickList.remove( temp );
-						userTimedOut( temp );
-						timeout = true;
-						i--;
-					}
-				}
-
-				if ( timeout )
-					controller.updateAfterTimeout();
 			}
 
+			// Sleep interrupted - probably from stopThread()
 			catch ( final InterruptedException e )
 			{
-				LOG.log( Level.SEVERE, e.toString(), e );
-				run = false;
-				errorHandler.showCriticalError( "The idle thread failed:\n" + e + "\n"
-						+ Constants.APP_NAME + " will now shutdown." );
-				System.exit( 1 );
+				LOG.log( Level.SEVERE, e.toString() );
 			}
 		}
 	}
 
 	/**
 	 * When a user times out, all current file transfers must
-	 * be cancelled, and messages must be shown in the normal
+	 * be canceled, and messages must be shown in the normal
 	 * chat window, and the private chat window.
 	 *
 	 * @param user The user which timed out.
 	 */
 	private void userTimedOut( final NickDTO user )
 	{
-		List<FileSender> fsList = tList.getFileSenders( user );
-		List<FileReceiver> frList = tList.getFileReceivers( user );
-
-		for ( FileSender fs : fsList )
-		{
-			fs.cancel();
-		}
-
-		for ( FileReceiver fr : frList )
-		{
-			fr.cancel();
-		}
-
+		controller.cancelFileTransfers( user );
+		user.setOnline( false );
 		msgController.showSystemMessage( user.getNick() + " timed out" );
 
 		if ( user.getPrivchat() != null )
@@ -191,5 +156,6 @@ public class IdleThread extends Thread
 	public void stopThread()
 	{
 		run = false;
+		interrupt();
 	}
 }

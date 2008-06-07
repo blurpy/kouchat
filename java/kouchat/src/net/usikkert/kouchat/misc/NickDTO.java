@@ -63,6 +63,18 @@ public class NickDTO implements Comparable<NickDTO>
 		newPrivMsg = false;
 	}
 
+	public void reset()
+	{
+		awayMsg = "";
+		writing = false;
+		away = false;
+		ipAddress = "<unknown>";
+		newMsg = false;
+		privateChatPort = 0;
+		privchat = null;
+		newPrivMsg = false;
+	}
+
 	public boolean isMe()
 	{
 		return me;

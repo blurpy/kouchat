@@ -28,20 +28,17 @@ package net.usikkert.kouchat.misc;
  */
 public class ChatState
 {
-	/**
-	 * This keeps information about the current topic in the chat.
-	 */
+	/** Information about the current topic in the chat. */
 	private final TopicDTO topic;
 
-	/**
-	 * Whether the application user was writing at the moment this was updated.
-	 */
+	/** Whether the application user was writing at the moment this was updated. */
 	private boolean wrote;
 
-	/**
-	 * Whether the application is connected to the network.
-	 */
-	private boolean connected;
+	/** Whether the client is logged on to the chat. */
+	private boolean loggedOn;
+
+	/** Whether the client has completed the logon procedure. */
+	private boolean logonCompleted;
 
 	/**
 	 * Constructor.
@@ -50,7 +47,8 @@ public class ChatState
 	{
 		topic = new TopicDTO();
 		wrote = false;
-		connected = false;
+		loggedOn = false;
+		logonCompleted = false;
 	}
 
 	/**
@@ -84,22 +82,42 @@ public class ChatState
 	}
 
 	/**
-	 * Returns if the application is connected to the network.
+	 * Checks if the user has logged on to the chat.
 	 *
-	 * @return True if the application is connected to the network.
+	 * @return If the user has logged on.
 	 */
-	public boolean isConnected()
+	public boolean isLoggedOn()
 	{
-		return connected;
+		return loggedOn;
 	}
 
 	/**
-	 * Sets if the application is connected to the network.
+	 * Sets if the user has logged on to the chat.
 	 *
-	 * @param connected If the application is connected to the network.
+	 * @param loggedOn If the user has logged on.
 	 */
-	public void setConnected( final boolean connected )
+	public void setLoggedOn( final boolean loggedOn )
 	{
-		this.connected = connected;
+		this.loggedOn = loggedOn;
+	}
+
+	/**
+	 * Checks if the procedure to logon to the chat has completed.
+	 *
+	 * @return If the logon is complete.
+	 */
+	public boolean isLogonCompleted()
+	{
+		return logonCompleted;
+	}
+
+	/**
+	 * Sets if the procedure to logon to the chat has completed.
+	 *
+	 * @param logonCompleted If the logon is complete.
+	 */
+	public void setLogonCompleted( final boolean logonCompleted )
+	{
+		this.logonCompleted = logonCompleted;
 	}
 }
