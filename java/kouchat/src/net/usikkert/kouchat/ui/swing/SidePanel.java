@@ -44,6 +44,7 @@ import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.NickList;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Tools;
+import net.usikkert.kouchat.util.Validate;
 
 public class SidePanel extends JPanel implements ActionListener, MouseListener, FileDropSource
 {
@@ -61,6 +62,8 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 
 	public SidePanel( final ButtonPanel buttonP )
 	{
+		Validate.notNull( buttonP, "Button panel can not be null" );
+
 		setLayout( new BorderLayout( 2, 2 ) );
 
 		fileTransferHandler = new FileTransferHandler( this );

@@ -54,6 +54,7 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.autocomplete.AutoCompleter;
 import net.usikkert.kouchat.misc.CommandHistory;
 import net.usikkert.kouchat.ui.ChatWindow;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This is the panel containing the main chat area, the input field,
@@ -85,6 +86,8 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 	 */
 	public MainPanel( final SidePanel sideP )
 	{
+		Validate.notNull( sideP, "Side panel can not be null" );
+
 		setLayout( new BorderLayout( 2, 2 ) );
 
 		chatTP = new JTextPane();

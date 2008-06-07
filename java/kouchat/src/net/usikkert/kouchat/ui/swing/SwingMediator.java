@@ -44,6 +44,7 @@ import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 import net.usikkert.kouchat.ui.UserInterface;
 import net.usikkert.kouchat.util.Tools;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This class is a mediator for the gui, and gets all the events from the gui layer
@@ -78,6 +79,15 @@ public class SwingMediator implements Mediator, UserInterface
 	 */
 	public SwingMediator( final ComponentHandler compHandler )
 	{
+		Validate.notNull( compHandler, "Component handler can not be null" );
+		Validate.notNull( compHandler.getSidePanel(), "Side panel can not be null" );
+		Validate.notNull( compHandler.getSettingsDialog(), "Settings dialog can not be null" );
+		Validate.notNull( compHandler.getGui(), "GUI can not be null" );
+		Validate.notNull( compHandler.getMainPanel(), "Main panel can not be null" );
+		Validate.notNull( compHandler.getSysTray(), "System tray can not be null" );
+		Validate.notNull( compHandler.getMenuBar(), "Menu bar can not be null" );
+		Validate.notNull( compHandler.getButtonPanel(), "Button panel can not be null" );
+
 		sideP = compHandler.getSidePanel();
 		settingsDialog = compHandler.getSettingsDialog();
 		gui = compHandler.getGui();
