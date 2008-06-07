@@ -109,6 +109,8 @@ public class ConnectionWorker implements Runnable
 					String origNetwork = networkInterface == null ? "[null]" : networkInterface.getName();
 					LOG.log( Level.INFO, "Changing network from " + origNetwork + " to " + netif.getName() );
 					networkInterface = netif;
+					if ( networkUp )
+						notifyNetworkDown();
 					notifyNetworkUp();
 				}
 
