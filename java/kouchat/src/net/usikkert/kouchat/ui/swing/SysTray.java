@@ -43,10 +43,11 @@ import javax.swing.ImageIcon;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
+import net.usikkert.kouchat.util.Loggers;
 
 public class SysTray implements ActionListener, MouseListener
 {
-	private static final Logger LOG = Logger.getLogger( SysTray.class.getName() );
+	private static final Logger LOG = Loggers.UI_LOG;
 	private static final String IMG_KOU_NORMAL = "/icons/kou_normal.png";
 	private static final String IMG_KOU_NORMAL_ACT = "/icons/kou_normal_activity.png";
 	private static final String IMG_KOU_AWAY = "/icons/kou_away.png";

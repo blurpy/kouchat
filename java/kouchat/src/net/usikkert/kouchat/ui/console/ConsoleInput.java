@@ -33,6 +33,7 @@ import net.usikkert.kouchat.misc.CommandParser;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.ui.UserInterface;
+import net.usikkert.kouchat.util.Loggers;
 
 /**
  * Contains the main input loop for the console mode.
@@ -41,7 +42,7 @@ import net.usikkert.kouchat.ui.UserInterface;
  */
 public class ConsoleInput extends Thread
 {
-	private static final Logger LOG = Logger.getLogger( ConsoleInput.class.getName() );
+	private static final Logger LOG = Loggers.UI_LOG;
 
 	private final BufferedReader stdin;
 	private final Controller controller;
@@ -65,6 +66,7 @@ public class ConsoleInput extends Thread
 
 		Runtime.getRuntime().addShutdownHook( new Thread( "ConsoleInputShutdownHook" )
 		{
+			@Override
 			public void run()
 			{
 				System.out.println( "Quitting - good bye!" );
@@ -76,6 +78,7 @@ public class ConsoleInput extends Thread
 	 * Starts a loop waiting for input.
 	 * To stop the loop and exit the application, write /quit.
 	 */
+	@Override
 	public void run()
 	{
 		String input = "";

@@ -59,7 +59,7 @@ import net.usikkert.kouchat.net.NetworkInformationMBean;
 public class JMXAgent
 {
 	/** The logger. */
-	private static final Logger LOG = Logger.getLogger( JMXAgent.class.getName() );
+	private static final Logger LOG = Loggers.UTIL_LOG;
 
 	/**
 	 * Default constructor. Registers the MBeans, and logs any failures.

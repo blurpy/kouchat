@@ -51,6 +51,7 @@ import javax.swing.text.StyledDocument;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
+import net.usikkert.kouchat.util.Loggers;
 
 /**
  * Opens a text file in a 80x24 character dialog window.
@@ -59,7 +60,7 @@ import net.usikkert.kouchat.misc.ErrorHandler;
  */
 public class TextViewerDialog extends JDialog
 {
-	private static final Logger LOG = Logger.getLogger( TextViewerDialog.class.getName() );
+	private static final Logger LOG = Loggers.UI_LOG;
 	private static final long serialVersionUID = 1L;
 
 	private final ErrorHandler errorHandler;

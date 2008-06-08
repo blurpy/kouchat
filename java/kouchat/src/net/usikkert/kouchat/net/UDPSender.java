@@ -32,6 +32,7 @@ import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
+import net.usikkert.kouchat.util.Loggers;
 
 /**
  * Sends UDP packets directly to a user. Useful for private chat,
@@ -41,7 +42,7 @@ import net.usikkert.kouchat.misc.ErrorHandler;
  */
 public class UDPSender
 {
-	private static final Logger LOG = Logger.getLogger( UDPSender.class.getName() );
+	private static final Logger LOG = Loggers.NETWORK_LOG;
 
 	private DatagramSocket udpSocket;
 	private boolean connected;
@@ -94,11 +95,11 @@ public class UDPSender
 	 */
 	public void stopSender()
 	{
-		LOG.log( Level.INFO, "Disconnecting..." );
+		LOG.log( Level.FINE, "Disconnecting..." );
 
 		if ( !connected )
 		{
-			LOG.log( Level.INFO, "Not connected." );
+			LOG.log( Level.FINE, "Not connected." );
 		}
 
 		else
@@ -110,7 +111,7 @@ public class UDPSender
 				udpSocket.close();
 			}
 
-			LOG.log( Level.INFO, "Disconnected." );
+			LOG.log( Level.FINE, "Disconnected." );
 		}
 	}
 
@@ -119,11 +120,11 @@ public class UDPSender
 	 */
 	public void startSender()
 	{
-		LOG.log( Level.INFO, "Connecting..." );
+		LOG.log( Level.FINE, "Connecting..." );
 
 		if ( connected )
 		{
-			LOG.log( Level.INFO, "Already connected." );
+			LOG.log( Level.FINE, "Already connected." );
 		}
 
 		else
@@ -132,7 +133,7 @@ public class UDPSender
 			{
 				udpSocket = new DatagramSocket();
 				connected = true;
-				LOG.log( Level.INFO, "Connected." );
+				LOG.log( Level.FINE, "Connected." );
 			}
 
 			catch ( final IOException e )

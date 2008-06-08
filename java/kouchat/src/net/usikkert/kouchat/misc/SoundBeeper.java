@@ -35,6 +35,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import net.usikkert.kouchat.util.Loggers;
+
 /**
  * Can load an audio file, and play it.
  *
@@ -42,7 +44,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  */
 public class SoundBeeper
 {
-	private static final Logger LOG = Logger.getLogger( SoundBeeper.class.getName() );
+	private static final Logger LOG = Loggers.MISC_LOG;
 
 	/**
 	 * The file to play when beep() is run.

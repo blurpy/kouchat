@@ -33,10 +33,11 @@ import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
+import net.usikkert.kouchat.util.Loggers;
 
 public class MessageSender
 {
-	private static final Logger LOG = Logger.getLogger( MessageSender.class.getName() );
+	private static final Logger LOG = Loggers.NETWORK_LOG;
 
 	private MulticastSocket mcSocket;
 	private InetAddress address;
@@ -89,11 +90,11 @@ public class MessageSender
 
 	public void stopSender()
 	{
-		LOG.log( Level.INFO, "Disconnecting..." );
+		LOG.log( Level.FINE, "Disconnecting..." );
 
 		if ( !connected )
 		{
-			LOG.log( Level.INFO, "Not connected." );
+			LOG.log( Level.FINE, "Not connected." );
 		}
 
 		else
@@ -119,19 +120,19 @@ public class MessageSender
 				mcSocket = null;
 			}
 
-			LOG.log( Level.INFO, "Disconnected." );
+			LOG.log( Level.FINE, "Disconnected." );
 		}
 	}
 
 	public boolean startSender( final NetworkInterface networkInterface )
 	{
-		LOG.log( Level.INFO, "Connecting..." );
+		LOG.log( Level.FINE, "Connecting..." );
 
 		try
 		{
 			if ( connected )
 			{
-				LOG.log( Level.INFO, "Already connected." );
+				LOG.log( Level.FINE, "Already connected." );
 			}
 
 			else if ( networkInterface != null )
@@ -142,7 +143,7 @@ public class MessageSender
 				mcSocket.setNetworkInterface( networkInterface );
 				mcSocket.joinGroup( address );
 				connected = true;
-				LOG.log( Level.INFO, "Connected to " + mcSocket.getNetworkInterface().getDisplayName() + "." );
+				LOG.log( Level.FINE, "Connected to " + mcSocket.getNetworkInterface().getDisplayName() + "." );
 			}
 
 			else

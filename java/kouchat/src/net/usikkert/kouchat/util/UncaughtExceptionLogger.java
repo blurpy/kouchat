@@ -32,7 +32,7 @@ import java.util.logging.Logger;
  */
 public class UncaughtExceptionLogger implements Thread.UncaughtExceptionHandler
 {
-	private static final Logger LOG = Logger.getLogger( UncaughtExceptionLogger.class.getName() );
+	private static final Logger LOG = Loggers.UTIL_LOG;
 
 	/**
 	 * Default constructor. Registers this class as the

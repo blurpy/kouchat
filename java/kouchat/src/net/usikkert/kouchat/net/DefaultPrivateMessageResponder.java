@@ -29,6 +29,7 @@ import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.ui.UserInterface;
+import net.usikkert.kouchat.util.Loggers;
 
 /**
  * This class responds to events from the message parser.
@@ -37,7 +38,7 @@ import net.usikkert.kouchat.ui.UserInterface;
  */
 public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 {
-	private static final Logger LOG = Logger.getLogger( DefaultPrivateMessageResponder.class.getName() );
+	private static final Logger LOG = Loggers.NETWORK_LOG;
 
 	private final Controller controller;
 	private final UserInterface ui;

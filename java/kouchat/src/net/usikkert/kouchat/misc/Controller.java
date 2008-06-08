@@ -46,6 +46,7 @@ import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.ui.UserInterface;
 import net.usikkert.kouchat.util.DayTimer;
 import net.usikkert.kouchat.util.JMXAgent;
+import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
@@ -62,7 +63,7 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class Controller implements NetworkConnectionListener
 {
-	private static final Logger LOG = Logger.getLogger( Controller.class.getName() );
+	private static final Logger LOG = Loggers.MISC_LOG;
 
 	private final ChatState chatState;
 	private final NickController nickController;

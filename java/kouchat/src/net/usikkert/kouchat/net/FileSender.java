@@ -36,10 +36,11 @@ import java.util.logging.Logger;
 import net.usikkert.kouchat.event.FileTransferListener;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.util.ByteCounter;
+import net.usikkert.kouchat.util.Loggers;
 
 public class FileSender implements FileTransfer
 {
-	private static final Logger LOG = Logger.getLogger( FileSender.class.getName() );
+	private static final Logger LOG = Loggers.NETWORK_LOG;
 
 	private final NickDTO nick;
 	private final File file;

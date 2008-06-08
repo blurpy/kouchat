@@ -27,10 +27,11 @@ import java.util.logging.Logger;
 import net.usikkert.kouchat.event.ReceiverListener;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.util.Loggers;
 
 public class MessageParser implements ReceiverListener
 {
-	private static final Logger LOG = Logger.getLogger( MessageParser.class.getName() );
+	private static final Logger LOG = Loggers.NETWORK_LOG;
 
 	private final MessageResponder responder;
 	private final Settings settings;

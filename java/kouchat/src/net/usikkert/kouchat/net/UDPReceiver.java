@@ -33,6 +33,7 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.ReceiverListener;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.util.Loggers;
 
 /**
  * Receives UDP packets sent directly to the IP address
@@ -42,7 +43,7 @@ import net.usikkert.kouchat.misc.Settings;
  */
 public class UDPReceiver implements Runnable
 {
-	private static final Logger LOG = Logger.getLogger( UDPReceiver.class.getName() );
+	private static final Logger LOG = Loggers.NETWORK_LOG;
 
 	private DatagramSocket udpSocket;
 	private ReceiverListener listener;
@@ -93,11 +94,11 @@ public class UDPReceiver implements Runnable
 	 */
 	public void startReceiver()
 	{
-		LOG.log( Level.INFO, "Connecting..." );
+		LOG.log( Level.FINE, "Connecting..." );
 
 		if ( connected )
 		{
-			LOG.log( Level.INFO, "Already connected." );
+			LOG.log( Level.FINE, "Already connected." );
 		}
 
 		else
@@ -114,7 +115,7 @@ public class UDPReceiver implements Runnable
 					worker = new Thread( this, "UDPReceiverWorker" );
 					worker.start();
 					Settings.getSettings().getMe().setPrivateChatPort( port );
-					LOG.log( Level.INFO, "Connected." );
+					LOG.log( Level.FINE, "Connected." );
 				}
 
 				catch ( final IOException e )
@@ -145,11 +146,11 @@ public class UDPReceiver implements Runnable
 	 */
 	public void stopReceiver()
 	{
-		LOG.log( Level.INFO, "Disconnecting..." );
+		LOG.log( Level.FINE, "Disconnecting..." );
 
 		if ( !connected )
 		{
-			LOG.log( Level.INFO, "Not connected." );
+			LOG.log( Level.FINE, "Not connected." );
 		}
 
 		else
@@ -161,7 +162,7 @@ public class UDPReceiver implements Runnable
 				udpSocket.close();
 			}
 
-			LOG.log( Level.INFO, "Disconnected." );
+			LOG.log( Level.FINE, "Disconnected." );
 		}
 	}
 

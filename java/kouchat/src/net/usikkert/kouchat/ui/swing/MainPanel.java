@@ -54,6 +54,7 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.autocomplete.AutoCompleter;
 import net.usikkert.kouchat.misc.CommandHistory;
 import net.usikkert.kouchat.ui.ChatWindow;
+import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -68,7 +69,7 @@ import net.usikkert.kouchat.util.Validate;
 public class MainPanel extends JPanel implements ActionListener, CaretListener, ChatWindow, KeyListener
 {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = Logger.getLogger( MainPanel.class.getName() );
+	private static final Logger LOG = Loggers.UI_LOG;
 
 	private final JScrollPane chatSP;
 	private final JTextPane chatTP;

@@ -36,6 +36,7 @@ import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.TopicDTO;
 import net.usikkert.kouchat.misc.WaitingList;
 import net.usikkert.kouchat.ui.UserInterface;
+import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Tools;
 
 /**
@@ -45,7 +46,7 @@ import net.usikkert.kouchat.util.Tools;
  */
 public class DefaultMessageResponder implements MessageResponder
 {
-	private static final Logger LOG = Logger.getLogger( DefaultMessageResponder.class.getName() );
+	private static final Logger LOG = Loggers.NETWORK_LOG;
 
 	private final Controller controller;
 	private final NickDTO me;

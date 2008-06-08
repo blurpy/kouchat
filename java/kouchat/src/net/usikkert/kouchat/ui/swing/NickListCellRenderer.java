@@ -41,6 +41,7 @@ import javax.swing.border.Border;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.util.Loggers;
 
 /**
  * This class renders the rows in the nick list.
@@ -50,7 +51,7 @@ import net.usikkert.kouchat.misc.NickDTO;
 public class NickListCellRenderer extends JLabel implements ListCellRenderer
 {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = Logger.getLogger( NickListCellRenderer.class.getName() );
+	private static final Logger LOG = Loggers.UI_LOG;
 	private static final String IMG_ENVELOPE = "/icons/envelope.png";
 	private static final String IMG_DOT = "/icons/dot.png";
 

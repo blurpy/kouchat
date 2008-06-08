@@ -36,11 +36,12 @@ import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.SettingsListener;
+import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Tools;
 
 public final class Settings
 {
-	private static final Logger LOG = Logger.getLogger( Settings.class.getName() );
+	private static final Logger LOG = Loggers.MISC_LOG;
 	private static final String FILENAME = Constants.APP_FOLDER + "kouchat.ini";
 	private static final Settings SETTINGS = new Settings();
 

@@ -34,10 +34,11 @@ import java.util.logging.Logger;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.ReceiverListener;
 import net.usikkert.kouchat.misc.ErrorHandler;
+import net.usikkert.kouchat.util.Loggers;
 
 public class MessageReceiver implements Runnable
 {
-	private static final Logger LOG = Logger.getLogger( MessageReceiver.class.getName() );
+	private static final Logger LOG = Loggers.NETWORK_LOG;
 
 	private MulticastSocket mcSocket;
 	private InetAddress address;
@@ -90,20 +91,20 @@ public class MessageReceiver implements Runnable
 
 	private void startThread()
 	{
-		LOG.log( Level.INFO, "Starting." );
+		LOG.log( Level.FINE, "Starting." );
 		worker = new Thread( this, "MessageReceiverWorker" );
 		worker.start();
 	}
 
 	public boolean startReceiver( final NetworkInterface networkInterface )
 	{
-		LOG.log( Level.INFO, "Connecting..." );
+		LOG.log( Level.FINE, "Connecting..." );
 
 		try
 		{
 			if ( connected )
 			{
-				LOG.log( Level.INFO, "Already connected." );
+				LOG.log( Level.FINE, "Already connected." );
 			}
 
 			else if ( networkInterface != null )
@@ -114,7 +115,7 @@ public class MessageReceiver implements Runnable
 				mcSocket.setNetworkInterface( networkInterface );
 				mcSocket.joinGroup( address );
 				connected = true;
-				LOG.log( Level.INFO, "Connected to " + mcSocket.getNetworkInterface().getDisplayName() + "." );
+				LOG.log( Level.FINE, "Connected to " + mcSocket.getNetworkInterface().getDisplayName() + "." );
 			}
 
 			else
@@ -138,11 +139,11 @@ public class MessageReceiver implements Runnable
 
 	public void stopReceiver()
 	{
-		LOG.log( Level.INFO, "Disconnecting..." );
+		LOG.log( Level.FINE, "Disconnecting..." );
 
 		if ( !connected )
 		{
-			LOG.log( Level.INFO, "Not connected." );
+			LOG.log( Level.FINE, "Not connected." );
 		}
 
 		else
@@ -168,7 +169,7 @@ public class MessageReceiver implements Runnable
 				mcSocket = null;
 			}
 
-			LOG.log( Level.INFO, "Disconnected." );
+			LOG.log( Level.FINE, "Disconnected." );
 		}
 	}
 

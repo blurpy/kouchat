@@ -33,6 +33,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.event.NetworkConnectionListener;
+import net.usikkert.kouchat.util.Loggers;
 
 /**
  * This thread is responsible for keeping the application connected
@@ -46,7 +47,7 @@ import net.usikkert.kouchat.event.NetworkConnectionListener;
 public class ConnectionWorker implements Runnable
 {
 	/** The logger. */
-	private static final Logger LOG = Logger.getLogger( ConnectionWorker.class.getName() );
+	private static final Logger LOG = Loggers.NETWORK_LOG;
 
 	/** Period of time to sleep if network is up. 60 sec. */
 	private static final int SLEEP_UP = 1000 * 60;
@@ -84,7 +85,7 @@ public class ConnectionWorker implements Runnable
 	@Override
 	public void run()
 	{
-		LOG.log( Level.INFO, "Network is starting" );
+		LOG.log( Level.FINE, "Network is starting" );
 
 		while ( run )
 		{
@@ -95,7 +96,7 @@ public class ConnectionWorker implements Runnable
 				// No network interface to connect with
 				if ( !isUsable( netif ) )
 				{
-					LOG.log( Level.WARNING, "Network is down, sleeping" );
+					LOG.log( Level.FINE, "Network is down, sleeping" );
 					// To avoid notifying about this every 15 seconds
 					if ( networkUp )
 						notifyNetworkDown();
@@ -107,7 +108,7 @@ public class ConnectionWorker implements Runnable
 				else if ( isNewNetworkInterface( netif ) )
 				{
 					String origNetwork = networkInterface == null ? "[null]" : networkInterface.getName();
-					LOG.log( Level.INFO, "Changing network from " + origNetwork + " to " + netif.getName() );
+					LOG.log( Level.FINE, "Changing network from " + origNetwork + " to " + netif.getName() );
 					networkInterface = netif;
 					if ( networkUp )
 						notifyNetworkDown();
@@ -117,7 +118,7 @@ public class ConnectionWorker implements Runnable
 				// If the connection was lost, like unplugging cable, and plugging back in
 				else if ( !networkUp )
 				{
-					LOG.log( Level.INFO, "Network " + netif.getName() + " is up again" );
+					LOG.log( Level.FINE, "Network " + netif.getName() + " is up again" );
 					networkInterface = netif;
 					notifyNetworkUp();
 				}
@@ -140,7 +141,7 @@ public class ConnectionWorker implements Runnable
 			}
 		}
 
-		LOG.log( Level.INFO, "Network is stopping" );
+		LOG.log( Level.FINE, "Network is stopping" );
 		if ( networkUp )
 			notifyNetworkDown();
 		networkInterface = null;
