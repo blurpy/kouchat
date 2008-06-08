@@ -155,7 +155,7 @@ public class NetworkInformation implements NetworkInformationMBean
 			for ( int i = 0; i < address.length; i++ )
 			{
 				hwaddress += String.format( "%02x", address[i] );
-				if ( i % 1 == 0 && i != address.length - 1 )
+				if ( i != address.length - 1 )
 					hwaddress += "-";
 			}
 		}
