@@ -74,7 +74,9 @@
         <module name="RightCurly">
             <property name="option" value="alone"/>
         </module>
-        <module name="AvoidInlineConditionals"/>
+        <module name="AvoidInlineConditionals">
+            <property name="severity" value="ignore"/>
+        </module>
         <module name="DoubleCheckedLocking"/>
         <module name="EmptyStatement"/>
         <module name="EqualsHashCode"/>
