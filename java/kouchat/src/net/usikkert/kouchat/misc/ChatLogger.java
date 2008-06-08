@@ -48,6 +48,7 @@ public class ChatLogger implements SettingsListener
 	 */
 	private static final String LOG_FILE = "kouchat-" + Tools.dateToString( null, "yyyy.MM.dd-HH.mm.ss-SSS" ) + ".log";
 
+	/** The logger. */
 	private static final Logger LOG = Loggers.MISC_LOG;
 
 	private final Settings settings;
@@ -169,6 +170,8 @@ public class ChatLogger implements SettingsListener
 
 	/**
 	 * Opens or closes the log file when the logging setting is changed.
+	 *
+	 * @param setting The setting that was changed.
 	 */
 	@Override
 	public void settingChanged( final String setting )

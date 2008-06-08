@@ -63,6 +63,9 @@ public class JMXAgent
 
 	/**
 	 * Default constructor. Registers the MBeans, and logs any failures.
+	 *
+	 * @param controller The controller.
+	 * @param connectionWorker The connection worker.
 	 */
 	public JMXAgent( final Controller controller, final ConnectionWorker connectionWorker )
 	{

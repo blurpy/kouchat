@@ -40,7 +40,13 @@ import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.util.Tools;
+import net.usikkert.kouchat.util.Validate;
 
+/**
+ * This is the dialog window for file transfers in the swing user interface.
+ *
+ * @author Christian Ihle
+ */
 public class TransferDialog extends JDialog implements FileTransferListener, ActionListener
 {
 	private static final long serialVersionUID = 1L;
@@ -52,8 +58,17 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 	private final Mediator mediator;
 	private String fileSize;
 
+	/**
+	 * Constructor. Initializes components and registers this dialog
+	 * as a listener on the file transfer object.
+	 *
+	 * @param mediator The mediator.
+	 * @param fileTransfer The file transfer object this dialog is showing the state of.
+	 */
 	public TransferDialog( final Mediator mediator, final FileTransfer fileTransfer )
 	{
+		Validate.notNull( mediator, "Mediator can not be null" );
+		Validate.notNull( fileTransfer, "File transfer can not be null" );
 		this.mediator = mediator;
 		this.fileTransfer = fileTransfer;
 
@@ -146,27 +161,54 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 		fileTransfer.registerListener( this );
 	}
 
+	/**
+	 * Changes the button text on the cancel button.
+	 *
+	 * @param text The new text on the button.
+	 */
 	public void setCancelButtonText( final String text )
 	{
 		cancelB.setText( text );
 	}
 
+	/**
+	 * Gets the button text on the cancel button.
+	 *
+	 * @return The button text.
+	 */
 	public String getCancelButtonText()
 	{
 		return cancelB.getText();
 	}
 
+	/**
+	 * Gets the file transfer object this dialog is listening to.
+	 *
+	 * @return The file transfer object.
+	 */
 	public FileTransfer getFileTransfer()
 	{
 		return fileTransfer;
 	}
 
+	/**
+	 * Listener for the cancel/close button.
+	 *
+	 * <p>Cancels the file transfer, or closes the dialog window if
+	 * it's done transferring.</p>
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void actionPerformed( final ActionEvent e )
 	{
 		mediator.transferCancelled( this );
 	}
 
+	/**
+	 * This method is called from the file transfer object when
+	 * the file transfer was completed successfully.
+	 */
 	@Override
 	public void statusCompleted()
 	{
@@ -180,12 +222,20 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 		cancelB.setText( "Close" );
 	}
 
+	/**
+	 * This method is called from the file transfer object when
+	 * it is ready to connect.
+	 */
 	@Override
 	public void statusConnecting()
 	{
 		status2L.setText( "Connecting..." );
 	}
 
+	/**
+	 * This method is called from the file transfer object when
+	 * a file transfer was canceled or failed somehow.
+	 */
 	@Override
 	public void statusFailed()
 	{
@@ -199,6 +249,10 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 		cancelB.setText( "Close" );
 	}
 
+	/**
+	 * This method is called from the file transfer object when
+	 * the connection was successful and the transfer is in progress.
+	 */
 	@Override
 	public void statusTransferring()
 	{
@@ -208,6 +262,12 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 			status2L.setText( "Sending..." );
 	}
 
+	/**
+	 * This method is called from the file transfer object when
+	 * this dialog registers as a listener. Nothing is happening
+	 * with the file transfer, but the necessary information to
+	 * initialize the dialog fields are ready.
+	 */
 	@Override
 	public void statusWaiting()
 	{
@@ -248,10 +308,17 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 		filePB.setValue( 0 );
 	}
 
+	/**
+	 * This method is called from the file transfer object when
+	 * it's time to update the status of the file transfer.
+	 * This happens several times while the file transfer is
+	 * in progress.
+	 */
 	@Override
 	public void transferUpdate()
 	{
-		trans2L.setText( Tools.byteToString( fileTransfer.getTransferred() ) + " of " + fileSize + " at " + Tools.byteToString( fileTransfer.getSpeed() ) + "/s" );
+		trans2L.setText( Tools.byteToString( fileTransfer.getTransferred() ) + " of " + fileSize + " at "
+				+ Tools.byteToString( fileTransfer.getSpeed() ) + "/s" );
 		filePB.setValue( fileTransfer.getPercent() );
 	}
 }

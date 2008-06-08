@@ -37,7 +37,7 @@ import net.usikkert.kouchat.util.Tools;
  */
 public class SizeDocumentFilter extends DocumentFilter
 {
-	private int maxBytes;
+	private final int maxBytes;
 
 	/**
 	 * Constructor.
@@ -56,6 +56,8 @@ public class SizeDocumentFilter extends DocumentFilter
 	 * size of characters in different character sets.
 	 *
 	 * Also removes tabs and newlines.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void replace( final FilterBypass fb, final int offset, final int length,

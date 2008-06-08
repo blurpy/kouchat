@@ -21,12 +21,24 @@
 
 package net.usikkert.kouchat.misc;
 
+/**
+ * This is the controller responsible for the nick list.
+ *
+ * It contains methods for getting information about users,
+ * and updating the state of users.
+ *
+ * @author Christian Ihle
+ */
 public class NickController
 {
-	private NickList nickList;
-	private NickDTO me;
-	private Settings settings;
+	private final NickList nickList;
+	private final NickDTO me;
+	private final Settings settings;
 
+	/**
+	 * Constructor.
+	 * Initializes the nick list and puts <code>me</code> in the list.
+	 */
 	public NickController()
 	{
 		settings = Settings.getSettings();
@@ -35,6 +47,12 @@ public class NickController
 		nickList.add( me );
 	}
 
+	/**
+	 * Gets a user by the user's unique code.
+	 *
+	 * @param code The unique code of the user to get.
+	 * @return The user, or <code>null</code> if the user was not found.
+	 */
 	public NickDTO getNick( final int code )
 	{
 		NickDTO dto = null;
@@ -53,6 +71,12 @@ public class NickController
 		return dto;
 	}
 
+	/**
+	 * Gets a user by the user's unique nick name.
+	 *
+	 * @param nick The unique nick name of the user to get.
+	 * @return The user, or <code>null</code> if the user was not found.
+	 */
 	public NickDTO getNick( final String nick )
 	{
 		NickDTO dto = null;
@@ -71,6 +95,12 @@ public class NickController
 		return dto;
 	}
 
+	/**
+	 * Changes the nick name of a user.
+	 *
+	 * @param code The unique code of the user to change the nick name of.
+	 * @param nick The new nick name of the user.
+	 */
 	public void changeNick( final int code, final String nick )
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
@@ -86,6 +116,13 @@ public class NickController
 		}
 	}
 
+	/**
+	 * Changes the away status of a user.
+	 *
+	 * @param code The unique code of the user.
+	 * @param away If the user is away.
+	 * @param awaymsg The new away message.
+	 */
 	public void changeAwayStatus( final int code, final boolean away, final String awaymsg )
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
@@ -102,6 +139,12 @@ public class NickController
 		}
 	}
 
+	/**
+	 * Changes if the user is writing or not.
+	 *
+	 * @param code The unique code of the user.
+	 * @param writing If the user is writing.
+	 */
 	public void changeWriting( final int code, final boolean writing )
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
@@ -117,6 +160,12 @@ public class NickController
 		}
 	}
 
+	/**
+	 * Changes if the user has new private messages.
+	 *
+	 * @param code The unique code of the user.
+	 * @param newMsg If the user has new private messages.
+	 */
 	public void changeNewMessage( final int code, final boolean newMsg )
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
@@ -132,6 +181,12 @@ public class NickController
 		}
 	}
 
+	/**
+	 * Checks if the nick name is in use by any other users.
+	 *
+	 * @param nick The nick name to check.
+	 * @return If the nick name is in use.
+	 */
 	public boolean isNickInUse( final String nick )
 	{
 		boolean inUse = false;
@@ -150,6 +205,12 @@ public class NickController
 		return inUse;
 	}
 
+	/**
+	 * Checks if the user already exists in the nick list.
+	 *
+	 * @param code The unique code of the user.
+	 * @return If the user is new, which means it is not in the nick list.
+	 */
 	public boolean isNewUser( final int code )
 	{
 		boolean newUser = true;
@@ -168,6 +229,16 @@ public class NickController
 		return newUser;
 	}
 
+	/**
+	 * Checks if the nick list contains <em>timeout users</em>.
+	 *
+	 * <p>A timeout user is a user which disconnected from the chat without
+	 * logging off, and then logging on the chat again before the original
+	 * user has timed out from the chat. The user will then get a nick name
+	 * which is identical to the user's unique code to avoid nick crash.</p>
+	 *
+	 * @return If there are any timeout users.
+	 */
 	public boolean isTimeoutUsers()
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
@@ -181,6 +252,11 @@ public class NickController
 		return false;
 	}
 
+	/**
+	 * Gets the nick list.
+	 *
+	 * @return The nick list.
+	 */
 	public NickList getNickList()
 	{
 		return nickList;

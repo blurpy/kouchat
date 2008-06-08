@@ -63,6 +63,7 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class Controller implements NetworkConnectionListener
 {
+	/** The logger. */
 	private static final Logger LOG = Loggers.MISC_LOG;
 
 	private final ChatState chatState;

@@ -148,6 +148,9 @@ public final class Tools
 	/**
 	 * Nick is valid if it consists of between 1 and 10 characters
 	 * of type [a-Z], [0-9], '-' and '_'.
+	 *
+	 * @param nick The nick to check.
+	 * @return If the nick is valid.
 	 */
 	public static boolean isValidNick( final String nick )
 	{

@@ -210,6 +210,7 @@ public class SoundBeeper
 	 */
 	private class CloseTimer implements Runnable
 	{
+		/** The method that runs when the thread starts. */
 		@Override
 		public void run()
 		{

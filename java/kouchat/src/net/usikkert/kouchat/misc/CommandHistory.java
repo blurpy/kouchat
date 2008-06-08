@@ -38,6 +38,11 @@ public class CommandHistory
 	 */
 	private static final int MAX_COMMANDS = 50;
 
+	/**
+	 * An enumeration to describe the last direction the user
+	 * moved in the command history. This is used to correctly
+	 * synchronize the cursor with the history list.
+	 */
 	private enum Direction
 	{
 		UP,
@@ -45,8 +50,13 @@ public class CommandHistory
 		DOWN
 	};
 
+	/** The last direction the user moved in the history. */
 	private Direction direction;
+
+	/** The current position in the history. */
 	private int cursor;
+
+	/** The list of items in the history. */
 	private final List<String> history;
 
 	/**

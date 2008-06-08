@@ -34,10 +34,13 @@ import javax.swing.text.StyledDocument;
  * This document filter is used to highlight urls added to a StyledDocument.
  * The current form of highlighting is underlining the url.
  *
- * 3 different urls are recognized:<br />
- * protocol://host<br />
- * www.host.name<br />
- * ftp.host.name<br />
+ * <p>3 different urls are recognized:</p>
+ *
+ * <ul>
+ *   <li>protocol://host</li>
+ *   <li>www.host.name</li>
+ *   <li>ftp.host.name</li>
+ * </ul>
  *
  * @author Christian Ihle
  */
@@ -49,7 +52,7 @@ public class URLDocumentFilter extends DocumentFilter
 	 */
 	public static final String URL_ATTRIBUTE = "url.attribute";
 
-	private Pattern protPattern, wwwPattern, ftpPattern;
+	private final Pattern protPattern, wwwPattern, ftpPattern;
 
 	/**
 	 * Constructor. Creates regex patterns to use for url checking.
@@ -65,9 +68,12 @@ public class URLDocumentFilter extends DocumentFilter
 	 * Inserts the text at the end of the Document, and checks if any parts
 	 * of the text contains any urls. If a url is found, it is underlined
 	 * and saved in an attribute.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
-	public void insertString( final FilterBypass fb, final int offset, final String text, final AttributeSet attr ) throws BadLocationException
+	public void insertString( final FilterBypass fb, final int offset, final String text, final AttributeSet attr )
+			throws BadLocationException
 	{
 		super.insertString( fb, offset, text, attr );
 

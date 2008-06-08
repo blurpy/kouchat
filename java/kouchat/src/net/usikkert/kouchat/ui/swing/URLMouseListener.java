@@ -60,6 +60,10 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
 		handCursor = new Cursor( Cursor.HAND_CURSOR );
 	}
 
+	/**
+	 * Not implemented.
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void mouseDragged( final MouseEvent e )
 	{
@@ -68,6 +72,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
 
 	/**
 	 * Updates the mouse cursor when hovering over a link.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void mouseMoved( final MouseEvent e )
@@ -89,24 +94,40 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
 		}
 	}
 
+	/**
+	 * Not implemented.
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void mouseClicked( final MouseEvent e )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void mouseEntered( final MouseEvent e )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void mouseExited( final MouseEvent e )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void mousePressed( final MouseEvent e )
 	{
@@ -115,6 +136,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
 
 	/**
 	 * Opens the clicked link in a browser.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void mouseReleased( final MouseEvent e )

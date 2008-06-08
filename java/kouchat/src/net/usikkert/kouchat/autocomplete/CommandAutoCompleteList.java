@@ -50,6 +50,9 @@ public class CommandAutoCompleteList implements AutoCompleteList
 	/**
 	 * Checks if the word is a command, by seeing if the first character is
 	 * a slash.
+	 *
+	 * @param word The word to check.
+	 * @return If the word is a command.
 	 */
 	@Override
 	public boolean acceptsWord( final String word )
@@ -59,6 +62,7 @@ public class CommandAutoCompleteList implements AutoCompleteList
 
 	/**
 	 * Returns the list of commands.
+	 * @return The list of commands.
 	 */
 	@Override
 	public String[] getWordList()
