@@ -38,8 +38,17 @@ import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.util.ByteCounter;
 import net.usikkert.kouchat.util.Loggers;
 
+/**
+ * This is a class for receiving files from other users.
+ *
+ * <p>To receive a file, a server socket has to be opened,
+ * to wait for incoming transfers.</p>
+ *
+ * @author Christian Ihle
+ */
 public class FileReceiver implements FileTransfer
 {
+	/** The logger. */
 	private static final Logger LOG = Loggers.NETWORK_LOG;
 
 	private final NickDTO nick;

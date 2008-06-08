@@ -26,6 +26,12 @@ import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.TopicDTO;
 import net.usikkert.kouchat.util.Validate;
 
+/**
+ * This class gives access to sending the different kinds of messages
+ * that this application supports. Both multicast, and normal udp.
+ *
+ * @author Christian Ihle
+ */
 public class Messages
 {
 	private final NetworkService networkService;

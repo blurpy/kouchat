@@ -24,6 +24,15 @@ package net.usikkert.kouchat.net;
 import net.usikkert.kouchat.event.FileTransferListener;
 import net.usikkert.kouchat.misc.NickDTO;
 
+/**
+ * This is the interface for both sending and receiving file transfers
+ * between users.
+ *
+ * <p>Useful for the user interface, as it doesn't need to know what kind of
+ * file transfer it is showing progress information about.</p>
+ *
+ * @author Christian Ihle
+ */
 public interface FileTransfer
 {
 	public enum Direction

@@ -36,8 +36,15 @@ import net.usikkert.kouchat.event.ReceiverListener;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.util.Loggers;
 
+/**
+ * This is the thread that listens for multicast messages from
+ * the network, and notifies any listeners when messages arrive.
+ *
+ * @author Christian Ihle
+ */
 public class MessageReceiver implements Runnable
 {
+	/** The logger. */
 	private static final Logger LOG = Loggers.NETWORK_LOG;
 
 	private MulticastSocket mcSocket;

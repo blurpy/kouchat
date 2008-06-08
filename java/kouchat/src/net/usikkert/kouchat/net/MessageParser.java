@@ -29,8 +29,38 @@ import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Loggers;
 
+/**
+ * This class listens for multicast messages from the network,
+ * and parses them into a format the {@link MessageResponder} can use.
+ *
+ * <p>The supported message types:</p>
+ *
+ * <ul>
+ *   <li>MSG</li>
+ *   <li>LOGON</li>
+ *   <li>EXPOSING</li>
+ *   <li>LOGOFF</li>
+ *   <li>AWAY</li>
+ *   <li>BACK</li>
+ *   <li>EXPOSE</li>
+ *   <li>NICKCRASH</li>
+ *   <li>WRITING</li>
+ *   <li>STOPPEDWRITING</li>
+ *   <li>GETTOPIC</li>
+ *   <li>TOPIC</li>
+ *   <li>NICK</li>
+ *   <li>IDLE</li>
+ *   <li>SENDFILEACCEPT</li>
+ *   <li>SENDFILEABORT</li>
+ *   <li>SENDFILE</li>
+ *   <li>CLIENT</li>
+ * </ul>
+ *
+ * @author Christian Ihle
+ */
 public class MessageParser implements ReceiverListener
 {
+	/** The logger. */
 	private static final Logger LOG = Loggers.NETWORK_LOG;
 
 	private final MessageResponder responder;

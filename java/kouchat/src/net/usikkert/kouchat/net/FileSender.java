@@ -38,8 +38,17 @@ import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.util.ByteCounter;
 import net.usikkert.kouchat.util.Loggers;
 
+/**
+ * This is a class for sending files to other users.
+ *
+ * <p>To send a file, the user at the other end needs to
+ * open a server socket so this client can connect.</p>
+ *
+ * @author Christian Ihle
+ */
 public class FileSender implements FileTransfer
 {
+	/** The logger. */
 	private static final Logger LOG = Loggers.NETWORK_LOG;
 
 	private final NickDTO nick;

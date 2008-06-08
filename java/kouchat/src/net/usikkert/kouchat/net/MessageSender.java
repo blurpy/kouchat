@@ -35,8 +35,14 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.util.Loggers;
 
+/**
+ * This is the class that sends multicast messages over the network.
+ *
+ * @author Christian Ihle
+ */
 public class MessageSender
 {
+	/** The logger. */
 	private static final Logger LOG = Loggers.NETWORK_LOG;
 
 	private MulticastSocket mcSocket;

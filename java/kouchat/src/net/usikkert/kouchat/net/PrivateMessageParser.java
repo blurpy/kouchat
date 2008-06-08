@@ -29,19 +29,43 @@ import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Loggers;
 
+/**
+ * This class listens for udp messages from the network,
+ * and parses them into a format the {@link PrivateMessageResponder} can use.
+ *
+ * <p>The supported message types:</p>
+ *
+ * <ul>
+ *   <li>PRIVMSG</li>
+ * </ul>
+ *
+ * @author Christian Ihle
+ */
 public class PrivateMessageParser implements ReceiverListener
 {
+	/** The logger. */
 	private static final Logger LOG = Loggers.NETWORK_LOG;
 
 	private final Settings settings;
 	private final PrivateMessageResponder privmsgResponder;
 
+	/**
+	 * Constructor.
+	 *
+	 * @param privmsgResponder The private message responder.
+	 */
 	public PrivateMessageParser( final PrivateMessageResponder privmsgResponder )
 	{
 		this.privmsgResponder = privmsgResponder;
 		settings = Settings.getSettings();
 	}
 
+	/**
+	 * Parses raw udp messages from the network, and gives
+	 * the result to the message responder.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void messageArrived( final String message, final String ipAddress )
 	{
@@ -79,11 +103,13 @@ public class PrivateMessageParser implements ReceiverListener
 			}
 		}
 
+		// Just ignore, someone sent a badly formatted message
 		catch ( final StringIndexOutOfBoundsException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );
 		}
 
+		// Just ignore, someone sent a badly formatted message
 		catch ( final NumberFormatException e )
 		{
 			LOG.log( Level.SEVERE, e.toString(), e );

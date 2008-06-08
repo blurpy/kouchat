@@ -23,6 +23,11 @@ package net.usikkert.kouchat.net;
 
 import net.usikkert.kouchat.misc.NickDTO;
 
+/**
+ * This is the interface for responders to multicast messages.
+ *
+ * @author Christian Ihle
+ */
 public interface MessageResponder
 {
 	void messageArrived( int userCode, String msg, int color );
