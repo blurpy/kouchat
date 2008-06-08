@@ -21,16 +21,41 @@
 
 package net.usikkert.kouchat.misc;
 
+/**
+ * This is the dto that contains information about the topic of the main chat.
+ *
+ * @author Christian Ihle
+ */
 public class TopicDTO
 {
-	private String topic, nick;
+	/** The current topic. */
+	private String topic;
+
+	/** The nick name of the user that last changed the topic. */
+	private String nick;
+
+	/** The time when the topic was last changed. */
 	private long time;
 
+	/**
+	 * Constructor.
+	 *
+	 * Sets all fields to blank or 0.
+	 */
 	public TopicDTO()
 	{
 		resetTopic();
 	}
 
+	/**
+	 * Constructor.
+	 *
+	 * Sets all fields from the parameters.
+	 *
+	 * @param topic The topic.
+	 * @param nick The user which set the topic.
+	 * @param time The time when the topic was set.
+	 */
 	public TopicDTO( final String topic, final String nick, final long time )
 	{
 		this.topic = topic;
@@ -38,6 +63,15 @@ public class TopicDTO
 		this.time = time;
 	}
 
+	/**
+	 * Changes the topic.
+	 *
+	 * Sets all fields from the parameters.
+	 *
+	 * @param topic The topic.
+	 * @param nick The user which set the topic.
+	 * @param time The time when the topic was set.
+	 */
 	public void changeTopic( final String topic, final String nick, final long time )
 	{
 		this.topic = topic;
@@ -45,6 +79,9 @@ public class TopicDTO
 		this.time = time;
 	}
 
+	/**
+	 * Resets all the fields to blank and 0 values.
+	 */
 	public void resetTopic()
 	{
 		topic = "";
@@ -52,36 +89,40 @@ public class TopicDTO
 		time = 0;
 	}
 
+	/**
+	 * Gets the nick name of the user that last changed the topic.
+	 *
+	 * @return The nick name of the user that last changed the topic.
+	 */
 	public String getNick()
 	{
 		return nick;
 	}
 
-	public void setNick( final String nick )
-	{
-		this.nick = nick;
-	}
-
+	/**
+	 * Gets the time when the topic was last changed.
+	 *
+	 * @return The time when the topic was last changed.
+	 */
 	public long getTime()
 	{
 		return time;
 	}
 
-	public void setTime( final long time )
-	{
-		this.time = time;
-	}
-
+	/**
+	 * Gets the current topic.
+	 *
+	 * @return The current topic.
+	 */
 	public String getTopic()
 	{
 		return topic;
 	}
 
-	public void setTopic( final String topic )
-	{
-		this.topic = topic;
-	}
-
+	/**
+	 * Returns the values in this format: <code>(nick) topic</code>.
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String toString()
 	{

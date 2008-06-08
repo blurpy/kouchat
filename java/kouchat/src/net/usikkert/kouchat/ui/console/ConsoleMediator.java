@@ -66,8 +66,9 @@ public class ConsoleMediator implements UserInterface
 	}
 
 	/**
-	 * Shows information about how to save the file, then
-	 * returns true.
+	 * Shows information about how to save the file, then returns true.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean askFileSave( final String user, final String fileName, final String size )
@@ -78,6 +79,8 @@ public class ConsoleMediator implements UserInterface
 
 	/**
 	 * Not implemented.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void changeAway( final boolean away )
@@ -87,6 +90,8 @@ public class ConsoleMediator implements UserInterface
 
 	/**
 	 * Shows a message that says this is not supported.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void clearChat()
@@ -96,6 +101,8 @@ public class ConsoleMediator implements UserInterface
 
 	/**
 	 * Returns null.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public File showFileSave( final String fileName )
@@ -105,6 +112,8 @@ public class ConsoleMediator implements UserInterface
 
 	/**
 	 * Not implemented.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void showTopic()
@@ -114,6 +123,8 @@ public class ConsoleMediator implements UserInterface
 
 	/**
 	 * Creates a new {@link TransferHandler}.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void showTransfer( final FileReceiver fileRes )
@@ -123,6 +134,8 @@ public class ConsoleMediator implements UserInterface
 
 	/**
 	 * Creates a new {@link TransferHandler}.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void showTransfer( final FileSender fileSend )
@@ -132,6 +145,8 @@ public class ConsoleMediator implements UserInterface
 
 	/**
 	 * Not implemented.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void notifyMessageArrived()
@@ -141,6 +156,8 @@ public class ConsoleMediator implements UserInterface
 
 	/**
 	 * Not implemented.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void notifyPrivateMessageArrived( final NickDTO user )
@@ -151,6 +168,8 @@ public class ConsoleMediator implements UserInterface
 	/**
 	 * If the user does not have a private chat yet,
 	 * a new {@link PrivateChatConsole} is created.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void createPrivChat( final NickDTO user )
@@ -161,6 +180,8 @@ public class ConsoleMediator implements UserInterface
 
 	/**
 	 * Returns the message controller for console mode.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public MessageController getMessageController()
@@ -170,6 +191,8 @@ public class ConsoleMediator implements UserInterface
 
 	/**
 	 * Will always return true.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean isFocused()
@@ -179,6 +202,8 @@ public class ConsoleMediator implements UserInterface
 
 	/**
 	 * Will always return true.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean isVisible()

@@ -30,10 +30,52 @@ import net.usikkert.kouchat.ui.PrivateChatWindow;
  */
 public class NickDTO implements Comparable<NickDTO>
 {
-	private String nick, awayMsg, ipAddress, operatingSystem, client;
-	private int code, privateChatPort;
-	private long lastIdle, logonTime;
-	private boolean writing, away, me, newPrivMsg, online, newMsg;
+	/** The nick name of the user. */
+	private String nick;
+
+	/** The user's away message. Can not be blank if away, and must be blank if not away. */
+	private String awayMsg;
+
+	/** The user's ip address. */
+	private String ipAddress;
+
+	/** The user's operating system, like <code>Windows Vista</code> or <code>Linux</code>. */
+	private String operatingSystem;
+
+	/** Which type of chat client the user is connected with, like <code>KouChat v.1.0.0 Swing</code>. */
+	private String client;
+
+	/** The unique code identifying this user. */
+	private final int code;
+
+	/** The port to use when connecting to this user's private chat. */
+	private int privateChatPort;
+
+	/** The time when the last idle message came from this user. */
+	private long lastIdle;
+
+	/** The time when this user logged on the chat. */
+	private long logonTime;
+
+	/** If the user is writing at the moment. */
+	private boolean writing;
+
+	/** If the user is away. Needs an away message as well if away. */
+	private boolean away;
+
+	/** If the user is the application user, and not some other user in the chat. */
+	private boolean me;
+
+	/** If a new unread private message has arrived. */
+	private boolean newPrivMsg;
+
+	/** If the user is logged on to the chat. */
+	private boolean online;
+
+	/** If a new unread message has arrived to the main chat. */
+	private boolean newMsg;
+
+	/** The private chat window where the chat session with this user happens. */
 	private PrivateChatWindow privchat;
 
 	/**
@@ -63,6 +105,9 @@ public class NickDTO implements Comparable<NickDTO>
 		newPrivMsg = false;
 	}
 
+	/**
+	 * Resets some of the fields to default, to reset the user's state.
+	 */
 	public void reset()
 	{
 		awayMsg = "";
@@ -75,161 +120,311 @@ public class NickDTO implements Comparable<NickDTO>
 		newPrivMsg = false;
 	}
 
+	/**
+	 * Checks if this user is the application user.
+	 *
+	 * @return If this user is me.
+	 */
 	public boolean isMe()
 	{
 		return me;
 	}
 
+	/**
+	 * Sets if this user is the application user.
+	 *
+	 * @param me If this user is me.
+	 */
 	public void setMe( final boolean me )
 	{
 		this.me = me;
 	}
 
+	/**
+	 * Gets the user's unique code.
+	 *
+	 * @return The user's unique code.
+	 */
 	public int getCode()
 	{
 		return code;
 	}
 
-	public void setCode( final int code )
-	{
-		this.code = code;
-	}
-
+	/**
+	 * Gets the user's unique nick name.
+	 *
+	 * @return The user's unique nick name.
+	 */
 	public String getNick()
 	{
 		return nick;
 	}
 
+	/**
+	 * Sets the user's unique nick name.
+	 *
+	 * @param nick The user's unique nick name.
+	 */
 	public void setNick( final String nick )
 	{
 		this.nick = nick;
 	}
 
+	/**
+	 * Gets the time when the last idle message came from this user.
+	 *
+	 * @return The time of the last idle message.
+	 */
 	public long getLastIdle()
 	{
 		return lastIdle;
 	}
 
+	/**
+	 * Sets the time when the last idle message came from this user.
+	 *
+	 * @param lastIdle The time of the last idle message.
+	 */
 	public void setLastIdle( final long lastIdle )
 	{
 		this.lastIdle = lastIdle;
 	}
 
+	/**
+	 * Checks if the user is away.
+	 *
+	 * @return If the user is away.
+	 */
 	public boolean isAway()
 	{
 		return away;
 	}
 
+	/**
+	 * Sets if the user is away.
+	 *
+	 * @param away If the user is away.
+	 */
 	public void setAway( final boolean away )
 	{
 		this.away = away;
 	}
 
+	/**
+	 * Gets the user's away message.
+	 *
+	 * @return The user's away message.
+	 */
 	public String getAwayMsg()
 	{
 		return awayMsg;
 	}
 
+	/**
+	 * Sets the user's away message.
+	 *
+	 * @param awayMsg The user's away message.
+	 */
 	public void setAwayMsg( final String awayMsg )
 	{
 		this.awayMsg = awayMsg;
 	}
 
+	/**
+	 * Checks if the user is writing.
+	 *
+	 * @return If the user is writing.
+	 */
 	public boolean isWriting()
 	{
 		return writing;
 	}
 
+	/**
+	 * Sets if the user is writing.
+	 *
+	 * @param writing If the user is writing.
+	 */
 	public void setWriting( final boolean writing )
 	{
 		this.writing = writing;
 	}
 
+	/**
+	 * Gets the user's ip address.
+	 *
+	 * @return The user's ip address.
+	 */
 	public String getIpAddress()
 	{
 		return ipAddress;
 	}
 
+	/**
+	 * Sets the user's ip address.
+	 *
+	 * @param ipAddress The user's ip address.
+	 */
 	public void setIpAddress( final String ipAddress )
 	{
 		this.ipAddress = ipAddress;
 	}
 
+	/**
+	 * Gets the user's operating system.
+	 *
+	 * @return The user's operating system.
+	 */
 	public String getOperatingSystem()
 	{
 		return operatingSystem;
 	}
 
+	/**
+	 * Sets the user's operating system.
+	 *
+	 * @param operatingSystem The user's operating system.
+	 */
 	public void setOperatingSystem( final String operatingSystem )
 	{
 		this.operatingSystem = operatingSystem;
 	}
 
+	/**
+	 * Gets the time when the user logged on.
+	 *
+	 * @return The time when the user logged on.
+	 */
 	public long getLogonTime()
 	{
 		return logonTime;
 	}
 
+	/**
+	 * Sets the time when the user logged on.
+	 *
+	 * @param logonTime The time when the user logged on.
+	 */
 	public void setLogonTime( final long logonTime )
 	{
 		this.logonTime = logonTime;
 	}
 
+	/**
+	 * Gets the client the user is using.
+	 *
+	 * @return The client the user is using.
+	 */
 	public String getClient()
 	{
 		return client;
 	}
 
+	/**
+	 * Sets the client the user is using.
+	 *
+	 * @param client The client the user is using.
+	 */
 	public void setClient( final String client )
 	{
 		this.client = client;
 	}
 
+	/**
+	 * Gets the private chat window connected to this user.
+	 *
+	 * @return The user's private chat window.
+	 */
 	public PrivateChatWindow getPrivchat()
 	{
 		return privchat;
 	}
 
+	/**
+	 * Sets the private chat window connected to this user.
+	 *
+	 * @param privchat The user's private chat window.
+	 */
 	public void setPrivchat( final PrivateChatWindow privchat )
 	{
 		this.privchat = privchat;
 	}
 
+	/**
+	 * Checks if a new unread message has arrived in the main chat.
+	 *
+	 * @return If a new message has arrived.
+	 */
 	public boolean isNewMsg()
 	{
 		return newMsg;
 	}
 
+	/**
+	 * Sets if a new unread message has arrived in the main chat.
+	 *
+	 * @param newMsg If a new message has arrived.
+	 */
 	public void setNewMsg( final boolean newMsg )
 	{
 		this.newMsg = newMsg;
 	}
 
+	/**
+	 * Gets the port to use when sending private chat messages to this user.
+	 *
+	 * @return The port to use for private chat with the user.
+	 */
 	public int getPrivateChatPort()
 	{
 		return privateChatPort;
 	}
 
+	/**
+	 * Sets the port to use when sending private chat messages to this user.
+	 *
+	 * @param privateChatPort The port to use for private chat with the user.
+	 */
 	public void setPrivateChatPort( final int privateChatPort )
 	{
 		this.privateChatPort = privateChatPort;
 	}
 
+	/**
+	 * Checks if this user is logged on to the chat.
+	 *
+	 * @return If the user is online.
+	 */
 	public boolean isOnline()
 	{
 		return online;
 	}
 
+	/**
+	 * Sets if this user is logged on to the chat.
+	 *
+	 * @param online If the user is online.
+	 */
 	public void setOnline( final boolean online )
 	{
 		this.online = online;
 	}
 
+	/**
+	 * Checks if a new unread private message has arrived.
+	 *
+	 * @return If a new private message has arrived.
+	 */
 	public boolean isNewPrivMsg()
 	{
 		return newPrivMsg;
 	}
 
+	/**
+	 * Sets if a new unread private message has arrived.
+	 *
+	 * @param newPrivMsg If a new private message has arrived.
+	 */
 	public void setNewPrivMsg( final boolean newPrivMsg )
 	{
 		this.newPrivMsg = newPrivMsg;

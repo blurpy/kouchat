@@ -42,6 +42,7 @@ import net.usikkert.kouchat.util.Loggers;
  */
 public class ConsoleInput extends Thread
 {
+	/** The logger. */
 	private static final Logger LOG = Loggers.UI_LOG;
 
 	private final BufferedReader stdin;

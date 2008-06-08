@@ -34,7 +34,7 @@ public class PrivateChatConsole implements PrivateChatWindow
 	private NickDTO user;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @param user The user in this chat session.
 	 */
@@ -46,6 +46,9 @@ public class PrivateChatConsole implements PrivateChatWindow
 	/**
 	 * Uses a simple System.out.println() to show messages,
 	 * with (privmsg) in front of them.
+	 *
+	 * @param message The private message to write to the console.
+	 * @param color The color of the message - not implemented.
 	 */
 	@Override
 	public void appendToPrivateChat( final String message, final int color )
@@ -64,6 +67,8 @@ public class PrivateChatConsole implements PrivateChatWindow
 
 	/**
 	 * Will always return an empty string.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String getChatText()
@@ -73,6 +78,8 @@ public class PrivateChatConsole implements PrivateChatWindow
 
 	/**
 	 * Returns the user in this private chat.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public NickDTO getUser()
@@ -82,6 +89,8 @@ public class PrivateChatConsole implements PrivateChatWindow
 
 	/**
 	 * Will always return true.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean isVisible()
@@ -91,6 +100,8 @@ public class PrivateChatConsole implements PrivateChatWindow
 
 	/**
 	 * Will always return true.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean isFocused()
@@ -100,6 +111,8 @@ public class PrivateChatConsole implements PrivateChatWindow
 
 	/**
 	 * Not implemented.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void setAway( final boolean away )
@@ -109,6 +122,8 @@ public class PrivateChatConsole implements PrivateChatWindow
 
 	/**
 	 * Sets the user to null.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void setLoggedOff()
@@ -118,6 +133,8 @@ public class PrivateChatConsole implements PrivateChatWindow
 
 	/**
 	 * Not implemented.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void setVisible( final boolean visible )
@@ -127,6 +144,8 @@ public class PrivateChatConsole implements PrivateChatWindow
 
 	/**
 	 * Not implemented.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void updateNick()

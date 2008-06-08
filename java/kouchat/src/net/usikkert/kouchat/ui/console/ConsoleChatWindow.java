@@ -31,7 +31,10 @@ import net.usikkert.kouchat.ui.ChatWindow;
 public class ConsoleChatWindow implements ChatWindow
 {
 	/**
-	 * Shows messages with a simple System.out.println()
+	 * Shows messages with a simple <code>System.out.println()</code>.
+	 *
+	 * @param message The message to write to the console.
+	 * @param color The color of the message - not implemented.
 	 */
 	@Override
 	public void appendToChat( final String message, final int color )
