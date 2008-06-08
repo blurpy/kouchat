@@ -13,6 +13,7 @@
   - Improved connection handling
   - Added JMX support with network and controller MBeans
   - Added more debug logging, that can be enabled with JMX
+  - Updated more javadoc
 
 
 * version 0.9.8 (27.01.2008):
