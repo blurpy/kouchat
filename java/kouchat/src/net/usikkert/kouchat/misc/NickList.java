@@ -23,15 +23,92 @@ package net.usikkert.kouchat.misc;
 
 import net.usikkert.kouchat.event.NickListListener;
 
+/**
+ * This is the interface used for keeping a list of the users
+ * connected to the chat.
+ *
+ * <p>This is not a normal {@link List}, but the interface reminds of
+ * one, so it can be used like a normal list. The reason a normal
+ * list is not used instead is because of the need to notify of changes
+ * to the list.</p>
+ *
+ * <p>The {@link List} interface is not extended because all the methods
+ * there are not needed.</p>
+ *
+ * @author Christian Ihle
+ */
 public interface NickList
 {
+	/**
+	 * Adds a user to the list, and notifies with {@link NickListListener#nickAdded(int)}.
+	 *
+	 * @param nick The user to add.
+	 * @return If the user was successfully added to the list.
+	 */
 	boolean add( NickDTO nick );
+
+	/**
+	 * Gets the user at the specified position.
+	 *
+	 * @param pos The position to get the user.
+	 * @return The user, or <code>null</code> of the user was not found.
+	 */
 	NickDTO get( int pos );
+
+	/**
+	 * Gets the position in the list where this user is located.
+	 *
+	 * @param nick The user to locate the position of.
+	 * @return The position, or -1 if not found.
+	 */
 	int indexOf( NickDTO nick );
+
+	/**
+	 * Removes the user at the specified position from the list,
+	 * and notifies with {@link NickListListener#nickRemoved(int)}.
+	 *
+	 * @param pos The position of the user to remove.
+	 * @return The user that was removed.
+	 */
 	NickDTO remove( int pos );
+
+	/**
+	 * Removes the specified user from the list,
+	 * and notifies with {@link NickListListener#nickRemoved(int)}.
+	 *
+	 * @param nick The user to remove.
+	 * @return If the user was successfully removed.
+	 */
 	boolean remove( NickDTO nick );
+
+	/**
+	 * Sets the specified user at the specified position in the nick list,
+	 * and notifies with {@link NickListListener#nickChanged(int)}.
+	 *
+	 * @param pos The position to put the user.
+	 * @param nick The user to put in the position.
+	 * @return The user that was previously in that position.
+	 */
 	NickDTO set( int pos, NickDTO nick );
+
+	/**
+	 * Gets the number for users in the list.
+	 *
+	 * @return The number of users.
+	 */
 	int size();
+
+	/**
+	 * Adds a listener for changes to the nick list.
+	 *
+	 * @param listener The listener to add.
+	 */
 	void addNickListListener( NickListListener listener );
+
+	/**
+	 * Removes a listener for changes to the nick list.
+	 *
+	 * @param listener The listener to remove.
+	 */
 	void removeNickListListener( NickListListener listener );
 }
