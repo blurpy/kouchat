@@ -30,13 +30,45 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import net.usikkert.kouchat.util.Validate;
+
+/**
+ * This is the panel located to the right in the application.
+ *
+ * These buttons are shown:
+ *
+ * <ul>
+ *   <li>Clear</li>
+ *   <li>Away</li>
+ *   <li>Topic</li>
+ *   <li>Minimize</li>
+ * </ul>
+ *
+ * @author Christian Ihle
+ */
 public class ButtonPanel extends JPanel implements ActionListener
 {
+	/** Standard version uid. */
 	private static final long serialVersionUID = 1L;
 
-	private JButton minimizeB, clearB, awayB, topicB;
+	/** The minimize button. Minimizes the application to the system tray. */
+	private final JButton minimizeB;
+
+	/** The clear button. Clears the text in the main chat. */
+	private final JButton clearB;
+
+	/** The away button. Changes the away state of the user. */
+	private final JButton awayB;
+
+	/** The topic button. Changes the topic in the main chat. */
+	private final JButton topicB;
+
+	/** The mediator. */
 	private Mediator mediator;
 
+	/**
+	 * Constructor.
+	 */
 	public ButtonPanel()
 	{
 		setLayout( new GridLayout( 4, 1 ) );
@@ -60,21 +92,41 @@ public class ButtonPanel extends JPanel implements ActionListener
 		setBorder( BorderFactory.createEmptyBorder( 0, 0, 1, 1 ) );
 	}
 
+	/**
+	 * Sets the mediator to use.
+	 *
+	 * @param mediator The mediator to set.
+	 */
 	public void setMediator( final Mediator mediator )
 	{
+		Validate.notNull( mediator, "Mediator can not be null" );
 		this.mediator = mediator;
 	}
 
+	/**
+	 * Enables or disabled the away button.
+	 *
+	 * @param away If away, the button is disabled. Else enabled.
+	 */
 	public void setAwayState( final boolean away )
 	{
 		topicB.setEnabled( !away );
 	}
 
+	/**
+	 * Disables the minimize button.
+	 * Useful when the operating system does not have a system tray.
+	 */
 	public void disableMinimize()
 	{
 		minimizeB.setEnabled( false );
 	}
 
+	/**
+	 * The listener for button clicks.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void actionPerformed( final ActionEvent e )
 	{

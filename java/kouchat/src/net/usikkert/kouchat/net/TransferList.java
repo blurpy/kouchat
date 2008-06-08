@@ -26,6 +26,11 @@ import java.util.List;
 
 import net.usikkert.kouchat.misc.NickDTO;
 
+/**
+ * This class keeps a list of all the ongoing file transfers.
+ *
+ * @author Christian Ihle
+ */
 public class TransferList
 {
 	private final List<FileSender> senders;

@@ -46,8 +46,15 @@ import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
+/**
+ * This is the complete right side panel of the application.
+ * It consists of the user list, and the button panel.
+ *
+ * @author Christian Ihle
+ */
 public class SidePanel extends JPanel implements ActionListener, MouseListener, FileDropSource
 {
+	/** The standard version uid. */
 	private static final long serialVersionUID = 1L;
 
 	private final JPopupMenu nickMenu;

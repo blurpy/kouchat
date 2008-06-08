@@ -26,6 +26,9 @@ import net.usikkert.kouchat.misc.NickDTO;
 /**
  * This is the interface for responders to multicast messages.
  *
+ * <p>The responder gets the message after it has been parsed by the
+ * {@link MessageParser}.</p>
+ *
  * @author Christian Ihle
  */
 public interface MessageResponder

@@ -26,6 +26,11 @@ import java.io.File;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 
+/**
+ * This is the interface for the mediator between the user interface and the controller.
+ *
+ * @author Christian Ihle
+ */
 public interface Mediator
 {
 	void minimize();

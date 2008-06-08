@@ -21,7 +21,22 @@
 
 package net.usikkert.kouchat.net;
 
+/**
+ * This is the interface for responders to private udp messages.
+ *
+ * <p>The responder gets the message after it has been parsed by the
+ * {@link PrivateMessageParser}.</p>
+ *
+ * @author Christian Ihle
+ */
 public interface PrivateMessageResponder
 {
+	/**
+	 * A new private message has arrived.
+	 *
+	 * @param userCode The unique code for the user that sent the private message.
+	 * @param msg The message from the user.
+	 * @param color The color to show the message in.
+	 */
 	void messageArrived( int userCode, String msg, int color );
 }

@@ -45,12 +45,30 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.util.Loggers;
 
+/**
+ * This is the system tray.
+ *
+ * <p>Contains an icon that changes color when there is
+ * activity from other users, and a right click menu to exit
+ * the application.</p>
+ *
+ * @author Christian Ihle
+ */
 public class SysTray implements ActionListener, MouseListener
 {
+	/** The logger. */
 	private static final Logger LOG = Loggers.UI_LOG;
+
+	/** The image used when there is no activity, and the user is not away. */
 	private static final String IMG_KOU_NORMAL = "/icons/kou_normal.png";
+
+	/** The image used when there is activity, and the user is not away. */
 	private static final String IMG_KOU_NORMAL_ACT = "/icons/kou_normal_activity.png";
+
+	/** The image used when there is no activity, and the user is away. */
 	private static final String IMG_KOU_AWAY = "/icons/kou_away.png";
+
+	/** The image used when there is activity, and the user is away. */
 	private static final String IMG_KOU_AWAY_ACT = "/icons/kou_away_activity.png";
 
 	private SystemTray sysTray;
