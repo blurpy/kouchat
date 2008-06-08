@@ -11,7 +11,7 @@
   - Added [!!] to windows with activity, for notification
   - Improved network interface selection
   - Improved connection handling
-  - Added JMX support with network and controller MBeans
+  - Added JMX support with network, controller and general MBeans
   - Added more debug logging, that can be enabled with JMX
   - Updated more javadoc
 

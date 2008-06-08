@@ -37,6 +37,8 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.ControllerInformation;
 import net.usikkert.kouchat.misc.ControllerInformationMBean;
+import net.usikkert.kouchat.misc.GeneralInformation;
+import net.usikkert.kouchat.misc.GeneralInformationMBean;
 import net.usikkert.kouchat.net.ConnectionWorker;
 import net.usikkert.kouchat.net.NetworkInformation;
 import net.usikkert.kouchat.net.NetworkInformationMBean;
@@ -84,6 +86,12 @@ public class JMXAgent
 					Constants.APP_NAME + ":name=" + ControllerInformationMBean.NAME );
 			platformMBeanServer.registerMBean(
 					new ControllerInformation( controller ), controllerInfoName );
+
+			// GeneralInformation MBean
+			ObjectName generalInfoName = new ObjectName(
+					Constants.APP_NAME + ":name=" + GeneralInformationMBean.NAME );
+			platformMBeanServer.registerMBean(
+					new GeneralInformation(), generalInfoName );
 		}
 
 		catch ( final MalformedObjectNameException e )
