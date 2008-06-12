@@ -15,6 +15,7 @@
   - Added more debug logging, that can be enabled with JMX
   - Updated more javadoc
   - Added F1 shortcut to open FAQ
+  - Added smiley support
 
 
 * version 0.9.8 (27.01.2008):

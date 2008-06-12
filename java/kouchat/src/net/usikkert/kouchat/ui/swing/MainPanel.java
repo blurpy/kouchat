@@ -94,6 +94,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		chatTP = new JTextPane();
 		chatTP.setEditable( false );
 		chatTP.setBorder( BorderFactory.createEmptyBorder( 4, 6, 4, 6 ) );
+		chatTP.setEditorKit( new MiddleAlignedIconViewEditorKit() );
 
 		chatSP = new JScrollPane( chatTP );
 		chatSP.setMinimumSize( new Dimension( 290, 200 ) );

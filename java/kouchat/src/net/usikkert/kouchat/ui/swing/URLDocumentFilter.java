@@ -23,6 +23,8 @@ package net.usikkert.kouchat.ui.swing;
 
 import java.util.regex.Pattern;
 
+import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
@@ -54,6 +56,8 @@ public class URLDocumentFilter extends DocumentFilter
 
 	private final Pattern protPattern, wwwPattern, ftpPattern;
 
+	private final ImageIcon smiley;
+
 	/**
 	 * Constructor. Creates regex patterns to use for url checking.
 	 */
@@ -62,6 +66,7 @@ public class URLDocumentFilter extends DocumentFilter
 		protPattern = Pattern.compile( "\\w{2,}://\\w+\\S+.+" );
 		wwwPattern = Pattern.compile( "www\\.\\w+\\S+\\.\\S+.+" );
 		ftpPattern = Pattern.compile( "ftp\\.\\w+\\S+\\.\\S+.+" );
+		smiley = new ImageIcon( getClass().getResource( "/icons/smile.png" ) );
 	}
 
 	/**
@@ -80,7 +85,7 @@ public class URLDocumentFilter extends DocumentFilter
 		// Make a copy now, or else it could change if another message comes
 		final MutableAttributeSet urlAttr = (MutableAttributeSet) attr.copyAttributes();
 
-		new Thread( new Runnable()
+		SwingUtilities.invokeLater( new Runnable()
 		{
 			@Override
 			public void run()
@@ -107,7 +112,40 @@ public class URLDocumentFilter extends DocumentFilter
 					}
 				}
 			}
-		}, "URLDocumentFilterInsertString" ).start();
+		} );
+
+		// TODO - Show smileys
+		// split into own class
+		// add support for more smileys
+		// find out why text directly after (no space) icon is missing
+		// only add icon attribute if not exists
+		SwingUtilities.invokeLater( new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				int startPos = text.indexOf( ":)", 0 );
+
+				if ( startPos != -1 )
+				{
+					StyleConstants.setIcon( urlAttr, smiley );
+					StyledDocument doc = (StyledDocument) fb.getDocument();
+
+					while ( startPos != -1 )
+					{
+						int stopPos = -1;
+
+						stopPos = text.indexOf( " ", startPos );
+
+						if ( stopPos == -1 )
+							stopPos = text.indexOf( "\n", startPos );
+
+						doc.setCharacterAttributes( offset + startPos, stopPos - startPos, urlAttr, false );
+						startPos = text.indexOf( ":)", stopPos );
+					}
+				}
+			}
+		} );
 	}
 
 	/**
