@@ -1,5 +1,5 @@
 
-- KouChat v0.9.8 Frequently Asked Questions
+- KouChat v0.9.9 Frequently Asked Questions
 
 1. What is Kou?
 
@@ -16,7 +16,7 @@ way to find the problem is for you to run KouChat from the console, like this:
 
 If you see any errors, write them down. When you can reproduce the problem,
 report it as an issue on http://kouchat.googlecode.com/ with as many details
-as possible. Set 'blurpy' as the owner of the issue, so I'll be notified.
+as possible.
 
 
 3. I minimized KouChat, and it's not visible on the taskbar anymore.
