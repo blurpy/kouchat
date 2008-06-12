@@ -96,6 +96,7 @@ public class MenuBar extends JMenuBar implements ActionListener
 		faqMI = new JMenuItem( "FAQ" );
 		faqMI.setMnemonic( 'F' );
 		faqMI.addActionListener( this );
+		faqMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_F1, 0 ) );
 		licenseMI = new JMenuItem( "License" );
 		licenseMI.setMnemonic( 'L' );
 		licenseMI.addActionListener( this );
