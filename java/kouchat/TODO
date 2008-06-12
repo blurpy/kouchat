@@ -12,3 +12,6 @@
  - Fix text length in file transfer dialog
  - Switch titlebar icon on windows with activity?
  - Add favorite nic list?
+ - Add smiley document filter
+ - Bind F1 to open FAQ
+ - Update FAQ, remove info about me as owner of issue
