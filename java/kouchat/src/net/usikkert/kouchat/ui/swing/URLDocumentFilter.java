@@ -114,9 +114,7 @@ public class URLDocumentFilter extends DocumentFilter
 
 					while ( startPos != -1 )
 					{
-						int stopPos = -1;
-
-						stopPos = text.indexOf( " ", startPos );
+						int stopPos = text.indexOf( " ", startPos );
 
 						if ( stopPos == -1 )
 							stopPos = text.indexOf( "\n", startPos );
