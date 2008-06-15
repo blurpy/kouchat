@@ -41,11 +41,24 @@ public final class Validate
 	 * an {@link IllegalArgumentException} if that is true.
 	 *
 	 * @param obj The object to check.
-	 * @param errorMsg The error message to use in the exception if the check returns false.
+	 * @param errorMsg The error message to use in the exception.
 	 */
 	public static void notNull( final Object obj, final String errorMsg )
 	{
 		if ( obj == null )
+			throw new IllegalArgumentException( errorMsg );
+	}
+
+	/**
+	 * Checks if <code>text</code> is <code>null</code> or empty,
+	 * and throws an {@link IllegalArgumentException} if that is true.
+	 *
+	 * @param text The string to check.
+	 * @param errorMsg The error message to use in the exception.
+	 */
+	public static void notEmpty( final String text, final String errorMsg )
+	{
+		if ( text == null || text.trim().length() == 0 )
 			throw new IllegalArgumentException( errorMsg );
 	}
 }
