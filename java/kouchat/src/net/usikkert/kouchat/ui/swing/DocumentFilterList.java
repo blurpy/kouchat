@@ -31,15 +31,16 @@ import javax.swing.text.DocumentFilter;
 import net.usikkert.kouchat.util.Validate;
 
 /**
- * This is the document filter for the chat area.
+ * This is a document filter list that can be used when more than one
+ * document filter is needed.
  *
- * This filter does not make any changes to the text. The text is added
+ * <p>This filter does not make any changes to the text. The text is added
  * to the document, and then a list of sub-filters are notified so they can
- * do their magic.
+ * do their magic.</p>
  *
  * @author Christian Ihle
  */
-public class ChatAreaDocumentFilter extends DocumentFilter
+public class DocumentFilterList extends DocumentFilter
 {
 	/** A list of sub-filters that are notified when text is added. */
 	private final List<DocumentFilter> filters;
@@ -47,7 +48,7 @@ public class ChatAreaDocumentFilter extends DocumentFilter
 	/**
 	 * Constructor.
 	 */
-	public ChatAreaDocumentFilter()
+	public DocumentFilterList()
 	{
 		filters = new ArrayList<DocumentFilter>();
 	}
