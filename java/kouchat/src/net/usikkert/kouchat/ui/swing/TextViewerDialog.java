@@ -97,7 +97,7 @@ public class TextViewerDialog extends JDialog
 			viewerTP.addMouseListener( urlML );
 			viewerTP.addMouseMotionListener( urlML );
 			AbstractDocument doc = (AbstractDocument) viewerDoc;
-			doc.setDocumentFilter( new URLDocumentFilter() );
+			doc.setDocumentFilter( new URLDocumentFilter( true ) );
 		}
 
 		new ChatPopup( viewerTP );

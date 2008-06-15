@@ -23,7 +23,6 @@ package net.usikkert.kouchat.ui.swing;
 
 import java.util.regex.Pattern;
 
-import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -33,7 +32,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 /**
- * This document filter is used to highlight urls added to a StyledDocument.
+ * This document filter is used to highlight urls added to a {@link StyledDocument}.
  * The current form of highlighting is underlining the url.
  *
  * <p>3 different urls are recognized:</p>
@@ -54,25 +53,40 @@ public class URLDocumentFilter extends DocumentFilter
 	 */
 	public static final String URL_ATTRIBUTE = "url.attribute";
 
-	private final Pattern protPattern, wwwPattern, ftpPattern;
+	/** Regex for: <code>protocol://host</code>. */
+	private final Pattern protPattern;
 
-	private final ImageIcon smiley;
+	/** Regex for: <code>www.host.name</code>. */
+	private final Pattern wwwPattern;
+
+	/** Regex for: <code>ftp.host.name</code>. */
+	private final Pattern ftpPattern;
+
+	/**
+	 * If this document filter is the only document filter used.
+	 * This must be true if it is, or the text will not be visible.
+	 * If this is not the only filter, then this must be false, or
+	 * the same text will be shown several times.
+	 */
+	private final boolean standAlone;
 
 	/**
 	 * Constructor. Creates regex patterns to use for url checking.
+	 *
+	 * @param standAlone If this is the only document filter used.
 	 */
-	public URLDocumentFilter()
+	public URLDocumentFilter( final boolean standAlone )
 	{
+		this.standAlone = standAlone;
+
 		protPattern = Pattern.compile( "\\w{2,}://\\w+\\S+.+" );
 		wwwPattern = Pattern.compile( "www\\.\\w+\\S+\\.\\S+.+" );
 		ftpPattern = Pattern.compile( "ftp\\.\\w+\\S+\\.\\S+.+" );
-		smiley = new ImageIcon( getClass().getResource( "/icons/smile.png" ) );
 	}
 
 	/**
-	 * Inserts the text at the end of the Document, and checks if any parts
-	 * of the text contains any urls. If a url is found, it is underlined
-	 * and saved in an attribute.
+	 * Checks if any parts of the text contains any urls. If a url is found,
+	 * it is underlined and saved in an attribute.
 	 *
 	 * {@inheritDoc}
 	 */
@@ -80,7 +94,8 @@ public class URLDocumentFilter extends DocumentFilter
 	public void insertString( final FilterBypass fb, final int offset, final String text, final AttributeSet attr )
 			throws BadLocationException
 	{
-		super.insertString( fb, offset, text, attr );
+		if ( standAlone )
+			super.insertString( fb, offset, text, attr );
 
 		// Make a copy now, or else it could change if another message comes
 		final MutableAttributeSet urlAttr = (MutableAttributeSet) attr.copyAttributes();
@@ -109,39 +124,6 @@ public class URLDocumentFilter extends DocumentFilter
 						urlAttr.addAttribute( URL_ATTRIBUTE, text.substring( startPos, stopPos ) );
 						doc.setCharacterAttributes( offset + startPos, stopPos - startPos, urlAttr, false );
 						startPos = findURLPos( text, stopPos );
-					}
-				}
-			}
-		} );
-
-		// TODO - Show smileys
-		// split into own class
-		// add support for more smileys
-		// find out why text directly after (no space) icon is missing
-		// only add icon attribute if not exists
-		SwingUtilities.invokeLater( new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				int startPos = text.indexOf( ":)", 0 );
-
-				if ( startPos != -1 )
-				{
-					StyleConstants.setIcon( urlAttr, smiley );
-					StyledDocument doc = (StyledDocument) fb.getDocument();
-
-					while ( startPos != -1 )
-					{
-						int stopPos = -1;
-
-						stopPos = text.indexOf( " ", startPos );
-
-						if ( stopPos == -1 )
-							stopPos = text.indexOf( "\n", startPos );
-
-						doc.setCharacterAttributes( offset + startPos, stopPos - startPos, urlAttr, false );
-						startPos = text.indexOf( ":)", stopPos );
 					}
 				}
 			}

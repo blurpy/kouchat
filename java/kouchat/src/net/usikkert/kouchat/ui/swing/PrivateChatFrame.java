@@ -130,8 +130,11 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		chatTP.addMouseListener( urlML );
 		chatTP.addMouseMotionListener( urlML );
 
+		ChatAreaDocumentFilter chatAreaDocumentFilter = new ChatAreaDocumentFilter();
+		chatAreaDocumentFilter.addDocumentFilter( new URLDocumentFilter( false ) );
+		chatAreaDocumentFilter.addDocumentFilter( new SmileyDocumentFilter( false ) );
 		AbstractDocument doc = (AbstractDocument) chatDoc;
-		doc.setDocumentFilter( new URLDocumentFilter() );
+		doc.setDocumentFilter( chatAreaDocumentFilter );
 
 		msgTF = new JTextField();
 		msgTF.addActionListener( this );
