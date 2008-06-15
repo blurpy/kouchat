@@ -121,6 +121,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		chatTP = new JTextPane();
 		chatTP.setEditable( false );
 		chatTP.setBorder( BorderFactory.createEmptyBorder( 4, 6, 4, 6 ) );
+		chatTP.setEditorKit( new MiddleAlignedIconViewEditorKit() );
 		chatTP.setTransferHandler( fileTransferHandler );
 		chatDoc = chatTP.getStyledDocument();
 		JScrollPane chatScroll = new JScrollPane( chatTP );
