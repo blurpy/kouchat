@@ -30,17 +30,16 @@ import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import net.usikkert.kouchat.util.Validate;
+
 /**
- * This is a document filter that checks for text smileys added to
+ * This is a document filter that checks for text smiley codes added to
  * a {@link StyledDocument}, and replaces them with images.
  *
  * @author Christian Ihle
  */
 public class SmileyDocumentFilter extends DocumentFilter
 {
-	/** Temporary field for the smiley. */
-	private final ImageIcon smiley;
-
 	/**
 	 * If this document filter is the only document filter used.
 	 * This must be true if it is, or the text will not be visible.
@@ -48,6 +47,9 @@ public class SmileyDocumentFilter extends DocumentFilter
 	 * the same text will be shown several times.
 	 */
 	private final boolean standAlone;
+
+	/** The available smileys. */
+	private final SmileyLoader smileyLoader;
 
 	/**
 	 * Constructor.
@@ -57,11 +59,11 @@ public class SmileyDocumentFilter extends DocumentFilter
 	public SmileyDocumentFilter( final boolean standAlone )
 	{
 		this.standAlone = standAlone;
-		smiley = new ImageIcon( getClass().getResource( "/icons/smile.png" ) );
+		smileyLoader = new SmileyLoader();
 	}
 
 	/**
-	 * Checks if any text smileys are in the text, and replaces them
+	 * Checks if any text smiley codes are in the text, and replaces them
 	 * with the corresponding image.
 	 *
 	 * {@inheritDoc}
@@ -74,38 +76,140 @@ public class SmileyDocumentFilter extends DocumentFilter
 			super.insertString( fb, offset, text, attr );
 
 		// Make a copy now, or else it could change if another message comes
-		final MutableAttributeSet urlAttr = (MutableAttributeSet) attr.copyAttributes();
+		final MutableAttributeSet smileyAttr = (MutableAttributeSet) attr.copyAttributes();
 
-		// TODO
-		// add support for more smileys
-		// find out why text directly after (no space) icon is missing
-		// only add icon attribute if not exists
+		// Do this in the background so the text wont lag
 		SwingUtilities.invokeLater( new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				int startPos = text.indexOf( ":)", 0 );
+				Smiley smiley = findSmiley( text, 0 );
 
-				if ( startPos != -1 )
+				if ( smiley != null )
 				{
-					StyleConstants.setIcon( urlAttr, smiley );
 					StyledDocument doc = (StyledDocument) fb.getDocument();
 
-					while ( startPos != -1 )
+					while ( smiley != null )
 					{
-						int stopPos = -1;
+						int stopPos = smiley.getStopPosition();
+						int startPos = smiley.getStartPosition();
 
-						stopPos = text.indexOf( " ", startPos );
+						if ( !smileyAttr.containsAttribute( StyleConstants.IconAttribute, smiley.getIcon() ) )
+							StyleConstants.setIcon( smileyAttr, smiley.getIcon() );
 
-						if ( stopPos == -1 )
-							stopPos = text.indexOf( "\n", startPos );
-
-						doc.setCharacterAttributes( offset + startPos, stopPos - startPos, urlAttr, false );
-						startPos = text.indexOf( ":)", stopPos );
+						doc.setCharacterAttributes( offset + startPos, stopPos - startPos, smileyAttr, false );
+						smiley = findSmiley( text, stopPos );
 					}
 				}
 			}
 		} );
+	}
+
+	/**
+	 * Returns the first matching smiley in the text, starting from the specified offset.
+	 *
+	 * @param text The text to find smileys in.
+	 * @param offset Where in the text to begin the search.
+	 * @return The first matching smiley in the text, or <code>null</code> if
+	 *         none were found.
+	 */
+	private Smiley findSmiley( final String text, final int offset )
+	{
+		int firstMatch = -1;
+		Smiley smiley = null;
+
+		for ( String smileyText : smileyLoader.getTextSmileys() )
+		{
+			int smileyPos = text.indexOf( smileyText, offset );
+
+			if ( smileyPos != -1 && ( smileyPos < firstMatch || firstMatch == -1 ) )
+			{
+				smiley = new Smiley( smileyPos, smileyLoader.getSmiley( smileyText ), smileyText );
+				firstMatch = smileyPos;
+			}
+		}
+
+		return smiley;
+	}
+
+	/**
+	 * This class represents a smiley in the text with position,
+	 * the text code, and the icon for the smiley.
+	 *
+	 * @author Christian Ihle
+	 */
+	private class Smiley
+	{
+		/** The position of the first character in the smiley. */
+		private final int startPosition;
+
+		/** The position of the last character in the smiley. */
+		private final int stopPosition;
+
+		/** The icon replacing the text smiley code. */
+		private final ImageIcon icon;
+
+		/** The text smiley code. */
+		private final String code;
+
+		/**
+		 * Constructor.
+		 *
+		 * @param startPosition The position of the first character in the smiley.
+		 * @param icon The icon replacing the text smiley code.
+		 * @param code The text smiley code.
+		 */
+		public Smiley( final int startPosition, final ImageIcon icon, final String code )
+		{
+			Validate.notNull( icon, "Icon can not be null" );
+			Validate.notEmpty( code, "Code can not be empty" );
+
+			this.startPosition = startPosition;
+			this.icon = icon;
+			this.code = code;
+
+			stopPosition = startPosition + code.length();
+		}
+
+		/**
+		 * Gets the position of the first character in the smiley.
+		 *
+		 * @return The position of the first character in the smiley.
+		 */
+		public int getStartPosition()
+		{
+			return startPosition;
+		}
+
+		/**
+		 * Gets the position of the last character in the smiley.
+		 *
+		 * @return The position of the last character in the smiley.
+		 */
+		public int getStopPosition()
+		{
+			return stopPosition;
+		}
+
+		/**
+		 * Gets the icon replacing the text smiley.
+		 *
+		 * @return The icon replacing the text smiley.
+		 */
+		public ImageIcon getIcon()
+		{
+			return icon;
+		}
+
+		/**
+		 * Gets the text smiley code.
+		 *
+		 * @return The text smiley code.
+		 */
+		public String getCode()
+		{
+			return code;
+		}
 	}
 }
