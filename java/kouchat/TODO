@@ -12,6 +12,4 @@
  - Fix text length in file transfer dialog
  - Switch titlebar icon on windows with activity?
  - Add favorite nic list?
- - Add smiley document filter - "ape1:)ape2" shows "ape1<smiley>". where did ape2 go?
- - Split url doc filter from smiley doc filter
  - Find legal smiley icons to bundle
