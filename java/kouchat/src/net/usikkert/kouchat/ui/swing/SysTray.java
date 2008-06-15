@@ -34,8 +34,6 @@ import java.awt.event.MouseListener;
 
 import java.net.URL;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,6 +42,7 @@ import javax.swing.ImageIcon;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.util.Loggers;
+import net.usikkert.kouchat.util.ResourceValidator;
 
 /**
  * This is the system tray.
@@ -91,29 +90,16 @@ public class SysTray implements ActionListener, MouseListener
 			URL kouAway = getClass().getResource( IMG_KOU_AWAY );
 			URL kouAwayAct = getClass().getResource( IMG_KOU_AWAY_ACT );
 
-			if ( kouNorm == null || kouNormAct == null || kouAway == null || kouAwayAct == null )
+			// Check if all the images were found
+			ResourceValidator resourceValidator = new ResourceValidator();
+			resourceValidator.addResource( kouNorm, IMG_KOU_NORMAL );
+			resourceValidator.addResource( kouNormAct, IMG_KOU_NORMAL_ACT );
+			resourceValidator.addResource( kouAway, IMG_KOU_AWAY );
+			resourceValidator.addResource( kouAwayAct, IMG_KOU_AWAY_ACT );
+			String missing = resourceValidator.validate();
+
+			if ( missing.length() > 0 )
 			{
-				List<String> missingList = new ArrayList<String>();
-
-				if ( kouNorm == null )
-					missingList.add( IMG_KOU_NORMAL );
-				if ( kouNormAct == null )
-					missingList.add( IMG_KOU_NORMAL_ACT );
-				if ( kouAway == null )
-					missingList.add( IMG_KOU_AWAY );
-				if ( kouAwayAct == null )
-					missingList.add( IMG_KOU_AWAY_ACT );
-
-				String missing = "";
-
-				for ( int i = 0; i < missingList.size(); i++ )
-				{
-					missing += missingList.get( i );
-
-					if ( i < missingList.size() - 1 )
-						missing += "\n";
-				}
-
 				String error = "These images were expected, but not found:\n\n" + missing + "\n\n"
 						+ Constants.APP_NAME + " will now shutdown.";
 

@@ -42,6 +42,7 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.util.Loggers;
+import net.usikkert.kouchat.util.ResourceValidator;
 
 /**
  * This class renders the rows in the nick list.
@@ -71,17 +72,14 @@ public class NickListCellRenderer extends JLabel implements ListCellRenderer
 		URL envelopeURL = getClass().getResource( IMG_ENVELOPE );
 		URL dotURL = getClass().getResource( IMG_DOT );
 
-		if ( envelopeURL == null || dotURL == null )
+		// Check if all the images were found
+		ResourceValidator resourceValidator = new ResourceValidator();
+		resourceValidator.addResource( envelopeURL, IMG_ENVELOPE );
+		resourceValidator.addResource( dotURL, IMG_DOT );
+		String missing = resourceValidator.validate();
+
+		if ( missing.length() > 0 )
 		{
-			String missing = "";
-
-			if ( envelopeURL == null && dotURL == null )
-				missing = "* " + IMG_ENVELOPE + "\n* " + IMG_DOT;
-			else if ( envelopeURL == null )
-				missing = "* " + IMG_ENVELOPE;
-			else if ( dotURL == null )
-				missing = "* " + IMG_DOT;
-
 			String error = "These images were expected, but not found:\n\n" + missing + "\n\n"
 					+ Constants.APP_NAME + " will now shutdown.";
 
