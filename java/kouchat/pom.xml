@@ -31,6 +31,7 @@
         <includes>
           <include>sounds/</include>
           <include>icons/</include>
+          <include>smileys/</include>
         </includes>
       </resource>
     </resources>
