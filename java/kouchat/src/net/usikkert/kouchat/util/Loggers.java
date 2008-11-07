@@ -40,7 +40,7 @@ import net.usikkert.kouchat.Constants;
  *
  * @author Christian Ihle
  */
-public class Loggers
+public final class Loggers
 {
 	/** The root name of the loggers used in this application. */
 	private static final String LOG_ROOT = Constants.APP_NAME.toLowerCase();
@@ -79,5 +79,13 @@ public class Loggers
 				break;
 			}
 		}
+	}
+
+	/**
+	 * Private constructor, because this class is for static use.
+	 */
+	private Loggers()
+	{
+
 	}
 }
