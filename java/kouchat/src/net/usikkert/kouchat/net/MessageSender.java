@@ -148,6 +148,7 @@ public class MessageSender
 
 				mcSocket.setNetworkInterface( networkInterface );
 				mcSocket.joinGroup( address );
+				mcSocket.setTimeToLive( 64 );
 				connected = true;
 				LOG.log( Level.FINE, "Connected to " + mcSocket.getNetworkInterface().getDisplayName() + "." );
 			}

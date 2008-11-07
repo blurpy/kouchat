@@ -16,6 +16,8 @@
   - Updated more javadoc
   - Added F1 shortcut to open FAQ
   - Added smiley support
+  - Changed time-to-live for multicast packets to 64, for local area
+    networks with routers
 
 
 * version 0.9.8 (27.01.2008):
