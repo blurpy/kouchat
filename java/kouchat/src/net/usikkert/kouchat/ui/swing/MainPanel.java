@@ -41,6 +41,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.text.AbstractDocument;
@@ -95,6 +96,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		chatTP.setEditable( false );
 		chatTP.setBorder( BorderFactory.createEmptyBorder( 4, 6, 4, 6 ) );
 		chatTP.setEditorKit( new MiddleAlignedIconViewEditorKit() );
+		chatTP.setBackground( UIManager.getColor( "TextPane.background" ) );
 
 		chatSP = new JScrollPane( chatTP );
 		chatSP.setMinimumSize( new Dimension( 290, 200 ) );

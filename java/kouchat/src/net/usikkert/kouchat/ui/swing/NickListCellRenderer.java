@@ -24,9 +24,8 @@ package net.usikkert.kouchat.ui.swing;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-
+import java.awt.Insets;
 import java.net.URL;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,13 +50,35 @@ import net.usikkert.kouchat.util.ResourceValidator;
  */
 public class NickListCellRenderer extends JLabel implements ListCellRenderer
 {
+	/** Standard serial version UID. */
 	private static final long serialVersionUID = 1L;
+
+	/** The logger to use for this class. */
 	private static final Logger LOG = Loggers.UI_LOG;
+
+	/** Max size of the horizontal insets in the list element border. */
+	private static final int MAX_HORI_SIZE = 4;
+
+	/** Max size of the vertical insets in the list element border. */
+	private static final int MAX_VERT_SIZE = 3;
+
+	/** Path to the envelope icon. */
 	private static final String IMG_ENVELOPE = "/icons/envelope.png";
+
+	/** Path to the dot icon. */
 	private static final String IMG_DOT = "/icons/dot.png";
 
-	private final ImageIcon envelope, dot;
-	private final Border selectedBorder, normalBorder;
+	/** The envelope icon object. */
+	private final ImageIcon envelope;
+
+	/** The dot icon object. */
+	private final ImageIcon dot;
+
+	/** The border to use for selected list elements. */
+	private final Border selectedBorder;
+
+	/** The border to use for unselected list elements. */
+	private final Border normalBorder;
 
 	/**
 	 * Default constructor.
@@ -90,10 +111,25 @@ public class NickListCellRenderer extends JLabel implements ListCellRenderer
 
 		envelope = new ImageIcon( envelopeURL );
 		dot = new ImageIcon( dotURL );
-		normalBorder = BorderFactory.createEmptyBorder( 2, 4, 2, 4 );
+
+		Border noFocusBorder = UIManager.getBorder( "List.cellNoFocusBorder" );
+		Border highlightBorder = UIManager.getBorder( "List.focusCellHighlightBorder" );
+
+		Insets highlightBorderInsets = highlightBorder.getBorderInsets( this );
+		int vertical = Math.max( 0, MAX_VERT_SIZE - highlightBorderInsets.top );
+		int horizontal = Math.max( 0, MAX_HORI_SIZE - highlightBorderInsets.left );
+
+		// If noFocusBorder does not exist, the normalBorder will be 1px smaller
+		int padding = ( noFocusBorder == null ? 1 : 0 );
+
+		normalBorder = BorderFactory.createCompoundBorder(
+				noFocusBorder,
+				BorderFactory.createEmptyBorder( vertical + padding, horizontal + padding,
+												 vertical + padding, horizontal + padding ) );
+
 		selectedBorder = BorderFactory.createCompoundBorder(
-				UIManager.getBorder( "List.focusCellHighlightBorder" ),
-				BorderFactory.createEmptyBorder( 1, 3, 1, 3 ) );
+				highlightBorder,
+				BorderFactory.createEmptyBorder( vertical, horizontal, vertical, horizontal ) );
 
 		setOpaque( true );
 	}
@@ -105,6 +141,8 @@ public class NickListCellRenderer extends JLabel implements ListCellRenderer
 	 * If the user is "me", the nick name is shown in bold.
 	 * If the user has a new message, the icon changes to an envelope.
 	 * If the user is writing, the nick name will have a star next to it.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public Component getListCellRendererComponent( final JList list, final Object value,
@@ -154,5 +192,31 @@ public class NickListCellRenderer extends JLabel implements ListCellRenderer
 		setComponentOrientation( list.getComponentOrientation() );
 
 		return this;
+	}
+
+	/**
+	 * Copied from {@link DefaultListCellRenderer#isOpaque()}
+	 * to fix the gray background with some look and feels like GTK+ and Nimbus.
+	 *
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isOpaque()
+	{
+		Color background = getBackground();
+		Component parent = getParent();
+
+		if ( parent != null )
+		{
+			parent = parent.getParent();
+		}
+
+		// Parent should now be the JList.
+		boolean colorMatch = background != null
+						  && parent != null
+						  && background.equals( parent.getBackground() )
+						  && parent.isOpaque();
+
+		return !colorMatch && super.isOpaque();
 	}
 }

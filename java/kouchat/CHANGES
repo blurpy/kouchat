@@ -18,6 +18,7 @@
   - Added smiley support
   - Changed time-to-live for multicast packets to 64, for local area
     networks with routers
+  - Tweaking UI for different look and feels
 
 
 * version 0.9.8 (27.01.2008):

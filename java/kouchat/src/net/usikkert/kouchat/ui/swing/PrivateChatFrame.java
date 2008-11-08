@@ -53,6 +53,7 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
@@ -123,6 +124,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		chatTP.setBorder( BorderFactory.createEmptyBorder( 4, 6, 4, 6 ) );
 		chatTP.setEditorKit( new MiddleAlignedIconViewEditorKit() );
 		chatTP.setTransferHandler( fileTransferHandler );
+		chatTP.setBackground( UIManager.getColor( "TextPane.background" ) );
 		chatDoc = chatTP.getStyledDocument();
 		JScrollPane chatScroll = new JScrollPane( chatTP );
 
