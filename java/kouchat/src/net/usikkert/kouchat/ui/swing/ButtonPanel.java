@@ -75,18 +75,22 @@ public class ButtonPanel extends JPanel implements ActionListener
 
 		clearB = new JButton( "Clear" );
 		clearB.addActionListener( this );
+		clearB.setToolTipText( "Clear all the text in the chat area." );
 		add( clearB );
 
 		awayB = new JButton( "Away" );
 		awayB.addActionListener( this );
+		awayB.setToolTipText( "Set/unset your user as away." );
 		add( awayB );
 
 		topicB = new JButton( "Topic" );
 		topicB.addActionListener( this );
+		topicB.setToolTipText( "Change the topic of this chat." );
 		add( topicB );
 
 		minimizeB = new JButton( "Minimize" );
 		minimizeB.addActionListener( this );
+		minimizeB.setToolTipText( "Minimize to the system tray." );
 		add( minimizeB );
 
 		setBorder( BorderFactory.createEmptyBorder( 0, 0, 1, 1 ) );

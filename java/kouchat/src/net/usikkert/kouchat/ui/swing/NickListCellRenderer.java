@@ -180,9 +180,16 @@ public class NickListCellRenderer extends JLabel implements ListCellRenderer
 				setIcon( dot );
 
 			if ( dto.isWriting() )
+			{
 				setText( dto.getNick() + " *" );
+				setToolTipText( dto.getNick() + " is writing" );
+			}
+
 			else
+			{
 				setText( dto.getNick() );
+				setToolTipText( dto.getNick() );
+			}
 		}
 
 		else

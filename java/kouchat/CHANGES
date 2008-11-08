@@ -19,6 +19,7 @@
   - Changed time-to-live for multicast packets to 64, for local area
     networks with routers
   - Tweaking UI for different look and feels
+  - More tooltips
 
 
 * version 0.9.8 (27.01.2008):
