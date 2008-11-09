@@ -551,7 +551,7 @@ public class SwingMediator implements Mediator, UserInterface
 				if ( fs.isWaiting() )
 				{
 					msgController.showSystemMessage( "You cancelled sending of "
-							+ fs.getFileName() + " to " + fs.getNick().getNick() );
+							+ fs.getFile().getName() + " to " + fs.getNick().getNick() );
 					tList.removeFileSender( fs );
 				}
 			}

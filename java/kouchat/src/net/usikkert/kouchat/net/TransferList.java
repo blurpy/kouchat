@@ -58,7 +58,7 @@ public class TransferList
 
 		for ( FileSender fs : senders )
 		{
-			if ( fs.getNick() == user && fs.getFileName().equals( fileName ) && fs.getFile().hashCode() == fileHash )
+			if ( fs.getNick() == user && fs.getFile().getName().equals( fileName ) && fs.getFile().hashCode() == fileHash )
 			{
 				fileSender = fs;
 				break;

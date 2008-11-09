@@ -9,8 +9,9 @@
  - Add command for:
    - Receive file
    - Abort file transfer
- - Fix text length in file transfer dialog
  - Switch titlebar icon on windows with activity?
  - Add favorite nic list?
- - Find legal smiley icons to bundle
- - Only show smileys if space around?
+ - Only show smileys if space around? "8)" becomes smiley:
+   [14:56:38] *** Topic is: Test! (set by Snoopy at 20:41:25, 08. Nov. 08)
+ - Checkbox to activate smileys?
+ - TransferDialog hides labels if window is too small

@@ -439,12 +439,12 @@ public class CommandParser
 
 		for ( FileSender fs : fsList )
 		{
-			senders += "\n" + fs.getFileName() + " [" + Tools.byteToString( fs.getFileSize() ) + "] (" + fs.getPercent() + "%) to " + fs.getNick().getNick();
+			senders += "\n" + fs.getFile().getName() + " [" + Tools.byteToString( fs.getFileSize() ) + "] (" + fs.getPercent() + "%) to " + fs.getNick().getNick();
 		}
 
 		for ( FileReceiver fr : frList )
 		{
-			receivers += "\n" + fr.getFileName() + " [" + Tools.byteToString( fr.getFileSize() ) + "] (" + fr.getPercent() + "%) from " + fr.getNick().getNick();
+			receivers += "\n" + fr.getFile().getName() + " [" + Tools.byteToString( fr.getFileSize() ) + "] (" + fr.getPercent() + "%) from " + fr.getNick().getNick();
 		}
 
 		msgController.showSystemMessage( "File transfers:\n" + senders + receivers );

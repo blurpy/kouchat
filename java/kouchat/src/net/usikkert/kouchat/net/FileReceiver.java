@@ -274,9 +274,9 @@ public class FileReceiver implements FileTransfer
 	}
 
 	@Override
-	public String getFileName()
+	public File getFile()
 	{
-		return file.getName();
+		return file;
 	}
 
 	@Override

@@ -269,12 +269,6 @@ public class FileSender implements FileTransfer
 	}
 
 	@Override
-	public String getFileName()
-	{
-		return file.getName();
-	}
-
-	@Override
 	public NickDTO getNick()
 	{
 		return nick;

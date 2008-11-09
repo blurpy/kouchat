@@ -21,24 +21,31 @@
 
 package net.usikkert.kouchat.ui.swing;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
-import javax.swing.GroupLayout;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
-import javax.swing.LayoutStyle.ComponentPlacement;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.FileTransferListener;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.net.FileTransfer;
+import net.usikkert.kouchat.ui.util.UITools;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
@@ -49,14 +56,53 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class TransferDialog extends JDialog implements FileTransferListener, ActionListener
 {
+	/** Standard serial version UID. */
 	private static final long serialVersionUID = 1L;
 
+	/** Button to cancel file transfer, or close the dialog when transfer is stopped. */
 	private final JButton cancelB;
-	private final JLabel file1L, file2L, dest1L, dest2L, trans1L, trans2L, source1L, source2L, status1L, status2L;
-	private final JProgressBar filePB;
+
+	/** Button to open the folder where the received file was saved. */
+	private final JButton openB;
+
+	/** Header label for the file transfer status. */
+	private final JLabel statusHeaderL;
+
+	/** Label for the file transfer status. */
+	private final JLabel statusL;
+
+	/** Header label for the sender of the file. */
+	private final JLabel sourceHeaderL;
+
+	/** Label for the sender of the file. */
+	private final JLabel sourceL;
+
+	/** Header label for the receiver of the file. */
+	private final JLabel destinationHeaderL;
+
+	/** Label for the receiver of the file. */
+	private final JLabel destinationL;
+
+	/** Header label for the file name. */
+	private final JLabel filenameHeaderL;
+
+	/** Label for the file name. */
+	private final JLabel filenameL;
+
+	/** Header label for transfer information. */
+	private final JLabel transferredHeaderL;
+
+	/** Label for transfer information. */
+	private final JLabel transferredL;
+
+	/** Progress bar to show file transfer progress in percent complete. */
+	private final JProgressBar transferProgressPB;
+
+	/** The file transfer object this dialog is showing the state of. */
 	private final FileTransfer fileTransfer;
+
+	/** The mediator. */
 	private final Mediator mediator;
-	private String fileSize;
 
 	/**
 	 * Constructor. Initializes components and registers this dialog
@@ -74,87 +120,90 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 
 		cancelB = new JButton( "Cancel" );
 		cancelB.addActionListener( this );
-		filePB = new JProgressBar( 0, 100 );
-		filePB.setStringPainted( true );
-		trans1L = new JLabel( "Transferred:" );
-		trans2L = new JLabel( "0KB of 0KB at 0KB/s" );
-		file1L = new JLabel( "Filename:" );
-		file2L = new JLabel( "(No file)" );
-		status1L = new JLabel( "Status:" );
-		status2L = new JLabel( "Waiting..." );
-		source1L = new JLabel( "Source:" );
-		source2L = new JLabel( "Source (No IP)" );
-		dest1L = new JLabel( "Destination:" );
-		dest2L = new JLabel( "Destination (No IP)" );
+
+		openB = new JButton( "Open folder" );
+		openB.addActionListener( this );
+		openB.setVisible( false );
+		openB.setEnabled( false );
+
+		transferProgressPB = new JProgressBar( 0, 100 );
+		transferProgressPB.setStringPainted( true );
+        transferProgressPB.setPreferredSize( new Dimension( 200, 25 ) );
+
+		transferredHeaderL = new JLabel( "Transferred:" );
+		int headerHeight = transferredHeaderL.getPreferredSize().height;
+		int headerWidth = transferredHeaderL.getPreferredSize().width + 8;
+		transferredHeaderL.setPreferredSize( new Dimension( headerWidth, headerHeight ) );
+		transferredL = new JLabel( "0KB of 0KB at 0KB/s" );
+
+		filenameHeaderL = new JLabel( "Filename:" );
+		filenameHeaderL.setPreferredSize( new Dimension( headerWidth, headerHeight ) );
+		filenameL = new JLabel( "(No file)" );
+
+		statusHeaderL = new JLabel( "Status:" );
+		statusHeaderL.setPreferredSize( new Dimension( headerWidth, headerHeight ) );
+		statusL = new JLabel( "Waiting..." );
+
+		sourceHeaderL = new JLabel( "Source:" );
+		sourceHeaderL.setPreferredSize( new Dimension( headerWidth, headerHeight ) );
+		sourceL = new JLabel( "Source (No IP)" );
+
+		destinationHeaderL = new JLabel( "Destination:" );
+		destinationHeaderL.setPreferredSize( new Dimension( headerWidth, headerHeight ) );
+		destinationL = new JLabel( "Destination (No IP)" );
+
+		JPanel topP = new JPanel();
+		topP.setBorder( BorderFactory.createEmptyBorder( 4, 8, 4, 8 ) );
+        topP.setLayout( new BoxLayout( topP, BoxLayout.PAGE_AXIS ) );
+
+        JPanel bottomP = new JPanel();
+        bottomP.setBorder( BorderFactory.createEmptyBorder( 4, 8, 8, 8 ) );
+        bottomP.setLayout( new BoxLayout( bottomP, BoxLayout.LINE_AXIS ) );
+
+        JPanel statusP = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 4 ) );
+        statusP.add( statusHeaderL );
+        statusP.add( statusL );
+
+        JPanel sourceP = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 4 ) );
+        sourceP.add( sourceHeaderL );
+        sourceP.add( sourceL );
+
+        JPanel destP = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 4 ) );
+        destP.add( destinationHeaderL );
+        destP.add( destinationL );
+
+        JPanel fileP = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 4 ) );
+		fileP.add( filenameHeaderL );
+        fileP.add( filenameL );
+
+        JPanel progressP = new JPanel( new BorderLayout() );
+		progressP.add( transferProgressPB, BorderLayout.CENTER );
+
+		JPanel transP = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 4 ) );
+        transP.add( transferredHeaderL );
+        transP.add( transferredL );
+
+		topP.add( statusP );
+		topP.add( sourceP );
+		topP.add( destP );
+		topP.add( fileP );
+		topP.add( progressP );
+		topP.add( transP );
+
+        bottomP.add( Box.createHorizontalGlue() );
+        bottomP.add( openB );
+        bottomP.add( Box.createRigidArea( new Dimension( 8, 0 ) ) );
+        bottomP.add( cancelB );
+
+        getContentPane().add( topP, BorderLayout.NORTH );
+        getContentPane().add( bottomP, BorderLayout.SOUTH );
 
 		setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE );
 		setTitle( Constants.APP_NAME + " - File transfer" );
-		setResizable( false );
+		setPreferredSize( new Dimension( 410, 210 ) );
+		setMinimumSize( new Dimension( 360, 210 ) );
 		setIconImage( new ImageIcon( getClass().getResource( Constants.APP_ICON ) ).getImage() );
 		getRootPane().setDefaultButton( cancelB );
-
-		GroupLayout layout = new GroupLayout( getContentPane() );
-		getContentPane().setLayout( layout );
-
-		// Layout generated in NetBeans 6
-		layout.setHorizontalGroup(
-				layout.createParallelGroup( GroupLayout.Alignment.LEADING )
-				.addGroup( GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-						.addContainerGap()
-						.addGroup( layout.createParallelGroup( GroupLayout.Alignment.LEADING )
-								.addComponent( filePB, GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE )
-								.addGroup( layout.createSequentialGroup()
-										.addGroup( layout.createParallelGroup( GroupLayout.Alignment.LEADING )
-												.addGroup( layout.createSequentialGroup()
-														.addComponent( trans1L )
-														.addPreferredGap( ComponentPlacement.RELATED )
-														.addComponent( trans2L ) )
-														.addComponent( file1L ) )
-														.addGap( 0, 0, 0 ) )
-														.addComponent( cancelB, GroupLayout.Alignment.TRAILING )
-														.addGroup( layout.createSequentialGroup()
-																.addGroup( layout.createParallelGroup( GroupLayout.Alignment.LEADING )
-																		.addComponent( dest1L )
-																		.addComponent( source1L )
-																		.addComponent( status1L ) )
-																		.addPreferredGap( ComponentPlacement.RELATED )
-																		.addGroup( layout.createParallelGroup( GroupLayout.Alignment.LEADING )
-																				.addComponent( status2L )
-																				.addComponent( source2L )
-																				.addComponent( file2L )
-																				.addComponent( dest2L ) ) ) )
-																				.addContainerGap() )
-		);
-
-		layout.setVerticalGroup(
-				layout.createParallelGroup( GroupLayout.Alignment.LEADING )
-				.addGroup( layout.createSequentialGroup()
-						.addContainerGap()
-						.addGroup( layout.createParallelGroup( GroupLayout.Alignment.BASELINE )
-								.addComponent( status1L )
-								.addComponent( status2L ) )
-								.addPreferredGap( ComponentPlacement.RELATED )
-								.addGroup( layout.createParallelGroup( GroupLayout.Alignment.BASELINE )
-										.addComponent( source1L )
-										.addComponent( source2L ) )
-										.addPreferredGap( ComponentPlacement.RELATED )
-										.addGroup( layout.createParallelGroup( GroupLayout.Alignment.BASELINE )
-												.addComponent( dest1L )
-												.addComponent( dest2L ) )
-												.addPreferredGap( ComponentPlacement.RELATED )
-												.addGroup( layout.createParallelGroup( GroupLayout.Alignment.BASELINE )
-														.addComponent( file1L )
-														.addComponent( file2L ) )
-														.addPreferredGap( ComponentPlacement.RELATED )
-														.addComponent( filePB, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE )
-														.addPreferredGap( ComponentPlacement.RELATED )
-														.addGroup( layout.createParallelGroup( GroupLayout.Alignment.BASELINE )
-																.addComponent( trans1L )
-																.addComponent( trans2L ) )
-																.addPreferredGap( ComponentPlacement.RELATED )
-																.addComponent( cancelB )
-																.addContainerGap() )
-		);
 
 		pack();
 		setVisible( true );
@@ -192,17 +241,28 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 	}
 
 	/**
-	 * Listener for the cancel/close button.
+	 * Listener for the buttons.
 	 *
-	 * <p>Cancels the file transfer, or closes the dialog window if
-	 * it's done transferring.</p>
+	 * <p>The buttons:</p>
+	 * <ul>
+	 *   <li>Cancel/Close: cancels the file transfer, or closes the dialog
+	 *       window if it's done transferring.</li>
+	 *   <li>Open: opens the folder where the file was saved.</li>
+	 * </ul>
 	 *
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void actionPerformed( final ActionEvent e )
+	public void actionPerformed( final ActionEvent event )
 	{
-		mediator.transferCancelled( this );
+		if ( event.getSource() == cancelB )
+			mediator.transferCancelled( this );
+
+		else if ( event.getSource() == openB )
+		{
+			File folder = fileTransfer.getFile().getParentFile();
+			UITools.open( folder );
+		}
 	}
 
 	/**
@@ -212,12 +272,16 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 	@Override
 	public void statusCompleted()
 	{
-		status2L.setForeground( new Color( 0, 176, 0 ) );
+		statusL.setForeground( new Color( 0, 176, 0 ) );
 
 		if ( fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE )
-			status2L.setText( "File successfully received" );
+		{
+			statusL.setText( "File successfully received" );
+			openB.setEnabled( true );
+		}
+
 		else if ( fileTransfer.getDirection() == FileTransfer.Direction.SEND )
-			status2L.setText( "File successfully sent" );
+			statusL.setText( "File successfully sent" );
 
 		cancelB.setText( "Close" );
 	}
@@ -229,7 +293,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 	@Override
 	public void statusConnecting()
 	{
-		status2L.setText( "Connecting..." );
+		statusL.setText( "Connecting..." );
 	}
 
 	/**
@@ -239,12 +303,12 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 	@Override
 	public void statusFailed()
 	{
-		status2L.setForeground( Color.RED );
+		statusL.setForeground( Color.RED );
 
 		if ( fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE )
-			status2L.setText( "Failed to receive file" );
+			statusL.setText( "Failed to receive file" );
 		else if ( fileTransfer.getDirection() == FileTransfer.Direction.SEND )
-			status2L.setText( "Failed to send file" );
+			statusL.setText( "Failed to send file" );
 
 		cancelB.setText( "Close" );
 	}
@@ -257,9 +321,9 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 	public void statusTransferring()
 	{
 		if ( fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE )
-			status2L.setText( "Receiving..." );
+			statusL.setText( "Receiving..." );
 		else if ( fileTransfer.getDirection() == FileTransfer.Direction.SEND )
-			status2L.setText( "Sending..." );
+			statusL.setText( "Sending..." );
 	}
 
 	/**
@@ -273,39 +337,40 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 	{
 		NickDTO me = Settings.getSettings().getMe();
 		NickDTO other = fileTransfer.getNick();
-		fileSize = Tools.byteToString( fileTransfer.getFileSize() );
 
-		status2L.setText( "Waiting..." );
+		statusL.setText( "Waiting..." );
 
 		if ( fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE )
 		{
-			source2L.setText( other.getNick() + " (" + other.getIpAddress() + ")" );
-			dest2L.setText( me.getNick() + " (" + me.getIpAddress() + ")" );
+			sourceL.setText( other.getNick() + " (" + other.getIpAddress() + ")" );
+			destinationL.setText( me.getNick() + " (" + me.getIpAddress() + ")" );
+			openB.setVisible( true );
 		}
 
 		else if ( fileTransfer.getDirection() == FileTransfer.Direction.SEND )
 		{
-			dest2L.setText( other.getNick() + " (" + other.getIpAddress() + ")" );
-			source2L.setText( me.getNick() + " (" + me.getIpAddress() + ")" );
+			destinationL.setText( other.getNick() + " (" + other.getIpAddress() + ")" );
+			sourceL.setText( me.getNick() + " (" + me.getIpAddress() + ")" );
 		}
 
-		String fileName = fileTransfer.getFileName();
+		String fileName = fileTransfer.getFile().getName();
 
 		if ( fileName.length() >= 42 )
 		{
 			String shortName = fileName.substring( 0, 40 ) + "...";
-			file2L.setText( shortName );
-			file2L.setToolTipText( fileName );
+			filenameL.setText( shortName );
+			filenameL.setToolTipText( fileName );
 		}
 
 		else
 		{
-			file2L.setText( fileName );
-			file2L.setToolTipText( null );
+			filenameL.setText( fileName );
+			filenameL.setToolTipText( null );
 		}
 
-		trans2L.setText( "0KB of " + fileSize + " at 0KB/s" );
-		filePB.setValue( 0 );
+		transferredL.setText( "0KB of "
+				+ Tools.byteToString( fileTransfer.getFileSize() ) + " at 0KB/s" );
+		transferProgressPB.setValue( 0 );
 	}
 
 	/**
@@ -317,8 +382,9 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 	@Override
 	public void transferUpdate()
 	{
-		trans2L.setText( Tools.byteToString( fileTransfer.getTransferred() ) + " of " + fileSize + " at "
+		transferredL.setText( Tools.byteToString( fileTransfer.getTransferred() ) + " of "
+				+ Tools.byteToString( fileTransfer.getFileSize() ) + " at "
 				+ Tools.byteToString( fileTransfer.getSpeed() ) + "/s" );
-		filePB.setValue( fileTransfer.getPercent() );
+		transferProgressPB.setValue( fileTransfer.getPercent() );
 	}
 }

@@ -19,39 +19,59 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.net;
+package net.usikkert.kouchat.ui.swing;
 
-import java.io.File;
+import net.usikkert.kouchat.net.MockFileTransfer;
+import net.usikkert.kouchat.net.FileTransfer.Direction;
 
-import net.usikkert.kouchat.event.FileTransferListener;
-import net.usikkert.kouchat.misc.NickDTO;
+import org.junit.Test;
 
 /**
- * This is the interface for both sending and receiving file transfers
- * between users.
- *
- * <p>Useful for the user interface, as it doesn't need to know what kind of
- * file transfer it is showing progress information about.</p>
+ * Test for the {@link TransferDialog}.
  *
  * @author Christian Ihle
  */
-public interface FileTransfer
+public class TransferDialogTest
 {
-	public enum Direction
+	/**
+	 * Creates a {@link TransferDialog} for receiving a file,
+	 * and simulates the file transfer.
+	 *
+	 * @throws InterruptedException In case of sleep issues.
+	 */
+	@Test
+	public void testReceiveDialog() throws InterruptedException
 	{
-		SEND,
-		RECEIVE
-	};
+		MockMediator mediator = new MockMediator();
+		MockFileTransfer fileTransfer = new MockFileTransfer( Direction.RECEIVE );
 
-	Direction getDirection();
-	NickDTO getNick();
-	int getPercent();
-	long getTransferred();
-	File getFile();
-	long getFileSize();
-	long getSpeed();
-	void cancel();
-	boolean isCanceled();
-	boolean isTransferred();
-	void registerListener( FileTransferListener listener );
+		new TransferDialog( mediator, fileTransfer );
+
+		// Returns true when the close button is clicked
+		while ( !mediator.isClose() )
+		{
+			Thread.sleep( 100 );
+		}
+	}
+
+	/**
+	 * Creates a {@link TransferDialog} for sending a file,
+	 * and simulates the file transfer.
+	 *
+	 * @throws InterruptedException In case of sleep issues.
+	 */
+	@Test
+	public void testSendDialog() throws InterruptedException
+	{
+		MockMediator mediator = new MockMediator();
+		MockFileTransfer fileTransfer = new MockFileTransfer( Direction.SEND );
+
+		new TransferDialog( mediator, fileTransfer );
+
+		// Returns true when the close button is clicked
+		while ( !mediator.isClose() )
+		{
+			Thread.sleep( 100 );
+		}
+	}
 }
