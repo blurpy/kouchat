@@ -22,12 +22,11 @@
 package net.usikkert.kouchat.ui.util;
 
 import java.awt.Desktop;
-
+import java.awt.Desktop.Action;
+import java.io.File;
 import java.io.IOException;
-
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -68,6 +67,7 @@ public final class UITools
 	public static void browse( final String url )
 	{
 		String browser = SETTINGS.getBrowser();
+		Desktop desktop = Desktop.getDesktop();
 
 		// The default is to use the browser in the settings.
 		if ( browser != null && browser.trim().length() > 0  )
@@ -86,11 +86,11 @@ public final class UITools
 		}
 
 		// But if no browser is set there, try opening the system default browser
-		else if ( Desktop.isDesktopSupported() )
+		else if ( Desktop.isDesktopSupported() && desktop.isSupported( Action.BROWSE ) )
 		{
 			try
 			{
-				Desktop.getDesktop().browse( new URI( url ) );
+				desktop.browse( new URI( url ) );
 			}
 
 			catch ( final IOException e )
@@ -110,6 +110,38 @@ public final class UITools
 		{
 			ERRORHANDLER.showError( "No browser detected."
 					+ " A browser can be chosen in the settings." );
+		}
+	}
+
+	/**
+	 * Opens a file in the registered application for the file type.
+	 *
+	 * <p>If this fails, {@link #browse(String)} is used as a fallback.</p>
+	 *
+	 * @param file A file or directory to open.
+	 */
+	public static void open( final File file )
+	{
+		Desktop desktop = Desktop.getDesktop();
+		boolean desktopOpenSuccess = false;
+
+		if ( Desktop.isDesktopSupported() && desktop.isSupported( Action.OPEN ) )
+		{
+			try
+			{
+				desktop.open( file );
+				desktopOpenSuccess = true;
+			}
+
+			catch ( final IOException e )
+			{
+				LOG.log( Level.WARNING, e.toString() );
+			}
+		}
+
+		if ( !desktopOpenSuccess )
+		{
+			browse( file.getAbsolutePath() );
 		}
 	}
 
