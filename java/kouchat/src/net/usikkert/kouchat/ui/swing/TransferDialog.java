@@ -24,7 +24,6 @@ package net.usikkert.kouchat.ui.swing;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -128,7 +127,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 
 		transferProgressPB = new JProgressBar( 0, 100 );
 		transferProgressPB.setStringPainted( true );
-        transferProgressPB.setPreferredSize( new Dimension( 200, 25 ) );
+        transferProgressPB.setPreferredSize( new Dimension( 410, 25 ) );
 
 		transferredHeaderL = new JLabel( "Transferred:" );
 		int headerHeight = transferredHeaderL.getPreferredSize().height;
@@ -160,28 +159,43 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
         bottomP.setBorder( BorderFactory.createEmptyBorder( 4, 8, 8, 8 ) );
         bottomP.setLayout( new BoxLayout( bottomP, BoxLayout.LINE_AXIS ) );
 
-        JPanel statusP = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 4 ) );
+        JPanel statusP = new JPanel();
+        statusP.setLayout( new BoxLayout( statusP, BoxLayout.LINE_AXIS ) );
+        statusP.setBorder( BorderFactory.createEmptyBorder( 2, 0, 2, 0 ) );
         statusP.add( statusHeaderL );
         statusP.add( statusL );
+        statusP.add(Box.createHorizontalGlue());
 
-        JPanel sourceP = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 4 ) );
+        JPanel sourceP = new JPanel();
+        sourceP.setLayout( new BoxLayout( sourceP, BoxLayout.LINE_AXIS ) );
+        sourceP.setBorder( BorderFactory.createEmptyBorder( 4, 0, 2, 0 ) );
         sourceP.add( sourceHeaderL );
         sourceP.add( sourceL );
+        sourceP.add(Box.createHorizontalGlue());
 
-        JPanel destP = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 4 ) );
+        JPanel destP = new JPanel();
+        destP.setLayout( new BoxLayout( destP, BoxLayout.LINE_AXIS ) );
+        destP.setBorder( BorderFactory.createEmptyBorder( 4, 0, 2, 0 ) );
         destP.add( destinationHeaderL );
         destP.add( destinationL );
+        destP.add(Box.createHorizontalGlue());
 
-        JPanel fileP = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 4 ) );
+        JPanel fileP = new JPanel();
+        fileP.setLayout( new BoxLayout( fileP, BoxLayout.LINE_AXIS ) );
+        fileP.setBorder( BorderFactory.createEmptyBorder( 4, 0, 6, 0 ) );
 		fileP.add( filenameHeaderL );
         fileP.add( filenameL );
+        fileP.add(Box.createHorizontalGlue());
 
         JPanel progressP = new JPanel( new BorderLayout() );
 		progressP.add( transferProgressPB, BorderLayout.CENTER );
 
-		JPanel transP = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 4 ) );
+		JPanel transP = new JPanel();
+		transP.setLayout( new BoxLayout( transP, BoxLayout.LINE_AXIS ) );
+		transP.setBorder( BorderFactory.createEmptyBorder( 4, 0, 2, 0 ) );
         transP.add( transferredHeaderL );
         transP.add( transferredL );
+        transP.add(Box.createHorizontalGlue());
 
 		topP.add( statusP );
 		topP.add( sourceP );
@@ -200,12 +214,11 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 
 		setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE );
 		setTitle( Constants.APP_NAME + " - File transfer" );
-		setPreferredSize( new Dimension( 410, 210 ) );
-		setMinimumSize( new Dimension( 360, 210 ) );
 		setIconImage( new ImageIcon( getClass().getResource( Constants.APP_ICON ) ).getImage() );
 		getRootPane().setDefaultButton( cancelB );
 
 		pack();
+		setMinimumSize( new Dimension( 360, getSize().height ) );
 		setVisible( true );
 		fileTransfer.registerListener( this );
 	}
