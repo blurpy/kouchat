@@ -21,7 +21,6 @@
 
 package net.usikkert.kouchat.ui.swing;
 
-import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -29,8 +28,6 @@ import javax.swing.text.DocumentFilter;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-
-import net.usikkert.kouchat.util.Validate;
 
 /**
  * This is a document filter that checks for text smiley codes added to
@@ -69,8 +66,8 @@ public class SmileyDocumentFilter extends DocumentFilter
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void insertString( final FilterBypass fb, final int offset, final String text, final AttributeSet attr )
-			throws BadLocationException
+	public void insertString( final FilterBypass fb, final int offset, final String text,
+			final AttributeSet attr ) throws BadLocationException
 	{
 		if ( standAlone )
 			super.insertString( fb, offset, text, attr );
@@ -85,25 +82,62 @@ public class SmileyDocumentFilter extends DocumentFilter
 			public void run()
 			{
 				Smiley smiley = findSmiley( text, 0 );
+				StyledDocument doc = (StyledDocument) fb.getDocument();
 
-				if ( smiley != null )
+				while ( smiley != null )
 				{
-					StyledDocument doc = (StyledDocument) fb.getDocument();
+					if ( !smileyIconRegistered( smileyAttr, smiley ) )
+						registerSmileyIcon( smileyAttr, smiley );
 
-					while ( smiley != null )
-					{
-						int stopPos = smiley.getStopPosition();
-						int startPos = smiley.getStartPosition();
-
-						if ( !smileyAttr.containsAttribute( StyleConstants.IconAttribute, smiley.getIcon() ) )
-							StyleConstants.setIcon( smileyAttr, smiley.getIcon() );
-
-						doc.setCharacterAttributes( offset + startPos, stopPos - startPos, smileyAttr, false );
-						smiley = findSmiley( text, stopPos );
-					}
+					registerSmileyLocation( doc, smiley, offset, smileyAttr );
+					smiley = findSmiley( text, smiley.getStopPosition() );
 				}
 			}
 		} );
+	}
+
+	/**
+	 * Checks if the smiley icon already exists in the attribute set.
+	 *
+	 * <p>That will be the case if there was an identical smiley added right
+	 * before this. If a different smiley is added in between then the first
+	 * is overwritten.</p>
+	 *
+	 * @param smileyAttr The attribute set for the inserted string.
+	 * @param smiley The smiley containing the icon to check.
+	 * @return If the icon was found.
+	 */
+	private boolean smileyIconRegistered( final MutableAttributeSet smileyAttr, final Smiley smiley )
+	{
+		return smileyAttr.containsAttribute( StyleConstants.IconAttribute, smiley.getIcon() );
+	}
+
+	/**
+	 * Sets the current smiley icon in the attribute set.
+	 *
+	 * @param smileyAttr The attribute set for the inserted string.
+	 * @param smiley The smiley containing the icon to set.
+	 */
+	private void registerSmileyIcon( final MutableAttributeSet smileyAttr, final Smiley smiley )
+	{
+		StyleConstants.setIcon( smileyAttr, smiley.getIcon() );
+	}
+
+	/**
+	 * Adds a new smiley location to the document, using the last registered
+	 * smiley icon.
+	 *
+	 * @param doc The document to add the smiley to.
+	 * @param smiley The smiley to add.
+	 * @param offset Offset to start position.
+	 * @param smileyAttr The attribute set for the inserted string.
+	 */
+	private void registerSmileyLocation( final StyledDocument doc, final Smiley smiley,
+			final int offset, final MutableAttributeSet smileyAttr )
+	{
+		int stopPos = smiley.getStopPosition();
+		int startPos = smiley.getStartPosition();
+		doc.setCharacterAttributes( offset + startPos, stopPos - startPos, smileyAttr, false );
 	}
 
 	/**
@@ -114,102 +148,93 @@ public class SmileyDocumentFilter extends DocumentFilter
 	 * @return The first matching smiley in the text, or <code>null</code> if
 	 *         none were found.
 	 */
-	private Smiley findSmiley( final String text, final int offset )
+	protected Smiley findSmiley( final String text, final int offset )
 	{
 		int firstMatch = -1;
 		Smiley smiley = null;
 
 		for ( String smileyText : smileyLoader.getTextSmileys() )
 		{
-			int smileyPos = text.indexOf( smileyText, offset );
+			int smileyPos = 0;
+			int loopOffset = offset;
 
-			if ( smileyPos != -1 && ( smileyPos < firstMatch || firstMatch == -1 ) )
+			// Needs this extra loop because of the required whitespace check,
+			// which happens after the first smiley is found.
+			// This makes sure :):) :) :):) only finds the smiley in the center.
+			do
 			{
-				smiley = new Smiley( smileyPos, smileyLoader.getSmiley( smileyText ), smileyText );
-				firstMatch = smileyPos;
+				smileyPos = text.indexOf( smileyText, loopOffset );
+
+				if ( newSmileyFound( smileyPos, firstMatch ) )
+				{
+					Smiley tmpSmiley =
+						new Smiley( smileyPos, smileyLoader.getSmiley( smileyText ), smileyText );
+
+					if ( smileyHasWhitespace( tmpSmiley, text ) )
+					{
+						smiley = tmpSmiley;
+						firstMatch = smileyPos;
+					}
+				}
+
+				loopOffset = smileyPos + 1;
 			}
+
+			while ( smileyPos != -1 );
 		}
 
 		return smiley;
 	}
 
 	/**
-	 * This class represents a smiley in the text with position,
-	 * the text code, and the icon for the smiley.
+	 * Checks if a new smiley is found.
 	 *
-	 * @author Christian Ihle
+	 * <p>A new smiley is found if:</p>
+	 * <ul>
+	 *   <li>An actual smiley was found, and</li>
+	 *   <li>No others smileys have been found before, or</li>
+	 *   <li>This smiley is earlier in the text than the previous smiley that was found.</li>
+	 * </ul>
+	 *
+	 * @param smileyPos The position of the smiley in the text.
+	 * @param firstMatch The position of the previously found smiley in the text.
+	 * @return If a new smiley has been found.
 	 */
-	private class Smiley
+	private boolean newSmileyFound( final int smileyPos, final int firstMatch )
 	{
-		/** The position of the first character in the smiley. */
-		private final int startPosition;
+		return smileyPos != -1 && ( smileyPos < firstMatch || firstMatch == -1 );
+	}
 
-		/** The position of the last character in the smiley. */
-		private final int stopPosition;
+	/**
+	 * Checks if the smiley is surrounded by some sort of whitespace.
+	 *
+	 * <p>Whitespace can be whatever defined in {@link Character#isWhitespace(char)}.</p>
+	 *
+	 * @param smiley The smiley to check.
+	 * @param text The text where the smiley is taken from.
+	 * @return If the smiley is surrounded by whitespace.
+	 */
+	protected boolean smileyHasWhitespace( final Smiley smiley, final String text )
+	{
+		int leftIndex = smiley.getStartPosition() - 1;
+		boolean leftOk = false;
 
-		/** The icon replacing the text smiley code. */
-		private final ImageIcon icon;
+		if ( leftIndex <= 0 )
+			leftOk = true;
+		else
+			leftOk = Character.isWhitespace( text.charAt( leftIndex ) );
 
-		/** The text smiley code. */
-		private final String code;
+		if ( !leftOk )
+			return false;
 
-		/**
-		 * Constructor.
-		 *
-		 * @param startPosition The position of the first character in the smiley.
-		 * @param icon The icon replacing the text smiley code.
-		 * @param code The text smiley code.
-		 */
-		public Smiley( final int startPosition, final ImageIcon icon, final String code )
-		{
-			Validate.notNull( icon, "Icon can not be null" );
-			Validate.notEmpty( code, "Code can not be empty" );
+		int rightIndex = smiley.getStopPosition();
+		boolean rightOk = false;
 
-			this.startPosition = startPosition;
-			this.icon = icon;
-			this.code = code;
+		if ( rightIndex >= text.length() )
+			rightOk = true;
+		else
+			rightOk = Character.isWhitespace( text.charAt( rightIndex ) );
 
-			stopPosition = startPosition + code.length();
-		}
-
-		/**
-		 * Gets the position of the first character in the smiley.
-		 *
-		 * @return The position of the first character in the smiley.
-		 */
-		public int getStartPosition()
-		{
-			return startPosition;
-		}
-
-		/**
-		 * Gets the position of the last character in the smiley.
-		 *
-		 * @return The position of the last character in the smiley.
-		 */
-		public int getStopPosition()
-		{
-			return stopPosition;
-		}
-
-		/**
-		 * Gets the icon replacing the text smiley.
-		 *
-		 * @return The icon replacing the text smiley.
-		 */
-		public ImageIcon getIcon()
-		{
-			return icon;
-		}
-
-		/**
-		 * Gets the text smiley code.
-		 *
-		 * @return The text smiley code.
-		 */
-		public String getCode()
-		{
-			return code;
-		}
+		return rightOk;
 	}
 }
