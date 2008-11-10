@@ -22,6 +22,9 @@
 package net.usikkert.kouchat.ui.util;
 
 import java.awt.Desktop;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.Desktop.Action;
 import java.io.File;
 import java.io.IOException;
@@ -190,5 +193,19 @@ public final class UITools
 	public static boolean isSystemLookAndFeelSupported()
 	{
 		return !UIManager.getSystemLookAndFeelClassName().equals( UIManager.getCrossPlatformLookAndFeelClassName() );
+	}
+
+	/**
+	 * Gets the width of the text in pixels with the specified font.
+	 *
+	 * @param text The text to check the width of.
+	 * @param graphics Needed to be able to check the width.
+	 * @param font The font the text uses.
+	 * @return The text width, in pixels.
+	 */
+	public static double getTextWidth( final String text, final Graphics graphics, final Font font )
+	{
+		FontMetrics fm = graphics.getFontMetrics( font );
+		return fm.getStringBounds( text, graphics ).getWidth();
 	}
 }

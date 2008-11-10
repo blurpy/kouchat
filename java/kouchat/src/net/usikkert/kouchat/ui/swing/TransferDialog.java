@@ -64,32 +64,17 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 	/** Button to open the folder where the received file was saved. */
 	private final JButton openB;
 
-	/** Header label for the file transfer status. */
-	private final JLabel statusHeaderL;
-
 	/** Label for the file transfer status. */
 	private final JLabel statusL;
-
-	/** Header label for the sender of the file. */
-	private final JLabel sourceHeaderL;
 
 	/** Label for the sender of the file. */
 	private final JLabel sourceL;
 
-	/** Header label for the receiver of the file. */
-	private final JLabel destinationHeaderL;
-
 	/** Label for the receiver of the file. */
 	private final JLabel destinationL;
 
-	/** Header label for the file name. */
-	private final JLabel filenameHeaderL;
-
 	/** Label for the file name. */
 	private final JLabel filenameL;
-
-	/** Header label for transfer information. */
-	private final JLabel transferredHeaderL;
 
 	/** Label for transfer information. */
 	private final JLabel transferredL;
@@ -129,25 +114,26 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 		transferProgressPB.setStringPainted( true );
         transferProgressPB.setPreferredSize( new Dimension( 410, 25 ) );
 
-		transferredHeaderL = new JLabel( "Transferred:" );
+        JLabel transferredHeaderL = new JLabel( "Transferred:" );
 		int headerHeight = transferredHeaderL.getPreferredSize().height;
 		int headerWidth = transferredHeaderL.getPreferredSize().width + 8;
 		transferredHeaderL.setPreferredSize( new Dimension( headerWidth, headerHeight ) );
 		transferredL = new JLabel( "0KB of 0KB at 0KB/s" );
 
-		filenameHeaderL = new JLabel( "Filename:" );
+		JLabel filenameHeaderL = new JLabel( "Filename:" );
 		filenameHeaderL.setPreferredSize( new Dimension( headerWidth, headerHeight ) );
 		filenameL = new JLabel( "(No file)" );
+		filenameL.setPreferredSize( new Dimension( 410 - headerWidth, headerHeight ) );
 
-		statusHeaderL = new JLabel( "Status:" );
+		JLabel statusHeaderL = new JLabel( "Status:" );
 		statusHeaderL.setPreferredSize( new Dimension( headerWidth, headerHeight ) );
 		statusL = new JLabel( "Waiting..." );
 
-		sourceHeaderL = new JLabel( "Source:" );
+		JLabel sourceHeaderL = new JLabel( "Source:" );
 		sourceHeaderL.setPreferredSize( new Dimension( headerWidth, headerHeight ) );
 		sourceL = new JLabel( "Source (No IP)" );
 
-		destinationHeaderL = new JLabel( "Destination:" );
+		JLabel destinationHeaderL = new JLabel( "Destination:" );
 		destinationHeaderL.setPreferredSize( new Dimension( headerWidth, headerHeight ) );
 		destinationL = new JLabel( "Destination (No IP)" );
 
@@ -164,28 +150,28 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
         statusP.setBorder( BorderFactory.createEmptyBorder( 2, 0, 2, 0 ) );
         statusP.add( statusHeaderL );
         statusP.add( statusL );
-        statusP.add(Box.createHorizontalGlue());
+        statusP.add( Box.createHorizontalGlue() );
 
         JPanel sourceP = new JPanel();
         sourceP.setLayout( new BoxLayout( sourceP, BoxLayout.LINE_AXIS ) );
         sourceP.setBorder( BorderFactory.createEmptyBorder( 4, 0, 2, 0 ) );
         sourceP.add( sourceHeaderL );
         sourceP.add( sourceL );
-        sourceP.add(Box.createHorizontalGlue());
+        sourceP.add( Box.createHorizontalGlue() );
 
         JPanel destP = new JPanel();
         destP.setLayout( new BoxLayout( destP, BoxLayout.LINE_AXIS ) );
         destP.setBorder( BorderFactory.createEmptyBorder( 4, 0, 2, 0 ) );
         destP.add( destinationHeaderL );
         destP.add( destinationL );
-        destP.add(Box.createHorizontalGlue());
+        destP.add( Box.createHorizontalGlue() );
 
         JPanel fileP = new JPanel();
         fileP.setLayout( new BoxLayout( fileP, BoxLayout.LINE_AXIS ) );
         fileP.setBorder( BorderFactory.createEmptyBorder( 4, 0, 6, 0 ) );
 		fileP.add( filenameHeaderL );
         fileP.add( filenameL );
-        fileP.add(Box.createHorizontalGlue());
+        fileP.add( Box.createHorizontalGlue() );
 
         JPanel progressP = new JPanel( new BorderLayout() );
 		progressP.add( transferProgressPB, BorderLayout.CENTER );
@@ -195,7 +181,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 		transP.setBorder( BorderFactory.createEmptyBorder( 4, 0, 2, 0 ) );
         transP.add( transferredHeaderL );
         transP.add( transferredL );
-        transP.add(Box.createHorizontalGlue());
+        transP.add( Box.createHorizontalGlue() );
 
 		topP.add( statusP );
 		topP.add( sourceP );
@@ -218,7 +204,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 		getRootPane().setDefaultButton( cancelB );
 
 		pack();
-		setMinimumSize( new Dimension( 360, getSize().height ) );
+		setResizable( false );
 		setVisible( true );
 		fileTransfer.registerListener( this );
 	}
@@ -367,19 +353,13 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 		}
 
 		String fileName = fileTransfer.getFile().getName();
+		filenameL.setText( fileName );
+		double width = UITools.getTextWidth( fileName, getGraphics(), filenameL.getFont() );
 
-		if ( fileName.length() >= 42 )
-		{
-			String shortName = fileName.substring( 0, 40 ) + "...";
-			filenameL.setText( shortName );
+		if ( width > filenameL.getSize().width )
 			filenameL.setToolTipText( fileName );
-		}
-
 		else
-		{
-			filenameL.setText( fileName );
 			filenameL.setToolTipText( null );
-		}
 
 		transferredL.setText( "0KB of "
 				+ Tools.byteToString( fileTransfer.getFileSize() ) + " at 0KB/s" );
