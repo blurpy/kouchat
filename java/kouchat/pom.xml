@@ -60,6 +60,12 @@
         <groupId>org.apache.maven.plugins</groupId> 
         <artifactId>maven-surefire-plugin</artifactId> 
         <configuration> 
+          <includes>
+            <include>**/*Test.java</include>
+          </includes>
+          <excludes>
+            <exclude>**/TransferDialogTest.java</exclude>
+          </excludes>
           <systemProperties> 
             <property> 
               <name>net.sourceforge.cobertura.datafile</name> 
