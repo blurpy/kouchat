@@ -55,7 +55,7 @@ public class MockFileTransfer implements FileTransfer
 		this.direction = direction;
 		user = new NickDTO( "TestUser", 1234 );
 		user.setIpAddress( "192.168.1.1" );
-		file = new File( "test/this_is_a_test_file.txt" );
+		file = new File( "test/this_is_a_test_file_with_a_very_very_long_file_name.txt" );
 		Settings.getSettings().getMe().setIpAddress( "192.168.1.2" );
 	}
 
