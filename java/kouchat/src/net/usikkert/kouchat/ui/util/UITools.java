@@ -35,6 +35,7 @@ import java.util.logging.Logger;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
@@ -184,6 +185,43 @@ public final class UITools
 	}
 
 	/**
+	 * Changes to the chosen look and feel. Ignores any exceptions.
+	 *
+	 * @param lnfName Name of the look and feel to change to.
+	 */
+	public static void setLookAndFeel( final String lnfName )
+	{
+		try
+		{
+			LookAndFeelInfo lookAndFeel = getLookAndFeel( lnfName );
+
+			if ( lookAndFeel != null )
+				UIManager.setLookAndFeel( lookAndFeel.getClassName() );
+
+		}
+
+		catch ( final ClassNotFoundException e )
+		{
+			LOG.log( Level.WARNING, e.toString() );
+		}
+
+		catch ( final InstantiationException e )
+		{
+			LOG.log( Level.WARNING, e.toString() );
+		}
+
+		catch ( final IllegalAccessException e )
+		{
+			LOG.log( Level.WARNING, e.toString() );
+		}
+
+		catch ( final UnsupportedLookAndFeelException e )
+		{
+			LOG.log( Level.WARNING, e.toString() );
+		}
+	}
+
+	/**
 	 * Checks if the system look and feel differs
 	 * from the cross platform look and feel.
 	 *
@@ -193,6 +231,46 @@ public final class UITools
 	public static boolean isSystemLookAndFeelSupported()
 	{
 		return !UIManager.getSystemLookAndFeelClassName().equals( UIManager.getCrossPlatformLookAndFeelClassName() );
+	}
+
+	/**
+	 * Gets an array of the available look and feels, in a wrapper.
+	 *
+	 * @return All the available look and feels.
+	 */
+	public static LookAndFeelWrapper[] getLookAndFeels()
+	{
+		LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
+		LookAndFeelWrapper[] lookAndFeelWrappers = new LookAndFeelWrapper[lookAndFeels.length];
+
+		for ( int i = 0; i < lookAndFeels.length; i++ )
+		{
+			lookAndFeelWrappers[i] = new LookAndFeelWrapper( lookAndFeels[i] );
+		}
+
+		return lookAndFeelWrappers;
+	}
+
+	/**
+	 * Gets the {@link LookAndFeelInfo} found with the specified name,
+	 * or null if none was found.
+	 *
+	 * @param lnfName The name of the look and feel to look for.
+	 * @return The LookAndFeelInfo for that name.
+	 */
+	public static LookAndFeelInfo getLookAndFeel( final String lnfName )
+	{
+		LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
+
+		for ( LookAndFeelInfo lookAndFeelInfo : lookAndFeels )
+		{
+			if ( lookAndFeelInfo.getName().equals( lnfName ) )
+			{
+				return lookAndFeelInfo;
+			}
+		}
+
+		return null;
 	}
 
 	/**

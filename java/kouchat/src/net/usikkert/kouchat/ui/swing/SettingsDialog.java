@@ -29,13 +29,10 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-
 import java.io.File;
 import java.io.IOException;
-
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,6 +45,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -56,10 +54,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.ui.util.LookAndFeelWrapper;
 import net.usikkert.kouchat.ui.util.UITools;
 import net.usikkert.kouchat.util.Loggers;
 
@@ -75,8 +76,9 @@ public class SettingsDialog extends JDialog implements ActionListener
 
 	private final JButton saveB, cancelB, chooseOwnColorB, chooseSysColorB, testBrowserB, chooseBrowserB;
 	private final JTextField nickTF, browserTF;
-	private final JLabel nickL, ownColorL, sysColorL, browserL;
-	private final JCheckBox soundCB, loggingCB, nativeLnFCB, smileysCB;
+	private final JLabel nickL, ownColorL, sysColorL, browserL, lookAndFeelL;
+	private final JCheckBox soundCB, loggingCB, smileysCB;
+	private final JComboBox lookAndFeelCB;
 	private final Settings settings;
 	private final ErrorHandler errorHandler;
 	private Mediator mediator;
@@ -119,10 +121,23 @@ public class SettingsDialog extends JDialog implements ActionListener
 		sysColorP.add( Box.createHorizontalGlue() );
 		sysColorP.add( chooseSysColorB );
 
-		JPanel colorP = new JPanel( new GridLayout( 2, 1, 1, 4 ) );
-		colorP.add( ownColorP );
-		colorP.add( sysColorP );
-		colorP.setBorder( BorderFactory.createCompoundBorder( BorderFactory.createTitledBorder( "Choose color" ),
+		lookAndFeelL = new JLabel( "Look and feel" );
+		lookAndFeelL.setToolTipText( "<html>Gives a choice of all the different looks that are available."
+				+ "<br />Note that the application needs to be restarted for the"
+				+ "<br />changes to take effect.</html>" );
+		lookAndFeelCB = new JComboBox( UITools.getLookAndFeels() );
+
+		JPanel lookAndFeelP = new JPanel();
+		lookAndFeelP.setLayout( new BoxLayout( lookAndFeelP, BoxLayout.LINE_AXIS ) );
+		lookAndFeelP.add( lookAndFeelL );
+		lookAndFeelP.add( Box.createHorizontalGlue() );
+		lookAndFeelP.add( lookAndFeelCB );
+
+		JPanel lookP = new JPanel( new GridLayout( 3, 1, 1, 4 ) );
+		lookP.add( ownColorP );
+		lookP.add( sysColorP );
+		lookP.add( lookAndFeelP );
+		lookP.setBorder( BorderFactory.createCompoundBorder( BorderFactory.createTitledBorder( "Choose look" ),
 				BorderFactory.createEmptyBorder( 0, 5, 0, 5 ) ) );
 
 		soundCB = new JCheckBox( "Enable sound" );
@@ -136,22 +151,13 @@ public class SettingsDialog extends JDialog implements ActionListener
 				+ "<br>" + Constants.APP_LOG_FOLDER
 				+ "<br>Only text written after this option was enabled will be stored.</html>" );
 
-		nativeLnFCB = new JCheckBox( "Use native look" );
-		nativeLnFCB.setToolTipText( "<html>Makes " + Constants.APP_NAME + " blend more with the look and"
-				+ "<br>feel of your Operating System. A restart is"
-				+ "<br>required before the changes are visible.</html>" );
-
 		smileysCB = new JCheckBox( "Enable smileys" );
 		smileysCB.setToolTipText( "<html>Replaces text smileys in the chat with smiley images."
 				+ "<br />See the FAQ for a list of available smileys.</html>" );
 
-		if ( !UITools.isSystemLookAndFeelSupported() )
-			nativeLnFCB.setEnabled( false );
-
 		JPanel miscP = new JPanel( new GridLayout( 2, 2 ) );
 		miscP.add( soundCB );
 		miscP.add( loggingCB );
-		miscP.add( nativeLnFCB );
 		miscP.add( smileysCB );
 		miscP.setBorder( BorderFactory.createTitledBorder( "Misc" ) );
 
@@ -181,7 +187,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 		browserP.setBorder( BorderFactory.createTitledBorder( "Choose browser" ) );
 
 		JPanel centerP = new JPanel( new BorderLayout() );
-		centerP.add( colorP, BorderLayout.CENTER );
+		centerP.add( lookP, BorderLayout.CENTER );
 		centerP.add( miscP, BorderLayout.SOUTH );
 		centerP.add( browserP, BorderLayout.NORTH );
 
@@ -270,8 +276,9 @@ public class SettingsDialog extends JDialog implements ActionListener
 						settings.setSound( soundCB.isSelected() );
 						settings.setLogging( loggingCB.isSelected() );
 						settings.setBrowser( browserTF.getText() );
-						settings.setNativeLnF( nativeLnFCB.isSelected() );
 						settings.setSmileys( smileysCB.isSelected() );
+						LookAndFeelWrapper lnfw = (LookAndFeelWrapper) lookAndFeelCB.getSelectedItem();
+						settings.setLookAndFeel( lnfw.getLookAndFeelInfo().getName() );
 						settings.saveSettings();
 						setVisible( false );
 					}
@@ -402,11 +409,37 @@ public class SettingsDialog extends JDialog implements ActionListener
 		loggingCB.setSelected( settings.isLogging() );
 		browserTF.setText( settings.getBrowser() );
 		smileysCB.setSelected( settings.isSmileys() );
-
-		if ( nativeLnFCB.isEnabled() )
-			nativeLnFCB.setSelected( settings.isNativeLnF() );
+		selectLookAndFeel();
 
 		setVisible( true );
 		nickTF.requestFocusInWindow();
+	}
+
+	/**
+	 * Selects the correct look and feel in the combobox.
+	 *
+	 * <p>The correct item is either the saved look and feel,
+	 * or the current look and feel if none is saved yet.</p>
+	 */
+	private void selectLookAndFeel()
+	{
+		LookAndFeelInfo lookAndFeel = UITools.getLookAndFeel( settings.getLookAndFeel() );
+		String lnfClass = "";
+
+		if ( lookAndFeel == null )
+			lnfClass = UIManager.getLookAndFeel().getClass().getName();
+		else
+			lnfClass = lookAndFeel.getClassName();
+
+		for ( int i = 0; i < lookAndFeelCB.getItemCount(); i++ )
+		{
+			LookAndFeelWrapper lafw = (LookAndFeelWrapper) lookAndFeelCB.getItemAt( i );
+
+			if ( lafw.getLookAndFeelInfo().getClassName().equals( lnfClass ) )
+			{
+				lookAndFeelCB.setSelectedIndex( i );
+				break;
+			}
+		}
 	}
 }

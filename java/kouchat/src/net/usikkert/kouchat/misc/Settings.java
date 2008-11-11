@@ -27,7 +27,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -51,9 +50,9 @@ import net.usikkert.kouchat.util.Tools;
  *   <li>Enable logging</li>
  *   <li>Enable debug</li>
  *   <li>Enable smileys</li>
- *   <li>Use native look and feel</li>
  *   <li>Own message color</li>
  *   <li>System message color</li>
+ *   <li>Chosen look and feel</li>
  * </ul>
  *
  * @author Christian Ihle
@@ -98,17 +97,14 @@ public final class Settings
 	/** If debug output to the console is enabled. */
 	private boolean debug;
 
-	/**
-	 * If the application should use the native look and feel of the operating system.
-	 * Set to false to use the normal swing java look.
-	 */
-	private boolean nativeLnF;
-
 	/** If smileys are enabled. */
 	private boolean smileys;
 
 	/** The choice of browser to open urls with. */
 	private String browser;
+
+	/** Name of the chosen look and feel. */
+	private String lookAndFeel;
 
 	/**
 	 * Private constructor.
@@ -133,8 +129,8 @@ public final class Settings
 		ownColor = -15987646;
 		sysColor = -16759040;
 		sound = true;
-		nativeLnF = true;
 		smileys = true;
+		lookAndFeel = "";
 
 		loadSettings();
 	}
@@ -183,9 +179,9 @@ public final class Settings
 			// Properties does not support loading back slash, so replace with forward slash
 			buffWriter.write( "browser=" + browser.replaceAll( "\\\\", "/" ) );
 			buffWriter.newLine();
-			buffWriter.write( "nativelnf=" + nativeLnF );
-			buffWriter.newLine();
 			buffWriter.write( "smileys=" + smileys );
+			buffWriter.newLine();
+			buffWriter.write( "lookAndFeel=" + lookAndFeel );
 			buffWriter.newLine();
 		}
 
@@ -287,12 +283,10 @@ public final class Settings
 			logging = Boolean.valueOf( fileContents.getProperty( "logging" ) );
 			debug = Boolean.valueOf( fileContents.getProperty( "debug" ) );
 			browser = fileContents.getProperty( "browser" );
+			lookAndFeel = fileContents.getProperty( "lookAndFeel" );
 
 			if ( fileContents.getProperty( "sound" ) != null ) // Defaults to true
 				sound = Boolean.valueOf( fileContents.getProperty( "sound" ) );
-
-			if ( fileContents.getProperty( "nativelnf" ) != null ) // Defaults to true
-				nativeLnF = Boolean.valueOf( fileContents.getProperty( "nativelnf" ) );
 
 			if ( fileContents.getProperty( "smileys" ) != null ) // Defaults to true
 				smileys = Boolean.valueOf( fileContents.getProperty( "smileys" ) );
@@ -474,26 +468,6 @@ public final class Settings
 	}
 
 	/**
-	 * Checks if native look and feel is enabled.
-	 *
-	 * @return If native look and feel is enabled.
-	 */
-	public boolean isNativeLnF()
-	{
-		return nativeLnF;
-	}
-
-	/**
-	 * Sets if native look and feel is enabled.
-	 *
-	 * @param nativeLnF If native look and feel is enabled.
-	 */
-	public void setNativeLnF( final boolean nativeLnF )
-	{
-		this.nativeLnF = nativeLnF;
-	}
-
-	/**
 	 * Checks if smileys are enabled.
 	 *
 	 * @return If smileys are enabled.
@@ -511,6 +485,26 @@ public final class Settings
 	public void setSmileys( final boolean smileys )
 	{
 		this.smileys = smileys;
+	}
+
+	/**
+	 * Gets the chosen look and feel.
+	 *
+	 * @return The chosen look and feel.
+	 */
+	public String getLookAndFeel()
+	{
+		return lookAndFeel;
+	}
+
+	/**
+	 * Sets the chosen look and feel.
+	 *
+	 * @param lookAndFeel The chosen look and feel.
+	 */
+	public void setLookAndFeel( final String lookAndFeel )
+	{
+		this.lookAndFeel = lookAndFeel;
 	}
 
 	/**

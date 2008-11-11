@@ -45,6 +45,7 @@ import javax.swing.JFrame;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
  * This is the main chat window.
@@ -70,10 +71,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 		System.setProperty( Constants.PROPERTY_CLIENT_UI, "Swing" );
 		settings = Settings.getSettings();
 		me = settings.getMe();
-
-		if ( settings.isNativeLnF() )
-			UITools.setSystemLookAndFeel();
-
+		setLookAndFeel();
 		new SwingPopupErrorHandler();
 
 		buttonP = new ButtonPanel();
@@ -128,6 +126,31 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 				mainP.getMsgTF().requestFocusInWindow();
 			}
 		} );
+	}
+
+	/**
+	 * Sets the correct look and feel.
+	 *
+	 * <p>The correct look and feel is either the saved look and feel,
+	 * or the system look and feel if one exists. If none of those are
+	 * available, then no look and feel is set.</p>
+	 */
+	private void setLookAndFeel()
+	{
+		LookAndFeelInfo lookAndFeel = UITools.getLookAndFeel( settings.getLookAndFeel() );
+
+		if ( lookAndFeel == null )
+		{
+			if ( UITools.isSystemLookAndFeelSupported() )
+			{
+				UITools.setSystemLookAndFeel();
+			}
+		}
+
+		else
+		{
+			UITools.setLookAndFeel( settings.getLookAndFeel() );
+		}
 	}
 
 	/**

@@ -23,6 +23,8 @@
   - Added support for opening the folder where a file was saved after
     a file transfer
   - Got rid of the horrible group layout in the file transfer dialog
+  - Replaced checkbox for enabling native look and feel with
+    combobox for selecting between all available look and feels
 
 
 * version 0.9.8 (27.01.2008):
