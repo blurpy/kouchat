@@ -76,7 +76,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 	private final JButton saveB, cancelB, chooseOwnColorB, chooseSysColorB, testBrowserB, chooseBrowserB;
 	private final JTextField nickTF, browserTF;
 	private final JLabel nickL, ownColorL, sysColorL, browserL;
-	private final JCheckBox soundCB, loggingCB, nativeLnFCB;
+	private final JCheckBox soundCB, loggingCB, nativeLnFCB, smileysCB;
 	private final Settings settings;
 	private final ErrorHandler errorHandler;
 	private Mediator mediator;
@@ -141,6 +141,10 @@ public class SettingsDialog extends JDialog implements ActionListener
 				+ "<br>feel of your Operating System. A restart is"
 				+ "<br>required before the changes are visible.</html>" );
 
+		smileysCB = new JCheckBox( "Enable smileys" );
+		smileysCB.setToolTipText( "<html>Replaces text smileys in the chat with smiley images."
+				+ "<br />See the FAQ for a list of available smileys.</html>" );
+
 		if ( !UITools.isSystemLookAndFeelSupported() )
 			nativeLnFCB.setEnabled( false );
 
@@ -148,6 +152,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 		miscP.add( soundCB );
 		miscP.add( loggingCB );
 		miscP.add( nativeLnFCB );
+		miscP.add( smileysCB );
 		miscP.setBorder( BorderFactory.createTitledBorder( "Misc" ) );
 
 		browserL = new JLabel( "Browser: " );
@@ -266,6 +271,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 						settings.setLogging( loggingCB.isSelected() );
 						settings.setBrowser( browserTF.getText() );
 						settings.setNativeLnF( nativeLnFCB.isSelected() );
+						settings.setSmileys( smileysCB.isSelected() );
 						settings.saveSettings();
 						setVisible( false );
 					}
@@ -395,6 +401,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 		soundCB.setSelected( settings.isSound() );
 		loggingCB.setSelected( settings.isLogging() );
 		browserTF.setText( settings.getBrowser() );
+		smileysCB.setSelected( settings.isSmileys() );
 
 		if ( nativeLnFCB.isEnabled() )
 			nativeLnFCB.setSelected( settings.isNativeLnF() );

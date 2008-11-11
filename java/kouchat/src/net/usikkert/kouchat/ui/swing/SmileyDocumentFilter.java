@@ -29,6 +29,8 @@ import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import net.usikkert.kouchat.misc.Settings;
+
 /**
  * This is a document filter that checks for text smiley codes added to
  * a {@link StyledDocument}, and replaces them with images.
@@ -48,6 +50,9 @@ public class SmileyDocumentFilter extends DocumentFilter
 	/** The available smileys. */
 	private final SmileyLoader smileyLoader;
 
+	/** The settings. */
+	private final Settings settings;
+
 	/**
 	 * Constructor.
 	 *
@@ -57,11 +62,12 @@ public class SmileyDocumentFilter extends DocumentFilter
 	{
 		this.standAlone = standAlone;
 		smileyLoader = new SmileyLoader();
+		settings = Settings.getSettings();
 	}
 
 	/**
 	 * Checks if any text smiley codes are in the text, and replaces them
-	 * with the corresponding image.
+	 * with the corresponding image. But only if smileys are enabled in the settings.
 	 *
 	 * {@inheritDoc}
 	 */
@@ -71,6 +77,9 @@ public class SmileyDocumentFilter extends DocumentFilter
 	{
 		if ( standAlone )
 			super.insertString( fb, offset, text, attr );
+
+		if ( !settings.isSmileys() )
+			return;
 
 		// Make a copy now, or else it could change if another message comes
 		final MutableAttributeSet smileyAttr = (MutableAttributeSet) attr.copyAttributes();

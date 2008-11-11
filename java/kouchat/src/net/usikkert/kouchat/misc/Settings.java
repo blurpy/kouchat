@@ -47,10 +47,11 @@ import net.usikkert.kouchat.util.Tools;
  * <ul>
  *   <li>Nick name</li>
  *   <li>Browser</li>
- *   <li>Sound</li>
- *   <li>Logging</li>
- *   <li>Debug</li>
- *   <li>Native look and feel</li>
+ *   <li>Enable sound</li>
+ *   <li>Enable logging</li>
+ *   <li>Enable debug</li>
+ *   <li>Enable smileys</li>
+ *   <li>Use native look and feel</li>
  *   <li>Own message color</li>
  *   <li>System message color</li>
  * </ul>
@@ -103,6 +104,9 @@ public final class Settings
 	 */
 	private boolean nativeLnF;
 
+	/** If smileys are enabled. */
+	private boolean smileys;
+
 	/** The choice of browser to open urls with. */
 	private String browser;
 
@@ -130,6 +134,7 @@ public final class Settings
 		sysColor = -16759040;
 		sound = true;
 		nativeLnF = true;
+		smileys = true;
 
 		loadSettings();
 	}
@@ -179,6 +184,8 @@ public final class Settings
 			buffWriter.write( "browser=" + browser.replaceAll( "\\\\", "/" ) );
 			buffWriter.newLine();
 			buffWriter.write( "nativelnf=" + nativeLnF );
+			buffWriter.newLine();
+			buffWriter.write( "smileys=" + smileys );
 			buffWriter.newLine();
 		}
 
@@ -281,11 +288,14 @@ public final class Settings
 			debug = Boolean.valueOf( fileContents.getProperty( "debug" ) );
 			browser = fileContents.getProperty( "browser" );
 
-			if ( fileContents.getProperty( "sound" ) != null )
+			if ( fileContents.getProperty( "sound" ) != null ) // Defaults to true
 				sound = Boolean.valueOf( fileContents.getProperty( "sound" ) );
 
-			if ( fileContents.getProperty( "nativelnf" ) != null )
+			if ( fileContents.getProperty( "nativelnf" ) != null ) // Defaults to true
 				nativeLnF = Boolean.valueOf( fileContents.getProperty( "nativelnf" ) );
+
+			if ( fileContents.getProperty( "smileys" ) != null ) // Defaults to true
+				smileys = Boolean.valueOf( fileContents.getProperty( "smileys" ) );
 		}
 
 		catch ( final FileNotFoundException e )
@@ -481,6 +491,26 @@ public final class Settings
 	public void setNativeLnF( final boolean nativeLnF )
 	{
 		this.nativeLnF = nativeLnF;
+	}
+
+	/**
+	 * Checks if smileys are enabled.
+	 *
+	 * @return If smileys are enabled.
+	 */
+	public boolean isSmileys()
+	{
+		return smileys;
+	}
+
+	/**
+	 * Sets if smileys are enabled.
+	 *
+	 * @param smileys If smileys are enabled.
+	 */
+	public void setSmileys( final boolean smileys )
+	{
+		this.smileys = smileys;
 	}
 
 	/**
