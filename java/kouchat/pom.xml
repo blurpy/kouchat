@@ -31,7 +31,17 @@
         <includes>
           <include>sounds/</include>
           <include>icons/</include>
-          <include>smileys/</include>
+          <include>smileys/smile.png</include>
+          <include>smileys/sad.png</include>
+          <include>smileys/tongue.png</include>
+          <include>smileys/teeth.png</include>
+          <include>smileys/wink.png</include>
+          <include>smileys/omg.png</include>
+          <include>smileys/angry.png</include>
+          <include>smileys/confused.png</include>
+          <include>smileys/cry.png</include>
+          <include>smileys/embarassed.png</include>
+          <include>smileys/shade.png</include>
         </includes>
       </resource>
     </resources>
