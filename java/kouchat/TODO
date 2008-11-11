@@ -3,15 +3,14 @@
 
 * Release v1.0.0:
  - Javadoc
-
-
-* Release v0.9.9:
  - Add command for:
    - Receive file
    - Abort file transfer
+
+
+* Release v0.9.9:
  - Switch titlebar icon on windows with activity?
  - Add favorite nic list?
  - Use unchecked exceptions for errors
  - Add screenshot wiki page to the googlesite
  - Add Nimbus info to the FAQ
- - Change email address in contact info?
