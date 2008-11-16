@@ -141,21 +141,18 @@ public class MessageSender
 				LOG.log( Level.FINE, "Already connected." );
 			}
 
-			else if ( networkInterface != null )
+			else
 			{
 				if ( mcSocket == null )
 					mcSocket = new MulticastSocket( Constants.NETWORK_CHAT_PORT );
 
-				mcSocket.setNetworkInterface( networkInterface );
+				if ( networkInterface != null )
+					mcSocket.setNetworkInterface( networkInterface );
+
 				mcSocket.joinGroup( address );
 				mcSocket.setTimeToLive( 64 );
 				connected = true;
 				LOG.log( Level.FINE, "Connected to " + mcSocket.getNetworkInterface().getDisplayName() + "." );
-			}
-
-			else
-			{
-				LOG.log( Level.SEVERE, "No network interface found." );
 			}
 		}
 
