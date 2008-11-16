@@ -22,7 +22,6 @@
 package net.usikkert.kouchat.util;
 
 import java.lang.management.ManagementFactory;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -60,9 +59,6 @@ import net.usikkert.kouchat.net.NetworkInformationMBean;
  */
 public class JMXAgent
 {
-	/** The logger. */
-	private static final Logger LOG = Loggers.UTIL_LOG;
-
 	/**
 	 * Default constructor. Registers the MBeans, and logs any failures.
 	 *
@@ -71,6 +67,7 @@ public class JMXAgent
 	 */
 	public JMXAgent( final Controller controller, final ConnectionWorker connectionWorker )
 	{
+		Logger log = Loggers.UTIL_LOG;
 		MBeanServer platformMBeanServer = ManagementFactory.getPlatformMBeanServer();
 
 		try
@@ -96,22 +93,22 @@ public class JMXAgent
 
 		catch ( final MalformedObjectNameException e )
 		{
-			LOG.log( Level.SEVERE, e.toString(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 
 		catch ( final InstanceAlreadyExistsException e )
 		{
-			LOG.log( Level.SEVERE, e.toString(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 
 		catch ( final MBeanRegistrationException e )
 		{
-			LOG.log( Level.SEVERE, e.toString(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 
 		catch ( final NotCompliantMBeanException e )
 		{
-			LOG.log( Level.SEVERE, e.toString(), e );
+			log.log( Level.SEVERE, e.toString(), e );
 		}
 	}
 }

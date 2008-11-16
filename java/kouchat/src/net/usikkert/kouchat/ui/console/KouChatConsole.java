@@ -30,8 +30,6 @@ import net.usikkert.kouchat.Constants;
  */
 public class KouChatConsole
 {
-	private final ConsoleMediator mediator;
-
 	/**
 	 * Default constructor. Initializes the User Interface and
 	 * the necessary services.
@@ -39,7 +37,7 @@ public class KouChatConsole
 	public KouChatConsole()
 	{
 		System.setProperty( Constants.PROPERTY_CLIENT_UI, "Console" );
-		mediator = new ConsoleMediator();
+		ConsoleMediator mediator = new ConsoleMediator();
 		mediator.start();
 	}
 }
