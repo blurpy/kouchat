@@ -21,6 +21,7 @@
 
 package net.usikkert.kouchat;
 
+import net.usikkert.kouchat.ui.UIChoice;
 import net.usikkert.kouchat.ui.UIException;
 import net.usikkert.kouchat.ui.UIFactory;
 import net.usikkert.kouchat.util.UncaughtExceptionLogger;
@@ -99,13 +100,13 @@ public final class KouChat
 			if ( swing )
 			{
 				System.out.println( "\nLoading Swing User Interface\n" );
-				new UIFactory().loadUI( "swing" );
+				new UIFactory().loadUI( UIChoice.SWING );
 			}
 
 			else
 			{
 				System.out.println( "\nLoading Console User Interface\n" );
-				new UIFactory().loadUI( "console" );
+				new UIFactory().loadUI( UIChoice.CONSOLE );
 			}
 		}
 
