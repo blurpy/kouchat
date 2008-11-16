@@ -21,11 +21,8 @@
 
 package net.usikkert.kouchat.net;
 
-import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -62,7 +59,7 @@ public class NetworkInformation implements NetworkInformationMBean
 		if ( networkInterface == null )
 			return "No current network interface.";
 		else
-			return getNetworkInterfaceInfo( networkInterface );
+			return NetworkUtils.getNetworkInterfaceInfo( networkInterface );
 	}
 
 	/** {@inheritDoc} */
@@ -80,8 +77,8 @@ public class NetworkInformation implements NetworkInformationMBean
 		{
 			NetworkInterface netif = networkInterfaces.nextElement();
 
-			if ( connectionWorker.isUsable( netif ) )
-				list.add( getNetworkInterfaceInfo( netif ) );
+			if ( NetworkUtils.isUsable( netif ) )
+				list.add( NetworkUtils.getNetworkInterfaceInfo( netif ) );
 		}
 
 		if ( list.size() == 0 )
@@ -104,7 +101,7 @@ public class NetworkInformation implements NetworkInformationMBean
 		while ( networkInterfaces.hasMoreElements() )
 		{
 			NetworkInterface netif = networkInterfaces.nextElement();
-			list.add( getNetworkInterfaceInfo( netif ) );
+			list.add( NetworkUtils.getNetworkInterfaceInfo( netif ) );
 		}
 
 		return list.toArray( new String[0] );
@@ -122,52 +119,5 @@ public class NetworkInformation implements NetworkInformationMBean
 	public void connect()
 	{
 		connectionWorker.start();
-	}
-
-	/**
-	 * Constructs a string with the information found on a {@link NetworkInterface}.
-	 *
-	 * @param netif The network interface to check.
-	 * @return A string with information.
-	 * @throws SocketException In case of network errors.
-	 */
-	private static String getNetworkInterfaceInfo( final NetworkInterface netif ) throws SocketException
-	{
-		if ( netif == null )
-			return "Invalid network interface.";
-
-		String ipaddr = "";
-		Enumeration<InetAddress> inetAddresses = netif.getInetAddresses();
-
-		while ( inetAddresses.hasMoreElements() )
-		{
-			InetAddress inetAddress = inetAddresses.nextElement();
-			if ( inetAddress instanceof Inet4Address )
-				ipaddr += inetAddress.getHostAddress() + " ";
-		}
-
-		String hwaddress = "";
-		byte[] address = netif.getHardwareAddress();
-
-		// Convert byte array to hex format
-		if ( address != null )
-		{
-			for ( int i = 0; i < address.length; i++ )
-			{
-				hwaddress += String.format( "%02x", address[i] );
-				if ( i != address.length - 1 )
-					hwaddress += "-";
-			}
-		}
-
-		return "Interface name: " + netif.getDisplayName() + "\n"
-				+ "Device: " + netif.getName() + "\n"
-				+ "Is loopback: " + netif.isLoopback() + "\n"
-				+ "Is up: " + netif.isUp() + "\n"
-				+ "Is p2p: " + netif.isPointToPoint() + "\n"
-				+ "Is virtual: " + netif.isVirtual() + "\n"
-				+ "Supports multicast: " + netif.supportsMulticast() + "\n"
-				+ "MAC address: " + hwaddress.toUpperCase() + "\n"
-				+ "IP addresses: " + ipaddr;
 	}
 }

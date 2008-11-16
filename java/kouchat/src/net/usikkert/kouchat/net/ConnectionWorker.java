@@ -21,11 +21,8 @@
 
 package net.usikkert.kouchat.net;
 
-import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -94,7 +91,7 @@ public class ConnectionWorker implements Runnable
 				NetworkInterface netif = selectNetworkInterface();
 
 				// No network interface to connect with
-				if ( !isUsable( netif ) )
+				if ( !NetworkUtils.isUsable( netif ) )
 				{
 					LOG.log( Level.FINE, "Network is down, sleeping" );
 					// To avoid notifying about this every 15 seconds
@@ -240,51 +237,11 @@ public class ConnectionWorker implements Runnable
 		{
 			NetworkInterface netif = networkInterfaces.nextElement();
 
-			if ( isUsable( netif ) )
+			if ( NetworkUtils.isUsable( netif ) )
 				return netif;
 		}
 
 		return null;
-	}
-
-	/**
-	 * Checks if the network interface is up, and usable.
-	 *
-	 * <p>A network interface is usable when it:</p>
-	 *
-	 * <ul>
-	 *   <li>Is up.</li>
-	 *   <li>Supports multicast.</li>
-	 *   <li>Is not a loopback device, like localhost.</li>
-	 *   <li>Is not a point to point device, like a modem.</li>
-	 *   <li>Is not virtual, like <code>eth0:1</code>.</li>
-	 *   <li>Has an IPv4 address.</li>
-	 * </ul>
-	 *
-	 * @param netif The network interface to check.
-	 * @return True if the network interface is usable.
-	 * @throws SocketException In case of network issues.
-	 */
-	public boolean isUsable( final NetworkInterface netif ) throws SocketException
-	{
-		if ( netif == null )
-			return false;
-
-		else if ( netif.isUp() && !netif.isLoopback() && !netif.isPointToPoint()
-				&& !netif.isVirtual() && netif.supportsMulticast() )
-		{
-			Enumeration<InetAddress> inetAddresses = netif.getInetAddresses();
-
-			while ( inetAddresses.hasMoreElements() )
-			{
-				InetAddress inetAddress = inetAddresses.nextElement();
-
-				if ( inetAddress instanceof Inet4Address )
-					return true;
-			}
-		}
-
-		return false;
 	}
 
 	/**
