@@ -23,7 +23,6 @@ package net.usikkert.kouchat.ui.console;
 
 import java.io.File;
 
-import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.NickDTO;
@@ -51,7 +50,6 @@ public class ConsoleMediator implements UserInterface
 	{
 		chat = new ConsoleChatWindow();
 		msgController = new MessageController( chat, this );
-		msgController.showSystemMessage( "Welcome to " + Constants.APP_NAME + " v" + Constants.APP_VERSION + "!" );
 		controller = new Controller( this );
 		ci = new ConsoleInput( controller, this );
 		ci.start();
