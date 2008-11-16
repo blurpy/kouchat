@@ -217,7 +217,9 @@ public class ConnectionWorker implements Runnable
 	public void stop()
 	{
 		run = false;
-		worker.interrupt();
+
+		if ( worker != null )
+			worker.interrupt();
 	}
 
 	/**
