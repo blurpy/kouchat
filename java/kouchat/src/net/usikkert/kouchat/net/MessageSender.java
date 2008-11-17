@@ -22,12 +22,10 @@
 package net.usikkert.kouchat.net;
 
 import java.io.IOException;
-
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.NetworkInterface;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,18 +43,49 @@ public class MessageSender
 	/** The logger. */
 	private static final Logger LOG = Loggers.NETWORK_LOG;
 
+	/** The multicast socket used for sending messages. */
 	private MulticastSocket mcSocket;
+
+	/** The inetaddress object with the multicast ip address to send messages to. */
 	private InetAddress address;
+
+	/** If connected to the network or not. */
 	private boolean connected;
+
+	/** The error handler for registering important messages. */
 	private final ErrorHandler errorHandler;
 
-	public MessageSender()
+	/** The port to send messages to. */
+	private final int port;
+
+	/**
+	 * Default constructor.
+	 * 
+	 * <p>Initializes the network with the default ip address and port.</p>
+	 * 
+	 * @see Constants#NETWORK_IP
+	 * @see Constants#NETWORK_CHAT_PORT
+	 */
+	public MessageSender() {
+		this( Constants.NETWORK_IP, Constants.NETWORK_CHAT_PORT );
+	}
+
+	/**
+	 * Alternative constructor.
+	 * 
+	 * <p>Initializes the network with the given ip address and port.</p>
+	 * 
+	 * @param ipAddress Multicast ip address to connect to.
+	 * @param port Port to connect to.
+	 */
+	public MessageSender( final String ipAddress, final int port )
 	{
+		this.port = port;
 		errorHandler = ErrorHandler.getErrorHandler();
 
 		try
 		{
-			address = InetAddress.getByName( Constants.NETWORK_IP );
+			address = InetAddress.getByName( ipAddress );
 		}
 
 		catch ( final IOException e )
@@ -68,6 +97,13 @@ public class MessageSender
 		}
 	}
 
+	/**
+	 * Sends a multicast packet to other clients over the network.
+	 * 
+	 * @param message The message to send in the packet.
+	 * @see Constants#MESSAGE_CHARSET
+	 * @see Constants#NETWORK_PACKET_SIZE
+	 */
 	public void send( final String message )
 	{
 		if ( connected )
@@ -83,7 +119,7 @@ public class MessageSender
 							+ " The receiver might not get the complete message.\n'" + message + "'" );
 				}
 
-				DatagramPacket packet = new DatagramPacket( encodedMsg, size, address, Constants.NETWORK_CHAT_PORT );
+				DatagramPacket packet = new DatagramPacket( encodedMsg, size, address, port );
 				mcSocket.send( packet );
 			}
 
@@ -94,6 +130,9 @@ public class MessageSender
 		}
 	}
 
+	/**
+	 * Disconnects from the network and closes the multicast socket.
+	 */
 	public void stopSender()
 	{
 		LOG.log( Level.FINE, "Disconnecting..." );
@@ -130,6 +169,14 @@ public class MessageSender
 		}
 	}
 
+	/**
+	 * Connects to the network with the given network interface, or gives
+	 * the control to the operating system to choose if <code>null</code>
+	 * is given.
+	 * 
+	 * @param networkInterface The network interface to use, or <code>null</code>.
+	 * @return If connected to the network or not.
+	 */
 	public boolean startSender( final NetworkInterface networkInterface )
 	{
 		LOG.log( Level.FINE, "Connecting..." );
@@ -144,7 +191,7 @@ public class MessageSender
 			else
 			{
 				if ( mcSocket == null )
-					mcSocket = new MulticastSocket( Constants.NETWORK_CHAT_PORT );
+					mcSocket = new MulticastSocket( port );
 
 				if ( networkInterface != null )
 					mcSocket.setNetworkInterface( networkInterface );

@@ -22,12 +22,10 @@
 package net.usikkert.kouchat.net;
 
 import java.io.IOException;
-
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.NetworkInterface;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,20 +45,55 @@ public class MessageReceiver implements Runnable
 	/** The logger. */
 	private static final Logger LOG = Loggers.NETWORK_LOG;
 
+	/** The multicast socket used for receiving messages. */
 	private MulticastSocket mcSocket;
+
+	/** The inetaddress object with the multicast ip address to receive messages from. */
 	private InetAddress address;
+
+	/** The listener getting all the messages received here. */
 	private ReceiverListener listener;
+
+	/** If connected to the network or not. */
 	private boolean connected;
+
+	/** The background thread watching for messages from the network. */
 	private Thread worker;
+
+	/** The error handler for registering important messages. */
 	private final ErrorHandler errorHandler;
 
-	public MessageReceiver()
+	/** The port to receive messages on. */
+	private final int port;
+
+	/**
+	 * Default constructor.
+	 * 
+	 * <p>Initializes the network with the default ip address and port.</p>
+	 * 
+	 * @see Constants#NETWORK_IP
+	 * @see Constants#NETWORK_CHAT_PORT
+	 */
+	public MessageReceiver() {
+		this( Constants.NETWORK_IP, Constants.NETWORK_CHAT_PORT );
+	}
+
+	/**
+	 * Alternative constructor.
+	 * 
+	 * <p>Initializes the network with the given ip address and port.</p>
+	 * 
+	 * @param ipAddress Multicast ip address to connect to.
+	 * @param port Port to connect to.
+	 */
+	public MessageReceiver( final String ipAddress, final int port )
 	{
+		this.port = port;
 		errorHandler = ErrorHandler.getErrorHandler();
 
 		try
 		{
-			address = InetAddress.getByName( Constants.NETWORK_IP );
+			address = InetAddress.getByName( ipAddress );
 		}
 
 		catch ( final IOException e )
@@ -72,6 +105,9 @@ public class MessageReceiver implements Runnable
 		}
 	}
 
+	/**
+	 * Waits for incoming packets, and notifies the listener when they arrive.
+	 */
 	public void run()
 	{
 		while ( connected )
@@ -96,6 +132,9 @@ public class MessageReceiver implements Runnable
 		}
 	}
 
+	/**
+	 * Starts the thread that listens for messages.
+	 */
 	private void startThread()
 	{
 		LOG.log( Level.FINE, "Starting." );
@@ -103,6 +142,16 @@ public class MessageReceiver implements Runnable
 		worker.start();
 	}
 
+	/**
+	 * Connects to the network with the given network interface, or gives
+	 * the control to the operating system to choose if <code>null</code>
+	 * is given.
+	 * 
+	 * <p>Will also start a thread to continuously receive messages.</p>
+	 * 
+	 * @param networkInterface The network interface to use, or <code>null</code>.
+	 * @return If connected to the network or not.
+	 */
 	public boolean startReceiver( final NetworkInterface networkInterface )
 	{
 		LOG.log( Level.FINE, "Connecting..." );
@@ -117,7 +166,7 @@ public class MessageReceiver implements Runnable
 			else
 			{
 				if ( mcSocket == null )
-					mcSocket = new MulticastSocket( Constants.NETWORK_CHAT_PORT );
+					mcSocket = new MulticastSocket( port );
 
 				if ( networkInterface != null )
 					mcSocket.setNetworkInterface( networkInterface );
@@ -141,6 +190,9 @@ public class MessageReceiver implements Runnable
 		return connected;
 	}
 
+	/**
+	 * Disconnects from the network and closes the multicast socket.
+	 */
 	public void stopReceiver()
 	{
 		LOG.log( Level.FINE, "Disconnecting..." );
@@ -177,6 +229,12 @@ public class MessageReceiver implements Runnable
 		}
 	}
 
+	/**
+	 * Registers as the listener to receive all the messages from
+	 * the network.
+	 * 
+	 * @param listener The listener to register.
+	 */
 	public void registerReceiverListener( final ReceiverListener listener )
 	{
 		this.listener = listener;
