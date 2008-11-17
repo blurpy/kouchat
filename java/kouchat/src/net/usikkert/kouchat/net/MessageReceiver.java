@@ -68,21 +68,22 @@ public class MessageReceiver implements Runnable
 
 	/**
 	 * Default constructor.
-	 * 
+	 *
 	 * <p>Initializes the network with the default ip address and port.</p>
-	 * 
+	 *
 	 * @see Constants#NETWORK_IP
 	 * @see Constants#NETWORK_CHAT_PORT
 	 */
-	public MessageReceiver() {
+	public MessageReceiver()
+	{
 		this( Constants.NETWORK_IP, Constants.NETWORK_CHAT_PORT );
 	}
 
 	/**
 	 * Alternative constructor.
-	 * 
+	 *
 	 * <p>Initializes the network with the given ip address and port.</p>
-	 * 
+	 *
 	 * @param ipAddress Multicast ip address to connect to.
 	 * @param port Port to connect to.
 	 */
@@ -146,9 +147,9 @@ public class MessageReceiver implements Runnable
 	 * Connects to the network with the given network interface, or gives
 	 * the control to the operating system to choose if <code>null</code>
 	 * is given.
-	 * 
+	 *
 	 * <p>Will also start a thread to continuously receive messages.</p>
-	 * 
+	 *
 	 * @param networkInterface The network interface to use, or <code>null</code>.
 	 * @return If connected to the network or not.
 	 */
@@ -232,7 +233,7 @@ public class MessageReceiver implements Runnable
 	/**
 	 * Registers as the listener to receive all the messages from
 	 * the network.
-	 * 
+	 *
 	 * @param listener The listener to register.
 	 */
 	public void registerReceiverListener( final ReceiverListener listener )

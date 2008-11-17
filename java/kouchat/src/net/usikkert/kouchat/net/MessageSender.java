@@ -60,21 +60,22 @@ public class MessageSender
 
 	/**
 	 * Default constructor.
-	 * 
+	 *
 	 * <p>Initializes the network with the default ip address and port.</p>
-	 * 
+	 *
 	 * @see Constants#NETWORK_IP
 	 * @see Constants#NETWORK_CHAT_PORT
 	 */
-	public MessageSender() {
+	public MessageSender()
+	{
 		this( Constants.NETWORK_IP, Constants.NETWORK_CHAT_PORT );
 	}
 
 	/**
 	 * Alternative constructor.
-	 * 
+	 *
 	 * <p>Initializes the network with the given ip address and port.</p>
-	 * 
+	 *
 	 * @param ipAddress Multicast ip address to connect to.
 	 * @param port Port to connect to.
 	 */
@@ -99,7 +100,7 @@ public class MessageSender
 
 	/**
 	 * Sends a multicast packet to other clients over the network.
-	 * 
+	 *
 	 * @param message The message to send in the packet.
 	 * @see Constants#MESSAGE_CHARSET
 	 * @see Constants#NETWORK_PACKET_SIZE
@@ -173,7 +174,7 @@ public class MessageSender
 	 * Connects to the network with the given network interface, or gives
 	 * the control to the operating system to choose if <code>null</code>
 	 * is given.
-	 * 
+	 *
 	 * @param networkInterface The network interface to use, or <code>null</code>.
 	 * @return If connected to the network or not.
 	 */
