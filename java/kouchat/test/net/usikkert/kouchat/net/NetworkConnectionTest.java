@@ -44,10 +44,10 @@ public class NetworkConnectionTest
 	@Test
 	public void testFindOperatingSystemNetworkInterface() throws Exception
 	{
-		MessageSender sender = new MessageSender();
+		MessageSender sender = new MessageSender( "224.168.5.201", 50000 );
 		sender.startSender( null );
 
-		MessageReceiver receiver = new MessageReceiver();
+		MessageReceiver receiver = new MessageReceiver( "224.168.5.201", 50000 );
 		receiver.startReceiver( null );
 
 		receiver.registerReceiverListener( new ReceiverListener()
