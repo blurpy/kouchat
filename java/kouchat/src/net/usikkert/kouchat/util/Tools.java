@@ -238,4 +238,22 @@ public final class Tools
 			return 0;
 		}
 	}
+
+	/**
+	 * Calls {@link Thread#sleep(long)}, and ignores any exceptions.
+	 *
+	 * @param millis Number of milliseconds to sleep.
+	 */
+	public static void sleep( final long millis )
+	{
+		try
+		{
+			Thread.sleep( millis );
+		}
+
+		catch ( final InterruptedException e )
+		{
+			LOG.log( Level.WARNING, e.toString() );
+		}
+	}
 }

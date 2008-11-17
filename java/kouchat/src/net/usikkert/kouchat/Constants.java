@@ -82,6 +82,12 @@ public interface Constants
 	int NETWORK_PRIVCHAT_PORT = 40656;
 
 	/**
+	 * The temporary multicast udp port used for sending and
+	 * receiving packets.
+	 */
+	int NETWORK_TEMP_PORT = 50050;
+
+	/**
 	 * The tcp port used for receiving file transfers.
 	 * This is only the starting port.
 	 * If it is already in use, port +1 is tried, and so on.
@@ -99,6 +105,12 @@ public interface Constants
 	 * packets for the main chat.
 	 */
 	String NETWORK_IP = "224.168.5.200";
+
+	/**
+	 * The temporary multicast address used for sending and
+	 * receiving packets.
+	 */
+	String NETWORK_TEMP_IP = "224.168.5.250";
 
 	/**
 	 * The character set used for messages.

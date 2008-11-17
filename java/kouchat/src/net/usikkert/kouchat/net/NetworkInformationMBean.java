@@ -22,7 +22,6 @@
 package net.usikkert.kouchat.net;
 
 import java.net.SocketException;
-import java.net.UnknownHostException;
 
 /**
  * This is the JMX MBean interface for the network service.
@@ -47,11 +46,8 @@ public interface NetworkInformationMBean
 	 *
 	 * @return A string with information.
 	 * @throws SocketException In case of network errors.
-	 * @throws UnknownHostException In case of trouble resolving the ip address.
-	 * @throws InterruptedException In case of trouble sleeping.
 	 */
-	String showOperatingSystemNetwork()
-			throws SocketException, UnknownHostException, InterruptedException;
+	String showOperatingSystemNetwork() throws SocketException;
 
 	/**
 	 * Shows the available networks that are usable for chat.
