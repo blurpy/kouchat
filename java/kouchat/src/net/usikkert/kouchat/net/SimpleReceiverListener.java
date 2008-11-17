@@ -21,57 +21,60 @@
 
 package net.usikkert.kouchat.net;
 
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import net.usikkert.kouchat.event.ReceiverListener;
 
 /**
- * This is the JMX MBean interface for the network service.
+ * This is a very simple {@link ReceiverListener} for getting the message
+ * and ip address when a message arrives.
  *
  * @author Christian Ihle
  */
-public interface NetworkInformationMBean
+public class SimpleReceiverListener implements ReceiverListener
 {
-	/** The name of this MBean. */
-	String NAME = "Network";
+	/** The arrived message, or null. */
+	private String message;
+
+	/** The ip address of the arrived message, or null. */
+	private String ipAddress;
 
 	/**
-	 * Shows the current connected network.
+	 * Stores the message and ip address, and nothing more.
 	 *
-	 * @return A string with information.
-	 * @throws SocketException In case of network errors.
+	 * {@inheritDoc}
 	 */
-	String showCurrentNetwork() throws SocketException;
+	@Override
+	public void messageArrived( final String message, final String ipAddress )
+	{
+		this.message = message;
+		this.ipAddress = ipAddress;
+	}
 
 	/**
-	 * Shows the network that the operation system would have chosen.
+	 * Gets the arrived message.
 	 *
-	 * @return A string with information.
-	 * @throws SocketException In case of network errors.
-	 * @throws UnknownHostException In case of trouble resolving the ip address.
-	 * @throws InterruptedException In case of trouble sleeping.
+	 * @return The message.
 	 */
-	String showOperatingSystemNetwork()
-			throws SocketException, UnknownHostException, InterruptedException;
+	public String getMessage()
+	{
+		return message;
+	}
 
 	/**
-	 * Shows the available networks that are usable for chat.
+	 * Gets the ip address of the arrived message.
 	 *
-	 * @return A string with information.
-	 * @throws SocketException In case of network errors.
+	 * @return The ip address.
 	 */
-	String[] showUsableNetworks() throws SocketException;
+	public String getIpAddress()
+	{
+		return ipAddress;
+	}
 
 	/**
-	 * Shows all the available networks.
-	 *
-	 * @return A string with information.
-	 * @throws SocketException In case of network errors.
+	 * Resets the message and ip address to <code>null</code>.
 	 */
-	String[] showAllNetworks() throws SocketException;
-
-	/** Disconnects from the network, without logging off. */
-	void disconnect();
-
-	/** Connects to the network. */
-	void connect();
+	public void reset()
+	{
+		message = null;
+		ipAddress = null;
+	}
 }

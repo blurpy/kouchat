@@ -21,8 +21,10 @@
 
 package net.usikkert.kouchat.net;
 
+import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -60,6 +62,45 @@ public class NetworkInformation implements NetworkInformationMBean
 			return "No current network interface.";
 		else
 			return NetworkUtils.getNetworkInterfaceInfo( networkInterface );
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public String showOperatingSystemNetwork()
+			throws SocketException, UnknownHostException, InterruptedException
+	{
+		final String ipAddress = "224.168.5.250";
+		final int port = 50050;
+
+		MessageReceiver receiver = new MessageReceiver( ipAddress, port );
+		receiver.startReceiver( null );
+
+		SimpleReceiverListener listener = new SimpleReceiverListener();
+		receiver.registerReceiverListener( listener );
+
+		MessageSender sender = new MessageSender( ipAddress, port );
+		sender.startSender( null );
+
+		sender.send( "showOperatingSystemNetwork" );
+
+		for ( int i = 0; i < 20; i++ )
+		{
+			if ( listener.getIpAddress() == null )
+				Thread.sleep( 50 );
+			else
+				break;
+		}
+
+		sender.stopSender();
+		receiver.stopReceiver();
+
+		if ( listener.getIpAddress() == null )
+			return "Could not find the operating system network interface.";
+
+		InetAddress messageAddress = InetAddress.getByName( listener.getIpAddress() );
+		NetworkInterface messageInterface = NetworkInterface.getByInetAddress( messageAddress );
+
+		return NetworkUtils.getNetworkInterfaceInfo( messageInterface );
 	}
 
 	/** {@inheritDoc} */
