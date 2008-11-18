@@ -21,7 +21,7 @@
 
 package net.usikkert.kouchat.ui.swing;
 
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 
 /**
  * Used to find out which user a file was dragged and dropped on.
@@ -35,5 +35,5 @@ public interface FileDropSource
 	 *
 	 * @return The user.
 	 */
-	NickDTO getUser();
+	User getUser();
 }

@@ -24,7 +24,7 @@ package net.usikkert.kouchat.net;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 
 /**
  * This class keeps a list of all the ongoing file transfers.
@@ -52,7 +52,7 @@ public class TransferList
 		senders.remove( fileSender );
 	}
 
-	public FileSender getFileSender( final NickDTO user, final String fileName, final int fileHash )
+	public FileSender getFileSender( final User user, final String fileName, final int fileHash )
 	{
 		FileSender fileSender = null;
 
@@ -68,7 +68,7 @@ public class TransferList
 		return fileSender;
 	}
 
-	public List<FileSender> getFileSenders( final NickDTO user )
+	public List<FileSender> getFileSenders( final User user )
 	{
 		List<FileSender> list = new ArrayList<FileSender>();
 
@@ -105,7 +105,7 @@ public class TransferList
 		receivers.remove( fileReceiver );
 	}
 
-	public List<FileReceiver> getFileReceivers( final NickDTO user )
+	public List<FileReceiver> getFileReceivers( final User user )
 	{
 		List<FileReceiver> list = new ArrayList<FileReceiver>();
 

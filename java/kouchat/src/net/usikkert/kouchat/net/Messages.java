@@ -21,7 +21,7 @@
 
 package net.usikkert.kouchat.net;
 
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.Topic;
 import net.usikkert.kouchat.util.Validate;
@@ -35,7 +35,7 @@ import net.usikkert.kouchat.util.Validate;
 public class Messages
 {
 	private final NetworkService networkService;
-	private final NickDTO me;
+	private final User me;
 	private final Settings settings;
 
 	public Messages( final NetworkService networkService )

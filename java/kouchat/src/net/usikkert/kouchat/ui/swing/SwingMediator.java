@@ -32,7 +32,7 @@ import net.usikkert.kouchat.misc.CommandParser;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.MessageController;
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.NickList;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.SoundBeeper;
@@ -65,7 +65,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 	private final Controller controller;
 	private final Settings settings;
-	private final NickDTO me;
+	private final User me;
 	private final TransferList tList;
 	private final CommandParser cmdParser;
 	private final SoundBeeper beeper;
@@ -331,7 +331,7 @@ public class SwingMediator implements Mediator, UserInterface
 	 * another user.
 	 */
 	@Override
-	public void sendFile( final NickDTO user, final File selectedFile )
+	public void sendFile( final User user, final File selectedFile )
 	{
 		if ( user == null )
 			return;
@@ -425,7 +425,7 @@ public class SwingMediator implements Mediator, UserInterface
 	public void writePrivate( final PrivateChatWindow privchat )
 	{
 		String line = privchat.getChatText();
-		NickDTO user = privchat.getUser();
+		User user = privchat.getUser();
 
 		if ( line.trim().length() > 0 )
 		{
@@ -630,7 +630,7 @@ public class SwingMediator implements Mediator, UserInterface
 	 * @param user The user that sent the private message.
 	 */
 	@Override
-	public void notifyPrivateMessageArrived( final NickDTO user )
+	public void notifyPrivateMessageArrived( final User user )
 	{
 		PrivateChatWindow privchat = user.getPrivchat();
 
@@ -807,7 +807,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 		for ( int i = 0; i < list.size(); i++ )
 		{
-			NickDTO user = list.get( i );
+			User user = list.get( i );
 
 			if ( user.getPrivchat() != null )
 			{
@@ -834,7 +834,7 @@ public class SwingMediator implements Mediator, UserInterface
 	 * one is created.
 	 */
 	@Override
-	public void createPrivChat( final NickDTO user )
+	public void createPrivChat( final User user )
 	{
 		if ( user.getPrivchat() == null )
 			user.setPrivchat( new PrivateChatFrame( this, user ) );
@@ -844,7 +844,7 @@ public class SwingMediator implements Mediator, UserInterface
 	 * Shows the user's private chat window.
 	 */
 	@Override
-	public void showPrivChat( final NickDTO user )
+	public void showPrivChat( final User user )
 	{
 		createPrivChat( user );
 		user.getPrivchat().setVisible( true );
@@ -855,7 +855,7 @@ public class SwingMediator implements Mediator, UserInterface
 	 * Resets the new private message field of the user.
 	 */
 	@Override
-	public void activatedPrivChat( final NickDTO user )
+	public void activatedPrivChat( final User user )
 	{
 		if ( user.isNewPrivMsg() )
 			controller.changeNewMessage( user.getCode(), false );

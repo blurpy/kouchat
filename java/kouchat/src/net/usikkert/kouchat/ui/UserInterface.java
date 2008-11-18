@@ -24,7 +24,7 @@ package net.usikkert.kouchat.ui;
 import java.io.File;
 
 import net.usikkert.kouchat.misc.MessageController;
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 
@@ -104,7 +104,7 @@ public interface UserInterface
 	 *
 	 * @param user The user which sent a message.
 	 */
-	void notifyPrivateMessageArrived( NickDTO user );
+	void notifyPrivateMessageArrived( User user );
 
 	/**
 	 * Returns the message controller.
@@ -121,7 +121,7 @@ public interface UserInterface
 	 * @param user The user to update with a
 	 * {@link PrivateChatWindow}
 	 */
-	void createPrivChat( NickDTO user );
+	void createPrivChat( User user );
 
 	/**
 	 * Checks if the main chat is visible.

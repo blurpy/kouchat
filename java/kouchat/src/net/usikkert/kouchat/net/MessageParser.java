@@ -25,7 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.event.ReceiverListener;
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Loggers;
 
@@ -90,7 +90,7 @@ public class MessageParser implements ReceiverListener
 			String msgNick = message.substring( hash + 1, colon );
 			String msg = message.substring( colon + 1, message.length() );
 
-			NickDTO tempme = settings.getMe();
+			User tempme = settings.getMe();
 
 			if ( msgCode != tempme.getCode() && loggedOn )
 			{
@@ -105,7 +105,7 @@ public class MessageParser implements ReceiverListener
 
 				else if ( type.equals( "LOGON" ) )
 				{
-					NickDTO newUser = new NickDTO( msgNick, msgCode );
+					User newUser = new User( msgNick, msgCode );
 					newUser.setIpAddress( ipAddress );
 					newUser.setLastIdle( System.currentTimeMillis() );
 					newUser.setLogonTime( System.currentTimeMillis() );
@@ -115,7 +115,7 @@ public class MessageParser implements ReceiverListener
 
 				else if ( type.equals( "EXPOSING" ) )
 				{
-					NickDTO user = new NickDTO( msgNick, msgCode );
+					User user = new User( msgNick, msgCode );
 					user.setIpAddress( ipAddress );
 					user.setAwayMsg( msg );
 

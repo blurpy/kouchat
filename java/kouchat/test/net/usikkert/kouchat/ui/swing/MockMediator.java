@@ -23,7 +23,7 @@ package net.usikkert.kouchat.ui.swing;
 
 import java.io.File;
 
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 
@@ -42,7 +42,7 @@ public class MockMediator implements Mediator
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void activatedPrivChat( final NickDTO user )
+	public void activatedPrivChat( final User user )
 	{
 
 	}
@@ -97,7 +97,7 @@ public class MockMediator implements Mediator
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void sendFile( final NickDTO user, final File selectedFile )
+	public void sendFile( final User user, final File selectedFile )
 	{
 
 	}
@@ -141,7 +141,7 @@ public class MockMediator implements Mediator
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void showPrivChat( final NickDTO user )
+	public void showPrivChat( final User user )
 	{
 
 	}

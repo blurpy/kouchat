@@ -32,7 +32,7 @@ package net.usikkert.kouchat.misc;
 public class NickController
 {
 	private final NickList nickList;
-	private final NickDTO me;
+	private final User me;
 	private final Settings settings;
 
 	/**
@@ -53,13 +53,13 @@ public class NickController
 	 * @param code The unique code of the user to get.
 	 * @return The user, or <code>null</code> if the user was not found.
 	 */
-	public NickDTO getNick( final int code )
+	public User getNick( final int code )
 	{
-		NickDTO dto = null;
+		User dto = null;
 
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
-			NickDTO temp = nickList.get( i );
+			User temp = nickList.get( i );
 
 			if ( temp.getCode() == code )
 			{
@@ -77,13 +77,13 @@ public class NickController
 	 * @param nick The unique nick name of the user to get.
 	 * @return The user, or <code>null</code> if the user was not found.
 	 */
-	public NickDTO getNick( final String nick )
+	public User getNick( final String nick )
 	{
-		NickDTO dto = null;
+		User dto = null;
 
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
-			NickDTO temp = nickList.get( i );
+			User temp = nickList.get( i );
 
 			if ( temp.getNick().equalsIgnoreCase( nick ) )
 			{
@@ -105,7 +105,7 @@ public class NickController
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
-			NickDTO temp = nickList.get( i );
+			User temp = nickList.get( i );
 
 			if ( temp.getCode() == code )
 			{
@@ -127,7 +127,7 @@ public class NickController
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
-			NickDTO temp = nickList.get( i );
+			User temp = nickList.get( i );
 
 			if ( temp.getCode() == code )
 			{
@@ -149,7 +149,7 @@ public class NickController
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
-			NickDTO temp = nickList.get( i );
+			User temp = nickList.get( i );
 
 			if ( temp.getCode() == code )
 			{
@@ -170,7 +170,7 @@ public class NickController
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
-			NickDTO temp = nickList.get( i );
+			User temp = nickList.get( i );
 
 			if ( temp.getCode() == code )
 			{
@@ -193,7 +193,7 @@ public class NickController
 
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
-			NickDTO temp = nickList.get( i );
+			User temp = nickList.get( i );
 
 			if ( temp.getNick().equalsIgnoreCase( nick ) && !temp.isMe() )
 			{
@@ -217,7 +217,7 @@ public class NickController
 
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
-			NickDTO temp = nickList.get( i );
+			User temp = nickList.get( i );
 
 			if ( temp.getCode() == code )
 			{
@@ -243,7 +243,7 @@ public class NickController
 	{
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
-			NickDTO temp = nickList.get( i );
+			User temp = nickList.get( i );
 
 			if ( temp.getNick().equals( "" + temp.getCode() ) )
 				return true;

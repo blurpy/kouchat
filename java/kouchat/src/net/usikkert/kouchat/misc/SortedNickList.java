@@ -31,14 +31,14 @@ import net.usikkert.kouchat.event.NickListListener;
  * This is a sorted version of the nick list.
  *
  * <p>The users in the list are sorted by nick name,
- * as specified in {@link NickDTO#compareTo(NickDTO)}.</p>
+ * as specified in {@link User#compareTo(User)}.</p>
  *
  * @author Christian Ihle
  */
 public class SortedNickList implements NickList
 {
 	/** The list of users in the chat. */
-	private final List<NickDTO> nickList;
+	private final List<User> nickList;
 
 	/** The list of listeners of changes to the user list. */
 	private final List<NickListListener> listeners;
@@ -48,7 +48,7 @@ public class SortedNickList implements NickList
 	 */
 	public SortedNickList()
 	{
-		nickList = new ArrayList<NickDTO>();
+		nickList = new ArrayList<User>();
 		listeners = new ArrayList<NickListListener>();
 	}
 
@@ -58,7 +58,7 @@ public class SortedNickList implements NickList
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean add( final NickDTO nick )
+	public boolean add( final User nick )
 	{
 		boolean success = nickList.add( nick );
 
@@ -73,7 +73,7 @@ public class SortedNickList implements NickList
 
 	/** {@inheritDoc} */
 	@Override
-	public NickDTO get( final int pos )
+	public User get( final int pos )
 	{
 		if ( pos < nickList.size() )
 			return nickList.get( pos );
@@ -83,16 +83,16 @@ public class SortedNickList implements NickList
 
 	/** {@inheritDoc} */
 	@Override
-	public int indexOf( final NickDTO nick )
+	public int indexOf( final User nick )
 	{
 		return nickList.indexOf( nick );
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public NickDTO remove( final int pos )
+	public User remove( final int pos )
 	{
-		NickDTO nick = nickList.remove( pos );
+		User nick = nickList.remove( pos );
 		fireNickRemoved( pos );
 
 		return nick;
@@ -100,7 +100,7 @@ public class SortedNickList implements NickList
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean remove( final NickDTO nick )
+	public boolean remove( final User nick )
 	{
 		int pos = nickList.indexOf( nick );
 		boolean success = nickList.remove( nick );
@@ -115,9 +115,9 @@ public class SortedNickList implements NickList
 	 * {@inheritDoc}
 	 */
 	@Override
-	public NickDTO set( final int pos, final NickDTO nick )
+	public User set( final int pos, final User nick )
 	{
-		NickDTO oldNick = nickList.set( pos, nick );
+		User oldNick = nickList.set( pos, nick );
 		Collections.sort( nickList );
 		fireNickChanged( nickList.indexOf( nick ) );
 

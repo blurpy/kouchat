@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.ui.UserInterface;
 import net.usikkert.kouchat.util.Loggers;
@@ -43,7 +43,7 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 	private final Controller controller;
 	private final UserInterface ui;
 	private final MessageController msgController;
-	private final NickDTO me;
+	private final User me;
 
 	/**
 	 * Constructor.
@@ -70,7 +70,7 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 	{
 		if ( !controller.isNewUser( userCode ) )
 		{
-			NickDTO user = controller.getNick( userCode );
+			User user = controller.getNick( userCode );
 
 			if ( me.isAway() )
 				LOG.log( Level.WARNING, "Got message from " + user.getNick() + " while away: " + msg );

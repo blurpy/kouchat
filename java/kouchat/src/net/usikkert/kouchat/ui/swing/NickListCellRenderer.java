@@ -39,7 +39,7 @@ import javax.swing.border.Border;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.ResourceValidator;
 
@@ -162,7 +162,7 @@ public class NickListCellRenderer extends JLabel implements ListCellRenderer
 			setBorder( normalBorder );
 		}
 
-		NickDTO dto = (NickDTO) value;
+		User dto = (User) value;
 
 		if ( dto != null )
 		{

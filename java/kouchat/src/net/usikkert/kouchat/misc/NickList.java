@@ -45,7 +45,7 @@ public interface NickList
 	 * @param nick The user to add.
 	 * @return If the user was successfully added to the list.
 	 */
-	boolean add( NickDTO nick );
+	boolean add( User nick );
 
 	/**
 	 * Gets the user at the specified position.
@@ -53,7 +53,7 @@ public interface NickList
 	 * @param pos The position to get the user.
 	 * @return The user, or <code>null</code> of the user was not found.
 	 */
-	NickDTO get( int pos );
+	User get( int pos );
 
 	/**
 	 * Gets the position in the list where this user is located.
@@ -61,7 +61,7 @@ public interface NickList
 	 * @param nick The user to locate the position of.
 	 * @return The position, or -1 if not found.
 	 */
-	int indexOf( NickDTO nick );
+	int indexOf( User nick );
 
 	/**
 	 * Removes the user at the specified position from the list,
@@ -70,7 +70,7 @@ public interface NickList
 	 * @param pos The position of the user to remove.
 	 * @return The user that was removed.
 	 */
-	NickDTO remove( int pos );
+	User remove( int pos );
 
 	/**
 	 * Removes the specified user from the list,
@@ -79,7 +79,7 @@ public interface NickList
 	 * @param nick The user to remove.
 	 * @return If the user was successfully removed.
 	 */
-	boolean remove( NickDTO nick );
+	boolean remove( User nick );
 
 	/**
 	 * Sets the specified user at the specified position in the nick list,
@@ -89,7 +89,7 @@ public interface NickList
 	 * @param nick The user to put in the position.
 	 * @return The user that was previously in that position.
 	 */
-	NickDTO set( int pos, NickDTO nick );
+	User set( int pos, User nick );
 
 	/**
 	 * Gets the number for users in the list.

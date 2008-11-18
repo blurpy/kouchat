@@ -21,7 +21,7 @@
 
 package net.usikkert.kouchat.net;
 
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -155,7 +155,7 @@ public class MessageParserTest implements MessageResponder
 	}
 
 	@Override
-	public void userExposing( final NickDTO user )
+	public void userExposing( final User user )
 	{
 
 	}
@@ -173,7 +173,7 @@ public class MessageParserTest implements MessageResponder
 	}
 
 	@Override
-	public void userLogOn( final NickDTO newUser )
+	public void userLogOn( final User newUser )
 	{
 
 	}

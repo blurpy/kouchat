@@ -32,7 +32,7 @@ public class GeneralInformation implements GeneralInformationMBean
 	@Override
 	public String about()
 	{
-		NickDTO me = Settings.getSettings().getMe();
+		User me = Settings.getSettings().getMe();
 		StringBuilder sb = new StringBuilder();
 
 		sb.append( "Client: " + me.getClient() + "\n" );

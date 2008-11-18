@@ -41,7 +41,7 @@ import javax.swing.WindowConstants;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.FileTransferListener;
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.ui.util.UITools;
@@ -334,8 +334,8 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 	@Override
 	public void statusWaiting()
 	{
-		NickDTO me = Settings.getSettings().getMe();
-		NickDTO other = fileTransfer.getNick();
+		User me = Settings.getSettings().getMe();
+		User other = fileTransfer.getNick();
 
 		statusL.setText( "Waiting..." );
 

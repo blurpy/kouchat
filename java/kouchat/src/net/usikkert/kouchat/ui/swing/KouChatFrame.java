@@ -22,7 +22,7 @@
 package net.usikkert.kouchat.ui.swing;
 
 import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.ui.util.UITools;
 
@@ -64,7 +64,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 	private final SettingsDialog settingsDialog;
 	private final MenuBar menuBar;
 	private final Settings settings;
-	private final NickDTO me;
+	private final User me;
 
 	public KouChatFrame()
 	{

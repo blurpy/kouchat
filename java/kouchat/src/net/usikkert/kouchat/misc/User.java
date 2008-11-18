@@ -28,7 +28,7 @@ import net.usikkert.kouchat.ui.PrivateChatWindow;
  *
  * @author Christian Ihle
  */
-public class NickDTO implements Comparable<NickDTO>
+public class User implements Comparable<User>
 {
 	/** The nick name of the user. */
 	private String nick;
@@ -84,7 +84,7 @@ public class NickDTO implements Comparable<NickDTO>
 	 * @param nick The nick name of the user.
 	 * @param code A unique code identifying the user.
 	 */
-	public NickDTO( final String nick, final int code )
+	public User( final String nick, final int code )
 	{
 		this.nick = nick;
 		this.code = code;
@@ -447,7 +447,7 @@ public class NickDTO implements Comparable<NickDTO>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int compareTo( final NickDTO compNick )
+	public int compareTo( final User compNick )
 	{
 		return nick.compareToIgnoreCase( compNick.getNick() );
 	}

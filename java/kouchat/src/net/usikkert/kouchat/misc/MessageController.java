@@ -34,7 +34,7 @@ import net.usikkert.kouchat.util.Tools;
 public class MessageController
 {
 	private final Settings settings;
-	private final NickDTO me;
+	private final User me;
 	private final ChatWindow chat;
 	private final ChatLogger cLog;
 	private final UserInterface ui;
@@ -112,7 +112,7 @@ public class MessageController
 	 * @param privmsg The message the user wrote.
 	 * @param color The color the user chose for the message.
 	 */
-	public void showPrivateUserMessage( final NickDTO user, final String privmsg, final int color )
+	public void showPrivateUserMessage( final User user, final String privmsg, final int color )
 	{
 		if ( user.getPrivchat() == null )
 			ui.createPrivChat( user );
@@ -130,7 +130,7 @@ public class MessageController
 	 * @param user The user which the message was meant for.
 	 * @param privmsg The message written by the application user.
 	 */
-	public void showPrivateOwnMessage( final NickDTO user, final String privmsg )
+	public void showPrivateOwnMessage( final User user, final String privmsg )
 	{
 		if ( user.getPrivchat() == null )
 			ui.createPrivChat( user );
@@ -148,7 +148,7 @@ public class MessageController
 	 * @param user The user this system message applies to.
 	 * @param privmsg The system message to show.
 	 */
-	public void showPrivateSystemMessage( final NickDTO user, final String privmsg )
+	public void showPrivateSystemMessage( final User user, final String privmsg )
 	{
 		String msg = Tools.getTime() + " *** " + privmsg;
 		user.getPrivchat().appendToPrivateChat( msg, settings.getSysColor() );

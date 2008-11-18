@@ -25,7 +25,7 @@ import java.io.File;
 
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.ui.UserInterface;
@@ -158,7 +158,7 @@ public class ConsoleMediator implements UserInterface
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void notifyPrivateMessageArrived( final NickDTO user )
+	public void notifyPrivateMessageArrived( final User user )
 	{
 
 	}
@@ -170,7 +170,7 @@ public class ConsoleMediator implements UserInterface
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void createPrivChat( final NickDTO user )
+	public void createPrivChat( final User user )
 	{
 		if ( user.getPrivchat() == null )
 			user.setPrivchat( new PrivateChatConsole( user ) );

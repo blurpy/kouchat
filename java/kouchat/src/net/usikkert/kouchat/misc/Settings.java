@@ -80,7 +80,7 @@ public final class Settings
 	 * The nick name of the application user. The rest of the values in <code>me</code>
 	 * is generated in the constructor.
 	 */
-	private final NickDTO me;
+	private final User me;
 
 	/** The color of the user's own messages. */
 	private int ownColor;
@@ -115,7 +115,7 @@ public final class Settings
 	{
 		int code = 10000000 + (int) ( Math.random() * 9999999 );
 
-		me = new NickDTO( "" + code, code );
+		me = new User( "" + code, code );
 		me.setMe( true );
 		me.setLastIdle( System.currentTimeMillis() );
 		me.setLogonTime( System.currentTimeMillis() );
@@ -322,7 +322,7 @@ public final class Settings
 	 *
 	 * @return The application user.
 	 */
-	public NickDTO getMe()
+	public User getMe()
 	{
 		return me;
 	}

@@ -58,7 +58,7 @@ public class IdleThread extends Thread
 
 	private final Controller controller;
 	private final NickList nickList;
-	private final NickDTO me;
+	private final User me;
 	private final MessageController msgController;
 
 	/** The thread runs while this is true. */
@@ -104,7 +104,7 @@ public class IdleThread extends Thread
 
 			for ( int i = 0; i < nickList.size(); i++ )
 			{
-				NickDTO temp = nickList.get( i );
+				User temp = nickList.get( i );
 
 				if ( temp.getCode() != me.getCode() && temp.getLastIdle() < System.currentTimeMillis() - TIMEOUT )
 				{
@@ -138,7 +138,7 @@ public class IdleThread extends Thread
 	 *
 	 * @param user The user which timed out.
 	 */
-	private void userTimedOut( final NickDTO user )
+	private void userTimedOut( final User user )
 	{
 		controller.cancelFileTransfers( user );
 		user.setOnline( false );

@@ -25,7 +25,7 @@ import javax.swing.AbstractListModel;
 import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.event.NickListListener;
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.NickList;
 
 /**
@@ -56,7 +56,7 @@ public class NickListModel extends AbstractListModel implements NickListListener
 	 * Returns the user at the specified index position.
 	 */
 	@Override
-	public NickDTO getElementAt( final int index )
+	public User getElementAt( final int index )
 	{
 		return nickList.get( index );
 	}

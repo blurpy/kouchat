@@ -21,7 +21,7 @@
 
 package net.usikkert.kouchat.net;
 
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 
 /**
  * This is the interface for responders to multicast messages.
@@ -40,9 +40,9 @@ public interface MessageResponder
 	void nickChanged( int userCode, String newNick );
 	void nickCrash();
 	void meLogOn( String ipAddress );
-	void userLogOn( NickDTO newUser );
+	void userLogOn( User newUser );
 	void userLogOff( int userCode );
-	void userExposing( NickDTO user );
+	void userExposing( User user );
 	void exposeRequested();
 	void writingChanged( int userCode, boolean writing );
 	void meIdle( String ipAddress );

@@ -63,7 +63,7 @@ import javax.swing.text.StyledDocument;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.CommandHistory;
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 import net.usikkert.kouchat.util.Loggers;
@@ -88,7 +88,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	private final JTextField msgTF;
 	private final CommandHistory cmdHistory;
 	private final Mediator mediator;
-	private final NickDTO me, user;
+	private final User me, user;
 	private final FileTransferHandler fileTransferHandler;
 
 	/**
@@ -97,7 +97,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	 * @param mediator The mediator to command.
 	 * @param user The user in the private chat.
 	 */
-	public PrivateChatFrame( final Mediator mediator, final NickDTO user )
+	public PrivateChatFrame( final Mediator mediator, final User user )
 	{
 		Validate.notNull( mediator, "Mediator can not be null" );
 		Validate.notNull( user, "User can not be null" );
@@ -264,7 +264,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	 * @return Private chat user.
 	 */
 	@Override
-	public NickDTO getUser()
+	public User getUser()
 	{
 		return user;
 	}

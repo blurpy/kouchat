@@ -77,7 +77,7 @@ public class Controller implements NetworkConnectionListener
 	private final IdleThread idleThread;
 	private final TransferList tList;
 	private final WaitingList wList;
-	private final NickDTO me;
+	private final User me;
 	private final UserInterface ui;
 	private final MessageController msgController;
 
@@ -264,7 +264,7 @@ public class Controller implements NetworkConnectionListener
 	 * @param code The user code for the user.
 	 * @return The user with the specified user code, or <em>null</em> if not found.
 	 */
-	public NickDTO getNick( final int code )
+	public User getNick( final int code )
 	{
 		return nickController.getNick( code );
 	}
@@ -275,7 +275,7 @@ public class Controller implements NetworkConnectionListener
 	 * @param nick The nick name to check for.
 	 * @return The user with the specified nick name, or <em>null</em> if not found.
 	 */
-	public NickDTO getNick( final String nick )
+	public User getNick( final String nick )
 	{
 		return nickController.getNick( nick );
 	}
@@ -343,7 +343,7 @@ public class Controller implements NetworkConnectionListener
 
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
-			NickDTO user = nickList.get( i );
+			User user = nickList.get( i );
 
 			if ( !user.isMe() )
 			{
@@ -367,7 +367,7 @@ public class Controller implements NetworkConnectionListener
 	 *
 	 * @param user The user to cancel for.
 	 */
-	public void cancelFileTransfers( final NickDTO user )
+	public void cancelFileTransfers( final User user )
 	{
 		List<FileSender> fsList = tList.getFileSenders( user );
 		List<FileReceiver> frList = tList.getFileReceivers( user );

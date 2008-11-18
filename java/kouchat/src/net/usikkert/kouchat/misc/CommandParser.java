@@ -43,7 +43,7 @@ public class CommandParser
 	private final Controller controller;
 	private final UserInterface ui;
 	private final MessageController msgController;
-	private final NickDTO me;
+	private final User me;
 
 	/**
 	 * Constructor.
@@ -204,7 +204,7 @@ public class CommandParser
 			String[] argsArray = args.split( "\\s" );
 			String nick = argsArray[1].trim();
 
-			NickDTO user = controller.getNick( nick );
+			User user = controller.getNick( nick );
 
 			if ( user == null )
 			{
@@ -250,7 +250,7 @@ public class CommandParser
 		else
 		{
 			String nick = argsArray[1];
-			NickDTO user = controller.getNick( nick );
+			User user = controller.getNick( nick );
 
 			if ( user != me )
 			{
@@ -309,7 +309,7 @@ public class CommandParser
 		else
 		{
 			String nick = argsArray[1];
-			NickDTO user = controller.getNick( nick );
+			User user = controller.getNick( nick );
 
 			if ( user == null )
 			{
@@ -415,7 +415,7 @@ public class CommandParser
 
 		for ( int i = 0; i < list.size(); i++ )
 		{
-			NickDTO nick = list.get( i );
+			User nick = list.get( i );
 			nickList += nick.getNick();
 
 			if ( i < list.size() - 1 )
@@ -520,7 +520,7 @@ public class CommandParser
 	 * @param user The user to send to.
 	 * @param file The file to send to the user.
 	 */
-	public void sendFile( final NickDTO user, final File file )
+	public void sendFile( final User user, final File file )
 	{
 		try
 		{

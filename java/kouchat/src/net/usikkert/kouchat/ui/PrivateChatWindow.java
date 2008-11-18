@@ -21,7 +21,7 @@
 
 package net.usikkert.kouchat.ui;
 
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 
 /**
  * This interface is used by other layers to communicate directly with
@@ -45,7 +45,7 @@ public interface PrivateChatWindow
 	 *
 	 * @return The user of this private chat.
 	 */
-	NickDTO getUser();
+	User getUser();
 
 	/**
 	 * Gets the full contents of the private chat area.

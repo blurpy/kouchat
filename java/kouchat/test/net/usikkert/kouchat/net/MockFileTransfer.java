@@ -24,7 +24,7 @@ package net.usikkert.kouchat.net;
 import java.io.File;
 
 import net.usikkert.kouchat.event.FileTransferListener;
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.Settings;
 
 /**
@@ -38,7 +38,7 @@ public class MockFileTransfer implements FileTransfer
 {
 	private final Direction direction;
 	private final File file;
-	private final NickDTO user;
+	private final User user;
 
 	private FileTransferListener listener;
 	private int percent;
@@ -53,7 +53,7 @@ public class MockFileTransfer implements FileTransfer
 	public MockFileTransfer( final Direction direction )
 	{
 		this.direction = direction;
-		user = new NickDTO( "TestUser", 1234 );
+		user = new User( "TestUser", 1234 );
 		user.setIpAddress( "192.168.1.1" );
 		file = new File( "test/this_is_a_fake_test_file_with_a_very_very_long_file_name.txt" );
 		Settings.getSettings().getMe().setIpAddress( "192.168.1.2" );
@@ -103,7 +103,7 @@ public class MockFileTransfer implements FileTransfer
 	 * {@inheritDoc}
 	 */
 	@Override
-	public NickDTO getNick()
+	public User getNick()
 	{
 		return user;
 	}

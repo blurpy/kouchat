@@ -40,7 +40,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.NickList;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Tools;
@@ -61,7 +61,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 	private final JMenuItem infoMI, sendfileMI, privchatMI;
 	private final JScrollPane nickSP;
 	private final JList nickL;
-	private final NickDTO me;
+	private final User me;
 	private final FileTransferHandler fileTransferHandler;
 
 	private NickListModel nickDLM;
@@ -115,9 +115,9 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 	}
 
 	@Override
-	public NickDTO getUser()
+	public User getUser()
 	{
-		return (NickDTO) nickL.getSelectedValue();
+		return (User) nickL.getSelectedValue();
 	}
 
 	public JList getNickList()
@@ -135,7 +135,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 				@Override
 				public void run()
 				{
-					NickDTO user = nickDLM.getElementAt( nickL.getSelectedIndex() );
+					User user = nickDLM.getElementAt( nickL.getSelectedIndex() );
 					String info = "Information about " + user.getNick();
 
 					if ( user.isAway() )
@@ -173,7 +173,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 				@Override
 				public void run()
 				{
-					NickDTO user = nickDLM.getElementAt( nickL.getSelectedIndex() );
+					User user = nickDLM.getElementAt( nickL.getSelectedIndex() );
 					mediator.showPrivChat( user );
 				}
 			} );
@@ -230,7 +230,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 		{
 			if ( nickMenu.isPopupTrigger( e ) && nickL.getSelectedIndex() != -1 )
 			{
-				NickDTO temp = nickDLM.getElementAt( nickL.getSelectedIndex() );
+				User temp = nickDLM.getElementAt( nickL.getSelectedIndex() );
 
 				if ( temp.isMe() )
 				{
@@ -267,7 +267,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 
 			else if ( e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2 && nickL.getSelectedIndex() != -1 )
 			{
-				NickDTO user = nickDLM.getElementAt( nickL.getSelectedIndex() );
+				User user = nickDLM.getElementAt( nickL.getSelectedIndex() );
 
 				if ( user != me && user.getPrivateChatPort() != 0 )
 					mediator.showPrivChat( user );

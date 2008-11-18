@@ -25,7 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.event.ReceiverListener;
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Loggers;
 
@@ -87,7 +87,7 @@ public class PrivateMessageParser implements ReceiverListener
 			int rightPara = msg.indexOf( ")" );
 			int toCode = Integer.parseInt( msg.substring( leftPara + 1, rightPara ) );
 
-			NickDTO tempme = settings.getMe();
+			User tempme = settings.getMe();
 
 			if ( fromCode != tempme.getCode() && toCode == tempme.getCode() )
 			{

@@ -21,7 +21,7 @@
 
 package net.usikkert.kouchat.ui.console;
 
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 
 /**
@@ -31,14 +31,14 @@ import net.usikkert.kouchat.ui.PrivateChatWindow;
  */
 public class PrivateChatConsole implements PrivateChatWindow
 {
-	private NickDTO user;
+	private User user;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param user The user in this chat session.
 	 */
-	public PrivateChatConsole( final NickDTO user )
+	public PrivateChatConsole( final User user )
 	{
 		this.user = user;
 	}
@@ -82,7 +82,7 @@ public class PrivateChatConsole implements PrivateChatWindow
 	 * {@inheritDoc}
 	 */
 	@Override
-	public NickDTO getUser()
+	public User getUser()
 	{
 		return user;
 	}

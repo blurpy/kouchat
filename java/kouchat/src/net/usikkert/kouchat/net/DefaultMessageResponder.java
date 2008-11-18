@@ -31,7 +31,7 @@ import net.usikkert.kouchat.misc.ChatState;
 import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.Topic;
 import net.usikkert.kouchat.misc.WaitingList;
@@ -49,7 +49,7 @@ public class DefaultMessageResponder implements MessageResponder
 	private static final Logger LOG = Loggers.NETWORK_LOG;
 
 	private final Controller controller;
-	private final NickDTO me;
+	private final User me;
 	private final TransferList tList;
 	private final WaitingList wList;
 	private final UserInterface ui;
@@ -110,7 +110,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 				if ( !controller.isNewUser( userCode ) )
 				{
-					NickDTO user = controller.getNick( userCode );
+					User user = controller.getNick( userCode );
 
 					if ( !user.isAway() )
 					{
@@ -151,7 +151,7 @@ public class DefaultMessageResponder implements MessageResponder
 	@Override
 	public void userLogOff( final int userCode )
 	{
-		NickDTO user = controller.getNick( userCode );
+		User user = controller.getNick( userCode );
 
 		if ( user != null )
 		{
@@ -174,7 +174,7 @@ public class DefaultMessageResponder implements MessageResponder
 	 * it is identical to the application user's nick.
 	 */
 	@Override
-	public void userLogOn( final NickDTO newUser )
+	public void userLogOn( final User newUser )
 	{
 		if ( me.getNick().trim().equalsIgnoreCase( newUser.getNick() ) )
 		{
@@ -203,7 +203,7 @@ public class DefaultMessageResponder implements MessageResponder
 	 *
 	 * @param newUser The unknown user.
 	 */
-	private void userShowedUp( final NickDTO newUser )
+	private void userShowedUp( final User newUser )
 	{
 		if ( me.getNick().trim().equalsIgnoreCase( newUser.getNick() ) )
 		{
@@ -283,7 +283,7 @@ public class DefaultMessageResponder implements MessageResponder
 	 * This happens mostly during startup, but can also happen after a timeout.
 	 */
 	@Override
-	public void userExposing( final NickDTO user )
+	public void userExposing( final User user )
 	{
 		if ( controller.isNewUser( user.getCode() ) )
 		{
@@ -305,7 +305,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 		else
 		{
-			NickDTO orgUser = controller.getNick( user.getCode() );
+			User orgUser = controller.getNick( user.getCode() );
 
 			// When users timeout, there can become sync issues
 			if ( !orgUser.getNick().equals( user.getNick() ) )
@@ -360,7 +360,7 @@ public class DefaultMessageResponder implements MessageResponder
 		{
 			try
 			{
-				NickDTO user = controller.getNick( userCode );
+				User user = controller.getNick( userCode );
 				controller.changeAwayStatus( userCode, away, awayMsg );
 
 				if ( away )
@@ -418,7 +418,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 		else
 		{
-			NickDTO user = controller.getNick( userCode );
+			User user = controller.getNick( userCode );
 			user.setLastIdle( System.currentTimeMillis() );
 
 			if ( !user.getIpAddress().equals( ipAddress ) )
@@ -475,7 +475,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 		else
 		{
-			NickDTO user = controller.getNick( userCode );
+			User user = controller.getNick( userCode );
 
 			if ( !controller.isNickInUse( newNick ) && Tools.isValidNick( newNick ) )
 			{
@@ -547,7 +547,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 						if ( file != null )
 						{
-							NickDTO tempnick = controller.getNick( userCode );
+							User tempnick = controller.getNick( userCode );
 							FileReceiver fileRes = new FileReceiver( tempnick, file, byteSize );
 							tList.addFileReceiver( fileRes );
 							ui.showTransfer( fileRes );
@@ -613,7 +613,7 @@ public class DefaultMessageResponder implements MessageResponder
 	@Override
 	public void fileSendAborted( final int userCode, final String fileName, final int fileHash )
 	{
-		NickDTO user = controller.getNick( userCode );
+		User user = controller.getNick( userCode );
 		FileSender fileSend = tList.getFileSender( user, fileName, fileHash );
 
 		if ( fileSend != null )
@@ -636,7 +636,7 @@ public class DefaultMessageResponder implements MessageResponder
 			@Override
 			public void run()
 			{
-				NickDTO user = controller.getNick( userCode );
+				User user = controller.getNick( userCode );
 				FileSender fileSend = tList.getFileSender( user, fileName, fileHash );
 
 				if ( fileSend != null )
@@ -676,7 +676,7 @@ public class DefaultMessageResponder implements MessageResponder
 	@Override
 	public void clientInfo( final int userCode, final String client, final long timeSinceLogon, final String operatingSystem, final int privateChatPort )
 	{
-		NickDTO user = controller.getNick( userCode );
+		User user = controller.getNick( userCode );
 
 		if ( user != null )
 		{

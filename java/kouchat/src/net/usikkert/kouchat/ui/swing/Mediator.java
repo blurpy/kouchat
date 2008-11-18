@@ -23,7 +23,7 @@ package net.usikkert.kouchat.ui.swing;
 
 import java.io.File;
 
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 
 /**
@@ -42,13 +42,13 @@ public interface Mediator
 	void updateTitleAndTray();
 	void showWindow();
 	void showSettings();
-	void sendFile( NickDTO user, File selectedFile );
+	void sendFile( User user, File selectedFile );
 	void write();
 	void writePrivate( PrivateChatWindow privchat );
 	void updateWriting();
 	boolean changeNick( String nick );
 	void transferCancelled( TransferDialog transferDialog );
 	void showCommands();
-	void showPrivChat( NickDTO user );
-	void activatedPrivChat( NickDTO user );
+	void showPrivChat( User user );
+	void activatedPrivChat( User user );
 }

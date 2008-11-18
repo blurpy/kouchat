@@ -24,7 +24,7 @@ package net.usikkert.kouchat.net;
 import java.io.File;
 
 import net.usikkert.kouchat.event.FileTransferListener;
-import net.usikkert.kouchat.misc.NickDTO;
+import net.usikkert.kouchat.misc.User;
 
 /**
  * This is the interface for both sending and receiving file transfers
@@ -44,7 +44,7 @@ public interface FileTransfer
 	};
 
 	Direction getDirection();
-	NickDTO getNick();
+	User getNick();
 	int getPercent();
 	long getTransferred();
 	File getFile();
