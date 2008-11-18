@@ -34,44 +34,52 @@ import net.usikkert.kouchat.misc.UserList;
  *
  * @author Christian Ihle
  */
-public class NickListModel extends AbstractListModel implements UserListListener
+public class UserListModel extends AbstractListModel implements UserListListener
 {
+	/** Default serial version UID. */
 	private static final long serialVersionUID = 1L;
 
-	private final UserList nickList;
+	/** The real list of users. */
+	private final UserList userList;
 
 	/**
 	 * Constructor. Adds this list model as a listener for events
 	 * from the real user list.
 	 *
-	 * @param nickList The list where the real users are.
+	 * @param userList The list where the real users are.
 	 */
-	public NickListModel( final UserList nickList )
+	public UserListModel( final UserList userList )
 	{
-		this.nickList = nickList;
-		nickList.addUserListListener( this );
+		this.userList = userList;
+		userList.addUserListListener( this );
 	}
 
 	/**
 	 * Returns the user at the specified index position.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public User getElementAt( final int index )
 	{
-		return nickList.get( index );
+		return userList.get( index );
 	}
 
 	/**
 	 * Returns the number of users in the user list.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int getSize()
 	{
-		return nickList.size();
+		return userList.size();
 	}
 
 	/**
 	 * Sends a fireIntervalAdded() event.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void userAdded( final int pos )
@@ -88,6 +96,8 @@ public class NickListModel extends AbstractListModel implements UserListListener
 
 	/**
 	 * Sends a fireContentsChanged() event.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void userChanged( final int pos )
@@ -104,6 +114,8 @@ public class NickListModel extends AbstractListModel implements UserListListener
 
 	/**
 	 * Sends a fireIntervalRemoved() event.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void userRemoved( final int pos )

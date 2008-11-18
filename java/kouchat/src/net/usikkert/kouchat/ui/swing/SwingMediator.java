@@ -110,7 +110,7 @@ public class SwingMediator implements Mediator, UserInterface
 			menuBar.disableMinimize();
 		}
 
-		sideP.setNickList( controller.getNickList() );
+		sideP.setUserList( controller.getNickList() );
 		mainP.setAutoCompleter( controller.getAutoCompleter() );
 	}
 

@@ -26,9 +26,9 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.ActionListener;
 
 import javax.swing.JList;
 import javax.swing.JMenuItem;
@@ -40,9 +40,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.UserList;
-import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
@@ -54,17 +54,17 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class SidePanel extends JPanel implements ActionListener, MouseListener, FileDropSource
 {
-	/** The standard version uid. */
+	/** The standard version UID. */
 	private static final long serialVersionUID = 1L;
 
-	private final JPopupMenu nickMenu;
+	private final JPopupMenu userMenu;
 	private final JMenuItem infoMI, sendfileMI, privchatMI;
-	private final JScrollPane nickSP;
-	private final JList nickL;
+	private final JScrollPane userSP;
+	private final JList userL;
 	private final User me;
 	private final FileTransferHandler fileTransferHandler;
 
-	private NickListModel nickDLM;
+	private UserListModel userListModel;
 	private Mediator mediator;
 
 	public SidePanel( final ButtonPanel buttonP )
@@ -74,17 +74,17 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 		setLayout( new BorderLayout( 2, 2 ) );
 
 		fileTransferHandler = new FileTransferHandler( this );
-		nickL = new JList();
-		nickL.setCellRenderer( new UserListCellRenderer() );
-		nickL.addMouseListener( this );
-		nickL.setTransferHandler( fileTransferHandler );
-		nickL.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-		nickSP = new JScrollPane( nickL );
+		userL = new JList();
+		userL.setCellRenderer( new UserListCellRenderer() );
+		userL.addMouseListener( this );
+		userL.setTransferHandler( fileTransferHandler );
+		userL.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+		userSP = new JScrollPane( userL );
 
-		add( nickSP, BorderLayout.CENTER );
+		add( userSP, BorderLayout.CENTER );
 		add( buttonP, BorderLayout.SOUTH );
 
-		nickMenu = new JPopupMenu();
+		userMenu = new JPopupMenu();
 		infoMI = new JMenuItem( "Information" );
 		infoMI.setMnemonic( 'I' );
 		infoMI.addActionListener( this );
@@ -94,9 +94,9 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 		privchatMI = new JMenuItem( "Private chat" );
 		privchatMI.setMnemonic( 'P' );
 		privchatMI.addActionListener( this );
-		nickMenu.add( infoMI );
-		nickMenu.add( sendfileMI );
-		nickMenu.add( privchatMI );
+		userMenu.add( infoMI );
+		userMenu.add( sendfileMI );
+		userMenu.add( privchatMI );
 
 		setPreferredSize( new Dimension( 114, 0 ) );
 		me = Settings.getSettings().getMe();
@@ -108,21 +108,21 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 		fileTransferHandler.setMediator( mediator );
 	}
 
-	public void setNickList( final UserList nickList )
+	public void setUserList( final UserList userList )
 	{
-		nickDLM = new NickListModel( nickList );
-		nickL.setModel( nickDLM );
+		userListModel = new UserListModel( userList );
+		userL.setModel( userListModel );
 	}
 
 	@Override
 	public User getUser()
 	{
-		return (User) nickL.getSelectedValue();
+		return (User) userL.getSelectedValue();
 	}
 
-	public JList getNickList()
+	public JList getUserList()
 	{
-		return nickL;
+		return userL;
 	}
 
 	@Override
@@ -135,7 +135,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 				@Override
 				public void run()
 				{
-					User user = nickDLM.getElementAt( nickL.getSelectedIndex() );
+					User user = userListModel.getElementAt( userL.getSelectedIndex() );
 					String info = "Information about " + user.getNick();
 
 					if ( user.isAway() )
@@ -173,7 +173,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 				@Override
 				public void run()
 				{
-					User user = nickDLM.getElementAt( nickL.getSelectedIndex() );
+					User user = userListModel.getElementAt( userL.getSelectedIndex() );
 					mediator.showPrivChat( user );
 				}
 			} );
@@ -201,23 +201,23 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 	@Override
 	public void mousePressed( final MouseEvent e )
 	{
-		if ( e.getSource() == nickL )
+		if ( e.getSource() == userL )
 		{
 			Point p = e.getPoint();
-			int index = nickL.locationToIndex( p );
+			int index = userL.locationToIndex( p );
 
 			if ( index != -1 )
 			{
-				Rectangle r = nickL.getCellBounds( index, index );
+				Rectangle r = userL.getCellBounds( index, index );
 
 				if ( r.x <= p.x && p.x <= r.x + r.width && r.y <= p.y && p.y <= r.y + r.height )
 				{
-					nickL.setSelectedIndex( index );
+					userL.setSelectedIndex( index );
 				}
 
 				else
 				{
-					nickL.clearSelection();
+					userL.clearSelection();
 				}
 			}
 		}
@@ -226,11 +226,11 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 	@Override
 	public void mouseReleased( final MouseEvent e )
 	{
-		if ( e.getSource() == nickL )
+		if ( e.getSource() == userL )
 		{
-			if ( nickMenu.isPopupTrigger( e ) && nickL.getSelectedIndex() != -1 )
+			if ( userMenu.isPopupTrigger( e ) && userL.getSelectedIndex() != -1 )
 			{
-				User temp = nickDLM.getElementAt( nickL.getSelectedIndex() );
+				User temp = userListModel.getElementAt( userL.getSelectedIndex() );
 
 				if ( temp.isMe() )
 				{
@@ -262,12 +262,12 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 						privchatMI.setEnabled( true );
 				}
 
-				nickMenu.show( nickL, e.getX(), e.getY() );
+				userMenu.show( userL, e.getX(), e.getY() );
 			}
 
-			else if ( e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2 && nickL.getSelectedIndex() != -1 )
+			else if ( e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2 && userL.getSelectedIndex() != -1 )
 			{
-				User user = nickDLM.getElementAt( nickL.getSelectedIndex() );
+				User user = userListModel.getElementAt( userL.getSelectedIndex() );
 
 				if ( user != me && user.getPrivateChatPort() != 0 )
 					mediator.showPrivChat( user );
