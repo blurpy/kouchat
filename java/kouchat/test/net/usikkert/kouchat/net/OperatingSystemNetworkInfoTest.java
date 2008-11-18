@@ -22,6 +22,7 @@
 package net.usikkert.kouchat.net;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.net.NetworkInterface;
@@ -48,10 +49,13 @@ public class OperatingSystemNetworkInfoTest
 	public void testFindingTheOSNetworkInterface() throws SocketException
 	{
 		Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+		OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo();
+		NetworkInterface osInterface = osNicInfo.getOperatingSystemNetworkInterface();
 
 		if ( networkInterfaces == null )
 		{
-			System.out.println( "Skipping test, no network interfaces found." );
+			System.out.println( "No network interfaces found." );
+			assertNull( osInterface );
 			return;
 		}
 
@@ -70,12 +74,11 @@ public class OperatingSystemNetworkInfoTest
 
 		if ( !validNetworkAvailable )
 		{
-			System.out.println( "Skipping test, no usable network interfaces found." );
+			System.out.println( "No usable network interfaces found." );
+			assertNull( osInterface );
 			return;
 		}
 
-		OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo();
-		NetworkInterface osInterface = osNicInfo.getOperatingSystemNetworkInterface();
 		assertNotNull( osInterface );
 		assertTrue( NetworkUtils.isUsable( osInterface ) );
 
