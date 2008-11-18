@@ -25,13 +25,10 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
-
 import java.io.File;
 import java.io.IOException;
-
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -91,6 +88,8 @@ public class FileTransferHandler extends TransferHandler
 	/**
 	 * Checks to see if the dropped data is a URI list or a file list.
 	 * Returns false if the data is of any other type.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean canImport( final TransferSupport support )
@@ -102,8 +101,9 @@ public class FileTransferHandler extends TransferHandler
 	 * Double checks to see if the data is of the correct type,
 	 * and then tries to create a file object to send to the mediator.
 	 * Supports both Linux and Windows file lists.
+	 *
+	 * {@inheritDoc}
 	 */
-	@SuppressWarnings( "unchecked" )
 	@Override
 	public boolean importData( final TransferSupport support )
 	{
@@ -115,6 +115,7 @@ public class FileTransferHandler extends TransferHandler
 
 				if ( support.isDataFlavorSupported( DataFlavor.javaFileListFlavor ) )
 				{
+					@SuppressWarnings( "unchecked" )
 					List<File> fileList = (List<File>) support.getTransferable().getTransferData( DataFlavor.javaFileListFlavor );
 
 					if ( fileList.size() > 0 )
@@ -186,6 +187,8 @@ public class FileTransferHandler extends TransferHandler
 	/**
 	 * Adds (back) support for copying the contents of the component
 	 * this transfer handler is registered on.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	protected Transferable createTransferable( final JComponent c )
@@ -208,6 +211,8 @@ public class FileTransferHandler extends TransferHandler
 
 	/**
 	 * To enable copy to clipboard.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int getSourceActions( final JComponent c )

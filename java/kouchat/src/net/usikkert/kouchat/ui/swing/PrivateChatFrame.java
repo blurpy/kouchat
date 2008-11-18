@@ -34,7 +34,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -272,6 +271,8 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 
 	/**
 	 * Hides or shows the private chat window.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void setVisible( final boolean visible )
@@ -289,6 +290,11 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		super.setVisible( visible );
 	}
 
+	/**
+	 * Event listener for the menu items and the text field.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void actionPerformed( final ActionEvent e )
 	{
@@ -328,12 +334,22 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 			setVisible( false );
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void keyPressed( final KeyEvent e )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void keyTyped( final KeyEvent e )
 	{
@@ -343,6 +359,8 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	/**
 	 * Browse through the history when the user
 	 * presses up or down.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void keyReleased( final KeyEvent ke )
@@ -382,6 +400,8 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 
 	/**
 	 * Returns the contents of the write area.
+	 *
+	 * @return Write area content.
 	 */
 	@Override
 	public String getChatText()
@@ -391,6 +411,8 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 
 	/**
 	 * Disables the write field if away.
+	 *
+	 * @param away If away or not.
 	 */
 	@Override
 	public void setAway( final boolean away )
@@ -443,6 +465,11 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 			setTitle( title );
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void focusGained( final FocusEvent e )
 	{
@@ -451,6 +478,8 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 
 	/**
 	 * Make sure the menubar gets focus when navigating with the keyboard.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void focusLost( final FocusEvent e )
@@ -461,6 +490,8 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 
 	/**
 	 * Focus the text field when the window is shown.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void windowActivated( final WindowEvent e )
@@ -473,36 +504,66 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 			msgTF.requestFocusInWindow();
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void windowClosed( final WindowEvent e )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void windowClosing( final WindowEvent e )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void windowDeactivated( final WindowEvent e )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void windowDeiconified( final WindowEvent e )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void windowIconified( final WindowEvent e )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void windowOpened( final WindowEvent e )
 	{

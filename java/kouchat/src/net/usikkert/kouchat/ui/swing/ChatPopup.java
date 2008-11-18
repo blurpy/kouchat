@@ -70,24 +70,44 @@ public class ChatPopup extends JPopupMenu implements MouseListener, ActionListen
 		selectAllMI.addActionListener( this );
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void mouseClicked( final MouseEvent e )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void mouseEntered( final MouseEvent e )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void mouseExited( final MouseEvent e )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void mousePressed( final MouseEvent e )
 	{
@@ -96,6 +116,8 @@ public class ChatPopup extends JPopupMenu implements MouseListener, ActionListen
 
 	/**
 	 * Shows the popup menu if right mouse button was used.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void mouseReleased( final MouseEvent e )
@@ -118,6 +140,8 @@ public class ChatPopup extends JPopupMenu implements MouseListener, ActionListen
 
 	/**
 	 * Selects all the text.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void actionPerformed( final ActionEvent e )
