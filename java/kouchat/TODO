@@ -15,3 +15,5 @@
  - Add tips & tricks wiki page to the googlesite
  - Rename DTO classes
  - Add "$user is away" tooltip to the userlist
+ - Send ping after reconnecting to the network, to get new ip
+ - Get current network interface should use existing to find a fresh object with updated info
