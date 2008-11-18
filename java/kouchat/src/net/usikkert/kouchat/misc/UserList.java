@@ -42,10 +42,10 @@ public interface UserList
 	/**
 	 * Adds a user to the list, and notifies with {@link NickListListener#nickAdded(int)}.
 	 *
-	 * @param nick The user to add.
+	 * @param user The user to add.
 	 * @return If the user was successfully added to the list.
 	 */
-	boolean add( User nick );
+	boolean add( User user );
 
 	/**
 	 * Gets the user at the specified position.
@@ -58,10 +58,10 @@ public interface UserList
 	/**
 	 * Gets the position in the list where this user is located.
 	 *
-	 * @param nick The user to locate the position of.
+	 * @param user The user to locate the position of.
 	 * @return The position, or -1 if not found.
 	 */
-	int indexOf( User nick );
+	int indexOf( User user );
 
 	/**
 	 * Removes the user at the specified position from the list,
@@ -76,20 +76,20 @@ public interface UserList
 	 * Removes the specified user from the list,
 	 * and notifies with {@link NickListListener#nickRemoved(int)}.
 	 *
-	 * @param nick The user to remove.
+	 * @param user The user to remove.
 	 * @return If the user was successfully removed.
 	 */
-	boolean remove( User nick );
+	boolean remove( User user );
 
 	/**
-	 * Sets the specified user at the specified position in the nick list,
+	 * Sets the specified user at the specified position in the user list,
 	 * and notifies with {@link NickListListener#nickChanged(int)}.
 	 *
 	 * @param pos The position to put the user.
-	 * @param nick The user to put in the position.
+	 * @param user The user to put in the position.
 	 * @return The user that was previously in that position.
 	 */
-	User set( int pos, User nick );
+	User set( int pos, User user );
 
 	/**
 	 * Gets the number for users in the list.
@@ -99,14 +99,14 @@ public interface UserList
 	int size();
 
 	/**
-	 * Adds a listener for changes to the nick list.
+	 * Adds a listener for changes to the user list.
 	 *
 	 * @param listener The listener to add.
 	 */
 	void addNickListListener( NickListListener listener );
 
 	/**
-	 * Removes a listener for changes to the nick list.
+	 * Removes a listener for changes to the user list.
 	 *
 	 * @param listener The listener to remove.
 	 */
