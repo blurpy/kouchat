@@ -75,7 +75,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 
 		fileTransferHandler = new FileTransferHandler( this );
 		nickL = new JList();
-		nickL.setCellRenderer( new NickListCellRenderer() );
+		nickL.setCellRenderer( new UserListCellRenderer() );
 		nickL.addMouseListener( this );
 		nickL.setTransferHandler( fileTransferHandler );
 		nickL.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );

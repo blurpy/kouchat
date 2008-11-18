@@ -44,11 +44,11 @@ import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.ResourceValidator;
 
 /**
- * This class renders the rows in the nick list.
+ * This class renders the rows in the user list.
  *
  * @author Christian Ihle
  */
-public class NickListCellRenderer extends JLabel implements ListCellRenderer
+public class UserListCellRenderer extends JLabel implements ListCellRenderer
 {
 	/** Standard serial version UID. */
 	private static final long serialVersionUID = 1L;
@@ -86,7 +86,7 @@ public class NickListCellRenderer extends JLabel implements ListCellRenderer
 	 * Initializes resources, and shuts down the application
 	 * if this fails.
 	 */
-	public NickListCellRenderer()
+	public UserListCellRenderer()
 	{
 		ErrorHandler errorHandler = ErrorHandler.getErrorHandler();
 
