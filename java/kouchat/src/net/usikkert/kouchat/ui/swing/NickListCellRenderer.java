@@ -162,33 +162,33 @@ public class NickListCellRenderer extends JLabel implements ListCellRenderer
 			setBorder( normalBorder );
 		}
 
-		User dto = (User) value;
+		User user = (User) value;
 
-		if ( dto != null )
+		if ( user != null )
 		{
-			if ( dto.isMe() )
+			if ( user.isMe() )
 				setFont( list.getFont().deriveFont( Font.BOLD ) );
 			else
 				setFont( list.getFont().deriveFont( Font.PLAIN ) );
 
-			if ( dto.isAway() )
+			if ( user.isAway() )
 				setForeground( Color.GRAY );
 
-			if ( dto.isNewPrivMsg() )
+			if ( user.isNewPrivMsg() )
 				setIcon( envelope );
 			else
 				setIcon( dot );
 
-			if ( dto.isWriting() )
+			if ( user.isWriting() )
 			{
-				setText( dto.getNick() + " *" );
-				setToolTipText( dto.getNick() + " is writing" );
+				setText( user.getNick() + " *" );
+				setToolTipText( user.getNick() + " is writing" );
 			}
 
 			else
 			{
-				setText( dto.getNick() );
-				setToolTipText( dto.getNick() );
+				setText( user.getNick() );
+				setToolTipText( user.getNick() );
 			}
 		}
 

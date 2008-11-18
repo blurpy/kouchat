@@ -55,7 +55,7 @@ public class NickController
 	 */
 	public User getNick( final int code )
 	{
-		User dto = null;
+		User user = null;
 
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
@@ -63,12 +63,12 @@ public class NickController
 
 			if ( temp.getCode() == code )
 			{
-				dto = temp;
+				user = temp;
 				break;
 			}
 		}
 
-		return dto;
+		return user;
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class NickController
 	 */
 	public User getNick( final String nick )
 	{
-		User dto = null;
+		User user = null;
 
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
@@ -87,12 +87,12 @@ public class NickController
 
 			if ( temp.getNick().equalsIgnoreCase( nick ) )
 			{
-				dto = temp;
+				user = temp;
 				break;
 			}
 		}
 
-		return dto;
+		return user;
 	}
 
 	/**
