@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.usikkert.kouchat.event.NickListListener;
+import net.usikkert.kouchat.event.UserListListener;
 
 /**
  * This is a sorted version of the user list.
@@ -41,7 +41,7 @@ public class SortedUserList implements UserList
 	private final List<User> userList;
 
 	/** The list of listeners of changes to the user list. */
-	private final List<NickListListener> listeners;
+	private final List<UserListListener> listeners;
 
 	/**
 	 * Constructor.
@@ -49,7 +49,7 @@ public class SortedUserList implements UserList
 	public SortedUserList()
 	{
 		userList = new ArrayList<User>();
-		listeners = new ArrayList<NickListListener>();
+		listeners = new ArrayList<UserListListener>();
 	}
 
 	/**
@@ -133,14 +133,14 @@ public class SortedUserList implements UserList
 
 	/** {@inheritDoc} */
 	@Override
-	public void addNickListListener( final NickListListener listener )
+	public void addUserListListener( final UserListListener listener )
 	{
 		listeners.add( listener );
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public void removeNickListListener( final NickListListener listener )
+	public void removeUserListListener( final UserListListener listener )
 	{
 		listeners.remove( listener );
 	}
@@ -152,9 +152,9 @@ public class SortedUserList implements UserList
 	 */
 	private void fireUserAdded( final int pos )
 	{
-		for ( NickListListener listener : listeners )
+		for ( UserListListener listener : listeners )
 		{
-			listener.nickAdded( pos );
+			listener.userAdded( pos );
 		}
 	}
 
@@ -165,9 +165,9 @@ public class SortedUserList implements UserList
 	 */
 	private void fireUserChanged( final int pos )
 	{
-		for ( NickListListener listener : listeners )
+		for ( UserListListener listener : listeners )
 		{
-			listener.nickChanged( pos );
+			listener.userChanged( pos );
 		}
 	}
 
@@ -178,9 +178,9 @@ public class SortedUserList implements UserList
 	 */
 	private void fireUserRemoved( final int pos )
 	{
-		for ( NickListListener listener : listeners )
+		for ( UserListListener listener : listeners )
 		{
-			listener.nickRemoved( pos );
+			listener.userRemoved( pos );
 		}
 	}
 }

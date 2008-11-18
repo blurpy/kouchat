@@ -21,7 +21,7 @@
 
 package net.usikkert.kouchat.misc;
 
-import net.usikkert.kouchat.event.NickListListener;
+import net.usikkert.kouchat.event.UserListListener;
 
 /**
  * This is the interface used for keeping a list of the users
@@ -40,7 +40,7 @@ import net.usikkert.kouchat.event.NickListListener;
 public interface UserList
 {
 	/**
-	 * Adds a user to the list, and notifies with {@link NickListListener#nickAdded(int)}.
+	 * Adds a user to the list, and notifies with {@link UserListListener#userAdded(int)}.
 	 *
 	 * @param user The user to add.
 	 * @return If the user was successfully added to the list.
@@ -65,7 +65,7 @@ public interface UserList
 
 	/**
 	 * Removes the user at the specified position from the list,
-	 * and notifies with {@link NickListListener#nickRemoved(int)}.
+	 * and notifies with {@link UserListListener#userRemoved(int)}.
 	 *
 	 * @param pos The position of the user to remove.
 	 * @return The user that was removed.
@@ -74,7 +74,7 @@ public interface UserList
 
 	/**
 	 * Removes the specified user from the list,
-	 * and notifies with {@link NickListListener#nickRemoved(int)}.
+	 * and notifies with {@link UserListListener#userRemoved(int)}.
 	 *
 	 * @param user The user to remove.
 	 * @return If the user was successfully removed.
@@ -83,7 +83,7 @@ public interface UserList
 
 	/**
 	 * Sets the specified user at the specified position in the user list,
-	 * and notifies with {@link NickListListener#nickChanged(int)}.
+	 * and notifies with {@link UserListListener#userChanged(int)}.
 	 *
 	 * @param pos The position to put the user.
 	 * @param user The user to put in the position.
@@ -103,12 +103,12 @@ public interface UserList
 	 *
 	 * @param listener The listener to add.
 	 */
-	void addNickListListener( NickListListener listener );
+	void addUserListListener( UserListListener listener );
 
 	/**
 	 * Removes a listener for changes to the user list.
 	 *
 	 * @param listener The listener to remove.
 	 */
-	void removeNickListListener( NickListListener listener );
+	void removeUserListListener( UserListListener listener );
 }

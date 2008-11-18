@@ -21,7 +21,7 @@
 
 package net.usikkert.kouchat.autocomplete;
 
-import net.usikkert.kouchat.event.NickListListener;
+import net.usikkert.kouchat.event.UserListListener;
 import net.usikkert.kouchat.misc.UserList;
 import net.usikkert.kouchat.util.Tools;
 
@@ -30,7 +30,7 @@ import net.usikkert.kouchat.util.Tools;
  *
  * @author Christian Ihle
  */
-public class NickAutoCompleteList implements AutoCompleteList, NickListListener
+public class NickAutoCompleteList implements AutoCompleteList, UserListListener
 {
 	private final UserList nickList;
 	private String[] nicks;
@@ -43,7 +43,7 @@ public class NickAutoCompleteList implements AutoCompleteList, NickListListener
 	public NickAutoCompleteList( final UserList nickList )
 	{
 		this.nickList = nickList;
-		nickList.addNickListListener( this );
+		nickList.addUserListListener( this );
 		updateWords();
 	}
 
@@ -51,7 +51,7 @@ public class NickAutoCompleteList implements AutoCompleteList, NickListListener
 	 * Updates the list of nicknames.
 	 */
 	@Override
-	public void nickAdded( final int pos )
+	public void userAdded( final int pos )
 	{
 		updateWords();
 	}
@@ -60,7 +60,7 @@ public class NickAutoCompleteList implements AutoCompleteList, NickListListener
 	 * Updates the list of nicknames.
 	 */
 	@Override
-	public void nickChanged( final int pos )
+	public void userChanged( final int pos )
 	{
 		updateWords();
 	}
@@ -69,7 +69,7 @@ public class NickAutoCompleteList implements AutoCompleteList, NickListListener
 	 * Updates the list of nicknames.
 	 */
 	@Override
-	public void nickRemoved( final int pos )
+	public void userRemoved( final int pos )
 	{
 		updateWords();
 	}

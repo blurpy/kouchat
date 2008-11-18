@@ -24,7 +24,7 @@ package net.usikkert.kouchat.ui.swing;
 import javax.swing.AbstractListModel;
 import javax.swing.SwingUtilities;
 
-import net.usikkert.kouchat.event.NickListListener;
+import net.usikkert.kouchat.event.UserListListener;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.UserList;
 
@@ -34,7 +34,7 @@ import net.usikkert.kouchat.misc.UserList;
  *
  * @author Christian Ihle
  */
-public class NickListModel extends AbstractListModel implements NickListListener
+public class NickListModel extends AbstractListModel implements UserListListener
 {
 	private static final long serialVersionUID = 1L;
 
@@ -49,7 +49,7 @@ public class NickListModel extends AbstractListModel implements NickListListener
 	public NickListModel( final UserList nickList )
 	{
 		this.nickList = nickList;
-		nickList.addNickListListener( this );
+		nickList.addUserListListener( this );
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class NickListModel extends AbstractListModel implements NickListListener
 	 * Sends a fireIntervalAdded() event.
 	 */
 	@Override
-	public void nickAdded( final int pos )
+	public void userAdded( final int pos )
 	{
 		SwingUtilities.invokeLater( new Runnable()
 		{
@@ -90,7 +90,7 @@ public class NickListModel extends AbstractListModel implements NickListListener
 	 * Sends a fireContentsChanged() event.
 	 */
 	@Override
-	public void nickChanged( final int pos )
+	public void userChanged( final int pos )
 	{
 		SwingUtilities.invokeLater( new Runnable()
 		{
@@ -106,7 +106,7 @@ public class NickListModel extends AbstractListModel implements NickListListener
 	 * Sends a fireIntervalRemoved() event.
 	 */
 	@Override
-	public void nickRemoved( final int pos )
+	public void userRemoved( final int pos )
 	{
 		SwingUtilities.invokeLater( new Runnable()
 		{
