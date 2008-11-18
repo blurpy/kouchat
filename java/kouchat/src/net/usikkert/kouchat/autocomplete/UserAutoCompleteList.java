@@ -30,25 +30,30 @@ import net.usikkert.kouchat.util.Tools;
  *
  * @author Christian Ihle
  */
-public class NickAutoCompleteList implements AutoCompleteList, UserListListener
+public class UserAutoCompleteList implements AutoCompleteList, UserListListener
 {
-	private final UserList nickList;
-	private String[] nicks;
+	/** The real user list. */
+	private final UserList userList;
+
+	/** A simple array with users, for use in auto completion. */
+	private String[] users;
 
 	/**
-	 * Constructor. Registers itself as a nicklist listener.
+	 * Constructor. Registers itself as a user list listener.
 	 *
-	 * @param nickList The list of online users.
+	 * @param userList The list of online users.
 	 */
-	public NickAutoCompleteList( final UserList nickList )
+	public UserAutoCompleteList( final UserList userList )
 	{
-		this.nickList = nickList;
-		nickList.addUserListListener( this );
+		this.userList = userList;
+		userList.addUserListListener( this );
 		updateWords();
 	}
 
 	/**
-	 * Updates the list of nicknames.
+	 * Updates the list of users.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void userAdded( final int pos )
@@ -57,7 +62,9 @@ public class NickAutoCompleteList implements AutoCompleteList, UserListListener
 	}
 
 	/**
-	 * Updates the list of nicknames.
+	 * Updates the list of users.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void userChanged( final int pos )
@@ -66,7 +73,9 @@ public class NickAutoCompleteList implements AutoCompleteList, UserListListener
 	}
 
 	/**
-	 * Updates the list of nicknames.
+	 * Updates the list of users.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void userRemoved( final int pos )
@@ -75,21 +84,23 @@ public class NickAutoCompleteList implements AutoCompleteList, UserListListener
 	}
 
 	/**
-	 * Iterates through the nicklist, and adds all the nick names to the
+	 * Iterates through the user list, and adds all the nick names to the
 	 * list of words.
 	 */
 	private void updateWords()
 	{
-		nicks = new String[nickList.size()];
+		users = new String[userList.size()];
 
-		for ( int i = 0; i < nickList.size(); i++ )
+		for ( int i = 0; i < userList.size(); i++ )
 		{
-			nicks[i] = nickList.get( i ).getNick();
+			users[i] = userList.get( i ).getNick();
 		}
 	}
 
 	/**
-	 * Checks if the word is a valid nick.
+	 * Checks if the word is a valid nick name.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean acceptsWord( final String word )
@@ -99,10 +110,12 @@ public class NickAutoCompleteList implements AutoCompleteList, UserListListener
 
 	/**
 	 * Returns a list of all the users.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String[] getWordList()
 	{
-		return nicks;
+		return users;
 	}
 }

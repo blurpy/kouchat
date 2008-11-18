@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.autocomplete.AutoCompleter;
 import net.usikkert.kouchat.autocomplete.CommandAutoCompleteList;
-import net.usikkert.kouchat.autocomplete.NickAutoCompleteList;
+import net.usikkert.kouchat.autocomplete.UserAutoCompleteList;
 import net.usikkert.kouchat.event.NetworkConnectionListener;
 import net.usikkert.kouchat.net.DefaultPrivateMessageResponder;
 import net.usikkert.kouchat.net.FileReceiver;
@@ -691,7 +691,7 @@ public class Controller implements NetworkConnectionListener
 
 	/**
 	 * Creates a new instance of the {@link AutoCompleter}, with
-	 * a {@link CommandAutoCompleteList} and a {@link NickAutoCompleteList}.
+	 * a {@link CommandAutoCompleteList} and a {@link UserAutoCompleteList}.
 	 *
 	 * @return A new instance of a ready-to-use AutoCompleter.
 	 */
@@ -699,7 +699,7 @@ public class Controller implements NetworkConnectionListener
 	{
 		AutoCompleter autoCompleter = new AutoCompleter();
 		autoCompleter.addAutoCompleteList( new CommandAutoCompleteList() );
-		autoCompleter.addAutoCompleteList( new NickAutoCompleteList( getNickList() ) );
+		autoCompleter.addAutoCompleteList( new UserAutoCompleteList( getNickList() ) );
 
 		return autoCompleter;
 	}
