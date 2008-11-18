@@ -23,7 +23,7 @@ package net.usikkert.kouchat.net;
 
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
-import net.usikkert.kouchat.misc.TopicDTO;
+import net.usikkert.kouchat.misc.Topic;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -51,7 +51,7 @@ public class Messages
 		networkService.sendMulticastMsg( me.getCode() + "!IDLE#" + me.getNick() + ":" );
 	}
 
-	public void sendTopicMessage( final TopicDTO topic )
+	public void sendTopicMessage( final Topic topic )
 	{
 		networkService.sendMulticastMsg( me.getCode() + "!TOPIC#" + me.getNick() + ":" + "(" + topic.getNick()
 				+ ")" + "[" + topic.getTime() + "]" + topic.getTopic() );

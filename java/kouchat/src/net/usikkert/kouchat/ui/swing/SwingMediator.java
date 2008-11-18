@@ -36,7 +36,7 @@ import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.NickList;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.SoundBeeper;
-import net.usikkert.kouchat.misc.TopicDTO;
+import net.usikkert.kouchat.misc.Topic;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.net.FileTransfer;
@@ -207,7 +207,7 @@ public class SwingMediator implements Mediator, UserInterface
 	@Override
 	public void setTopic()
 	{
-		TopicDTO topic = controller.getTopic();
+		Topic topic = controller.getTopic();
 
 		Object objecttopic = JOptionPane.showInputDialog( null, "Change topic?", Constants.APP_NAME
 				+ " - Topic", JOptionPane.QUESTION_MESSAGE, null, null, topic.getTopic() );

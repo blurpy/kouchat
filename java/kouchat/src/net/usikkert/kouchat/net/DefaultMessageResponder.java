@@ -33,7 +33,7 @@ import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.NickDTO;
 import net.usikkert.kouchat.misc.Settings;
-import net.usikkert.kouchat.misc.TopicDTO;
+import net.usikkert.kouchat.misc.Topic;
 import net.usikkert.kouchat.misc.WaitingList;
 import net.usikkert.kouchat.ui.UserInterface;
 import net.usikkert.kouchat.util.Loggers;
@@ -242,7 +242,7 @@ public class DefaultMessageResponder implements MessageResponder
 		{
 			if ( time > 0 && nick.length() > 0 )
 			{
-				TopicDTO topic = controller.getTopic();
+				Topic topic = controller.getTopic();
 
 				if ( newTopic != null )
 				{

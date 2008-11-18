@@ -71,7 +71,7 @@ public class CommandParser
 	{
 		if ( args.length() == 0 )
 		{
-			TopicDTO topic = controller.getTopic();
+			Topic topic = controller.getTopic();
 
 			if ( topic.getTopic().equals( "" ) )
 			{
@@ -490,7 +490,7 @@ public class CommandParser
 	 */
 	public void fixTopic( final String newTopic )
 	{
-		TopicDTO topic = controller.getTopic();
+		Topic topic = controller.getTopic();
 		String trimTopic = newTopic.trim();
 
 		if ( !trimTopic.equals( topic.getTopic().trim() ) )

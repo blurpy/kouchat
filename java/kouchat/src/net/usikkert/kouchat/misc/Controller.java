@@ -134,7 +134,7 @@ public class Controller implements NetworkConnectionListener
 	 *
 	 * @return The current topic.
 	 */
-	public TopicDTO getTopic()
+	public Topic getTopic()
 	{
 		return chatState.getTopic();
 	}
@@ -477,7 +477,7 @@ public class Controller implements NetworkConnectionListener
 		else
 		{
 			long time = System.currentTimeMillis();
-			TopicDTO topic = getTopic();
+			Topic topic = getTopic();
 			topic.changeTopic( newTopic, me.getNick(), time );
 			sendTopicMessage();
 		}

@@ -22,11 +22,11 @@
 package net.usikkert.kouchat.misc;
 
 /**
- * This is the dto that contains information about the topic of the main chat.
+ * This is the class that contains information about the topic of the main chat.
  *
  * @author Christian Ihle
  */
-public class TopicDTO
+public class Topic
 {
 	/** The current topic. */
 	private String topic;
@@ -42,7 +42,7 @@ public class TopicDTO
 	 *
 	 * Sets all fields to blank or 0.
 	 */
-	public TopicDTO()
+	public Topic()
 	{
 		resetTopic();
 	}
@@ -56,7 +56,7 @@ public class TopicDTO
 	 * @param nick The user which set the topic.
 	 * @param time The time when the topic was set.
 	 */
-	public TopicDTO( final String topic, final String nick, final long time )
+	public Topic( final String topic, final String nick, final long time )
 	{
 		this.topic = topic;
 		this.nick = nick;

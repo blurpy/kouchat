@@ -29,7 +29,7 @@ package net.usikkert.kouchat.misc;
 public class ChatState
 {
 	/** Information about the current topic in the chat. */
-	private final TopicDTO topic;
+	private final Topic topic;
 
 	/** Whether the application user was writing at the moment this was updated. */
 	private boolean wrote;
@@ -45,7 +45,7 @@ public class ChatState
 	 */
 	public ChatState()
 	{
-		topic = new TopicDTO();
+		topic = new Topic();
 		wrote = false;
 		loggedOn = false;
 		logonCompleted = false;
@@ -76,7 +76,7 @@ public class ChatState
 	 *
 	 * @return The current topic.
 	 */
-	public TopicDTO getTopic()
+	public Topic getTopic()
 	{
 		return topic;
 	}
