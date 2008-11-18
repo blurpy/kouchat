@@ -28,17 +28,17 @@ import java.util.List;
 import net.usikkert.kouchat.event.NickListListener;
 
 /**
- * This is a sorted version of the nick list.
+ * This is a sorted version of the user list.
  *
  * <p>The users in the list are sorted by nick name,
  * as specified in {@link User#compareTo(User)}.</p>
  *
  * @author Christian Ihle
  */
-public class SortedNickList implements UserList
+public class SortedUserList implements UserList
 {
 	/** The list of users in the chat. */
-	private final List<User> nickList;
+	private final List<User> userList;
 
 	/** The list of listeners of changes to the user list. */
 	private final List<NickListListener> listeners;
@@ -46,9 +46,9 @@ public class SortedNickList implements UserList
 	/**
 	 * Constructor.
 	 */
-	public SortedNickList()
+	public SortedUserList()
 	{
-		nickList = new ArrayList<User>();
+		userList = new ArrayList<User>();
 		listeners = new ArrayList<NickListListener>();
 	}
 
@@ -58,14 +58,14 @@ public class SortedNickList implements UserList
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean add( final User nick )
+	public boolean add( final User user )
 	{
-		boolean success = nickList.add( nick );
+		boolean success = userList.add( user );
 
 		if ( success )
 		{
-			Collections.sort( nickList );
-			fireNickAdded( nickList.indexOf( nick ) );
+			Collections.sort( userList );
+			fireUserAdded( userList.indexOf( user ) );
 		}
 
 		return success;
@@ -75,36 +75,36 @@ public class SortedNickList implements UserList
 	@Override
 	public User get( final int pos )
 	{
-		if ( pos < nickList.size() )
-			return nickList.get( pos );
+		if ( pos < userList.size() )
+			return userList.get( pos );
 		else
 			return null;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public int indexOf( final User nick )
+	public int indexOf( final User user )
 	{
-		return nickList.indexOf( nick );
+		return userList.indexOf( user );
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public User remove( final int pos )
 	{
-		User nick = nickList.remove( pos );
-		fireNickRemoved( pos );
+		User user = userList.remove( pos );
+		fireUserRemoved( pos );
 
-		return nick;
+		return user;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean remove( final User nick )
+	public boolean remove( final User user )
 	{
-		int pos = nickList.indexOf( nick );
-		boolean success = nickList.remove( nick );
-		fireNickRemoved( pos );
+		int pos = userList.indexOf( user );
+		boolean success = userList.remove( user );
+		fireUserRemoved( pos );
 
 		return success;
 	}
@@ -115,20 +115,20 @@ public class SortedNickList implements UserList
 	 * {@inheritDoc}
 	 */
 	@Override
-	public User set( final int pos, final User nick )
+	public User set( final int pos, final User user )
 	{
-		User oldNick = nickList.set( pos, nick );
-		Collections.sort( nickList );
-		fireNickChanged( nickList.indexOf( nick ) );
+		User oldUser = userList.set( pos, user );
+		Collections.sort( userList );
+		fireUserChanged( userList.indexOf( user ) );
 
-		return oldNick;
+		return oldUser;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public int size()
 	{
-		return nickList.size();
+		return userList.size();
 	}
 
 	/** {@inheritDoc} */
@@ -150,7 +150,7 @@ public class SortedNickList implements UserList
 	 *
 	 * @param pos The position where the user was added.
 	 */
-	private void fireNickAdded( final int pos )
+	private void fireUserAdded( final int pos )
 	{
 		for ( NickListListener listener : listeners )
 		{
@@ -163,7 +163,7 @@ public class SortedNickList implements UserList
 	 *
 	 * @param pos The position of the changed user.
 	 */
-	private void fireNickChanged( final int pos )
+	private void fireUserChanged( final int pos )
 	{
 		for ( NickListListener listener : listeners )
 		{
@@ -176,7 +176,7 @@ public class SortedNickList implements UserList
 	 *
 	 * @param pos The position of the removed user.
 	 */
-	private void fireNickRemoved( final int pos )
+	private void fireUserRemoved( final int pos )
 	{
 		for ( NickListListener listener : listeners )
 		{

@@ -42,7 +42,7 @@ public class NickController
 	public NickController()
 	{
 		settings = Settings.getSettings();
-		nickList = new SortedNickList();
+		nickList = new SortedUserList();
 		me = settings.getMe();
 		nickList.add( me );
 	}
