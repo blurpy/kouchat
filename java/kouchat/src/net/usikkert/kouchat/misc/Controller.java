@@ -67,7 +67,7 @@ public class Controller implements NetworkConnectionListener
 	private static final Logger LOG = Loggers.MISC_LOG;
 
 	private final ChatState chatState;
-	private final NickController nickController;
+	private final UserListController userListController;
 	private final NetworkService networkService;
 	private final Messages messages;
 	private final MessageParser msgParser;
@@ -104,7 +104,7 @@ public class Controller implements NetworkConnectionListener
 
 		me = Settings.getSettings().getMe();
 
-		nickController = new NickController();
+		userListController = new UserListController();
 		chatState = new ChatState();
 		tList = new TransferList();
 		wList = new WaitingList();
@@ -146,7 +146,7 @@ public class Controller implements NetworkConnectionListener
 	 */
 	public UserList getNickList()
 	{
-		return nickController.getNickList();
+		return userListController.getUserList();
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class Controller implements NetworkConnectionListener
 	 */
 	public void changeWriting( final int code, final boolean writing )
 	{
-		nickController.changeWriting( code, writing );
+		userListController.changeWriting( code, writing );
 
 		if ( code == me.getCode() )
 		{
@@ -202,7 +202,7 @@ public class Controller implements NetworkConnectionListener
 		else if ( Tools.getBytes( awaymsg ) > Constants.MESSAGE_MAX_BYTES )
 			throw new CommandException( "You can not set an away message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes." );
 		else
-			nickController.changeAwayStatus( code, away, awaymsg );
+			userListController.changeAwayStatus( code, away, awaymsg );
 	}
 
 	/**
@@ -213,7 +213,7 @@ public class Controller implements NetworkConnectionListener
 	 */
 	public boolean isNickInUse( final String nick )
 	{
-		return nickController.isNickInUse( nick );
+		return userListController.isNickNameInUse( nick );
 	}
 
 	/**
@@ -224,7 +224,7 @@ public class Controller implements NetworkConnectionListener
 	 */
 	public boolean isNewUser( final int code )
 	{
-		return nickController.isNewUser( code );
+		return userListController.isNewUser( code );
 	}
 
 	/**
@@ -255,7 +255,7 @@ public class Controller implements NetworkConnectionListener
 	 */
 	public void changeNick( final int code, final String nick )
 	{
-		nickController.changeNick( code, nick );
+		userListController.changeNickName( code, nick );
 	}
 
 	/**
@@ -266,7 +266,7 @@ public class Controller implements NetworkConnectionListener
 	 */
 	public User getNick( final int code )
 	{
-		return nickController.getNick( code );
+		return userListController.getUser( code );
 	}
 
 	/**
@@ -277,7 +277,7 @@ public class Controller implements NetworkConnectionListener
 	 */
 	public User getNick( final String nick )
 	{
-		return nickController.getNick( nick );
+		return userListController.getUser( nick );
 	}
 
 	/**
@@ -592,7 +592,7 @@ public class Controller implements NetworkConnectionListener
 	 */
 	public void updateAfterTimeout()
 	{
-		if ( nickController.isTimeoutUsers() )
+		if ( userListController.isTimeoutUsers() )
 			messages.sendExposeMessage();
 	}
 
@@ -642,7 +642,7 @@ public class Controller implements NetworkConnectionListener
 	 */
 	public void changeNewMessage( final int code, final boolean newMsg )
 	{
-		nickController.changeNewMessage( code, newMsg );
+		userListController.changeNewMessage( code, newMsg );
 	}
 
 	/**

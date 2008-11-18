@@ -22,29 +22,35 @@
 package net.usikkert.kouchat.misc;
 
 /**
- * This is the controller responsible for the nick list.
+ * This is the controller responsible for the user list.
  *
  * It contains methods for getting information about users,
  * and updating the state of users.
  *
  * @author Christian Ihle
  */
-public class NickController
+public class UserListController
 {
-	private final UserList nickList;
+	/** The user list. */
+	private final UserList userList;
+
+	/** The application user. */
 	private final User me;
+
+	/** Application settings. */
 	private final Settings settings;
 
 	/**
 	 * Constructor.
-	 * Initializes the nick list and puts <code>me</code> in the list.
+	 *
+	 * Initializes the user list and puts <code>me</code> in the list.
 	 */
-	public NickController()
+	public UserListController()
 	{
 		settings = Settings.getSettings();
-		nickList = new SortedUserList();
+		userList = new SortedUserList();
 		me = settings.getMe();
-		nickList.add( me );
+		userList.add( me );
 	}
 
 	/**
@@ -53,13 +59,13 @@ public class NickController
 	 * @param code The unique code of the user to get.
 	 * @return The user, or <code>null</code> if the user was not found.
 	 */
-	public User getNick( final int code )
+	public User getUser( final int code )
 	{
 		User user = null;
 
-		for ( int i = 0; i < nickList.size(); i++ )
+		for ( int i = 0; i < userList.size(); i++ )
 		{
-			User temp = nickList.get( i );
+			User temp = userList.get( i );
 
 			if ( temp.getCode() == code )
 			{
@@ -74,18 +80,18 @@ public class NickController
 	/**
 	 * Gets a user by the user's unique nick name.
 	 *
-	 * @param nick The unique nick name of the user to get.
+	 * @param nickname The unique nick name of the user to get.
 	 * @return The user, or <code>null</code> if the user was not found.
 	 */
-	public User getNick( final String nick )
+	public User getUser( final String nickname )
 	{
 		User user = null;
 
-		for ( int i = 0; i < nickList.size(); i++ )
+		for ( int i = 0; i < userList.size(); i++ )
 		{
-			User temp = nickList.get( i );
+			User temp = userList.get( i );
 
-			if ( temp.getNick().equalsIgnoreCase( nick ) )
+			if ( temp.getNick().equalsIgnoreCase( nickname ) )
 			{
 				user = temp;
 				break;
@@ -99,18 +105,18 @@ public class NickController
 	 * Changes the nick name of a user.
 	 *
 	 * @param code The unique code of the user to change the nick name of.
-	 * @param nick The new nick name of the user.
+	 * @param nickname The new nick name of the user.
 	 */
-	public void changeNick( final int code, final String nick )
+	public void changeNickName( final int code, final String nickname )
 	{
-		for ( int i = 0; i < nickList.size(); i++ )
+		for ( int i = 0; i < userList.size(); i++ )
 		{
-			User temp = nickList.get( i );
+			User temp = userList.get( i );
 
 			if ( temp.getCode() == code )
 			{
-				temp.setNick( nick );
-				nickList.set( i, temp );
+				temp.setNick( nickname );
+				userList.set( i, temp );
 				break;
 			}
 		}
@@ -125,15 +131,15 @@ public class NickController
 	 */
 	public void changeAwayStatus( final int code, final boolean away, final String awaymsg )
 	{
-		for ( int i = 0; i < nickList.size(); i++ )
+		for ( int i = 0; i < userList.size(); i++ )
 		{
-			User temp = nickList.get( i );
+			User temp = userList.get( i );
 
 			if ( temp.getCode() == code )
 			{
 				temp.setAway( away );
 				temp.setAwayMsg( awaymsg );
-				nickList.set( i, temp );
+				userList.set( i, temp );
 				break;
 			}
 		}
@@ -147,14 +153,14 @@ public class NickController
 	 */
 	public void changeWriting( final int code, final boolean writing )
 	{
-		for ( int i = 0; i < nickList.size(); i++ )
+		for ( int i = 0; i < userList.size(); i++ )
 		{
-			User temp = nickList.get( i );
+			User temp = userList.get( i );
 
 			if ( temp.getCode() == code )
 			{
 				temp.setWriting( writing );
-				nickList.set( i, temp );
+				userList.set( i, temp );
 				break;
 			}
 		}
@@ -168,14 +174,14 @@ public class NickController
 	 */
 	public void changeNewMessage( final int code, final boolean newMsg )
 	{
-		for ( int i = 0; i < nickList.size(); i++ )
+		for ( int i = 0; i < userList.size(); i++ )
 		{
-			User temp = nickList.get( i );
+			User temp = userList.get( i );
 
 			if ( temp.getCode() == code )
 			{
 				temp.setNewPrivMsg( newMsg );
-				nickList.set( i, temp );
+				userList.set( i, temp );
 				break;
 			}
 		}
@@ -184,18 +190,18 @@ public class NickController
 	/**
 	 * Checks if the nick name is in use by any other users.
 	 *
-	 * @param nick The nick name to check.
+	 * @param nickname The nick name to check.
 	 * @return If the nick name is in use.
 	 */
-	public boolean isNickInUse( final String nick )
+	public boolean isNickNameInUse( final String nickname )
 	{
 		boolean inUse = false;
 
-		for ( int i = 0; i < nickList.size(); i++ )
+		for ( int i = 0; i < userList.size(); i++ )
 		{
-			User temp = nickList.get( i );
+			User temp = userList.get( i );
 
-			if ( temp.getNick().equalsIgnoreCase( nick ) && !temp.isMe() )
+			if ( temp.getNick().equalsIgnoreCase( nickname ) && !temp.isMe() )
 			{
 				inUse = true;
 				break;
@@ -206,18 +212,18 @@ public class NickController
 	}
 
 	/**
-	 * Checks if the user already exists in the nick list.
+	 * Checks if the user already exists in the user list.
 	 *
 	 * @param code The unique code of the user.
-	 * @return If the user is new, which means it is not in the nick list.
+	 * @return If the user is new, which means it is not in the user list.
 	 */
 	public boolean isNewUser( final int code )
 	{
 		boolean newUser = true;
 
-		for ( int i = 0; i < nickList.size(); i++ )
+		for ( int i = 0; i < userList.size(); i++ )
 		{
-			User temp = nickList.get( i );
+			User temp = userList.get( i );
 
 			if ( temp.getCode() == code )
 			{
@@ -230,7 +236,7 @@ public class NickController
 	}
 
 	/**
-	 * Checks if the nick list contains <em>timeout users</em>.
+	 * Checks if the user list contains <em>timeout users</em>.
 	 *
 	 * <p>A timeout user is a user which disconnected from the chat without
 	 * logging off, and then logging on the chat again before the original
@@ -241,9 +247,9 @@ public class NickController
 	 */
 	public boolean isTimeoutUsers()
 	{
-		for ( int i = 0; i < nickList.size(); i++ )
+		for ( int i = 0; i < userList.size(); i++ )
 		{
-			User temp = nickList.get( i );
+			User temp = userList.get( i );
 
 			if ( temp.getNick().equals( "" + temp.getCode() ) )
 				return true;
@@ -253,12 +259,12 @@ public class NickController
 	}
 
 	/**
-	 * Gets the nick list.
+	 * Gets the user list.
 	 *
-	 * @return The nick list.
+	 * @return The user list.
 	 */
-	public UserList getNickList()
+	public UserList getUserList()
 	{
-		return nickList;
+		return userList;
 	}
 }
