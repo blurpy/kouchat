@@ -68,7 +68,11 @@ public class NetworkInformation implements NetworkInformationMBean
 	{
 		OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo();
 		NetworkInterface osInterface = osNicInfo.getOperatingSystemNetworkInterface();
-		return NetworkUtils.getNetworkInterfaceInfo( osInterface );
+
+		if ( osInterface == null )
+			return "No network interface found.";
+		else
+			return NetworkUtils.getNetworkInterfaceInfo( osInterface );
 	}
 
 	/** {@inheritDoc} */
