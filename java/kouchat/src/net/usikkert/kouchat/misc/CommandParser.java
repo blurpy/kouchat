@@ -410,7 +410,7 @@ public class CommandParser
 	 */
 	private void cmdNames()
 	{
-		NickList list = controller.getNickList();
+		UserList list = controller.getNickList();
 		String nickList = "";
 
 		for ( int i = 0; i < list.size(); i++ )

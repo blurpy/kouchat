@@ -33,7 +33,7 @@ import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.User;
-import net.usikkert.kouchat.misc.NickList;
+import net.usikkert.kouchat.misc.UserList;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.SoundBeeper;
 import net.usikkert.kouchat.misc.Topic;
@@ -803,7 +803,7 @@ public class SwingMediator implements Mediator, UserInterface
 	 */
 	private void updateAwayInPrivChats( final boolean away )
 	{
-		NickList list = controller.getNickList();
+		UserList list = controller.getNickList();
 
 		for ( int i = 0; i < list.size(); i++ )
 		{

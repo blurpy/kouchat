@@ -57,7 +57,7 @@ public class IdleThread extends Thread
 	private static final int TIMEOUT = 120000;
 
 	private final Controller controller;
-	private final NickList nickList;
+	private final UserList nickList;
 	private final User me;
 	private final MessageController msgController;
 

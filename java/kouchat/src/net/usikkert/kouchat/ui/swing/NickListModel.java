@@ -26,7 +26,7 @@ import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.event.NickListListener;
 import net.usikkert.kouchat.misc.User;
-import net.usikkert.kouchat.misc.NickList;
+import net.usikkert.kouchat.misc.UserList;
 
 /**
  * This is the list model for the user list. It's just a facade above
@@ -38,7 +38,7 @@ public class NickListModel extends AbstractListModel implements NickListListener
 {
 	private static final long serialVersionUID = 1L;
 
-	private final NickList nickList;
+	private final UserList nickList;
 
 	/**
 	 * Constructor. Adds this list model as a listener for events
@@ -46,7 +46,7 @@ public class NickListModel extends AbstractListModel implements NickListListener
 	 *
 	 * @param nickList The list where the real users are.
 	 */
-	public NickListModel( final NickList nickList )
+	public NickListModel( final UserList nickList )
 	{
 		this.nickList = nickList;
 		nickList.addNickListListener( this );

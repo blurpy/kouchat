@@ -37,7 +37,7 @@ import net.usikkert.kouchat.event.NickListListener;
  *
  * @author Christian Ihle
  */
-public interface NickList
+public interface UserList
 {
 	/**
 	 * Adds a user to the list, and notifies with {@link NickListListener#nickAdded(int)}.

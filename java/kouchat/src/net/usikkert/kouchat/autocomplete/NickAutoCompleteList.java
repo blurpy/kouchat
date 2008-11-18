@@ -22,7 +22,7 @@
 package net.usikkert.kouchat.autocomplete;
 
 import net.usikkert.kouchat.event.NickListListener;
-import net.usikkert.kouchat.misc.NickList;
+import net.usikkert.kouchat.misc.UserList;
 import net.usikkert.kouchat.util.Tools;
 
 /**
@@ -32,7 +32,7 @@ import net.usikkert.kouchat.util.Tools;
  */
 public class NickAutoCompleteList implements AutoCompleteList, NickListListener
 {
-	private final NickList nickList;
+	private final UserList nickList;
 	private String[] nicks;
 
 	/**
@@ -40,7 +40,7 @@ public class NickAutoCompleteList implements AutoCompleteList, NickListListener
 	 *
 	 * @param nickList The list of online users.
 	 */
-	public NickAutoCompleteList( final NickList nickList )
+	public NickAutoCompleteList( final UserList nickList )
 	{
 		this.nickList = nickList;
 		nickList.addNickListListener( this );

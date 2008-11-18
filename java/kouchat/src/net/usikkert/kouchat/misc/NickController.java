@@ -31,7 +31,7 @@ package net.usikkert.kouchat.misc;
  */
 public class NickController
 {
-	private final NickList nickList;
+	private final UserList nickList;
 	private final User me;
 	private final Settings settings;
 
@@ -257,7 +257,7 @@ public class NickController
 	 *
 	 * @return The nick list.
 	 */
-	public NickList getNickList()
+	public UserList getNickList()
 	{
 		return nickList;
 	}

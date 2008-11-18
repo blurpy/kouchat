@@ -41,7 +41,7 @@ import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.User;
-import net.usikkert.kouchat.misc.NickList;
+import net.usikkert.kouchat.misc.UserList;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
@@ -108,7 +108,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 		fileTransferHandler.setMediator( mediator );
 	}
 
-	public void setNickList( final NickList nickList )
+	public void setNickList( final UserList nickList )
 	{
 		nickDLM = new NickListModel( nickList );
 		nickL.setModel( nickDLM );

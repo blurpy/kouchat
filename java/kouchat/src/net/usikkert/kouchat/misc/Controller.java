@@ -144,7 +144,7 @@ public class Controller implements NetworkConnectionListener
 	 *
 	 * @return The user list.
 	 */
-	public NickList getNickList()
+	public UserList getNickList()
 	{
 		return nickController.getNickList();
 	}
@@ -339,7 +339,7 @@ public class Controller implements NetworkConnectionListener
 	 */
 	private void removeAllUsers()
 	{
-		NickList nickList = getNickList();
+		UserList nickList = getNickList();
 
 		for ( int i = 0; i < nickList.size(); i++ )
 		{
