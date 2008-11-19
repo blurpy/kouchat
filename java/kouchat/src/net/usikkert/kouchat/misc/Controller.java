@@ -724,6 +724,7 @@ public class Controller implements NetworkConnectionListener
 			msgController.showSystemMessage( "You are connected to the network again" );
 			messages.sendGetTopicMessage();
 			messages.sendExposeMessage();
+			messages.sendIdleMessage();
 		}
 	}
 
