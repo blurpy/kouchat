@@ -53,6 +53,7 @@ public final class NetworkUtils
 	 *   <li>Is not a loopback device, like localhost.</li>
 	 *   <li>Is not a point to point device, like a modem.</li>
 	 *   <li>Is not virtual, like <code>eth0:1</code>.</li>
+	 *   <li>Is not a virtual machine network interface (vmnet).</li>
 	 *   <li>Has an IPv4 address.</li>
 	 * </ul>
 	 *
@@ -66,7 +67,8 @@ public final class NetworkUtils
 			return false;
 
 		else if ( netif.isUp() && !netif.isLoopback() && !netif.isPointToPoint()
-				&& !netif.isVirtual() && netif.supportsMulticast() )
+				&& !netif.isVirtual() && netif.supportsMulticast()
+				&& !netif.getName().toLowerCase().contains( "vmnet" ) )
 		{
 			Enumeration<InetAddress> inetAddresses = netif.getInetAddresses();
 

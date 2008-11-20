@@ -67,12 +67,16 @@ public class ConnectionWorker implements Runnable
 	/** A list of connection listeners. */
 	private final List<NetworkConnectionListener> listeners;
 
+	/** For locating the operating system's choice of network interface. */
+	private final OperatingSystemNetworkInfo osNetworkInfo;
+
 	/**
 	 * Constructor.
 	 */
 	public ConnectionWorker()
 	{
 		listeners = new ArrayList<NetworkConnectionListener>();
+		osNetworkInfo = new OperatingSystemNetworkInfo();
 	}
 
 	/**
@@ -220,12 +224,43 @@ public class ConnectionWorker implements Runnable
 	}
 
 	/**
-	 * Locates a network interface to use.
+	 * Locates the best network interface to use.
+	 *
+	 * <p>The operating system's choice of network interface is prioritized,
+	 * but if the interface is not seen as usable, then the first usable
+	 * interface in the list of available choices is used instead.</p>
+	 *
+	 * <p>If no usable network interfaces are found, then <code>null</code>
+	 * is returned.</p>
 	 *
 	 * @return The network interface found, or <code>null</code>.
 	 * @throws SocketException In case of network issues.
+	 * @see NetworkUtils#isUsable(NetworkInterface)
 	 */
-	public NetworkInterface selectNetworkInterface() throws SocketException
+	private NetworkInterface selectNetworkInterface() throws SocketException
+	{
+		NetworkInterface firstUsableNetIf = findFirstUsableNetworkInterface();
+
+		if ( firstUsableNetIf == null )
+			return null;
+
+		NetworkInterface osNetIf = osNetworkInfo.getOperatingSystemNetworkInterface();
+
+		if ( NetworkUtils.isUsable( osNetIf ) )
+			return osNetIf;
+
+		return firstUsableNetIf;
+	}
+
+	/**
+	 * Iterates through a list of available network interfaces, and returns
+	 * the first which is usable.
+	 *
+	 * @return The first usable network interface.
+	 * @throws SocketException In case of network issues.
+	 * @see NetworkUtils#isUsable(NetworkInterface)
+	 */
+	private NetworkInterface findFirstUsableNetworkInterface() throws SocketException
 	{
 		Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
 
