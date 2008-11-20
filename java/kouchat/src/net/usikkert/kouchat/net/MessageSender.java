@@ -207,6 +207,14 @@ public class MessageSender
 		catch ( final IOException e )
 		{
 			LOG.log( Level.SEVERE, "Could not start sender: " + e.toString() );
+
+			if ( mcSocket != null )
+			{
+				if ( !mcSocket.isClosed() )
+					mcSocket.close();
+
+				mcSocket = null;
+			}
 		}
 
 		return connected;

@@ -185,6 +185,14 @@ public class MessageReceiver implements Runnable
 		catch ( final IOException e )
 		{
 			LOG.log( Level.SEVERE, "Could not start receiver: " + e.toString() );
+
+			if ( mcSocket != null )
+			{
+				if ( !mcSocket.isClosed() )
+					mcSocket.close();
+
+				mcSocket = null;
+			}
 		}
 
 		if ( connected && ( worker == null || !worker.isAlive() ) )
