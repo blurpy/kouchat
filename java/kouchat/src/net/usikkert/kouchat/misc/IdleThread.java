@@ -126,7 +126,7 @@ public class IdleThread extends Thread
 			// Sleep interrupted - probably from stopThread()
 			catch ( final InterruptedException e )
 			{
-				LOG.log( Level.SEVERE, e.toString() );
+				LOG.log( Level.FINE, e.toString() );
 			}
 		}
 	}

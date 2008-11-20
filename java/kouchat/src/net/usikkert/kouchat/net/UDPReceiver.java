@@ -22,10 +22,8 @@
 package net.usikkert.kouchat.net;
 
 import java.io.IOException;
-
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -80,9 +78,13 @@ public class UDPReceiver implements Runnable
 					listener.messageArrived( message, ip );
 			}
 
+			// Happens when socket is closed, or network is down
 			catch ( final IOException e )
 			{
-				LOG.log( Level.WARNING, e.toString() );
+				if ( connected )
+					LOG.log( Level.WARNING, e.toString() );
+				else
+					LOG.log( Level.FINE, e.toString() );
 			}
 		}
 	}

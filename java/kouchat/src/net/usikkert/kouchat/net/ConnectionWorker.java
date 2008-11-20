@@ -128,7 +128,7 @@ public class ConnectionWorker implements Runnable
 			// Sleep interrupted - probably from stop()
 			catch ( final InterruptedException e )
 			{
-				LOG.log( Level.WARNING, e.toString() );
+				LOG.log( Level.FINE, e.toString() );
 			}
 
 			// Hopefully not an issue (don't know), just try again next round.

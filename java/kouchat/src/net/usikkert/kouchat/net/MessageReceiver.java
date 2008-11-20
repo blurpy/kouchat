@@ -126,9 +126,13 @@ public class MessageReceiver implements Runnable
 					listener.messageArrived( message, ip );
 			}
 
+			// Happens when socket is closed, or network is down
 			catch ( final IOException e )
 			{
-				LOG.log( Level.WARNING, e.toString() );
+				if ( connected )
+					LOG.log( Level.WARNING, e.toString() );
+				else
+					LOG.log( Level.FINE, e.toString() );
 			}
 		}
 	}
