@@ -242,13 +242,20 @@ public class ConnectionWorker implements Runnable
 		NetworkInterface firstUsableNetIf = findFirstUsableNetworkInterface();
 
 		if ( firstUsableNetIf == null )
+		{
+			LOG.log( Level.FINER, "No usable network interface detected." );
 			return null;
+		}
 
 		NetworkInterface osNetIf = osNetworkInfo.getOperatingSystemNetworkInterface();
 
 		if ( NetworkUtils.isUsable( osNetIf ) )
+		{
+			LOG.log( Level.FINER, "Using operating system's choice of network interface." );
 			return osNetIf;
+		}
 
+		LOG.log( Level.FINER, "Overriding operating system's choice of network interface." );
 		return firstUsableNetIf;
 	}
 
