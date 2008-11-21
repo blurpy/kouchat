@@ -68,7 +68,8 @@ public final class NetworkUtils
 
 		else if ( netif.isUp() && !netif.isLoopback() && !netif.isPointToPoint()
 				&& !netif.isVirtual() && netif.supportsMulticast()
-				&& !netif.getName().toLowerCase().contains( "vmnet" ) )
+				&& !netif.getName().toLowerCase().contains( "vmnet" )
+				&& !netif.getDisplayName().toLowerCase().contains( "vmnet" ) )
 		{
 			Enumeration<InetAddress> inetAddresses = netif.getInetAddresses();
 
