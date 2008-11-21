@@ -14,8 +14,8 @@
  - Add screenshot wiki page to the googlesite
  - Add tips & tricks wiki page to the googlesite
  - Add "$user is away" tooltip to the userlist
- - Get current network interface should use existing to find a fresh object with updated info
  - Continue refactoring nick -> user
  - Give warning in ui when messages can't be sent
  - If idle message fails, check connection, if any other, give warning
  - If connection down, check again in 5 sec, then if still down, take action
+ - JMX method for setting a specific network interface

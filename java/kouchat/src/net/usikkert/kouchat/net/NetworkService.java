@@ -21,6 +21,8 @@
 
 package net.usikkert.kouchat.net;
 
+import java.net.NetworkInterface;
+
 import net.usikkert.kouchat.event.NetworkConnectionListener;
 import net.usikkert.kouchat.event.ReceiverListener;
 
@@ -168,7 +170,8 @@ public class NetworkService implements NetworkConnectionListener
 	{
 		udpSender.startSender();
 		udpReceiver.startReceiver();
-		messageSender.startSender( connectionWorker.getCurrentNetworkInterface() );
-		messageReceiver.startReceiver( connectionWorker.getCurrentNetworkInterface() );
+		NetworkInterface currentNetworkInterface = connectionWorker.getCurrentNetworkInterface();
+		messageSender.startSender( currentNetworkInterface );
+		messageReceiver.startReceiver( currentNetworkInterface );
 	}
 }

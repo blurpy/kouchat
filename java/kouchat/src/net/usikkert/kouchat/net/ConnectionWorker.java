@@ -153,14 +153,10 @@ public class ConnectionWorker implements Runnable
 	 *
 	 * @param netif The new network interface to compare against the original.
 	 * @return True if netif is new.
-	 * @throws SocketException In case of network issues.
 	 */
-	private boolean isNewNetworkInterface( final NetworkInterface netif ) throws SocketException
+	private boolean isNewNetworkInterface( final NetworkInterface netif )
 	{
-		if ( networkInterface == null )
-			return true;
-
-		return !netif.getName().equals( networkInterface.getName() );
+		return !NetworkUtils.sameNetworkInterface( netif, networkInterface );
 	}
 
 	/**
@@ -293,6 +289,21 @@ public class ConnectionWorker implements Runnable
 	 */
 	public NetworkInterface getCurrentNetworkInterface()
 	{
+		NetworkInterface updatedNetworkInterface = null;
+
+		try
+		{
+			updatedNetworkInterface = NetworkUtils.getUpdatedNetworkInterface( networkInterface );
+		}
+
+		catch ( final SocketException e )
+		{
+			LOG.log( Level.WARNING, e.toString() );
+		}
+
+		if ( updatedNetworkInterface != null )
+			return updatedNetworkInterface;
+
 		return networkInterface;
 	}
 

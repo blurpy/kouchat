@@ -131,4 +131,58 @@ public final class NetworkUtils
 				+ "MAC address: " + hwaddress.toUpperCase() + "\n"
 				+ "IP addresses: " + ipaddr;
 	}
+
+	/**
+	 * Fetches all the network interfaces again, and returns the one
+	 * which is the same as the original network interface.
+	 *
+	 * <p>This is useful to make sure the network interface information
+	 * is up to date, like the current ip address.</p>
+	 *
+	 * @param origNetIf The original network interface to compare with.
+	 * @return An updated version of the same network interface,
+	 * 		   or <code>null</code> if not found.
+	 * @throws SocketException In case of network issues.
+	 */
+	public static NetworkInterface getUpdatedNetworkInterface( final NetworkInterface origNetIf )
+	throws SocketException
+	{
+		if ( origNetIf == null )
+			return null;
+
+		Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+
+		// Because null is returned if no network interfaces are found
+		if ( networkInterfaces == null )
+			return null;
+
+		while ( networkInterfaces.hasMoreElements() )
+		{
+			NetworkInterface netif = networkInterfaces.nextElement();
+
+			if ( sameNetworkInterface( origNetIf, netif ) )
+				return netif;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Compares 2 network interfaces. The only way the 2 network interfaces
+	 * can be considered the same is if they have the same name.
+	 *
+	 * <p>If any of the network interfaces are <code>null</code> then they
+	 * are not considered the same.</p>
+	 *
+	 * @param netIf1 The first network interface.
+	 * @param netIf2 The second network interface.
+	 * @return If they are the same or not.
+	 */
+	public static boolean sameNetworkInterface( final NetworkInterface netIf1, final NetworkInterface netIf2 )
+	{
+		if ( netIf1 == null || netIf2 == null )
+			return false;
+
+		return netIf1.getName().equals( netIf2.getName() );
+	}
 }
