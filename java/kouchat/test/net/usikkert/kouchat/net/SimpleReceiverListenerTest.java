@@ -21,79 +21,57 @@
 
 package net.usikkert.kouchat.net;
 
-import net.usikkert.kouchat.event.ReceiverListener;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
+import org.junit.Test;
 
 /**
- * This is a very simple {@link ReceiverListener} for getting the message
- * and ip address when a message arrives.
+ * Test of {@link SimpleReceiverListener}.
  *
  * @author Christian Ihle
  */
-public class SimpleReceiverListener implements ReceiverListener
+public class SimpleReceiverListenerTest
 {
-	/** An expected message. */
-	private final String expectedMessage;
-
-	/** The arrived message, or null. */
-	private String message;
-
-	/** The ip address of the arrived message, or null. */
-	private String ipAddress;
-
 	/**
-	 * Constructor.
-	 *
-	 * @param expectedMessage An expected message, or <code>null</code>.
+	 * Tests that any message and ip address is saved when no
+	 * expected message is set.
 	 */
-	public SimpleReceiverListener( final String expectedMessage )
+	@Test
+	public void testListenerWithNoExpectedMessage()
 	{
-		this.expectedMessage = expectedMessage;
+		SimpleReceiverListener listener = new SimpleReceiverListener( null );
+		listener.messageArrived( "A message", "An ip address" );
+
+		assertEquals( "A message", listener.getMessage() );
+		assertEquals( "An ip address", listener.getIpAddress() );
 	}
 
 	/**
-	 * Stores the message and ip address, and nothing more.
-	 *
-	 * <p>If {@link #expectedMessage} is not null, then the message and ip
-	 * is stored only if the message equals the expected message.</p>
-	 *
-	 * {@inheritDoc}
+	 * Tests that the message and ip address is not saved when an expected
+	 * message is set, but another message is received.
 	 */
-	@Override
-	public void messageArrived( final String message, final String ipAddress )
+	@Test
+	public void testListenerWithWrongMessage()
 	{
-		if ( expectedMessage == null || expectedMessage.equals( message ) )
-		{
-			this.message = message;
-			this.ipAddress = ipAddress;
-		}
+		SimpleReceiverListener listener = new SimpleReceiverListener( "Some message :)" );
+		listener.messageArrived( "A message", "An ip address" );
+
+		assertNull( listener.getMessage() );
+		assertNull( listener.getIpAddress() );
 	}
 
 	/**
-	 * Gets the arrived message.
-	 *
-	 * @return The message.
+	 * Tests that the message and ip address is saved when an expected
+	 * message is set, and received.
 	 */
-	public String getMessage()
+	@Test
+	public void testListenerWithCorrectMessage()
 	{
-		return message;
-	}
+		SimpleReceiverListener listener = new SimpleReceiverListener( "Another message :)" );
+		listener.messageArrived( "Another message :)", "An ip address" );
 
-	/**
-	 * Gets the ip address of the arrived message.
-	 *
-	 * @return The ip address.
-	 */
-	public String getIpAddress()
-	{
-		return ipAddress;
-	}
-
-	/**
-	 * Resets the message and ip address to <code>null</code>.
-	 */
-	public void reset()
-	{
-		message = null;
-		ipAddress = null;
+		assertEquals( "Another message :)", listener.getMessage() );
+		assertEquals( "An ip address", listener.getIpAddress() );
 	}
 }

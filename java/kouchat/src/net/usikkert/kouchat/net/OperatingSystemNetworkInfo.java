@@ -29,6 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Tools;
 
@@ -69,9 +70,10 @@ public class OperatingSystemNetworkInfo
 	 */
 	public NetworkInterface getOperatingSystemNetworkInterface()
 	{
-		SimpleReceiverListener listener = new SimpleReceiverListener();
+		String message = createMessageToSend();
+		SimpleReceiverListener listener = new SimpleReceiverListener( message );
 		connect( listener );
-		sender.send( "getOperatingSystemNetworkInterface" );
+		sender.send( message );
 		waitForMessage( listener );
 		disconnect();
 		return findNetworkInterface( listener );
@@ -147,5 +149,17 @@ public class OperatingSystemNetworkInfo
 		}
 
 		return null;
+	}
+
+	/**
+	 * Returns a message with the text <code>getOperatingSystemNetworkInterface(user code)</code>,
+	 * where user code is taken from the application user.
+	 *
+	 * @return A message.
+	 */
+	private String createMessageToSend()
+	{
+		int code = Settings.getSettings().getMe().getCode();
+		return "getOperatingSystemNetworkInterface(" + code + ")";
 	}
 }

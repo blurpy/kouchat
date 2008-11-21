@@ -19,4 +19,3 @@
  - Give warning in ui when messages can't be sent
  - If idle message fails, check connection, if any other, give warning
  - If connection down, check again in 5 sec, then if still down, take action
- - Verify that the test message came from the correct user
