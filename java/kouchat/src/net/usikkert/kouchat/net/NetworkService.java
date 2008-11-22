@@ -152,9 +152,11 @@ public class NetworkService implements NetworkConnectionListener
 
 	/**
 	 * Stops all senders and receivers.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
-	public void networkWentDown()
+	public void networkWentDown( final boolean silent )
 	{
 		udpSender.stopSender();
 		udpReceiver.stopReceiver();
@@ -164,9 +166,11 @@ public class NetworkService implements NetworkConnectionListener
 
 	/**
 	 * Starts all senders and receivers.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
-	public void networkCameUp()
+	public void networkCameUp( final boolean silent )
 	{
 		udpSender.startSender();
 		udpReceiver.startReceiver();

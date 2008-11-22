@@ -100,7 +100,7 @@ public class ConnectionWorker implements Runnable
 					LOG.log( Level.FINE, "Network is down, sleeping" );
 					// To avoid notifying about this every 15 seconds
 					if ( networkUp )
-						notifyNetworkDown();
+						notifyNetworkDown( false );
 					Thread.sleep( SLEEP_DOWN );
 					continue;
 				}
@@ -111,9 +111,16 @@ public class ConnectionWorker implements Runnable
 					String origNetwork = networkInterface == null ? "[null]" : networkInterface.getName();
 					LOG.log( Level.FINE, "Changing network from " + origNetwork + " to " + netif.getName() );
 					networkInterface = netif;
+
+					// Don't spam user with info if the network never was down
 					if ( networkUp )
-						notifyNetworkDown();
-					notifyNetworkUp();
+					{
+						notifyNetworkDown( true );
+						notifyNetworkUp( true );
+					}
+
+					else
+						notifyNetworkUp( false );
 				}
 
 				// If the connection was lost, like unplugging cable, and plugging back in
@@ -121,7 +128,7 @@ public class ConnectionWorker implements Runnable
 				{
 					LOG.log( Level.FINE, "Network " + netif.getName() + " is up again" );
 					networkInterface = netif;
-					notifyNetworkUp();
+					notifyNetworkUp( false );
 				}
 
 				// else - everything is normal
@@ -144,7 +151,7 @@ public class ConnectionWorker implements Runnable
 
 		LOG.log( Level.FINE, "Network is stopping" );
 		if ( networkUp )
-			notifyNetworkDown();
+			notifyNetworkDown( false );
 		networkInterface = null;
 	}
 
@@ -161,27 +168,31 @@ public class ConnectionWorker implements Runnable
 
 	/**
 	 * Notifies all the listeners that the network is up.
+	 *
+	 * @param silent Don't give any messages to the user about the change.
 	 */
-	private synchronized void notifyNetworkUp()
+	private synchronized void notifyNetworkUp( final boolean silent )
 	{
 		networkUp = true;
 
 		for ( NetworkConnectionListener listener : listeners )
 		{
-			listener.networkCameUp();
+			listener.networkCameUp( silent );
 		}
 	}
 
 	/**
 	 * Notifies all the listeners that the network is down.
+	 *
+	 * @param silent Don't give any messages to the user about the change.
 	 */
-	private synchronized void notifyNetworkDown()
+	private synchronized void notifyNetworkDown( final boolean silent )
 	{
 		networkUp = false;
 
 		for ( NetworkConnectionListener listener : listeners )
 		{
-			listener.networkWentDown();
+			listener.networkWentDown( silent );
 		}
 	}
 

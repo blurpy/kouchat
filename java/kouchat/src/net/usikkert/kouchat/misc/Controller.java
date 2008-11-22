@@ -706,9 +706,11 @@ public class Controller implements NetworkConnectionListener
 
 	/**
 	 * Makes sure the application reacts when the network is available.
+	 *
+	 * @param silent If true, wont show the "you are connected..." message to the user.
 	 */
 	@Override
-	public void networkCameUp()
+	public void networkCameUp( final boolean silent )
 	{
 		// Network came up after a logon
 		if ( !chatState.isLoggedOn() )
@@ -721,7 +723,10 @@ public class Controller implements NetworkConnectionListener
 		else
 		{
 			ui.showTopic();
-			msgController.showSystemMessage( "You are connected to the network again" );
+
+			if ( !silent )
+				msgController.showSystemMessage( "You are connected to the network again" );
+
 			messages.sendGetTopicMessage();
 			messages.sendExposeMessage();
 			messages.sendIdleMessage();
@@ -730,14 +735,20 @@ public class Controller implements NetworkConnectionListener
 
 	/**
 	 * Makes sure the application reacts when the network is unavailable.
+	 *
+	 * @param silent If true, wont show the "you lost contact..." message to the user.
 	 */
 	@Override
-	public void networkWentDown()
+	public void networkWentDown( final boolean silent )
 	{
 		ui.showTopic();
 
 		if ( chatState.isLoggedOn() )
-			msgController.showSystemMessage( "You lost contact with the network" );
+		{
+			if ( !silent )
+				msgController.showSystemMessage( "You lost contact with the network" );
+		}
+
 		else
 			msgController.showSystemMessage( "You logged off" );
 	}
