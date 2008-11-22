@@ -40,6 +40,9 @@ public class NetworkUtilsTest
 	/**
 	 * Tests if 2 network interfaces are the same.
 	 *
+	 * <p>NetworkInterface is a final class, and can't be mocked easily.
+	 * So this test will only work when there are at least 2 network interfaces available.</p>
+	 *
 	 * @throws Exception In case of network issues.
 	 */
 	@Test
