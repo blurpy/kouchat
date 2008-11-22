@@ -21,11 +21,6 @@
 
 package net.usikkert.kouchat.ui.swing;
 
-import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.misc.User;
-import net.usikkert.kouchat.misc.Settings;
-import net.usikkert.kouchat.ui.util.UITools;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.KeyEventDispatcher;
@@ -47,6 +42,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.misc.User;
+import net.usikkert.kouchat.ui.util.UITools;
+
 /**
  * This is the main chat window.
  *
@@ -54,18 +54,35 @@ import javax.swing.UIManager.LookAndFeelInfo;
  */
 public class KouChatFrame extends JFrame implements WindowListener, FocusListener
 {
+	/** Standard serial version UID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The panel that contains all the other panels and components. */
 	private final MainPanel mainP;
+
+	/** The panel with the buttons and user list. */
 	private final SidePanel sideP;
-	private final ButtonPanel buttonP;
+
+	/** The mediator that connects all the panels. */
 	private final Mediator mediator;
+
+	/** The system tray. */
 	private final SysTray sysTray;
-	private final SettingsDialog settingsDialog;
+
+	/** The menu bar. */
 	private final MenuBar menuBar;
+
+	/** The settings. */
 	private final Settings settings;
+
+	/** The application user. */
 	private final User me;
 
+	/**
+	 * Constructor.
+	 *
+	 * Initializes all components, shows the window, and starts the network.
+	 */
 	public KouChatFrame()
 	{
 		System.setProperty( Constants.PROPERTY_CLIENT_UI, "Swing" );
@@ -74,11 +91,11 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 		setLookAndFeel();
 		new SwingPopupErrorHandler();
 
-		buttonP = new ButtonPanel();
+		ButtonPanel buttonP = new ButtonPanel();
 		sideP = new SidePanel( buttonP );
 		mainP = new MainPanel( sideP );
 		sysTray = new SysTray();
-		settingsDialog = new SettingsDialog();
+		SettingsDialog settingsDialog = new SettingsDialog();
 		menuBar = new MenuBar();
 
 		ComponentHandler compHandler = new ComponentHandler();
@@ -201,6 +218,11 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 		} );
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void focusGained( final FocusEvent e )
 	{
@@ -209,6 +231,8 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 
 	/**
 	 * Make sure the menubar gets focus when navigating with the keyboard.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void focusLost( final FocusEvent e )
@@ -219,6 +243,8 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 
 	/**
 	 * Shut down the right way.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void windowClosing( final WindowEvent e )
@@ -235,6 +261,8 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 
 	/**
 	 * Fix focus and repaint issues when the window gets focused.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void windowActivated( final WindowEvent e )
@@ -250,30 +278,55 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 		}
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void windowClosed( final WindowEvent e )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void windowDeactivated( final WindowEvent e )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void windowDeiconified( final WindowEvent e )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void windowIconified( final WindowEvent e )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void windowOpened( final WindowEvent e )
 	{
