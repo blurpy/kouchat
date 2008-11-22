@@ -54,7 +54,7 @@ public class OperatingSystemNetworkInfoTest
 
 		if ( networkInterfaces == null )
 		{
-			System.out.println( "No network interfaces found." );
+			System.err.println( "No network interfaces found." );
 			assertNull( osInterface );
 			return;
 		}
@@ -74,14 +74,12 @@ public class OperatingSystemNetworkInfoTest
 
 		if ( !validNetworkAvailable )
 		{
-			System.out.println( "No usable network interfaces found." );
+			System.err.println( "No usable network interfaces found." );
 			assertNull( osInterface );
 			return;
 		}
 
 		assertNotNull( osInterface );
 		assertTrue( NetworkUtils.isUsable( osInterface ) );
-
-		System.out.println( NetworkUtils.getNetworkInterfaceInfo( osInterface ) );
 	}
 }
