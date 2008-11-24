@@ -102,10 +102,11 @@ public class MessageSender
 	 * Sends a multicast packet to other clients over the network.
 	 *
 	 * @param message The message to send in the packet.
+	 * @return If the message was sent or not.
 	 * @see Constants#MESSAGE_CHARSET
 	 * @see Constants#NETWORK_PACKET_SIZE
 	 */
-	public void send( final String message )
+	public boolean send( final String message )
 	{
 		if ( connected )
 		{
@@ -122,6 +123,9 @@ public class MessageSender
 
 				DatagramPacket packet = new DatagramPacket( encodedMsg, size, address, port );
 				mcSocket.send( packet );
+				LOG.log( Level.FINEST, "Sent message: " + message );
+
+				return true;
 			}
 
 			catch ( final IOException e )
@@ -129,6 +133,8 @@ public class MessageSender
 				LOG.log( Level.WARNING, "Could not send message: " + message );
 			}
 		}
+
+		return false;
 	}
 
 	/**
