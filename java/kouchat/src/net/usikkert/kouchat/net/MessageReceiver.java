@@ -121,6 +121,7 @@ public class MessageReceiver implements Runnable
 				mcSocket.receive( packet );
 				String ip = packet.getAddress().getHostAddress();
 				String message = new String( packet.getData(), Constants.MESSAGE_CHARSET ).trim();
+				LOG.log( Level.FINEST, "Message arrived from " + ip + ": " + message );
 
 				if ( listener != null )
 					listener.messageArrived( message, ip );
