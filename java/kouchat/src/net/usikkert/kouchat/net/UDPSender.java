@@ -22,11 +22,9 @@
 package net.usikkert.kouchat.net;
 
 import java.io.IOException;
-
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -62,8 +60,9 @@ public class UDPSender
 	 * @param message The message to send.
 	 * @param ip The ip address of the user.
 	 * @param port The port to send the message to.
+	 * @return If the message was sent or not.
 	 */
-	public void send( final String message, final String ip, final int port )
+	public boolean send( final String message, final String ip, final int port )
 	{
 		if ( connected )
 		{
@@ -81,6 +80,9 @@ public class UDPSender
 
 				DatagramPacket packet = new DatagramPacket( encodedMsg, size, address, port );
 				udpSocket.send( packet );
+				LOG.log( Level.FINEST, "Sent message: " + message );
+
+				return true;
 			}
 
 			catch ( final IOException e )
@@ -88,6 +90,8 @@ public class UDPSender
 				LOG.log( Level.SEVERE, "Could not send message: " + message );
 			}
 		}
+
+		return false;
 	}
 
 	/**
