@@ -80,6 +80,18 @@ public class Topic
 	}
 
 	/**
+	 * Changes the current topic (with all fields) to the topic in the parameter.
+	 *
+	 * @param topic The topic to set.
+	 */
+	public void changeTopic( final Topic topic )
+	{
+		this.topic = topic.getTopic();
+		this.nick = topic.getNick();
+		this.time = topic.getTime();
+	}
+
+	/**
 	 * Resets all the fields to blank and 0 values.
 	 */
 	public void resetTopic()
