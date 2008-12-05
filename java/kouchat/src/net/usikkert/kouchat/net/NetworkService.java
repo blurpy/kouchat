@@ -33,10 +33,19 @@ import net.usikkert.kouchat.event.ReceiverListener;
  */
 public class NetworkService implements NetworkConnectionListener
 {
+	/** The thread responsible for keeping the network connection up. */
 	private final ConnectionWorker connectionWorker;
+
+	/** The multicast message sender. */
 	private final MessageSender messageSender;
+
+	/** The multicast message receiver. */
 	private final MessageReceiver messageReceiver;
+
+	/** The private message sender. */
 	private final UDPSender udpSender;
+
+	/** The private message receiver. */
 	private final UDPReceiver udpReceiver;
 
 	/**
@@ -132,10 +141,11 @@ public class NetworkService implements NetworkConnectionListener
 	 * Send a message with multicast, to all users.
 	 *
 	 * @param message The message to send.
+	 * @return If the message was sent or not.
 	 */
-	public void sendMulticastMsg( final String message )
+	public boolean sendMulticastMsg( final String message )
 	{
-		messageSender.send( message );
+		return messageSender.send( message );
 	}
 
 	/**
@@ -144,10 +154,20 @@ public class NetworkService implements NetworkConnectionListener
 	 * @param message The message to send.
 	 * @param ip The ip address of the user.
 	 * @param port The port to send the message to.
+	 * @return If the message was sent or not.
 	 */
-	public void sendUDPMsg( final String message, final String ip, final int port )
+	public boolean sendUDPMsg( final String message, final String ip, final int port )
 	{
-		udpSender.send( message, ip, port );
+		return udpSender.send( message, ip, port );
+	}
+
+	/**
+	 * Checks the state of the network, and tries to keep the best possible
+	 * network connection up.
+	 */
+	public void checkNetwork()
+	{
+		connectionWorker.checkNetwork();
 	}
 
 	/**

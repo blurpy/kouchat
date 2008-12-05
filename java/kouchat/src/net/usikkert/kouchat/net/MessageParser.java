@@ -25,8 +25,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.event.ReceiverListener;
-import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.util.Loggers;
 
 /**
@@ -63,16 +63,34 @@ public class MessageParser implements ReceiverListener
 	/** The logger. */
 	private static final Logger LOG = Loggers.NETWORK_LOG;
 
+	/** To handle the different kind of messages parsed here. */
 	private final MessageResponder responder;
+
+	/** The application settings. */
 	private final Settings settings;
+
+	/** If logged on to the chat or not. */
 	private boolean loggedOn;
 
+	/**
+	 * Constructor.
+	 *
+	 * @param responder To handle the different kind of messages parsed here.
+	 */
 	public MessageParser( final MessageResponder responder )
 	{
 		this.responder = responder;
 		settings = Settings.getSettings();
 	}
 
+	/**
+	 * The parser. Checks what kind of message it is,
+	 * and then gives the correct data to the responder for
+	 * more processing.
+	 *
+	 * @param message The raw message to parse.
+	 * @param ipAddress The IP address of the user who sent the message.
+	 */
 	@Override
 	public void messageArrived( final String message, final String ipAddress )
 	{
@@ -256,7 +274,7 @@ public class MessageParser implements ReceiverListener
 						String fileName = msg.substring( rightCurly + 1, msg.length() );
 						int fileHash = Integer.parseInt( msg.substring( leftCurly + 1, rightCurly ) );
 
-						responder.fileSend( msgCode, byteSize, fileName, msgNick, fileHash, fileCode );
+						responder.fileSend( msgCode, byteSize, fileName, msgNick, fileHash );
 					}
 				}
 

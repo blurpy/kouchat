@@ -26,7 +26,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.net.NetworkInterface;
-import java.net.SocketException;
 import java.util.Enumeration;
 
 import org.junit.Test;
@@ -42,13 +41,11 @@ public class OperatingSystemNetworkInfoTest
 	 * Tests if the network interface for the operating system can be found.
 	 *
 	 * <p>But only if there are usable network interfaces available.</p>
-	 *
-	 * @throws SocketException In case of network issues.
 	 */
 	@Test
-	public void testFindingTheOSNetworkInterface() throws SocketException
+	public void testFindingTheOSNetworkInterface()
 	{
-		Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+		Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
 		OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo();
 		NetworkInterface osInterface = osNicInfo.getOperatingSystemNetworkInterface();
 

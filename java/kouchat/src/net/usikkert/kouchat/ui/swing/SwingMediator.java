@@ -156,7 +156,6 @@ public class SwingMediator implements Mediator, UserInterface
 				try
 				{
 					controller.changeAwayStatus( me.getCode(), false, "" );
-					controller.sendBackMessage();
 					changeAway( false );
 					msgController.showSystemMessage( "You came back" );
 				}
@@ -185,7 +184,6 @@ public class SwingMediator implements Mediator, UserInterface
 				try
 				{
 					controller.changeAwayStatus( me.getCode(), true, reason );
-					controller.sendAwayMessage();
 					changeAway( true );
 					msgController.showSystemMessage( "You went away: " + me.getAwayMsg() );
 				}
@@ -431,7 +429,7 @@ public class SwingMediator implements Mediator, UserInterface
 		{
 			try
 			{
-				controller.sendPrivateMessage( line, user.getIpAddress(), user.getPrivateChatPort(), user.getCode() );
+				controller.sendPrivateMessage( line, user );
 				msgController.showPrivateOwnMessage( user, line );
 			}
 

@@ -116,7 +116,6 @@ public class CommandParser
 				try
 				{
 					controller.changeAwayStatus( me.getCode(), true, args.trim() );
-					controller.sendAwayMessage();
 					ui.changeAway( true );
 					msgController.showSystemMessage( "You went away: " + me.getAwayMsg() );
 				}
@@ -140,7 +139,6 @@ public class CommandParser
 			try
 			{
 				controller.changeAwayStatus( me.getCode(), false, "" );
-				controller.sendBackMessage();
 				ui.changeAway( false );
 				msgController.showSystemMessage( "You came back" );
 			}
@@ -339,7 +337,7 @@ public class CommandParser
 
 				try
 				{
-					controller.sendPrivateMessage( privmsg, user.getIpAddress(), user.getPrivateChatPort(), user.getCode() );
+					controller.sendPrivateMessage( privmsg, user );
 					msgController.showPrivateOwnMessage( user, privmsg );
 				}
 
@@ -524,7 +522,7 @@ public class CommandParser
 	{
 		try
 		{
-			controller.sendFile( user.getCode(), file.length(), file.hashCode(), file.getName() );
+			controller.sendFile( user, file );
 			FileSender fileSend = new FileSender( user, file );
 			ui.showTransfer( fileSend );
 			controller.getTransferList().addFileSender( fileSend );

@@ -22,9 +22,7 @@
 package net.usikkert.kouchat.net;
 
 import java.net.NetworkInterface;
-import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -80,8 +78,7 @@ public class ConnectionWorker implements Runnable
 	}
 
 	/**
-	 * The thread. Responsible for keeping the best possible
-	 * network connection up, and notifies listeners of any changes.
+	 * The thread. See {@link #updateNetwork()} for details.
 	 */
 	@Override
 	public void run()
@@ -90,69 +87,89 @@ public class ConnectionWorker implements Runnable
 
 		while ( run )
 		{
+			boolean networkUp = updateNetwork();
+
 			try
 			{
-				NetworkInterface netif = selectNetworkInterface();
-
-				// No network interface to connect with
-				if ( !NetworkUtils.isUsable( netif ) )
-				{
-					LOG.log( Level.FINE, "Network is down, sleeping" );
-					// To avoid notifying about this every 15 seconds
-					if ( networkUp )
-						notifyNetworkDown( false );
+				if ( networkUp )
+					Thread.sleep( SLEEP_UP );
+				else
 					Thread.sleep( SLEEP_DOWN );
-					continue;
-				}
-
-				// Switching network interface, like going from cable to wireless
-				else if ( isNewNetworkInterface( netif ) )
-				{
-					String origNetwork = networkInterface == null ? "[null]" : networkInterface.getName();
-					LOG.log( Level.FINE, "Changing network from " + origNetwork + " to " + netif.getName() );
-					networkInterface = netif;
-
-					// Don't spam user with info if the network never was down
-					if ( networkUp )
-					{
-						notifyNetworkDown( true );
-						notifyNetworkUp( true );
-					}
-
-					else
-						notifyNetworkUp( false );
-				}
-
-				// If the connection was lost, like unplugging cable, and plugging back in
-				else if ( !networkUp )
-				{
-					LOG.log( Level.FINE, "Network " + netif.getName() + " is up again" );
-					networkInterface = netif;
-					notifyNetworkUp( false );
-				}
-
-				// else - everything is normal
-
-				Thread.sleep( SLEEP_UP );
 			}
 
-			// Sleep interrupted - probably from stop()
+			// Sleep interrupted - probably from stop() or checkNetwork()
 			catch ( final InterruptedException e )
 			{
 				LOG.log( Level.FINE, e.toString() );
 			}
-
-			// Hopefully not an issue (don't know), just try again next round.
-			catch ( final SocketException e )
-			{
-				LOG.log( Level.WARNING, e.toString(), e );
-			}
 		}
 
 		LOG.log( Level.FINE, "Network is stopping" );
+
 		if ( networkUp )
 			notifyNetworkDown( false );
+
 		networkInterface = null;
+	}
+
+	/**
+	 * Asks the thread to check the network now to detect loss of network connectivity.
+	 */
+	public void checkNetwork()
+	{
+		if ( worker != null )
+			worker.interrupt();
+	}
+
+	/**
+	 * Checks the state of the network, and tries to keep the best possible
+	 * network connection up. Listeners are notified of any changes.
+	 *
+	 * @return If the network is up or not after this update is done.
+	 */
+	private synchronized boolean updateNetwork()
+	{
+		NetworkInterface netif = selectNetworkInterface();
+
+		// No network interface to connect with
+		if ( !NetworkUtils.isUsable( netif ) )
+		{
+			LOG.log( Level.FINE, "Network is down" );
+
+			if ( networkUp )
+				notifyNetworkDown( false );
+
+			return false;
+		}
+
+		// Switching network interface, like going from cable to wireless
+		else if ( isNewNetworkInterface( netif ) )
+		{
+			String origNetwork = networkInterface == null ? "[null]" : networkInterface.getName();
+			LOG.log( Level.FINE, "Changing network from " + origNetwork + " to " + netif.getName() );
+			networkInterface = netif;
+
+			if ( networkUp )
+			{
+				notifyNetworkDown( true );
+				notifyNetworkUp( true );
+			}
+
+			else
+				notifyNetworkUp( false );
+		}
+
+		// If the connection was lost, like unplugging cable, and plugging back in
+		else if ( !networkUp )
+		{
+			LOG.log( Level.FINE, "Network " + netif.getName() + " is up again" );
+			networkInterface = netif;
+			notifyNetworkUp( false );
+		}
+
+		// Else, the old connection is still up
+
+		return true;
 	}
 
 	/**
@@ -241,12 +258,11 @@ public class ConnectionWorker implements Runnable
 	 * is returned.</p>
 	 *
 	 * @return The network interface found, or <code>null</code>.
-	 * @throws SocketException In case of network issues.
 	 * @see NetworkUtils#isUsable(NetworkInterface)
 	 */
-	private NetworkInterface selectNetworkInterface() throws SocketException
+	private NetworkInterface selectNetworkInterface()
 	{
-		NetworkInterface firstUsableNetIf = findFirstUsableNetworkInterface();
+		NetworkInterface firstUsableNetIf = NetworkUtils.findFirstUsableNetworkInterface();
 
 		if ( firstUsableNetIf == null )
 		{
@@ -267,50 +283,14 @@ public class ConnectionWorker implements Runnable
 	}
 
 	/**
-	 * Iterates through a list of available network interfaces, and returns
-	 * the first which is usable.
-	 *
-	 * @return The first usable network interface.
-	 * @throws SocketException In case of network issues.
-	 * @see NetworkUtils#isUsable(NetworkInterface)
-	 */
-	private NetworkInterface findFirstUsableNetworkInterface() throws SocketException
-	{
-		Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
-
-		// Because null is returned if no network interfaces are found
-		if ( networkInterfaces == null )
-			return null;
-
-		while ( networkInterfaces.hasMoreElements() )
-		{
-			NetworkInterface netif = networkInterfaces.nextElement();
-
-			if ( NetworkUtils.isUsable( netif ) )
-				return netif;
-		}
-
-		return null;
-	}
-
-	/**
 	 * Finds the current network interface.
 	 *
 	 * @return The current network interface.
 	 */
 	public NetworkInterface getCurrentNetworkInterface()
 	{
-		NetworkInterface updatedNetworkInterface = null;
-
-		try
-		{
-			updatedNetworkInterface = NetworkUtils.getUpdatedNetworkInterface( networkInterface );
-		}
-
-		catch ( final SocketException e )
-		{
-			LOG.log( Level.WARNING, e.toString() );
-		}
+		NetworkInterface updatedNetworkInterface =
+			NetworkUtils.getUpdatedNetworkInterface( networkInterface );
 
 		if ( updatedNetworkInterface != null )
 			return updatedNetworkInterface;

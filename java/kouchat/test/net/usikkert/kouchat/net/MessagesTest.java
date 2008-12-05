@@ -21,9 +21,11 @@
 
 package net.usikkert.kouchat.net;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
+import java.io.File;
+
+import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.Topic;
 import net.usikkert.kouchat.misc.User;
@@ -57,6 +59,8 @@ public class MessagesTest
 		settings = Settings.getSettings();
 		me = settings.getMe();
 		service = mock( NetworkService.class );
+		stub( service.sendMulticastMsg( anyString() ) ).toReturn( true );
+		stub( service.sendUDPMsg( anyString(), anyString(), anyInt() ) ).toReturn( true );
 		messages = new Messages( service );
 	}
 
@@ -69,9 +73,7 @@ public class MessagesTest
 	public void testSendAwayMessage()
 	{
 		String awayMsg = "I am away";
-		me.setAwayMsg( awayMsg );
-		messages.sendAwayMessage();
-		me.setAwayMsg( "" );
+		messages.sendAwayMessage( awayMsg );
 		verify( service ).sendMulticastMsg( createMessage( "AWAY" ) + awayMsg );
 	}
 
@@ -91,9 +93,11 @@ public class MessagesTest
 	 * Tests sendChatMessage().
 	 *
 	 * Expects: 16899115!MSG#Christian:[-15987646]Some chat message
+	 *
+	 * @throws CommandException In case the message could not be sent.
 	 */
 	@Test
-	public void testSendChatMessage()
+	public void testSendChatMessage() throws CommandException
 	{
 		String msg = "Some chat message";
 		messages.sendChatMessage( msg );
@@ -104,19 +108,19 @@ public class MessagesTest
 	 * Tests sendClient().
 	 *
 	 * Expects: 13132531!CLIENT#Christian:(KouChat v0.9.9-dev null)[134]{Linux}<0>
-	 *
-	 * FIXME: this test sometimes fails because of a millisecond issue.
 	 */
 	@Test
 	public void testSendClientMessage()
 	{
-		String client = "(" + me.getClient() + ")"
-			+ "[" + ( System.currentTimeMillis() - me.getLogonTime() ) + "]"
-			+ "{" + me.getOperatingSystem() + "}"
-			+ "<" + me.getPrivateChatPort() + ">";
+		String startsWith = "(" + me.getClient() + ")[";
+		String middle = ".+\\)\\[\\d+\\]\\{.+"; // like: )[134[{
+		String endsWidth = "]{" + me.getOperatingSystem() + "}<" + me.getPrivateChatPort() + ">";
 
 		messages.sendClient();
-		verify( service ).sendMulticastMsg( createMessage( "CLIENT" ) + client );
+
+		verify( service ).sendMulticastMsg( startsWith( createMessage( "CLIENT" ) + startsWith ) );
+		verify( service ).sendMulticastMsg( matches( middle ) );
+		verify( service ).sendMulticastMsg( endsWith( endsWidth ) );
 	}
 
 	/**
@@ -147,21 +151,29 @@ public class MessagesTest
 	 * Tests sendFile().
 	 *
 	 * Expects: 14394329!SENDFILE#Christian:(1234)[80800]{37563645}a_file.txt
+	 *
+	 * @throws CommandException In case the message could not be sent.
 	 */
 	@Test
-	public void testSendFileMessage()
+	public void testSendFileMessage() throws CommandException
 	{
 		int userCode = 1234;
 		long fileLength = 80800L;
-		int fileHash = 37563645;
 		String fileName = "a_file.txt";
+
+		File file = mock( File.class );
+		stub( file.getName() ).toReturn( fileName );
+		stub( file.length() ).toReturn( fileLength );
+		int fileHash = file.hashCode(); // Cannot be mocked it seems
 
 		String info = "(" + 1234 + ")"
 			+ "[" + fileLength + "]"
 			+ "{" + fileHash + "}"
 			+ fileName;
 
-		messages.sendFile( userCode, fileLength, fileHash, fileName );
+		User user = new User( "TestUser", userCode );
+
+		messages.sendFile( user, file );
 		verify( service ).sendMulticastMsg( createMessage( "SENDFILE" ) + info );
 	}
 
@@ -181,7 +193,9 @@ public class MessagesTest
 			+ "{" + fileHash + "}"
 			+ fileName;
 
-		messages.sendFileAbort( userCode, fileHash, fileName );
+		User user = new User( "TestUser", userCode );
+
+		messages.sendFileAbort( user, fileHash, fileName );
 		verify( service ).sendMulticastMsg( createMessage( "SENDFILEABORT" ) + info );
 	}
 
@@ -189,9 +203,11 @@ public class MessagesTest
 	 * Tests sendFileAccept().
 	 *
 	 * Expects: 17247198!SENDFILEACCEPT#Christian:(4321)[20103]{8578765}some_file.txt
+	 *
+	 * @throws CommandException In case the message could not be sent.
 	 */
 	@Test
-	public void testSendFileAcceptMessage()
+	public void testSendFileAcceptMessage() throws CommandException
 	{
 		int userCode = 4321;
 		int port = 20103;
@@ -203,7 +219,9 @@ public class MessagesTest
 			+ "{" + fileHash + "}"
 			+ fileName;
 
-		messages.sendFileAccept( userCode, port, fileHash, fileName );
+		User user = new User( "TestUser", userCode );
+
+		messages.sendFileAccept( user, port, fileHash, fileName );
 		verify( service ).sendMulticastMsg( createMessage( "SENDFILEACCEPT" ) + info );
 	}
 
@@ -276,17 +294,20 @@ public class MessagesTest
 	@Test
 	public void testSendNickMessage()
 	{
-		messages.sendNickMessage();
-		verify( service ).sendMulticastMsg( createMessage( "NICK" ) );
+		final String newNick = "Cookie";
+		messages.sendNickMessage( newNick );
+		verify( service ).sendMulticastMsg( createMessage( "NICK", newNick ) );
 	}
 
 	/**
 	 * Tests sendPrivateMessage().
 	 *
 	 * Expects: 10897608!PRIVMSG#Christian:(435435)[-15987646]this is a private message
+	 *
+	 * @throws CommandException In case the message could not be sent.
 	 */
 	@Test
-	public void testSendPrivateMessage()
+	public void testSendPrivateMessage() throws CommandException
 	{
 		String privmsg = "this is a private message";
 		String userIP = "192.168.5.155";
@@ -297,7 +318,11 @@ public class MessagesTest
 			+ "[" + settings.getOwnColor() + "]"
 			+ privmsg;
 
-		messages.sendPrivateMessage( privmsg, userIP, userPort, userCode );
+		User user = new User( "TestUser", userCode );
+		user.setPrivateChatPort( userPort );
+		user.setIpAddress( userIP );
+
+		messages.sendPrivateMessage( privmsg, user );
 		verify( service ).sendUDPMsg( createMessage( "PRIVMSG" ) + message, userIP, userPort );
 	}
 
@@ -314,19 +339,36 @@ public class MessagesTest
 	}
 
 	/**
-	 * Tests sendTopicMessage().
+	 * Tests sendTopicChangeMessage().
 	 *
-	 * Expects: 18102542!TOPIC#Christian:(Snoopy)[2132321323]Interesting topic
+	 * Expects: 18102542!TOPIC#Christian:(Snoopy)[2132321323]Interesting changed topic
 	 */
 	@Test
-	public void testSendTopicMessage()
+	public void testSendTopicChangeMessage()
 	{
-		Topic topic = new Topic( "Interesting topic", "Snoopy", 2132321323L );
+		Topic topic = new Topic( "Interesting changed topic", "Snoopy", 2132321323L );
 		String message = "(" + topic.getNick() + ")"
 			+ "[" + topic.getTime() + "]"
 			+ topic.getTopic();
 
-		messages.sendTopicMessage( topic );
+		messages.sendTopicChangeMessage( topic );
+		verify( service ).sendMulticastMsg( createMessage( "TOPIC" ) + message );
+	}
+
+	/**
+	 * Tests sendTopicRequestedMessage().
+	 *
+	 * Expects: 18102542!TOPIC#Christian:(Snoopy)[66532345]Interesting requested topic
+	 */
+	@Test
+	public void testSendTopicRequestedMessage()
+	{
+		Topic topic = new Topic( "Interesting requested topic", "Snoopy", 66532345L );
+		String message = "(" + topic.getNick() + ")"
+			+ "[" + topic.getTime() + "]"
+			+ topic.getTopic();
+
+		messages.sendTopicRequestedMessage( topic );
 		verify( service ).sendMulticastMsg( createMessage( "TOPIC" ) + message );
 	}
 
@@ -351,5 +393,17 @@ public class MessagesTest
 	private String createMessage( final String type )
 	{
 		return me.getCode() + "!" + type + "#" + me.getNick() + ":";
+	}
+
+	/**
+	 * Creates the standard part for most of the message types.
+	 *
+	 * @param type The message type.
+	 * @param nick Nick name to use in the message instead of the default.
+	 * @return A message.
+	 */
+	private String createMessage( final String type, final String nick )
+	{
+		return me.getCode() + "!" + type + "#" + nick + ":";
 	}
 }

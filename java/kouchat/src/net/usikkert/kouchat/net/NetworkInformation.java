@@ -22,7 +22,6 @@
 package net.usikkert.kouchat.net;
 
 import java.net.NetworkInterface;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -52,7 +51,7 @@ public class NetworkInformation implements NetworkInformationMBean
 
 	/** {@inheritDoc} */
 	@Override
-	public String showCurrentNetwork() throws SocketException
+	public String showCurrentNetwork()
 	{
 		NetworkInterface networkInterface = connectionWorker.getCurrentNetworkInterface();
 
@@ -64,7 +63,7 @@ public class NetworkInformation implements NetworkInformationMBean
 
 	/** {@inheritDoc} */
 	@Override
-	public String showOperatingSystemNetwork() throws SocketException
+	public String showOperatingSystemNetwork()
 	{
 		OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo();
 		NetworkInterface osInterface = osNicInfo.getOperatingSystemNetworkInterface();
@@ -77,11 +76,11 @@ public class NetworkInformation implements NetworkInformationMBean
 
 	/** {@inheritDoc} */
 	@Override
-	public String[] showUsableNetworks() throws SocketException
+	public String[] showUsableNetworks()
 	{
 		List<String> list = new ArrayList<String>();
 
-		Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+		Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
 
 		if ( networkInterfaces == null )
 			return new String[] { "No network interfaces detected." };
@@ -102,11 +101,11 @@ public class NetworkInformation implements NetworkInformationMBean
 
 	/** {@inheritDoc} */
 	@Override
-	public String[] showAllNetworks() throws SocketException
+	public String[] showAllNetworks()
 	{
 		List<String> list = new ArrayList<String>();
 
-		Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+		Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
 
 		if ( networkInterfaces == null )
 			return new String[] { "No network interfaces detected." };

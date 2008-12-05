@@ -21,6 +21,7 @@
 
 package net.usikkert.kouchat.misc;
 
+import java.io.File;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -201,8 +202,16 @@ public class Controller implements NetworkConnectionListener
 			throw new CommandException( "You can not change away mode without being connected." );
 		else if ( Tools.getBytes( awaymsg ) > Constants.MESSAGE_MAX_BYTES )
 			throw new CommandException( "You can not set an away message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes." );
-		else
-			userListController.changeAwayStatus( code, away, awaymsg );
+
+		if ( code == me.getCode() )
+		{
+			if ( away )
+				messages.sendAwayMessage( awaymsg );
+			else
+				messages.sendBackMessage();
+		}
+
+		userListController.changeAwayStatus( code, away, awaymsg );
 	}
 
 	/**
@@ -231,20 +240,17 @@ public class Controller implements NetworkConnectionListener
 	 * Changes the nick for the application user, sends a message over the
 	 * network to notify the other clients of the change, and saves the changes.
 	 *
-	 * @param nick The new nick for the application user.
+	 * @param newNick The new nick for the application user.
 	 * @throws CommandException If the user is away.
 	 */
-	public void changeMyNick( final String nick ) throws CommandException
+	public void changeMyNick( final String newNick ) throws CommandException
 	{
 		if ( me.isAway() )
 			throw new CommandException( "You can not change nick while away." );
 
-		else
-		{
-			changeNick( me.getCode(), nick );
-			messages.sendNickMessage();
-			Settings.getSettings().saveSettings();
-		}
+		messages.sendNickMessage( newNick );
+		changeNick( me.getCode(), newNick );
+		Settings.getSettings().saveSettings();
 	}
 
 	/**
@@ -423,7 +429,8 @@ public class Controller implements NetworkConnectionListener
 	 */
 	public void sendIdleMessage()
 	{
-		messages.sendIdleMessage();
+		if ( isConnected() )
+			messages.sendIdleMessage();
 	}
 
 	/**
@@ -452,9 +459,9 @@ public class Controller implements NetworkConnectionListener
 	/**
 	 * Sends a message over the network with the current topic.
 	 */
-	public void sendTopicMessage()
+	public void sendTopicRequestedMessage()
 	{
-		messages.sendTopicMessage( getTopic() );
+		messages.sendTopicRequestedMessage( getTopic() );
 	}
 
 	/**
@@ -474,31 +481,11 @@ public class Controller implements NetworkConnectionListener
 		else if ( Tools.getBytes( newTopic ) > Constants.MESSAGE_MAX_BYTES )
 			throw new CommandException( "You can not set a topic with more than " + Constants.MESSAGE_MAX_BYTES + " bytes." );
 
-		else
-		{
-			long time = System.currentTimeMillis();
-			Topic topic = getTopic();
-			topic.changeTopic( newTopic, me.getNick(), time );
-			sendTopicMessage();
-		}
-	}
-
-	/**
-	 * Sends a message over the network with the current away message, to
-	 * notify the other clients that the application user has gone away.
-	 */
-	public void sendAwayMessage()
-	{
-		messages.sendAwayMessage();
-	}
-
-	/**
-	 * Sends a message over the network to notify the other clients that
-	 * the application user is back from away.
-	 */
-	public void sendBackMessage()
-	{
-		messages.sendBackMessage();
+		long time = System.currentTimeMillis();
+		Topic newTopicObj = new Topic( newTopic, me.getNick(), time );
+		messages.sendTopicChangeMessage( newTopicObj );
+		Topic topic = getTopic();
+		topic.changeTopic( newTopicObj );
 	}
 
 	/**
@@ -517,52 +504,51 @@ public class Controller implements NetworkConnectionListener
 	 * Sends a message over the network to notify the file sender that you
 	 * aborted the file transfer.
 	 *
-	 * @param userCode The user code of the user sending a file.
+	 * @param user The user sending a file.
 	 * @param fileHash The unique hash code of the file.
 	 * @param fileName The name of the file.
 	 */
-	public void sendFileAbort( final int userCode, final int fileHash, final String fileName )
+	public void sendFileAbort( final User user, final int fileHash, final String fileName )
 	{
-		messages.sendFileAbort( userCode, fileHash, fileName );
+		messages.sendFileAbort( user, fileHash, fileName );
 	}
 
 	/**
 	 * Sends a message over the network to notify the file sender that you
 	 * accepted the file transfer.
 	 *
-	 * @param userCode The user code of the user sending a file.
+	 * @param user The user sending a file.
 	 * @param port The port the file sender can connect to on this client
 	 * 		to start the file transfer.
 	 * @param fileHash The unique hash code of the file.
 	 * @param fileName The name of the file.
+	 * @throws CommandException If the message was not sent successfully.
 	 */
-	public void sendFileAccept( final int userCode, final int port, final int fileHash, final String fileName )
+	public void sendFileAccept( final User user, final int port, final int fileHash, final String fileName ) throws CommandException
 	{
-		messages.sendFileAccept( userCode, port, fileHash, fileName );
+		messages.sendFileAccept( user, port, fileHash, fileName );
 	}
 
 	/**
 	 * Sends a message over the network to notify another user that the
 	 * application user wants to send a file.
 	 *
-	 * @param sendToUserCode The user code of the user asked to receive a file.
-	 * @param fileLength The size of the file, in bytes.
-	 * @param fileHash The unique hash code of the file.
-	 * @param fileName The name of the file.
+	 * @param user The user asked to receive a file.
+	 * @param file The file to send.
 	 * @throws CommandException If there is no connection to the network,
 	 * 		or the application user is away,
 	 * 		or the file name is too long.
 	 */
-	public void sendFile( final int sendToUserCode, final long fileLength, final int fileHash, final String fileName ) throws CommandException
+	public void sendFile( final User user, final File file ) throws CommandException
 	{
 		if ( !isConnected() )
 			throw new CommandException( "You can not send a file without being connected." );
 		else if ( me.isAway() )
 			throw new CommandException( "You can not send a file while away." );
-		else if ( Tools.getBytes( fileName ) > Constants.MESSAGE_MAX_BYTES )
+		else if ( Tools.getBytes( file.getName() ) > Constants.MESSAGE_MAX_BYTES )
 			throw new CommandException( "You can not send a file with a name with more than " + Constants.MESSAGE_MAX_BYTES + " bytes." );
 		else
-			messages.sendFile( sendToUserCode, fileLength, fileHash, fileName );
+			messages.sendFile( user, file );
 	}
 
 	/**
@@ -608,16 +594,14 @@ public class Controller implements NetworkConnectionListener
 	 * Sends a private chat message over the network, to the specified user.
 	 *
 	 * @param privmsg The private message to send.
-	 * @param userIP The ip address of the specified user.
-	 * @param userPort The port to send the private message to.
-	 * @param userCode The user code of the user to send the private message to.
+	 * @param user The user to send the private message to.
 	 * @throws CommandException If there is no connection to the network,
 	 * 		or the application user is away,
 	 * 		or the private message is empty,
 	 * 		or the private message is too long,
 	 * 		or the specified user has no port to send the private message to.
 	 */
-	public void sendPrivateMessage( final String privmsg, final String userIP, final int userPort, final int userCode ) throws CommandException
+	public void sendPrivateMessage( final String privmsg, final User user ) throws CommandException
 	{
 		if ( !isConnected() )
 			throw new CommandException( "You can not send a private chat message without being connected." );
@@ -627,10 +611,10 @@ public class Controller implements NetworkConnectionListener
 			throw new CommandException( "You can not send an empty private chat message." );
 		else if ( Tools.getBytes( privmsg ) > Constants.MESSAGE_MAX_BYTES )
 			throw new CommandException( "You can not send a private chat message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes." );
-		else if ( userPort == 0 )
+		else if ( user.getPrivateChatPort() == 0 )
 			throw new CommandException( "You can not send a private chat message to a user with no available port number." );
 		else
-			messages.sendPrivateMessage( privmsg, userIP, userPort, userCode );
+			messages.sendPrivateMessage( privmsg, user );
 	}
 
 	/**
@@ -727,6 +711,8 @@ public class Controller implements NetworkConnectionListener
 			if ( !silent )
 				msgController.showSystemMessage( "You are connected to the network again" );
 
+			messages.sendTopicRequestedMessage( getTopic() );
+			messages.sendExposingMessage();
 			messages.sendGetTopicMessage();
 			messages.sendExposeMessage();
 			messages.sendIdleMessage();

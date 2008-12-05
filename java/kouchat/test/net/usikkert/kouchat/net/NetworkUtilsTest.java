@@ -42,15 +42,13 @@ public class NetworkUtilsTest
 	 *
 	 * <p>NetworkInterface is a final class, and can't be mocked easily.
 	 * So this test will only work when there are at least 2 network interfaces available.</p>
-	 *
-	 * @throws Exception In case of network issues.
 	 */
 	@Test
-	public void testSameNetworkInterface() throws Exception
+	public void testSameNetworkInterface()
 	{
 		assertFalse( NetworkUtils.sameNetworkInterface( null, null ) );
 
-		Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+		Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
 
 		if ( networkInterfaces != null )
 		{

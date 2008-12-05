@@ -26,6 +26,10 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import net.usikkert.kouchat.util.Loggers;
 
 /**
  * Class containing utility methods for network operations.
@@ -34,6 +38,9 @@ import java.util.Enumeration;
  */
 public final class NetworkUtils
 {
+	/** The logger. */
+	private static final Logger LOG = Loggers.NETWORK_LOG;
+
 	/**
 	 * Private constructor. Only static methods here.
 	 */
@@ -59,27 +66,46 @@ public final class NetworkUtils
 	 *
 	 * @param netif The network interface to check.
 	 * @return True if the network interface is usable.
-	 * @throws SocketException In case of network issues.
 	 */
-	public static boolean isUsable( final NetworkInterface netif ) throws SocketException
+	public static boolean isUsable( final NetworkInterface netif )
 	{
 		if ( netif == null )
 			return false;
 
-		else if ( netif.isUp() && !netif.isLoopback() && !netif.isPointToPoint()
-				&& !netif.isVirtual() && netif.supportsMulticast()
-				&& !netif.getName().toLowerCase().contains( "vmnet" )
-				&& !netif.getDisplayName().toLowerCase().contains( "vmnet" ) )
+		try
 		{
-			Enumeration<InetAddress> inetAddresses = netif.getInetAddresses();
+			return netif.isUp() && !netif.isLoopback() && !netif.isPointToPoint()
+					&& !netif.isVirtual() && netif.supportsMulticast()
+					&& !netif.getName().toLowerCase().contains( "vmnet" )
+					&& !netif.getDisplayName().toLowerCase().contains( "vmnet" )
+					&& hasIPv4Address( netif );
+		}
 
-			while ( inetAddresses.hasMoreElements() )
-			{
-				InetAddress inetAddress = inetAddresses.nextElement();
+		catch ( final SocketException e )
+		{
+			LOG.log( Level.WARNING, e.toString() );
+			return false;
+		}
+	}
 
-				if ( inetAddress instanceof Inet4Address )
-					return true;
-			}
+	/**
+	 * Checks if the network interface has an IPv4-address.
+	 *
+	 * @param netif The network interface to check.
+	 * @return If an IPv4-address was found or not.
+	 */
+	public static boolean hasIPv4Address( final NetworkInterface netif )
+	{
+		if ( netif == null )
+			return false;
+
+		Enumeration<InetAddress> inetAddresses = netif.getInetAddresses();
+
+		while ( inetAddresses.hasMoreElements() )
+		{
+			InetAddress inetAddress = inetAddresses.nextElement();
+			if ( inetAddress instanceof Inet4Address )
+				return true;
 		}
 
 		return false;
@@ -90,46 +116,92 @@ public final class NetworkUtils
 	 *
 	 * @param netif The network interface to check.
 	 * @return A string with information.
-	 * @throws SocketException In case of network errors.
 	 */
-	public static String getNetworkInterfaceInfo( final NetworkInterface netif ) throws SocketException
+	public static String getNetworkInterfaceInfo( final NetworkInterface netif )
 	{
 		if ( netif == null )
 			return "Invalid network interface.";
 
-		String ipaddr = "";
+		try
+		{
+			return "Interface name: " + netif.getDisplayName() + "\n"
+					+ "Device: " + netif.getName() + "\n"
+					+ "Is loopback: " + netif.isLoopback() + "\n"
+					+ "Is up: " + netif.isUp() + "\n"
+					+ "Is p2p: " + netif.isPointToPoint() + "\n"
+					+ "Is virtual: " + netif.isVirtual() + "\n"
+					+ "Supports multicast: " + netif.supportsMulticast() + "\n"
+					+ "MAC address: " + getMacAddress( netif ) + "\n"
+					+ "IP addresses: " + getIPv4Addresses( netif );
+		}
+
+		catch ( final SocketException e )
+		{
+			LOG.log( Level.WARNING, e.toString() );
+			return "Failed to get network interface information.";
+		}
+	}
+
+	/**
+	 * Returns a list of the IPv4-addresses on the network interface in string format.
+	 *
+	 * @param netif The network interface to get the IPv4-addresses from.
+	 * @return All the IPv4-addresses on the network interface.
+	 */
+	public static String getIPv4Addresses( final NetworkInterface netif )
+	{
+		if ( netif == null )
+			return "";
+
+		String ipAddress = "";
 		Enumeration<InetAddress> inetAddresses = netif.getInetAddresses();
 
 		while ( inetAddresses.hasMoreElements() )
 		{
 			InetAddress inetAddress = inetAddresses.nextElement();
 			if ( inetAddress instanceof Inet4Address )
-				ipaddr += inetAddress.getHostAddress() + " ";
+				ipAddress += inetAddress.getHostAddress() + " ";
 		}
 
-		String hwaddress = "";
-		byte[] address = netif.getHardwareAddress();
+		return ipAddress;
+	}
 
-		// Convert byte array to hex format
+	/**
+	 * Returns the MAC-address of the network interface, in hex format.
+	 *
+	 * @param netif The network interface to get the MAC-address of.
+	 * @return The MAC-address in hex, as a string.
+	 */
+	public static String getMacAddress( final NetworkInterface netif )
+	{
+		if ( netif == null )
+			return "";
+
+		String macAddress = "";
+		byte[] address = null;
+
+		try
+		{
+			address = netif.getHardwareAddress();
+		}
+
+		catch ( final SocketException e )
+		{
+			LOG.log( Level.WARNING, e.toString() );
+		}
+
 		if ( address != null )
 		{
+			// Convert byte array to hex format
 			for ( int i = 0; i < address.length; i++ )
 			{
-				hwaddress += String.format( "%02x", address[i] );
+				macAddress += String.format( "%02x", address[i] );
 				if ( i != address.length - 1 )
-					hwaddress += "-";
+					macAddress += "-";
 			}
 		}
 
-		return "Interface name: " + netif.getDisplayName() + "\n"
-				+ "Device: " + netif.getName() + "\n"
-				+ "Is loopback: " + netif.isLoopback() + "\n"
-				+ "Is up: " + netif.isUp() + "\n"
-				+ "Is p2p: " + netif.isPointToPoint() + "\n"
-				+ "Is virtual: " + netif.isVirtual() + "\n"
-				+ "Supports multicast: " + netif.supportsMulticast() + "\n"
-				+ "MAC address: " + hwaddress.toUpperCase() + "\n"
-				+ "IP addresses: " + ipaddr;
+		return macAddress.toUpperCase();
 	}
 
 	/**
@@ -142,24 +214,20 @@ public final class NetworkUtils
 	 * @param origNetIf The original network interface to compare with.
 	 * @return An updated version of the same network interface,
 	 * 		   or <code>null</code> if not found.
-	 * @throws SocketException In case of network issues.
 	 */
 	public static NetworkInterface getUpdatedNetworkInterface( final NetworkInterface origNetIf )
-	throws SocketException
 	{
 		if ( origNetIf == null )
 			return null;
 
-		Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+		Enumeration<NetworkInterface> networkInterfaces = getNetworkInterfaces();
 
-		// Because null is returned if no network interfaces are found
 		if ( networkInterfaces == null )
 			return null;
 
 		while ( networkInterfaces.hasMoreElements() )
 		{
 			NetworkInterface netif = networkInterfaces.nextElement();
-
 			if ( sameNetworkInterface( origNetIf, netif ) )
 				return netif;
 		}
@@ -169,7 +237,7 @@ public final class NetworkUtils
 
 	/**
 	 * Compares 2 network interfaces. The only way the 2 network interfaces
-	 * can be considered the same is if they have the same name.
+	 * can be considered the same is if they have the exact same name.
 	 *
 	 * <p>If any of the network interfaces are <code>null</code> then they
 	 * are not considered the same.</p>
@@ -184,5 +252,53 @@ public final class NetworkUtils
 			return false;
 
 		return netIf1.getName().equals( netIf2.getName() );
+	}
+
+	/**
+	 * Iterates through a list of available network interfaces, and returns
+	 * the first that is usable. Returns <code>null</code> if no usable
+	 * interface is found.
+	 *
+	 * @return The first usable network interface, or <code>null</code>.
+	 * @see #isUsable(NetworkInterface)
+	 */
+	public static NetworkInterface findFirstUsableNetworkInterface()
+	{
+		Enumeration<NetworkInterface> networkInterfaces = getNetworkInterfaces();
+
+		if ( networkInterfaces == null )
+			return null;
+
+		while ( networkInterfaces.hasMoreElements() )
+		{
+			NetworkInterface netif = networkInterfaces.nextElement();
+			if ( isUsable( netif ) )
+				return netif;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Gets all the available network interfaces. Returns <code>null</code>
+	 * if the operation fails, or no interfaces are available.
+	 *
+	 * @return All network interfaces, or <code>null</code>.
+	 */
+	public static Enumeration<NetworkInterface> getNetworkInterfaces()
+	{
+		Enumeration<NetworkInterface> networkInterfaces = null;
+
+		try
+		{
+			networkInterfaces = NetworkInterface.getNetworkInterfaces();
+		}
+
+		catch ( final SocketException e )
+		{
+			LOG.log( Level.WARNING, e.toString() );
+		}
+
+		return networkInterfaces;
 	}
 }

@@ -78,6 +78,10 @@ public class DefaultMessageResponder implements MessageResponder
 	 * Shows a message from a user in the user interface.
 	 * If the user that sent the message does not yet exist in the user list,
 	 * the user is asked to identify itself before the message is shown.
+	 *
+	 * @param userCode The unique code of the user who sent the message.
+	 * @param msg The message.
+	 * @param color The color the message has.
 	 */
 	@Override
 	public void messageArrived( final int userCode, final String msg, final int color )
@@ -147,6 +151,8 @@ public class DefaultMessageResponder implements MessageResponder
 	/**
 	 * When a user logs off it is removed from the user list, and
 	 * any open private chat window is notified.
+	 *
+	 * @param userCode The unique code of the user who logged off.
 	 */
 	@Override
 	public void userLogOff( final int userCode )
@@ -172,6 +178,8 @@ public class DefaultMessageResponder implements MessageResponder
 	 * When a user logs on, the user is added to the user list.
 	 * If the user's nick name is not valid, it is reset, and reported if
 	 * it is identical to the application user's nick.
+	 *
+	 * @param newUser The user logging on to the chat.
 	 */
 	@Override
 	public void userLogOn( final User newUser )
@@ -227,6 +235,11 @@ public class DefaultMessageResponder implements MessageResponder
 
 	/**
 	 * Updates the topic, and shows it.
+	 *
+	 * @param userCode The unique code of the user who changed the topic.
+	 * @param newTopic The new topic.
+	 * @param nick The nick name of the user who changed the topic.
+	 * @param time The time when the topic was set.
 	 */
 	@Override
 	public void topicChanged( final int userCode, final String newTopic, final String nick, final long time )
@@ -281,6 +294,8 @@ public class DefaultMessageResponder implements MessageResponder
 	/**
 	 * Adds unknown users that are exposing themselves.
 	 * This happens mostly during startup, but can also happen after a timeout.
+	 *
+	 * @param user The unknown user who was exposed.
 	 */
 	@Override
 	public void userExposing( final User user )
@@ -323,6 +338,8 @@ public class DefaultMessageResponder implements MessageResponder
 	/**
 	 * When the user has logged on to the network, the application updates
 	 * the status.
+	 *
+	 * @param ipAddress The IP address of the application user.
 	 */
 	@Override
 	public void meLogOn( final String ipAddress )
@@ -335,6 +352,9 @@ public class DefaultMessageResponder implements MessageResponder
 
 	/**
 	 * Updates the writing status of the user.
+	 *
+	 * @param userCode The unique code of the user who started or stopped writing.
+	 * @param writing If the user is writing or not.
 	 */
 	@Override
 	public void writingChanged( final int userCode, final boolean writing )
@@ -345,6 +365,10 @@ public class DefaultMessageResponder implements MessageResponder
 	/**
 	 * Updates the away status for the user, both in the main window
 	 * and in the private chat window.
+	 *
+	 * @param userCode The unique code of the user who changed away status.
+	 * @param away If the user is away or not.
+	 * @param awayMsg The away message if the user is away, or an empty string.
 	 */
 	@Override
 	public void awayChanged( final int userCode, final boolean away, final String awayMsg )
@@ -389,6 +413,8 @@ public class DefaultMessageResponder implements MessageResponder
 	/**
 	 * Updates the idle time of the application user,
 	 * and checks if the ip address has changed.
+	 *
+	 * @param ipAddress The IP address of the application user.
 	 */
 	@Override
 	public void meIdle( final String ipAddress )
@@ -405,6 +431,9 @@ public class DefaultMessageResponder implements MessageResponder
 	/**
 	 * Updates the idle time of the user,
 	 * and checks if the user's ip address has changed.
+	 *
+	 * @param userCode The unique code of the user who sent the idle message.
+	 * @param ipAddress The IP address of that user.
 	 */
 	@Override
 	public void userIdle( final int userCode, final String ipAddress )
@@ -435,7 +464,7 @@ public class DefaultMessageResponder implements MessageResponder
 	@Override
 	public void topicRequested()
 	{
-		controller.sendTopicMessage();
+		controller.sendTopicRequestedMessage();
 	}
 
 	/**
@@ -461,7 +490,10 @@ public class DefaultMessageResponder implements MessageResponder
 	}
 
 	/**
-	 * Changes the nick of a user, if valid.
+	 * Changes the nick name of a user, if valid.
+	 *
+	 * @param userCode The unique code of the user who changed nick name.
+	 * @param newNick The new nick name.
 	 */
 	@Override
 	public void nickChanged( final int userCode, final String newNick )
@@ -503,9 +535,15 @@ public class DefaultMessageResponder implements MessageResponder
 	 *
 	 * If the user does not exist in the user list, it's asked to identify
 	 * itself first.
+	 *
+	 * @param userCode The unique code of the user who is asking to send a file.
+	 * @param byteSize The size of the file in bytes.
+	 * @param fileName The name of the file.
+	 * @param user The nick name of the user.
+	 * @param fileHash The hash code of the file.
 	 */
 	@Override
-	public void fileSend( final int userCode, final long byteSize, final String fileName, final String user, final int fileHash, final int fileCode )
+	public void fileSend( final int userCode, final long byteSize, final String fileName, final String user, final int fileHash )
 	{
 		if ( controller.isNewUser( userCode ) )
 		{
@@ -540,6 +578,7 @@ public class DefaultMessageResponder implements MessageResponder
 				{
 					String size = Tools.byteToString( byteSize );
 					msgController.showSystemMessage( user + " is trying to send the file " + fileName + " [" + size + "]" );
+					User tmpUser = controller.getNick( userCode );
 
 					if ( ui.askFileSave( user, fileName, size ) )
 					{
@@ -547,15 +586,14 @@ public class DefaultMessageResponder implements MessageResponder
 
 						if ( file != null )
 						{
-							User tempnick = controller.getNick( userCode );
-							FileReceiver fileRes = new FileReceiver( tempnick, file, byteSize );
+							FileReceiver fileRes = new FileReceiver( tmpUser, file, byteSize );
 							tList.addFileReceiver( fileRes );
 							ui.showTransfer( fileRes );
 
 							try
 							{
 								int port = fileRes.startServer();
-								controller.sendFileAccept( userCode, port, fileHash, fileName );
+								controller.sendFileAccept( tmpUser, port, fileHash, fileName );
 
 								if ( fileRes.transfer() )
 								{
@@ -570,11 +608,19 @@ public class DefaultMessageResponder implements MessageResponder
 								}
 							}
 
+							// Failed to start the server
 							catch ( final ServerException e )
 							{
 								LOG.log( Level.SEVERE, e.toString(), e );
 								msgController.showSystemMessage( "Failed to receive " + fileName + " from " + user );
-								controller.sendFileAbort( userCode, fileHash, fileName );
+								controller.sendFileAbort( tmpUser, fileHash, fileName );
+								fileRes.cancel();
+							}
+
+							// Failed to send the accept message
+							catch ( final CommandException e )
+							{
+								msgController.showSystemMessage( "Failed to receive " + fileName + " from " + user );
 								fileRes.cancel();
 							}
 
@@ -587,14 +633,14 @@ public class DefaultMessageResponder implements MessageResponder
 						else
 						{
 							msgController.showSystemMessage( "You declined to receive " + fileName + " from " + user );
-							controller.sendFileAbort( userCode, fileHash, fileName );
+							controller.sendFileAbort( tmpUser, fileHash, fileName );
 						}
 					}
 
 					else
 					{
 						msgController.showSystemMessage( "You declined to receive " + fileName + " from " + user );
-						controller.sendFileAbort( userCode, fileHash, fileName );
+						controller.sendFileAbort( tmpUser, fileHash, fileName );
 					}
 				}
 
@@ -609,6 +655,10 @@ public class DefaultMessageResponder implements MessageResponder
 	/**
 	 * The other user stopped a file transfer from the application user.
 	 * Updates the status in the file sender.
+	 *
+	 * @param userCode The unique code of the user who aborted the file transfer.
+	 * @param fileName The name of the file.
+	 * @param fileHash The hash code of the file.
 	 */
 	@Override
 	public void fileSendAborted( final int userCode, final String fileName, final int fileHash )
@@ -627,6 +677,11 @@ public class DefaultMessageResponder implements MessageResponder
 	/**
 	 * The other user has accepted a file transfer. Will try to connect to the
 	 * user to send the file.
+	 *
+	 * @param userCode The unique code of the user who accepted a file transfer.
+	 * @param fileName The name of the file.
+	 * @param fileHash The hash code of the file.
+	 * @param port The port to use for connecting to the other user.
 	 */
 	@Override
 	public void fileSendAccepted( final int userCode, final String fileName, final int fileHash, final int port )
@@ -671,7 +726,13 @@ public class DefaultMessageResponder implements MessageResponder
 	}
 
 	/**
-	 * Returns information about this client.
+	 * Updates the client information about the user.
+	 *
+	 * @param userCode The unique code of the user who sent client info.
+	 * @param client The client the user is using.
+	 * @param timeSinceLogon Number of milliseconds since the user logged on.
+	 * @param operatingSystem The user's operating system.
+	 * @param privateChatPort The port to use for sending private chat messages to this user.
 	 */
 	@Override
 	public void clientInfo( final int userCode, final String client, final long timeSinceLogon, final String operatingSystem, final int privateChatPort )
