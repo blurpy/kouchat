@@ -28,15 +28,15 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.CommandParser;
 import net.usikkert.kouchat.misc.Controller;
-import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.MessageController;
-import net.usikkert.kouchat.misc.User;
-import net.usikkert.kouchat.misc.UserList;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.SoundBeeper;
 import net.usikkert.kouchat.misc.Topic;
+import net.usikkert.kouchat.misc.User;
+import net.usikkert.kouchat.misc.UserList;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.net.FileTransfer;
@@ -327,6 +327,11 @@ public class SwingMediator implements Mediator, UserInterface
 	/**
 	 * Opens a file chooser, where the user can select a file to send to
 	 * another user.
+	 *
+	 * @param user The user to send the file to.
+	 * @param selectedFile A file that already exists to open the file chooser with
+	 *                     that file already selected, or <code>null</code> if the
+	 *                     file chooser should start fresh.
 	 */
 	@Override
 	public void sendFile( final User user, final File selectedFile )
@@ -418,6 +423,8 @@ public class SwingMediator implements Mediator, UserInterface
 	/**
 	 * Gets the text from the input field of the private chat, and
 	 * sends it as a message to the user.
+	 *
+	 * @param privchat The private chat.
 	 */
 	@Override
 	public void writePrivate( final PrivateChatWindow privchat )
@@ -476,6 +483,9 @@ public class SwingMediator implements Mediator, UserInterface
 
 	/**
 	 * Changes the nick name of the user, if the nick is valid.
+	 *
+	 * @param nick The new nick name to change to.
+	 * @return If the nick name was changed successfully.
 	 */
 	@Override
 	public boolean changeNick( final String nick )
@@ -528,6 +538,8 @@ public class SwingMediator implements Mediator, UserInterface
 	 * transfer dialog. If the button's text is close, the dialog should
 	 * close. If the text is cancel, the file transfer should stop,
 	 * and the button should change text to close.
+	 *
+	 * @param transferDialog The transfer dialog.
 	 */
 	@Override
 	public void transferCancelled( final TransferDialog transferDialog )
@@ -681,6 +693,11 @@ public class SwingMediator implements Mediator, UserInterface
 	/**
 	 * Gives a notification beep, and opens a dialog box asking if the user
 	 * wants to accept a file transfer from another user.
+	 *
+	 * @param user The user that wants to send a file.
+	 * @param fileName The name of the file.
+	 * @param size The size of the file, in readable format.
+	 * @return If the file was accepted or not.
 	 */
 	@Override
 	public boolean askFileSave( final String user, final String fileName, final String size )
@@ -699,6 +716,11 @@ public class SwingMediator implements Mediator, UserInterface
 	 * Opens a file chooser so the user can choose where to save a file
 	 * another user is trying to send. Warns if the file name chosen
 	 * already exists.
+	 *
+	 * @param fileName The original filename of the file the user wants to send.
+	 * @return A file object with a filename and path where the application user
+	 *         wants to save the file. Returns <code>null</code> if cancel is
+	 *         chosen in the file chooser.
 	 */
 	@Override
 	public File showFileSave( final String fileName )
@@ -752,6 +774,8 @@ public class SwingMediator implements Mediator, UserInterface
 
 	/**
 	 * Creates a new {@link TransferDialog} for that {@link FileReceiver}.
+	 *
+	 * @param fileRes The file receiver to create a transfer dialog for.
 	 */
 	@Override
 	public void showTransfer( final FileReceiver fileRes )
@@ -761,6 +785,8 @@ public class SwingMediator implements Mediator, UserInterface
 
 	/**
 	 * Creates a new {@link TransferDialog} for that {@link FileSender}.
+	 *
+	 * @param fileSend The file sender to create a transfer dialog for.
 	 */
 	@Override
 	public void showTransfer( final FileSender fileSend )
@@ -770,6 +796,8 @@ public class SwingMediator implements Mediator, UserInterface
 
 	/**
 	 * Updates the gui components depending on the away state.
+	 *
+	 * @param away If away or not.
 	 */
 	@Override
 	public void changeAway( final boolean away )
@@ -830,6 +858,8 @@ public class SwingMediator implements Mediator, UserInterface
 	/**
 	 * If the user does not have a private chat window already,
 	 * one is created.
+	 *
+	 * @param user The user to create a new private chat for.
 	 */
 	@Override
 	public void createPrivChat( final User user )
@@ -840,6 +870,8 @@ public class SwingMediator implements Mediator, UserInterface
 
 	/**
 	 * Shows the user's private chat window.
+	 *
+	 * @param user The user to show the private chat for.
 	 */
 	@Override
 	public void showPrivChat( final User user )
@@ -851,6 +883,8 @@ public class SwingMediator implements Mediator, UserInterface
 
 	/**
 	 * Resets the new private message field of the user.
+	 *
+	 * @param user The user to reset the field for.
 	 */
 	@Override
 	public void activatedPrivChat( final User user )
@@ -861,6 +895,8 @@ public class SwingMediator implements Mediator, UserInterface
 
 	/**
 	 * Returns the message controller for swing.
+	 *
+	 * @return The message controller.
 	 */
 	@Override
 	public MessageController getMessageController()
@@ -870,6 +906,8 @@ public class SwingMediator implements Mediator, UserInterface
 
 	/**
 	 * Returns if the main chat is in focus.
+	 *
+	 * @return If the main chat is in focus.
 	 */
 	@Override
 	public boolean isFocused()
@@ -879,6 +917,8 @@ public class SwingMediator implements Mediator, UserInterface
 
 	/**
 	 * Returns if the main chat is visible.
+	 *
+	 * @return If the main chat is visible.
 	 */
 	@Override
 	public boolean isVisible()
