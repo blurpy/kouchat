@@ -30,7 +30,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -158,6 +157,9 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 
 	/**
 	 * Adds the message to the chat area, in the chosen color.
+	 *
+	 * @param message The message to append.
+	 * @param color The color to use for the message.
 	 */
 	@Override
 	public void appendToChat( final String message, final int color )
@@ -215,6 +217,8 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 
 	/**
 	 * Updates the write status after the caret has moved.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void caretUpdate( final CaretEvent e )
@@ -232,6 +236,8 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 	/**
 	 * When enter is pressed in the input field, the text is added to the
 	 * command history, and the mediator shows the text in the chat area.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void actionPerformed( final ActionEvent e )
@@ -254,6 +260,8 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 	/**
 	 * When tab is pressed while in the input field, the word at the
 	 * caret position will be autocompleted if any suggestions are found.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void keyPressed( final KeyEvent ke )
@@ -285,6 +293,8 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 
 	/**
 	 * Not implemented.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void keyTyped( final KeyEvent ke )
@@ -296,6 +306,8 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 	 * After some text has been added to the command history, it can
 	 * be accessed by browsing through the history with the up and down
 	 * keys while focus is on the input field.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void keyReleased( final KeyEvent ke )

@@ -223,24 +223,44 @@ public class SysTray implements ActionListener, MouseListener
 		}
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void mouseEntered( final MouseEvent e )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void mouseExited( final MouseEvent e )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void mousePressed( final MouseEvent e )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void mouseReleased( final MouseEvent e )
 	{

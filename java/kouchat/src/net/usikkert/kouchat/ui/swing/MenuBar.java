@@ -160,6 +160,8 @@ public class MenuBar extends JMenuBar implements ActionListener
 
 	/**
 	 * ActionListener for the menu items.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void actionPerformed( final ActionEvent e )

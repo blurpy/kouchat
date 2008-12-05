@@ -62,6 +62,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
 
 	/**
 	 * Not implemented.
+	 *
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -72,6 +73,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
 
 	/**
 	 * Updates the mouse cursor when hovering over a link.
+	 *
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -96,6 +98,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
 
 	/**
 	 * Not implemented.
+	 *
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -106,6 +109,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
 
 	/**
 	 * Not implemented.
+	 *
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -116,6 +120,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
 
 	/**
 	 * Not implemented.
+	 *
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -126,6 +131,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
 
 	/**
 	 * Not implemented.
+	 *
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -136,6 +142,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
 
 	/**
 	 * Opens the clicked link in a browser.
+	 *
 	 * {@inheritDoc}
 	 */
 	@Override

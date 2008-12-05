@@ -258,6 +258,8 @@ public class SettingsDialog extends JDialog implements ActionListener
 
 	/**
 	 * Handles all the buttons in this window.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void actionPerformed( final ActionEvent e )

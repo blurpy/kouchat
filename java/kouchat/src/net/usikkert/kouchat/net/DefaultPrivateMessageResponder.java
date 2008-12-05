@@ -38,11 +38,19 @@ import net.usikkert.kouchat.util.Loggers;
  */
 public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 {
+	/** The logger. */
 	private static final Logger LOG = Loggers.NETWORK_LOG;
 
+	/** The controller for lower layers. */
 	private final Controller controller;
+
+	/** The user interface to notify. */
 	private final UserInterface ui;
+
+	/** The controller for showing messages in the user interface. */
 	private final MessageController msgController;
+
+	/** The application user. */
 	private final User me;
 
 	/**
@@ -64,6 +72,10 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 	 * Shows the message in the user's private chat window,
 	 * and notifies the user interface that a new message
 	 * has arrived.
+	 *
+	 * @param userCode The unique code of the user who sent the message.
+	 * @param msg The message.
+	 * @param color The color the message has.
 	 */
 	@Override
 	public void messageArrived( final int userCode, final String msg, final int color )

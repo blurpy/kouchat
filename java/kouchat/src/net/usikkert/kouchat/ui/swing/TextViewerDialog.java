@@ -126,6 +126,8 @@ public class TextViewerDialog extends JDialog
 	/**
 	 * Shows the window if the text file was opened, and scrolls to the
 	 * beginning of the text.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void setVisible( final boolean visible )
@@ -157,8 +159,6 @@ public class TextViewerDialog extends JDialog
 
 	/**
 	 * Reads the text file, and adds the contents to the text area.
-	 *
-	 * @return True if the text file was read without any problems.
 	 */
 	private void readFile()
 	{

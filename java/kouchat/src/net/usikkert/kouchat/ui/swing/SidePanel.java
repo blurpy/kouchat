@@ -180,18 +180,33 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 		}
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void mouseClicked( final MouseEvent e )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void mouseEntered( final MouseEvent e )
 	{
 
 	}
 
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void mouseExited( final MouseEvent e )
 	{

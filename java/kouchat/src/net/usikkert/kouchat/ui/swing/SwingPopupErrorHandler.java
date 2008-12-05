@@ -47,6 +47,8 @@ public class SwingPopupErrorHandler implements ErrorListener
 
 	/**
 	 * Shows an error message in a non-blocking JOptionPane message box.
+	 *
+	 * @param errorMsg The message to show.
 	 */
 	@Override
 	public void errorReported( final String errorMsg )
@@ -64,6 +66,8 @@ public class SwingPopupErrorHandler implements ErrorListener
 
 	/**
 	 * Shows a critical error message in a JOptionPane message box.
+	 *
+	 * @param criticalErrorMsg The message to show.
 	 */
 	@Override
 	public void criticalErrorReported( final String criticalErrorMsg )

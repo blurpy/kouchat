@@ -164,6 +164,8 @@ public class MessageDialog extends JDialog
 
 	/**
 	 * Shows the Message Dialog.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void setVisible( final boolean visible )
