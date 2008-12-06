@@ -29,6 +29,7 @@
   - VMware network interfaces are ignored, as they pretend to be real
   - Renamed nick to user
   - Removed obsolete unit tests, and added some new better tests
+  - Resources are now loaded and validated in one place during startup
 
 
 * version 0.9.8 (27.01.2008):
