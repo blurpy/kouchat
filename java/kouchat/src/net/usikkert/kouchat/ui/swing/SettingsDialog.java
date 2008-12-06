@@ -41,7 +41,6 @@ import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
@@ -63,6 +62,7 @@ import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.ui.util.LookAndFeelWrapper;
 import net.usikkert.kouchat.ui.util.UITools;
 import net.usikkert.kouchat.util.Loggers;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This is the dialog window used to change settings.
@@ -85,9 +85,13 @@ public class SettingsDialog extends JDialog implements ActionListener
 
 	/**
 	 * Constructor. Creates the dialog.
+	 *
+	 * @param imageLoader The image loader.
 	 */
-	public SettingsDialog()
+	public SettingsDialog( final ImageLoader imageLoader )
 	{
+		Validate.notNull( imageLoader, "Image loader can not be null" );
+
 		nickL = new JLabel( "Nick:" );
 		nickTF = new JTextField( 10 );
 
@@ -211,7 +215,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 
 		pack();
 		setDefaultCloseOperation( JDialog.HIDE_ON_CLOSE );
-		setIconImage( new ImageIcon( getClass().getResource( Constants.APP_ICON ) ).getImage() );
+		setIconImage( imageLoader.getAppIcon().getImage() );
 		setTitle( Constants.APP_NAME + " - Settings" );
 		setResizable( false );
 		setModal( true );

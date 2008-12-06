@@ -13,7 +13,6 @@
  - JMX method for setting a specific network interface
  - Give swing error on topic failure
  - Refactor MessageParser
- - Check all resources during startup in one place before use
  - Give consistent messages to user in case of connection errors
  - Javadoc
  - Add command for:

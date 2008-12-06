@@ -71,13 +71,16 @@ public class SwingMediator implements Mediator, UserInterface
 	private final SoundBeeper beeper;
 	private final MessageController msgController;
 
+	/** The image loader. */
+	private final ImageLoader imageLoader;
+
 	/**
 	 * Constructor. Initializes the lower layers.
 	 *
-	 * @param compHandler An object with references to all
-	 * the gui components this mediator works with.
+	 * @param compHandler An object with references to all the gui components this mediator works with.
+	 * @param imageLoader The image loader.
 	 */
-	public SwingMediator( final ComponentHandler compHandler )
+	public SwingMediator( final ComponentHandler compHandler, final ImageLoader imageLoader )
 	{
 		Validate.notNull( compHandler, "Component handler can not be null" );
 		Validate.notNull( compHandler.getSidePanel(), "Side panel can not be null" );
@@ -87,7 +90,9 @@ public class SwingMediator implements Mediator, UserInterface
 		Validate.notNull( compHandler.getSysTray(), "System tray can not be null" );
 		Validate.notNull( compHandler.getMenuBar(), "Menu bar can not be null" );
 		Validate.notNull( compHandler.getButtonPanel(), "Button panel can not be null" );
+		Validate.notNull( imageLoader, "Image loader can not be null" );
 
+		this.imageLoader = imageLoader;
 		sideP = compHandler.getSidePanel();
 		settingsDialog = compHandler.getSettingsDialog();
 		gui = compHandler.getGui();
@@ -780,7 +785,7 @@ public class SwingMediator implements Mediator, UserInterface
 	@Override
 	public void showTransfer( final FileReceiver fileRes )
 	{
-		new TransferDialog( this, fileRes );
+		new TransferDialog( this, fileRes, imageLoader );
 	}
 
 	/**
@@ -791,7 +796,7 @@ public class SwingMediator implements Mediator, UserInterface
 	@Override
 	public void showTransfer( final FileSender fileSend )
 	{
-		new TransferDialog( this, fileSend );
+		new TransferDialog( this, fileSend, imageLoader );
 	}
 
 	/**
@@ -865,7 +870,7 @@ public class SwingMediator implements Mediator, UserInterface
 	public void createPrivChat( final User user )
 	{
 		if ( user.getPrivchat() == null )
-			user.setPrivchat( new PrivateChatFrame( this, user ) );
+			user.setPrivchat( new PrivateChatFrame( this, user, imageLoader ) );
 	}
 
 	/**

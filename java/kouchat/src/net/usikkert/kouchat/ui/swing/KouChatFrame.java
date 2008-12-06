@@ -34,7 +34,6 @@ import java.awt.event.WindowListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.KeyStroke;
@@ -90,13 +89,14 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 		me = settings.getMe();
 		setLookAndFeel();
 		new SwingPopupErrorHandler();
+		ImageLoader imageLoader = new ImageLoader();
 
 		ButtonPanel buttonP = new ButtonPanel();
-		sideP = new SidePanel( buttonP );
-		mainP = new MainPanel( sideP );
-		sysTray = new SysTray();
-		SettingsDialog settingsDialog = new SettingsDialog();
-		menuBar = new MenuBar();
+		sideP = new SidePanel( buttonP, imageLoader );
+		mainP = new MainPanel( sideP, imageLoader );
+		sysTray = new SysTray( imageLoader );
+		SettingsDialog settingsDialog = new SettingsDialog( imageLoader );
+		menuBar = new MenuBar( imageLoader );
 
 		ComponentHandler compHandler = new ComponentHandler();
 		compHandler.setGui( this );
@@ -107,7 +107,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 		compHandler.setSettingsDialog( settingsDialog );
 		compHandler.setMenuBar( menuBar );
 
-		mediator = new SwingMediator( compHandler );
+		mediator = new SwingMediator( compHandler, imageLoader );
 		buttonP.setMediator( mediator );
 		sideP.setMediator( mediator );
 		mainP.setMediator( mediator );
@@ -121,7 +121,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 		setJMenuBar( menuBar );
 		getContentPane().add( mainP, BorderLayout.CENTER );
 		setTitle( Constants.APP_NAME + " v" + Constants.APP_VERSION + " - (Not started)" );
-		setIconImage( new ImageIcon( getClass().getResource( Constants.APP_ICON ) ).getImage() );
+		setIconImage( imageLoader.getAppIcon().getImage() );
 		setSize( 650, 480 );
 		setMinimumSize( new Dimension( 450, 300 ) );
 		setDefaultCloseOperation( JFrame.DO_NOTHING_ON_CLOSE );

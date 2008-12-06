@@ -84,10 +84,12 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 	 * Constructor. Creates the panel.
 	 *
 	 * @param sideP The panel on the right, containing the user list and the buttons.
+	 * @param imageLoader The image loader.
 	 */
-	public MainPanel( final SidePanel sideP )
+	public MainPanel( final SidePanel sideP, final ImageLoader imageLoader )
 	{
 		Validate.notNull( sideP, "Side panel can not be null" );
+		Validate.notNull( imageLoader, "Image loader can not be null" );
 
 		setLayout( new BorderLayout( 2, 2 ) );
 
@@ -108,7 +110,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 
 		DocumentFilterList documentFilterList = new DocumentFilterList();
 		documentFilterList.addDocumentFilter( new URLDocumentFilter( false ) );
-		documentFilterList.addDocumentFilter( new SmileyDocumentFilter( false ) );
+		documentFilterList.addDocumentFilter( new SmileyDocumentFilter( false, imageLoader ) );
 		AbstractDocument doc = (AbstractDocument) chatDoc;
 		doc.setDocumentFilter( documentFilterList );
 

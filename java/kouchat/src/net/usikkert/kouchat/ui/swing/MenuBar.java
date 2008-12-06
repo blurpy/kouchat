@@ -32,6 +32,7 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This is the main menubar for the application.
@@ -40,20 +41,27 @@ import net.usikkert.kouchat.Constants;
  */
 public class MenuBar extends JMenuBar implements ActionListener
 {
+	/** Standard serial version UID. */
 	private static final long serialVersionUID = 1L;
 
 	private final JMenu fileMenu, toolsMenu, helpMenu;
 	private final JMenuItem minimizeMI, quitMI;
 	private final JMenuItem clearMI, awayMI, topicMI, settingsMI;
 	private final JMenuItem aboutMI, commandsMI, faqMI, licenseMI;
+	private final ImageLoader imageLoader;
 	private Mediator mediator;
 	private TextViewerDialog faqViewer, licenseViewer;
 
 	/**
 	 * Constructor. Creates the menubar.
+	 *
+	 * @param imageLoader The image loader.
 	 */
-	public MenuBar()
+	public MenuBar( final ImageLoader imageLoader )
 	{
+		Validate.notNull( imageLoader, "Image loader can not be null" );
+		this.imageLoader = imageLoader;
+
 		fileMenu = new JMenu( "File" );
 		fileMenu.setMnemonic( 'F' );
 		minimizeMI = new JMenuItem( "Minimize" );
@@ -303,7 +311,7 @@ public class MenuBar extends JMenuBar implements ActionListener
 				@Override
 				public void run()
 				{
-					MessageDialog aboutD = new MessageDialog( null, true );
+					MessageDialog aboutD = new MessageDialog( null, true, imageLoader );
 
 					aboutD.setTitle( Constants.APP_NAME + " - About" );
 					aboutD.setTopText( Constants.APP_NAME + " v" + Constants.APP_VERSION );

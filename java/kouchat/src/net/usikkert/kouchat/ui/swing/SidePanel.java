@@ -67,15 +67,22 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 	private UserListModel userListModel;
 	private Mediator mediator;
 
-	public SidePanel( final ButtonPanel buttonP )
+	/**
+	 * Constructor. Creates the panel.
+	 *
+	 * @param buttonP The button panel.
+	 * @param imageLoader The image loader.
+	 */
+	public SidePanel( final ButtonPanel buttonP, final ImageLoader imageLoader )
 	{
 		Validate.notNull( buttonP, "Button panel can not be null" );
+		Validate.notNull( imageLoader, "Image loader can not be null" );
 
 		setLayout( new BorderLayout( 2, 2 ) );
 
 		fileTransferHandler = new FileTransferHandler( this );
 		userL = new JList();
-		userL.setCellRenderer( new UserListCellRenderer() );
+		userL.setCellRenderer( new UserListCellRenderer( imageLoader ) );
 		userL.addMouseListener( this );
 		userL.setTransferHandler( fileTransferHandler );
 		userL.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );

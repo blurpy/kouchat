@@ -40,7 +40,6 @@ import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -63,8 +62,8 @@ import javax.swing.text.StyledDocument;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.CommandHistory;
-import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Validate;
@@ -96,11 +95,13 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	 *
 	 * @param mediator The mediator to command.
 	 * @param user The user in the private chat.
+	 * @param imageLoader The image loader.
 	 */
-	public PrivateChatFrame( final Mediator mediator, final User user )
+	public PrivateChatFrame( final Mediator mediator, final User user, final ImageLoader imageLoader )
 	{
 		Validate.notNull( mediator, "Mediator can not be null" );
 		Validate.notNull( user, "User can not be null" );
+		Validate.notNull( imageLoader, "Image loader can not be null" );
 
 		this.mediator = mediator;
 		this.user = user;
@@ -111,7 +112,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 		setSize( 460, 340 );
 		setMinimumSize( new Dimension( 300, 250 ) );
-		setIconImage( new ImageIcon( getClass().getResource( Constants.APP_ICON ) ).getImage() );
+		setIconImage( imageLoader.getAppIcon().getImage() );
 		updateUserInformation();
 
 		fileTransferHandler = new FileTransferHandler( this );
@@ -133,7 +134,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 
 		DocumentFilterList documentFilterList = new DocumentFilterList();
 		documentFilterList.addDocumentFilter( new URLDocumentFilter( false ) );
-		documentFilterList.addDocumentFilter( new SmileyDocumentFilter( false ) );
+		documentFilterList.addDocumentFilter( new SmileyDocumentFilter( false, imageLoader ) );
 		AbstractDocument doc = (AbstractDocument) chatDoc;
 		doc.setDocumentFilter( documentFilterList );
 

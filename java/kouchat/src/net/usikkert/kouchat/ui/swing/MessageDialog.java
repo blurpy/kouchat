@@ -33,7 +33,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -44,6 +43,7 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This is a more fancy message dialog. The text with information is selectable,
@@ -53,6 +53,7 @@ import net.usikkert.kouchat.Constants;
  */
 public class MessageDialog extends JDialog
 {
+	/** Standard serial version UID. */
 	private static final long serialVersionUID = 1L;
 
 	private final JLabel appNameL, contentL;
@@ -62,21 +63,21 @@ public class MessageDialog extends JDialog
 	 *
 	 * @param parent The parent frame.
 	 * @param modal If the dialog should block or not.
+	 * @param imageLoader The image loader.
 	 */
-	public MessageDialog( final Frame parent, final boolean modal )
+	public MessageDialog( final Frame parent, final boolean modal, final ImageLoader imageLoader )
 	{
 		super( parent, modal );
+		Validate.notNull( imageLoader, "Image loader can not be null" );
 
 		setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
 		setTitle( Constants.APP_NAME + " - Missing title" );
 		setResizable( false );
-
-		ImageIcon icon = new ImageIcon( getClass().getResource( Constants.APP_ICON ) );
-		setIconImage( icon.getImage() );
+		setIconImage( imageLoader.getAppIcon().getImage() );
 
 		appNameL = new JLabel();
 		appNameL.setFont( new Font( "Dialog", 0, 22 ) );
-		appNameL.setIcon( icon );
+		appNameL.setIcon( imageLoader.getAppIcon() );
 		appNameL.setText( " No top text" );
 
 		JPanel northP = new JPanel();

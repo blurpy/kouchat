@@ -37,13 +37,16 @@ import org.junit.Test;
  */
 public class SmileyDocumentFilterTest
 {
+	/** The image loader. */
+	private final ImageLoader imageLoader = new ImageLoader();
+
 	/**
 	 * Tests that a smiley is detected when the smiley has no text before or after.
 	 */
 	@Test
 	public void testSmileyHasWhitespace1()
 	{
-		SmileyDocumentFilter filter = new SmileyDocumentFilter( true );
+		SmileyDocumentFilter filter = new SmileyDocumentFilter( true, imageLoader );
 		Smiley smiley = new Smiley( 0, new ImageIcon( "" ), ":)" );
 		assertTrue( filter.smileyHasWhitespace( smiley, ":)" ) );
 	}
@@ -54,7 +57,7 @@ public class SmileyDocumentFilterTest
 	@Test
 	public void testSmileyHasWhitespace2()
 	{
-		SmileyDocumentFilter filter = new SmileyDocumentFilter( true );
+		SmileyDocumentFilter filter = new SmileyDocumentFilter( true, imageLoader );
 		Smiley smiley = new Smiley( 1, new ImageIcon( "" ), ":)" );
 		assertTrue( filter.smileyHasWhitespace( smiley, " :)" ) );
 	}
@@ -65,7 +68,7 @@ public class SmileyDocumentFilterTest
 	@Test
 	public void testSmileyHasWhitespace3()
 	{
-		SmileyDocumentFilter filter = new SmileyDocumentFilter( true );
+		SmileyDocumentFilter filter = new SmileyDocumentFilter( true, imageLoader );
 		Smiley smiley = new Smiley( 0, new ImageIcon( "" ), ":)" );
 		assertTrue( filter.smileyHasWhitespace( smiley, ":) " ) );
 	}
@@ -76,7 +79,7 @@ public class SmileyDocumentFilterTest
 	@Test
 	public void testSmileyHasWhitespace4()
 	{
-		SmileyDocumentFilter filter = new SmileyDocumentFilter( true );
+		SmileyDocumentFilter filter = new SmileyDocumentFilter( true, imageLoader );
 		Smiley smiley = new Smiley( 1, new ImageIcon( "" ), ":)" );
 		assertTrue( filter.smileyHasWhitespace( smiley, " :) " ) );
 	}
@@ -87,7 +90,7 @@ public class SmileyDocumentFilterTest
 	@Test
 	public void testSmileyHasNoWhitespace()
 	{
-		SmileyDocumentFilter filter = new SmileyDocumentFilter( true );
+		SmileyDocumentFilter filter = new SmileyDocumentFilter( true, imageLoader );
 		Smiley smiley = new Smiley( 0, new ImageIcon( "" ), ":)" );
 		assertFalse( filter.smileyHasWhitespace( smiley, ":):)" ) );
 	}
@@ -99,7 +102,7 @@ public class SmileyDocumentFilterTest
 	@Test
 	public void testFindSmiley()
 	{
-		SmileyDocumentFilter filter = new SmileyDocumentFilter( true );
+		SmileyDocumentFilter filter = new SmileyDocumentFilter( true, imageLoader );
 		Smiley smiley = filter.findSmiley( "Test :):) :) :):) Test", 0 );
 		assertNotNull( smiley );
 		assertEquals( 10, smiley.getStartPosition() );

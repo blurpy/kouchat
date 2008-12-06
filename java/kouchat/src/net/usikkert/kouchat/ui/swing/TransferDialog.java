@@ -31,7 +31,6 @@ import java.io.File;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -41,8 +40,8 @@ import javax.swing.WindowConstants;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.FileTransferListener;
-import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.ui.util.UITools;
 import net.usikkert.kouchat.util.Tools;
@@ -94,11 +93,14 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 	 *
 	 * @param mediator The mediator.
 	 * @param fileTransfer The file transfer object this dialog is showing the state of.
+	 * @param imageLoader The image loader.
 	 */
-	public TransferDialog( final Mediator mediator, final FileTransfer fileTransfer )
+	public TransferDialog( final Mediator mediator, final FileTransfer fileTransfer, final ImageLoader imageLoader )
 	{
 		Validate.notNull( mediator, "Mediator can not be null" );
 		Validate.notNull( fileTransfer, "File transfer can not be null" );
+		Validate.notNull( imageLoader, "Image loader can not be null" );
+
 		this.mediator = mediator;
 		this.fileTransfer = fileTransfer;
 
@@ -200,7 +202,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 
 		setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE );
 		setTitle( Constants.APP_NAME + " - File transfer" );
-		setIconImage( new ImageIcon( getClass().getResource( Constants.APP_ICON ) ).getImage() );
+		setIconImage( imageLoader.getAppIcon().getImage() );
 		getRootPane().setDefaultButton( cancelB );
 
 		pack();

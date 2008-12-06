@@ -25,7 +25,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Insets;
-import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,11 +36,9 @@ import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 
-import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.util.Loggers;
-import net.usikkert.kouchat.util.ResourceValidator;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This class renders the rows in the user list.
@@ -62,12 +59,6 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer
 	/** Max size of the vertical insets in the list element border. */
 	private static final int MAX_VERT_SIZE = 3;
 
-	/** Path to the envelope icon. */
-	private static final String IMG_ENVELOPE = "/icons/envelope.png";
-
-	/** Path to the dot icon. */
-	private static final String IMG_DOT = "/icons/dot.png";
-
 	/** The envelope icon object. */
 	private final ImageIcon envelope;
 
@@ -83,34 +74,14 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer
 	/**
 	 * Default constructor.
 	 *
-	 * Initializes resources, and shuts down the application
-	 * if this fails.
+	 * @param imageLoader The image loader.
 	 */
-	public UserListCellRenderer()
+	public UserListCellRenderer( final ImageLoader imageLoader )
 	{
-		ErrorHandler errorHandler = ErrorHandler.getErrorHandler();
+		Validate.notNull( imageLoader, "Image loader can not be null" );
 
-		URL envelopeURL = getClass().getResource( IMG_ENVELOPE );
-		URL dotURL = getClass().getResource( IMG_DOT );
-
-		// Check if all the images were found
-		ResourceValidator resourceValidator = new ResourceValidator();
-		resourceValidator.addResource( envelopeURL, IMG_ENVELOPE );
-		resourceValidator.addResource( dotURL, IMG_DOT );
-		String missing = resourceValidator.validate();
-
-		if ( missing.length() > 0 )
-		{
-			String error = "These images were expected, but not found:\n\n" + missing + "\n\n"
-					+ Constants.APP_NAME + " will now shutdown.";
-
-			LOG.log( Level.SEVERE, error );
-			errorHandler.showCriticalError( error );
-			System.exit( 1 );
-		}
-
-		envelope = new ImageIcon( envelopeURL );
-		dot = new ImageIcon( dotURL );
+		envelope = imageLoader.getEnvelopeIcon();
+		dot = imageLoader.getDotIcon();
 
 		Border noFocusBorder = UIManager.getBorder( "List.cellNoFocusBorder" );
 		Border highlightBorder = UIManager.getBorder( "List.focusCellHighlightBorder" );

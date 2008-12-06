@@ -31,18 +31,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
-import java.net.URL;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.swing.ImageIcon;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.util.Loggers;
-import net.usikkert.kouchat.util.ResourceValidator;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This is the system tray.
@@ -58,18 +53,6 @@ public class SysTray implements ActionListener, MouseListener
 	/** The logger. */
 	private static final Logger LOG = Loggers.UI_LOG;
 
-	/** The image used when there is no activity, and the user is not away. */
-	private static final String IMG_KOU_NORMAL = "/icons/kou_normal.png";
-
-	/** The image used when there is activity, and the user is not away. */
-	private static final String IMG_KOU_NORMAL_ACT = "/icons/kou_normal_activity.png";
-
-	/** The image used when there is no activity, and the user is away. */
-	private static final String IMG_KOU_AWAY = "/icons/kou_away.png";
-
-	/** The image used when there is activity, and the user is away. */
-	private static final String IMG_KOU_AWAY_ACT = "/icons/kou_away_activity.png";
-
 	private SystemTray sysTray;
 	private TrayIcon trayIcon;
 	private Image kouIconNormal, kouIconNormalActivity, kouIconAway, kouIconAwayActivity;
@@ -79,39 +62,22 @@ public class SysTray implements ActionListener, MouseListener
 	private boolean systemTraySupported;
 	private final ErrorHandler errorHandler;
 
-	public SysTray()
+	/**
+	 * Constructor. Activates the system tray icon if it's supported.
+	 *
+	 * @param imageLoader The image loader.
+	 */
+	public SysTray( final ImageLoader imageLoader )
 	{
+		Validate.notNull( imageLoader, "Image loader can not be null" );
 		errorHandler = ErrorHandler.getErrorHandler();
 
 		if ( SystemTray.isSupported() )
 		{
-			URL kouNorm = getClass().getResource( IMG_KOU_NORMAL );
-			URL kouNormAct = getClass().getResource( IMG_KOU_NORMAL_ACT );
-			URL kouAway = getClass().getResource( IMG_KOU_AWAY );
-			URL kouAwayAct = getClass().getResource( IMG_KOU_AWAY_ACT );
-
-			// Check if all the images were found
-			ResourceValidator resourceValidator = new ResourceValidator();
-			resourceValidator.addResource( kouNorm, IMG_KOU_NORMAL );
-			resourceValidator.addResource( kouNormAct, IMG_KOU_NORMAL_ACT );
-			resourceValidator.addResource( kouAway, IMG_KOU_AWAY );
-			resourceValidator.addResource( kouAwayAct, IMG_KOU_AWAY_ACT );
-			String missing = resourceValidator.validate();
-
-			if ( missing.length() > 0 )
-			{
-				String error = "These images were expected, but not found:\n\n" + missing + "\n\n"
-						+ Constants.APP_NAME + " will now shutdown.";
-
-				LOG.log( Level.SEVERE, error );
-				errorHandler.showCriticalError( error );
-				System.exit( 1 );
-			}
-
-			kouIconNormal = new ImageIcon( kouNorm ).getImage();
-			kouIconNormalActivity = new ImageIcon( kouNormAct ).getImage();
-			kouIconAway = new ImageIcon( kouAway ).getImage();
-			kouIconAwayActivity = new ImageIcon( kouAwayAct ).getImage();
+			kouIconNormal = imageLoader.getKouNormalIcon().getImage();
+			kouIconNormalActivity = imageLoader.getKouNormalActivityIcon().getImage();
+			kouIconAway = imageLoader.getKouAwayIcon().getImage();
+			kouIconAwayActivity = imageLoader.getKouAwayActivityIcon().getImage();
 
 			menu = new PopupMenu();
 			quitMI = new MenuItem( "Quit" );

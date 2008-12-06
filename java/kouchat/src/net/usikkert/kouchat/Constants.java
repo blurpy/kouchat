@@ -44,11 +44,6 @@ public interface Constants
 	String APP_LICENSE_NAME = "GNU GPLv2";
 
 	/**
-	 * The icon used to identify the application.
-	 */
-	String APP_ICON = "/icons/kou_normal.png";
-
-	/**
 	 * The home page of this application.
 	 */
 	String APP_WEB = "http://kouchat.googlecode.com/";

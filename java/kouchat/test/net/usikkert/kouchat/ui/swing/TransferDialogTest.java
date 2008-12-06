@@ -33,6 +33,9 @@ import org.junit.Test;
  */
 public class TransferDialogTest
 {
+	/** The image loader. */
+	private final ImageLoader imageLoader = new ImageLoader();
+
 	/**
 	 * Creates a {@link TransferDialog} for receiving a file,
 	 * and simulates the file transfer.
@@ -45,7 +48,7 @@ public class TransferDialogTest
 		MockMediator mediator = new MockMediator();
 		MockFileTransfer fileTransfer = new MockFileTransfer( Direction.RECEIVE );
 
-		new TransferDialog( mediator, fileTransfer );
+		new TransferDialog( mediator, fileTransfer, imageLoader );
 
 		// Returns true when the close button is clicked
 		while ( !mediator.isClose() )
@@ -66,7 +69,7 @@ public class TransferDialogTest
 		MockMediator mediator = new MockMediator();
 		MockFileTransfer fileTransfer = new MockFileTransfer( Direction.SEND );
 
-		new TransferDialog( mediator, fileTransfer );
+		new TransferDialog( mediator, fileTransfer, imageLoader );
 
 		// Returns true when the close button is clicked
 		while ( !mediator.isClose() )

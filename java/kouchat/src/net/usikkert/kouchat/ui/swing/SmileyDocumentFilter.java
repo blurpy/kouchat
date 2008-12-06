@@ -30,6 +30,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This is a document filter that checks for text smiley codes added to
@@ -57,11 +58,14 @@ public class SmileyDocumentFilter extends DocumentFilter
 	 * Constructor.
 	 *
 	 * @param standAlone If this is the only document filter used.
+	 * @param imageLoader The image loader.
 	 */
-	public SmileyDocumentFilter( final boolean standAlone )
+	public SmileyDocumentFilter( final boolean standAlone, final ImageLoader imageLoader )
 	{
+		Validate.notNull( imageLoader, "Image loader can not be null" );
+
 		this.standAlone = standAlone;
-		smileyLoader = new SmileyLoader();
+		smileyLoader = new SmileyLoader( imageLoader );
 		settings = Settings.getSettings();
 	}
 
