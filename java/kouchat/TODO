@@ -2,20 +2,24 @@
 - KouChat v0.9.9 TODO
 
 * Release v1.0.0:
- - Javadoc
- - Add command for:
-   - Receive file
-   - Abort file transfer
+ - More unit tests
+ - Get feedback
 
 
 * Release v0.9.9:
  - Switch titlebar icon on windows with activity?
- - Add favorite nic list?
  - Add screenshot wiki page to the googlesite
  - Add tips & tricks wiki page to the googlesite
  - Add "$user is away" tooltip to the userlist
  - Continue refactoring nick -> user
- - Give warning in ui when messages can't be sent
- - If idle message fails, check connection, if any other, give warning
- - If connection down, check again in 5 sec, then if still down, take action
  - JMX method for setting a specific network interface
+ - Give swing error on topic failure
+ - Check use of "." in messages to the user
+ - Refactor MessageParser
+ - Add a MESSAGE_LOG
+ - Check all resources during startup in one place before use
+ - Give consistent messages to user in case of connection errors
+ - Javadoc
+ - Add command for:
+   - Receive file
+   - Abort file transfer
