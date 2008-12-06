@@ -2,19 +2,19 @@
 - KouChat v0.9.9 TODO
 
 * Release v1.0.0:
+ - Javadoc
  - More unit tests
  - Get feedback
+ - Add screenshot, news, and tips & tricks wiki pages to the google site
 
 
 * Release v0.9.9:
  - Switch titlebar icon on windows with activity?
- - Add screenshot wiki page to the googlesite
- - Add tips & tricks wiki page to the googlesite
- - JMX method for setting a specific network interface
+ - JMX method for setting a specific network interface?
+ - Refactor MessageParser?
+ - Put application name last in the window title
  - Give swing error on topic failure
- - Refactor MessageParser
  - Give consistent messages to user in case of connection errors
- - Javadoc
  - Add command for:
    - Receive file
    - Abort file transfer
