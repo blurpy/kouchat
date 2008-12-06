@@ -59,8 +59,8 @@ public class MessagesTest
 		settings = Settings.getSettings();
 		me = settings.getMe();
 		service = mock( NetworkService.class );
-		stub( service.sendMulticastMsg( anyString() ) ).toReturn( true );
-		stub( service.sendUDPMsg( anyString(), anyString(), anyInt() ) ).toReturn( true );
+		when( service.sendMulticastMsg( anyString() ) ).thenReturn( true );
+		when( service.sendUDPMsg( anyString(), anyString(), anyInt() ) ).thenReturn( true );
 		messages = new Messages( service );
 	}
 
@@ -162,8 +162,8 @@ public class MessagesTest
 		String fileName = "a_file.txt";
 
 		File file = mock( File.class );
-		stub( file.getName() ).toReturn( fileName );
-		stub( file.length() ).toReturn( fileLength );
+		when( file.getName() ).thenReturn( fileName );
+		when( file.length() ).thenReturn( fileLength );
 		int fileHash = file.hashCode(); // Cannot be mocked it seems
 
 		String info = "(" + 1234 + ")"

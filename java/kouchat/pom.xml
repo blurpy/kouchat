@@ -91,13 +91,13 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.3.1</version>
+      <version>4.5</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
-      <version>1.5</version> 
+      <version>1.6</version> 
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -106,7 +106,6 @@
       <name>GNU General Public License, version 2</name>
       <url>http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt</url>
       <distribution>repo</distribution>
-      <comments>Free as in beer :)</comments>
     </license>
   </licenses>
   <developers>
@@ -126,6 +125,10 @@
     <tag>trunk</tag>
     <url>http://kouchat.googlecode.com/svn/</url>
   </scm>
+  <issueManagement>
+    <system>Google Code</system>
+    <url>http://code.google.com/p/kouchat/issues/list</url>
+  </issueManagement>
   <reporting>
     <plugins>
       <plugin>
