@@ -49,7 +49,7 @@ public class SmileyDocumentFilter extends DocumentFilter
 	private final boolean standAlone;
 
 	/** The available smileys. */
-	private final SmileyLoader smileyLoader;
+	private final SmileyMap smileyMap;
 
 	/** The settings. */
 	private final Settings settings;
@@ -65,7 +65,7 @@ public class SmileyDocumentFilter extends DocumentFilter
 		Validate.notNull( imageLoader, "Image loader can not be null" );
 
 		this.standAlone = standAlone;
-		smileyLoader = new SmileyLoader( imageLoader );
+		smileyMap = new SmileyMap( imageLoader );
 		settings = Settings.getSettings();
 	}
 
@@ -166,7 +166,7 @@ public class SmileyDocumentFilter extends DocumentFilter
 		int firstMatch = -1;
 		Smiley smiley = null;
 
-		for ( String smileyText : smileyLoader.getTextSmileys() )
+		for ( String smileyText : smileyMap.getTextSmileys() )
 		{
 			int smileyPos = 0;
 			int loopOffset = offset;
@@ -181,7 +181,7 @@ public class SmileyDocumentFilter extends DocumentFilter
 				if ( newSmileyFound( smileyPos, firstMatch ) )
 				{
 					Smiley tmpSmiley =
-						new Smiley( smileyPos, smileyLoader.getSmiley( smileyText ), smileyText );
+						new Smiley( smileyPos, smileyMap.getSmiley( smileyText ), smileyText );
 
 					if ( smileyHasWhitespace( tmpSmiley, text ) )
 					{

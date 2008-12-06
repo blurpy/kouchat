@@ -34,7 +34,7 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class SmileyLoader
+public class SmileyMap
 {
 	/** The map linking the smiley code with the smiley image. */
 	private final Map<String, ImageIcon> smileyMap;
@@ -44,7 +44,7 @@ public class SmileyLoader
 	 *
 	 * @param imageLoader The image loader.
 	 */
-	public SmileyLoader( final ImageLoader imageLoader )
+	public SmileyMap( final ImageLoader imageLoader )
 	{
 		Validate.notNull( imageLoader, "Image loader can not be null" );
 
