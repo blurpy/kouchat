@@ -12,7 +12,6 @@
  - Add tips & tricks wiki page to the googlesite
  - JMX method for setting a specific network interface
  - Give swing error on topic failure
- - Check use of "." in messages to the user
  - Refactor MessageParser
  - Check all resources during startup in one place before use
  - Give consistent messages to user in case of connection errors

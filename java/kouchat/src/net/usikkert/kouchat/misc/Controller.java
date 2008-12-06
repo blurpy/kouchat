@@ -199,9 +199,9 @@ public class Controller implements NetworkConnectionListener
 	public void changeAwayStatus( final int code, final boolean away, final String awaymsg ) throws CommandException
 	{
 		if ( code == me.getCode() && !isConnected() )
-			throw new CommandException( "You can not change away mode without being connected." );
+			throw new CommandException( "You can not change away mode without being connected" );
 		else if ( Tools.getBytes( awaymsg ) > Constants.MESSAGE_MAX_BYTES )
-			throw new CommandException( "You can not set an away message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes." );
+			throw new CommandException( "You can not set an away message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes" );
 
 		if ( code == me.getCode() )
 		{
@@ -246,7 +246,7 @@ public class Controller implements NetworkConnectionListener
 	public void changeMyNick( final String newNick ) throws CommandException
 	{
 		if ( me.isAway() )
-			throw new CommandException( "You can not change nick while away." );
+			throw new CommandException( "You can not change nick while away" );
 
 		messages.sendNickMessage( newNick );
 		changeNick( me.getCode(), newNick );
@@ -445,13 +445,13 @@ public class Controller implements NetworkConnectionListener
 	public void sendChatMessage( final String msg ) throws CommandException
 	{
 		if ( !isConnected() )
-			throw new CommandException( "You can not send a chat message without being connected." );
+			throw new CommandException( "You can not send a chat message without being connected" );
 		else if ( me.isAway() )
-			throw new CommandException( "You can not send a chat message while away." );
+			throw new CommandException( "You can not send a chat message while away" );
 		else if ( msg.trim().length() == 0 )
-			throw new CommandException( "You can not send an empty chat message." );
+			throw new CommandException( "You can not send an empty chat message" );
 		else if ( Tools.getBytes( msg ) > Constants.MESSAGE_MAX_BYTES )
-			throw new CommandException( "You can not send a chat message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes." );
+			throw new CommandException( "You can not send a chat message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes" );
 		else
 			messages.sendChatMessage( msg );
 	}
@@ -475,11 +475,11 @@ public class Controller implements NetworkConnectionListener
 	public void changeTopic( final String newTopic ) throws CommandException
 	{
 		if ( !isConnected() )
-			throw new CommandException( "You can not change the topic without being connected." );
+			throw new CommandException( "You can not change the topic without being connected" );
 		else if ( me.isAway() )
-			throw new CommandException( "You can not change the topic while away." );
+			throw new CommandException( "You can not change the topic while away" );
 		else if ( Tools.getBytes( newTopic ) > Constants.MESSAGE_MAX_BYTES )
-			throw new CommandException( "You can not set a topic with more than " + Constants.MESSAGE_MAX_BYTES + " bytes." );
+			throw new CommandException( "You can not set a topic with more than " + Constants.MESSAGE_MAX_BYTES + " bytes" );
 
 		long time = System.currentTimeMillis();
 		Topic newTopicObj = new Topic( newTopic, me.getNick(), time );
@@ -542,11 +542,11 @@ public class Controller implements NetworkConnectionListener
 	public void sendFile( final User user, final File file ) throws CommandException
 	{
 		if ( !isConnected() )
-			throw new CommandException( "You can not send a file without being connected." );
+			throw new CommandException( "You can not send a file without being connected" );
 		else if ( me.isAway() )
-			throw new CommandException( "You can not send a file while away." );
+			throw new CommandException( "You can not send a file while away" );
 		else if ( Tools.getBytes( file.getName() ) > Constants.MESSAGE_MAX_BYTES )
-			throw new CommandException( "You can not send a file with a name with more than " + Constants.MESSAGE_MAX_BYTES + " bytes." );
+			throw new CommandException( "You can not send a file with a name with more than " + Constants.MESSAGE_MAX_BYTES + " bytes" );
 		else
 			messages.sendFile( user, file );
 	}
@@ -604,15 +604,15 @@ public class Controller implements NetworkConnectionListener
 	public void sendPrivateMessage( final String privmsg, final User user ) throws CommandException
 	{
 		if ( !isConnected() )
-			throw new CommandException( "You can not send a private chat message without being connected." );
+			throw new CommandException( "You can not send a private chat message without being connected" );
 		else if ( me.isAway() )
-			throw new CommandException( "You can not send a private chat message while away." );
+			throw new CommandException( "You can not send a private chat message while away" );
 		else if ( privmsg.trim().length() == 0 )
-			throw new CommandException( "You can not send an empty private chat message." );
+			throw new CommandException( "You can not send an empty private chat message" );
 		else if ( Tools.getBytes( privmsg ) > Constants.MESSAGE_MAX_BYTES )
-			throw new CommandException( "You can not send a private chat message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes." );
+			throw new CommandException( "You can not send a private chat message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes" );
 		else if ( user.getPrivateChatPort() == 0 )
-			throw new CommandException( "You can not send a private chat message to a user with no available port number." );
+			throw new CommandException( "You can not send a private chat message to a user with no available port number" );
 		else
 			messages.sendPrivateMessage( privmsg, user );
 	}
