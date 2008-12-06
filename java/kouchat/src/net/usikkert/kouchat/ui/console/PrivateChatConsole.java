@@ -148,7 +148,7 @@ public class PrivateChatConsole implements PrivateChatWindow
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void updateNick()
+	public void updateUserInformation()
 	{
 
 	}

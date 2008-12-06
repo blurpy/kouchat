@@ -657,7 +657,7 @@ public class SwingMediator implements Mediator, UserInterface
 			// Private chat out of focus - beep, update privchat title
 			else if ( !privchat.isFocused() )
 			{
-				privchat.updateNick();
+				privchat.updateUserInformation();
 				beeper.beep();
 			}
 		}
@@ -676,7 +676,7 @@ public class SwingMediator implements Mediator, UserInterface
 			// Private chat out of focus - beep, update privchat title
 			else if ( !privchat.isFocused() )
 			{
-				privchat.updateNick();
+				privchat.updateUserInformation();
 				beeper.beep();
 			}
 		}
@@ -686,7 +686,7 @@ public class SwingMediator implements Mediator, UserInterface
 		{
 			// Private chat out of focus - update privchat title
 			if ( privchat.isVisible() && !privchat.isFocused() )
-				privchat.updateNick();
+				privchat.updateUserInformation();
 		}
 	}
 

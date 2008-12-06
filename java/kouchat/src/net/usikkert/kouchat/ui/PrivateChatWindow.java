@@ -87,9 +87,9 @@ public interface PrivateChatWindow
 	void setLoggedOff();
 
 	/**
-	 * Gives the window a chance to update after a nick change.
+	 * Gives the window a chance to update after a change to user information.
 	 */
-	void updateNick();
+	void updateUserInformation();
 
 	/**
 	 * Checks if the window is focused at the moment.

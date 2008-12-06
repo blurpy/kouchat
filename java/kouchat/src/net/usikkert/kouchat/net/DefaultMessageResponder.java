@@ -518,7 +518,7 @@ public class DefaultMessageResponder implements MessageResponder
 				if ( user.getPrivchat() != null )
 				{
 					msgController.showPrivateSystemMessage( user, oldNick + " changed nick to " + user.getNick() );
-					user.getPrivchat().updateNick();
+					user.getPrivchat().updateUserInformation();
 				}
 			}
 

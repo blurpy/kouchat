@@ -112,7 +112,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		setSize( 460, 340 );
 		setMinimumSize( new Dimension( 300, 250 ) );
 		setIconImage( new ImageIcon( getClass().getResource( Constants.APP_ICON ) ).getImage() );
-		updateNick();
+		updateUserInformation();
 
 		fileTransferHandler = new FileTransferHandler( this );
 		fileTransferHandler.setMediator( mediator );
@@ -418,7 +418,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	public void setAway( final boolean away )
 	{
 		msgTF.setEnabled( !away );
-		updateNick();
+		updateUserInformation();
 	}
 
 	/**
@@ -450,7 +450,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	 * added to the start of the title.
 	 */
 	@Override
-	public void updateNick()
+	public void updateUserInformation()
 	{
 		String title = user.getNick();
 
@@ -498,7 +498,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	{
 		chatTP.repaint();
 		mediator.activatedPrivChat( user );
-		updateNick();
+		updateUserInformation();
 
 		if ( msgTF.isEnabled() )
 			msgTF.requestFocusInWindow();
