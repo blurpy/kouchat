@@ -188,7 +188,11 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer
 			else
 			{
 				setText( user.getNick() );
-				setToolTipText( user.getNick() );
+
+				if ( user.isAway() )
+					setToolTipText( user.getNick() + " is away" );
+				else
+					setToolTipText( user.getNick() );
 			}
 		}
 
