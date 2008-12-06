@@ -45,6 +45,9 @@ public class MessageReceiver implements Runnable
 	/** The logger. */
 	private static final Logger LOG = Loggers.NETWORK_LOG;
 
+	/** The message logger. */
+	private static final Logger MSG_LOG = Loggers.MESSAGE_LOG;
+
 	/** The multicast socket used for receiving messages. */
 	private MulticastSocket mcSocket;
 
@@ -121,7 +124,7 @@ public class MessageReceiver implements Runnable
 				mcSocket.receive( packet );
 				String ip = packet.getAddress().getHostAddress();
 				String message = new String( packet.getData(), Constants.MESSAGE_CHARSET ).trim();
-				LOG.log( Level.FINEST, "Message arrived from " + ip + ": " + message );
+				MSG_LOG.log( Level.FINE, "Message arrived from " + ip + ": " + message );
 
 				if ( listener != null )
 					listener.messageArrived( message, ip );

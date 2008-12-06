@@ -48,6 +48,9 @@ public final class Loggers
 	/** The logger used in the network package. */
 	public static final Logger NETWORK_LOG = Logger.getLogger( LOG_ROOT + ".network" );
 
+	/** The logger used for messages in the network package. */
+	public static final Logger MESSAGE_LOG = Logger.getLogger( NETWORK_LOG.getName() + ".messages" );
+
 	/** The logger used in the utility package. */
 	public static final Logger UTIL_LOG = Logger.getLogger( LOG_ROOT + ".util" );
 

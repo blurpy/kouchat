@@ -43,6 +43,9 @@ public class MessageSender
 	/** The logger. */
 	private static final Logger LOG = Loggers.NETWORK_LOG;
 
+	/** The message logger. */
+	private static final Logger MSG_LOG = Loggers.MESSAGE_LOG;
+
 	/** The multicast socket used for sending messages. */
 	private MulticastSocket mcSocket;
 
@@ -123,7 +126,7 @@ public class MessageSender
 
 				DatagramPacket packet = new DatagramPacket( encodedMsg, size, address, port );
 				mcSocket.send( packet );
-				LOG.log( Level.FINEST, "Sent message: " + message );
+				MSG_LOG.log( Level.FINE, "Sent message: " + message );
 
 				return true;
 			}

@@ -16,7 +16,6 @@
  - Give swing error on topic failure
  - Check use of "." in messages to the user
  - Refactor MessageParser
- - Add a MESSAGE_LOG
  - Check all resources during startup in one place before use
  - Give consistent messages to user in case of connection errors
  - Javadoc

@@ -41,12 +41,25 @@ import net.usikkert.kouchat.util.Loggers;
  */
 public class UDPReceiver implements Runnable
 {
+	/** The logger. */
 	private static final Logger LOG = Loggers.NETWORK_LOG;
 
+	/** The message logger. */
+	private static final Logger MSG_LOG = Loggers.MESSAGE_LOG;
+
+	/** The datagram socket used for receiving messages. */
 	private DatagramSocket udpSocket;
+
+	/** The listener getting all the messages received here. */
 	private ReceiverListener listener;
+
+	/** If connected to the network or not. */
 	private boolean connected;
+
+	/** The background thread watching for messages from the network. */
 	private Thread worker;
+
+	/** The error handler for registering important messages. */
 	private final ErrorHandler errorHandler;
 
 	/**
@@ -73,7 +86,7 @@ public class UDPReceiver implements Runnable
 				udpSocket.receive( packet );
 				String ip = packet.getAddress().getHostAddress();
 				String message = new String( packet.getData(), Constants.MESSAGE_CHARSET ).trim();
-				LOG.log( Level.FINEST, "Message arrived from " + ip + ": " + message );
+				MSG_LOG.log( Level.FINE, "Message arrived from " + ip + ": " + message );
 
 				if ( listener != null )
 					listener.messageArrived( message, ip );

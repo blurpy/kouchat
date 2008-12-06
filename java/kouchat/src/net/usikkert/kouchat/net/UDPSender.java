@@ -40,10 +40,19 @@ import net.usikkert.kouchat.util.Loggers;
  */
 public class UDPSender
 {
+	/** The logger. */
 	private static final Logger LOG = Loggers.NETWORK_LOG;
 
+	/** The message logger. */
+	private static final Logger MSG_LOG = Loggers.MESSAGE_LOG;
+
+	/** The datagram socket used for sending messages. */
 	private DatagramSocket udpSocket;
+
+	/** If connected to the network or not. */
 	private boolean connected;
+
+	/** The error handler for registering important messages. */
 	private final ErrorHandler errorHandler;
 
 	/**
@@ -80,7 +89,7 @@ public class UDPSender
 
 				DatagramPacket packet = new DatagramPacket( encodedMsg, size, address, port );
 				udpSocket.send( packet );
-				LOG.log( Level.FINEST, "Sent message: " + message );
+				MSG_LOG.log( Level.FINE, "Sent message: " + message );
 
 				return true;
 			}
