@@ -10,7 +10,6 @@
  - Switch titlebar icon on windows with activity?
  - Add screenshot wiki page to the googlesite
  - Add tips & tricks wiki page to the googlesite
- - Continue refactoring nick -> user
  - JMX method for setting a specific network interface
  - Give swing error on topic failure
  - Check use of "." in messages to the user

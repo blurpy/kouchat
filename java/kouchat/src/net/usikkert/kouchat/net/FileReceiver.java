@@ -51,7 +51,7 @@ public class FileReceiver implements FileTransfer
 	/** The logger. */
 	private static final Logger LOG = Loggers.NETWORK_LOG;
 
-	private final User nick;
+	private final User user;
 	private final long size;
 	private final File file;
 	private final Direction direction;
@@ -66,9 +66,9 @@ public class FileReceiver implements FileTransfer
 	private FileOutputStream fos;
 	private InputStream is;
 
-	public FileReceiver( final User nick, final File file, final long size )
+	public FileReceiver( final User user, final File file, final long size )
 	{
-		this.nick = nick;
+		this.user = user;
 		this.file = file;
 		this.size = size;
 
@@ -280,9 +280,9 @@ public class FileReceiver implements FileTransfer
 	}
 
 	@Override
-	public User getNick()
+	public User getUser()
 	{
-		return nick;
+		return user;
 	}
 
 	@Override

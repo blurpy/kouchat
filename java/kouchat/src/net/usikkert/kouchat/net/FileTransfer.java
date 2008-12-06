@@ -44,7 +44,7 @@ public interface FileTransfer
 	};
 
 	Direction getDirection();
-	User getNick();
+	User getUser();
 	int getPercent();
 	long getTransferred();
 	File getFile();

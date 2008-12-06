@@ -103,7 +103,7 @@ public class MockFileTransfer implements FileTransfer
 	 * {@inheritDoc}
 	 */
 	@Override
-	public User getNick()
+	public User getUser()
 	{
 		return user;
 	}

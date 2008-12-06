@@ -409,18 +409,18 @@ public class CommandParser
 	private void cmdNames()
 	{
 		UserList list = controller.getUserList();
-		String nickList = "";
+		String userList = "";
 
 		for ( int i = 0; i < list.size(); i++ )
 		{
-			User nick = list.get( i );
-			nickList += nick.getNick();
+			User user = list.get( i );
+			userList += user.getNick();
 
 			if ( i < list.size() - 1 )
-				nickList += ", ";
+				userList += ", ";
 		}
 
-		msgController.showSystemMessage( "Users: " + nickList );
+		msgController.showSystemMessage( "Users: " + userList );
 	}
 
 	/**
@@ -437,12 +437,12 @@ public class CommandParser
 
 		for ( FileSender fs : fsList )
 		{
-			senders += "\n" + fs.getFile().getName() + " [" + Tools.byteToString( fs.getFileSize() ) + "] (" + fs.getPercent() + "%) to " + fs.getNick().getNick();
+			senders += "\n" + fs.getFile().getName() + " [" + Tools.byteToString( fs.getFileSize() ) + "] (" + fs.getPercent() + "%) to " + fs.getUser().getNick();
 		}
 
 		for ( FileReceiver fr : frList )
 		{
-			receivers += "\n" + fr.getFile().getName() + " [" + Tools.byteToString( fr.getFileSize() ) + "] (" + fr.getPercent() + "%) from " + fr.getNick().getNick();
+			receivers += "\n" + fr.getFile().getName() + " [" + Tools.byteToString( fr.getFileSize() ) + "] (" + fr.getPercent() + "%) from " + fr.getUser().getNick();
 		}
 
 		msgController.showSystemMessage( "File transfers:\n" + senders + receivers );

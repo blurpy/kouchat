@@ -335,7 +335,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 	public void statusWaiting()
 	{
 		User me = Settings.getSettings().getMe();
-		User other = fileTransfer.getNick();
+		User other = fileTransfer.getUser();
 
 		statusL.setText( "Waiting..." );
 

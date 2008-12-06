@@ -51,7 +51,7 @@ public class FileSender implements FileTransfer
 	/** The logger. */
 	private static final Logger LOG = Loggers.NETWORK_LOG;
 
-	private final User nick;
+	private final User user;
 	private final File file;
 	private final ByteCounter bCounter;
 	private final Direction direction;
@@ -64,9 +64,9 @@ public class FileSender implements FileTransfer
 	private OutputStream os;
 	private Socket sock;
 
-	public FileSender( final User nick, final File file )
+	public FileSender( final User user, final File file )
 	{
-		this.nick = nick;
+		this.user = user;
 		this.file = file;
 
 		direction = Direction.SEND;
@@ -93,7 +93,7 @@ public class FileSender implements FileTransfer
 
 					try
 					{
-						sock = new Socket( InetAddress.getByName( nick.getIpAddress() ), port );
+						sock = new Socket( InetAddress.getByName( user.getIpAddress() ), port );
 					}
 
 					catch ( final UnknownHostException e )
@@ -269,9 +269,9 @@ public class FileSender implements FileTransfer
 	}
 
 	@Override
-	public User getNick()
+	public User getUser()
 	{
-		return nick;
+		return user;
 	}
 
 	@Override

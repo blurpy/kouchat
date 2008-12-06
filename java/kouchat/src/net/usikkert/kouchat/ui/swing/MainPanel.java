@@ -83,7 +83,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 	/**
 	 * Constructor. Creates the panel.
 	 *
-	 * @param sideP The panel on the right, containing the nick list and the buttons.
+	 * @param sideP The panel on the right, containing the user list and the buttons.
 	 */
 	public MainPanel( final SidePanel sideP )
 	{

@@ -325,7 +325,7 @@ public class Controller implements NetworkConnectionListener
 	 * from a ShutdownHook, as that will lead to a deadlock. See
 	 * http://bugs.sun.com/bugdatabase/view_bug.do;?bug_id=6261550 for details.
 	 *
-	 * @param removeUsers Set to true to remove users from the nick list.
+	 * @param removeUsers Set to true to remove users from the user list.
 	 */
 	public void logOff( final boolean removeUsers )
 	{

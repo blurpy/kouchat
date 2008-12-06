@@ -57,7 +57,7 @@ public class IdleThread extends Thread
 	private static final int TIMEOUT = 120000;
 
 	private final Controller controller;
-	private final UserList nickList;
+	private final UserList userList;
 	private final User me;
 	private final MessageController msgController;
 
@@ -76,7 +76,7 @@ public class IdleThread extends Thread
 		Validate.notNull( ui, "User interface can not be null" );
 		this.controller = controller;
 
-		nickList = controller.getUserList();
+		userList = controller.getUserList();
 		me = Settings.getSettings().getMe();
 		msgController = ui.getMessageController();
 
@@ -102,13 +102,13 @@ public class IdleThread extends Thread
 			controller.sendIdleMessage();
 			boolean timeout = false;
 
-			for ( int i = 0; i < nickList.size(); i++ )
+			for ( int i = 0; i < userList.size(); i++ )
 			{
-				User temp = nickList.get( i );
+				User temp = userList.get( i );
 
 				if ( temp.getCode() != me.getCode() && temp.getLastIdle() < System.currentTimeMillis() - TIMEOUT )
 				{
-					nickList.remove( temp );
+					userList.remove( temp );
 					userTimedOut( temp );
 					timeout = true;
 					i--;

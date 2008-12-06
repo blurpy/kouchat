@@ -195,7 +195,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 
 	/**
 	 * If this window is focused, the text field will get the keyboard events
-	 * if the chat area or the nick list was focused when typing was started.
+	 * if the chat area or the user list was focused when typing was started.
 	 */
 	private void fixTextFieldFocus()
 	{
