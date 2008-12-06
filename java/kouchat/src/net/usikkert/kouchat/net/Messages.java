@@ -66,7 +66,7 @@ public class Messages
 	 */
 	public void sendIdleMessage()
 	{
-		String msg = me.getCode() + "!IDLE#" + me.getNick() + ":";
+		String msg = createMessage( "IDLE" );
 		boolean sent = networkService.sendMulticastMsg( msg );
 
 		if ( !sent )
@@ -109,7 +109,7 @@ public class Messages
 	 */
 	public void sendAwayMessage( final String awayMsg )
 	{
-		String msg = me.getCode() + "!AWAY#" + me.getNick() + ":" + awayMsg;
+		String msg = createMessage( "AWAY" ) + awayMsg;
 		boolean sent = networkService.sendMulticastMsg( msg );
 
 		if ( !sent )
@@ -123,7 +123,7 @@ public class Messages
 	 */
 	public void sendBackMessage()
 	{
-		String msg = me.getCode() + "!BACK#" + me.getNick() + ":";
+		String msg = createMessage( "BACK" );
 		boolean sent = networkService.sendMulticastMsg( msg );
 
 		if ( !sent )
@@ -140,7 +140,7 @@ public class Messages
 	 */
 	public void sendChatMessage( final String chatMsg ) throws CommandException
 	{
-		String msg = me.getCode() + "!MSG#" + me.getNick() + ":"
+		String msg = createMessage( "MSG" )
 				+ "[" + settings.getOwnColor() + "]"
 				+ chatMsg;
 
@@ -158,7 +158,7 @@ public class Messages
 	 */
 	public void sendLogonMessage()
 	{
-		String msg = me.getCode() + "!LOGON#" + me.getNick() + ":";
+		String msg = createMessage( "LOGON" );
 		networkService.sendMulticastMsg( msg );
 	}
 
@@ -167,7 +167,7 @@ public class Messages
 	 */
 	public void sendLogoffMessage()
 	{
-		String msg = me.getCode() + "!LOGOFF#" + me.getNick() + ":";
+		String msg = createMessage( "LOGOFF" );
 		networkService.sendMulticastMsg( msg );
 	}
 
@@ -176,7 +176,7 @@ public class Messages
 	 */
 	public void sendExposeMessage()
 	{
-		String msg = me.getCode() + "!EXPOSE#" + me.getNick() + ":";
+		String msg = createMessage( "EXPOSE" );
 		networkService.sendMulticastMsg( msg );
 	}
 
@@ -185,7 +185,7 @@ public class Messages
 	 */
 	public void sendExposingMessage()
 	{
-		String msg = me.getCode() + "!EXPOSING#" + me.getNick() + ":" + me.getAwayMsg();
+		String msg = createMessage( "EXPOSING" ) + me.getAwayMsg();
 		networkService.sendMulticastMsg( msg );
 	}
 
@@ -194,7 +194,7 @@ public class Messages
 	 */
 	public void sendGetTopicMessage()
 	{
-		String msg = me.getCode() + "!GETTOPIC#" + me.getNick() + ":";
+		String msg = createMessage( "GETTOPIC" );
 		networkService.sendMulticastMsg( msg );
 	}
 
@@ -203,7 +203,7 @@ public class Messages
 	 */
 	public void sendWritingMessage()
 	{
-		String msg = me.getCode() + "!WRITING#" + me.getNick() + ":";
+		String msg = createMessage( "WRITING" );
 		networkService.sendMulticastMsg( msg );
 	}
 
@@ -212,7 +212,7 @@ public class Messages
 	 */
 	public void sendStoppedWritingMessage()
 	{
-		String msg = me.getCode() + "!STOPPEDWRITING#" + me.getNick() + ":";
+		String msg = createMessage( "STOPPEDWRITING" );
 		networkService.sendMulticastMsg( msg );
 	}
 
@@ -225,7 +225,7 @@ public class Messages
 	 */
 	public void sendNickMessage( final String newNick )
 	{
-		String msg = me.getCode() + "!NICK#" + newNick + ":";
+		String msg = createMessage( "NICK", newNick );
 		boolean sent = networkService.sendMulticastMsg( msg );
 
 		if ( !sent )
@@ -240,7 +240,7 @@ public class Messages
 	 */
 	public void sendNickCrashMessage( final String crashNick )
 	{
-		String msg = me.getCode() + "!NICKCRASH#" + me.getNick() + ":" + crashNick;
+		String msg = createMessage( "NICKCRASH" ) + crashNick;
 		networkService.sendMulticastMsg( msg );
 	}
 
@@ -253,7 +253,7 @@ public class Messages
 	 */
 	public void sendFileAbort( final User user, final int fileHash, final String fileName )
 	{
-		String msg = me.getCode() + "!SENDFILEABORT#" + me.getNick() + ":"
+		String msg = createMessage( "SENDFILEABORT" )
 				+ "(" + user.getCode() + ")"
 				+ "{" + fileHash + "}"
 				+ fileName;
@@ -280,7 +280,7 @@ public class Messages
 	public void sendFileAccept( final User user, final int port,
 			final int fileHash, final String fileName ) throws CommandException
 	{
-		String msg = me.getCode() + "!SENDFILEACCEPT#" + me.getNick() + ":"
+		String msg = createMessage( "SENDFILEACCEPT" )
 				+ "(" + user.getCode() + ")"
 				+ "[" + port + "]"
 				+ "{" + fileHash + "}"
@@ -306,7 +306,7 @@ public class Messages
 	 */
 	public void sendFile( final User user, final File file ) throws CommandException
 	{
-		String msg = me.getCode() + "!SENDFILE#" + me.getNick() + ":"
+		String msg = createMessage( "SENDFILE" )
 				+ "(" + user.getCode() + ")"
 				+ "[" + file.length() + "]"
 				+ "{" + file.hashCode() + "}"
@@ -333,7 +333,7 @@ public class Messages
 	 */
 	public void sendClient()
 	{
-		String msg = me.getCode() + "!CLIENT#" + me.getNick() + ":"
+		String msg = createMessage( "CLIENT" )
 				+ "(" + me.getClient() + ")"
 				+ "[" + ( System.currentTimeMillis() - me.getLogonTime() ) + "]"
 				+ "{" + me.getOperatingSystem() + "}"
@@ -353,7 +353,7 @@ public class Messages
 	 */
 	public void sendPrivateMessage( final String privMsg, final User user ) throws CommandException
 	{
-		String msg = me.getCode() + "!PRIVMSG#" + me.getNick() + ":"
+		String msg = createMessage( "PRIVMSG" )
 				+ "(" + user.getCode() + ")"
 				+ "[" + settings.getOwnColor() + "]"
 				+ privMsg;
@@ -368,6 +368,31 @@ public class Messages
 	}
 
 	/**
+	 * Creates the standard part of all messages, with the specified type
+	 * as the message type.
+	 *
+	 * @param type The message type.
+	 * @return The standard part of the message.
+	 */
+	private String createMessage( final String type )
+	{
+		return createMessage( type, me.getNick() );
+	}
+
+	/**
+	 * Creates the standard part of all messages, with the specified type
+	 * as the message type, and a specified nick name.
+	 *
+	 * @param type The message type.
+	 * @param nick The nick name to use in the message.
+	 * @return The standard part of the message.
+	 */
+	private String createMessage( final String type, final String nick )
+	{
+		return me.getCode() + "!" + type + "#" + nick + ":";
+	}
+
+	/**
 	 * Creates a new message for sending the topic.
 	 *
 	 * @param topic The topic to use in the message.
@@ -375,7 +400,7 @@ public class Messages
 	 */
 	private String createTopicMessage( final Topic topic )
 	{
-		return me.getCode() + "!TOPIC#" + me.getNick() + ":"
+		return createMessage( "TOPIC" )
 				+ "(" + topic.getNick() + ")"
 				+ "[" + topic.getTime() + "]"
 				+ topic.getTopic();
