@@ -1,7 +1,7 @@
 
 - KouChat v0.9.9 CHANGES
 
-* version 0.9.9 (xx.xx.2008):
+* version 0.9.9 (xx.xx.200x):
   - Better information about why drag and drop does not work while away
   - Fix for opening privchat from main chat while privchat already open,
   	so it wont reposition
@@ -9,11 +9,9 @@
   - Added (Away) to the title of privchats if the user is away, and
     reorganized title so it's easier to find in the taskbar
   - Added [!!] to windows with activity, for notification
-  - Improved network interface selection
-  - Improved connection handling
   - Added JMX support with network, controller and general MBeans
   - Added more debug logging, that can be enabled with JMX
-  - Updated more javadoc
+  - Updated lots of javadoc
   - Added F1 shortcut to open FAQ
   - Added smiley support
   - Changed time-to-live for multicast packets to 64, for local area
@@ -25,6 +23,12 @@
   - Got rid of the horrible group layout in the file transfer dialog
   - Replaced checkbox for enabling native look and feel with
     combobox for selecting between all available look and feels
+  - Using an enum to select user interface instead of a string
+  - The network connection is now fully controlled by KouChat instead of
+    the operating system
+  - VMware network interfaces are ignored, as they pretend to be real
+  - Renamed nick to user
+  - Removed obsolete unit tests, and added some new better tests
 
 
 * version 0.9.8 (27.01.2008):
