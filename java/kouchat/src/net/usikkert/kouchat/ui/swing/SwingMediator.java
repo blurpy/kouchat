@@ -110,7 +110,7 @@ public class SwingMediator implements Mediator, UserInterface
 			menuBar.disableMinimize();
 		}
 
-		sideP.setUserList( controller.getNickList() );
+		sideP.setUserList( controller.getUserList() );
 		mainP.setAutoCompleter( controller.getAutoCompleter() );
 	}
 
@@ -829,7 +829,7 @@ public class SwingMediator implements Mediator, UserInterface
 	 */
 	private void updateAwayInPrivChats( final boolean away )
 	{
-		UserList list = controller.getNickList();
+		UserList list = controller.getUserList();
 
 		for ( int i = 0; i < list.size(); i++ )
 		{

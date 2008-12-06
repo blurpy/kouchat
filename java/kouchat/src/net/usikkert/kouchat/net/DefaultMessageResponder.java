@@ -114,7 +114,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 				if ( !controller.isNewUser( userCode ) )
 				{
-					User user = controller.getNick( userCode );
+					User user = controller.getUser( userCode );
 
 					if ( !user.isAway() )
 					{
@@ -157,13 +157,13 @@ public class DefaultMessageResponder implements MessageResponder
 	@Override
 	public void userLogOff( final int userCode )
 	{
-		User user = controller.getNick( userCode );
+		User user = controller.getUser( userCode );
 
 		if ( user != null )
 		{
 			controller.cancelFileTransfers( user );
 			user.setOnline( false );
-			controller.getNickList().remove( user );
+			controller.getUserList().remove( user );
 			msgController.showSystemMessage( user.getNick() + " logged off" );
 
 			if ( user.getPrivchat() != null )
@@ -200,7 +200,7 @@ public class DefaultMessageResponder implements MessageResponder
 			newUser.setNick( "" + newUser.getCode() );
 		}
 
-		controller.getNickList().add( newUser );
+		controller.getUserList().add( newUser );
 		msgController.showSystemMessage( newUser.getNick() + " logged on from " + newUser.getIpAddress() );
 	}
 
@@ -229,7 +229,7 @@ public class DefaultMessageResponder implements MessageResponder
 			newUser.setNick( "" + newUser.getCode() );
 		}
 
-		controller.getNickList().add( newUser );
+		controller.getUserList().add( newUser );
 		msgController.showSystemMessage( newUser.getNick() + " showed up unexpectedly from " + newUser.getIpAddress() );
 	}
 
@@ -314,13 +314,13 @@ public class DefaultMessageResponder implements MessageResponder
 			// This should ONLY happen during logon
 			else
 			{
-				controller.getNickList().add( user );
+				controller.getUserList().add( user );
 			}
 		}
 
 		else
 		{
-			User orgUser = controller.getNick( user.getCode() );
+			User orgUser = controller.getUser( user.getCode() );
 
 			// When users timeout, there can become sync issues
 			if ( !orgUser.getNick().equals( user.getNick() ) )
@@ -384,7 +384,7 @@ public class DefaultMessageResponder implements MessageResponder
 		{
 			try
 			{
-				User user = controller.getNick( userCode );
+				User user = controller.getUser( userCode );
 				controller.changeAwayStatus( userCode, away, awayMsg );
 
 				if ( away )
@@ -447,7 +447,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 		else
 		{
-			User user = controller.getNick( userCode );
+			User user = controller.getUser( userCode );
 			user.setLastIdle( System.currentTimeMillis() );
 
 			if ( !user.getIpAddress().equals( ipAddress ) )
@@ -507,7 +507,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 		else
 		{
-			User user = controller.getNick( userCode );
+			User user = controller.getUser( userCode );
 
 			if ( !controller.isNickInUse( newNick ) && Tools.isValidNick( newNick ) )
 			{
@@ -578,7 +578,7 @@ public class DefaultMessageResponder implements MessageResponder
 				{
 					String size = Tools.byteToString( byteSize );
 					msgController.showSystemMessage( user + " is trying to send the file " + fileName + " [" + size + "]" );
-					User tmpUser = controller.getNick( userCode );
+					User tmpUser = controller.getUser( userCode );
 
 					if ( ui.askFileSave( user, fileName, size ) )
 					{
@@ -663,7 +663,7 @@ public class DefaultMessageResponder implements MessageResponder
 	@Override
 	public void fileSendAborted( final int userCode, final String fileName, final int fileHash )
 	{
-		User user = controller.getNick( userCode );
+		User user = controller.getUser( userCode );
 		FileSender fileSend = tList.getFileSender( user, fileName, fileHash );
 
 		if ( fileSend != null )
@@ -691,7 +691,7 @@ public class DefaultMessageResponder implements MessageResponder
 			@Override
 			public void run()
 			{
-				User user = controller.getNick( userCode );
+				User user = controller.getUser( userCode );
 				FileSender fileSend = tList.getFileSender( user, fileName, fileHash );
 
 				if ( fileSend != null )
@@ -737,7 +737,7 @@ public class DefaultMessageResponder implements MessageResponder
 	@Override
 	public void clientInfo( final int userCode, final String client, final long timeSinceLogon, final String operatingSystem, final int privateChatPort )
 	{
-		User user = controller.getNick( userCode );
+		User user = controller.getUser( userCode );
 
 		if ( user != null )
 		{

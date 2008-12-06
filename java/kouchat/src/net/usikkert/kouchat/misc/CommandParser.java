@@ -202,7 +202,7 @@ public class CommandParser
 			String[] argsArray = args.split( "\\s" );
 			String nick = argsArray[1].trim();
 
-			User user = controller.getNick( nick );
+			User user = controller.getUser( nick );
 
 			if ( user == null )
 			{
@@ -248,7 +248,7 @@ public class CommandParser
 		else
 		{
 			String nick = argsArray[1];
-			User user = controller.getNick( nick );
+			User user = controller.getUser( nick );
 
 			if ( user != me )
 			{
@@ -307,7 +307,7 @@ public class CommandParser
 		else
 		{
 			String nick = argsArray[1];
-			User user = controller.getNick( nick );
+			User user = controller.getUser( nick );
 
 			if ( user == null )
 			{
@@ -408,7 +408,7 @@ public class CommandParser
 	 */
 	private void cmdNames()
 	{
-		UserList list = controller.getNickList();
+		UserList list = controller.getUserList();
 		String nickList = "";
 
 		for ( int i = 0; i < list.size(); i++ )

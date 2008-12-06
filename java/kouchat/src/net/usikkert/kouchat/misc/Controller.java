@@ -145,7 +145,7 @@ public class Controller implements NetworkConnectionListener
 	 *
 	 * @return The user list.
 	 */
-	public UserList getNickList()
+	public UserList getUserList()
 	{
 		return userListController.getUserList();
 	}
@@ -270,7 +270,7 @@ public class Controller implements NetworkConnectionListener
 	 * @param code The user code for the user.
 	 * @return The user with the specified user code, or <em>null</em> if not found.
 	 */
-	public User getNick( final int code )
+	public User getUser( final int code )
 	{
 		return userListController.getUser( code );
 	}
@@ -281,7 +281,7 @@ public class Controller implements NetworkConnectionListener
 	 * @param nick The nick name to check for.
 	 * @return The user with the specified nick name, or <em>null</em> if not found.
 	 */
-	public User getNick( final String nick )
+	public User getUser( final String nick )
 	{
 		return userListController.getUser( nick );
 	}
@@ -341,21 +341,21 @@ public class Controller implements NetworkConnectionListener
 
 	/**
 	 * Cancels all file transfers, sets all users as logged off,
-	 * and removes them from the nick list.
+	 * and removes them from the user list.
 	 */
 	private void removeAllUsers()
 	{
-		UserList nickList = getNickList();
+		UserList userList = getUserList();
 
-		for ( int i = 0; i < nickList.size(); i++ )
+		for ( int i = 0; i < userList.size(); i++ )
 		{
-			User user = nickList.get( i );
+			User user = userList.get( i );
 
 			if ( !user.isMe() )
 			{
 				user.setOnline( false );
 				cancelFileTransfers( user );
-				nickList.remove( user );
+				userList.remove( user );
 
 				if ( user.getPrivchat() != null )
 				{
@@ -683,7 +683,7 @@ public class Controller implements NetworkConnectionListener
 	{
 		AutoCompleter autoCompleter = new AutoCompleter();
 		autoCompleter.addAutoCompleteList( new CommandAutoCompleteList() );
-		autoCompleter.addAutoCompleteList( new UserAutoCompleteList( getNickList() ) );
+		autoCompleter.addAutoCompleteList( new UserAutoCompleteList( getUserList() ) );
 
 		return autoCompleter;
 	}

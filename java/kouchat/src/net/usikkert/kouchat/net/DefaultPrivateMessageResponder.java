@@ -82,7 +82,7 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 	{
 		if ( !controller.isNewUser( userCode ) )
 		{
-			User user = controller.getNick( userCode );
+			User user = controller.getUser( userCode );
 
 			if ( me.isAway() )
 				LOG.log( Level.WARNING, "Got message from " + user.getNick() + " while away: " + msg );

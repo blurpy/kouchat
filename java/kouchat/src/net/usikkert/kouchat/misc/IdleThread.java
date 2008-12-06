@@ -76,7 +76,7 @@ public class IdleThread extends Thread
 		Validate.notNull( ui, "User interface can not be null" );
 		this.controller = controller;
 
-		nickList = controller.getNickList();
+		nickList = controller.getUserList();
 		me = Settings.getSettings().getMe();
 		msgController = ui.getMessageController();
 
