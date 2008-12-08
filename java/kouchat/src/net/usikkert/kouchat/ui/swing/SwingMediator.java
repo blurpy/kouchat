@@ -260,7 +260,7 @@ public class SwingMediator implements Mediator, UserInterface
 	{
 		if ( me != null )
 		{
-			String title = Constants.APP_NAME + " v" + Constants.APP_VERSION + " - ";
+			String title = "";
 			String tooltip = title + me.getNick();
 
 			if ( me.isNewMsg() )
@@ -272,14 +272,14 @@ public class SwingMediator implements Mediator, UserInterface
 			{
 				if ( controller.getChatState().isLoggedOn() )
 				{
-					title += " - (Connection lost)";
-					tooltip += " - (Connection lost)";
+					title += " - Connection lost";
+					tooltip += " - Connection lost";
 				}
 
 				else
 				{
-					title += " - (Not connected)";
-					tooltip += " - (Not connected)";
+					title += " - Not connected";
+					tooltip += " - Not connected";
 				}
 			}
 
@@ -294,6 +294,8 @@ public class SwingMediator implements Mediator, UserInterface
 				if ( controller.getTopic().getTopic().length() > 0 )
 					title += " - Topic: " + controller.getTopic();
 			}
+
+			title += " - " + Constants.APP_NAME + " v" + Constants.APP_VERSION;
 
 			gui.setTitle( title );
 			sysTray.setToolTip( tooltip );

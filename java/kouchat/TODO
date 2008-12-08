@@ -9,10 +9,9 @@
 
 
 * Release v0.9.9:
- - Switch titlebar icon on windows with activity?
+ - Switch titlebar icon on windows with activity instead of adding [!!]
  - JMX method for setting a specific network interface?
  - Refactor MessageParser?
- - Put application name last in the window title
  - Give swing error on topic failure
  - Give consistent messages to user in case of connection errors
  - Add command for:

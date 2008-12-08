@@ -132,12 +132,13 @@ public class Topic
 	}
 
 	/**
-	 * Returns the values in this format: <code>(nick) topic</code>.
+	 * Returns the values in this format: <code>topic (nick)</code>.
+	 * 
 	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString()
 	{
-		return "(" + nick + ") " + topic;
+		return topic + " (" + nick + ")";
 	}
 }
