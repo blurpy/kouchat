@@ -33,10 +33,12 @@ import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Loggers;
@@ -285,5 +287,50 @@ public final class UITools
 	{
 		FontMetrics fm = graphics.getFontMetrics( font );
 		return fm.getStringBounds( text, graphics ).getWidth();
+	}
+
+	/**
+	 * Shows an information message dialog with the specified message and title.
+	 *
+	 * @param message The message to show.
+	 * @param title The title of the dialog box.
+	 */
+	public static void showInfoMessage( final String message, final String title )
+	{
+		showMessageDialog( message, title, JOptionPane.INFORMATION_MESSAGE );
+	}
+
+	/**
+	 * Shows a warning message dialog with the specified message and title.
+	 *
+	 * @param message The message to show.
+	 * @param title The title of the dialog box.
+	 */
+	public static void showWarningMessage( final String message, final String title )
+	{
+		showMessageDialog( message, title, JOptionPane.WARNING_MESSAGE );
+	}
+
+	/**
+	 * Shows an error message dialog with the specified message and title.
+	 *
+	 * @param message The message to show.
+	 * @param title The title of the dialog box.
+	 */
+	public static void showErrorMessage( final String message, final String title )
+	{
+		showMessageDialog( message, title, JOptionPane.ERROR_MESSAGE );
+	}
+
+	/**
+	 * Shows a message dialog with the specified message, title and type.
+	 *
+	 * @param message The message to show.
+	 * @param title The title of the dialog box.
+	 * @param messageType The type of message. See {@link JOptionPane} for types.
+	 */
+	public static void showMessageDialog( final String message, final String title, final int messageType )
+	{
+		JOptionPane.showMessageDialog( null, message, title + " - " + Constants.APP_NAME, messageType );
 	}
 }

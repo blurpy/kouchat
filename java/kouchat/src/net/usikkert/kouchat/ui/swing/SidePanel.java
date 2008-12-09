@@ -32,17 +32,16 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JList;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 
-import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.UserList;
+import net.usikkert.kouchat.ui.util.UITools;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
@@ -156,7 +155,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 					if ( user.isAway() )
 						info += "\nAway message: " + user.getAwayMsg();
 
-					JOptionPane.showMessageDialog( null, info, Constants.APP_NAME + " - Info", JOptionPane.INFORMATION_MESSAGE );
+					UITools.showInfoMessage( info, "Info" );
 				}
 			} );
 		}

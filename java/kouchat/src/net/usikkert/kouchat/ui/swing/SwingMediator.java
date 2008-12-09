@@ -43,6 +43,7 @@ import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 import net.usikkert.kouchat.ui.UserInterface;
+import net.usikkert.kouchat.ui.util.UITools;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
@@ -167,8 +168,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 				catch ( final CommandException e )
 				{
-					JOptionPane.showMessageDialog( null, e.getMessage(),
-							Constants.APP_NAME + " - Change away", JOptionPane.WARNING_MESSAGE );
+					UITools.showWarningMessage( e.getMessage(), "Change away" );
 				}
 			}
 		}
@@ -195,8 +195,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 				catch ( final CommandException e )
 				{
-					JOptionPane.showMessageDialog( null, e.getMessage(),
-							Constants.APP_NAME + " - Change away", JOptionPane.WARNING_MESSAGE );
+					UITools.showWarningMessage( e.getMessage(), "Change away" );
 				}
 			}
 		}
@@ -348,27 +347,26 @@ public class SwingMediator implements Mediator, UserInterface
 
 		else if ( user.isMe() )
 		{
-			JOptionPane.showMessageDialog( null, "You cannot send files to yourself.", Constants.APP_NAME
-					+ " - Warning", JOptionPane.WARNING_MESSAGE );
+			String message = "You cannot send files to yourself.";
+			UITools.showWarningMessage( message, "Warning" );
 		}
 
 		else if ( me.isAway() )
 		{
-			JOptionPane.showMessageDialog( null, "You cannot send files while you are away.",
-					Constants.APP_NAME + " - Warning", JOptionPane.WARNING_MESSAGE );
+			String message = "You cannot send files while you are away.";
+			UITools.showWarningMessage( message, "Warning" );
 		}
 
 		else if ( user.isAway() )
 		{
-			JOptionPane.showMessageDialog( null, "You cannot send files to " + user.getNick() + ", which is away.",
-					Constants.APP_NAME + " - Warning", JOptionPane.WARNING_MESSAGE );
+			String message = "You cannot send files to " + user.getNick() + ", which is away.";
+			UITools.showWarningMessage( message, "Warning" );
 		}
 
 		else if ( !user.isOnline() )
 		{
-			JOptionPane.showMessageDialog( null, "You cannot send files to " + user.getNick()
-					+ ", which is not online anymore.",
-					Constants.APP_NAME + " - Warning", JOptionPane.WARNING_MESSAGE );
+			String message = "You cannot send files to " + user.getNick() + ", which is not online anymore.";
+			UITools.showWarningMessage( message, "Warning" );
 		}
 
 		else
@@ -503,15 +501,15 @@ public class SwingMediator implements Mediator, UserInterface
 		{
 			if ( controller.isNickInUse( trimNick ) )
 			{
-				JOptionPane.showMessageDialog( null, "The nick is in use by someone else.", Constants.APP_NAME
-						+ " - Change nick", JOptionPane.WARNING_MESSAGE );
+				UITools.showWarningMessage( "The nick is in use by someone else.", "Change nick" );
 			}
 
 			else if ( !Tools.isValidNick( trimNick ) )
 			{
-				JOptionPane.showMessageDialog( null, "'" + trimNick + "' is not a valid nick name.\n\n"
+				String message = "'" + trimNick + "' is not a valid nick name.\n\n"
 						+ "A nick name can have between 1 and 10 characters.\nLegal characters are 'a-z',"
-						+ " '0-9', '-' and '_'.", Constants.APP_NAME + " - Change nick", JOptionPane.WARNING_MESSAGE );
+						+ " '0-9', '-' and '_'.";
+				UITools.showWarningMessage( message, "Change nick" );
 			}
 
 			else
@@ -526,8 +524,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 				catch ( final CommandException e )
 				{
-					JOptionPane.showMessageDialog( null, e.getMessage(),
-							Constants.APP_NAME + " - Change nick", JOptionPane.WARNING_MESSAGE );
+					UITools.showWarningMessage( e.getMessage(), "Change nick" );
 				}
 			}
 		}
