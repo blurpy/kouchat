@@ -133,7 +133,7 @@ public class Topic
 
 	/**
 	 * Returns the values in this format: <code>topic (nick)</code>.
-	 * 
+	 *
 	 * {@inheritDoc}
 	 */
 	@Override
