@@ -17,3 +17,5 @@
  - Add command for:
    - Receive file
    - Abort file transfer
+ - Continue moving popups into UITools
+ - Add UITools.createTitle()
