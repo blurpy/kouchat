@@ -33,6 +33,7 @@ import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -375,5 +376,18 @@ public final class UITools
 	public static String createTitle( final String title )
 	{
 		return title + " - " + Constants.APP_NAME;
+	}
+
+	/**
+	 * Creates a new file chooser with the specified title.
+	 *
+	 * @param title The title of the file chooser.
+	 * @return A new file chooser.
+	 */
+	public static JFileChooser createFileChooser( final String title )
+	{
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle( createTitle( title ) );
+		return fileChooser;
 	}
 }

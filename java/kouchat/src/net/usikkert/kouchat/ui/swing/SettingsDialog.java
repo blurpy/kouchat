@@ -391,8 +391,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 
 		else if ( e.getSource() == chooseBrowserB )
 		{
-			JFileChooser chooser = new JFileChooser();
-			chooser.setDialogTitle( Constants.APP_NAME + " - Open" );
+			JFileChooser chooser = UITools.createFileChooser( "Open" );
 			int returnVal = chooser.showOpenDialog( null );
 
 			if ( returnVal == JFileChooser.APPROVE_OPTION )

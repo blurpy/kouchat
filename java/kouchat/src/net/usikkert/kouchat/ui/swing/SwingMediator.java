@@ -359,8 +359,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 		else
 		{
-			JFileChooser chooser = new JFileChooser();
-			chooser.setDialogTitle( Constants.APP_NAME + " - Open" );
+			JFileChooser chooser = UITools.createFileChooser( "Open" );
 
 			if ( selectedFile != null && selectedFile.exists() )
 				chooser.setSelectedFile( selectedFile );
@@ -715,8 +714,7 @@ public class SwingMediator implements Mediator, UserInterface
 	public File showFileSave( final String fileName )
 	{
 		File returnFile = null;
-		JFileChooser chooser = new JFileChooser();
-		chooser.setDialogTitle( Constants.APP_NAME + " - Save" );
+		JFileChooser chooser = UITools.createFileChooser( "Save" );
 		chooser.setSelectedFile( new File( fileName ) );
 		boolean done = false;
 
