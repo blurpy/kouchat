@@ -152,10 +152,7 @@ public class SwingMediator implements Mediator, UserInterface
 	{
 		if ( me.isAway() )
 		{
-			Object[] options = { "Yes", "Cancel" };
-			int choice = JOptionPane.showOptionDialog( null, "Back from '" + me.getAwayMsg()
-					+ "'?", Constants.APP_NAME + " - Away", JOptionPane.DEFAULT_OPTION,
-					JOptionPane.QUESTION_MESSAGE, null, options, options[0] );
+			int choice = UITools.showOptionDialog( "Back from '" + me.getAwayMsg() + "'?", "Away" );
 
 			if ( choice == JOptionPane.YES_OPTION )
 			{
@@ -175,8 +172,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 		else
 		{
-			String reason = JOptionPane.showInputDialog( null, "Reason for away?",
-					Constants.APP_NAME + " - Away", JOptionPane.QUESTION_MESSAGE );
+			String reason = UITools.showInputDialog( "Reason for away?", "Away", null );
 
 			if ( reason != null && reason.trim().length() > 0 )
 			{
@@ -210,15 +206,10 @@ public class SwingMediator implements Mediator, UserInterface
 	public void setTopic()
 	{
 		Topic topic = controller.getTopic();
+		String newTopic = UITools.showInputDialog( "Change topic?", "Topic", topic.getTopic() );
 
-		Object objecttopic = JOptionPane.showInputDialog( null, "Change topic?", Constants.APP_NAME
-				+ " - Topic", JOptionPane.QUESTION_MESSAGE, null, null, topic.getTopic() );
-
-		if ( objecttopic != null )
-		{
-			String newTopic = objecttopic.toString();
+		if ( newTopic != null )
 			cmdParser.fixTopic( newTopic );
-		}
 
 		mainP.getMsgTF().requestFocusInWindow();
 	}
@@ -239,10 +230,7 @@ public class SwingMediator implements Mediator, UserInterface
 	@Override
 	public void quit()
 	{
-		Object[] options = { "Yes", "Cancel" };
-		int choice = JOptionPane.showOptionDialog( null, "Are you sure you want to quit?",
-				Constants.APP_NAME + " - Quit?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-				null, options, options[0] );
+		int choice = UITools.showOptionDialog( "Are you sure you want to quit?", "Quit" );
 
 		if ( choice == JOptionPane.YES_OPTION )
 		{
@@ -707,11 +695,8 @@ public class SwingMediator implements Mediator, UserInterface
 	public boolean askFileSave( final String user, final String fileName, final String size )
 	{
 		beeper.beep();
-
-		Object[] options = { "Yes", "Cancel" };
-		int choice = JOptionPane.showOptionDialog( null, user + " wants to send you the file "
-				+ fileName + " (" + size + ")\nAccept?", Constants.APP_NAME + " - File send",
-				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0] );
+		String message = user + " wants to send you the file " + fileName + " (" + size + ")\nAccept?";
+		int choice = UITools.showOptionDialog( message, "File send" );
 
 		return choice == JOptionPane.YES_OPTION;
 	}
@@ -746,10 +731,8 @@ public class SwingMediator implements Mediator, UserInterface
 
 				if ( file.exists() )
 				{
-					Object[] options = { "Yes", "Cancel" };
-					int overwrite = JOptionPane.showOptionDialog( null, file.getName()
-							+ " already exists.\nOverwrite?", Constants.APP_NAME + " - File exists",
-							JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0] );
+					String message = file.getName() + " already exists.\nOverwrite?";
+					int overwrite = UITools.showOptionDialog( message, "File exists" );
 
 					if ( overwrite != JOptionPane.YES_OPTION )
 					{

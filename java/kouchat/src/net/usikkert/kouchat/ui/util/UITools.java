@@ -331,6 +331,49 @@ public final class UITools
 	 */
 	public static void showMessageDialog( final String message, final String title, final int messageType )
 	{
-		JOptionPane.showMessageDialog( null, message, title + " - " + Constants.APP_NAME, messageType );
+		JOptionPane.showMessageDialog( null, message, createTitle( title ), messageType );
+	}
+
+	/**
+	 * Shows an input dialog with the specified message, title and initial value
+	 * in the input field.
+	 *
+	 * @param message The message to show.
+	 * @param title The title of the dialog box.
+	 * @param initialValue The initial value, or <code>null</code> if the field should be empty.
+	 * @return The input from the user, or <code>null</code> if cancel was selected.
+	 */
+	public static String showInputDialog( final String message, final String title, final String initialValue )
+	{
+		return (String) JOptionPane.showInputDialog( null, message, createTitle( title ),
+				JOptionPane.QUESTION_MESSAGE, null, null, initialValue );
+	}
+
+	/**
+	 * Shows an option dialog with the specified message and title,
+	 * with the buttons set to "Yes" and "Cancel".
+	 *
+	 * @param message The message to show.
+	 * @param title The title of the dialog box.
+	 * @return Which button the user pressed. See {@link JOptionPane} for options.
+	 */
+	public static int showOptionDialog( final String message, final String title )
+	{
+		Object[] options = { "Yes", "Cancel" };
+		return JOptionPane.showOptionDialog( null, message, createTitle( title ),
+				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+				null, options, options[0] );
+	}
+
+	/**
+	 * Creates a new title by appending a dash and the application name
+	 * after the original title.
+	 *
+	 * @param title The original title.
+	 * @return The new title.
+	 */
+	public static String createTitle( final String title )
+	{
+		return title + " - " + Constants.APP_NAME;
 	}
 }
