@@ -21,6 +21,7 @@
 
 package net.usikkert.kouchat.ui.util;
 
+import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -33,6 +34,7 @@ import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -389,5 +391,17 @@ public final class UITools
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setDialogTitle( createTitle( title ) );
 		return fileChooser;
+	}
+
+	/**
+	 * Shows the color chooser with the chosen title, with the initial color.
+	 *
+	 * @param title The title of the color chooser.
+	 * @param initialColor The initial color to use in the color chooser.
+	 * @return The selected color.
+	 */
+	public static Color showColorChooser( final String title, final Color initialColor )
+	{
+		return JColorChooser.showDialog( null, createTitle( title ), initialColor );
 	}
 }

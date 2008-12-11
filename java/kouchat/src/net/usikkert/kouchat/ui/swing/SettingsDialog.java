@@ -43,7 +43,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -311,7 +310,8 @@ public class SettingsDialog extends JDialog implements ActionListener
 				@Override
 				public void run()
 				{
-					Color newColor = JColorChooser.showDialog( null, Constants.APP_NAME + " - Choose color for own messages", new Color( settings.getOwnColor() ) );
+					Color newColor = UITools.showColorChooser( "Choose color for own messages",
+							new Color( settings.getOwnColor() ) );
 
 					if ( newColor != null )
 					{
@@ -328,7 +328,8 @@ public class SettingsDialog extends JDialog implements ActionListener
 				@Override
 				public void run()
 				{
-					Color newColor = JColorChooser.showDialog( null, Constants.APP_NAME	+ " - Choose color for system messages", new Color( settings.getSysColor() ) );
+					Color newColor = UITools.showColorChooser( "Choose color for system messages",
+							new Color( settings.getSysColor() ) );
 
 					if ( newColor != null )
 					{
