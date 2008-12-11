@@ -27,7 +27,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.CommandParser;
 import net.usikkert.kouchat.misc.Controller;
@@ -248,7 +247,7 @@ public class SwingMediator implements Mediator, UserInterface
 		if ( me != null )
 		{
 			String title = "";
-			String tooltip = title + me.getNick();
+			String tooltip = me.getNick();
 
 			if ( me.isNewMsg() )
 				title += "[!!] ";
@@ -282,9 +281,7 @@ public class SwingMediator implements Mediator, UserInterface
 					title += " - Topic: " + controller.getTopic();
 			}
 
-			title += " - " + Constants.APP_NAME + " v" + Constants.APP_VERSION;
-
-			gui.setTitle( title );
+			gui.setTitle( UITools.createTitle( title ) );
 			sysTray.setToolTip( tooltip );
 		}
 	}

@@ -65,6 +65,7 @@ import net.usikkert.kouchat.misc.CommandHistory;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
+import net.usikkert.kouchat.ui.util.UITools;
 import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Validate;
 
@@ -458,12 +459,10 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		if ( user.isAway() )
 			title += " (Away)";
 
-		title += " - " + Constants.APP_NAME;
-
 		if ( user.isNewPrivMsg() && !isFocused() && isVisible() )
-			setTitle( "[!!] " + title );
+			setTitle( UITools.createTitle( "[!!] " + title ) );
 		else
-			setTitle( title );
+			setTitle( UITools.createTitle( title ) );
 	}
 
 	/**

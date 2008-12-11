@@ -42,7 +42,7 @@ import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
-import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.ui.util.UITools;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -71,7 +71,7 @@ public class MessageDialog extends JDialog
 		Validate.notNull( imageLoader, "Image loader can not be null" );
 
 		setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
-		setTitle( Constants.APP_NAME + " - Missing title" );
+		setTitle( UITools.createTitle( "Missing title" ) );
 		setResizable( false );
 		setIconImage( imageLoader.getAppIcon().getImage() );
 

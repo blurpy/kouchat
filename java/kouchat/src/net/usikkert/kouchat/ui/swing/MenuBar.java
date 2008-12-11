@@ -32,6 +32,7 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.ui.util.UITools;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -263,7 +264,7 @@ public class MenuBar extends JMenuBar implements ActionListener
 					if ( faqViewer == null )
 					{
 						faqViewer = new TextViewerDialog( Constants.FILE_FAQ,
-								"Frequently Asked Questions", true );
+								"Frequently Asked Questions", true, imageLoader );
 					}
 
 					faqViewer.setVisible( true );
@@ -282,7 +283,7 @@ public class MenuBar extends JMenuBar implements ActionListener
 					if ( licenseViewer == null )
 					{
 						licenseViewer = new TextViewerDialog( Constants.FILE_LICENSE,
-								Constants.APP_LICENSE_NAME, false );
+								Constants.APP_LICENSE_NAME, false, imageLoader );
 					}
 
 					licenseViewer.setVisible( true );
@@ -313,7 +314,7 @@ public class MenuBar extends JMenuBar implements ActionListener
 				{
 					MessageDialog aboutD = new MessageDialog( null, true, imageLoader );
 
-					aboutD.setTitle( Constants.APP_NAME + " - About" );
+					aboutD.setTitle( UITools.createTitle( "About" ) );
 					aboutD.setTopText( Constants.APP_NAME + " v" + Constants.APP_VERSION );
 					aboutD.setContent( "<html>Copyright " + Constants.APP_COPYRIGHT_YEARS + " by " + Constants.AUTHOR_NAME + "."
 							+ "<br>" + Constants.AUTHOR_MAIL

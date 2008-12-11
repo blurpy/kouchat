@@ -38,7 +38,6 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
-import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.FileTransferListener;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
@@ -201,7 +200,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
         getContentPane().add( bottomP, BorderLayout.SOUTH );
 
 		setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE );
-		setTitle( Constants.APP_NAME + " - File transfer" );
+		setTitle( UITools.createTitle( "File transfer" ) );
 		setIconImage( imageLoader.getAppIcon().getImage() );
 		getRootPane().setDefaultButton( cancelB );
 

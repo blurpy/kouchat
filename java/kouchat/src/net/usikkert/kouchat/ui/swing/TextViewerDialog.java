@@ -27,13 +27,10 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Point;
 import java.awt.Rectangle;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
 import java.net.URL;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,9 +46,10 @@ import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyledDocument;
 
-import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
+import net.usikkert.kouchat.ui.util.UITools;
 import net.usikkert.kouchat.util.Loggers;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * Opens a text file in a 80x24 character dialog window.
@@ -79,9 +77,14 @@ public class TextViewerDialog extends JDialog
 	 * @param textFile The text file to open and view.
 	 * @param title The title to use for the dialog window.
 	 * @param links True to enabled support for opening urls by clicking on them.
+	 * @param imageLoader The image loader.
 	 */
-	public TextViewerDialog( final String textFile, final String title, final boolean links )
+	public TextViewerDialog( final String textFile, final String title, final boolean links, final ImageLoader imageLoader )
 	{
+		Validate.notNull( textFile, "Text file can not be null" );
+		Validate.notNull( title, "Title can not be null" );
+		Validate.notNull( imageLoader, "Image loader can not be null" );
+
 		this.textFile = textFile;
 		errorHandler = ErrorHandler.getErrorHandler();
 
@@ -117,7 +120,8 @@ public class TextViewerDialog extends JDialog
 		viewerTP.setPreferredSize( new Dimension( width, height ) );
 
 		setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
-		setTitle( Constants.APP_NAME + " - " + title );
+		setTitle( UITools.createTitle( title ) );
+		setIconImage( imageLoader.getAppIcon().getImage() );
 		setResizable( false );
 		readFile();
 		pack();
