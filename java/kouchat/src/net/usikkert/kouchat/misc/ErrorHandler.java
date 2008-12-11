@@ -60,7 +60,7 @@ public final class ErrorHandler
 	}
 
 	/**
-	 * This method notifies the listeners that an error has occured.
+	 * This method notifies the listeners that an error has occurred.
 	 *
 	 * @param errorMsg The message to deliver to the listeners.
 	 */
@@ -73,7 +73,7 @@ public final class ErrorHandler
 	}
 
 	/**
-	 * This method notifies the listeners that a critical error has occured.
+	 * This method notifies the listeners that a critical error has occurred.
 	 *
 	 * @param criticalErrorMsg The message to deliver to the listeners.
 	 */
