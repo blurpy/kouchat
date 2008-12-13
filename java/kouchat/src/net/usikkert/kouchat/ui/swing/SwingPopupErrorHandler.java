@@ -25,7 +25,6 @@ import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.event.ErrorListener;
 import net.usikkert.kouchat.misc.ErrorHandler;
-import net.usikkert.kouchat.ui.util.UITools;
 
 /**
  * This is the implementation of the error listener for use

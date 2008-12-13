@@ -19,7 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.ui.util;
+package net.usikkert.kouchat.ui.swing;
 
 import java.awt.Color;
 import java.awt.Desktop;

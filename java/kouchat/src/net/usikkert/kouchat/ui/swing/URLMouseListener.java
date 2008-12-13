@@ -32,8 +32,6 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import net.usikkert.kouchat.ui.util.UITools;
-
 /**
  * This listener adds support for opening a url in a browser
  * by clicking on a link. The mouse cursor will also change when

@@ -59,8 +59,6 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
-import net.usikkert.kouchat.ui.util.LookAndFeelWrapper;
-import net.usikkert.kouchat.ui.util.UITools;
 import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Validate;
 

@@ -65,7 +65,6 @@ import net.usikkert.kouchat.misc.CommandHistory;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
-import net.usikkert.kouchat.ui.util.UITools;
 import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Validate;
 

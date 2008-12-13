@@ -47,7 +47,6 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyledDocument;
 
 import net.usikkert.kouchat.misc.ErrorHandler;
-import net.usikkert.kouchat.ui.util.UITools;
 import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Validate;
 

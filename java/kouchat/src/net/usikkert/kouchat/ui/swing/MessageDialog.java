@@ -42,7 +42,6 @@ import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
-import net.usikkert.kouchat.ui.util.UITools;
 import net.usikkert.kouchat.util.Validate;
 
 /**

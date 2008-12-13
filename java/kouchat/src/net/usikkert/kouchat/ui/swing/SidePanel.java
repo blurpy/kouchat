@@ -41,7 +41,6 @@ import javax.swing.SwingUtilities;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.UserList;
-import net.usikkert.kouchat.ui.util.UITools;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 

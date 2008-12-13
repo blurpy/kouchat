@@ -45,7 +45,6 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
-import net.usikkert.kouchat.ui.util.UITools;
 
 /**
  * This is the main chat window.
