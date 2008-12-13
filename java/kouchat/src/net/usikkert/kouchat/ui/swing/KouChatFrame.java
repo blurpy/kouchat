@@ -39,6 +39,7 @@ import javax.swing.JFrame;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
+import javax.swing.WindowConstants;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import net.usikkert.kouchat.Constants;
@@ -124,7 +125,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 		setIconImage( imageLoader.getAppIcon().getImage() );
 		setSize( 650, 480 );
 		setMinimumSize( new Dimension( 450, 300 ) );
-		setDefaultCloseOperation( JFrame.DO_NOTHING_ON_CLOSE );
+		setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE );
 		setVisible( true );
 
 		getRootPane().addFocusListener( this );

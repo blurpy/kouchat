@@ -53,6 +53,7 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.WindowConstants;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import net.usikkert.kouchat.Constants;
@@ -213,7 +214,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 		getContentPane().add( panel );
 
 		pack();
-		setDefaultCloseOperation( JDialog.HIDE_ON_CLOSE );
+		setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 		setIconImage( imageLoader.getAppIcon().getImage() );
 		setTitle( UITools.createTitle( "Settings" ) );
 		setResizable( false );
