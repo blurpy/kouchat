@@ -19,15 +19,15 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.util;
+package net.usikkert.kouchat.misc;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.ui.UserInterface;
+import net.usikkert.kouchat.util.Tools;
 
 /**
  * Notifies the user interface when the day changes.
