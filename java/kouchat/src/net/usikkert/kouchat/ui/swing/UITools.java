@@ -76,7 +76,6 @@ public final class UITools
 	public static void browse( final String url )
 	{
 		String browser = SETTINGS.getBrowser();
-		Desktop desktop = Desktop.getDesktop();
 
 		// The default is to use the browser in the settings.
 		if ( browser != null && browser.trim().length() > 0  )
@@ -95,11 +94,11 @@ public final class UITools
 		}
 
 		// But if no browser is set there, try opening the system default browser
-		else if ( Desktop.isDesktopSupported() && desktop.isSupported( Action.BROWSE ) )
+		else if ( isDesktopActionSupported( Action.BROWSE ) )
 		{
 			try
 			{
-				desktop.browse( new URI( url ) );
+				Desktop.getDesktop().browse( new URI( url ) );
 			}
 
 			catch ( final IOException e )
@@ -131,14 +130,13 @@ public final class UITools
 	 */
 	public static void open( final File file )
 	{
-		Desktop desktop = Desktop.getDesktop();
 		boolean desktopOpenSuccess = false;
 
-		if ( Desktop.isDesktopSupported() && desktop.isSupported( Action.OPEN ) )
+		if ( isDesktopActionSupported( Action.OPEN ) )
 		{
 			try
 			{
-				desktop.open( file );
+				Desktop.getDesktop().open( file );
 				desktopOpenSuccess = true;
 			}
 
@@ -152,6 +150,31 @@ public final class UITools
 		{
 			browse( file.getAbsolutePath() );
 		}
+	}
+
+	/**
+	 * Checks if the desktop api is supported in this system,
+	 * and if that is the case, then a check to see whether the
+	 * chosen desktop action is supported on this system is performed.
+	 *
+	 * <p>The reason to do the checks so thorough is because an
+	 * unchecked exception is thrown when {@link Desktop#getDesktop()}
+	 * is called on an unsupported system.</p>
+	 *
+	 * @param action The action to check.
+	 * @return If the system supports this action or not.
+	 */
+	public static boolean isDesktopActionSupported( final Action action )
+	{
+		if ( Desktop.isDesktopSupported() )
+		{
+			if ( Desktop.getDesktop().isSupported( action ) )
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

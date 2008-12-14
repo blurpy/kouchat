@@ -361,7 +361,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 						}
 					}
 
-					else if ( Desktop.isDesktopSupported() )
+					else if ( UITools.isDesktopActionSupported( Desktop.Action.BROWSE ) )
 					{
 						try
 						{
