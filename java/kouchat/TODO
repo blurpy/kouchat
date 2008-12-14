@@ -2,7 +2,7 @@
 - KouChat v0.9.9 TODO
 
 * Release v1.0.0:
- - Javadoc
+ - Javadoc fields
  - More unit tests
  - Get feedback
  - Add screenshot, news, and tips & tricks wiki pages to the google site
@@ -15,3 +15,4 @@
 * Release v0.9.9:
  - Switch titlebar icon on windows with activity instead of adding [!!]
  - Give consistent messages to user in case of connection errors
+ - Javadoc methods
