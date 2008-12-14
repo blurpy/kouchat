@@ -14,5 +14,4 @@
 
 * Release v0.9.9:
  - Switch titlebar icon on windows with activity instead of adding [!!]
- - Give consistent messages to user in case of connection errors
  - Javadoc methods

@@ -259,7 +259,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 			if ( !controller.isConnected() )
 			{
-				if ( controller.getChatState().isLoggedOn() )
+				if ( controller.isLoggedOn() )
 				{
 					title += " - Connection lost";
 					tooltip += " - Connection lost";

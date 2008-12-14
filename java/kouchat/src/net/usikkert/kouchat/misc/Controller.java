@@ -197,7 +197,7 @@ public class Controller implements NetworkConnectionListener
 	 */
 	public void changeAwayStatus( final int code, final boolean away, final String awaymsg ) throws CommandException
 	{
-		if ( code == me.getCode() && !isConnected() )
+		if ( code == me.getCode() && !isLoggedOn() )
 			throw new CommandException( "You can not change away mode without being connected" );
 		else if ( Tools.getBytes( awaymsg ) > Constants.MESSAGE_MAX_BYTES )
 			throw new CommandException( "You can not set an away message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes" );
@@ -473,7 +473,7 @@ public class Controller implements NetworkConnectionListener
 	 */
 	public void changeTopic( final String newTopic ) throws CommandException
 	{
-		if ( !isConnected() )
+		if ( !isLoggedOn() )
 			throw new CommandException( "You can not change the topic without being connected" );
 		else if ( me.isAway() )
 			throw new CommandException( "You can not change the topic while away" );
@@ -629,13 +629,23 @@ public class Controller implements NetworkConnectionListener
 	}
 
 	/**
-	 * Returns if the client is logged on to the network.
+	 * Returns if the client is logged on to the chat and connected to the network.
 	 *
-	 * @return True if the client is logged on to the network.
+	 * @return True if the client is connected.
 	 */
 	public boolean isConnected()
 	{
-		return networkService.isNetworkUp() && chatState.isLoggedOn();
+		return networkService.isNetworkUp() && isLoggedOn();
+	}
+
+	/**
+	 * Returns if the client is logged on to the chat.
+	 *
+	 * @return True if the client is logged on to the chat.
+	 */
+	public boolean isLoggedOn()
+	{
+		return chatState.isLoggedOn();
 	}
 
 	/**
@@ -696,7 +706,7 @@ public class Controller implements NetworkConnectionListener
 	public void networkCameUp( final boolean silent )
 	{
 		// Network came up after a logon
-		if ( !chatState.isLoggedOn() )
+		if ( !isLoggedOn() )
 		{
 			runDelayedLogon();
 			sendLogOn();
@@ -728,7 +738,7 @@ public class Controller implements NetworkConnectionListener
 	{
 		ui.showTopic();
 
-		if ( chatState.isLoggedOn() )
+		if ( isLoggedOn() )
 		{
 			if ( !silent )
 				msgController.showSystemMessage( "You lost contact with the network" );
