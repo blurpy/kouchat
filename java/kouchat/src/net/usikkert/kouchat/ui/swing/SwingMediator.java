@@ -372,7 +372,15 @@ public class SwingMediator implements Mediator, UserInterface
 
 				if ( file.exists() && file.isFile() )
 				{
-					cmdParser.sendFile( user, file );
+					try
+					{
+						cmdParser.sendFile( user, file );
+					}
+
+					catch ( final CommandException e )
+					{
+						UITools.showWarningMessage( e.getMessage(), "Send file" );
+					}
 				}
 			}
 		}

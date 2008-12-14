@@ -279,7 +279,15 @@ public class CommandParser
 
 					if ( sendFile.exists() && sendFile.isFile() )
 					{
-						sendFile( user, sendFile );
+						try
+						{
+							sendFile( user, sendFile );
+						}
+
+						catch ( final CommandException e )
+						{
+							msgController.showSystemMessage( e.getMessage() );
+						}
 					}
 
 					else
@@ -518,24 +526,17 @@ public class CommandParser
 	 *
 	 * @param user The user to send to.
 	 * @param file The file to send to the user.
+	 * @throws CommandException If there was a problem sending the file.
 	 */
-	public void sendFile( final User user, final File file )
+	public void sendFile( final User user, final File file ) throws CommandException
 	{
-		try
-		{
-			controller.sendFile( user, file );
-			FileSender fileSend = new FileSender( user, file );
-			ui.showTransfer( fileSend );
-			controller.getTransferList().addFileSender( fileSend );
-			String size = Tools.byteToString( file.length() );
-			msgController.showSystemMessage( "Trying to send the file "
-					+ file.getName() + " [" + size + "] to " + user.getNick() );
-		}
-
-		catch ( final CommandException e )
-		{
-			msgController.showSystemMessage( e.getMessage() );
-		}
+		controller.sendFile( user, file );
+		FileSender fileSend = new FileSender( user, file );
+		ui.showTransfer( fileSend );
+		controller.getTransferList().addFileSender( fileSend );
+		String size = Tools.byteToString( file.length() );
+		msgController.showSystemMessage( "Trying to send the file "
+				+ file.getName() + " [" + size + "] to " + user.getNick() );
 	}
 
 	/**
