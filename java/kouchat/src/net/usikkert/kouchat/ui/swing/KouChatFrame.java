@@ -23,6 +23,7 @@ package net.usikkert.kouchat.ui.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
@@ -76,6 +77,8 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 
 	/** The application user. */
 	private final User me;
+
+	private final Image kouIconNormal, kouIconNormalActivity, kouIconAway, kouIconAwayActivity;
 
 	/**
 	 * Constructor.
@@ -143,6 +146,11 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 				mainP.getMsgTF().requestFocusInWindow();
 			}
 		} );
+
+		kouIconNormal = imageLoader.getKouNormalIcon().getImage();
+		kouIconNormalActivity = imageLoader.getKouNormalActivityIcon().getImage();
+		kouIconAway = imageLoader.getKouAwayIcon().getImage();
+		kouIconAwayActivity = imageLoader.getKouAwayActivityIcon().getImage();
 	}
 
 	/**
@@ -331,5 +339,41 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 	public void windowOpened( final WindowEvent e )
 	{
 
+	}
+
+	/**
+	 * Changes the window icon depending on away status and if a new message has arrived.
+	 */
+	public void updateWindowIcon()
+	{
+		if ( me.isNewMsg() )
+		{
+			if ( me.isAway() )
+			{
+				if ( getIconImage() != kouIconAwayActivity )
+					setIconImage( kouIconAwayActivity );
+			}
+
+			else
+			{
+				if ( getIconImage() != kouIconNormalActivity )
+					setIconImage( kouIconNormalActivity );
+			}
+		}
+
+		else
+		{
+			if ( me.isAway() )
+			{
+				if ( getIconImage() != kouIconAway )
+					setIconImage( kouIconAway );
+			}
+
+			else
+			{
+				if ( getIconImage() != kouIconNormal )
+					setIconImage( kouIconNormal );
+			}
+		}
 	}
 }

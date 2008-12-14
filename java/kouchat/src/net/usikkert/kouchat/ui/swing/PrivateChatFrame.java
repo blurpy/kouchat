@@ -24,6 +24,7 @@ package net.usikkert.kouchat.ui.swing;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
@@ -89,6 +90,8 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	private final Mediator mediator;
 	private final User me, user;
 	private final FileTransferHandler fileTransferHandler;
+
+	private final Image kouIconNormal, kouIconNormalActivity, kouIconAway, kouIconAwayActivity;
 
 	/**
 	 * Creates a new private chat frame. To open the window, use setVisible().
@@ -187,6 +190,11 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		hideWithEscape( backP );
 
 		cmdHistory = new CommandHistory();
+
+		kouIconNormal = imageLoader.getKouNormalIcon().getImage();
+		kouIconNormalActivity = imageLoader.getKouNormalActivityIcon().getImage();
+		kouIconAway = imageLoader.getKouAwayIcon().getImage();
+		kouIconAwayActivity = imageLoader.getKouAwayActivityIcon().getImage();
 	}
 
 	/**
@@ -447,8 +455,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 
 	/**
 	 * Updates the titlebar with information about the private chat.
-	 * Activity from the other user will result in <code>[!!]</code> being
-	 * added to the start of the title.
+	 * Activity from the other user will result in the window icon changing.
 	 */
 	@Override
 	public void updateUserInformation()
@@ -458,10 +465,8 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		if ( user.isAway() )
 			title += " (Away)";
 
-		if ( user.isNewPrivMsg() && !isFocused() && isVisible() )
-			setTitle( UITools.createTitle( "[!!] " + title ) );
-		else
-			setTitle( UITools.createTitle( title ) );
+		setTitle( UITools.createTitle( title ) );
+		updateWindowIcon();
 	}
 
 	/**
@@ -567,5 +572,42 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	public void windowOpened( final WindowEvent e )
 	{
 
+	}
+
+	/**
+	 * Changes the window icon depending on away status and if
+	 * a new private message has arrived.
+	 */
+	public void updateWindowIcon()
+	{
+		if ( user.isNewPrivMsg() )
+		{
+			if ( me.isAway() || user.isAway() )
+			{
+				if ( getIconImage() != kouIconAwayActivity )
+					setIconImage( kouIconAwayActivity );
+			}
+
+			else
+			{
+				if ( getIconImage() != kouIconNormalActivity )
+					setIconImage( kouIconNormalActivity );
+			}
+		}
+
+		else
+		{
+			if ( me.isAway() || user.isAway() )
+			{
+				if ( getIconImage() != kouIconAway )
+					setIconImage( kouIconAway );
+			}
+
+			else
+			{
+				if ( getIconImage() != kouIconNormal )
+					setIconImage( kouIconNormal );
+			}
+		}
 	}
 }

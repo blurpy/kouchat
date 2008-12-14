@@ -7,7 +7,7 @@
   	so it wont reposition
   - Started using validation of input parameters
   - Added (Away) to the title of privchats if the user is away
-  - Added [!!] to windows with activity, for notification
+  - Window icons change on activity, for notification
   - Added JMX support with network, controller and general MBeans
   - Added more debug logging, that can be enabled with JMX
   - Updated lots of javadoc

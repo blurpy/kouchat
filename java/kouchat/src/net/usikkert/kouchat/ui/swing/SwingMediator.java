@@ -249,13 +249,8 @@ public class SwingMediator implements Mediator, UserInterface
 	{
 		if ( me != null )
 		{
-			String title = "";
+			String title = me.getNick();
 			String tooltip = me.getNick();
-
-			if ( me.isNewMsg() )
-				title += "[!!] ";
-
-			title += me.getNick();
 
 			if ( !controller.isConnected() )
 			{
@@ -285,6 +280,7 @@ public class SwingMediator implements Mediator, UserInterface
 			}
 
 			gui.setTitle( UITools.createTitle( title ) );
+			gui.updateWindowIcon();
 			sysTray.setToolTip( tooltip );
 		}
 	}

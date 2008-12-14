@@ -13,5 +13,5 @@
 
 
 * Release v0.9.9:
- - Switch titlebar icon on windows with activity instead of adding [!!]
+ - Move activity icons into reusable class
  - Javadoc methods
