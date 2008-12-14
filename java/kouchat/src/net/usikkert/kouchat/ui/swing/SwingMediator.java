@@ -82,14 +82,8 @@ public class SwingMediator implements Mediator, UserInterface
 	public SwingMediator( final ComponentHandler compHandler, final ImageLoader imageLoader )
 	{
 		Validate.notNull( compHandler, "Component handler can not be null" );
-		Validate.notNull( compHandler.getSidePanel(), "Side panel can not be null" );
-		Validate.notNull( compHandler.getSettingsDialog(), "Settings dialog can not be null" );
-		Validate.notNull( compHandler.getGui(), "GUI can not be null" );
-		Validate.notNull( compHandler.getMainPanel(), "Main panel can not be null" );
-		Validate.notNull( compHandler.getSysTray(), "System tray can not be null" );
-		Validate.notNull( compHandler.getMenuBar(), "Menu bar can not be null" );
-		Validate.notNull( compHandler.getButtonPanel(), "Button panel can not be null" );
 		Validate.notNull( imageLoader, "Image loader can not be null" );
+		compHandler.validate();
 
 		this.imageLoader = imageLoader;
 		sideP = compHandler.getSidePanel();

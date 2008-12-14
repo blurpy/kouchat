@@ -198,4 +198,19 @@ public class ComponentHandler
 		Validate.notNull( mainPanel, "Main panel can not be null" );
 		this.mainPanel = mainPanel;
 	}
+
+	/**
+	 * Checks that all the components are set to a non-null value.
+	 * Throws IllegalArgumentException If any of the components are null.
+	 */
+	public void validate()
+	{
+		Validate.notNull( sidePanel, "Side panel can not be null" );
+		Validate.notNull( settingsDialog, "Settings dialog can not be null" );
+		Validate.notNull( sysTray, "System tray can not be null" );
+		Validate.notNull( menuBar, "Menu bar can not be null" );
+		Validate.notNull( buttonPanel, "Button panel can not be null" );
+		Validate.notNull( gui, "GUI can not be null" );
+		Validate.notNull( mainPanel, "Main panel can not be null" );
+	}
 }
