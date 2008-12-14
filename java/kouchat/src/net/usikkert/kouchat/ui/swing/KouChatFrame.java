@@ -78,7 +78,8 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 	/** The application user. */
 	private final User me;
 
-	private final Image kouIconNormal, kouIconNormalActivity, kouIconAway, kouIconAwayActivity;
+	/** The icons to use for the window frame. */
+	private final StatusIcons statusIcons;
 
 	/**
 	 * Constructor.
@@ -93,6 +94,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 		setLookAndFeel();
 		new SwingPopupErrorHandler();
 		ImageLoader imageLoader = new ImageLoader();
+		statusIcons = new StatusIcons( imageLoader );
 
 		ButtonPanel buttonP = new ButtonPanel();
 		sideP = new SidePanel( buttonP, imageLoader );
@@ -146,11 +148,6 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 				mainP.getMsgTF().requestFocusInWindow();
 			}
 		} );
-
-		kouIconNormal = imageLoader.getKouNormalIcon().getImage();
-		kouIconNormalActivity = imageLoader.getKouNormalActivityIcon().getImage();
-		kouIconAway = imageLoader.getKouAwayIcon().getImage();
-		kouIconAwayActivity = imageLoader.getKouAwayActivityIcon().getImage();
 	}
 
 	/**
@@ -349,31 +346,28 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 		if ( me.isNewMsg() )
 		{
 			if ( me.isAway() )
-			{
-				if ( getIconImage() != kouIconAwayActivity )
-					setIconImage( kouIconAwayActivity );
-			}
-
+				setWindowIcon( statusIcons.getAwayActivityIcon() );
 			else
-			{
-				if ( getIconImage() != kouIconNormalActivity )
-					setIconImage( kouIconNormalActivity );
-			}
+				setWindowIcon( statusIcons.getNormalActivityIcon() );
 		}
 
 		else
 		{
 			if ( me.isAway() )
-			{
-				if ( getIconImage() != kouIconAway )
-					setIconImage( kouIconAway );
-			}
-
+				setWindowIcon( statusIcons.getAwayIcon() );
 			else
-			{
-				if ( getIconImage() != kouIconNormal )
-					setIconImage( kouIconNormal );
-			}
+				setWindowIcon( statusIcons.getNormalIcon() );
 		}
+	}
+
+	/**
+	 * Sets the window icon if it's different from the icon already in use.
+	 *
+	 * @param icon The window icon to use.
+	 */
+	public void setWindowIcon( final Image icon )
+	{
+		if ( getIconImage() != icon )
+			setIconImage( icon );
 	}
 }

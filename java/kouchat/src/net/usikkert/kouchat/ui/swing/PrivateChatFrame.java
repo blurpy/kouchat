@@ -91,7 +91,8 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	private final User me, user;
 	private final FileTransferHandler fileTransferHandler;
 
-	private final Image kouIconNormal, kouIconNormalActivity, kouIconAway, kouIconAwayActivity;
+	/** The icons to use for the window frame. */
+	private final StatusIcons statusIcons;
 
 	/**
 	 * Creates a new private chat frame. To open the window, use setVisible().
@@ -109,6 +110,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		this.mediator = mediator;
 		this.user = user;
 
+		statusIcons = new StatusIcons( imageLoader );
 		me = Settings.getSettings().getMe();
 		user.setPrivchat( this );
 
@@ -190,11 +192,6 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		hideWithEscape( backP );
 
 		cmdHistory = new CommandHistory();
-
-		kouIconNormal = imageLoader.getKouNormalIcon().getImage();
-		kouIconNormalActivity = imageLoader.getKouNormalActivityIcon().getImage();
-		kouIconAway = imageLoader.getKouAwayIcon().getImage();
-		kouIconAwayActivity = imageLoader.getKouAwayActivityIcon().getImage();
 	}
 
 	/**
@@ -583,31 +580,28 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		if ( user.isNewPrivMsg() )
 		{
 			if ( me.isAway() || user.isAway() )
-			{
-				if ( getIconImage() != kouIconAwayActivity )
-					setIconImage( kouIconAwayActivity );
-			}
-
+				setWindowIcon( statusIcons.getAwayActivityIcon() );
 			else
-			{
-				if ( getIconImage() != kouIconNormalActivity )
-					setIconImage( kouIconNormalActivity );
-			}
+				setWindowIcon( statusIcons.getNormalActivityIcon() );
 		}
 
 		else
 		{
 			if ( me.isAway() || user.isAway() )
-			{
-				if ( getIconImage() != kouIconAway )
-					setIconImage( kouIconAway );
-			}
-
+				setWindowIcon( statusIcons.getAwayIcon() );
 			else
-			{
-				if ( getIconImage() != kouIconNormal )
-					setIconImage( kouIconNormal );
-			}
+				setWindowIcon( statusIcons.getNormalIcon() );
 		}
+	}
+
+	/**
+	 * Sets the window icon if it's different from the icon already in use.
+	 *
+	 * @param icon The window icon to use.
+	 */
+	public void setWindowIcon( final Image icon )
+	{
+		if ( getIconImage() != icon )
+			setIconImage( icon );
 	}
 }

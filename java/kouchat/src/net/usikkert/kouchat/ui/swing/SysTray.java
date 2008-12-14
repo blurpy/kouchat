@@ -55,12 +55,14 @@ public class SysTray implements ActionListener, MouseListener
 
 	private SystemTray sysTray;
 	private TrayIcon trayIcon;
-	private Image kouIconNormal, kouIconNormalActivity, kouIconAway, kouIconAwayActivity;
 	private PopupMenu menu;
 	private MenuItem quitMI;
 	private Mediator mediator;
 	private boolean systemTraySupported;
 	private final ErrorHandler errorHandler;
+
+	/** The icons to use in the system tray. */
+	private StatusIcons statusIcons;
 
 	/**
 	 * Constructor. Activates the system tray icon if it's supported.
@@ -74,18 +76,14 @@ public class SysTray implements ActionListener, MouseListener
 
 		if ( SystemTray.isSupported() )
 		{
-			kouIconNormal = imageLoader.getKouNormalIcon().getImage();
-			kouIconNormalActivity = imageLoader.getKouNormalActivityIcon().getImage();
-			kouIconAway = imageLoader.getKouAwayIcon().getImage();
-			kouIconAwayActivity = imageLoader.getKouAwayActivityIcon().getImage();
-
+			statusIcons = new StatusIcons( imageLoader );
 			menu = new PopupMenu();
 			quitMI = new MenuItem( "Quit" );
 			quitMI.addActionListener( this );
 			menu.add( quitMI );
 
 			sysTray = SystemTray.getSystemTray();
-			trayIcon = new TrayIcon( kouIconNormal, "", menu );
+			trayIcon = new TrayIcon( statusIcons.getNormalIcon(), "", menu );
 			trayIcon.setImageAutoSize( true );
 			trayIcon.addMouseListener( this );
 			trayIcon.setToolTip( Constants.APP_NAME );
@@ -127,8 +125,7 @@ public class SysTray implements ActionListener, MouseListener
 	{
 		if ( trayIcon != null )
 		{
-			if ( trayIcon.getImage() != kouIconAway )
-				trayIcon.setImage( kouIconAway );
+			setTrayIcon( statusIcons.getAwayIcon() );
 		}
 	}
 
@@ -136,8 +133,7 @@ public class SysTray implements ActionListener, MouseListener
 	{
 		if ( trayIcon != null )
 		{
-			if ( trayIcon.getImage() != kouIconAwayActivity )
-				trayIcon.setImage( kouIconAwayActivity );
+			setTrayIcon( statusIcons.getAwayActivityIcon() );
 		}
 	}
 
@@ -145,8 +141,7 @@ public class SysTray implements ActionListener, MouseListener
 	{
 		if ( trayIcon != null )
 		{
-			if ( trayIcon.getImage() != kouIconNormal )
-				trayIcon.setImage( kouIconNormal );
+			setTrayIcon( statusIcons.getNormalIcon() );
 		}
 	}
 
@@ -154,8 +149,7 @@ public class SysTray implements ActionListener, MouseListener
 	{
 		if ( trayIcon != null )
 		{
-			if ( trayIcon.getImage() != kouIconNormalActivity )
-				trayIcon.setImage( kouIconNormalActivity );
+			setTrayIcon( statusIcons.getNormalActivityIcon() );
 		}
 	}
 
@@ -179,11 +173,11 @@ public class SysTray implements ActionListener, MouseListener
 	{
 		if ( e.getSource() == trayIcon && e.getButton() == MouseEvent.BUTTON1 )
 		{
-			if ( trayIcon.getImage() == kouIconNormalActivity )
-				trayIcon.setImage( kouIconNormal );
+			if ( trayIcon.getImage() == statusIcons.getNormalActivityIcon() )
+				trayIcon.setImage( statusIcons.getNormalIcon() );
 
-			else if ( trayIcon.getImage() == kouIconAwayActivity )
-				trayIcon.setImage( kouIconAway );
+			else if ( trayIcon.getImage() == statusIcons.getAwayActivityIcon() )
+				trayIcon.setImage( statusIcons.getAwayIcon() );
 
 			mediator.showWindow();
 		}
@@ -231,5 +225,16 @@ public class SysTray implements ActionListener, MouseListener
 	public void mouseReleased( final MouseEvent e )
 	{
 
+	}
+
+	/**
+	 * Sets the system tray icon if it's different from the icon already in use.
+	 *
+	 * @param icon The tray icon to use.
+	 */
+	public void setTrayIcon( final Image icon )
+	{
+		if ( trayIcon.getImage() != icon )
+			trayIcon.setImage( icon );
 	}
 }
