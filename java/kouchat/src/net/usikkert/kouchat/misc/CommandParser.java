@@ -87,7 +87,15 @@ public class CommandParser
 
 		else
 		{
-			fixTopic( args );
+			try
+			{
+				fixTopic( args );
+			}
+
+			catch ( final CommandException e )
+			{
+				msgController.showSystemMessage( e.getMessage() );
+			}
 		}
 	}
 
@@ -485,30 +493,23 @@ public class CommandParser
 	 * Updates the topic. If the new topic is empty, the topic will be removed.
 	 *
 	 * @param newTopic The new topic to use.
+	 * @throws CommandException If there was a problem changing the topic.
 	 */
-	public void fixTopic( final String newTopic )
+	public void fixTopic( final String newTopic ) throws CommandException
 	{
 		Topic topic = controller.getTopic();
 		String trimTopic = newTopic.trim();
 
 		if ( !trimTopic.equals( topic.getTopic().trim() ) )
 		{
-			try
-			{
-				controller.changeTopic( trimTopic );
+			controller.changeTopic( trimTopic );
 
-				if ( trimTopic.length() > 0 )
-					msgController.showSystemMessage( "You changed the topic to: " + trimTopic );
-				else
-					msgController.showSystemMessage( "You removed the topic" );
+			if ( trimTopic.length() > 0 )
+				msgController.showSystemMessage( "You changed the topic to: " + trimTopic );
+			else
+				msgController.showSystemMessage( "You removed the topic" );
 
-				ui.showTopic();
-			}
-
-			catch ( final CommandException e )
-			{
-				msgController.showSystemMessage( e.getMessage() );
-			}
+			ui.showTopic();
 		}
 	}
 

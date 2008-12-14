@@ -201,7 +201,17 @@ public class SwingMediator implements Mediator, UserInterface
 		String newTopic = UITools.showInputDialog( "Change topic?", "Topic", topic.getTopic() );
 
 		if ( newTopic != null )
-			cmdParser.fixTopic( newTopic );
+		{
+			try
+			{
+				cmdParser.fixTopic( newTopic );
+			}
+
+			catch ( final CommandException e )
+			{
+				UITools.showWarningMessage( e.getMessage(), "Change topic" );
+			}
+		}
 
 		mainP.getMsgTF().requestFocusInWindow();
 	}
