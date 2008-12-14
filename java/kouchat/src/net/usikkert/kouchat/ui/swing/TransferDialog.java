@@ -199,7 +199,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
         getContentPane().add( bottomP, BorderLayout.SOUTH );
 
 		setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE );
-		setTitle( UITools.createTitle( "File transfer" ) );
+		updateTitle( 0 );
 		setIconImage( imageLoader.getAppIcon().getImage() );
 		getRootPane().setDefaultButton( cancelB );
 
@@ -379,5 +379,16 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 				+ Tools.byteToString( fileTransfer.getFileSize() ) + " at "
 				+ Tools.byteToString( fileTransfer.getSpeed() ) + "/s" );
 		transferProgressPB.setValue( fileTransfer.getPercent() );
+		updateTitle( fileTransfer.getPercent() );
+	}
+
+	/**
+	 * Updates the window title with percentage transferred.
+	 *
+	 * @param percent The percentage of the file transferred.
+	 */
+	private void updateTitle( final int percent )
+	{
+		setTitle( UITools.createTitle( percent + "% - File transfer" ) );
 	}
 }
