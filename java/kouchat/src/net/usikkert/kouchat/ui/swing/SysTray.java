@@ -53,13 +53,17 @@ public class SysTray implements ActionListener, MouseListener
 	/** The logger. */
 	private static final Logger LOG = Loggers.UI_LOG;
 
-	private SystemTray sysTray;
+	/** The icon in the system tray. */
 	private TrayIcon trayIcon;
-	private PopupMenu menu;
+
+	/** The quit menu item. */
 	private MenuItem quitMI;
+
+	/** The mediator. */
 	private Mediator mediator;
+
+	/** If the system tray is supported or not. */
 	private boolean systemTraySupported;
-	private final ErrorHandler errorHandler;
 
 	/** The icons to use in the system tray. */
 	private StatusIcons statusIcons;
@@ -72,17 +76,17 @@ public class SysTray implements ActionListener, MouseListener
 	public SysTray( final ImageLoader imageLoader )
 	{
 		Validate.notNull( imageLoader, "Image loader can not be null" );
-		errorHandler = ErrorHandler.getErrorHandler();
+		ErrorHandler errorHandler = ErrorHandler.getErrorHandler();
 
 		if ( SystemTray.isSupported() )
 		{
 			statusIcons = new StatusIcons( imageLoader );
-			menu = new PopupMenu();
+			PopupMenu menu = new PopupMenu();
 			quitMI = new MenuItem( "Quit" );
 			quitMI.addActionListener( this );
 			menu.add( quitMI );
 
-			sysTray = SystemTray.getSystemTray();
+			SystemTray sysTray = SystemTray.getSystemTray();
 			trayIcon = new TrayIcon( statusIcons.getNormalIcon(), "", menu );
 			trayIcon.setImageAutoSize( true );
 			trayIcon.addMouseListener( this );
@@ -111,16 +115,29 @@ public class SysTray implements ActionListener, MouseListener
 		}
 	}
 
+	/**
+	 * Returns if the system tray is supported and activated.
+	 *
+	 * @return If the system tray is supported
+	 */
 	public boolean isSystemTraySupport()
 	{
 		return systemTraySupported;
 	}
 
+	/**
+	 * Sets the mediator.
+	 *
+	 * @param mediator The mediator.
+	 */
 	public void setMediator( final Mediator mediator )
 	{
 		this.mediator = mediator;
 	}
 
+	/**
+	 * Sets the tray icon to away.
+	 */
 	public void setAwayState()
 	{
 		if ( trayIcon != null )
@@ -129,6 +146,9 @@ public class SysTray implements ActionListener, MouseListener
 		}
 	}
 
+	/**
+	 * Sets the tray icon to away with activity.
+	 */
 	public void setAwayActivityState()
 	{
 		if ( trayIcon != null )
@@ -137,6 +157,9 @@ public class SysTray implements ActionListener, MouseListener
 		}
 	}
 
+	/**
+	 * Sets the tray icon to normal.
+	 */
 	public void setNormalState()
 	{
 		if ( trayIcon != null )
@@ -145,6 +168,9 @@ public class SysTray implements ActionListener, MouseListener
 		}
 	}
 
+	/**
+	 * Sets the tray icon to normal with activity.
+	 */
 	public void setNormalActivityState()
 	{
 		if ( trayIcon != null )
@@ -153,12 +179,22 @@ public class SysTray implements ActionListener, MouseListener
 		}
 	}
 
+	/**
+	 * Sets the tooltip on the system tray icon.
+	 *
+	 * @param toolTip The tooltip to set.
+	 */
 	public void setToolTip( final String toolTip )
 	{
 		if ( trayIcon != null )
 			trayIcon.setToolTip( toolTip );
 	}
 
+	/**
+	 * Handles clicks on the quit menu item.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void actionPerformed( final ActionEvent e )
 	{
@@ -168,6 +204,14 @@ public class SysTray implements ActionListener, MouseListener
 		}
 	}
 
+	/**
+	 * Handles left mouse click events.
+	 *
+	 * <p>Makes sure the main chat window is shown or hidden,
+	 * and updates the tray icon.</p>
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void mouseClicked( final MouseEvent e )
 	{
