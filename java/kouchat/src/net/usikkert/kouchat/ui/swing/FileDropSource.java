@@ -24,14 +24,16 @@ package net.usikkert.kouchat.ui.swing;
 import net.usikkert.kouchat.misc.User;
 
 /**
- * Used to find out which user a file was dragged and dropped on.
+ * Interface to implement in classes that accepts drag and drop of
+ * files to send to another user. Used to find out which user a file
+ * was dropped on.
  *
  * @author Christian Ihle
  */
 public interface FileDropSource
 {
 	/**
-	 * Get the user.
+	 * Get the user a file was dropped on.
 	 *
 	 * @return The user.
 	 */

@@ -48,11 +48,19 @@ import net.usikkert.kouchat.util.Loggers;
  */
 public class FileTransferHandler extends TransferHandler
 {
+	/** The logger. */
 	private static final Logger LOG = Loggers.UI_LOG;
+
+	/** Standard serial version UID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The object where the file gets dropped. */
 	private final FileDropSource fileDropSource;
+
+	/** The mediator. */
 	private Mediator mediator;
+
+	/** Mime type for uri-list, which is how dropped files are recognized in linux. */
 	private DataFlavor uriListFlavor;
 
 	/**
