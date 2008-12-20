@@ -55,14 +55,31 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 	/** The standard version UID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The right click popup menu in the user list. */
 	private final JPopupMenu userMenu;
-	private final JMenuItem infoMI, sendfileMI, privchatMI;
-	private final JScrollPane userSP;
+
+	/** The information menu item. */
+	private final JMenuItem infoMI;
+
+	/** The send file menu item. */
+	private final JMenuItem sendfileMI;
+
+	/** The private chat menu item. */
+	private final JMenuItem privchatMI;
+
+	/** The user list. */
 	private final JList userL;
+
+	/** The application user. */
 	private final User me;
+
+	/** Handles drag and drop of files on users. */
 	private final FileTransferHandler fileTransferHandler;
 
+	/** Custom model for the user list. */
 	private UserListModel userListModel;
+
+	/** The mediator. */
 	private Mediator mediator;
 
 	/**
@@ -84,7 +101,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 		userL.addMouseListener( this );
 		userL.setTransferHandler( fileTransferHandler );
 		userL.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-		userSP = new JScrollPane( userL );
+		JScrollPane userSP = new JScrollPane( userL );
 
 		add( userSP, BorderLayout.CENTER );
 		add( buttonP, BorderLayout.SOUTH );
@@ -107,29 +124,65 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 		me = Settings.getSettings().getMe();
 	}
 
+	/**
+	 * Sets the mediator.
+	 *
+	 * @param mediator The mediator to set.
+	 */
 	public void setMediator( final Mediator mediator )
 	{
+		Validate.notNull( mediator, "Mediator can not be null" );
+
 		this.mediator = mediator;
 		fileTransferHandler.setMediator( mediator );
 	}
 
+	/**
+	 * Sets the user list implementation in the user list model.
+	 *
+	 * @param userList The user list to set.
+	 */
 	public void setUserList( final UserList userList )
 	{
+		Validate.notNull( userList, "User list can not be null" );
+
 		userListModel = new UserListModel( userList );
 		userL.setModel( userListModel );
 	}
 
+	/**
+	 * Gets the currently selected user.
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public User getUser()
 	{
 		return (User) userL.getSelectedValue();
 	}
 
+	/**
+	 * Gets the user list.
+	 *
+	 * @return The user list.
+	 */
 	public JList getUserList()
 	{
 		return userL;
 	}
 
+	/**
+	 * Handles action events on the right click popup menu on the users.
+	 *
+	 * <p>Currently:</p>
+	 * <ul>
+	 *   <li>Information</li>
+	 *   <li>Send file</li>
+	 *   <li>Private chat</li>
+	 * </ul>
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void actionPerformed( final ActionEvent e )
 	{
@@ -218,6 +271,14 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 
 	}
 
+	/**
+	 * Handles mouse pressed events on the user list.
+	 *
+	 * <p>If a mouse click happens on a user the user is selected,
+	 * else the currently selected user is unselected.</p>
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void mousePressed( final MouseEvent e )
 	{
@@ -243,11 +304,20 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 		}
 	}
 
+	/**
+	 * Handles mouse released events on the user list.
+	 *
+	 * <p>Decides which menu items to show on right click on a user,
+	 * and opens a private chat with the selected user on double click.</p>
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void mouseReleased( final MouseEvent e )
 	{
 		if ( e.getSource() == userL )
 		{
+			// Right click
 			if ( userMenu.isPopupTrigger( e ) && userL.getSelectedIndex() != -1 )
 			{
 				User temp = userListModel.getElementAt( userL.getSelectedIndex() );
@@ -285,6 +355,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 				userMenu.show( userL, e.getX(), e.getY() );
 			}
 
+			// Double left click
 			else if ( e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2 && userL.getSelectedIndex() != -1 )
 			{
 				User user = userListModel.getElementAt( userL.getSelectedIndex() );
