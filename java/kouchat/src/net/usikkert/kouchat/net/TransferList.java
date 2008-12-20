@@ -33,25 +33,49 @@ import net.usikkert.kouchat.misc.User;
  */
 public class TransferList
 {
+	/** The list of all the file senders. */
 	private final List<FileSender> senders;
+
+	/** The list of all the file receivers. */
 	private final List<FileReceiver> receivers;
 
+	/**
+	 * Constructor.
+	 */
 	public TransferList()
 	{
 		senders = new ArrayList<FileSender>();
 		receivers = new ArrayList<FileReceiver>();
 	}
 
+	/**
+	 * Adds a new file sender to the list.
+	 *
+	 * @param fileSender The file sender to add.
+	 */
 	public void addFileSender( final FileSender fileSender )
 	{
 		senders.add( fileSender );
 	}
 
+	/**
+	 * Removes a file sender from the list.
+	 *
+	 * @param fileSender The file sender to remove.
+	 */
 	public void removeFileSender( final FileSender fileSender )
 	{
 		senders.remove( fileSender );
 	}
 
+	/**
+	 * Gets the file sender object for the specified user and file.
+	 *
+	 * @param user The file sending user.
+	 * @param fileName The name of the file being sent.
+	 * @param fileHash The file's hash code.
+	 * @return The file sender object, or <code>null</code> if none was found.
+	 */
 	public FileSender getFileSender( final User user, final String fileName, final int fileHash )
 	{
 		FileSender fileSender = null;
@@ -68,6 +92,12 @@ public class TransferList
 		return fileSender;
 	}
 
+	/**
+	 * Gets all the file sender objects for a given user.
+	 *
+	 * @param user The given user.
+	 * @return A list of all the file senders for the user.
+	 */
 	public List<FileSender> getFileSenders( final User user )
 	{
 		List<FileSender> list = new ArrayList<FileSender>();
@@ -83,6 +113,11 @@ public class TransferList
 		return list;
 	}
 
+	/**
+	 * Gets all the file sender objects for all the users.
+	 *
+	 * @return A list of all the file senders.
+	 */
 	public List<FileSender> getFileSenders()
 	{
 		List<FileSender> list = new ArrayList<FileSender>();
@@ -95,16 +130,32 @@ public class TransferList
 		return list;
 	}
 
+	/**
+	 * Adds a new file receiver to the list.
+	 *
+	 * @param fileReceiver The file receiver to add.
+	 */
 	public void addFileReceiver( final FileReceiver fileReceiver )
 	{
 		receivers.add( fileReceiver );
 	}
 
+	/**
+	 * Removes a file receiver from the list.
+	 *
+	 * @param fileReceiver The file receiver to remove.
+	 */
 	public void removeFileReceiver( final FileReceiver fileReceiver )
 	{
 		receivers.remove( fileReceiver );
 	}
 
+	/**
+	 * Gets all the file receiver objects for a given user.
+	 *
+	 * @param user The given user.
+	 * @return A list of all the file receivers for the user.
+	 */
 	public List<FileReceiver> getFileReceivers( final User user )
 	{
 		List<FileReceiver> list = new ArrayList<FileReceiver>();
@@ -120,6 +171,11 @@ public class TransferList
 		return list;
 	}
 
+	/**
+	 * Gets all the file receiver objects for all the users.
+	 *
+	 * @return A list of all the file receivers.
+	 */
 	public List<FileReceiver> getFileReceivers()
 	{
 		List<FileReceiver> list = new ArrayList<FileReceiver>();
