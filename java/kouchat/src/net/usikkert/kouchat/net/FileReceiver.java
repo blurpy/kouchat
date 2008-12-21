@@ -25,10 +25,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.net.ServerSocket;
 import java.net.Socket;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,31 +49,68 @@ public class FileReceiver implements FileTransfer
 	/** The logger. */
 	private static final Logger LOG = Loggers.NETWORK_LOG;
 
+	/** The user sending the file. */
 	private final User user;
+
+	/** The file size in bytes. */
 	private final long size;
+
+	/** The file from the user. */
 	private final File file;
-	private final Direction direction;
+
+	/** Keeps count of the transfer speed. */
 	private final ByteCounter bCounter;
 
+	/** Percent of the file received. */
 	private int percent;
+
+	/** Number of bytes received. */
 	private long transferred;
-	private boolean received, cancel;
+
+	/** If the file was successfully received. */
+	private boolean received;
+
+	/** If the file transfer is canceled. */
+	private boolean cancel;
+
+	/** The file transfer listener. */
 	private FileTransferListener listener;
+
+	/** The server socket waiting for an incoming connection. */
 	private ServerSocket sSock;
+
+	/** The socket connection to the other user. */
 	private Socket sock;
+
+	/** The output stream to the file. */
 	private FileOutputStream fos;
+
+	/** The input stream from the other user. */
 	private InputStream is;
 
+	/**
+	 * Constructor. Creates a new file receiver.
+	 *
+	 * @param user The user which sends the file.
+	 * @param file The file the user is sending.
+	 * @param size The size of the file, in bytes.
+	 */
 	public FileReceiver( final User user, final File file, final long size )
 	{
 		this.user = user;
 		this.file = file;
 		this.size = size;
 
-		direction = Direction.RECEIVE;
 		bCounter = new ByteCounter();
 	}
 
+	/**
+	 * Starts a server connection which the sender can use to connect
+	 * for transferring the file, and returns the opened port.
+	 *
+	 * @return The port which the sender can connect to.
+	 * @throws ServerException If the server could not be started.
+	 */
 	public int startServer() throws ServerException
 	{
 		int port = Constants.NETWORK_FILE_TRANSFER_PORT;
@@ -110,6 +145,12 @@ public class FileReceiver implements FileTransfer
 		return port;
 	}
 
+	/**
+	 * Waits for an incoming connection, then receives the
+	 * file from the other user.
+	 *
+	 * @return If the file transfer was successful.
+	 */
 	public boolean transfer()
 	{
 		listener.statusConnecting();
@@ -177,6 +218,9 @@ public class FileReceiver implements FileTransfer
 		return received;
 	}
 
+	/**
+	 * Closes the connection to the user.
+	 */
 	private void stopReceiver()
 	{
 		try
@@ -247,12 +291,20 @@ public class FileReceiver implements FileTransfer
 		}
 	}
 
+	/**
+	 * Checks if the file transfer has been canceled.
+	 *
+	 * @return If the file transfer has been canceled.
+	 */
 	@Override
 	public boolean isCanceled()
 	{
 		return cancel;
 	}
 
+	/**
+	 * Cancels the file transfer.
+	 */
 	@Override
 	public void cancel()
 	{
@@ -261,54 +313,100 @@ public class FileReceiver implements FileTransfer
 		listener.statusFailed();
 	}
 
+	/**
+	 * The percent of the file transfer that is completed.
+	 *
+	 * @return Percent completed.
+	 */
 	@Override
 	public int getPercent()
 	{
 		return percent;
 	}
 
+	/**
+	 * Checks if the file transfer is complete.
+	 *
+	 * @return If the file transfer is complete.
+	 */
 	@Override
 	public boolean isTransferred()
 	{
 		return received;
 	}
 
+	/**
+	 * Gets the file that is being transferred.
+	 *
+	 * @return The file.
+	 */
 	@Override
 	public File getFile()
 	{
 		return file;
 	}
 
+	/**
+	 * The other user, which sends a file.
+	 *
+	 * @return The other user.
+	 */
 	@Override
 	public User getUser()
 	{
 		return user;
 	}
 
+	/**
+	 * Number of bytes transferred.
+	 *
+	 * @return Bytes transferred.
+	 */
 	@Override
 	public long getTransferred()
 	{
 		return transferred;
 	}
 
+	/**
+	 * Gets the size of the file being transferred, in bytes.
+	 *
+	 * @return The file size.
+	 */
 	@Override
 	public long getFileSize()
 	{
 		return size;
 	}
 
+	/**
+	 * Gets the direction, which is receive.
+	 *
+	 * @return Receive, the direction of the file transfer.
+	 */
 	@Override
 	public Direction getDirection()
 	{
-		return direction;
+		return Direction.RECEIVE;
 	}
 
+	/**
+	 * Gets the number of bytes transferred per second.
+	 *
+	 * @return The speed in bytes per second.
+	 */
 	@Override
 	public long getSpeed()
 	{
 		return bCounter.getBytesPerSec();
 	}
 
+	/**
+	 * Registers a file transfer listener, which will receive updates
+	 * when certain events happen in the progression of the file transfer.
+	 *
+	 * @param listener The listener to register.
+	 */
 	@Override
 	public void registerListener( final FileTransferListener listener )
 	{
@@ -316,14 +414,29 @@ public class FileReceiver implements FileTransfer
 		listener.statusWaiting();
 	}
 
-	// No point in waiting for a connection forever
+	/**
+	 * A thread for closing the server connection if no client
+	 * has connected within 15 seconds.
+	 *
+	 * <p>This does not mean that the user only has 15 seconds to decide
+	 * where to save the file. This timer is started after the user has
+	 * decided, and waits for an automated response from the sender.
+	 * If nothing has happened to the sender, the response should be very quick.</p>
+	 */
 	private class TimeoutThread extends Thread
 	{
+		/**
+		 * Constructor. Sets the name of the thread.
+		 */
 		public TimeoutThread()
 		{
 			setName( "TimeoutThread" );
 		}
 
+		/**
+		 * The thread. Sleeps for 15 seconds, and then closes the
+		 * server connection if it is not already closed.
+		 */
 		@Override
 		public void run()
 		{
