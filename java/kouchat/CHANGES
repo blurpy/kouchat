@@ -30,6 +30,8 @@
   - Removed obsolete unit tests, and added some new better tests
   - Resources are now loaded and validated in one place during startup
   - Reorganized window title for easier identification on the taskbar
+  - Fixed a bug in the day changer when starting the application
+    between zero and one a clock.
 
 
 * version 0.9.8 (27.01.2008):

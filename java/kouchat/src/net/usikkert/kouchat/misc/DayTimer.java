@@ -49,7 +49,10 @@ public class DayTimer extends TimerTask
 	 */
 	private static final long TIMER_INTERVAL = 1000 * 60 * 60;
 
+	/** The controller for showing messages in the ui. */
 	private final MessageController msgController;
+
+	/** If the day changed check is done for the day. */
 	private boolean done;
 
 	/**
@@ -62,6 +65,14 @@ public class DayTimer extends TimerTask
 		msgController = ui.getMessageController();
 
 		Calendar cal = Calendar.getInstance();
+
+		int currentHour = cal.get( Calendar.HOUR_OF_DAY );
+
+		// To stop the timer from thinking that the day has changed if
+		// the application is started between 00 and 01 a clock.
+		if ( currentHour == NOTIFY_HOUR )
+			done = true;
+
 		cal.set( Calendar.HOUR_OF_DAY, NOTIFY_HOUR );
 		cal.set( Calendar.MINUTE, 0 );
 		cal.set( Calendar.SECOND, 0 );
