@@ -37,21 +37,88 @@ import net.usikkert.kouchat.misc.User;
  */
 public interface FileTransfer
 {
+	/**
+	 * Enum to describe if a file is being sent or received.
+	 */
 	public enum Direction
 	{
 		SEND,
 		RECEIVE
 	};
 
+	/**
+	 * Gets if the file transfer is sending or receiving.
+	 *
+	 * @return The direction of the file transfer.
+	 */
 	Direction getDirection();
+
+	/**
+	 * The other user, which sends or receives a file.
+	 *
+	 * @return The other user.
+	 */
 	User getUser();
+
+	/**
+	 * The percent of the file transfer that is completed.
+	 *
+	 * @return Percent completed.
+	 */
 	int getPercent();
+
+	/**
+	 * Number of bytes transferred.
+	 *
+	 * @return Bytes transferred.
+	 */
 	long getTransferred();
+
+	/**
+	 * Gets the file that is being transferred.
+	 *
+	 * @return The file.
+	 */
 	File getFile();
+
+	/**
+	 * Gets the size of the file being transferred, in bytes.
+	 *
+	 * @return The file size.
+	 */
 	long getFileSize();
+
+	/**
+	 * Gets the number of bytes transferred per second.
+	 *
+	 * @return The speed in bytes per second.
+	 */
 	long getSpeed();
+
+	/**
+	 * Cancels the file transfer.
+	 */
 	void cancel();
+
+	/**
+	 * Checks if the file transfer has been canceled.
+	 *
+	 * @return If the file transfer has been canceled.
+	 */
 	boolean isCanceled();
+
+	/**
+	 * Checks if the file transfer is complete.
+	 *
+	 * @return If the file transfer is complete.
+	 */
 	boolean isTransferred();
+
+	/**
+	 * Registers a file transfer listener, which will receive updates
+	 * when certain events happen in the progression of the file transfer.
+	 *
+	 * @param listener The listener to register.
+	 */
 	void registerListener( FileTransferListener listener );
 }
