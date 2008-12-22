@@ -4,7 +4,7 @@
   <groupId>net.usikkert.kouchat</groupId>
   <artifactId>kouchat</artifactId>
   <packaging>jar</packaging>
-  <version>0.9.9-dev</version>
+  <version>0.9.9-rc1</version>
   <name>KouChat</name>
   <url>http://kouchat.googlecode.com/</url>
   <description>
