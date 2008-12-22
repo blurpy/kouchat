@@ -867,7 +867,6 @@ public class SwingMediator implements Mediator, UserInterface
 	{
 		createPrivChat( user );
 		user.getPrivchat().setVisible( true );
-		controller.changeNewMessage( user.getCode(), false );
 	}
 
 	/**
