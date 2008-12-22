@@ -569,7 +569,7 @@ public class SwingMediator implements Mediator, UserInterface
 	 *
 	 * <ul>
 	 *   <li><i>Main chat in focus</i> - do nothing</li>
-	 *   <li><i>Main chat out of focus</i> - beep, update main chat title</li>
+	 *   <li><i>Main chat out of focus</i> - beep, update main chat icon</li>
 	 *   <li><i>Main chat hidden</i> - beep, update systray</li>
 	 * </ul>
 	 */
@@ -589,7 +589,7 @@ public class SwingMediator implements Mediator, UserInterface
 			}
 		}
 
-		// Main chat out of focus - beep, update main chat title
+		// Main chat out of focus - beep, update main chat icon
 		else if ( !gui.isFocused() )
 		{
 			updateTitleAndTray();
@@ -613,21 +613,21 @@ public class SwingMediator implements Mediator, UserInterface
 	 *   <li><b>Main chat in focus</b></li>
 	 *   <ul>
 	 *     <li><i>Private chat in focus</i> - not possible</li>
-	 *     <li><i>Private chat out of focus</i> - update privchat title</li>
+	 *     <li><i>Private chat out of focus</i> - update privchat icon</li>
 	 *     <li><i>Private chat hidden</i> - do nothing</li>
 	 *   </ul>
 	 *
 	 *   <li><b>Main chat out of focus</b></li>
 	 *	 <ul>
 	 *     <li><i>Private chat in focus</i> - do nothing</li>
-	 *	   <li><i>Private chat out of focus</i> - beep, update privchat title</li>
-	 *	   <li><i>Private chat hidden</i> - beep, update main chat title</li>
+	 *	   <li><i>Private chat out of focus</i> - beep, update privchat icon</li>
+	 *	   <li><i>Private chat hidden</i> - beep, update main chat icon</li>
 	 *   </ul>
 	 *
 	 *   <li><b>Main chat hidden</b></li>
 	 *   <ul>
 	 *	   <li><i>Private chat in focus</i> - do nothing</li>
-	 *	   <li><i>Private chat out of focus</i> - beep, update privchat title</li>
+	 *	   <li><i>Private chat out of focus</i> - beep, update privchat icon</li>
 	 *	   <li><i>Private chat hidden</i> - beep, update systray</li>
 	 *   </ul>
 	 * </ul>
@@ -649,7 +649,7 @@ public class SwingMediator implements Mediator, UserInterface
 				beeper.beep();
 			}
 
-			// Private chat out of focus - beep, update privchat title
+			// Private chat out of focus - beep, update privchat icon
 			else if ( !privchat.isFocused() )
 			{
 				privchat.updateUserInformation();
@@ -660,7 +660,7 @@ public class SwingMediator implements Mediator, UserInterface
 		// Main chat out of focus
 		else if ( !gui.isFocused() )
 		{
-			// Private chat hidden - beep, update main chat title
+			// Private chat hidden - beep, update main chat icon
 			if ( !privchat.isVisible() )
 			{
 				me.setNewMsg( true );
@@ -668,7 +668,7 @@ public class SwingMediator implements Mediator, UserInterface
 				beeper.beep();
 			}
 
-			// Private chat out of focus - beep, update privchat title
+			// Private chat out of focus - beep, update privchat icon
 			else if ( !privchat.isFocused() )
 			{
 				privchat.updateUserInformation();
@@ -679,7 +679,7 @@ public class SwingMediator implements Mediator, UserInterface
 		// Main chat in focus
 		else if ( gui.isFocused() )
 		{
-			// Private chat out of focus - update privchat title
+			// Private chat out of focus - update privchat icon
 			if ( privchat.isVisible() && !privchat.isFocused() )
 				privchat.updateUserInformation();
 		}
