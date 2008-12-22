@@ -67,6 +67,7 @@ import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 import net.usikkert.kouchat.util.Loggers;
+import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -291,6 +292,10 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 
 			if ( !user.isOnline() || user.isAway() || me.isAway() )
 				msgTF.setEnabled( false );
+
+			// If window is minimized, then unminimize it
+			if ( isVisible() && getExtendedState() % 2 == 1 )
+				setExtendedState( getExtendedState() - 1 );
 		}
 
 		super.setVisible( visible );
@@ -539,14 +544,23 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	}
 
 	/**
-	 * Not implemented.
+	 * Gives focus to this window after being minimized.
+	 *
+	 * <p>If the minimized window is opened from the taskbar, then the
+	 * window will get focus automatically.</p>
+	 *
+	 * <p>If the window is opened with {@link #setExtendedState(int)} then the
+	 * window will be shown in front but without focus. Calling {@link #setVisible(boolean)}
+	 * on a visible window will give it focus, but not if it's done too early.
+	 * Using a thread seems to do the trick.</p>
 	 *
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void windowDeiconified( final WindowEvent e )
 	{
-
+		FocusWindowThread focusWindowThread = new FocusWindowThread( this );
+		focusWindowThread.start();
 	}
 
 	/**
@@ -603,5 +617,44 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 	{
 		if ( getIconImage() != icon )
 			setIconImage( icon );
+	}
+
+	/**
+	 * Sets the window visible without using the overridden method
+	 * in this class.
+	 */
+	private void setSuperVisible()
+	{
+		super.setVisible( true );
+	}
+
+	/**
+	 * Thread for giving focus to this window.
+	 */
+	private class FocusWindowThread extends Thread
+	{
+		/** This window object. */
+		private final PrivateChatFrame window;
+
+		/**
+		 * Constructor.
+		 *
+		 * @param window This window object.
+		 */
+		public FocusWindowThread( final PrivateChatFrame window )
+		{
+			this.window = window;
+			setName( "FocusWindowThread" );
+		}
+
+		/**
+		 * Sleeps for 10ms, and then sets the window visible.
+		 */
+		@Override
+		public void run()
+		{
+			Tools.sleep( 10 );
+			window.setSuperVisible();
+		}
 	}
 }
