@@ -1,10 +1,10 @@
 
 - KouChat v0.9.9 CHANGES
 
-* version 0.9.9 (xx.xx.200x):
+* version 0.9.9 (xx.12.2008):
   - Better information about why drag and drop does not work while away
   - Fix for opening privchat from main chat while privchat already open,
-  	so it wont reposition
+    so it wont reposition
   - Started using validation of input parameters
   - Added (Away) to the title of privchats if the user is away
   - Window icons change on activity, for notification
@@ -31,7 +31,7 @@
   - Resources are now loaded and validated in one place during startup
   - Reorganized window title for easier identification on the taskbar
   - Fixed a bug in the day changer when starting the application
-    between zero and one a clock.
+    between zero and one o'clock.
 
 
 * version 0.9.8 (27.01.2008):
