@@ -77,6 +77,9 @@ public class OperatingSystemNetworkInfoTest
 		}
 
 		assertNotNull( osInterface );
+
+		// This is known to sometimes fail in Vista. It is unknown why Vista
+		// prefers unusable network interfaces.
 		assertTrue( NetworkUtils.isUsable( osInterface ) );
 	}
 }
