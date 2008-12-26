@@ -66,24 +66,24 @@
           <target>1.6</target>
         </configuration>
       </plugin>
-      <plugin> 
-        <groupId>org.apache.maven.plugins</groupId> 
-        <artifactId>maven-surefire-plugin</artifactId> 
-        <configuration> 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
           <includes>
             <include>**/*Test.java</include>
           </includes>
           <excludes>
             <exclude>**/TransferDialogTest.java</exclude>
           </excludes>
-          <systemProperties> 
-            <property> 
-              <name>net.sourceforge.cobertura.datafile</name> 
-              <value>target/cobertura/cobertura.ser</value> 
-            </property> 
-          </systemProperties> 
-          <testFailureIgnore>true</testFailureIgnore> 
-        </configuration> 
+          <systemProperties>
+            <property>
+              <name>net.sourceforge.cobertura.datafile</name>
+              <value>target/cobertura/cobertura.ser</value>
+            </property>
+          </systemProperties>
+          <testFailureIgnore>true</testFailureIgnore>
+        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -97,7 +97,7 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
-      <version>1.6</version> 
+      <version>1.6</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
