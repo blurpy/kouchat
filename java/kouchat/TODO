@@ -7,11 +7,7 @@
  - Get feedback
  - Add screenshot, news, and tips & tricks wiki pages to the google site
  - Refactor MessageParser?
+ - Look into strange issue with restoring a maximized main chat from systray
  - Add command for:
    - Receive file
    - Abort file transfer
-
-
-* Release v0.9.9:
- - Final testing
- - Prepare release
