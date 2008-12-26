@@ -24,7 +24,6 @@ package net.usikkert.kouchat.ui.swing;
 import java.io.File;
 
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import net.usikkert.kouchat.misc.CommandException;
@@ -297,8 +296,8 @@ public class SwingMediator implements Mediator, UserInterface
 
 		else
 		{
-			if ( gui.getExtendedState() == JFrame.ICONIFIED )
-				gui.setExtendedState( JFrame.NORMAL );
+			if ( UITools.isMinimized( gui ) )
+				UITools.restore( gui );
 
 			gui.setVisible( true );
 			gui.toFront();

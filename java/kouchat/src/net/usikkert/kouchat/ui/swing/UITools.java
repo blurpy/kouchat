@@ -36,6 +36,7 @@ import java.util.logging.Logger;
 
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -426,5 +427,27 @@ public final class UITools
 	public static Color showColorChooser( final String title, final Color initialColor )
 	{
 		return JColorChooser.showDialog( null, createTitle( title ), initialColor );
+	}
+
+	/**
+	 * Checks if a window is minimized to the taskbar.
+	 *
+	 * @param frame The window to check.
+	 * @return If the window is minimized.
+	 */
+	public static boolean isMinimized( final JFrame frame )
+	{
+		return ( frame.getExtendedState() & JFrame.ICONIFIED ) != 0;
+	}
+
+	/**
+	 * Restores a minimized window so it's visible again.
+	 *
+	 * @param frame The window to restore.
+	 */
+	public static void restore( final JFrame frame )
+	{
+		if ( isMinimized( frame ) )
+			frame.setExtendedState( frame.getExtendedState() & ~JFrame.ICONIFIED );
 	}
 }

@@ -293,9 +293,8 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 			if ( !user.isOnline() || user.isAway() || me.isAway() )
 				msgTF.setEnabled( false );
 
-			// If window is minimized, then unminimize it
-			if ( isVisible() && getExtendedState() % 2 == 1 )
-				setExtendedState( getExtendedState() - 1 );
+			if ( isVisible() && UITools.isMinimized( this ) )
+				UITools.restore( this );
 		}
 
 		super.setVisible( visible );
