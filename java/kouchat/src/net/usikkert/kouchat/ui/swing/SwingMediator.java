@@ -292,7 +292,7 @@ public class SwingMediator implements Mediator, UserInterface
 	public void showWindow()
 	{
 		if ( gui.isVisible() )
-			gui.setVisible( false );
+			minimize();
 
 		else
 		{

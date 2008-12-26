@@ -66,9 +66,6 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 	/** The mediator that connects all the panels. */
 	private final Mediator mediator;
 
-	/** The system tray. */
-	private final SysTray sysTray;
-
 	/** The menu bar. */
 	private final MenuBar menuBar;
 
@@ -99,7 +96,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 		ButtonPanel buttonP = new ButtonPanel();
 		sideP = new SidePanel( buttonP, imageLoader );
 		mainP = new MainPanel( sideP, imageLoader );
-		sysTray = new SysTray( imageLoader );
+		SysTray sysTray = new SysTray( imageLoader );
 		SettingsDialog settingsDialog = new SettingsDialog( imageLoader );
 		menuBar = new MenuBar( imageLoader );
 
@@ -189,8 +186,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 			@Override
 			public void actionPerformed( final ActionEvent e )
 			{
-				if ( sysTray.isSystemTraySupport() )
-					setVisible( false );
+				mediator.minimize();
 			}
 		};
 
