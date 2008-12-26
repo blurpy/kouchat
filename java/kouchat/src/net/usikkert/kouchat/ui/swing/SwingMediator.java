@@ -877,7 +877,10 @@ public class SwingMediator implements Mediator, UserInterface
 	public void activatedPrivChat( final User user )
 	{
 		if ( user.isNewPrivMsg() )
+		{
+			user.setNewPrivMsg( false ); // In case the user has logged off
 			controller.changeNewMessage( user.getCode(), false );
+		}
 	}
 
 	/**

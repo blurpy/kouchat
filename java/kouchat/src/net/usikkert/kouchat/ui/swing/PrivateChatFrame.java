@@ -446,6 +446,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 			setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
 			setExtendedState( ICONIFIED );
 			setVisible( true );
+			updateWindowIcon();
 		}
 
 		else if ( !isVisible() )
