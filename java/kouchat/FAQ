@@ -94,13 +94,11 @@ common Windows charset is cp1252. I've found 2 ways to go around this problem:
   'java -Dfile.encoding=850 -jar kouchat-x.x.x.jar --console'.
 
 
-12. Why is the option "Use native look" disabled on some platforms?
+12. Why don't I have the Nimbus look and feel?
 
-That happens if your platform does not have a SystemLookAndFeel.
-The most common platform without a SystemLookAndFeel is KDE, since the
-SystemLookAndFeel for Linux is GTK+ based, and will only be used in Gnome.
-See http://java.sun.com/docs/books/tutorial/uiswing/lookandfeel/plaf.html
-for more information about Look and Feels.
+Nimbus is a new look and feel that comes with Java 6 update 10 and newer.
+If you don't see Nimbus in the list, then you need to update to the
+newest version of Java.
 
 
 13. Where can I find an icon to use for shortcuts?
@@ -130,3 +128,9 @@ There are 11 different smileys available, for different needs. Try them :)
 * ;(
 * :$
 * 8)
+
+
+15. Why is the window sometimes only maximized vertically or horizontally
+after being unhidden from the system tray?
+
+I don't know! I'm looking into it.
