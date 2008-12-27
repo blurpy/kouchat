@@ -45,8 +45,7 @@ import javax.swing.WindowConstants;
 import net.usikkert.kouchat.util.Validate;
 
 /**
- * This is a more fancy message dialog. The text with information is selectable,
- * for easy copy and paste.
+ * This is a more fancy message dialog with a header.
  *
  * @author Christian Ihle
  */
@@ -153,7 +152,7 @@ public class MessageDialog extends JDialog
 	}
 
 	/**
-	 * This is the main content. The text here is selectable.
+	 * This is the main content.
 	 *
 	 * @param info The text to add.
 	 */
