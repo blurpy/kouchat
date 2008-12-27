@@ -166,7 +166,7 @@ public class MessagesTest
 		when( file.length() ).thenReturn( fileLength );
 		int fileHash = file.hashCode(); // Cannot be mocked it seems
 
-		String info = "(" + 1234 + ")"
+		String info = "(" + userCode + ")"
 			+ "[" + fileLength + "]"
 			+ "{" + fileHash + "}"
 			+ fileName;
