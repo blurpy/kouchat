@@ -1,13 +1,13 @@
 
-- KouChat v0.9.9 TODO
+- KouChat v1.0.0 TODO
 
 * Release v1.0.0:
  - Javadoc fields
  - More unit tests
  - Get feedback
- - Add screenshot, news, and tips & tricks wiki pages to the google site
  - Refactor MessageParser?
  - Look into strange issue with restoring a maximized main chat from systray
+ - Add right click menu for copy/paste in settings dialog
  - Add command for:
    - Receive file
    - Abort file transfer

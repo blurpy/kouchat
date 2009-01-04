@@ -1,5 +1,9 @@
 
-- KouChat v0.9.9 CHANGES
+- KouChat v1.0.0 CHANGES
+
+* version 1.0.0 (xx.xx.2009):
+  - Updated headers to include copyright for 2009
+
 
 * version 0.9.9 (27.12.2008):
   - Better information about why drag and drop does not work while away
