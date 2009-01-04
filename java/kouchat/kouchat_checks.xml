@@ -14,7 +14,7 @@
             <property name="severity" value="info"/>
         </module>
         <module name="JavadocVariable">
-            <property name="severity" value="ignore"/>
+            <property name="severity" value="info"/>
         </module>
         <module name="JavadocStyle">
             <property name="severity" value="info"/>
