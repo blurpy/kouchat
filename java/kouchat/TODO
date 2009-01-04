@@ -7,7 +7,6 @@
  - Get feedback
  - Refactor MessageParser?
  - Look into strange issue with restoring a maximized main chat from systray
- - Add right click menu for copy/paste in settings dialog
  - Add command for:
    - Receive file
    - Abort file transfer

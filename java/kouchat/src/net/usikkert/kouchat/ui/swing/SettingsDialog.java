@@ -92,6 +92,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 
 		nickL = new JLabel( "Nick:" );
 		nickTF = new JTextField( 10 );
+		new MsgPopup( nickTF );
 
 		JPanel nickP = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
 		nickP.add( nickL );
@@ -169,6 +170,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 				+ "<br>in the browser defined here. If this field"
 				+ "<br>is empty the default browser on your system"
 				+ "<br>will be used, if possible.</html>" );
+		new MsgPopup( browserTF );
 
 		JPanel browserTopP = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
 		browserTopP.add( browserL );
