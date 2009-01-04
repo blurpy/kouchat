@@ -38,11 +38,24 @@ import javax.swing.text.DefaultEditorKit;
  *
  * @author Christian Ihle
  */
-public class MsgPopup extends JPopupMenu implements MouseListener, ActionListener
+public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionListener
 {
+	/** Standard serial version UID. */
 	private static final long serialVersionUID = 1L;
 
-	private final JMenuItem copyMI, pasteMI, cutMI, clearMI;
+	/** Menu item to copy selected text. */
+	private final JMenuItem copyMI;
+
+	/** Menu item to paste text into the text field. */
+	private final JMenuItem pasteMI;
+
+	/** Menu item to cut selected text. */
+	private final JMenuItem cutMI;
+
+	/** Menu item to clear all the text from the text field. */
+	private final JMenuItem clearMI;
+
+	/** The text field this popup is connected to. */
 	private final JTextField msgTF;
 
 	/**
@@ -50,7 +63,7 @@ public class MsgPopup extends JPopupMenu implements MouseListener, ActionListene
 	 *
 	 * @param msgTF The text field to use the popup on.
 	 */
-	public MsgPopup( final JTextField msgTF )
+	public CopyPastePopup( final JTextField msgTF )
 	{
 		this.msgTF = msgTF;
 

@@ -130,7 +130,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 		add( sideP, BorderLayout.EAST );
 		add( msgTF, BorderLayout.SOUTH );
 
-		new MsgPopup( msgTF );
+		new CopyPastePopup( msgTF );
 		new ChatPopup( chatTP );
 
 		setBorder( BorderFactory.createEmptyBorder( 4, 4, 4, 4 ) );
