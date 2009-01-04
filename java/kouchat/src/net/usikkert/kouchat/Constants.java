@@ -1,6 +1,6 @@
 
 /***************************************************************************
- *   Copyright 2006-2008 by Christian Ihle                                 *
+ *   Copyright 2006-2009 by Christian Ihle                                 *
  *   kontakt@usikkert.net                                                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -51,7 +51,7 @@ public interface Constants
 	/**
 	 * Copyright from year, to year.
 	 */
-	String APP_COPYRIGHT_YEARS = "2006-2008";
+	String APP_COPYRIGHT_YEARS = "2006-2009";
 
 	/**
 	 * Name of the author of this application.
