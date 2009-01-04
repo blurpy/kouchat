@@ -31,6 +31,7 @@ import net.usikkert.kouchat.ui.PrivateChatWindow;
  */
 public class PrivateChatConsole implements PrivateChatWindow
 {
+	/** The user in this chat session. */
 	private User user;
 
 	/**

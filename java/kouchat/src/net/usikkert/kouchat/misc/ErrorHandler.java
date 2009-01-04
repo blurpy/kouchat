@@ -34,11 +34,10 @@ import net.usikkert.kouchat.event.ErrorListener;
  */
 public final class ErrorHandler
 {
-	/**
-	 * The single instance of this class.
-	 */
+	/** The single instance of this class. */
 	private static final ErrorHandler INSTANCE = new ErrorHandler();
 
+	/** The error listeners. */
 	private final List<ErrorListener> listeners;
 
 	/**

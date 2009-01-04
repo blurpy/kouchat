@@ -28,6 +28,7 @@ package net.usikkert.kouchat.net;
  */
 public class ServerException extends Exception
 {
+	/** Standard serial version UID. */
 	private static final long serialVersionUID = 1L;
 
 	/**

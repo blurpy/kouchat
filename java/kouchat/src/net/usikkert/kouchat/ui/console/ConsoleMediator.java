@@ -37,10 +37,11 @@ import net.usikkert.kouchat.ui.UserInterface;
  */
 public class ConsoleMediator implements UserInterface
 {
+	/** For showing messages in the ui. */
 	private final MessageController msgController;
-	private final ConsoleChatWindow chat;
+
+	/** The controller, for access to lower layer functionality. */
 	private final Controller controller;
-	private final ConsoleInput ci;
 
 	/**
 	 * Constructor.
@@ -48,10 +49,10 @@ public class ConsoleMediator implements UserInterface
 	 */
 	public ConsoleMediator()
 	{
-		chat = new ConsoleChatWindow();
+		ConsoleChatWindow chat = new ConsoleChatWindow();
 		msgController = new MessageController( chat, this );
 		controller = new Controller( this );
-		ci = new ConsoleInput( controller, this );
+		ConsoleInput ci = new ConsoleInput( controller, this );
 		ci.start();
 	}
 

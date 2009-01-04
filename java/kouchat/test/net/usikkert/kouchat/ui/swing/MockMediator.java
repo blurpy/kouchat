@@ -34,6 +34,7 @@ import net.usikkert.kouchat.ui.PrivateChatWindow;
  */
 public class MockMediator implements Mediator
 {
+	/** If the file transfer dialog is closed. */
 	private boolean close;
 
 	/**

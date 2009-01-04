@@ -25,7 +25,7 @@ import net.usikkert.kouchat.event.FileTransferListener;
 import net.usikkert.kouchat.net.FileTransfer;
 
 /**
- * This is the console inplementation of a file transfer listener.
+ * This is the console implementation of a file transfer listener.
  * Does not do anything, but is needed to get file transfer support
  * in console mode.
  *

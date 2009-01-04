@@ -24,7 +24,6 @@ package net.usikkert.kouchat.ui.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,9 +44,16 @@ public class ConsoleInput extends Thread
 	/** The logger. */
 	private static final Logger LOG = Loggers.UI_LOG;
 
+	/** For reading keyboard input from the command line. */
 	private final BufferedReader stdin;
+
+	/** The controller, for access to lower layer functionality. */
 	private final Controller controller;
+
+	/** For parsing commands. */
 	private final CommandParser cmdParser;
+
+	/** For showing messages in the ui. */
 	private final MessageController msgController;
 
 	/**
