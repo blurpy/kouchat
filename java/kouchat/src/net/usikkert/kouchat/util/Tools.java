@@ -256,4 +256,42 @@ public final class Tools
 			LOG.log( Level.WARNING, e.toString() );
 		}
 	}
+
+	/**
+	 * Capitalizes the first letter in a word.
+	 *
+	 * @param word The word to capitalize the first letter of.
+	 * @return The modified word.
+	 */
+	public static String capitalizeFirstLetter( final String word )
+	{
+		if ( word == null )
+			return null;
+
+		if ( word.length() == 0 )
+			return word;
+
+		return word.substring( 0, 1 ).toUpperCase() + word.substring( 1 );
+	}
+
+	/**
+	 * Shortens a word to the specified number of characters.
+	 *
+	 * @param word The word to shorten.
+	 * @param length The max number of characters for the word.
+	 * @return The modified word.
+	 */
+	public static String shorten( final String word, final int length )
+	{
+		if ( word == null )
+			return null;
+
+		if ( length < 0 )
+			return "";
+
+		if ( word.length() <= length )
+			return word;
+
+		return word.substring( 0, length );
+	}
 }

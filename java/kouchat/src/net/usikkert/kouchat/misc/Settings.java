@@ -35,6 +35,7 @@ import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.SettingsListener;
+import net.usikkert.kouchat.net.NetworkUtils;
 import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Tools;
 
@@ -115,7 +116,7 @@ public final class Settings
 	{
 		int code = 10000000 + (int) ( Math.random() * 9999999 );
 
-		me = new User( "" + code, code );
+		me = new User( createNickName( code ), code );
 		me.setMe( true );
 		me.setLastIdle( System.currentTimeMillis() );
 		me.setLogonTime( System.currentTimeMillis() );
@@ -133,6 +134,30 @@ public final class Settings
 		lookAndFeel = "";
 
 		loadSettings();
+	}
+
+	/**
+	 * Creates a new default nick name from the name of the localhost.
+	 * The name is shortened to 10 characters and the first letter is capitalized.
+	 *
+	 * <p>If the name is invalid as a nick name then the user code is used instead.</p>
+	 *
+	 * @param code The user code.
+	 * @return The created nick name.
+	 */
+	private String createNickName( final int code )
+	{
+		String localHostName = NetworkUtils.getLocalHostName();
+
+		if ( localHostName == null )
+			return Integer.toString( code );
+
+		String defaultNick = Tools.capitalizeFirstLetter( Tools.shorten( localHostName.trim(), 10 ) );
+
+		if ( Tools.isValidNick( defaultNick ) )
+			return defaultNick;
+
+		return Integer.toString( code );
 	}
 
 	/**

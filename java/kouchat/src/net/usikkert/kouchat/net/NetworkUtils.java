@@ -25,6 +25,7 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -300,5 +301,25 @@ public final class NetworkUtils
 		}
 
 		return networkInterfaces;
+	}
+
+	/**
+	 * Gets the name of the localhost.
+	 *
+	 * @return The hostname, or <code>null</code> if the hostname cannot be determined.
+	 */
+	public static String getLocalHostName()
+	{
+		try
+		{
+			return InetAddress.getLocalHost().getHostName();
+		}
+
+		catch ( final UnknownHostException e )
+		{
+			LOG.log( Level.WARNING, e.toString() );
+		}
+
+		return null;
 	}
 }

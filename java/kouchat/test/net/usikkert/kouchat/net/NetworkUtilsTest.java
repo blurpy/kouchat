@@ -21,10 +21,14 @@
 
 package net.usikkert.kouchat.net;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 
@@ -73,5 +77,27 @@ public class NetworkUtilsTest
 
 		else
 			System.err.println( "No network interfaces - aborting test" );
+	}
+
+	/**
+	 * Tests that the hostname returned is the correct name of the localhost.
+	 */
+	@Test
+	public void testGetLocalHostName()
+	{
+		try
+		{
+			InetAddress localHostAddress = InetAddress.getLocalHost(); // Could throw exception
+
+			String localHostName = NetworkUtils.getLocalHostName();
+			assertNotNull( "Name of localhost should not be null", localHostName );
+			InetAddress addressByName = InetAddress.getByName( localHostName );
+			assertEquals( "The addresses should be equal", localHostAddress, addressByName );
+		}
+
+		catch ( final UnknownHostException e )
+		{
+			System.err.println( "Could not get localhost - aborting test: " + e.toString() );
+		}
 	}
 }
