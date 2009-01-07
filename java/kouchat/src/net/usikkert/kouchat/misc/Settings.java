@@ -152,7 +152,8 @@ public final class Settings
 		if ( localHostName == null )
 			return Integer.toString( code );
 
-		String defaultNick = Tools.capitalizeFirstLetter( Tools.shorten( localHostName.trim(), 10 ) );
+		String[] splitHostName = localHostName.split( "\\." );
+		String defaultNick = Tools.capitalizeFirstLetter( Tools.shorten( splitHostName[0].trim(), 10 ) );
 
 		if ( Tools.isValidNick( defaultNick ) )
 			return defaultNick;
