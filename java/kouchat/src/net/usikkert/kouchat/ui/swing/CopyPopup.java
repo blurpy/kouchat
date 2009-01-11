@@ -38,21 +38,28 @@ import javax.swing.text.DefaultEditorKit;
  *
  * @author Christian Ihle
  */
-public class ChatPopup extends JPopupMenu implements MouseListener, ActionListener
+public class CopyPopup extends JPopupMenu implements MouseListener, ActionListener
 {
+	/** Standard serial version UID. */
 	private static final long serialVersionUID = 1L;
 
-	private final JMenuItem copyMI, selectAllMI;
-	private final JTextPane chatTP;
+	/** Menu item to copy selected text in the text pane. */
+	private final JMenuItem copyMI;
+
+	/** Menu item to select all the text in the text pane. */
+	private final JMenuItem selectAllMI;
+
+	/** The text pane. */
+	private final JTextPane textpane;
 
 	/**
 	 * Constructor. Creates the menu.
 	 *
-	 * @param chatTP The text pane to use the popup on.
+	 * @param textpane The text pane to use the popup on.
 	 */
-	public ChatPopup( final JTextPane chatTP )
+	public CopyPopup( final JTextPane textpane )
 	{
-		this.chatTP = chatTP;
+		this.textpane = textpane;
 
 		copyMI = new JMenuItem( new DefaultEditorKit.CopyAction() );
 		copyMI.setText( "Copy" );
@@ -66,7 +73,7 @@ public class ChatPopup extends JPopupMenu implements MouseListener, ActionListen
 		add( copyMI );
 		add( selectAllMI );
 
-		chatTP.addMouseListener( this );
+		textpane.addMouseListener( this );
 		selectAllMI.addActionListener( this );
 	}
 
@@ -124,17 +131,17 @@ public class ChatPopup extends JPopupMenu implements MouseListener, ActionListen
 	{
 		if ( isPopupTrigger( e ) )
 		{
-			if ( chatTP.getSelectedText() == null )
+			if ( textpane.getSelectedText() == null )
 				copyMI.setEnabled( false );
 			else
 				copyMI.setEnabled( true );
 
-			if ( chatTP.getText().length() == 0 )
+			if ( textpane.getText().length() == 0 )
 				selectAllMI.setEnabled( false );
 			else
 				selectAllMI.setEnabled( true );
 
-			show( chatTP, e.getX(), e.getY() );
+			show( textpane, e.getX(), e.getY() );
 		}
 	}
 
@@ -146,7 +153,7 @@ public class ChatPopup extends JPopupMenu implements MouseListener, ActionListen
 	@Override
 	public void actionPerformed( final ActionEvent e )
 	{
-		chatTP.requestFocusInWindow();
-		chatTP.selectAll();
+		textpane.requestFocusInWindow();
+		textpane.selectAll();
 	}
 }

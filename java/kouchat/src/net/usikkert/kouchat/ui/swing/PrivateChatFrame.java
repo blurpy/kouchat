@@ -185,7 +185,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 		setJMenuBar( menuBar );
 
 		new CopyPastePopup( msgTF );
-		new ChatPopup( chatTP );
+		new CopyPopup( chatTP );
 
 		getRootPane().addFocusListener( this );
 		addWindowListener( this );

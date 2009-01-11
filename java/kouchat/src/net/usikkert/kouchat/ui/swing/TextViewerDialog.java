@@ -102,7 +102,7 @@ public class TextViewerDialog extends JDialog
 			doc.setDocumentFilter( new URLDocumentFilter( true ) );
 		}
 
-		new ChatPopup( viewerTP );
+		new CopyPopup( viewerTP );
 		viewerAttr = new SimpleAttributeSet();
 		viewerScroll = new JScrollPane( viewerTP );
 		viewerScroll.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS );
