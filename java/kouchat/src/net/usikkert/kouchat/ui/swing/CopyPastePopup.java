@@ -56,16 +56,16 @@ public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionL
 	private final JMenuItem clearMI;
 
 	/** The text field this popup is connected to. */
-	private final JTextField msgTF;
+	private final JTextField textfield;
 
 	/**
 	 * Constructor. Creates the menu.
 	 *
-	 * @param msgTF The text field to use the popup on.
+	 * @param textfield The text field to use the popup on.
 	 */
-	public CopyPastePopup( final JTextField msgTF )
+	public CopyPastePopup( final JTextField textfield )
 	{
-		this.msgTF = msgTF;
+		this.textfield = textfield;
 
 		copyMI = new JMenuItem( new DefaultEditorKit.CopyAction() );
 		copyMI.setText( "Copy" );
@@ -91,7 +91,7 @@ public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionL
 		addSeparator();
 		add( clearMI );
 
-		msgTF.addMouseListener( this );
+		textfield.addMouseListener( this );
 		clearMI.addActionListener( this );
 	}
 
@@ -147,11 +147,11 @@ public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionL
 	@Override
 	public void mouseReleased( final MouseEvent e )
 	{
-		if ( isPopupTrigger( e ) && msgTF.isEnabled() )
+		if ( isPopupTrigger( e ) && textfield.isEnabled() )
 		{
-			msgTF.requestFocusInWindow();
+			textfield.requestFocusInWindow();
 
-			if ( msgTF.getSelectedText() == null )
+			if ( textfield.getSelectedText() == null )
 			{
 				copyMI.setEnabled( false );
 				cutMI.setEnabled( false );
@@ -163,12 +163,12 @@ public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionL
 				cutMI.setEnabled( true );
 			}
 
-			if ( msgTF.getText().length() > 0 )
+			if ( textfield.getText().length() > 0 )
 				clearMI.setEnabled( true );
 			else
 				clearMI.setEnabled( false );
 
-			show( msgTF, e.getX(), e.getY() );
+			show( textfield, e.getX(), e.getY() );
 		}
 	}
 
@@ -180,6 +180,6 @@ public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionL
 	@Override
 	public void actionPerformed( final ActionEvent e )
 	{
-		msgTF.setText( "" );
+		textfield.setText( "" );
 	}
 }
