@@ -5,6 +5,7 @@
   - Updated headers to include copyright for 2009
   - Added right click menu for copy/paste in the settings dialog
   - Changed to using hostname as default nick name
+  - Added a new dialog window for showing uncaught exceptions
 
 
 * version 0.9.9 (27.12.2008):

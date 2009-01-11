@@ -46,6 +46,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
+import net.usikkert.kouchat.util.UncaughtExceptionLogger;
 
 /**
  * This is the main chat window.
@@ -91,6 +92,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 		setLookAndFeel();
 		new SwingPopupErrorHandler();
 		ImageLoader imageLoader = new ImageLoader();
+		registerUncaughtExceptionListener( imageLoader );
 		statusIcons = new StatusIcons( imageLoader );
 
 		ButtonPanel buttonP = new ButtonPanel();
@@ -145,6 +147,19 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 				mainP.getMsgTF().requestFocusInWindow();
 			}
 		} );
+	}
+
+	/**
+	 * Registers the {@link ExceptionDialog} as an uncaught exception listener.
+	 *
+	 * @param imageLoader The image loader.
+	 */
+	private void registerUncaughtExceptionListener( final ImageLoader imageLoader )
+	{
+		UncaughtExceptionLogger uncaughtExceptionLogger =
+			(UncaughtExceptionLogger) Thread.getDefaultUncaughtExceptionHandler();
+		uncaughtExceptionLogger.registerUncaughtExceptionListener(
+				new ExceptionDialog( null, true, imageLoader ) );
 	}
 
 	/**

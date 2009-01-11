@@ -21,6 +21,8 @@
 
 package net.usikkert.kouchat.util;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,11 +30,18 @@ import java.util.logging.Logger;
  * This class will register itself as the default uncaught
  * exception handler, and log any uncaught exceptions.
  *
+ * <p>If any listeners are registered, they will be notified
+ * when the logging is done.</p>
+ *
  * @author Christian Ihle
  */
 public class UncaughtExceptionLogger implements Thread.UncaughtExceptionHandler
 {
+	/** The logger. */
 	private static final Logger LOG = Loggers.UTIL_LOG;
+
+	/** The listeners being notified of uncaught exceptions. */
+	private final Collection<UncaughtExceptionListener> listeners;
 
 	/**
 	 * Default constructor. Registers this class as the
@@ -41,11 +50,12 @@ public class UncaughtExceptionLogger implements Thread.UncaughtExceptionHandler
 	public UncaughtExceptionLogger()
 	{
 		Thread.setDefaultUncaughtExceptionHandler( this );
+		listeners = new ArrayList<UncaughtExceptionListener>();
 	}
 
 	/**
 	 * Logs the exception with information about which thread
-	 * the exception happened in.
+	 * the exception happened in, and notifies listeners.
 	 *
 	 * @param thread The thread that got the exception.
 	 * @param throwable The exception the thread got.
@@ -55,5 +65,20 @@ public class UncaughtExceptionLogger implements Thread.UncaughtExceptionHandler
 	{
 		LOG.log( Level.SEVERE, "UncaughtException in thread: " + thread.getName()
 				+ " (id " + thread.getId() + ", priority " + thread.getPriority() + ")", throwable );
+
+		for ( UncaughtExceptionListener listener : listeners )
+		{
+			listener.uncaughtException( thread, throwable );
+		}
+	}
+
+	/**
+	 * Registers a new uncaught exceptions listener.
+	 *
+	 * @param listener The listener to register.
+	 */
+	public void registerUncaughtExceptionListener( final UncaughtExceptionListener listener )
+	{
+		listeners.add( listener );
 	}
 }
