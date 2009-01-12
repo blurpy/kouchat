@@ -164,7 +164,7 @@ public class FileSender implements FileTransfer
 					int transCounter = 0;
 					bCounter.reset();
 
-					while ( ( tmpTransferred = fis.read( b ) ) != -1 && !cancel )
+					while ( !cancel && ( tmpTransferred = fis.read( b ) ) != -1 )
 					{
 						os.write( b, 0, tmpTransferred );
 						transferred += tmpTransferred;
@@ -213,10 +213,21 @@ public class FileSender implements FileTransfer
 			finally
 			{
 				stopSender();
+				cleanupConnections();
 			}
 		}
 
 		return sent;
+	}
+
+	/**
+	 * Sets all connections to null.
+	 */
+	private void cleanupConnections()
+	{
+		fis = null;
+		os = null;
+		sock = null;
 	}
 
 	/**
@@ -227,10 +238,7 @@ public class FileSender implements FileTransfer
 		try
 		{
 			if ( fis != null )
-			{
 				fis.close();
-				fis = null;
-			}
 		}
 
 		catch ( final IOException e )
@@ -252,10 +260,7 @@ public class FileSender implements FileTransfer
 		try
 		{
 			if ( os != null )
-			{
 				os.close();
-				os = null;
-			}
 		}
 
 		catch ( final IOException e )
@@ -266,10 +271,7 @@ public class FileSender implements FileTransfer
 		try
 		{
 			if ( sock != null )
-			{
 				sock.close();
-				sock = null;
-			}
 		}
 
 		catch ( final IOException e )

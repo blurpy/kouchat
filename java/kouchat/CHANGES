@@ -6,6 +6,8 @@
   - Added right click menu for copy/paste in the settings dialog
   - Changed to using hostname as default nick name
   - Added a new dialog window for showing uncaught exceptions
+  - Fixed a NullPointerException bug when canceling an ongoing
+    file transfer.
 
 
 * version 0.9.9 (27.12.2008):

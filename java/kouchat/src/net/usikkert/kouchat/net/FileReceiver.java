@@ -175,7 +175,7 @@ public class FileReceiver implements FileTransfer
 				int transCounter = 0;
 				bCounter.reset();
 
-				while ( ( tmpTransferred = is.read( b ) ) != -1 && !cancel )
+				while ( !cancel && ( tmpTransferred = is.read( b ) ) != -1 )
 				{
 					fos.write( b, 0, tmpTransferred );
 					transferred += tmpTransferred;
@@ -213,9 +213,21 @@ public class FileReceiver implements FileTransfer
 		finally
 		{
 			stopReceiver();
+			cleanupConnections();
 		}
 
 		return received;
+	}
+
+	/**
+	 * Sets all connections to null.
+	 */
+	private void cleanupConnections()
+	{
+		is = null;
+		fos = null;
+		sock = null;
+		sSock = null;
 	}
 
 	/**
@@ -226,10 +238,7 @@ public class FileReceiver implements FileTransfer
 		try
 		{
 			if ( is != null )
-			{
 				is.close();
-				is = null;
-			}
 		}
 
 		catch ( final IOException e )
@@ -251,10 +260,7 @@ public class FileReceiver implements FileTransfer
 		try
 		{
 			if ( fos != null )
-			{
 				fos.close();
-				fos = null;
-			}
 		}
 
 		catch ( final IOException e )
@@ -265,10 +271,7 @@ public class FileReceiver implements FileTransfer
 		try
 		{
 			if ( sock != null )
-			{
 				sock.close();
-				sock = null;
-			}
 		}
 
 		catch ( final IOException e )
@@ -279,10 +282,7 @@ public class FileReceiver implements FileTransfer
 		try
 		{
 			if ( sSock != null )
-			{
 				sSock.close();
-				sSock = null;
-			}
 		}
 
 		catch ( final IOException e )
