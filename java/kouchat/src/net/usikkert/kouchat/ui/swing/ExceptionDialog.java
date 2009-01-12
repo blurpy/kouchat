@@ -39,6 +39,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
@@ -139,7 +140,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
 	}
 
 	/**
-	 * Appends the stack trace in the exception to the textpane,
+	 * Adds the stack trace in the exception to the textpane,
 	 * and shows the dialog.
 	 *
 	 * {@inheritDoc}
@@ -147,20 +148,28 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
 	@Override
 	public void uncaughtException( final Thread thread, final Throwable throwable )
 	{
-		StringWriter stringWriter = new StringWriter();
+		SwingUtilities.invokeLater( new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				StringWriter stringWriter = new StringWriter();
 
-		if ( exceptionTP.getText().length() > 0 )
-			stringWriter.append( exceptionTP.getText() + "\n" );
+				stringWriter.append( Tools.dateToString( new Date(), "dd.MMM.yyyy HH:mm:ss" )
+						+ " UncaughtException in thread: " + thread.getName()
+						+ " (id " + thread.getId() + ", priority " + thread.getPriority() + ")\n" );
 
-		stringWriter.append( Tools.dateToString( new Date(), "dd.MMM.yyyy HH:mm:ss" )
-				+ " UncaughtException in thread: " + thread.getName()
-				+ " (id " + thread.getId() + ", priority " + thread.getPriority() + ")\n" );
+				PrintWriter printWriter = new PrintWriter( stringWriter );
+				throwable.printStackTrace( printWriter );
+				printWriter.close();
 
-		PrintWriter printWriter = new PrintWriter( stringWriter );
-		throwable.printStackTrace( printWriter );
-		printWriter.close();
+				if ( exceptionTP.getText().length() > 0 )
+					stringWriter.append( "\n" + exceptionTP.getText() );
 
-		exceptionTP.setText( stringWriter.toString() );
-		setVisible( true );
+				exceptionTP.setText( stringWriter.toString() );
+				exceptionTP.setCaretPosition( 0 );
+				setVisible( true );
+			}
+		} );
 	}
 }
