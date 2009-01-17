@@ -452,20 +452,50 @@ public class CommandParser
 		List<FileSender> fsList = tList.getFileSenders();
 		List<FileReceiver> frList = tList.getFileReceivers();
 
-		String senders = "Sending:";
-		String receivers = "\nReceiving:";
+		StringBuilder transferInfo = new StringBuilder();
 
-		for ( FileSender fs : fsList )
+		if ( fsList.size() > 0 )
 		{
-			senders += "\n" + fs.getFile().getName() + " [" + Tools.byteToString( fs.getFileSize() ) + "] (" + fs.getPercent() + "%) to " + fs.getUser().getNick();
+			transferInfo.append( "\n- Sending:" );
+
+			for ( FileSender fs : fsList )
+			{
+				appendTransferInfo( fs, transferInfo, "to" );
+			}
 		}
 
-		for ( FileReceiver fr : frList )
+		if ( frList.size() > 0 )
 		{
-			receivers += "\n" + fr.getFile().getName() + " [" + Tools.byteToString( fr.getFileSize() ) + "] (" + fr.getPercent() + "%) from " + fr.getUser().getNick();
+			transferInfo.append( "\n- Receiving:" );
+
+			for ( FileReceiver fr : frList )
+			{
+				appendTransferInfo( fr, transferInfo, "from" );
+			}
 		}
 
-		msgController.showSystemMessage( "File transfers:\n" + senders + receivers );
+		if ( transferInfo.length() == 0 )
+			transferInfo.append( " no active file transfers" );
+
+		msgController.showSystemMessage( "File transfers:" + transferInfo.toString() );
+	}
+
+	/**
+	 * Adds a new line with information about the file transfer.
+	 *
+	 * @param fileTransfer The file transfer to add info about.
+	 * @param transferInfo The string builder to add the info to.
+	 * @param direction To or from.
+	 */
+	private void appendTransferInfo( final FileTransfer fileTransfer, final StringBuilder transferInfo, final String direction )
+	{
+		transferInfo.append( "\n  " );
+		transferInfo.append( fileTransfer.getFile().getName() );
+		transferInfo.append( " [" + Tools.byteToString( fileTransfer.getFileSize() ) + "]" );
+		transferInfo.append( " (" + fileTransfer.getPercent() + "%, " );
+		transferInfo.append( Tools.byteToString( fileTransfer.getSpeed() ) + "/s)" );
+		transferInfo.append( " " + direction + " " );
+		transferInfo.append( fileTransfer.getUser().getNick() );
 	}
 
 	/**
