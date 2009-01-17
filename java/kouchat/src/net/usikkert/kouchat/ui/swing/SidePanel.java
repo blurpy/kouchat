@@ -23,6 +23,7 @@ package net.usikkert.kouchat.ui.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -116,6 +117,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 		privchatMI = new JMenuItem( "Private chat" );
 		privchatMI.setMnemonic( 'P' );
 		privchatMI.addActionListener( this );
+		privchatMI.setFont( privchatMI.getFont().deriveFont( Font.BOLD ) ); // default menu item
 		userMenu.add( infoMI );
 		userMenu.add( sendfileMI );
 		userMenu.add( privchatMI );
