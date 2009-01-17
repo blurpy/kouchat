@@ -29,6 +29,8 @@ import java.util.List;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
+import net.usikkert.kouchat.net.FileTransfer;
+import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.ui.UserInterface;
 import net.usikkert.kouchat.util.Tools;
 
@@ -44,6 +46,7 @@ public class CommandParser
 	private final UserInterface ui;
 	private final MessageController msgController;
 	private final User me;
+	private final TransferList tList;
 
 	/**
 	 * Constructor.
@@ -58,6 +61,7 @@ public class CommandParser
 
 		msgController = ui.getMessageController();
 		me = Settings.getSettings().getMe();
+		tList = controller.getTransferList();
 	}
 
 	/**
@@ -445,8 +449,8 @@ public class CommandParser
 	 */
 	private void cmdTransfers()
 	{
-		List<FileSender> fsList = controller.getTransferList().getFileSenders();
-		List<FileReceiver> frList = controller.getTransferList().getFileReceivers();
+		List<FileSender> fsList = tList.getFileSenders();
+		List<FileReceiver> frList = tList.getFileReceivers();
 
 		String senders = "Sending:";
 		String receivers = "\nReceiving:";
@@ -533,10 +537,34 @@ public class CommandParser
 		controller.sendFile( user, file );
 		FileSender fileSend = new FileSender( user, file );
 		ui.showTransfer( fileSend );
-		controller.getTransferList().addFileSender( fileSend );
+		tList.addFileSender( fileSend );
 		String size = Tools.byteToString( file.length() );
 		msgController.showSystemMessage( "Trying to send the file "
 				+ file.getName() + " [" + size + "] to " + user.getNick() );
+	}
+
+	/**
+	 * Cancels a file transfer, even if the file transfer has not been
+	 * answered by the other user yet.
+	 *
+	 * @param fileTransfer The file transfer to cancel.
+	 */
+	public void cancelFileTransfer( final FileTransfer fileTransfer )
+	{
+		fileTransfer.cancel();
+
+		if ( fileTransfer instanceof FileSender )
+		{
+			FileSender fs = (FileSender) fileTransfer;
+
+			// This means that the other user has not answered yet
+			if ( fs.isWaiting() )
+			{
+				msgController.showSystemMessage( "You cancelled sending of "
+						+ fs.getFile().getName() + " to " + fs.getUser().getNick() );
+				tList.removeFileSender( fs );
+			}
+		}
 	}
 
 	/**

@@ -38,7 +38,6 @@ import net.usikkert.kouchat.misc.UserList;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.net.FileTransfer;
-import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 import net.usikkert.kouchat.ui.UserInterface;
 import net.usikkert.kouchat.util.Tools;
@@ -64,7 +63,6 @@ public class SwingMediator implements Mediator, UserInterface
 	private final Controller controller;
 	private final Settings settings;
 	private final User me;
-	private final TransferList tList;
 	private final CommandParser cmdParser;
 	private final SoundBeeper beeper;
 	private final MessageController msgController;
@@ -95,7 +93,6 @@ public class SwingMediator implements Mediator, UserInterface
 
 		msgController = new MessageController( mainP, this );
 		controller = new Controller( this );
-		tList = controller.getTransferList();
 		settings = Settings.getSettings();
 		me = settings.getMe();
 		cmdParser = new CommandParser( controller, this );
@@ -545,20 +542,7 @@ public class SwingMediator implements Mediator, UserInterface
 		{
 			transferDialog.setCancelButtonText( "Close" );
 			FileTransfer fileTransfer = transferDialog.getFileTransfer();
-			fileTransfer.cancel();
-
-			if ( fileTransfer instanceof FileSender )
-			{
-				FileSender fs = (FileSender) fileTransfer;
-
-				// This means that the other user has not answered yet
-				if ( fs.isWaiting() )
-				{
-					msgController.showSystemMessage( "You cancelled sending of "
-							+ fs.getFile().getName() + " to " + fs.getUser().getNick() );
-					tList.removeFileSender( fs );
-				}
-			}
+			cmdParser.cancelFileTransfer( fileTransfer );
 		}
 	}
 
