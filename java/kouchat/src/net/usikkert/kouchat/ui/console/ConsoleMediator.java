@@ -72,7 +72,7 @@ public class ConsoleMediator implements UserInterface
 	@Override
 	public boolean askFileSave( final String user, final String fileName, final String size )
 	{
-		msgController.showSystemMessage( "To save the file, use /receive" );
+		msgController.showSystemMessage( "/receive or /reject the file" );
 		return true;
 	}
 

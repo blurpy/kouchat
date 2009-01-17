@@ -309,6 +309,42 @@ public class CommandParser
 	}
 
 	/**
+	 * Accept a file transfer request from a user and start the transfer.
+	 *
+	 * TODO - not implemented.
+	 *
+	 * @param args
+	 */
+	private void cmdReceive( final String args )
+	{
+		msgController.showSystemMessage( "/receive - not implemented" );
+	}
+
+	/**
+	 * Reject a file transfer request from a user and abort the transfer.
+	 *
+	 * TODO - not implemented.
+	 *
+	 * @param args
+	 */
+	private void cmdReject( final String args )
+	{
+		msgController.showSystemMessage( "/reject - not implemented" );
+	}
+
+	/**
+	 * Cancel an ongoing file transfer with a user.
+	 *
+	 * TODO - not implemented.
+	 *
+	 * @param args
+	 */
+	private void cmdCancel( final String args )
+	{
+		msgController.showSystemMessage( "/cancel - not implemented" );
+	}
+
+	/**
 	 * Command: <em>/msg &lt;nick&gt; &lt;msg&gt;</em>.
 	 * Send a private message to a user.
 	 *
@@ -603,18 +639,21 @@ public class CommandParser
 	public void showCommands()
 	{
 		msgController.showSystemMessage( Constants.APP_NAME + " commands:\n"
-				+ "/help - show this help message\n"
 				+ "/about - information about " + Constants.APP_NAME + "\n"
-				+ "/clear - clear all the text from the chat\n"
-				+ "/whois <nick> - show information about a user\n"
-				+ "/names - show the user list\n"
-				+ "/nick <new nick> - changes your nick name\n"
 				+ "/away <away message> - set status to away\n"
 				+ "/back - set status to not away\n"
-				+ "/send <nick> <file> - send a file to a user\n"
+				+ "/cancel <nick> <file> - cancel an ongoing file transfer with a user\n"
+				+ "/clear - clear all the text from the chat\n"
+				+ "/help - show this help message\n"
 				+ "/msg <nick> <msg> - send a private message to a user\n"
-				+ "/transfers - shows a list of all transfers and their status\n"
+				+ "/names - show the user list\n"
+				+ "/nick <new nick> - changes your nick name\n"
+				+ "/receive <nick> <file> - accept a file transfer request from a user\n"
+				+ "/reject <nick> <file> - reject a file transfer request from a user\n"
+				+ "/send <nick> <file> - send a file to a user\n"
 				+ "/topic <optional new topic> - prints the current topic, or changes the topic\n"
+				+ "/transfers - shows a list of all file transfers and their status\n"
+				+ "/whois <nick> - show information about a user\n"
 				+ "//<text> - send the text as a normal message, with a single slash" );
 	}
 
@@ -654,6 +693,12 @@ public class CommandParser
 				cmdWhois( args );
 			else if ( command.equals( "send" ) )
 				cmdSend( args );
+			else if ( command.equals( "receive" ) )
+				cmdReceive( args );
+			else if ( command.equals( "reject" ) )
+				cmdReject( args );
+			else if ( command.equals( "cancel" ) )
+				cmdCancel( args );
 			else if ( command.equals( "msg" ) )
 				cmdMsg( args );
 			else if ( command.equals( "nick" ) )
