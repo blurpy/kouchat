@@ -93,6 +93,29 @@ public class TransferList
 	}
 
 	/**
+	 * Gets the file sender object for the specified user and file.
+	 *
+	 * @param user The file sending user.
+	 * @param fileName The name of the file being sent.
+	 * @return The file sender object, or <code>null</code> if none was found.
+	 */
+	public FileSender getFileSender( final User user, final String fileName )
+	{
+		FileSender fileSender = null;
+
+		for ( FileSender fs : senders )
+		{
+			if ( fs.getUser() == user && fs.getFile().getName().equals( fileName ) )
+			{
+				fileSender = fs;
+				break;
+			}
+		}
+
+		return fileSender;
+	}
+
+	/**
 	 * Gets all the file sender objects for a given user.
 	 *
 	 * @param user The given user.
@@ -172,6 +195,29 @@ public class TransferList
 	}
 
 	/**
+	 * Gets the file receiver object for the specified user and file.
+	 *
+	 * @param user The file receiver user.
+	 * @param fileName The name of the file being received.
+	 * @return The file receiver object, or <code>null</code> if none was found.
+	 */
+	public FileReceiver getFileReceiver( final User user, final String fileName )
+	{
+		FileReceiver fileReceiver = null;
+
+		for ( FileReceiver fr : receivers )
+		{
+			if ( fr.getUser() == user && fr.getFile().getName().equals( fileName ) )
+			{
+				fileReceiver = fr;
+				break;
+			}
+		}
+
+		return fileReceiver;
+	}
+
+	/**
 	 * Gets all the file receiver objects for all the users.
 	 *
 	 * @return A list of all the file receivers.
@@ -186,5 +232,23 @@ public class TransferList
 		}
 
 		return list;
+	}
+
+	/**
+	 * Gets a file transfer object for the given user and file.
+	 *
+	 * @param user The user to find a file transfer for.
+	 * @param fileName The filename to look for.
+	 * @return Either a file receiver, a file sender, or <code>null</code>
+	 * if none of them was found.
+	 */
+	public FileTransfer getFileTransfer( final User user, final String fileName )
+	{
+		FileReceiver fileReceiver = getFileReceiver( user, fileName );
+
+		if ( fileReceiver != null )
+			return fileReceiver;
+		else
+			return getFileSender( user, fileName );
 	}
 }

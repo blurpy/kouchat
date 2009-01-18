@@ -333,15 +333,54 @@ public class CommandParser
 	}
 
 	/**
+	 * Command: <em>/cancel &lt;nick&gt; &lt;file&gt;</em>.
 	 * Cancel an ongoing file transfer with a user.
 	 *
-	 * TODO - not implemented.
-	 *
-	 * @param args
+	 * @param args First argument is the other user in the file transfer,
+	 * and the second is the file being transferred.
 	 */
 	private void cmdCancel( final String args )
 	{
-		msgController.showSystemMessage( "/cancel - not implemented" );
+		String[] argsArray = args.split( "\\s" );
+
+		if ( argsArray.length <= 2 )
+		{
+			msgController.showSystemMessage( "/cancel - missing arguments <nick> <file>" );
+			return;
+		}
+
+		String nick = argsArray[1];
+		User user = controller.getUser( nick );
+
+		if ( user == null )
+		{
+			msgController.showSystemMessage( "/cancel - no such user '" + nick + "'" );
+			return;
+		}
+
+		if ( user == me )
+		{
+			msgController.showSystemMessage( "/cancel - no point in doing that!" );
+			return;
+		}
+
+		String file = "";
+
+		for ( int i = 2; i < argsArray.length; i++ )
+		{
+			file += argsArray[i] + " ";
+		}
+
+		file = file.trim();
+		FileTransfer fileTransfer = tList.getFileTransfer( user, file );
+
+		if ( fileTransfer == null )
+		{
+			msgController.showSystemMessage( "/cancel - no such file transfer of '" + file + "' with " + nick );
+			return;
+		}
+
+		cancelFileTransfer( fileTransfer );
 	}
 
 	/**
