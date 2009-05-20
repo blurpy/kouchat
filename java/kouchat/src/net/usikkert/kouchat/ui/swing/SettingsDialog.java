@@ -59,7 +59,6 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
-import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -69,7 +68,7 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class SettingsDialog extends JDialog implements ActionListener
 {
-	private static final Logger LOG = Loggers.UI_LOG;
+	private static final Logger LOG = Logger.getLogger( SettingsDialog.class.getName() );
 	private static final long serialVersionUID = 1L;
 
 	private final JButton saveB, cancelB, chooseOwnColorB, chooseSysColorB, testBrowserB, chooseBrowserB;

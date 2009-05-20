@@ -22,7 +22,6 @@
 package net.usikkert.kouchat.net;
 
 import java.io.File;
-
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,12 +30,11 @@ import net.usikkert.kouchat.misc.ChatState;
 import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
-import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.Topic;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.WaitingList;
 import net.usikkert.kouchat.ui.UserInterface;
-import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Tools;
 
 /**
@@ -46,7 +44,7 @@ import net.usikkert.kouchat.util.Tools;
  */
 public class DefaultMessageResponder implements MessageResponder
 {
-	private static final Logger LOG = Loggers.NETWORK_LOG;
+	private static final Logger LOG = Logger.getLogger( DefaultMessageResponder.class.getName() );
 
 	private final Controller controller;
 	private final User me;

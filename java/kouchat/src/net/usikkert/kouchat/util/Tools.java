@@ -22,11 +22,9 @@
 package net.usikkert.kouchat.util;
 
 import java.io.UnsupportedEncodingException;
-
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -44,7 +42,7 @@ import net.usikkert.kouchat.Constants;
  */
 public final class Tools
 {
-	private static final Logger LOG = Loggers.UTIL_LOG;
+	private static final Logger LOG = Logger.getLogger( Tools.class.getName() );
 	private static final Pattern VALID_NICK = Pattern.compile( "[\\p{Alnum}[-_]]{1,10}" );
 
 	/**

@@ -45,7 +45,6 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
-import net.usikkert.kouchat.util.Loggers;
 
 /**
  * This is a collection of practical and reusable methods
@@ -55,7 +54,7 @@ import net.usikkert.kouchat.util.Loggers;
  */
 public final class UITools
 {
-	private static final Logger LOG = Loggers.UI_LOG;
+	private static final Logger LOG = Logger.getLogger( UITools.class.getName() );
 	private static final ErrorHandler ERRORHANDLER = ErrorHandler.getErrorHandler();
 	private static final Settings SETTINGS = Settings.getSettings();
 

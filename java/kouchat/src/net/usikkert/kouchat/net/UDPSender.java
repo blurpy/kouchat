@@ -30,7 +30,6 @@ import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
-import net.usikkert.kouchat.util.Loggers;
 
 /**
  * Sends UDP packets directly to a user. Useful for private chat,
@@ -41,10 +40,7 @@ import net.usikkert.kouchat.util.Loggers;
 public class UDPSender
 {
 	/** The logger. */
-	private static final Logger LOG = Loggers.NETWORK_LOG;
-
-	/** The message logger. */
-	private static final Logger MSG_LOG = Loggers.MESSAGE_LOG;
+	private static final Logger LOG = Logger.getLogger( UDPSender.class.getName() );
 
 	/** The datagram socket used for sending messages. */
 	private DatagramSocket udpSocket;
@@ -89,7 +85,7 @@ public class UDPSender
 
 				DatagramPacket packet = new DatagramPacket( encodedMsg, size, address, port );
 				udpSocket.send( packet );
-				MSG_LOG.log( Level.FINE, "Sent message: " + message );
+				LOG.log( Level.FINE, "Sent message: " + message );
 
 				return true;
 			}

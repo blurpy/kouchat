@@ -36,7 +36,6 @@ import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
-import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -51,7 +50,7 @@ import net.usikkert.kouchat.util.Validate;
 public class SysTray implements ActionListener, MouseListener
 {
 	/** The logger. */
-	private static final Logger LOG = Loggers.UI_LOG;
+	private static final Logger LOG = Logger.getLogger( SysTray.class.getName() );
 
 	/** The icon in the system tray. */
 	private TrayIcon trayIcon;

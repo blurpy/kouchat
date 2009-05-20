@@ -34,7 +34,6 @@ import java.util.logging.Logger;
 import net.usikkert.kouchat.event.FileTransferListener;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.util.ByteCounter;
-import net.usikkert.kouchat.util.Loggers;
 
 /**
  * This is a class for sending files to other users.
@@ -47,7 +46,7 @@ import net.usikkert.kouchat.util.Loggers;
 public class FileSender implements FileTransfer
 {
 	/** The logger. */
-	private static final Logger LOG = Loggers.NETWORK_LOG;
+	private static final Logger LOG = Logger.getLogger( FileSender.class.getName() );
 
 	/** The user to send a file to. */
 	private final User user;

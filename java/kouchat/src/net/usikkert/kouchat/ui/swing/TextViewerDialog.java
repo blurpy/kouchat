@@ -47,7 +47,6 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyledDocument;
 
 import net.usikkert.kouchat.misc.ErrorHandler;
-import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -57,7 +56,7 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class TextViewerDialog extends JDialog
 {
-	private static final Logger LOG = Loggers.UI_LOG;
+	private static final Logger LOG = Logger.getLogger( TextViewerDialog.class.getName() );
 	private static final long serialVersionUID = 1L;
 
 	private final ErrorHandler errorHandler;

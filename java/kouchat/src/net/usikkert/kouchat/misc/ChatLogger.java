@@ -25,13 +25,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.SettingsListener;
-import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Tools;
 
 /**
@@ -49,7 +47,7 @@ public class ChatLogger implements SettingsListener
 	private static final String LOG_FILE = "kouchat-" + Tools.dateToString( null, "yyyy.MM.dd-HH.mm.ss-SSS" ) + ".log";
 
 	/** The logger. */
-	private static final Logger LOG = Loggers.MISC_LOG;
+	private static final Logger LOG = Logger.getLogger( ChatLogger.class.getName() );
 
 	private final Settings settings;
 	private final ErrorHandler errorHandler;

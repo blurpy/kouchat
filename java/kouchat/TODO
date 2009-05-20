@@ -7,7 +7,6 @@
  - Get feedback
  - Refactor MessageParser?
  - Look into strange issue with restoring a maximized main chat from systray
- - Move away from named loggers
  - Check possibility of NPE in MessageReceiver
  - Add command for:
    - Receive file

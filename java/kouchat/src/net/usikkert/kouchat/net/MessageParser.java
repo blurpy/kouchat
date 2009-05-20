@@ -27,7 +27,6 @@ import java.util.logging.Logger;
 import net.usikkert.kouchat.event.ReceiverListener;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
-import net.usikkert.kouchat.util.Loggers;
 
 /**
  * This class listens for multicast messages from the network,
@@ -61,7 +60,7 @@ import net.usikkert.kouchat.util.Loggers;
 public class MessageParser implements ReceiverListener
 {
 	/** The logger. */
-	private static final Logger LOG = Loggers.NETWORK_LOG;
+	private static final Logger LOG = Logger.getLogger( MessageParser.class.getName() );
 
 	/** To handle the different kind of messages parsed here. */
 	private final MessageResponder responder;

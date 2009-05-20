@@ -36,7 +36,6 @@ import java.util.logging.Logger;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.SettingsListener;
 import net.usikkert.kouchat.net.NetworkUtils;
-import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Tools;
 
 /**
@@ -61,7 +60,7 @@ import net.usikkert.kouchat.util.Tools;
 public final class Settings
 {
 	/** The logger. */
-	private static final Logger LOG = Loggers.MISC_LOG;
+	private static final Logger LOG = Logger.getLogger( Settings.class.getName() );
 
 	/** The path to the file storing the settings. */
 	private static final String FILENAME = Constants.APP_FOLDER + "kouchat.ini";

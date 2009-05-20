@@ -31,7 +31,6 @@ import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
-import net.usikkert.kouchat.util.Loggers;
 
 /**
  * This is the class that sends multicast messages over the network.
@@ -41,10 +40,7 @@ import net.usikkert.kouchat.util.Loggers;
 public class MessageSender
 {
 	/** The logger. */
-	private static final Logger LOG = Loggers.NETWORK_LOG;
-
-	/** The message logger. */
-	private static final Logger MSG_LOG = Loggers.MESSAGE_LOG;
+	private static final Logger LOG = Logger.getLogger( MessageSender.class.getName() );
 
 	/** The multicast socket used for sending messages. */
 	private MulticastSocket mcSocket;
@@ -126,7 +122,7 @@ public class MessageSender
 
 				DatagramPacket packet = new DatagramPacket( encodedMsg, size, address, port );
 				mcSocket.send( packet );
-				MSG_LOG.log( Level.FINE, "Sent message: " + message );
+				LOG.log( Level.FINE, "Sent message: " + message );
 
 				return true;
 			}

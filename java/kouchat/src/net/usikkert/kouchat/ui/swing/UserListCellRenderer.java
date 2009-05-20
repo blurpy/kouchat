@@ -37,7 +37,6 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 
 import net.usikkert.kouchat.misc.User;
-import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -51,7 +50,7 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer
 	private static final long serialVersionUID = 1L;
 
 	/** The logger to use for this class. */
-	private static final Logger LOG = Loggers.UI_LOG;
+	private static final Logger LOG = Logger.getLogger( UserListCellRenderer.class.getName() );
 
 	/** Max size of the horizontal insets in the list element border. */
 	private static final int MAX_HORI_SIZE = 4;

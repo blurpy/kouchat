@@ -38,7 +38,7 @@ import java.util.logging.Logger;
 public class UncaughtExceptionLogger implements Thread.UncaughtExceptionHandler
 {
 	/** The logger. */
-	private static final Logger LOG = Loggers.UTIL_LOG;
+	private static final Logger LOG = Logger.getLogger( UncaughtExceptionLogger.class.getName() );
 
 	/** The listeners being notified of uncaught exceptions. */
 	private final Collection<UncaughtExceptionListener> listeners;

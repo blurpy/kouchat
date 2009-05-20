@@ -30,8 +30,6 @@ import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.usikkert.kouchat.util.Loggers;
-
 /**
  * Class containing utility methods for network operations.
  *
@@ -40,7 +38,7 @@ import net.usikkert.kouchat.util.Loggers;
 public final class NetworkUtils
 {
 	/** The logger. */
-	private static final Logger LOG = Loggers.NETWORK_LOG;
+	private static final Logger LOG = Logger.getLogger( NetworkUtils.class.getName() );
 
 	/**
 	 * Private constructor. Only static methods here.

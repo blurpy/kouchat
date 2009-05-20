@@ -24,6 +24,7 @@ package net.usikkert.kouchat;
 import net.usikkert.kouchat.ui.UIChoice;
 import net.usikkert.kouchat.ui.UIException;
 import net.usikkert.kouchat.ui.UIFactory;
+import net.usikkert.kouchat.util.LogInitializer;
 import net.usikkert.kouchat.util.UncaughtExceptionLogger;
 
 /**
@@ -92,6 +93,7 @@ public final class KouChat
 			return;
 		}
 
+		new LogInitializer();
 		// Initialize as early as possible to catch all exceptions
 		new UncaughtExceptionLogger();
 

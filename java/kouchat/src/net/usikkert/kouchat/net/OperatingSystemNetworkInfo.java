@@ -30,7 +30,6 @@ import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.Settings;
-import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Tools;
 
 /**
@@ -42,7 +41,7 @@ import net.usikkert.kouchat.util.Tools;
 public class OperatingSystemNetworkInfo
 {
 	/** The logger. */
-	private static final Logger LOG = Loggers.NETWORK_LOG;
+	private static final Logger LOG = Logger.getLogger( OperatingSystemNetworkInfo.class.getName() );
 
 	/** The message receiver. */
 	private final MessageReceiver receiver;

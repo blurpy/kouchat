@@ -28,7 +28,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.event.NetworkConnectionListener;
-import net.usikkert.kouchat.util.Loggers;
 
 /**
  * This thread is responsible for keeping the application connected
@@ -42,7 +41,7 @@ import net.usikkert.kouchat.util.Loggers;
 public class ConnectionWorker implements Runnable
 {
 	/** The logger. */
-	private static final Logger LOG = Loggers.NETWORK_LOG;
+	private static final Logger LOG = Logger.getLogger( ConnectionWorker.class.getName() );
 
 	/** Period of time to sleep if network is up. 60 sec. */
 	private static final int SLEEP_UP = 1000 * 60;

@@ -29,7 +29,6 @@ import javax.swing.ImageIcon;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
-import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.ResourceValidator;
 
 /**
@@ -42,7 +41,7 @@ import net.usikkert.kouchat.util.ResourceValidator;
 public class ImageLoader
 {
 	/** The logger. */
-	private static final Logger LOG = Loggers.UI_LOG;
+	private static final Logger LOG = Logger.getLogger( ImageLoader.class.getName() );
 
 	/** The smile image icon. */
 	private final ImageIcon smileIcon;

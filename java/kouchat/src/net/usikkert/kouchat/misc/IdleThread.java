@@ -25,7 +25,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.ui.UserInterface;
-import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -41,7 +40,7 @@ import net.usikkert.kouchat.util.Validate;
 public class IdleThread extends Thread
 {
 	/** The logger. */
-	private static final Logger LOG = Loggers.MISC_LOG;
+	private static final Logger LOG = Logger.getLogger( IdleThread.class.getName() );
 
 	/**
 	 * Number of milliseconds to wait before the next

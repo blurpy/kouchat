@@ -38,8 +38,6 @@ import javax.swing.JList;
 import javax.swing.TransferHandler;
 import javax.swing.text.JTextComponent;
 
-import net.usikkert.kouchat.util.Loggers;
-
 /**
  * This takes care of drag and drop of files to send.
  * When a file is dropped the mediator opens the file.
@@ -49,7 +47,7 @@ import net.usikkert.kouchat.util.Loggers;
 public class FileTransferHandler extends TransferHandler
 {
 	/** The logger. */
-	private static final Logger LOG = Loggers.UI_LOG;
+	private static final Logger LOG = Logger.getLogger( FileTransferHandler.class.getName() );
 
 	/** Standard serial version UID. */
 	private static final long serialVersionUID = 1L;

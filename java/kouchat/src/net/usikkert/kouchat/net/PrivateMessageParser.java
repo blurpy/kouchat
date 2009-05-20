@@ -25,9 +25,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.event.ReceiverListener;
-import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.Settings;
-import net.usikkert.kouchat.util.Loggers;
+import net.usikkert.kouchat.misc.User;
 
 /**
  * This class listens for udp messages from the network,
@@ -44,7 +43,7 @@ import net.usikkert.kouchat.util.Loggers;
 public class PrivateMessageParser implements ReceiverListener
 {
 	/** The logger. */
-	private static final Logger LOG = Loggers.NETWORK_LOG;
+	private static final Logger LOG = Logger.getLogger( PrivateMessageParser.class.getName() );
 
 	private final Settings settings;
 	private final PrivateMessageResponder privmsgResponder;

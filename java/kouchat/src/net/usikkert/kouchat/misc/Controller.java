@@ -33,11 +33,11 @@ import net.usikkert.kouchat.autocomplete.AutoCompleter;
 import net.usikkert.kouchat.autocomplete.CommandAutoCompleteList;
 import net.usikkert.kouchat.autocomplete.UserAutoCompleteList;
 import net.usikkert.kouchat.event.NetworkConnectionListener;
+import net.usikkert.kouchat.net.DefaultMessageResponder;
 import net.usikkert.kouchat.net.DefaultPrivateMessageResponder;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.net.MessageParser;
-import net.usikkert.kouchat.net.DefaultMessageResponder;
 import net.usikkert.kouchat.net.MessageResponder;
 import net.usikkert.kouchat.net.Messages;
 import net.usikkert.kouchat.net.NetworkService;
@@ -46,7 +46,6 @@ import net.usikkert.kouchat.net.PrivateMessageResponder;
 import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.ui.UserInterface;
 import net.usikkert.kouchat.util.JMXAgent;
-import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
@@ -64,7 +63,7 @@ import net.usikkert.kouchat.util.Validate;
 public class Controller implements NetworkConnectionListener
 {
 	/** The logger. */
-	private static final Logger LOG = Loggers.MISC_LOG;
+	private static final Logger LOG = Logger.getLogger( Controller.class.getName() );
 
 	private final ChatState chatState;
 	private final UserListController userListController;

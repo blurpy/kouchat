@@ -67,7 +67,7 @@ public class JMXAgent
 	 */
 	public JMXAgent( final Controller controller, final ConnectionWorker connectionWorker )
 	{
-		Logger log = Loggers.UTIL_LOG;
+		Logger log = Logger.getLogger( JMXAgent.class.getName() );
 		MBeanServer platformMBeanServer = ManagementFactory.getPlatformMBeanServer();
 
 		try

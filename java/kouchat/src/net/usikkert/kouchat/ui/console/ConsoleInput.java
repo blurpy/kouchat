@@ -32,7 +32,6 @@ import net.usikkert.kouchat.misc.CommandParser;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.ui.UserInterface;
-import net.usikkert.kouchat.util.Loggers;
 
 /**
  * Contains the main input loop for the console mode.
@@ -42,7 +41,7 @@ import net.usikkert.kouchat.util.Loggers;
 public class ConsoleInput extends Thread
 {
 	/** The logger. */
-	private static final Logger LOG = Loggers.UI_LOG;
+	private static final Logger LOG = Logger.getLogger( ConsoleInput.class.getName() );
 
 	/** For reading keyboard input from the command line. */
 	private final BufferedReader stdin;

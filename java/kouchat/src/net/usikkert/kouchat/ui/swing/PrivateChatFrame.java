@@ -66,7 +66,6 @@ import net.usikkert.kouchat.misc.CommandHistory;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
-import net.usikkert.kouchat.util.Loggers;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
@@ -78,7 +77,7 @@ import net.usikkert.kouchat.util.Validate;
 public class PrivateChatFrame extends JFrame implements ActionListener, KeyListener,
 		PrivateChatWindow, FileDropSource, WindowListener, FocusListener
 {
-	private static final Logger LOG = Loggers.UI_LOG;
+	private static final Logger LOG = Logger.getLogger( PrivateChatFrame.class.getName() );
 	private static final long serialVersionUID = 1L;
 
 	private final JTextPane chatTP;

@@ -26,39 +26,23 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.usikkert.kouchat.Constants;
-
 /**
- * This class has a list of all the loggers used in the application.
- *
- * <p>Classes that need logging should use one of the loggers here
- * instead of creating a new class specific logger. That keeps the number of
- * loggers down, their usage known, and easier to administer at runtime.</p>
+ * This class initializes log settings for the application.
  *
  * <p>The default level for output to the console is <code>INFO</code>,
  * but any level can be set using the <code>java.util.logging</code> JMX MBean.</p>
  *
  * @author Christian Ihle
  */
-public final class Loggers
+public final class LogInitializer
 {
-	/** The root name of the loggers used in this application. */
-	private static final String LOG_ROOT = Constants.APP_NAME.toLowerCase();
-
-	/** The logger used in the network package. */
-	public static final Logger NETWORK_LOG = Logger.getLogger( LOG_ROOT + ".network" );
-
-	/** The logger used for messages in the network package. */
-	public static final Logger MESSAGE_LOG = Logger.getLogger( NETWORK_LOG.getName() + ".messages" );
-
-	/** The logger used in the utility package. */
-	public static final Logger UTIL_LOG = Logger.getLogger( LOG_ROOT + ".util" );
-
-	/** The logger used in the miscellaneous package. */
-	public static final Logger MISC_LOG = Logger.getLogger( LOG_ROOT + ".misc" );
-
-	/** The logger used in the user interface package. */
-	public static final Logger UI_LOG = Logger.getLogger( LOG_ROOT + ".ui" );
+	/**
+	 * Constructor that initializes the logging.
+	 */
+	public LogInitializer()
+	{
+		initHandlers();
+	}
 
 	/**
 	 * Enable logging of all levels with the console handler.
@@ -70,7 +54,7 @@ public final class Loggers
 	 * logger level. So changing the logger level with the JMX MBean has no effect
 	 * without this change.
 	 */
-	static
+	public void initHandlers()
 	{
 		Handler[] handlers = Logger.getLogger( "" ).getHandlers();
 
@@ -82,13 +66,5 @@ public final class Loggers
 				break;
 			}
 		}
-	}
-
-	/**
-	 * Private constructor, because this class is for static use.
-	 */
-	private Loggers()
-	{
-
 	}
 }

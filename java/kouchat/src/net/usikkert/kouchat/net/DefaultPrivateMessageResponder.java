@@ -26,10 +26,9 @@ import java.util.logging.Logger;
 
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
-import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.ui.UserInterface;
-import net.usikkert.kouchat.util.Loggers;
 
 /**
  * This class responds to events from the message parser.
@@ -39,7 +38,7 @@ import net.usikkert.kouchat.util.Loggers;
 public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 {
 	/** The logger. */
-	private static final Logger LOG = Loggers.NETWORK_LOG;
+	private static final Logger LOG = Logger.getLogger( DefaultPrivateMessageResponder.class.getName() );
 
 	/** The controller for lower layers. */
 	private final Controller controller;
