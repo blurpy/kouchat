@@ -42,6 +42,24 @@ public final class LogInitializer
 	public LogInitializer()
 	{
 		initHandlers();
+		initParentLoggers();
+	}
+
+	/**
+	 * Creates loggers for important packages, to make
+	 * it easier to change settings for a group of loggers.
+	 */
+	public void initParentLoggers()
+	{
+		final String mainPackage = "net.usikkert.kouchat";
+
+		Logger.getLogger( mainPackage );
+		Logger.getLogger( mainPackage + ".misc" );
+		Logger.getLogger( mainPackage + ".net" );
+		Logger.getLogger( mainPackage + ".ui" );
+		Logger.getLogger( mainPackage + ".ui.console" );
+		Logger.getLogger( mainPackage + ".ui.swing" );
+		Logger.getLogger( mainPackage + ".util" );
 	}
 
 	/**
