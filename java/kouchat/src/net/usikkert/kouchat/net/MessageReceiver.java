@@ -177,8 +177,8 @@ public class MessageReceiver implements Runnable
 					mcSocket.setNetworkInterface( networkInterface );
 
 				mcSocket.joinGroup( address );
-				connected = true;
 				LOG.log( Level.FINE, "Connected to " + mcSocket.getNetworkInterface().getDisplayName() + "." );
+				connected = true;
 			}
 		}
 
