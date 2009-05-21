@@ -8,3 +8,4 @@
  - Refactor MessageParser?
  - Look into strange issue with restoring a maximized main chat from systray
  - Check possibility of NPE in MessageReceiver and MessageSender
+ - What to do if file exists in /receive?
