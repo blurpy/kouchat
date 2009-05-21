@@ -72,6 +72,9 @@ public class FileReceiver implements FileTransfer
 	/** If the file transfer is canceled. */
 	private boolean cancel;
 
+	/** If the client is ready to receive the file. */
+	private boolean ready;
+
 	/** The file transfer listener. */
 	private FileTransferListener listener;
 
@@ -309,7 +312,9 @@ public class FileReceiver implements FileTransfer
 	{
 		cancel = true;
 		stopReceiver();
-		listener.statusFailed();
+
+		if ( listener != null )
+			listener.statusFailed();
 	}
 
 	/**
@@ -421,6 +426,26 @@ public class FileReceiver implements FileTransfer
 	{
 		this.listener = listener;
 		listener.statusWaiting();
+	}
+
+	/**
+	 * If the client is ready to receive the file.
+	 *
+	 * @return If ready.
+	 */
+	public boolean isReady()
+	{
+		return ready;
+	}
+
+	/**
+	 * Sets if the client is ready to receive the file.
+	 *
+	 * @param ready If ready.
+	 */
+	public void setReady( final boolean ready )
+	{
+		this.ready = ready;
 	}
 
 	/**

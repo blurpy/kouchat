@@ -309,27 +309,113 @@ public class CommandParser
 	}
 
 	/**
+	 * Command: <em>/receive &lt;nick&gt; &lt;file&gt;</em>.
 	 * Accept a file transfer request from a user and start the transfer.
 	 *
-	 * TODO - not implemented.
-	 *
-	 * @param args
+	 * @param args First argument is the other user in the file transfer,
+	 * and the second is the file being transferred.
 	 */
 	private void cmdReceive( final String args )
 	{
-		msgController.showSystemMessage( "/receive - not implemented" );
+		String[] argsArray = args.split( "\\s" );
+
+		if ( argsArray.length <= 2 )
+		{
+			msgController.showSystemMessage( "/receive - missing arguments <nick> <file>" );
+			return;
+		}
+
+		String nick = argsArray[1];
+		User user = controller.getUser( nick );
+
+		if ( user == null )
+		{
+			msgController.showSystemMessage( "/receive - no such user '" + nick + "'" );
+			return;
+		}
+
+		if ( user == me )
+		{
+			msgController.showSystemMessage( "/receive - no point in doing that!" );
+			return;
+		}
+
+		String file = "";
+
+		for ( int i = 2; i < argsArray.length; i++ )
+		{
+			file += argsArray[i] + " ";
+		}
+
+		file = file.trim();
+		FileReceiver fileReceiver = tList.getFileReceiver( user, file );
+
+		if ( fileReceiver == null )
+		{
+			msgController.showSystemMessage( "/receive - no such file '" + file + "' offered by " + nick );
+			return;
+		}
+
+		if ( fileReceiver.isReady() )
+		{
+			msgController.showSystemMessage( "/receive - already receiving '" + file + "' from " + nick );
+			return;
+		}
+
+		// TODO what if file exists?
+
+		fileReceiver.setReady( true );
 	}
 
 	/**
+	 * Command: <em>/reject &lt;nick&gt; &lt;file&gt;</em>.
 	 * Reject a file transfer request from a user and abort the transfer.
 	 *
-	 * TODO - not implemented.
-	 *
-	 * @param args
+	 * @param args First argument is the other user in the file transfer,
+	 * and the second is the file being transferred.
 	 */
 	private void cmdReject( final String args )
 	{
-		msgController.showSystemMessage( "/reject - not implemented" );
+		String[] argsArray = args.split( "\\s" );
+
+		if ( argsArray.length <= 2 )
+		{
+			msgController.showSystemMessage( "/reject - missing arguments <nick> <file>" );
+			return;
+		}
+
+		String nick = argsArray[1];
+		User user = controller.getUser( nick );
+
+		if ( user == null )
+		{
+			msgController.showSystemMessage( "/reject - no such user '" + nick + "'" );
+			return;
+		}
+
+		if ( user == me )
+		{
+			msgController.showSystemMessage( "/reject - no point in doing that!" );
+			return;
+		}
+
+		String file = "";
+
+		for ( int i = 2; i < argsArray.length; i++ )
+		{
+			file += argsArray[i] + " ";
+		}
+
+		file = file.trim();
+		FileReceiver fileReceiver = tList.getFileReceiver( user, file );
+
+		if ( fileReceiver == null )
+		{
+			msgController.showSystemMessage( "/reject - no such file '" + file + "' offered by " + nick );
+			return;
+		}
+
+		fileReceiver.cancel();
 	}
 
 	/**

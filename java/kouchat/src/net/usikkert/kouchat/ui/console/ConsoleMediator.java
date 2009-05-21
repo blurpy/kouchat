@@ -29,6 +29,7 @@ import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.ui.UserInterface;
+import net.usikkert.kouchat.util.Tools;
 
 /**
  * This class is the binding between the controller and the console ui.
@@ -99,14 +100,23 @@ public class ConsoleMediator implements UserInterface
 	}
 
 	/**
-	 * Returns null.
+	 * Waits until the user has accepted the file transfer, and then returns the file.
+	 * If the user rejects the file, then <code>null</code> is returned instead.
 	 *
 	 * {@inheritDoc}
 	 */
 	@Override
 	public File showFileSave( final FileReceiver fileReceiver )
 	{
-		return null;
+		while ( !fileReceiver.isReady() && !fileReceiver.isCanceled() )
+		{
+			Tools.sleep( 500 );
+		}
+
+		if ( fileReceiver.isCanceled() )
+			return null;
+		else
+			return fileReceiver.getFile();
 	}
 
 	/**
