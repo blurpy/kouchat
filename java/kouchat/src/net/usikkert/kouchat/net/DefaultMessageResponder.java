@@ -97,16 +97,7 @@ public class DefaultMessageResponder implements MessageResponder
 					while ( wList.isWaitingUser( userCode ) && counter < 40 )
 					{
 						counter++;
-
-						try
-						{
-							sleep( 50 );
-						}
-
-						catch ( final InterruptedException e )
-						{
-							LOG.log( Level.SEVERE, e.toString(), e );
-						}
+						Tools.sleep( 50 );
 					}
 				}
 
@@ -560,16 +551,7 @@ public class DefaultMessageResponder implements MessageResponder
 				while ( wList.isWaitingUser( userCode ) && counter < 40 )
 				{
 					counter++;
-
-					try
-					{
-						sleep( 50 );
-					}
-
-					catch ( final InterruptedException e )
-					{
-						LOG.log( Level.SEVERE, e.toString(), e );
-					}
+					Tools.sleep( 50 );
 				}
 
 				if ( !controller.isNewUser( userCode ) )
@@ -707,15 +689,7 @@ public class DefaultMessageResponder implements MessageResponder
 					msgController.showSystemMessage( user.getNick() + " accepted sending of " + fileName );
 
 					// Give the server some time to set up the connection first
-					try
-					{
-						Thread.sleep( 200 );
-					}
-
-					catch ( final InterruptedException e )
-					{
-						LOG.log( Level.SEVERE, e.toString(), e );
-					}
+					Tools.sleep( 200 );
 
 					if ( fileSend.transfer( port ) )
 					{
