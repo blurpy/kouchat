@@ -21,8 +21,6 @@
 
 package net.usikkert.kouchat.ui;
 
-import java.io.File;
-
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.FileReceiver;
@@ -52,13 +50,12 @@ public interface UserInterface
 	boolean askFileSave( String user, String fileName, String size );
 
 	/**
-	 * Asks the user where to save the file.
+	 * Asks the user where to save the file. The file receiver must
+	 * be updated with the chosen file and status set to accepted or rejected.
 	 *
 	 * @param fileReceiver Information about the file to save.
-	 * @return A file object with information about where
-	 * to save the file. Or null to reject the file transfer.
 	 */
-	File showFileSave( FileReceiver fileReceiver );
+	void showFileSave( FileReceiver fileReceiver );
 
 	/**
 	 * Creates a {@link FileTransferListener} for the file receiver,

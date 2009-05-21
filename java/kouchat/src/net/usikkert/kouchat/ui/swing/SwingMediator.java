@@ -693,14 +693,10 @@ public class SwingMediator implements Mediator, UserInterface
 	 * already exists.
 	 *
 	 * @param fileReceiver Information about the file to save.
-	 * @return A file object with a filename and path where the application user
-	 *         wants to save the file. Returns <code>null</code> if cancel is
-	 *         chosen in the file chooser.
 	 */
 	@Override
-	public File showFileSave( final FileReceiver fileReceiver )
+	public void showFileSave( final FileReceiver fileReceiver )
 	{
-		File returnFile = null;
 		JFileChooser chooser = UITools.createFileChooser( "Save" );
 		chooser.setSelectedFile( fileReceiver.getFile() );
 		boolean done = false;
@@ -727,12 +723,16 @@ public class SwingMediator implements Mediator, UserInterface
 
 				if ( done )
 				{
-					returnFile = file;
+					fileReceiver.setFile( file );
+					fileReceiver.accept();
 				}
 			}
-		}
 
-		return returnFile;
+			else
+			{
+				fileReceiver.reject();
+			}
+		}
 	}
 
 	/**

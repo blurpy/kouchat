@@ -577,18 +577,17 @@ public class DefaultMessageResponder implements MessageResponder
 					String size = Tools.byteToString( byteSize );
 					msgController.showSystemMessage( user + " is trying to send the file " + fileName + " [" + size + "]" );
 					User tmpUser = controller.getUser( userCode );
+					File defaultFile = new File( System.getProperty( "user.home" )
+							+ System.getProperty( "file.separator" )
+							+ fileName );
+					FileReceiver fileRes = new FileReceiver( tmpUser, defaultFile, byteSize );
+					tList.addFileReceiver( fileRes );
 
 					if ( ui.askFileSave( user, fileName, size ) )
 					{
-						File defaultFile = new File( System.getProperty( "user.home" )
-								+ System.getProperty( "file.separator" )
-								+ fileName );
-						FileReceiver fileRes = new FileReceiver( tmpUser, defaultFile, byteSize );
-						tList.addFileReceiver( fileRes );
-						File file = ui.showFileSave( fileRes );
-						fileRes.setFile( file );
+						ui.showFileSave( fileRes );
 
-						if ( file != null )
+						if ( fileRes.isAccepted() && !fileRes.isCanceled() )
 						{
 							ui.showTransfer( fileRes );
 
@@ -600,7 +599,7 @@ public class DefaultMessageResponder implements MessageResponder
 								if ( fileRes.transfer() )
 								{
 									msgController.showSystemMessage( "Successfully received " + fileName
-											+ " from " + user + ", and saved as " + file.getName() );
+											+ " from " + user + ", and saved as " + fileRes.getFile().getName() );
 								}
 
 								else
@@ -627,20 +626,21 @@ public class DefaultMessageResponder implements MessageResponder
 							}
 						}
 
-						else if ( fileRes.isRejected() )
+						else if ( !fileRes.isCanceled() )
 						{
 							msgController.showSystemMessage( "You declined to receive " + fileName + " from " + user );
 							controller.sendFileAbort( tmpUser, fileHash, fileName );
 						}
 
-						tList.removeFileReceiver( fileRes );
 					}
 
-					else
+					else if ( !fileRes.isCanceled() )
 					{
 						msgController.showSystemMessage( "You declined to receive " + fileName + " from " + user );
 						controller.sendFileAbort( tmpUser, fileHash, fileName );
 					}
+
+					tList.removeFileReceiver( fileRes );
 				}
 
 				else
@@ -652,10 +652,11 @@ public class DefaultMessageResponder implements MessageResponder
 	}
 
 	/**
-	 * The other user stopped a file transfer from the application user.
+	 * The other user stopped a file transfer from the application user,
+	 * or the other way around.
 	 * Updates the status in the file sender.
 	 *
-	 * @param userCode The unique code of the user who aborted the file transfer.
+	 * @param userCode The unique code of the other user.
 	 * @param fileName The name of the file.
 	 * @param fileHash The hash code of the file.
 	 */
