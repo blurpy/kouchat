@@ -356,7 +356,7 @@ public class CommandParser
 			return;
 		}
 
-		if ( fileReceiver.isReady() )
+		if ( fileReceiver.isAccepted() )
 		{
 			msgController.showSystemMessage( "/receive - already receiving '" + file + "' from " + nick );
 			return;
@@ -364,7 +364,7 @@ public class CommandParser
 
 		// TODO what if file exists?
 
-		fileReceiver.setReady( true );
+		fileReceiver.accept();
 	}
 
 	/**
@@ -415,7 +415,7 @@ public class CommandParser
 			return;
 		}
 
-		fileReceiver.cancel();
+		fileReceiver.reject();
 	}
 
 	/**
@@ -751,9 +751,13 @@ public class CommandParser
 			// This means that the other user has not answered yet
 			if ( fs.isWaiting() )
 			{
+				File file = fs.getFile();
+				User user = fs.getUser();
+
 				msgController.showSystemMessage( "You cancelled sending of "
-						+ fs.getFile().getName() + " to " + fs.getUser().getNick() );
+						+ file.getName() + " to " + user.getNick() );
 				tList.removeFileSender( fs );
+				controller.sendFileAbort( user, file.hashCode(), file.getName() );
 			}
 		}
 	}

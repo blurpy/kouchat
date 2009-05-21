@@ -72,8 +72,11 @@ public class FileReceiver implements FileTransfer
 	/** If the file transfer is canceled. */
 	private boolean cancel;
 
-	/** If the client is ready to receive the file. */
-	private boolean ready;
+	/** If the client has accepted to receive the file. */
+	private boolean accepted;
+
+	/** If the client has rejected the file. */
+	private boolean rejected;
 
 	/** The file transfer listener. */
 	private FileTransferListener listener;
@@ -429,23 +432,39 @@ public class FileReceiver implements FileTransfer
 	}
 
 	/**
-	 * If the client is ready to receive the file.
+	 * If the client has accepted to receive the file.
 	 *
-	 * @return If ready.
+	 * @return If the file is accepted.
 	 */
-	public boolean isReady()
+	public boolean isAccepted()
 	{
-		return ready;
+		return accepted;
 	}
 
 	/**
-	 * Sets if the client is ready to receive the file.
-	 *
-	 * @param ready If ready.
+	 * Accept the file transfer.
 	 */
-	public void setReady( final boolean ready )
+	public void accept()
 	{
-		this.ready = ready;
+		accepted = true;
+	}
+
+	/**
+	 * If the client has rejected the file.
+	 *
+	 * @return If the file is rejected.
+	 */
+	public boolean isRejected()
+	{
+		return rejected;
+	}
+
+	/**
+	 * Reject the file transfer.
+	 */
+	public void reject()
+	{
+		rejected = true;
 	}
 
 	/**

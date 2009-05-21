@@ -8,5 +8,3 @@
  - Refactor MessageParser?
  - Look into strange issue with restoring a maximized main chat from systray
  - Check possibility of NPE in MessageReceiver and MessageSender
- - Notify the receiver when the sender cancels a file transfer before
-   the receiver has responded

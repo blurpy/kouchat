@@ -627,7 +627,7 @@ public class DefaultMessageResponder implements MessageResponder
 							}
 						}
 
-						else
+						else if ( fileRes.isRejected() )
 						{
 							msgController.showSystemMessage( "You declined to receive " + fileName + " from " + user );
 							controller.sendFileAbort( tmpUser, fileHash, fileName );
@@ -663,13 +663,21 @@ public class DefaultMessageResponder implements MessageResponder
 	public void fileSendAborted( final int userCode, final String fileName, final int fileHash )
 	{
 		User user = controller.getUser( userCode );
-		FileSender fileSend = tList.getFileSender( user, fileName, fileHash );
+		FileSender fileSender = tList.getFileSender( user, fileName, fileHash );
 
-		if ( fileSend != null )
+		if ( fileSender != null )
 		{
-			fileSend.cancel();
+			fileSender.cancel();
+			msgController.showSystemMessage( user.getNick() + " aborted reception of " + fileName );
+			tList.removeFileSender( fileSender );
+		}
+
+		FileReceiver fileReceiver = tList.getFileReceiver( user, fileName );
+
+		if ( fileReceiver != null )
+		{
+			fileReceiver.cancel();
 			msgController.showSystemMessage( user.getNick() + " aborted sending of " + fileName );
-			tList.removeFileSender( fileSend );
 		}
 	}
 
