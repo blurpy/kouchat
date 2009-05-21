@@ -580,12 +580,16 @@ public class DefaultMessageResponder implements MessageResponder
 
 					if ( ui.askFileSave( user, fileName, size ) )
 					{
-						File file = ui.showFileSave( fileName );
+						File defaultFile = new File( System.getProperty( "user.home" )
+								+ System.getProperty( "file.separator" )
+								+ fileName );
+						FileReceiver fileRes = new FileReceiver( tmpUser, defaultFile, byteSize );
+						tList.addFileReceiver( fileRes );
+						File file = ui.showFileSave( fileRes );
+						fileRes.setFile( file );
 
 						if ( file != null )
 						{
-							FileReceiver fileRes = new FileReceiver( tmpUser, file, byteSize );
-							tList.addFileReceiver( fileRes );
 							ui.showTransfer( fileRes );
 
 							try
@@ -621,11 +625,6 @@ public class DefaultMessageResponder implements MessageResponder
 								msgController.showSystemMessage( "Failed to receive " + fileName + " from " + user );
 								fileRes.cancel();
 							}
-
-							finally
-							{
-								tList.removeFileReceiver( fileRes );
-							}
 						}
 
 						else
@@ -633,6 +632,8 @@ public class DefaultMessageResponder implements MessageResponder
 							msgController.showSystemMessage( "You declined to receive " + fileName + " from " + user );
 							controller.sendFileAbort( tmpUser, fileHash, fileName );
 						}
+
+						tList.removeFileReceiver( fileRes );
 					}
 
 					else

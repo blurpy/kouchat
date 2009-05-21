@@ -692,17 +692,17 @@ public class SwingMediator implements Mediator, UserInterface
 	 * another user is trying to send. Warns if the file name chosen
 	 * already exists.
 	 *
-	 * @param fileName The original filename of the file the user wants to send.
+	 * @param fileReceiver Information about the file to save.
 	 * @return A file object with a filename and path where the application user
 	 *         wants to save the file. Returns <code>null</code> if cancel is
 	 *         chosen in the file chooser.
 	 */
 	@Override
-	public File showFileSave( final String fileName )
+	public File showFileSave( final FileReceiver fileReceiver )
 	{
 		File returnFile = null;
 		JFileChooser chooser = UITools.createFileChooser( "Save" );
-		chooser.setSelectedFile( new File( fileName ) );
+		chooser.setSelectedFile( fileReceiver.getFile() );
 		boolean done = false;
 
 		while ( !done )

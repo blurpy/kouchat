@@ -104,7 +104,7 @@ public class ConsoleMediator implements UserInterface
 	 * {@inheritDoc}
 	 */
 	@Override
-	public File showFileSave( final String fileName )
+	public File showFileSave( final FileReceiver fileReceiver )
 	{
 		return null;
 	}

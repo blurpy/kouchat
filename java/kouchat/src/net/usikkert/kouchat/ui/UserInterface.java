@@ -54,11 +54,11 @@ public interface UserInterface
 	/**
 	 * Asks the user where to save the file.
 	 *
-	 * @param fileName Name of the file to save.
+	 * @param fileReceiver Information about the file to save.
 	 * @return A file object with information about where
 	 * to save the file. Or null to reject the file transfer.
 	 */
-	File showFileSave( String fileName );
+	File showFileSave( FileReceiver fileReceiver );
 
 	/**
 	 * Creates a {@link FileTransferListener} for the file receiver,

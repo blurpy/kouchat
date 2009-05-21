@@ -55,7 +55,7 @@ public class FileReceiver implements FileTransfer
 	private final long size;
 
 	/** The file from the user. */
-	private final File file;
+	private File file;
 
 	/** Keeps count of the transfer speed. */
 	private final ByteCounter bCounter;
@@ -343,6 +343,16 @@ public class FileReceiver implements FileTransfer
 	public File getFile()
 	{
 		return file;
+	}
+
+	/**
+	 * Changes the file to save to.
+	 *
+	 * @param file The new file to save to.
+	 */
+	public void setFile(  final File file )
+	{
+		this.file = file;
 	}
 
 	/**
