@@ -130,7 +130,7 @@ public class ConsoleMediator implements UserInterface
 	@Override
 	public void showTransfer( final FileReceiver fileRes )
 	{
-		new TransferHandler( fileRes );
+		new TransferHandler( fileRes, msgController );
 	}
 
 	/**
@@ -141,7 +141,7 @@ public class ConsoleMediator implements UserInterface
 	@Override
 	public void showTransfer( final FileSender fileSend )
 	{
-		new TransferHandler( fileSend );
+		new TransferHandler( fileSend, msgController );
 	}
 
 	/**

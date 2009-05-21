@@ -22,7 +22,10 @@
 package net.usikkert.kouchat.ui.console;
 
 import net.usikkert.kouchat.event.FileTransferListener;
+import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.net.FileTransfer;
+import net.usikkert.kouchat.net.FileTransfer.Direction;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This is the console implementation of a file transfer listener.
@@ -33,14 +36,27 @@ import net.usikkert.kouchat.net.FileTransfer;
  */
 public class TransferHandler implements FileTransferListener
 {
+	/** The file transfer to handle. */
+	private final FileTransfer fileTransfer;
+
+	/** The message controller. */
+	private final MessageController msgController;
+
 	/**
 	 * Constructor. Registers this class as a listener of
 	 * file transfer events.
 	 *
-	 * @param fileTransfer The file transfer to listen to.
+	 * @param fileTransfer The file transfer to handle.
+	 * @param msgController The message controller.
 	 */
-	public TransferHandler( final FileTransfer fileTransfer )
+	public TransferHandler( final FileTransfer fileTransfer, final MessageController msgController )
 	{
+		Validate.notNull( fileTransfer, "File transfer can not be null" );
+		Validate.notNull( msgController, "Message controller can not be null" );
+
+		this.fileTransfer = fileTransfer;
+		this.msgController = msgController;
+
 		fileTransfer.registerListener( this );
 	}
 
@@ -72,12 +88,18 @@ public class TransferHandler implements FileTransferListener
 	}
 
 	/**
-	 * Not implemented.
+	 * Shows a message if starting to receive a file.
+	 * There is no need to show a message when sending a message,
+	 * as that is taken care of elsewhere.
 	 */
 	@Override
 	public void statusTransferring()
 	{
-
+		if ( fileTransfer.getDirection() == Direction.RECEIVE )
+		{
+			msgController.showSystemMessage( "Receiving " + fileTransfer.getFile().getName()
+					+ " from " + fileTransfer.getUser().getNick() );
+		}
 	}
 
 	/**
