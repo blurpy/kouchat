@@ -4,8 +4,6 @@
 * Release v1.0.0:
  - Javadoc fields
  - More unit tests
- - Get feedback
- - Refactor MessageParser?
  - Look into strange issue with restoring a maximized main chat from systray
  - Check possibility of NPE in MessageReceiver and MessageSender
- - What to do if file exists in /receive?
+ - What to do if file exists in /receive? Add _{counter} to the filename

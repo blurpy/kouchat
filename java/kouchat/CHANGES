@@ -14,6 +14,7 @@
   - Moved away from named loggers
   - Added /receive, /reject and /cancel commands to handle file
     transfers in the console user interface
+  - General file transfer fixes for clarity and stability
 
 
 * version 0.9.9 (27.12.2008):
