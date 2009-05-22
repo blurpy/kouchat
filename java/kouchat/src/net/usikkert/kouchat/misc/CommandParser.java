@@ -340,29 +340,46 @@ public class CommandParser
 			return;
 		}
 
-		String file = "";
+		String filename = "";
 
 		for ( int i = 2; i < argsArray.length; i++ )
 		{
-			file += argsArray[i] + " ";
+			filename += argsArray[i] + " ";
 		}
 
-		file = file.trim();
-		FileReceiver fileReceiver = tList.getFileReceiver( user, file );
+		filename = filename.trim();
+		FileReceiver fileReceiver = tList.getFileReceiver( user, filename );
 
 		if ( fileReceiver == null )
 		{
-			msgController.showSystemMessage( "/receive - no such file '" + file + "' offered by " + nick );
+			msgController.showSystemMessage( "/receive - no such file '" + filename + "' offered by " + nick );
 			return;
 		}
 
 		if ( fileReceiver.isAccepted() )
 		{
-			msgController.showSystemMessage( "/receive - already receiving '" + file + "' from " + nick );
+			msgController.showSystemMessage( "/receive - already receiving '" + filename + "' from " + nick );
 			return;
 		}
 
-		// TODO what if file exists?
+		File file = fileReceiver.getFile();
+
+		if ( file.exists() )
+		{
+			int counter = 1;
+			File newFile = null;
+
+			do
+			{
+				String newName = file.getParent() + File.separator + filename + "." + counter;
+				newFile = new File( newName );
+				counter++;
+			}
+			while ( newFile.exists() );
+
+			msgController.showSystemMessage( "/receive - file '" + filename + "' already exists - renaming to '" + newFile.getName() + "'" );
+			fileReceiver.setFile( newFile );
+		}
 
 		fileReceiver.accept();
 	}
