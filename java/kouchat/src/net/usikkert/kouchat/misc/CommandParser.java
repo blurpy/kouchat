@@ -472,6 +472,17 @@ public class CommandParser
 			return;
 		}
 
+		if ( fileTransfer instanceof FileReceiver )
+		{
+			FileReceiver fileReceiver = (FileReceiver) fileTransfer;
+
+			if ( !fileReceiver.isAccepted() && !fileReceiver.isRejected() )
+			{
+				msgController.showSystemMessage( "/cancel - transfer of '" + file + "' from " + nick + " has not started yet" );
+				return;
+			}
+		}
+
 		cancelFileTransfer( fileTransfer );
 	}
 
