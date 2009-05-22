@@ -415,6 +415,12 @@ public class CommandParser
 			return;
 		}
 
+		if ( fileReceiver.isAccepted() )
+		{
+			msgController.showSystemMessage( "/reject - already receiving '" + file + "' from " + nick );
+			return;
+		}
+
 		fileReceiver.reject();
 	}
 
