@@ -64,4 +64,32 @@ public class ToolsTest
 		assertEquals( "", Tools.shorten( "Monkey", 0 ) );
 		assertEquals( "", Tools.shorten( "Monkey", -5 ) );
 	}
+
+	/**
+	 * Tests getting the file extension from a file name.
+	 */
+	@Test
+	public void testGetFileExtension()
+	{
+		assertNull( Tools.getFileExtension( null ) );
+		assertEquals( "", Tools.getFileExtension( "file" ) );
+		assertEquals( ".txt", Tools.getFileExtension( "file.txt" ) );
+		assertEquals( ".", Tools.getFileExtension( "file." ) );
+		assertEquals( ".txt", Tools.getFileExtension( ".txt" ) );
+		assertEquals( ".jpg", Tools.getFileExtension( "image.txt.jpg" ) );
+	}
+
+	/**
+	 * Tests getting the base name from a file name.
+	 */
+	@Test
+	public void testGetFileBaseName()
+	{
+		assertNull( Tools.getFileBaseName( null ) );
+		assertEquals( "file", Tools.getFileBaseName( "file" ) );
+		assertEquals( "file", Tools.getFileBaseName( "file.txt" ) );
+		assertEquals( "file", Tools.getFileBaseName( "file." ) );
+		assertEquals( "", Tools.getFileBaseName( ".txt" ) );
+		assertEquals( "image.txt", Tools.getFileBaseName( "image.txt.jpg" ) );
+	}
 }

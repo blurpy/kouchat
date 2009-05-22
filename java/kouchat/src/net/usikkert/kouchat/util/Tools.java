@@ -292,4 +292,43 @@ public final class Tools
 
 		return word.substring( 0, length );
 	}
+
+	/**
+	 * Gets the file extension from a file name. Including the separator dot.
+	 *
+	 * @param filename The file name to get the extension from.
+	 * @return The file extension, or <code>null</code> if file name is <code>null</code>.
+	 */
+	public static String getFileExtension( final String filename )
+	{
+		if ( filename == null )
+			return null;
+
+		int dotIndex = filename.lastIndexOf( "." );
+
+		if ( dotIndex == -1 )
+			return "";
+
+		return filename.substring( dotIndex );
+	}
+
+	/**
+	 * Gets the base file name without the extension from a full file name.
+	 * Without the separator dot.
+	 *
+	 * @param filename The file name to get the base name from.
+	 * @return The base name, or <code>null</code> if file name is <code>null</code>.
+	 */
+	public static String getFileBaseName( final String filename )
+	{
+		if ( filename == null )
+			return null;
+
+		int dotIndex = filename.lastIndexOf( "." );
+
+		if ( dotIndex == -1 )
+			return filename;
+
+		return filename.substring( 0, dotIndex );
+	}
 }
