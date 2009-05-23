@@ -6,4 +6,3 @@
  - More unit tests
  - Look into strange issue with restoring a maximized main chat from systray
  - Check possibility of NPE in MessageReceiver and MessageSender
- - Test file transfer in windows, including auto rename
