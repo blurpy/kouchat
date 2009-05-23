@@ -36,13 +36,21 @@ import java.util.logging.Logger;
  */
 public final class LogInitializer
 {
+	/** The main package where all the classes belonging to the application are. */
+	private static final String MAIN_PACKAGE = "net.usikkert.kouchat";
+
 	/**
 	 * Constructor that initializes the logging.
+	 *
+	 * @param debug If verbose debug logging should be enabled.
 	 */
-	public LogInitializer()
+	public LogInitializer( final boolean debug )
 	{
 		initHandlers();
 		initParentLoggers();
+
+		if ( debug )
+			activateDebug();
 	}
 
 	/**
@@ -51,15 +59,13 @@ public final class LogInitializer
 	 */
 	public void initParentLoggers()
 	{
-		final String mainPackage = "net.usikkert.kouchat";
-
-		Logger.getLogger( mainPackage );
-		Logger.getLogger( mainPackage + ".misc" );
-		Logger.getLogger( mainPackage + ".net" );
-		Logger.getLogger( mainPackage + ".ui" );
-		Logger.getLogger( mainPackage + ".ui.console" );
-		Logger.getLogger( mainPackage + ".ui.swing" );
-		Logger.getLogger( mainPackage + ".util" );
+		Logger.getLogger( MAIN_PACKAGE );
+		Logger.getLogger( MAIN_PACKAGE + ".misc" );
+		Logger.getLogger( MAIN_PACKAGE + ".net" );
+		Logger.getLogger( MAIN_PACKAGE + ".ui" );
+		Logger.getLogger( MAIN_PACKAGE + ".ui.console" );
+		Logger.getLogger( MAIN_PACKAGE + ".ui.swing" );
+		Logger.getLogger( MAIN_PACKAGE + ".util" );
 	}
 
 	/**
@@ -84,5 +90,14 @@ public final class LogInitializer
 				break;
 			}
 		}
+	}
+
+	/**
+	 * Activates logging of all messages in all the loggers.
+	 */
+	public void activateDebug()
+	{
+		Logger mainLogger = Logger.getLogger( MAIN_PACKAGE );
+		mainLogger.setLevel( Level.ALL );
 	}
 }

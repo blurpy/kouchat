@@ -51,49 +51,66 @@ public final class KouChat
 	}
 
 	/**
-	 * The main method.
+	 * The main method, for starting the application.
 	 *
-	 * Takes two different arguments:<br />
-	 * --help, shows information about available commands.<br />
-	 * --console, starts KouChat in console mode.
+	 * <p>Takes the following options:</p>
+	 * <ul>
+	 *   <li>-c, --console - starts KouChat in console mode.</li>
+	 *   <li>-d, --debug - starts KouChat with verbose debug output enabled.</li>
+	 *   <li>-h, --help - shows information about available options.</li>
+	 *   <li>-v, --version - shows version information.</li>
+	 * </ul>
 	 *
-	 * @param args The arguments given when starting KouChat.
+	 * @param options The options given when starting KouChat.
 	 */
-	public static void main( final String[] args )
+	public static void main( final String[] options )
 	{
 		System.out.println( Constants.APP_NAME + " v" + Constants.APP_VERSION );
 		System.out.println( "By " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL + " - " + Constants.APP_WEB );
 
-		if ( args.length == 0 )
+		if ( options.length == 0 )
 			System.out.println( "Use --help for more information" );
 
 		boolean swing = true;
 		boolean help = false;
+		boolean debug = false;
+		boolean version = false;
 
-		for ( int i = 0; i < args.length; i++ )
+		for ( String option : options )
 		{
-			if ( args[i].equals( "--console" ) )
+			if ( option.equals( "--console" ) || option.equals( "-c" ) )
 				swing = false;
 
-			else if ( args[i].equals( "--help" ) )
+			else if ( option.equals( "--help" ) || option.equals( "-h" ) )
 				help = true;
+
+			else if ( option.equals( "--debug" ) || option.equals( "-d" ) )
+				debug = true;
+
+			else if ( option.equals( "--version" ) || option.equals( "-v" ) )
+				version = true;
 
 			else
 			{
-				System.out.println( "\nUnknown argument '" + args[i] + "'. Use --help for more information" );
+				System.out.println( "\nUnknown option '" + option + "'. Use --help for more information" );
 				return;
 			}
 		}
 
+		if ( version )
+			return;
+
 		if ( help )
 		{
-			System.out.println( "\nCommands:"
-					+ "\n --help \tshows this help message"
-					+ "\n --console \tstarts " + Constants.APP_NAME + " in console mode" );
+			System.out.println( "\nOptions:"
+					+ "\n -c, --console \tstarts " + Constants.APP_NAME + " in console mode"
+					+ "\n -d, --debug \tstarts " + Constants.APP_NAME + " with verbose debug output enabled"
+					+ "\n -h, --help \tshows this help message"
+					+ "\n -v, --version \tshows version information" );
 			return;
 		}
 
-		new LogInitializer();
+		new LogInitializer( debug );
 		// Initialize as early as possible to catch all exceptions
 		new UncaughtExceptionLogger();
 

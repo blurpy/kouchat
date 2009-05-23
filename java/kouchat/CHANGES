@@ -15,6 +15,11 @@
   - Added /receive, /reject and /cancel commands to handle file
     transfers in the console user interface
   - General file transfer fixes for clarity and stability
+  - Added --version startup option
+  - Added shorter options, like -h for --help
+  - Added --debug startup option to activate all logging
+  - Removed debug setting, as it's being replaced by --debug
+    startup option
 
 
 * version 0.9.9 (27.12.2008):
