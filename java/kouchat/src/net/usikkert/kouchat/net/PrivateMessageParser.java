@@ -68,9 +68,6 @@ public class PrivateMessageParser implements ReceiverListener
 	@Override
 	public void messageArrived( final String message, final String ipAddress )
 	{
-		if ( settings.isDebug() )
-			System.out.println( message );
-
 		try
 		{
 			int exclamation = message.indexOf( "!" );

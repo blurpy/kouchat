@@ -94,9 +94,6 @@ public final class Settings
 	/** If logging of the main chat is enabled. */
 	private boolean logging;
 
-	/** If debug output to the console is enabled. */
-	private boolean debug;
-
 	/** If smileys are enabled. */
 	private boolean smileys;
 
@@ -198,8 +195,6 @@ public final class Settings
 			buffWriter.write( "logging=" + logging );
 			buffWriter.newLine();
 			buffWriter.write( "sound=" + sound );
-			buffWriter.newLine();
-			buffWriter.write( "debug=" + debug );
 			buffWriter.newLine();
 			// Properties does not support loading back slash, so replace with forward slash
 			buffWriter.write( "browser=" + browser.replaceAll( "\\\\", "/" ) );
@@ -306,7 +301,6 @@ public final class Settings
 			}
 
 			logging = Boolean.valueOf( fileContents.getProperty( "logging" ) );
-			debug = Boolean.valueOf( fileContents.getProperty( "debug" ) );
 			browser = fileContents.getProperty( "browser" );
 			lookAndFeel = fileContents.getProperty( "lookAndFeel" );
 
@@ -450,26 +444,6 @@ public final class Settings
 			this.logging = logging;
 			fireSettingChanged( "logging" );
 		}
-	}
-
-	/**
-	 * Checks if debug is enabled.
-	 *
-	 * @return If debug is enabled.
-	 */
-	public boolean isDebug()
-	{
-		return debug;
-	}
-
-	/**
-	 * Sets if debug is enabled.
-	 *
-	 * @param debug If debug is enabled.
-	 */
-	public void setDebug( final boolean debug )
-	{
-		this.debug = debug;
 	}
 
 	/**
