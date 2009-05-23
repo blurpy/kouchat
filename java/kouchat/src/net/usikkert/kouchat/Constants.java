@@ -145,4 +145,9 @@ public interface Constants
 	 * Which file to find the frequently asked questions.
 	 */
 	String FILE_FAQ = "FAQ";
+
+	/**
+	 * Which file to find the tips & tricks.
+	 */
+	String FILE_TIPS = "TipsAndTricks.txt";
 }

@@ -47,10 +47,10 @@ public class MenuBar extends JMenuBar implements ActionListener
 	private final JMenu fileMenu, toolsMenu, helpMenu;
 	private final JMenuItem minimizeMI, quitMI;
 	private final JMenuItem clearMI, awayMI, topicMI, settingsMI;
-	private final JMenuItem aboutMI, commandsMI, faqMI, licenseMI;
+	private final JMenuItem aboutMI, commandsMI, faqMI, licenseMI, tipsMI;
 	private final ImageLoader imageLoader;
 	private Mediator mediator;
-	private TextViewerDialog faqViewer, licenseViewer;
+	private TextViewerDialog faqViewer, licenseViewer, tipsViewer;
 
 	/**
 	 * Constructor. Creates the menubar.
@@ -108,6 +108,9 @@ public class MenuBar extends JMenuBar implements ActionListener
 		licenseMI = new JMenuItem( "License" );
 		licenseMI.setMnemonic( 'L' );
 		licenseMI.addActionListener( this );
+		tipsMI = new JMenuItem( "Tips & tricks" );
+		tipsMI.setMnemonic( 'T' );
+		tipsMI.addActionListener( this );
 		commandsMI = new JMenuItem( "Commands" );
 		commandsMI.setMnemonic( 'C' );
 		commandsMI.addActionListener( this );
@@ -116,6 +119,7 @@ public class MenuBar extends JMenuBar implements ActionListener
 		aboutMI.addActionListener( this );
 
 		helpMenu.add( faqMI );
+		helpMenu.add( tipsMI );
 		helpMenu.add( licenseMI );
 		helpMenu.addSeparator();
 		helpMenu.add( commandsMI );
@@ -267,6 +271,25 @@ public class MenuBar extends JMenuBar implements ActionListener
 					}
 
 					faqViewer.setVisible( true );
+				}
+			} );
+		}
+
+		// Help/Tips & tricks
+		else if ( e.getSource() == tipsMI )
+		{
+			SwingUtilities.invokeLater( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					if ( tipsViewer == null )
+					{
+						tipsViewer = new TextViewerDialog( Constants.FILE_TIPS,
+								"Tips & tricks", false, imageLoader );
+					}
+
+					tipsViewer.setVisible( true );
 				}
 			} );
 		}

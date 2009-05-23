@@ -23,6 +23,7 @@
           <include>README</include>
           <include>FAQ</include>
           <include>CHANGES</include>
+          <include>TipsAndTricks.txt</include>
           <include>kou_shortcut.*</include>
         </includes>
       </resource>
