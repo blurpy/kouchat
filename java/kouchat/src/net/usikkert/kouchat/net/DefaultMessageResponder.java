@@ -189,8 +189,6 @@ public class DefaultMessageResponder implements MessageResponder
 			newUser.setNick( "" + newUser.getCode() );
 		}
 
-		setHostName( newUser );
-
 		controller.getUserList().add( newUser );
 		msgController.showSystemMessage( newUser.getNick() + " logged on from " + newUser.getIpAddress() );
 	}
@@ -219,8 +217,6 @@ public class DefaultMessageResponder implements MessageResponder
 		{
 			newUser.setNick( "" + newUser.getCode() );
 		}
-
-		setHostName( newUser );
 
 		controller.getUserList().add( newUser );
 		msgController.showSystemMessage( newUser.getNick() + " showed up unexpectedly from " + newUser.getIpAddress() );
@@ -307,7 +303,6 @@ public class DefaultMessageResponder implements MessageResponder
 			// This should ONLY happen during logon
 			else
 			{
-				setHostName( user );
 				controller.getUserList().add( user );
 			}
 		}
@@ -343,24 +338,6 @@ public class DefaultMessageResponder implements MessageResponder
 		me.setHostName( NetworkUtils.getLocalHostName() );
 		msgController.showSystemMessage( "You logged on as " + me.getNick() + " from " + createHostInfo( me ) );
 		ui.showTopic();
-	}
-
-	/**
-	 * Updates the host name of the user. This is done in a thread, since it can take
-	 * several seconds.
-	 *
-	 * @param user The user to set the host name for.
-	 */
-	private void setHostName( final User user )
-	{
-		new Thread( "SetHostNameThread" )
-		{
-			@Override
-			public void run()
-			{
-				user.setHostName( NetworkUtils.getHostName( user.getIpAddress() ) );
-			}
-		} .start();
 	}
 
 	/**
