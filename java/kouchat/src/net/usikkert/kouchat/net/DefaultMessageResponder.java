@@ -346,13 +346,25 @@ public class DefaultMessageResponder implements MessageResponder
 	}
 
 	/**
-	 * Updates the host name of the user.
+	 * Updates the host name of the user. This is done in a thread, since it can take
+	 * several seconds.
 	 *
 	 * @param user The user to set the host name for.
 	 */
 	private void setHostName( final User user )
 	{
-		user.setHostName( NetworkUtils.getHostName( user.getIpAddress() ) );
+		// TODO remove timer
+		new Thread()
+		{
+			@Override
+			public void run()
+			{
+				long start = System.currentTimeMillis();
+				user.setHostName( NetworkUtils.getHostName( user.getIpAddress() ) );
+				long stopp = System.currentTimeMillis();
+				System.out.println("time: " + (stopp - start));
+			}
+		} .start();
 	}
 
 	/**
