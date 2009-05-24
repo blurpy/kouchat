@@ -228,8 +228,12 @@ public class CommandParser
 				if ( user.isAway() )
 					info += " (Away)";
 
-				info += ":\nIP address: " + user.getIpAddress()
-						+ "\nClient: " + user.getClient()
+				info += ":\nIP address: " + user.getIpAddress();
+
+				if ( user.getHostName() != null )
+					info +=  "\nHost name: " + user.getHostName();
+
+				info += "\nClient: " + user.getClient()
 						+ "\nOperating System: " + user.getOperatingSystem()
 						+ "\nOnline: " + Tools.howLongFromNow( user.getLogonTime() );
 
