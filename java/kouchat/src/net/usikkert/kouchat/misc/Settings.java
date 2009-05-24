@@ -35,7 +35,6 @@ import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.SettingsListener;
-import net.usikkert.kouchat.net.NetworkUtils;
 import net.usikkert.kouchat.util.Tools;
 
 /**
@@ -133,8 +132,9 @@ public final class Settings
 	}
 
 	/**
-	 * Creates a new default nick name from the name of the localhost.
-	 * The name is shortened to 10 characters and the first letter is capitalized.
+	 * Creates a new default nick name from the name of the user logged in to
+	 * the operating system. The name is shortened to 10 characters and the
+	 * first letter is capitalized.
 	 *
 	 * <p>If the name is invalid as a nick name then the user code is used instead.</p>
 	 *
@@ -143,13 +143,13 @@ public final class Settings
 	 */
 	private String createNickName( final int code )
 	{
-		String localHostName = NetworkUtils.getLocalHostName();
+		String userName = System.getProperty( "user.name" );
 
-		if ( localHostName == null )
+		if ( userName == null )
 			return Integer.toString( code );
 
-		String[] splitHostName = localHostName.split( "\\." );
-		String defaultNick = Tools.capitalizeFirstLetter( Tools.shorten( splitHostName[0].trim(), 10 ) );
+		String[] splitUserName = userName.split( " " );
+		String defaultNick = Tools.capitalizeFirstLetter( Tools.shorten( splitUserName[0].trim(), 10 ) );
 
 		if ( Tools.isValidNick( defaultNick ) )
 			return defaultNick;
