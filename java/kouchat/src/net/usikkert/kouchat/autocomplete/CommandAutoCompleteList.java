@@ -39,13 +39,13 @@ public class CommandAutoCompleteList implements AutoCompleteList
 		"/clear",
 		"/help",
 		"/msg",
-		"/names",
 		"/nick",
 		"/receive",
 		"/reject",
 		"/send",
 		"/topic",
 		"/transfers",
+		"/users",
 		"/whois",
 		"//"
 	};

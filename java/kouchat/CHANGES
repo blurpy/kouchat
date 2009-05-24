@@ -22,6 +22,7 @@
     startup option
   - Added tips & tricks from the wiki to the help menu
   - Added information about the host name of the users
+  - Renamed /names to /users
 
 
 * version 0.9.9 (27.12.2008):

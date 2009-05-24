@@ -618,10 +618,10 @@ public class CommandParser
 	}
 
 	/**
-	 * Command: <em>/names</em>.
+	 * Command: <em>/users</em>.
 	 * Shows a list of connected users.
 	 */
-	private void cmdNames()
+	private void cmdUsers()
 	{
 		UserList list = controller.getUserList();
 		String userList = "";
@@ -809,13 +809,13 @@ public class CommandParser
 				+ "/clear - clear all the text from the chat\n"
 				+ "/help - show this help message\n"
 				+ "/msg <nick> <msg> - send a private message to a user\n"
-				+ "/names - show the user list\n"
 				+ "/nick <new nick> - changes your nick name\n"
 				+ "/receive <nick> <file> - accept a file transfer request from a user\n"
 				+ "/reject <nick> <file> - reject a file transfer request from a user\n"
 				+ "/send <nick> <file> - send a file to a user\n"
 				+ "/topic <optional new topic> - prints the current topic, or changes the topic\n"
 				+ "/transfers - shows a list of all file transfers and their status\n"
+				+ "/users - show the user list\n"
 				+ "/whois <nick> - show information about a user\n"
 				+ "//<text> - send the text as a normal message, with a single slash" );
 	}
@@ -866,8 +866,8 @@ public class CommandParser
 				cmdMsg( args );
 			else if ( command.equals( "nick" ) )
 				cmdNick( args );
-			else if ( command.equals( "names" ) )
-				cmdNames();
+			else if ( command.equals( "users" ) )
+				cmdUsers();
 			else if ( command.equals( "transfers" ) )
 				cmdTransfers();
 			else if ( command.startsWith( "/" ) )
