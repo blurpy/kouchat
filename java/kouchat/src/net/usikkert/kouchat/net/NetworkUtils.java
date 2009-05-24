@@ -304,13 +304,38 @@ public final class NetworkUtils
 	/**
 	 * Gets the name of the localhost.
 	 *
-	 * @return The hostname, or <code>null</code> if the hostname cannot be determined.
+	 * @return The host name, or <code>null</code> if the host name cannot be determined.
 	 */
 	public static String getLocalHostName()
 	{
 		try
 		{
 			return InetAddress.getLocalHost().getHostName();
+		}
+
+		catch ( final UnknownHostException e )
+		{
+			LOG.log( Level.WARNING, e.toString() );
+		}
+
+		return null;
+	}
+
+	/**
+	 * Gets the host name of the ip address.
+	 *
+	 * @param ipAddress The ip address to find the host name of.
+	 * @return The host name, or <code>null</code> if the host name cannot be determined.
+	 */
+	public static String getHostName( final String ipAddress )
+	{
+		try
+		{
+			InetAddress inetAddress = InetAddress.getByName( ipAddress );
+			String hostName = inetAddress.getHostName();
+
+			if ( !hostName.equals( ipAddress ) )
+				return hostName;
 		}
 
 		catch ( final UnknownHostException e )

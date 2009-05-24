@@ -45,6 +45,9 @@ public class User implements Comparable<User>
 	/** Which type of chat client the user is connected with, like <code>KouChat v.1.0.0 Swing</code>. */
 	private String client;
 
+	/** The user's host name. */
+	private String hostName;
+
 	/** The unique code identifying this user. */
 	private final int code;
 
@@ -98,6 +101,7 @@ public class User implements Comparable<User>
 		logonTime = 0;
 		operatingSystem = "<unknown>";
 		client = "<unknown>";
+		hostName = null;
 		newMsg = false;
 		privateChatPort = 0;
 		privchat = null;
@@ -114,6 +118,7 @@ public class User implements Comparable<User>
 		writing = false;
 		away = false;
 		ipAddress = "<unknown>";
+		hostName = null;
 		newMsg = false;
 		privateChatPort = 0;
 		privchat = null;
@@ -428,6 +433,26 @@ public class User implements Comparable<User>
 	public void setNewPrivMsg( final boolean newPrivMsg )
 	{
 		this.newPrivMsg = newPrivMsg;
+	}
+
+	/**
+	 * Gets the host name of the user.
+	 *
+	 * @return The host name.
+	 */
+	public String getHostName()
+	{
+		return hostName;
+	}
+
+	/**
+	 * Sets the host name of the user.
+	 *
+	 * @param hostName The host name.
+	 */
+	public void setHostName( final String hostName )
+	{
+		this.hostName = hostName;
 	}
 
 	/**

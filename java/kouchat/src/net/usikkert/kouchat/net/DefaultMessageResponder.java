@@ -189,8 +189,10 @@ public class DefaultMessageResponder implements MessageResponder
 			newUser.setNick( "" + newUser.getCode() );
 		}
 
+		setHostName( newUser );
+
 		controller.getUserList().add( newUser );
-		msgController.showSystemMessage( newUser.getNick() + " logged on from " + newUser.getIpAddress() );
+		msgController.showSystemMessage( newUser.getNick() + " logged on from " + createHostInfo( newUser ) );
 	}
 
 	/**
@@ -218,8 +220,10 @@ public class DefaultMessageResponder implements MessageResponder
 			newUser.setNick( "" + newUser.getCode() );
 		}
 
+		setHostName( newUser );
+
 		controller.getUserList().add( newUser );
-		msgController.showSystemMessage( newUser.getNick() + " showed up unexpectedly from " + newUser.getIpAddress() );
+		msgController.showSystemMessage( newUser.getNick() + " showed up unexpectedly from " + createHostInfo( newUser ) );
 	}
 
 	/**
@@ -303,6 +307,7 @@ public class DefaultMessageResponder implements MessageResponder
 			// This should ONLY happen during logon
 			else
 			{
+				setHostName( user );
 				controller.getUserList().add( user );
 			}
 		}
@@ -335,8 +340,34 @@ public class DefaultMessageResponder implements MessageResponder
 	{
 		chatState.setLoggedOn( true );
 		me.setIpAddress( ipAddress );
-		msgController.showSystemMessage( "You logged on as " + me.getNick() + " from " + ipAddress );
+		me.setHostName( NetworkUtils.getLocalHostName() );
+		msgController.showSystemMessage( "You logged on as " + me.getNick() + " from " + createHostInfo( me ) );
 		ui.showTopic();
+	}
+
+	/**
+	 * Updates the host name of the user.
+	 *
+	 * @param user The user to set the host name for.
+	 */
+	private void setHostName( final User user )
+	{
+		user.setHostName( NetworkUtils.getHostName( user.getIpAddress() ) );
+	}
+
+	/**
+	 * Returns a string containing both the host name and the ip address
+	 * if the host name is set, or just the ip address if not.
+	 *
+	 * @param user The user to get host info from.
+	 * @return A string with host info.
+	 */
+	private String createHostInfo( final User user )
+	{
+		if ( user.getHostName() != null )
+			return user.getHostName() + " (" + user.getIpAddress() + ")";
+		else
+			return user.getIpAddress();
 	}
 
 	/**
