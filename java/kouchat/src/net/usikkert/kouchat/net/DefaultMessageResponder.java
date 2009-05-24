@@ -192,7 +192,7 @@ public class DefaultMessageResponder implements MessageResponder
 		setHostName( newUser );
 
 		controller.getUserList().add( newUser );
-		msgController.showSystemMessage( newUser.getNick() + " logged on from " + createHostInfo( newUser ) );
+		msgController.showSystemMessage( newUser.getNick() + " logged on from " + newUser.getIpAddress() );
 	}
 
 	/**
@@ -223,7 +223,7 @@ public class DefaultMessageResponder implements MessageResponder
 		setHostName( newUser );
 
 		controller.getUserList().add( newUser );
-		msgController.showSystemMessage( newUser.getNick() + " showed up unexpectedly from " + createHostInfo( newUser ) );
+		msgController.showSystemMessage( newUser.getNick() + " showed up unexpectedly from " + newUser.getIpAddress() );
 	}
 
 	/**
