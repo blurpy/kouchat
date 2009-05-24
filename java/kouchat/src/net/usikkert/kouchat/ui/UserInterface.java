@@ -133,4 +133,9 @@ public interface UserInterface
 	 * @return True if the main chat is in focus.
 	 */
 	boolean isFocused();
+
+	/**
+	 * Quit the application.
+	 */
+	void quit();
 }

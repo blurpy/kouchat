@@ -211,4 +211,13 @@ public class ConsoleMediator implements UserInterface
 	{
 		return true;
 	}
+
+	/**
+	 * Quits the application.
+	 */
+	@Override
+	public void quit()
+	{
+		System.exit( 0 );
+	}
 }

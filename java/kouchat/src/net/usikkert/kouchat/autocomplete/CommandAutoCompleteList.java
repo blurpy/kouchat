@@ -40,6 +40,7 @@ public class CommandAutoCompleteList implements AutoCompleteList
 		"/help",
 		"/msg",
 		"/nick",
+		"/quit",
 		"/receive",
 		"/reject",
 		"/send",

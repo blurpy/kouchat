@@ -676,6 +676,15 @@ public class CommandParser
 	}
 
 	/**
+	 * Command: <em>/quit</em>.
+	 * Quits the application.
+	 */
+	private void cmdQuit()
+	{
+		ui.quit();
+	}
+
+	/**
 	 * Adds a new line with information about the file transfer.
 	 *
 	 * @param fileTransfer The file transfer to add info about.
@@ -810,6 +819,7 @@ public class CommandParser
 				+ "/help - show this help message\n"
 				+ "/msg <nick> <msg> - send a private message to a user\n"
 				+ "/nick <new nick> - changes your nick name\n"
+				+ "/quit - quit from the chat\n"
 				+ "/receive <nick> <file> - accept a file transfer request from a user\n"
 				+ "/reject <nick> <file> - reject a file transfer request from a user\n"
 				+ "/send <nick> <file> - send a file to a user\n"
@@ -870,6 +880,8 @@ public class CommandParser
 				cmdUsers();
 			else if ( command.equals( "transfers" ) )
 				cmdTransfers();
+			else if ( command.equals( "quit" ) )
+				cmdQuit();
 			else if ( command.startsWith( "/" ) )
 				cmdSlash( line );
 			else

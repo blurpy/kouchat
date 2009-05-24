@@ -89,7 +89,7 @@ public class ConsoleInput extends Thread
 	{
 		String input = "";
 
-		while ( input != null && !input.startsWith( "/quit" ) )
+		while ( input != null )
 		{
 			try
 			{
@@ -99,10 +99,7 @@ public class ConsoleInput extends Thread
 				{
 					if ( input.startsWith( "/" ) )
 					{
-						if ( !input.startsWith( "/quit" ) )
-						{
-							cmdParser.parse( input );
-						}
+						cmdParser.parse( input );
 					}
 
 					else
@@ -124,9 +121,10 @@ public class ConsoleInput extends Thread
 			catch ( final IOException e )
 			{
 				LOG.log( Level.SEVERE, e.toString(), e );
+				input = null;
 			}
 		}
 
-		System.exit( 0 );
+		System.exit( 1 );
 	}
 }
