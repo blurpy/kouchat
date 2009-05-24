@@ -353,16 +353,12 @@ public class DefaultMessageResponder implements MessageResponder
 	 */
 	private void setHostName( final User user )
 	{
-		// TODO remove timer
-		new Thread()
+		new Thread( "SetHostNameThread" )
 		{
 			@Override
 			public void run()
 			{
-				long start = System.currentTimeMillis();
 				user.setHostName( NetworkUtils.getHostName( user.getIpAddress() ) );
-				long stopp = System.currentTimeMillis();
-				System.out.println("time: " + (stopp - start));
 			}
 		} .start();
 	}
