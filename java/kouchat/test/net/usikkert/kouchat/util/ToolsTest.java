@@ -92,4 +92,30 @@ public class ToolsTest
 		assertEquals( "", Tools.getFileBaseName( ".txt" ) );
 		assertEquals( "image.txt", Tools.getFileBaseName( "image.txt.jpg" ) );
 	}
+
+	/**
+	 * Test finding how many percent a fraction is of the total.
+	 */
+	@Test
+	public void testPercent()
+	{
+		assertEquals( 0.08, Tools.percent( 1, 1250 ), 10 );
+		assertEquals( 25, Tools.percent( 50, 200 ), 10 );
+		assertEquals( 50, Tools.percent( 5, 10 ),  10 );
+		assertEquals( 100, Tools.percent( 10, 10 ), 10 );
+		assertEquals( 200, Tools.percent( 60, 30 ), 10 );
+	}
+
+	/**
+	 * Test finding the fraction from the percent of the total.
+	 */
+	@Test
+	public void testPercentOf()
+	{
+		assertEquals( 1, Tools.percentOf( 0.08, 1250 ), 10 );
+		assertEquals( 50, Tools.percentOf( 25, 200 ),  10 );
+		assertEquals( 5, Tools.percentOf( 50, 10 ), 10 );
+		assertEquals( 10, Tools.percentOf( 100, 10 ), 10 );
+		assertEquals( 60, Tools.percentOf( 200, 30 ), 10 );
+	}
 }

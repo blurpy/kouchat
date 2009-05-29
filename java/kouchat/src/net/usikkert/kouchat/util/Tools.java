@@ -331,4 +331,32 @@ public final class Tools
 
 		return filename.substring( 0, dotIndex );
 	}
+
+	/**
+	 * Finds how many percent a fraction is of the total.
+	 *
+	 * <p>Example: percent( 50, 200 ) returns 25.</p>
+	 *
+	 * @param fraction The fraction of the total to find the percentage of.
+	 * @param total The total.
+	 * @return How many percent the fraction is of the total.
+	 */
+	public static double percent( final double fraction, final double total )
+	{
+		return ( 100.0 / total ) * fraction;
+	}
+
+	/**
+	 * Finds the fraction from the percent of the total.
+	 *
+	 * <p>Example: percentOf( 25, 200 ) returns 50.</p>
+	 *
+	 * @param percent How many percent of the total to get the fraction from.
+	 * @param total The total.
+	 * @return The fraction as percent of the total.
+	 */
+	public static double percentOf( final double percent, final double total )
+	{
+		return ( percent / 100.0 ) * total;
+	}
 }
