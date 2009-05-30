@@ -178,14 +178,14 @@ public class FileReceiver implements FileTransfer
 				int tmpTransferred = 0;
 				int tmpPercent = 0;
 				int transCounter = 0;
-				bCounter.reset();
+				bCounter.prepare();
 
 				while ( !cancel && ( tmpTransferred = is.read( b ) ) != -1 )
 				{
 					fos.write( b, 0, tmpTransferred );
 					transferred += tmpTransferred;
 					percent = (int) ( ( transferred * 100 ) / size );
-					bCounter.update( tmpTransferred );
+					bCounter.addBytes( tmpTransferred );
 					transCounter++;
 
 					if ( percent > tmpPercent || transCounter >= 250 )
