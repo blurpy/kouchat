@@ -322,7 +322,6 @@ public class ByteCounterTest
 		}
 
 		assertEquals( 256000, counter.getBytesPerSec() );
-		assertEquals( "250,00KB", Tools.byteToString( counter.getBytesPerSec() ) );
 		assertEquals( 0, counter.getBytesCounted() );
 		assertEquals( 0, counter.getTimeCounted() );
 	}
@@ -350,14 +349,13 @@ public class ByteCounterTest
 		}
 
 		assertEquals( 1024000, counter.getBytesPerSec() );
-		assertEquals( "1000,00KB", Tools.byteToString( counter.getBytesPerSec() ) );
 		assertEquals( 0, counter.getBytesCounted() );
 		assertEquals( 0, counter.getTimeCounted() );
 	}
 
 	/**
 	 * Tests a fast file transfer, with 1 KB counted 10 times every millisecond
-	 * for exactly one second. Which gives a speed of 10.000 KB/s.
+	 * for exactly one second. Which gives a speed of 10.000 KB/s (9,77 MB/s).
 	 */
 	@Test
 	public void testFastTransfer()
@@ -389,14 +387,13 @@ public class ByteCounterTest
 		}
 
 		assertEquals( 10240000, counter.getBytesPerSec() );
-		assertEquals( "9,77MB", Tools.byteToString( counter.getBytesPerSec() ) );
 		assertEquals( 0, counter.getBytesCounted() );
 		assertEquals( 0, counter.getTimeCounted() );
 	}
 
 	/**
 	 * Tests a very fast file transfer, with 1 KB counted 50 times every millisecond
-	 * for exactly one second. Which gives a speed of 50.000 KB/s.
+	 * for exactly one second. Which gives a speed of 50.000 KB/s (48,83 MB/s).
 	 */
 	@Test
 	public void testVeryFastTransfer()
@@ -428,7 +425,6 @@ public class ByteCounterTest
 		}
 
 		assertEquals( 51200000, counter.getBytesPerSec() );
-		assertEquals( "48,83MB", Tools.byteToString( counter.getBytesPerSec() ) );
 		assertEquals( 0, counter.getBytesCounted() );
 		assertEquals( 0, counter.getTimeCounted() );
 	}
@@ -438,7 +434,8 @@ public class ByteCounterTest
 	 *
 	 * <p>It's not easy to make a verification of the result in a consistent
 	 * way since we are dealing with time, so the test just checks that
-	 * adding bytes leads to a calculation at some point.</p>
+	 * adding bytes leads to a calculation at some point. This should take
+	 * about one second.</p>
 	 */
 	@Test
 	public void testOfficialAPIWorks()
