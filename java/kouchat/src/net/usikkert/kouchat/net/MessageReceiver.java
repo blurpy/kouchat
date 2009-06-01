@@ -117,13 +117,16 @@ public class MessageReceiver implements Runnable
 				DatagramPacket packet = new DatagramPacket(
 						new byte[Constants.NETWORK_PACKET_SIZE], Constants.NETWORK_PACKET_SIZE );
 
-				mcSocket.receive( packet );
-				String ip = packet.getAddress().getHostAddress();
-				String message = new String( packet.getData(), Constants.MESSAGE_CHARSET ).trim();
-				LOG.log( Level.FINE, "Message arrived from " + ip + ": " + message );
+				if ( connected )
+				{
+					mcSocket.receive( packet );
+					String ip = packet.getAddress().getHostAddress();
+					String message = new String( packet.getData(), Constants.MESSAGE_CHARSET ).trim();
+					LOG.log( Level.FINE, "Message arrived from " + ip + ": " + message );
 
-				if ( listener != null )
-					listener.messageArrived( message, ip );
+					if ( listener != null )
+						listener.messageArrived( message, ip );
+				}
 			}
 
 			// Happens when socket is closed, or network is down
@@ -157,7 +160,7 @@ public class MessageReceiver implements Runnable
 	 * @param networkInterface The network interface to use, or <code>null</code>.
 	 * @return If connected to the network or not.
 	 */
-	public boolean startReceiver( final NetworkInterface networkInterface )
+	public synchronized boolean startReceiver( final NetworkInterface networkInterface )
 	{
 		LOG.log( Level.FINE, "Connecting..." );
 
@@ -206,7 +209,7 @@ public class MessageReceiver implements Runnable
 	/**
 	 * Disconnects from the network and closes the multicast socket.
 	 */
-	public void stopReceiver()
+	public synchronized void stopReceiver()
 	{
 		LOG.log( Level.FINE, "Disconnecting..." );
 

@@ -105,7 +105,7 @@ public class MessageSender
 	 * @see Constants#MESSAGE_CHARSET
 	 * @see Constants#NETWORK_PACKET_SIZE
 	 */
-	public boolean send( final String message )
+	public synchronized boolean send( final String message )
 	{
 		if ( connected )
 		{
@@ -139,7 +139,7 @@ public class MessageSender
 	/**
 	 * Disconnects from the network and closes the multicast socket.
 	 */
-	public void stopSender()
+	public synchronized void stopSender()
 	{
 		LOG.log( Level.FINE, "Disconnecting..." );
 
@@ -183,7 +183,7 @@ public class MessageSender
 	 * @param networkInterface The network interface to use, or <code>null</code>.
 	 * @return If connected to the network or not.
 	 */
-	public boolean startSender( final NetworkInterface networkInterface )
+	public synchronized boolean startSender( final NetworkInterface networkInterface )
 	{
 		LOG.log( Level.FINE, "Connecting..." );
 

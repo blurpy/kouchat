@@ -23,6 +23,8 @@
   - Added tips & tricks from the wiki to the help menu
   - Renamed /names to /users
   - Made /quit a normal command
+  - Fixed a NullPointerException concurrency bug in classes for sending
+    and receiving messages
 
 
 * version 0.9.9 (27.12.2008):
