@@ -4,4 +4,3 @@
 * Release v1.0.0:
  - Javadoc fields
  - More unit tests
- - Look into strange issue with restoring a maximized main chat from systray

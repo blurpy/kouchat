@@ -138,7 +138,8 @@ There are 11 different smileys available, for different needs. Try them :)
 15. Why is the window sometimes only maximized vertically or horizontally
 after being unhidden from the system tray?
 
-I don't know! I'm looking into it.
+I don't know! But I'm unable to reproduce the problem using early
+versions of Java 7, so I'm guessing it's not my bug ;) 
 
 
 16. I have a great suggestion for a new feature. What do I do?
