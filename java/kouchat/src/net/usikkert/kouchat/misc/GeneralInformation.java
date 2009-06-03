@@ -38,7 +38,8 @@ public class GeneralInformation implements GeneralInformationMBean
 		sb.append( "Client: " + me.getClient() + "\n" );
 		sb.append( "User name: " + me.getNick() + "\n" );
 		sb.append( "IP address: " + me.getIpAddress() + "\n" );
-		sb.append( "Operating system: " + me.getOperatingSystem() );
+		sb.append( "Host name: " + me.getHostName() + "\n" );
+		sb.append( "Operating System: " + me.getOperatingSystem() );
 
 		return sb.toString();
 	}
