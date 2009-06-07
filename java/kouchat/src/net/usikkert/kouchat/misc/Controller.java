@@ -535,6 +535,7 @@ public class Controller implements NetworkConnectionListener
 	 * @param file The file to send.
 	 * @throws CommandException If there is no connection to the network,
 	 * 		or the application user is away,
+	 *      or the specified user is away,
 	 * 		or the file name is too long.
 	 */
 	public void sendFile( final User user, final File file ) throws CommandException
@@ -543,6 +544,8 @@ public class Controller implements NetworkConnectionListener
 			throw new CommandException( "You can not send a file without being connected" );
 		else if ( me.isAway() )
 			throw new CommandException( "You can not send a file while away" );
+		else if ( user.isAway() )
+			throw new CommandException( "You can not send a file to a user that is away" );
 		else if ( Tools.getBytes( file.getName() ) > Constants.MESSAGE_MAX_BYTES )
 			throw new CommandException( "You can not send a file with a name with more than " + Constants.MESSAGE_MAX_BYTES + " bytes" );
 		else
@@ -597,7 +600,8 @@ public class Controller implements NetworkConnectionListener
 	 * 		or the application user is away,
 	 * 		or the private message is empty,
 	 * 		or the private message is too long,
-	 * 		or the specified user has no port to send the private message to.
+	 * 		or the specified user has no port to send the private message to,
+	 *      or the specified user is away.
 	 */
 	public void sendPrivateMessage( final String privmsg, final User user ) throws CommandException
 	{
@@ -611,6 +615,8 @@ public class Controller implements NetworkConnectionListener
 			throw new CommandException( "You can not send a private chat message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes" );
 		else if ( user.getPrivateChatPort() == 0 )
 			throw new CommandException( "You can not send a private chat message to a user with no available port number" );
+		else if ( user.isAway() )
+			throw new CommandException( "You can not send a private chat message to a user that is away" );
 		else
 			messages.sendPrivateMessage( privmsg, user );
 	}
