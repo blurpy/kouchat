@@ -1,6 +1,10 @@
 
 - KouChat v1.0.0 TODO
 
+* Release v1.0.0:
+ - Prepare for release
+
+
 * Release v1.0.x:
  - Javadoc fields
  - More unit tests
@@ -12,7 +16,11 @@
  - Multi-line messages (issue 12)
  - System tray balloon on new message (issue 13)
 
- 
+
+* Release v1.2:
+ - Internationalization
+
+
 * Release v2.0:
  - Direct TCP/IP connection to users
  - Point to point encryption (issue 4)
