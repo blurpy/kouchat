@@ -1,6 +1,20 @@
 
 - KouChat v1.0.0 TODO
 
-* Release v1.0.0:
+* Release v1.0.x:
  - Javadoc fields
  - More unit tests
+
+
+* Release v1.1:
+ - Minimize on close (issue 8)
+ - Animated system tray icon (issue 11)
+ - Multi-line messages (issue 12)
+ - System tray balloon on new message (issue 13)
+
+ 
+* Release v2.0:
+ - Direct TCP/IP connection to users
+ - Point to point encryption (issue 4)
+ - Send all files in folder
+ - Only see users in specified group
