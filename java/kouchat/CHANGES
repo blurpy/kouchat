@@ -25,6 +25,8 @@
   - Made /quit a normal command
   - Fixed a NullPointerException concurrency bug in classes for sending
     and receiving messages
+  - Added info message about the need to restart when the look and feel is
+    changed from the settings
 
 
 * version 0.9.9 (27.12.2008):

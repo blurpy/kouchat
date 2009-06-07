@@ -125,7 +125,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 
 		lookAndFeelL = new JLabel( "Look and feel" );
 		lookAndFeelL.setToolTipText( "<html>Gives a choice of all the different looks that are available."
-				+ "<br />Note that the application needs to be restarted for the"
+				+ "<br />Note that " + Constants.APP_NAME + " needs to be restarted for the"
 				+ "<br />changes to take effect.</html>" );
 		lookAndFeelCB = new JComboBox( UITools.getLookAndFeels() );
 
@@ -286,6 +286,7 @@ public class SettingsDialog extends JDialog implements ActionListener
 						settings.setLookAndFeel( lnfw.getLookAndFeelInfo().getName() );
 						settings.saveSettings();
 						setVisible( false );
+						notifyLookAndFeelChange( lnfw );
 					}
 				}
 			} );
@@ -400,6 +401,25 @@ public class SettingsDialog extends JDialog implements ActionListener
 				File file = chooser.getSelectedFile().getAbsoluteFile();
 				browserTF.setText( file.getAbsolutePath() );
 			}
+		}
+	}
+
+	/**
+	 * Notifies the user that the application needs to be restarted before
+	 * the new look and feel is used.
+	 *
+	 * @param lnfw Information about the chosen look and feel.
+	 */
+	private void notifyLookAndFeelChange( final LookAndFeelWrapper lnfw )
+	{
+		String newLookAndFeel = lnfw.getLookAndFeelInfo().getName();
+		LookAndFeelInfo currentLookAndFeel = UITools.getCurrentLookAndFeel();
+
+		if ( currentLookAndFeel == null || !newLookAndFeel.equals( currentLookAndFeel.getName() ) )
+		{
+			UITools.showInfoMessage( "The new look and feel will be used the next time "
+					+ Constants.APP_NAME + " is started.",
+					"Changed look and feel" );
 		}
 	}
 
