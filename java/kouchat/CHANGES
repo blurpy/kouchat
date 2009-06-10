@@ -1,7 +1,7 @@
 
 - KouChat v1.0.0 CHANGES
 
-* version 1.0.0 (xx.xx.2009):
+* version 1.0.0 (10.06.2009):
   - Updated headers to include copyright for 2009
   - Added right click menu for copy/paste in the settings dialog
   - Changed to using user name from the operating system as default nick name
