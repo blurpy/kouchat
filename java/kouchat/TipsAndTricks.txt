@@ -1,5 +1,5 @@
 
-- KouChat v1.0.0 Tips & tricks
+- KouChat v1.1.0 Tips & tricks
 
 Become a KouChat power user with these tips & tricks :) 
 

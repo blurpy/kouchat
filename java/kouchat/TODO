@@ -1,7 +1,7 @@
 
-- KouChat v1.0.0 TODO
+- KouChat v1.1.0 TODO
 
-* Release v1.1:
+* Release v1.1.0:
  - Minimize on close (issue 8)
  - Animated system tray icon (issue 11)
  - Multi-line messages (issue 12)
