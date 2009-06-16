@@ -2,7 +2,8 @@
 - KouChat v1.1.0 CHANGES
 
 * version 1.1.0 (xx.xx.2009):
-  - None yet
+  - Fix for PatternSyntaxException when parsing commands containing regex
+    meta characters
 
 
 * version 1.0.0 (10.06.2009):

@@ -25,6 +25,7 @@ import java.io.File;
 
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.net.FileReceiver;
@@ -852,7 +853,7 @@ public class CommandParser
 
 		if ( command.length() > 0 )
 		{
-			String args = line.replaceFirst( "/" + command, "" );
+			String args = line.replaceFirst( "/" + Pattern.quote( command ), "" );
 
 			if ( command.equals( "topic" ) )
 				cmdTopic( args );
