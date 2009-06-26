@@ -164,7 +164,18 @@ public class MockMediator implements Mediator
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void showWindow()
+	public void showOrHideWindow()
+	{
+
+	}
+
+	/**
+	 * Not implemented.
+	 *
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void minimizeWindowIfHidden()
 	{
 
 	}

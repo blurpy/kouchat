@@ -475,4 +475,15 @@ public final class UITools
 		if ( isMinimized( frame ) )
 			frame.setExtendedState( frame.getExtendedState() & ~JFrame.ICONIFIED );
 	}
+
+	/**
+	 * Minimizes a window to the taskbar.
+	 *
+	 * @param frame The window to minimize.
+	 */
+	public static void minimize( final JFrame frame )
+	{
+		if ( !isMinimized( frame ) )
+			frame.setExtendedState( frame.getExtendedState() | JFrame.ICONIFIED );
+	}
 }

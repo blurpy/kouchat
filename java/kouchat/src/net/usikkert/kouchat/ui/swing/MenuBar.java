@@ -153,14 +153,6 @@ public class MenuBar extends JMenuBar implements ActionListener
 	}
 
 	/**
-	 * Disables the minimize button.
-	 */
-	public void disableMinimize()
-	{
-		minimizeMI.setEnabled( false );
-	}
-
-	/**
 	 * Checks if any of the menus are visible.
 	 *
 	 * @return True if at least one menu is visible.

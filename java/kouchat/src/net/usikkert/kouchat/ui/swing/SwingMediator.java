@@ -98,25 +98,21 @@ public class SwingMediator implements Mediator, UserInterface
 		cmdParser = new CommandParser( controller, this );
 		beeper = new SoundBeeper();
 
-		if ( !sysTray.isSystemTraySupport() )
-		{
-			buttonP.disableMinimize();
-			menuBar.disableMinimize();
-		}
-
 		sideP.setUserList( controller.getUserList() );
 		mainP.setAutoCompleter( controller.getAutoCompleter() );
 	}
 
 	/**
-	 * Hides the main window in the system tray,
-	 * if a system tray is supported.
+	 * Hides the main window in the system tray if a system tray is supported.
+	 * Or just minimizes the window to the taskbar.
 	 */
 	@Override
 	public void minimize()
 	{
 		if ( sysTray.isSystemTraySupport() )
 			gui.setVisible( false );
+		else
+			UITools.minimize( gui );
 	}
 
 	/**
@@ -286,7 +282,7 @@ public class SwingMediator implements Mediator, UserInterface
 	 * The window will always be brought to front when shown.
 	 */
 	@Override
-	public void showWindow()
+	public void showOrHideWindow()
 	{
 		if ( gui.isVisible() )
 			minimize();
@@ -298,6 +294,20 @@ public class SwingMediator implements Mediator, UserInterface
 
 			gui.setVisible( true );
 			gui.toFront();
+		}
+	}
+
+	/**
+	 * If the main window is hidden it is set visible,
+	 * but only as minimized in the taskbar.
+	 */
+	@Override
+	public void minimizeWindowIfHidden()
+	{
+		if ( !gui.isVisible() )
+		{
+			UITools.minimize( gui );
+			gui.setVisible( true );
 		}
 	}
 

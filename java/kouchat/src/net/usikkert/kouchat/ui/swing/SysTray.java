@@ -31,11 +31,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -47,7 +48,7 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class SysTray implements ActionListener, MouseListener
+public class SysTray implements ActionListener, MouseListener, PropertyChangeListener
 {
 	/** The logger. */
 	private static final Logger LOG = Logger.getLogger( SysTray.class.getName() );
@@ -75,7 +76,6 @@ public class SysTray implements ActionListener, MouseListener
 	public SysTray( final ImageLoader imageLoader )
 	{
 		Validate.notNull( imageLoader, "Image loader can not be null" );
-		ErrorHandler errorHandler = ErrorHandler.getErrorHandler();
 
 		if ( SystemTray.isSupported() )
 		{
@@ -94,23 +94,21 @@ public class SysTray implements ActionListener, MouseListener
 			try
 			{
 				sysTray.add( trayIcon );
+				sysTray.addPropertyChangeListener( "trayIcons", this );
 				systemTraySupported = true;
 			}
 
 			catch ( final AWTException e )
 			{
-				// This happens if the System Tray is hidden on a system
+				// This may happen if the System Tray is hidden on a system
 				// that actually supports a System Tray.
 				LOG.log( Level.SEVERE, e.toString() );
-				errorHandler.showError( "System Tray is not visible. Deactivating System Tray support." );
 			}
 		}
 
 		else
 		{
-			String error = "System Tray is not supported. Deactivating System Tray support.";
-			LOG.log( Level.SEVERE, error );
-			errorHandler.showError( error );
+			LOG.log( Level.SEVERE, "System Tray is not supported. Deactivating System Tray support." );
 		}
 	}
 
@@ -222,7 +220,7 @@ public class SysTray implements ActionListener, MouseListener
 			else if ( trayIcon.getImage() == statusIcons.getAwayActivityIcon() )
 				trayIcon.setImage( statusIcons.getAwayIcon() );
 
-			mediator.showWindow();
+			mediator.showOrHideWindow();
 		}
 	}
 
@@ -279,5 +277,31 @@ public class SysTray implements ActionListener, MouseListener
 	{
 		if ( trayIcon.getImage() != icon )
 			trayIcon.setImage( icon );
+	}
+
+	/**
+	 * Listens for changes to the available system tray icons.
+	 * After the initial icon has been added there will never be any
+	 * more changes made by the application. So if this event happens,
+	 * it means that an icon was removed by the jvm, and that is
+	 * usually caused by the system tray being removed.
+	 *
+	 * <p>To handle this, the system tray support is deactivated and
+	 * the main window is unhidden, so it's possible for the user
+	 * to continue without having to kill the application.</p>
+	 *
+	 * @param e A trayicon change event.
+	 */
+	@Override
+	public void propertyChange( final PropertyChangeEvent e )
+	{
+		TrayIcon[] icons = (TrayIcon[]) e.getNewValue();
+
+		if ( icons.length == 0 )
+		{
+			LOG.log( Level.SEVERE, "System Tray removed. Deactivating System Tray support." );
+			systemTraySupported = false;
+			mediator.minimizeWindowIfHidden();
+		}
 	}
 }

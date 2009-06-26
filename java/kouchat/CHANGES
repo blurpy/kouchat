@@ -4,6 +4,11 @@
 * version 1.1.0 (xx.xx.2009):
   - Fix for PatternSyntaxException when parsing commands containing regex
     meta characters
+  - If the main window is minimized to the system tray and the system tray
+    disappears, the window is shown as minimized in the taskbar instead
+  - If the system tray is missing, the minimize feature minimizes to the
+    taskbar instead of being deactivated
+  - Removed annoying error message if the system tray is missing
 
 
 * version 1.0.0 (10.06.2009):

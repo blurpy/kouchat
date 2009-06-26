@@ -77,7 +77,13 @@ public interface Mediator
 	 * Shows or hides the main window.
 	 * The window will always be brought to front when shown.
 	 */
-	void showWindow();
+	void showOrHideWindow();
+
+	/**
+	 * If the main window is hidden it is set visible,
+	 * but only as minimized in the taskbar.
+	 */
+	void minimizeWindowIfHidden();
 
 	/**
 	 * Opens the settings dialog window.

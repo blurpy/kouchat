@@ -118,15 +118,6 @@ public class ButtonPanel extends JPanel implements ActionListener
 	}
 
 	/**
-	 * Disables the minimize button.
-	 * Useful when the operating system does not have a system tray.
-	 */
-	public void disableMinimize()
-	{
-		minimizeB.setEnabled( false );
-	}
-
-	/**
 	 * The listener for button clicks.
 	 *
 	 * {@inheritDoc}
