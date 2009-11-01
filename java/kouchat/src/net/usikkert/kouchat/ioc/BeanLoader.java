@@ -29,7 +29,9 @@ public interface BeanLoader
 {
 	void loadBeans();
 
-	void autowire( Object object );
+	void autowire( Object objectToAutowire );
 
 	Object getBean( Class<?> beanClass );
+
+	void addBean( Object bean );
 }

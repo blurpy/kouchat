@@ -74,16 +74,16 @@ public class DefaultAnnotatedBeanLoader implements BeanLoader
 	}
 
 	@Override
-	public Object getBean( final Class<?> beanClass )
+	public Object getBean( final Class<?> beanNeeded )
 	{
-		final Object bean = beans.get( beanClass );
+		return findBean( beanNeeded );
+	}
 
-		if ( bean == null )
-		{
-			throw new RuntimeException( "No matching bean found for " + beanClass );
-		}
-
-		return bean;
+	@Override
+	public void addBean( final Object bean )
+	{
+		final Class<? extends Object> beanClass = bean.getClass();
+		beans.put( beanClass, bean );
 	}
 
 	private void loadAndAutowireBeans() throws Exception
@@ -135,7 +135,7 @@ public class DefaultAnnotatedBeanLoader implements BeanLoader
 		while ( beanIterator.hasNext() )
 		{
 			final Class<?> beanClass = beanIterator.next();
-			autowire( beanClass, beans.get(beanClass) );
+			autowire( beanClass, beans.get( beanClass ) );
 		}
 	}
 
@@ -160,6 +160,11 @@ public class DefaultAnnotatedBeanLoader implements BeanLoader
 	private Object findBean( final Field field )
 	{
 		final Class<?> beanNeeded = field.getType();
+		return findBean( beanNeeded );
+	}
+
+	private Object findBean( final Class<?> beanNeeded )
+	{
 		final Iterator<Class<?>> beanIterator = beans.keySet().iterator();
 		final List<Object> matches = new ArrayList<Object>();
 
