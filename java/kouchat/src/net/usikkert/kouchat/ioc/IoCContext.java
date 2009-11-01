@@ -48,4 +48,9 @@ public class IoCContext
 	{
 		IoCContext.beanLoader = beanLoader;
 	}
+
+	public static Object getBean( final Class<?> beanClass )
+	{
+		return beanLoader.getBean( beanClass );
+	}
 }

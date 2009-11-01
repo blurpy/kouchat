@@ -30,4 +30,6 @@ public interface BeanLoader
 	void loadBeans();
 
 	void autowire( Object object );
+
+	Object getBean( Class<?> beanClass );
 }

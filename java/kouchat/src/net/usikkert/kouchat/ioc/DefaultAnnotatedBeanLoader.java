@@ -43,7 +43,7 @@ public class DefaultAnnotatedBeanLoader implements BeanLoader
 
 	private static final String BASE_PACKAGE = "net.usikkert.kouchat";
 
-	private final Map<Class<?>, Object> beans = new HashMap<Class<?>, Object>();
+	protected final Map<Class<?>, Object> beans = new HashMap<Class<?>, Object>();
 
 	@Override
 	public void loadBeans()
@@ -71,6 +71,19 @@ public class DefaultAnnotatedBeanLoader implements BeanLoader
 		{
 			throw new RuntimeException( e );
 		}
+	}
+
+	@Override
+	public Object getBean( final Class<?> beanClass )
+	{
+		final Object bean = beans.get( beanClass );
+
+		if ( bean == null )
+		{
+			throw new RuntimeException( "No matching bean found for " + beanClass );
+		}
+
+		return bean;
 	}
 
 	private void loadAndAutowireBeans() throws Exception
