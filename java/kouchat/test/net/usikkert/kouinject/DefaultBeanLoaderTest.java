@@ -42,20 +42,20 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test of {@link DefaultAnnotatedBeanLoader}.
+ * Test of {@link DefaultBeanLoader}.
  *
  * @author Christian Ihle
  */
-public class DefaultAnnotatedBeanLoaderTest
+public class DefaultBeanLoaderTest
 {
-	private DefaultAnnotatedBeanLoader beanLoader;
+	private DefaultBeanLoader beanLoader;
 
 	@Before
 	public void loadBeans()
 	{
 		final ClassLocator classLocator = new ClassPathScanner();
 		final BeanDataHandler beanDataHandler = new AnnotationBasedBeanDataHandler();
-		beanLoader = new DefaultAnnotatedBeanLoader( "net.usikkert.kouinject", beanDataHandler, classLocator );
+		beanLoader = new DefaultBeanLoader( "net.usikkert.kouinject", beanDataHandler, classLocator );
 		beanLoader.loadBeans();
 	}
 
@@ -187,7 +187,7 @@ public class DefaultAnnotatedBeanLoaderTest
 	{
 		final ClassLocator classLocator = new ClassPathScanner();
 		final BeanDataHandler beanDataHandler = new AnnotationBasedBeanDataHandler();
-		final DefaultAnnotatedBeanLoader loader = new DefaultAnnotatedBeanLoader( beanDataHandler, classLocator );
+		final DefaultBeanLoader loader = new DefaultBeanLoader( beanDataHandler, classLocator );
 
 		final HelloBean helloBean = mock( HelloBean.class );
 		loader.addBean( helloBean );

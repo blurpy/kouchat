@@ -33,7 +33,7 @@ public class IoCContext
 	{
 		final BeanDataHandler beanDataHandler = new AnnotationBasedBeanDataHandler();
 		final ClassLocator classLocator = new ClassPathScanner();
-		beanLoader = new DefaultAnnotatedBeanLoader( beanDataHandler, classLocator );
+		beanLoader = new DefaultBeanLoader( beanDataHandler, classLocator );
 	}
 
 	public static void loadContext()

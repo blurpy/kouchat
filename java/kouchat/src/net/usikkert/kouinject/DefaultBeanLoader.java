@@ -43,9 +43,9 @@ import java.util.logging.Logger;
  *
  * @author Christian Ihle
  */
-public class DefaultAnnotatedBeanLoader implements BeanLoader
+public class DefaultBeanLoader implements BeanLoader
 {
-	private static final Logger LOG = Logger.getLogger( DefaultAnnotatedBeanLoader.class.getName() );
+	private static final Logger LOG = Logger.getLogger( DefaultBeanLoader.class.getName() );
 
 	private static final String DEFAULT_BASE_PACKAGE = "net.usikkert.kouchat";
 
@@ -58,7 +58,7 @@ public class DefaultAnnotatedBeanLoader implements BeanLoader
 
 	private final ClassLocator classLocator;
 
-	public DefaultAnnotatedBeanLoader( final BeanDataHandler beanDataHandler,
+	public DefaultBeanLoader( final BeanDataHandler beanDataHandler,
 			final ClassLocator classLocator )
 	{
 		this.basePackage = DEFAULT_BASE_PACKAGE;
@@ -66,7 +66,7 @@ public class DefaultAnnotatedBeanLoader implements BeanLoader
 		this.classLocator = classLocator;
 	}
 
-	public DefaultAnnotatedBeanLoader( final String basePackage,
+	public DefaultBeanLoader( final String basePackage,
 			final BeanDataHandler beanDataHandler,
 			final ClassLocator classLocator )
 	{
