@@ -52,10 +52,20 @@ public class DefaultAnnotatedBeanLoader implements BeanLoader
 {
 	private static final Logger LOG = Logger.getLogger( DefaultAnnotatedBeanLoader.class.getName() );
 
-	private static final String BASE_PACKAGE = "net.usikkert.kouchat";
+	private static final String DEFAULT_BASE_PACKAGE = "net.usikkert.kouchat";
 
 	protected final Map<Class<?>, Object> beans = new HashMap<Class<?>, Object>();
 	protected final Map<Class<?>, BeanData> beandata = new HashMap<Class<?>, BeanData>();
+
+	private final String basePackage;
+
+	public DefaultAnnotatedBeanLoader() {
+		basePackage = DEFAULT_BASE_PACKAGE;
+	}
+
+	public DefaultAnnotatedBeanLoader(final String basePackage) {
+		this.basePackage = basePackage;
+	}
 
 	@Override
 	public void loadBeans()
@@ -237,7 +247,7 @@ public class DefaultAnnotatedBeanLoader implements BeanLoader
 	private Set<Class<?>> findBeans( final Class<? extends Annotation> annotation )
 	{
 		final ClassPathScanner classPathScanner = new ClassPathScanner();
-		final Set<Class<?>> allClasses = classPathScanner.findClasses( BASE_PACKAGE );
+		final Set<Class<?>> allClasses = classPathScanner.findClasses( basePackage );
 		final Set<Class<?>> detectedBeans = new HashSet<Class<?>>();
 
 		for ( final Class<?> clazz : allClasses )
@@ -333,7 +343,7 @@ public class DefaultAnnotatedBeanLoader implements BeanLoader
 		if ( matches.size() == 0 )
 		{
 			if (throwEx)
-				throw new RuntimeException( "No matching bean found for autowiring " + beanNeeded );
+				throw new IllegalArgumentException( "No matching bean found for autowiring " + beanNeeded );
 			else
 				return null;
 		}
@@ -346,7 +356,7 @@ public class DefaultAnnotatedBeanLoader implements BeanLoader
 		return matches.get( 0 );
 	}
 
-	public boolean allDependenciesAreMet( final BeanData beanData ) {
+	private boolean allDependenciesAreMet( final BeanData beanData ) {
 		for (final Class<?> class1 : beanData.getDependencies()) {
 			final Object dependency = findBean(class1, false);
 
@@ -358,7 +368,7 @@ public class DefaultAnnotatedBeanLoader implements BeanLoader
 		return true;
 	}
 
-	public List<Class<?>> findMissingDependencies( final BeanData beanData ) {
+	private List<Class<?>> findMissingDependencies( final BeanData beanData ) {
 		final List<Class<?>> missingDeps = new ArrayList<Class<?>>();
 
 		for (final Class<?> class1 : beanData.getDependencies()) {
