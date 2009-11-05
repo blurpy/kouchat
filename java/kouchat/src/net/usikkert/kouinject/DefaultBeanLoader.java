@@ -49,9 +49,9 @@ public class DefaultBeanLoader implements BeanLoader
 
 	private static final String DEFAULT_BASE_PACKAGE = "net.usikkert.kouchat";
 
-	private final Map<Class<?>, Object> beans = new HashMap<Class<?>, Object>();
+	private final Map<Class<?>, Object> beanMap = new HashMap<Class<?>, Object>();
 
-	private final Map<Class<?>, BeanData> beandata = new HashMap<Class<?>, BeanData>();
+	private final Map<Class<?>, BeanData> beanDataMap = new HashMap<Class<?>, BeanData>();
 
 	private final String basePackage;
 
@@ -91,16 +91,17 @@ public class DefaultBeanLoader implements BeanLoader
 	{
 		try
 		{
-			final BeanData beanData2 = beanDataHandler.getBeanData( objectToAutowire.getClass(), true );
+			final BeanData beanData = beanDataHandler.getBeanData( objectToAutowire.getClass(), true );
+			final List<Class<?>> missingDependencies = findMissingDependencies( beanData );
 
-			if ( allDependenciesAreMet( beanData2 ) )
+			if ( allDependenciesAreMet( missingDependencies ) )
 			{
-				autowireBean( beanData2, objectToAutowire );
+				autowireBean( beanData, objectToAutowire );
 			}
 
 			else
 			{
-				throw new RuntimeException( "Could not autowire object, missing dependencies" );
+				throw new RuntimeException( "Could not autowire object, missing dependencies: " + missingDependencies );
 			}
 		}
 
@@ -121,15 +122,15 @@ public class DefaultBeanLoader implements BeanLoader
 	{
 		final Class<? extends Object> beanClass = bean.getClass();
 		LOG.info( "Bean added: " + beanClass.getName() );
-		beans.put( beanClass, bean );
+		beanMap.put( beanClass, bean );
 	}
 
 	private void loadBeanData( final Set<Class<?>> detectedBeans ) throws Exception
 	{
 		for ( final Class<?> beanClass : detectedBeans )
 		{
-			final BeanData findBeanData = beanDataHandler.getBeanData( beanClass, false );
-			beandata.put( beanClass, findBeanData );
+			final BeanData beanData = beanDataHandler.getBeanData( beanClass, false );
+			beanDataMap.put( beanClass, beanData );
 		}
 	}
 
@@ -137,7 +138,7 @@ public class DefaultBeanLoader implements BeanLoader
 	{
 		int round = 1;
 
-		while ( beans.size() < detectedBeans.size() )
+		while ( beanMap.size() < detectedBeans.size() )
 		{
 			LOG.info( "Adding beans, round: " + round );
 			autowireBean();
@@ -149,17 +150,17 @@ public class DefaultBeanLoader implements BeanLoader
 	{
 		boolean beansAdded = false;
 
-		final Iterator<Class<?>> iterator = beandata.keySet().iterator();
+		final Iterator<Class<?>> iterator = beanDataMap.keySet().iterator();
 		while ( iterator.hasNext() )
 		{
 			final Class<?> class1 = iterator.next();
-			final BeanData beanData2 = beandata.get( class1 );
-			final List<Class<?>> missingDependencies = findMissingDependencies( beanData2 );
+			final BeanData beanData = beanDataMap.get( class1 );
+			final List<Class<?>> missingDependencies = findMissingDependencies( beanData );
 
-			if ( missingDependencies.size() == 0 )
+			if ( allDependenciesAreMet( missingDependencies ) )
 			{
-				final Object instance = getInstance( beanData2 );
-				beans.put( class1, instance );
+				final Object instance = getInstance( beanData );
+				beanMap.put( class1, instance );
 				iterator.remove();
 				beansAdded = true;
 				LOG.info( "Bean added: " + class1.getName() );
@@ -199,7 +200,7 @@ public class DefaultBeanLoader implements BeanLoader
 
 		final long stop = System.currentTimeMillis();
 
-		LOG.info( "All beans added in: " + (stop - start) + " ms" );
+		LOG.info( "All beans added in: " + ( stop - start ) + " ms" );
 	}
 
 	private Set<Class<?>> findBeans()
@@ -267,7 +268,7 @@ public class DefaultBeanLoader implements BeanLoader
 
 	private Object findBean( final Class<?> beanNeeded, final boolean throwEx )
 	{
-		final Iterator<Class<?>> beanIterator = beans.keySet().iterator();
+		final Iterator<Class<?>> beanIterator = beanMap.keySet().iterator();
 		final List<Object> matches = new ArrayList<Object>();
 
 		while ( beanIterator.hasNext() )
@@ -276,7 +277,7 @@ public class DefaultBeanLoader implements BeanLoader
 
 			if ( beanNeeded.isAssignableFrom( beanClass ) )
 			{
-				matches.add( beans.get( beanClass ) );
+				matches.add( beanMap.get( beanClass ) );
 			}
 		}
 
@@ -298,9 +299,8 @@ public class DefaultBeanLoader implements BeanLoader
 		return matches.get( 0 );
 	}
 
-	private boolean allDependenciesAreMet( final BeanData beanData )
+	private boolean allDependenciesAreMet( final List<Class<?>> missingDependencies )
 	{
-		final List<Class<?>> missingDependencies = findMissingDependencies( beanData );
 		return missingDependencies.size() == 0;
 	}
 

@@ -44,7 +44,7 @@ public class ClassPathScanner implements ClassLocator
 	@Override
 	public Set<Class<?>> findClasses( final String packageName )
 	{
-		final ClassLoader loader = Thread.currentThread().getContextClassLoader();
+		final ClassLoader loader = getClassLoader();
 
 		try
 		{
@@ -62,6 +62,16 @@ public class ClassPathScanner implements ClassLocator
 		{
 			throw new RuntimeException( e );
 		}
+	}
+
+	private ClassLoader getClassLoader()
+	{
+		final ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+
+		if ( contextClassLoader != null )
+			return contextClassLoader;
+		else
+			return getClass().getClassLoader();
 	}
 
 	private Set<Class<?>> findClasses( final ClassLoader loader, final String packageName ) throws Exception
