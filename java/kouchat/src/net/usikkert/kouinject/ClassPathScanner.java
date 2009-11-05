@@ -37,10 +37,11 @@ import net.usikkert.kouchat.util.Tools;
  *
  * @author Christian Ihle
  */
-public class ClassPathScanner
+public class ClassPathScanner implements ClassLocator
 {
 	private static final Logger LOG = Logger.getLogger( ClassPathScanner.class.getName() );
 
+	@Override
 	public Set<Class<?>> findClasses( final String packageName )
 	{
 		final ClassLoader loader = Thread.currentThread().getContextClassLoader();

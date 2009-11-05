@@ -21,21 +21,16 @@
 
 package net.usikkert.kouinject;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
-
-import net.usikkert.kouinject.annotation.Bean;
-import net.usikkert.kouinject.annotation.Inject;
 
 /**
  * KouInjector
@@ -59,12 +54,25 @@ public class DefaultAnnotatedBeanLoader implements BeanLoader
 
 	private final String basePackage;
 
-	public DefaultAnnotatedBeanLoader() {
-		basePackage = DEFAULT_BASE_PACKAGE;
+	private final BeanDataHandler beanDataHandler;
+
+	private final ClassLocator classLocator;
+
+	public DefaultAnnotatedBeanLoader( final BeanDataHandler beanDataHandler,
+			final ClassLocator classLocator )
+	{
+		this.basePackage = DEFAULT_BASE_PACKAGE;
+		this.beanDataHandler = beanDataHandler;
+		this.classLocator = classLocator;
 	}
 
-	public DefaultAnnotatedBeanLoader(final String basePackage) {
+	public DefaultAnnotatedBeanLoader( final String basePackage,
+			final BeanDataHandler beanDataHandler,
+			final ClassLocator classLocator )
+	{
 		this.basePackage = basePackage;
+		this.beanDataHandler = beanDataHandler;
+		this.classLocator = classLocator;
 	}
 
 	@Override
@@ -86,7 +94,7 @@ public class DefaultAnnotatedBeanLoader implements BeanLoader
 	{
 		try
 		{
-			final BeanData beanData2 = findBeanData( objectToAutowire.getClass(), true );
+			final BeanData beanData2 = beanDataHandler.getBeanData( objectToAutowire.getClass(), true );
 
 			if (allDependenciesAreMet(beanData2)) {
 				autowireBean(beanData2, objectToAutowire);
@@ -115,29 +123,10 @@ public class DefaultAnnotatedBeanLoader implements BeanLoader
 		beans.put( beanClass, bean );
 	}
 
-	private BeanData findBeanData( final Class<?> beanClass, final boolean skipConstructor ) throws Exception {
-		final BeanData beanData = new BeanData(beanClass);
-
-		if (!skipConstructor) {
-			final Constructor<?> constructor = findConstructor(beanClass);
-			beanData.setConstructor(constructor);
-		}
-
-		final List<Field> fields = findFields(beanClass);
-		beanData.setFields(fields);
-
-		final List<Method> methods = findMethods(beanClass);
-		beanData.setMethods(methods);
-
-		beanData.mapDependencies();
-
-		return beanData;
-	}
-
 	private void loadBeanData(final Set<Class<?>> detectedBeans) throws Exception {
 		for ( final Class<?> beanClass : detectedBeans )
 		{
-			final BeanData findBeanData = findBeanData(beanClass, false);
+			final BeanData findBeanData = beanDataHandler.getBeanData(beanClass, false);
 			beandata.put(beanClass, findBeanData);
 		}
 	}
@@ -190,7 +179,7 @@ public class DefaultAnnotatedBeanLoader implements BeanLoader
 
 	private void loadAndAutowireBeans() throws Exception
 	{
-		final Set<Class<?>> detectedBeans = findBeans( Bean.class );
+		final Set<Class<?>> detectedBeans = findBeans();
 		final long start = System.currentTimeMillis();
 
 		loadBeanData(detectedBeans);
@@ -199,6 +188,11 @@ public class DefaultAnnotatedBeanLoader implements BeanLoader
 		final long stop = System.currentTimeMillis();
 
 		LOG.info( "All beans added in: " + (stop - start) + " ms");
+	}
+
+	private Set<Class<?>> findBeans() {
+		final Set<Class<?>> allClasses = classLocator.findClasses(basePackage);
+		return beanDataHandler.findBeans(allClasses);
 	}
 
 	private Object instantiateConstructor( final BeanData beanData ) throws Exception
@@ -218,62 +212,6 @@ public class DefaultAnnotatedBeanLoader implements BeanLoader
 		final Object newInstance = constructor.newInstance(beansForConstructor);
 
 		return newInstance;
-	}
-
-	private Constructor<?> findConstructor( final Class<?> beanClass ) throws Exception
-	{
-		final Constructor<?>[] declaredConstructors = beanClass.getDeclaredConstructors();
-		final List<Constructor<?>> matches = new ArrayList<Constructor<?>>();
-
-		for (final Constructor<?> constructor2 : declaredConstructors) {
-			if (constructor2.isAnnotationPresent(Inject.class)) {
-				matches.add(constructor2);
-			}
-		}
-
-		if ( matches.size() == 0 )
-		{
-			return beanClass.getDeclaredConstructor();
-		}
-
-		else if ( matches.size() > 1 )
-		{
-			throw new RuntimeException( "Wrong number of constructors found for autowiring " + beanClass + " " + matches );
-		}
-
-		return matches.get( 0 );
-	}
-
-	private Set<Class<?>> findBeans( final Class<? extends Annotation> annotation )
-	{
-		final ClassPathScanner classPathScanner = new ClassPathScanner();
-		final Set<Class<?>> allClasses = classPathScanner.findClasses( basePackage );
-		final Set<Class<?>> detectedBeans = new HashSet<Class<?>>();
-
-		for ( final Class<?> clazz : allClasses )
-		{
-			if ( clazz.isAnnotationPresent( annotation ) )
-			{
-				detectedBeans.add( clazz );
-			}
-		}
-
-		return detectedBeans;
-	}
-
-	private List<Field> findFields( final Class<?> beanClass ) {
-		final Field[] declaredFields = beanClass.getDeclaredFields();
-		final List<Field> fields = new ArrayList<Field>();
-
-		for ( final Field field : declaredFields )
-		{
-			if ( field.isAnnotationPresent( Inject.class ) )
-			{
-				fields.add(field);
-			}
-		}
-
-		return fields;
 	}
 
 	private void autowireField( final BeanData beanData, final Object objectToAutowire ) throws Exception
@@ -309,20 +247,6 @@ public class DefaultAnnotatedBeanLoader implements BeanLoader
 
 			method.invoke( objectToAutowire, beansForConstructor );
 		}
-	}
-
-	private List<Method> findMethods( final Class<?> beanClass ) {
-		final Method[] declaredMethods = beanClass.getDeclaredMethods();
-		final List<Method> methods = new ArrayList<Method>();
-
-		for (final Method method : declaredMethods) {
-			if ( method.isAnnotationPresent( Inject.class ) )
-			{
-				methods.add(method);
-			}
-		}
-
-		return methods;
 	}
 
 	private Object findBean( final Class<?> beanNeeded, final boolean throwEx )

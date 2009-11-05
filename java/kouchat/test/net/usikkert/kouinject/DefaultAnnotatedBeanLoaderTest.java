@@ -53,7 +53,9 @@ public class DefaultAnnotatedBeanLoaderTest
 	@Before
 	public void loadBeans()
 	{
-		beanLoader = new DefaultAnnotatedBeanLoader( "net.usikkert.kouinject" );
+		final ClassLocator classLocator = new ClassPathScanner();
+		final BeanDataHandler beanDataHandler = new AnnotationBasedBeanDataHandler();
+		beanLoader = new DefaultAnnotatedBeanLoader( "net.usikkert.kouinject", beanDataHandler, classLocator );
 		beanLoader.loadBeans();
 	}
 
@@ -183,7 +185,9 @@ public class DefaultAnnotatedBeanLoaderTest
 	@Test
 	public void beanLoaderShouldHandleMocks()
 	{
-		final DefaultAnnotatedBeanLoader loader = new DefaultAnnotatedBeanLoader();
+		final ClassLocator classLocator = new ClassPathScanner();
+		final BeanDataHandler beanDataHandler = new AnnotationBasedBeanDataHandler();
+		final DefaultAnnotatedBeanLoader loader = new DefaultAnnotatedBeanLoader( beanDataHandler, classLocator );
 
 		final HelloBean helloBean = mock( HelloBean.class );
 		loader.addBean( helloBean );

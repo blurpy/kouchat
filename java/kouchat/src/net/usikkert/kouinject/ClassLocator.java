@@ -21,43 +21,13 @@
 
 package net.usikkert.kouinject;
 
+import java.util.Set;
+
 /**
  *
  * @author Christian Ihle
  */
-public class IoCContext
+public interface ClassLocator
 {
-	private static BeanLoader beanLoader;
-
-	public static void initDefaultContext()
-	{
-		final BeanDataHandler beanDataHandler = new AnnotationBasedBeanDataHandler();
-		final ClassLocator classLocator = new ClassPathScanner();
-		beanLoader = new DefaultAnnotatedBeanLoader( beanDataHandler, classLocator );
-	}
-
-	public static void loadContext()
-	{
-		beanLoader.loadBeans();
-	}
-
-	public static void autowire( final Object objectToAutowire )
-	{
-		beanLoader.autowire( objectToAutowire );
-	}
-
-	public static void setBeanLoader( final BeanLoader beanLoader )
-	{
-		IoCContext.beanLoader = beanLoader;
-	}
-
-	public static Object getBean( final Class<?> beanClass )
-	{
-		return beanLoader.getBean( beanClass );
-	}
-
-	public static void addBean( final Object bean )
-	{
-		beanLoader.addBean( bean );
-	}
+	Set<Class<?>> findClasses( String packageName );
 }
