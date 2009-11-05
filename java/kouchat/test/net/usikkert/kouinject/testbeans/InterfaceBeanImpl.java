@@ -22,81 +22,12 @@
 package net.usikkert.kouinject.testbeans;
 
 import net.usikkert.kouinject.annotation.Bean;
-import net.usikkert.kouinject.annotation.Inject;
 
 /**
  *
  * @author Christian Ihle
  */
 @Bean
-public class EverythingBean {
+public class InterfaceBeanImpl implements InterfaceBean {
 
-	private final ConstructorBean constructorBean;
-
-	private final SetterBean setterBean;
-
-	private final FieldBean fieldBean;
-
-	private final HelloBean helloBean;
-
-	@Inject
-	private CoffeeBean coffeeBean;
-
-	private JavaBean javaBean;
-
-	private final InterfaceBeanImpl interfaceBeanImpl;
-
-	private AbstractBeanImpl abstractBeanImpl;
-
-	@Inject
-	public EverythingBean(final ConstructorBean constructorBean, final SetterBean setterBean,
-			final FieldBean fieldBean, final HelloBean helloBean, final InterfaceBeanImpl interfaceBeanImpl) {
-		this.constructorBean = constructorBean;
-		this.setterBean = setterBean;
-		this.fieldBean = fieldBean;
-		this.helloBean = helloBean;
-		this.interfaceBeanImpl = interfaceBeanImpl;
-	}
-
-	@Inject
-	public void setJavaBean(final JavaBean javaBean) {
-		this.javaBean = javaBean;
-	}
-
-	public ConstructorBean getConstructorBean() {
-		return constructorBean;
-	}
-
-	public SetterBean getSetterBean() {
-		return setterBean;
-	}
-
-	public FieldBean getFieldBean() {
-		return fieldBean;
-	}
-
-	public HelloBean getHelloBean() {
-		return helloBean;
-	}
-
-	public CoffeeBean getCoffeeBean() {
-		return coffeeBean;
-	}
-
-	public JavaBean getJavaBean() {
-		return javaBean;
-	}
-
-	public AbstractBeanImpl getAbstractBeanImpl() {
-		return abstractBeanImpl;
-	}
-
-	@Inject
-	public void setAbstractBeanImpl(final AbstractBeanImpl abstractBeanImpl) {
-		this.abstractBeanImpl = abstractBeanImpl;
-	}
-
-	public InterfaceBeanImpl getInterfaceBeanImpl() {
-		return interfaceBeanImpl;
-	}
 }

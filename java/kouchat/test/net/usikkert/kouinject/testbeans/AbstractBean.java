@@ -21,34 +21,10 @@
 
 package net.usikkert.kouinject.testbeans;
 
-import net.usikkert.kouinject.annotation.Bean;
-import net.usikkert.kouinject.annotation.Inject;
-
 /**
  *
  * @author Christian Ihle
  */
-@Bean
-public class FieldBean {
+public abstract class AbstractBean {
 
-	@Inject
-	private HelloBean helloBean;
-
-	@Inject
-	private AbstractBean abstractBean;
-
-	@Inject
-	private InterfaceBean interfaceBean;
-
-	public HelloBean getHelloBean() {
-		return helloBean;
-	}
-
-	public AbstractBean getAbstractBean() {
-		return abstractBean;
-	}
-
-	public InterfaceBean getInterfaceBean() {
-		return interfaceBean;
-	}
 }
