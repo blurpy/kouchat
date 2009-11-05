@@ -30,5 +30,6 @@ import java.util.Set;
 public interface BeanDataHandler
 {
 	Set<Class<?>> findBeans( Set<Class<?>> allClasses );
+
 	BeanData getBeanData( Class<?> beanClass, boolean skipConstructor );
 }

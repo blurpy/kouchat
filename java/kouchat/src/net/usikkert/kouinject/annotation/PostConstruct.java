@@ -25,6 +25,7 @@ package net.usikkert.kouinject.annotation;
  *
  * @author Christian Ihle
  */
-public @interface PostConstruct {
+public @interface PostConstruct
+{
 
 }

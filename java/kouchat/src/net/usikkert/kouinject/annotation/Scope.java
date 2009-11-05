@@ -25,6 +25,7 @@ package net.usikkert.kouinject.annotation;
  *
  * @author Christian Ihle
  */
-public @interface Scope {
+public @interface Scope
+{
 
 }

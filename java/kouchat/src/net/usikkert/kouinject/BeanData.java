@@ -31,8 +31,8 @@ import java.util.List;
  *
  * @author Christian Ihle
  */
-public class BeanData {
-
+public class BeanData
+{
 	private final Class<?> beanClass;
 
 	private Constructor<?> constructor;
@@ -43,71 +43,91 @@ public class BeanData {
 
 	private final List<Class<?>> dependencies;
 
-	public BeanData(final Class<?> beanClass) {
+	public BeanData( final Class<?> beanClass )
+	{
 		this.beanClass = beanClass;
 		dependencies = new ArrayList<Class<?>>();
 	}
 
-	public Class<?> getBeanClass() {
+	public Class<?> getBeanClass()
+	{
 		return beanClass;
 	}
 
-	public Constructor<?> getConstructor() {
+	public Constructor<?> getConstructor()
+	{
 		return constructor;
 	}
 
-	public void setConstructor(final Constructor<?> constructor) {
+	public void setConstructor( final Constructor<?> constructor )
+	{
 		this.constructor = constructor;
 	}
 
-	public List<Field> getFields() {
+	public List<Field> getFields()
+	{
 		return fields;
 	}
 
-	public void setFields(final List<Field> fields) {
+	public void setFields( final List<Field> fields )
+	{
 		this.fields = fields;
 	}
 
-	public List<Method> getMethods() {
+	public List<Method> getMethods()
+	{
 		return methods;
 	}
 
-	public void setMethods(final List<Method> methods) {
+	public void setMethods( final List<Method> methods )
+	{
 		this.methods = methods;
 	}
 
-	public void mapDependencies() {
-		if (constructor != null) {
+	public void mapDependencies()
+	{
+		if ( constructor != null )
+		{
 			mapConstructorDependencies();
 		}
+
 		mapFieldDependencies();
 		mapMethodDependencies();
 	}
 
-	private void mapConstructorDependencies() {
+	private void mapConstructorDependencies()
+	{
 		final Class<?>[] parameterTypes = constructor.getParameterTypes();
-		for (final Class<?> class1 : parameterTypes) {
-			dependencies.add(class1);
+
+		for ( final Class<?> class1 : parameterTypes )
+		{
+			dependencies.add( class1 );
 		}
 	}
 
-	private void mapFieldDependencies() {
-		for (final Field field : fields) {
-			dependencies.add(field.getType());
+	private void mapFieldDependencies()
+	{
+		for ( final Field field : fields )
+		{
+			dependencies.add( field.getType() );
 		}
 	}
 
-	private void mapMethodDependencies() {
-		for (final Method method : methods) {
+	private void mapMethodDependencies()
+	{
+		for ( final Method method : methods )
+		{
 			final Class<?>[] parameterTypes = method.getParameterTypes();
 
-			for (final Class<?> class1 : parameterTypes) {
-				dependencies.add(class1);
+			for ( final Class<?> class1 : parameterTypes )
+			{
+				dependencies.add( class1 );
 			}
 		}
 	}
 
-	public List<Class<?>> getDependencies() {
+	public List<Class<?>> getDependencies()
+	{
 		return dependencies;
 	}
 }

@@ -76,7 +76,8 @@ public class AnnotationBasedBeanDataHandler implements BeanDataHandler
 		return beanData;
 	}
 
-	private List<Field> findFields( final Class<?> beanClass ) {
+	private List<Field> findFields( final Class<?> beanClass )
+	{
 		final Field[] declaredFields = beanClass.getDeclaredFields();
 		final List<Field> fields = new ArrayList<Field>();
 
@@ -135,7 +136,8 @@ public class AnnotationBasedBeanDataHandler implements BeanDataHandler
 
 		else if ( matches.size() > 1 )
 		{
-			throw new RuntimeException( "Wrong number of constructors found for autowiring " + beanClass + " " + matches );
+			throw new RuntimeException( "Wrong number of constructors found for autowiring "
+					+ beanClass + " " + matches );
 		}
 
 		return matches.get( 0 );
