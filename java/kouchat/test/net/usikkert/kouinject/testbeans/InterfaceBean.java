@@ -25,6 +25,7 @@ package net.usikkert.kouinject.testbeans;
  *
  * @author Christian Ihle
  */
-public interface InterfaceBean {
+public interface InterfaceBean
+{
 
 }

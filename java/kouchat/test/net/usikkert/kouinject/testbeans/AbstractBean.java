@@ -25,6 +25,7 @@ package net.usikkert.kouinject.testbeans;
  *
  * @author Christian Ihle
  */
-public abstract class AbstractBean {
+public abstract class AbstractBean
+{
 
 }

@@ -29,8 +29,8 @@ import net.usikkert.kouinject.annotation.Inject;
  * @author Christian Ihle
  */
 @Bean
-public class FieldBean {
-
+public class FieldBean
+{
 	@Inject
 	private HelloBean helloBean;
 
@@ -40,15 +40,18 @@ public class FieldBean {
 	@Inject
 	private InterfaceBean interfaceBean;
 
-	public HelloBean getHelloBean() {
+	public HelloBean getHelloBean()
+	{
 		return helloBean;
 	}
 
-	public AbstractBean getAbstractBean() {
+	public AbstractBean getAbstractBean()
+	{
 		return abstractBean;
 	}
 
-	public InterfaceBean getInterfaceBean() {
+	public InterfaceBean getInterfaceBean()
+	{
 		return interfaceBean;
 	}
 }

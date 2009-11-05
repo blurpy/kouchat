@@ -29,16 +29,18 @@ import net.usikkert.kouinject.annotation.Inject;
  * @author Christian Ihle
  */
 @Bean
-public class SetterBean {
-
+public class SetterBean
+{
 	private FieldBean fieldBean;
 
 	@Inject
-	public void setFieldBean(final FieldBean fieldBean) {
+	public void setFieldBean( final FieldBean fieldBean )
+	{
 		this.fieldBean = fieldBean;
 	}
 
-	public FieldBean getFieldBean() {
+	public FieldBean getFieldBean()
+	{
 		return fieldBean;
 	}
 }

@@ -28,6 +28,7 @@ import net.usikkert.kouinject.annotation.Bean;
  * @author Christian Ihle
  */
 @Bean
-public class HelloBean {
+public class HelloBean
+{
 
 }

@@ -29,19 +29,21 @@ import net.usikkert.kouinject.annotation.Inject;
  * @author Christian Ihle
  */
 @Bean
-public class CoffeeBean {
-
+public class CoffeeBean
+{
 	@Inject
 	private JavaBean javaBean;
 
 	@Inject
 	private HelloBean helloBean;
 
-	public JavaBean getJavaBean() {
+	public JavaBean getJavaBean()
+	{
 		return javaBean;
 	}
 
-	public HelloBean getHelloBean() {
+	public HelloBean getHelloBean()
+	{
 		return helloBean;
 	}
 }

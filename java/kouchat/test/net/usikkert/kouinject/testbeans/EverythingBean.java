@@ -29,8 +29,8 @@ import net.usikkert.kouinject.annotation.Inject;
  * @author Christian Ihle
  */
 @Bean
-public class EverythingBean {
-
+public class EverythingBean
+{
 	private final ConstructorBean constructorBean;
 
 	private final SetterBean setterBean;
@@ -49,8 +49,10 @@ public class EverythingBean {
 	private AbstractBeanImpl abstractBeanImpl;
 
 	@Inject
-	public EverythingBean(final ConstructorBean constructorBean, final SetterBean setterBean,
-			final FieldBean fieldBean, final HelloBean helloBean, final InterfaceBeanImpl interfaceBeanImpl) {
+	public EverythingBean( final ConstructorBean constructorBean, final SetterBean setterBean,
+			final FieldBean fieldBean, final HelloBean helloBean,
+			final InterfaceBeanImpl interfaceBeanImpl )
+	{
 		this.constructorBean = constructorBean;
 		this.setterBean = setterBean;
 		this.fieldBean = fieldBean;
@@ -59,44 +61,54 @@ public class EverythingBean {
 	}
 
 	@Inject
-	public void setJavaBean(final JavaBean javaBean) {
+	public void setJavaBean( final JavaBean javaBean )
+	{
 		this.javaBean = javaBean;
 	}
 
-	public ConstructorBean getConstructorBean() {
+	public ConstructorBean getConstructorBean()
+	{
 		return constructorBean;
 	}
 
-	public SetterBean getSetterBean() {
+	public SetterBean getSetterBean()
+	{
 		return setterBean;
 	}
 
-	public FieldBean getFieldBean() {
+	public FieldBean getFieldBean()
+	{
 		return fieldBean;
 	}
 
-	public HelloBean getHelloBean() {
+	public HelloBean getHelloBean()
+	{
 		return helloBean;
 	}
 
-	public CoffeeBean getCoffeeBean() {
+	public CoffeeBean getCoffeeBean()
+	{
 		return coffeeBean;
 	}
 
-	public JavaBean getJavaBean() {
+	public JavaBean getJavaBean()
+	{
 		return javaBean;
 	}
 
-	public AbstractBeanImpl getAbstractBeanImpl() {
+	public AbstractBeanImpl getAbstractBeanImpl()
+	{
 		return abstractBeanImpl;
 	}
 
 	@Inject
-	public void setAbstractBeanImpl(final AbstractBeanImpl abstractBeanImpl) {
+	public void setAbstractBeanImpl( final AbstractBeanImpl abstractBeanImpl )
+	{
 		this.abstractBeanImpl = abstractBeanImpl;
 	}
 
-	public InterfaceBeanImpl getInterfaceBeanImpl() {
+	public InterfaceBeanImpl getInterfaceBeanImpl()
+	{
 		return interfaceBeanImpl;
 	}
 }

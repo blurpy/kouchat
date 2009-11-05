@@ -28,6 +28,7 @@ import net.usikkert.kouinject.annotation.Bean;
  * @author Christian Ihle
  */
 @Bean
-public class AbstractBeanImpl extends AbstractBean {
+public class AbstractBeanImpl extends AbstractBean
+{
 
 }
