@@ -19,20 +19,43 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.ioc;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+package net.usikkert.kouinject;
 
 /**
  *
  * @author Christian Ihle
  */
-@Retention( RetentionPolicy.RUNTIME )
-@Target( ElementType.TYPE )
-public @interface Bean
+public class IoCContext
 {
+	private static BeanLoader beanLoader;
 
+	public static void initDefaultContext()
+	{
+		beanLoader = new DefaultAnnotatedBeanLoader();
+	}
+
+	public static void loadContext()
+	{
+		beanLoader.loadBeans();
+	}
+
+	public static void autowire( final Object objectToAutowire )
+	{
+		beanLoader.autowire( objectToAutowire );
+	}
+
+	public static void setBeanLoader( final BeanLoader beanLoader )
+	{
+		IoCContext.beanLoader = beanLoader;
+	}
+
+	public static Object getBean( final Class<?> beanClass )
+	{
+		return beanLoader.getBean( beanClass );
+	}
+
+	public static void addBean( final Object bean )
+	{
+		beanLoader.addBean( bean );
+	}
 }

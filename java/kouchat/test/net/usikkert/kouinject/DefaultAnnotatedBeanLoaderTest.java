@@ -19,11 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.ioc;
-
-import static org.junit.Assert.*;
-
-import java.util.Set;
+package net.usikkert.kouinject;
 
 import org.junit.Test;
 
@@ -31,14 +27,12 @@ import org.junit.Test;
  *
  * @author Christian Ihle
  */
-public class ClassPathScannerTest
+public class DefaultAnnotatedBeanLoaderTest
 {
 	@Test
-	public void findClassesShouldDetectClassesOfInterest()
+	public void loadBeansShouldRun()
 	{
-		final ClassPathScanner scanner = new ClassPathScanner();
-		final Set<Class<?>> classes = scanner.findClasses( "net.usikkert.kouchat" );
-
-		assertTrue( classes.size() > 100 );
+		final DefaultAnnotatedBeanLoader beanLoader = new DefaultAnnotatedBeanLoader();
+		beanLoader.loadBeans();
 	}
 }

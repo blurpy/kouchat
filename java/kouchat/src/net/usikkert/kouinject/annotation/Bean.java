@@ -19,12 +19,20 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.ioc;
+package net.usikkert.kouinject.annotation;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  *
  * @author Christian Ihle
  */
-public @interface PostConstruct {
+@Retention( RetentionPolicy.RUNTIME )
+@Target( ElementType.TYPE )
+public @interface Bean
+{
 
 }

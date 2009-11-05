@@ -19,7 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.ioc;
+package net.usikkert.kouinject;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -33,6 +33,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
+
+import net.usikkert.kouinject.annotation.Bean;
+import net.usikkert.kouinject.annotation.Inject;
 
 /**
  * KouInjector

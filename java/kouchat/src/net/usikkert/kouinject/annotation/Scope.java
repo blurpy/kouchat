@@ -19,20 +19,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouchat.ioc;
-
-import org.junit.Test;
+package net.usikkert.kouinject.annotation;
 
 /**
  *
  * @author Christian Ihle
  */
-public class DefaultAnnotatedBeanLoaderTest
-{
-	@Test
-	public void loadBeansShouldRun()
-	{
-		final DefaultAnnotatedBeanLoader beanLoader = new DefaultAnnotatedBeanLoader();
-		beanLoader.loadBeans();
-	}
+public @interface Scope {
+
 }
