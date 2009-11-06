@@ -47,29 +47,15 @@ public class DefaultBeanLoader implements BeanLoader
 {
 	private static final Logger LOG = Logger.getLogger( DefaultBeanLoader.class.getName() );
 
-	private static final String DEFAULT_BASE_PACKAGE = "net.usikkert.kouchat";
-
 	private final Map<Class<?>, Object> beanMap = new HashMap<Class<?>, Object>();
 
 	private final Map<Class<?>, BeanData> beanDataMap = new HashMap<Class<?>, BeanData>();
 
-	private final String basePackage;
-
 	private final BeanDataHandler beanDataHandler;
 
-	private final ClassLocator classLocator;
-
-	public DefaultBeanLoader( final BeanDataHandler beanDataHandler, final ClassLocator classLocator )
+	public DefaultBeanLoader( final BeanDataHandler beanDataHandler )
 	{
-		this( DEFAULT_BASE_PACKAGE, beanDataHandler, classLocator );
-	}
-
-	public DefaultBeanLoader( final String basePackage, final BeanDataHandler beanDataHandler,
-			final ClassLocator classLocator )
-	{
-		this.basePackage = basePackage;
 		this.beanDataHandler = beanDataHandler;
-		this.classLocator = classLocator;
 	}
 
 	@Override
@@ -192,7 +178,7 @@ public class DefaultBeanLoader implements BeanLoader
 
 	private void loadAndAutowireBeans() throws Exception
 	{
-		final Set<Class<?>> detectedBeans = findBeans();
+		final Set<Class<?>> detectedBeans = beanDataHandler.findBeans();
 		final long start = System.currentTimeMillis();
 
 		loadBeanData( detectedBeans );
@@ -201,12 +187,6 @@ public class DefaultBeanLoader implements BeanLoader
 		final long stop = System.currentTimeMillis();
 
 		LOG.info( "All beans added in: " + ( stop - start ) + " ms" );
-	}
-
-	private Set<Class<?>> findBeans()
-	{
-		final Set<Class<?>> allClasses = classLocator.findClasses( basePackage );
-		return beanDataHandler.findBeans( allClasses );
 	}
 
 	private Object instantiateConstructor( final BeanData beanData ) throws Exception

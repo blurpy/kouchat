@@ -33,19 +33,34 @@ import net.usikkert.kouinject.annotation.Bean;
 import net.usikkert.kouinject.annotation.Inject;
 
 /**
+ * This bean-data handler uses annotations to find beans and extract their meta-data.
  *
  * @author Christian Ihle
  */
 public class AnnotationBasedBeanDataHandler implements BeanDataHandler
 {
-	@Override
-	public Set<Class<?>> findBeans( final Set<Class<?>> allClasses )
+	private static final Class<Inject> INJECTION_ANNOTATION = Inject.class;
+	private static final Class<Bean> BEAN_ANNOTATION = Bean.class;
+
+	private final ClassLocator classLocator;
+
+	private final String basePackage;
+
+	public AnnotationBasedBeanDataHandler( final String basePackage, final ClassLocator classLocator )
 	{
+		this.basePackage = basePackage;
+		this.classLocator = classLocator;
+	}
+
+	@Override
+	public Set<Class<?>> findBeans()
+	{
+		final Set<Class<?>> allClasses = classLocator.findClasses( basePackage );
 		final Set<Class<?>> detectedBeans = new HashSet<Class<?>>();
 
 		for ( final Class<?> clazz : allClasses )
 		{
-			if ( clazz.isAnnotationPresent( Bean.class ) )
+			if ( classIsBean( clazz ) )
 			{
 				detectedBeans.add( clazz );
 			}
@@ -76,6 +91,11 @@ public class AnnotationBasedBeanDataHandler implements BeanDataHandler
 		return beanData;
 	}
 
+	private boolean classIsBean( final Class<?> clazz )
+	{
+		return clazz.isAnnotationPresent( BEAN_ANNOTATION );
+	}
+
 	private List<Field> findFields( final Class<?> beanClass )
 	{
 		final Field[] declaredFields = beanClass.getDeclaredFields();
@@ -83,13 +103,18 @@ public class AnnotationBasedBeanDataHandler implements BeanDataHandler
 
 		for ( final Field field : declaredFields )
 		{
-			if ( field.isAnnotationPresent( Inject.class ) )
+			if ( fieldNeedsInjection( field ) )
 			{
 				fields.add( field );
 			}
 		}
 
 		return fields;
+	}
+
+	private boolean fieldNeedsInjection(  final Field field )
+	{
+		return field.isAnnotationPresent( INJECTION_ANNOTATION );
 	}
 
 	private List<Method> findMethods( final Class<?> beanClass )
@@ -99,13 +124,18 @@ public class AnnotationBasedBeanDataHandler implements BeanDataHandler
 
 		for ( final Method method : declaredMethods )
 		{
-			if ( method.isAnnotationPresent( Inject.class ) )
+			if ( methodNeedsInjection( method ) )
 			{
 				methods.add( method );
 			}
 		}
 
 		return methods;
+	}
+
+	private boolean methodNeedsInjection(  final Method method )
+	{
+		return method.isAnnotationPresent( INJECTION_ANNOTATION );
 	}
 
 	private Constructor<?> findConstructor( final Class<?> beanClass )
@@ -115,7 +145,7 @@ public class AnnotationBasedBeanDataHandler implements BeanDataHandler
 
 		for ( final Constructor<?> constructor : declaredConstructors )
 		{
-			if ( constructor.isAnnotationPresent( Inject.class ) )
+			if ( constructorNeedsInjection( constructor ) )
 			{
 				matches.add( constructor );
 			}
@@ -141,5 +171,10 @@ public class AnnotationBasedBeanDataHandler implements BeanDataHandler
 		}
 
 		return matches.get( 0 );
+	}
+
+	private boolean constructorNeedsInjection(  final Constructor<?> constructor )
+	{
+		return constructor.isAnnotationPresent( INJECTION_ANNOTATION );
 	}
 }

@@ -31,9 +31,9 @@ public class IoCContext
 
 	public static void initDefaultContext()
 	{
-		final BeanDataHandler beanDataHandler = new AnnotationBasedBeanDataHandler();
 		final ClassLocator classLocator = new ClassPathScanner();
-		beanLoader = new DefaultBeanLoader( beanDataHandler, classLocator );
+		final BeanDataHandler beanDataHandler = new AnnotationBasedBeanDataHandler( "net.usikkert.kouchat", classLocator );
+		beanLoader = new DefaultBeanLoader( beanDataHandler );
 	}
 
 	public static void loadContext()
