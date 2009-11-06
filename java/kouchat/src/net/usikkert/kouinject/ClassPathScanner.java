@@ -34,6 +34,8 @@ import java.util.logging.Logger;
 import net.usikkert.kouchat.util.Tools;
 
 /**
+ * Finds classes by scanning the classpath. Classes are searched for in the file system
+ * and in jar-files.
  *
  * @author Christian Ihle
  */
@@ -41,15 +43,18 @@ public class ClassPathScanner implements ClassLocator
 {
 	private static final Logger LOG = Logger.getLogger( ClassPathScanner.class.getName() );
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public Set<Class<?>> findClasses( final String packageName )
+	public Set<Class<?>> findClasses( final String basePackage )
 	{
 		final ClassLoader loader = getClassLoader();
 
 		try
 		{
 			final long start = System.currentTimeMillis();
-			final Set<Class<?>> classes = findClasses( loader, packageName );
+			final Set<Class<?>> classes = findClasses( loader, basePackage );
 			final long stop = System.currentTimeMillis();
 
 			LOG.info( "Time spent scanning classpath: " + ( stop - start ) + " ms" );
@@ -64,52 +69,29 @@ public class ClassPathScanner implements ClassLocator
 		}
 	}
 
-	private ClassLoader getClassLoader()
-	{
-		final ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
-
-		if ( contextClassLoader != null )
-			return contextClassLoader;
-		else
-			return getClass().getClassLoader();
-	}
-
-	private Set<Class<?>> findClasses( final ClassLoader loader, final String packageName ) throws Exception
+	private Set<Class<?>> findClasses( final ClassLoader loader, final String basePackage ) throws Exception
 	{
 		final Set<Class<?>> classes = new HashSet<Class<?>>();
-		final String path = packageName.replace( '.', '/' );
+		final String path = basePackage.replace( '.', '/' );
 		final Enumeration<URL> resources = loader.getResources( path );
 
 		if ( resources != null )
 		{
 			while ( resources.hasMoreElements() )
 			{
-				String filePath = resources.nextElement().getFile();
-				// WINDOWS HACK
-				if ( filePath.indexOf( "%20" ) > 0 )
-				{
-					filePath = filePath.replaceAll( "%20", " " );
-				}
+				final String filePath = getFilePath( resources.nextElement() );
 
 				if ( filePath != null )
 				{
-					if ( ( filePath.indexOf( "!" ) > 0 ) && ( filePath.indexOf( ".jar" ) > 0 ) )
+					if ( isJarFilePath( filePath ) )
 					{
-						String jarPath = filePath.substring( 0, filePath.indexOf( "!" ) )
-								.substring( filePath.indexOf( ":" ) + 1 );
-
-						// WINDOWS HACK
-						if ( jarPath.indexOf( ":" ) >= 0 )
-						{
-							jarPath = jarPath.substring( 1 );
-						}
-
+						final String jarPath = getJarPath( filePath );
 						classes.addAll( getFromJARFile( jarPath, path ) );
 					}
 
 					else
 					{
-						classes.addAll( getFromDirectory( new File( filePath ), packageName ) );
+						classes.addAll( getFromDirectory( new File( filePath ), basePackage ) );
 					}
 				}
 			}
@@ -133,21 +115,16 @@ public class ClassPathScanner implements ClassLocator
 					classes.addAll( getFromDirectory( file, packageName + "." + file.getName() ) );
 				}
 
-				else if ( file.getName().endsWith( ".class" ) )
+				else if ( isClass( file.getName() ) )
 				{
-					final String name = packageName + '.' + stripFilenameExtension( file.getName() );
-					final Class<?> clazz = Class.forName( name );
+					final String className = packageName + '.' + stripFilenameExtension( file.getName() );
+					final Class<?> clazz = Class.forName( className );
 					addClass( clazz, classes );
 				}
 			}
 		}
 
 		return classes;
-	}
-
-	private static String stripFilenameExtension( final String file )
-	{
-		return Tools.getFileBaseName( file );
 	}
 
 	private Set<Class<?>> getFromJARFile( final String jar, final String packageName ) throws Exception
@@ -162,11 +139,11 @@ public class ClassPathScanner implements ClassLocator
 
 			if ( jarEntry != null )
 			{
-				String className = jarEntry.getName();
+				final String fileName = jarEntry.getName();
 
-				if ( className.endsWith( ".class" ) )
+				if ( isClass( fileName ) )
 				{
-					className = stripFilenameExtension( className );
+					final String className = stripFilenameExtension( fileName );
 
 					if ( className.startsWith( packageName ) )
 					{
@@ -179,6 +156,76 @@ public class ClassPathScanner implements ClassLocator
 		} while ( jarEntry != null );
 
 		return classes;
+	}
+
+	/**
+	 * Gets the best possible classloader for scanning after classes. Usually it's
+	 * the current thread's context classloader, but if that's not available then the
+	 * classloader for this class is used instead.
+	 *
+	 * @return A usable classloader.
+	 */
+	private ClassLoader getClassLoader()
+	{
+		final ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+
+		if ( contextClassLoader != null )
+			return contextClassLoader;
+		else
+			return getClass().getClassLoader();
+	}
+
+	private String getFilePath( final URL url )
+	{
+		final String filePath = url.getFile();
+
+		if ( filePath != null )
+		{
+			return fixWindowsSpace( filePath );
+		}
+
+		return null;
+	}
+
+	private boolean isJarFilePath( final String filePath )
+	{
+		return ( filePath.indexOf( "!" ) > 0 ) && ( filePath.indexOf( ".jar" ) > 0 );
+	}
+
+	private String fixWindowsSpace( final String filePath )
+	{
+		if ( filePath.indexOf( "%20" ) > 0 )
+		{
+			return filePath.replaceAll( "%20", " " );
+		}
+
+		return filePath;
+	}
+
+	private String getJarPath( final String filePath )
+	{
+		final String jarPath = filePath.substring( 0, filePath.indexOf( "!" ) ).substring( filePath.indexOf( ":" ) + 1 );
+		return fixWindowsJarPath( jarPath );
+	}
+
+	private String fixWindowsJarPath( final String jarPath )
+	{
+		if ( jarPath.indexOf( ":" ) >= 0 )
+		{
+			return jarPath.substring( 1 );
+		}
+
+		return jarPath;
+	}
+
+	private static String stripFilenameExtension( final String file )
+	{
+		return Tools.getFileBaseName( file );
+	}
+
+	private boolean isClass( final String fileName )
+	{
+		return fileName.endsWith( ".class" );
 	}
 
 	private void addClass( final Class<?> clazz, final Set<Class<?>> classes )
