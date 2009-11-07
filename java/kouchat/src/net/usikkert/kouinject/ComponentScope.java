@@ -19,13 +19,23 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouinject.annotation;
+package net.usikkert.kouinject;
 
 /**
+ * Describes the scope a component has in the container.
  *
  * @author Christian Ihle
  */
-public @interface PreDestroy
+public enum ComponentScope
 {
+	/**
+	 * A component is only instantiated once, and the same instance is injected
+	 * every time it is requested.
+	 */
+	SINGLETON,
 
+	/**
+	 * A new component is instantiated every time it is requested.
+	 */
+	PROTOTYPE
 }

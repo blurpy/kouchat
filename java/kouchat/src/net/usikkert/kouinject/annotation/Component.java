@@ -21,11 +21,24 @@
 
 package net.usikkert.kouinject.annotation;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+import net.usikkert.kouinject.ComponentScope;
+
 /**
+ * Indicates that the class using this annotation is a component to be handled by the container.
  *
  * @author Christian Ihle
  */
-public @interface PostConstruct
+@Documented
+@Retention( RetentionPolicy.RUNTIME )
+@Target( ElementType.TYPE )
+public @interface Component
 {
-
+	/** The scope to use for the component. */
+	ComponentScope scope() default ComponentScope.SINGLETON;
 }

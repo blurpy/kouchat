@@ -21,14 +21,14 @@
 
 package net.usikkert.kouinject.testbeans;
 
-import net.usikkert.kouinject.annotation.Bean;
+import net.usikkert.kouinject.annotation.Component;
 import net.usikkert.kouinject.annotation.Inject;
 
 /**
  *
  * @author Christian Ihle
  */
-@Bean
+@Component
 public class FieldBean
 {
 	@Inject

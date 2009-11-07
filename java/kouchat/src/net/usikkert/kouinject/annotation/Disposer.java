@@ -21,18 +21,21 @@
 
 package net.usikkert.kouinject.annotation;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Marks a method to run on a component when the container shuts down.
  *
  * @author Christian Ihle
  */
+@Documented
 @Retention( RetentionPolicy.RUNTIME )
-@Target( ElementType.TYPE )
-public @interface Bean
+@Target( ElementType.METHOD )
+public @interface Disposer
 {
 
 }

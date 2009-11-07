@@ -29,7 +29,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.usikkert.kouinject.annotation.Bean;
+import net.usikkert.kouinject.annotation.Component;
 import net.usikkert.kouinject.annotation.Inject;
 
 /**
@@ -40,7 +40,7 @@ import net.usikkert.kouinject.annotation.Inject;
 public class AnnotationBasedBeanDataHandler implements BeanDataHandler
 {
 	private static final Class<Inject> INJECTION_ANNOTATION = Inject.class;
-	private static final Class<Bean> BEAN_ANNOTATION = Bean.class;
+	private static final Class<Component> COMPONENT_ANNOTATION = Component.class;
 
 	private final ClassLocator classLocator;
 
@@ -93,7 +93,7 @@ public class AnnotationBasedBeanDataHandler implements BeanDataHandler
 
 	private boolean classIsBean( final Class<?> clazz )
 	{
-		return clazz.isAnnotationPresent( BEAN_ANNOTATION );
+		return clazz.isAnnotationPresent( COMPONENT_ANNOTATION );
 	}
 
 	private List<Field> findFields( final Class<?> beanClass )

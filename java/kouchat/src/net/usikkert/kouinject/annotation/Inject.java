@@ -21,15 +21,19 @@
 
 package net.usikkert.kouinject.annotation;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Indicates that the constructor, field or method using this annotation is subject
+ * to dependency injection by the container.
  *
  * @author Christian Ihle
  */
+@Documented
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.CONSTRUCTOR, ElementType.FIELD, ElementType.METHOD } )
 public @interface Inject

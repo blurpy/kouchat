@@ -33,13 +33,13 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 /**
- * KouInjector
- * scope = singleton
- * scope = unique instance
+ * KouInject
+ * scope
  * child context?
- * postconstruct
- * predestroy
+ * initializer
+ * destroyer
  * circular deps
+ * refactor
  *
  * @author Christian Ihle
  */

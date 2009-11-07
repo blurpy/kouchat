@@ -21,13 +21,13 @@
 
 package net.usikkert.kouinject.testbeans;
 
-import net.usikkert.kouinject.annotation.Bean;
+import net.usikkert.kouinject.annotation.Component;
 
 /**
  *
  * @author Christian Ihle
  */
-@Bean
+@Component
 public class HelloBean
 {
 
