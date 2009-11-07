@@ -79,6 +79,7 @@ public class DefaultBeanLoader implements BeanLoader
 	private void loadAndAutowireBeans() throws Exception
 	{
 		final Set<Class<?>> detectedBeans = beanDataHandler.findBeans();
+		LOG.info( "Beans found: " + detectedBeans.size() );
 
 		final long start = System.currentTimeMillis();
 
