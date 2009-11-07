@@ -42,6 +42,12 @@ public class ConstructorBean
 		this.helloBean = helloBean;
 	}
 
+	public ConstructorBean()
+	{
+		setterBean = null;
+		helloBean = null;
+	}
+
 	public HelloBean getHelloBean()
 	{
 		return helloBean;
