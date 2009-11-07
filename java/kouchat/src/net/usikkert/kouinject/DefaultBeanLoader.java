@@ -25,6 +25,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -47,15 +49,17 @@ public class DefaultBeanLoader implements BeanLoader
 {
 	private static final Logger LOG = Logger.getLogger( DefaultBeanLoader.class.getName() );
 
-	private final Map<Class<?>, Object> beanMap = new HashMap<Class<?>, Object>();
+	private final Map<Class<?>, Object> beanMap;
 
-	private final Map<Class<?>, BeanData> beanDataMap = new HashMap<Class<?>, BeanData>();
+	private final Collection<Class<?>> beansInCreation;
 
 	private final BeanDataHandler beanDataHandler;
 
 	public DefaultBeanLoader( final BeanDataHandler beanDataHandler )
 	{
 		this.beanDataHandler = beanDataHandler;
+		this.beanMap = Collections.synchronizedMap( new HashMap<Class<?>, Object>() );
+		this.beansInCreation = Collections.synchronizedCollection( new ArrayList<Class<?>>() );
 	}
 
 	@Override
@@ -70,6 +74,115 @@ public class DefaultBeanLoader implements BeanLoader
 		{
 			throw new RuntimeException( e );
 		}
+	}
+
+	private void loadAndAutowireBeans() throws Exception
+	{
+		final Set<Class<?>> detectedBeans = beanDataHandler.findBeans();
+
+		final long start = System.currentTimeMillis();
+
+		final Map<Class<?>, BeanData> beanDataMap = getBeanDataMap( detectedBeans );
+		createBeans( beanDataMap );
+
+		final long stop = System.currentTimeMillis();
+
+		LOG.info( "All beans created in: " + ( stop - start ) + " ms" );
+	}
+
+	private Map<Class<?>, BeanData> getBeanDataMap( final Set<Class<?>> detectedBeans )
+	{
+		final Map<Class<?>, BeanData> beanDataMap = new HashMap<Class<?>, BeanData>();
+
+		for ( final Class<?> beanClass : detectedBeans )
+		{
+			final BeanData beanData = beanDataHandler.getBeanData( beanClass, false );
+			beanDataMap.put( beanClass, beanData );
+		}
+
+		return beanDataMap;
+	}
+
+	private void createBeans( final Map<Class<?>, BeanData> beanDataMap ) throws Exception
+	{
+		final Iterator<Class<?>> beanIterator = beanDataMap.keySet().iterator();
+
+		while ( beanIterator.hasNext() )
+		{
+			final Class<?> beanClass = beanIterator.next();
+			createBean( beanClass, beanDataMap );
+		}
+	}
+
+	private void createBean( final Class<?> beanClass, final Map<Class<?>, BeanData> beanDataMap ) throws Exception
+	{
+		LOG.info( "Checking bean before creation: " + beanClass );
+
+		if ( beanAlreadyExists( beanClass ) )
+		{
+			LOG.info( "Bean already added - skipping: " + beanClass );
+			return;
+		}
+
+		abortIfBeanCurrentlyInCreation( beanClass );
+		addBeanInCreation( beanClass );
+
+		final BeanData beanData = findBeanData( beanClass, beanDataMap );
+		final List<Class<?>> missingDependencies = findMissingDependencies( beanData );
+
+		for ( final Class<?> dependency : missingDependencies )
+		{
+			LOG.info( "Checking bean " + beanClass + " for missing dependency: " + dependency );
+			createBean( dependency, beanDataMap );
+		}
+
+		final Object instance = instantiateBean( beanData );
+		addBean( instance );
+
+		removeBeanInCreation( beanClass );
+	}
+
+	private void removeBeanInCreation( final Class<?> beanClass )
+	{
+		synchronized ( beansInCreation )
+		{
+			beansInCreation.remove( beanClass );
+		}
+	}
+
+	private void addBeanInCreation( final Class<?> beanClass )
+	{
+		synchronized ( beansInCreation )
+		{
+			beansInCreation.add( beanClass );
+		}
+	}
+
+	private void abortIfBeanCurrentlyInCreation( final Class<?> beanClass )
+	{
+		synchronized ( beansInCreation )
+		{
+			final boolean beanCurrentlyInCreation = beansInCreation.contains( beanClass );
+
+			if ( beanCurrentlyInCreation )
+			{
+				throw new IllegalStateException( "Circular dependency - bean already in creation: " + beanClass );
+			}
+		}
+	}
+
+	private boolean beanAlreadyExists( final Class<?> beanClass )
+	{
+		final Object existingBean = findBean( beanClass, false );
+		return existingBean != null;
+	}
+
+	private BeanData findBeanData( final Class<?> beanNeeded, final Map<Class<?>, BeanData> beanDataMap )
+	{
+		final Iterator<Class<?>> beanIterator = beanDataMap.keySet().iterator();
+		final Class<?> matchingBean = getMatchingBean( beanNeeded, beanIterator, true );
+
+		return beanDataMap.get( matchingBean );
 	}
 
 	@Override
@@ -104,91 +217,29 @@ public class DefaultBeanLoader implements BeanLoader
 	}
 
 	@Override
-	public void addBean( final Object bean )
+	public void addBean( final Object beanToAdd )
 	{
-		final Class<? extends Object> beanClass = bean.getClass();
+		final Class<?> beanClass = beanToAdd.getClass();
+
+		if ( beanAlreadyExists( beanClass ) )
+		{
+			throw new RuntimeException( "Cannot add already existing bean: " + beanClass );
+		}
+
+		synchronized ( beanMap )
+		{
+			beanMap.put( beanClass, beanToAdd );
+		}
+
 		LOG.info( "Bean added: " + beanClass.getName() );
-		beanMap.put( beanClass, bean );
 	}
 
-	private void loadBeanData( final Set<Class<?>> detectedBeans ) throws Exception
-	{
-		for ( final Class<?> beanClass : detectedBeans )
-		{
-			final BeanData beanData = beanDataHandler.getBeanData( beanClass, false );
-			beanDataMap.put( beanClass, beanData );
-		}
-	}
-
-	private void autowireBeans( final Set<Class<?>> detectedBeans ) throws Exception
-	{
-		int round = 1;
-
-		while ( beanMap.size() < detectedBeans.size() )
-		{
-			LOG.info( "Adding beans, round: " + round );
-			autowireBean();
-			round++;
-		}
-	}
-
-	private void autowireBean() throws Exception
-	{
-		boolean beansAdded = false;
-		final Iterator<Class<?>> iterator = beanDataMap.keySet().iterator();
-
-		while ( iterator.hasNext() )
-		{
-			final Class<?> beanClass = iterator.next();
-			final BeanData beanData = beanDataMap.get( beanClass );
-			final List<Class<?>> missingDependencies = findMissingDependencies( beanData );
-
-			if ( allDependenciesAreMet( missingDependencies ) )
-			{
-				final Object instance = getInstance( beanData );
-				beanMap.put( beanClass, instance );
-				iterator.remove();
-				beansAdded = true;
-				LOG.info( "Bean added: " + beanClass.getName() );
-			}
-
-			else
-			{
-				LOG.info( "Bean skipped: " + beanClass.getName() + ", missing dependencies: " + missingDependencies );
-			}
-		}
-
-		if ( !beansAdded )
-		{
-			throw new RuntimeException( "Could not resolve all dependent beans" );
-		}
-	}
-
-	private Object getInstance( final BeanData beanData ) throws Exception
+	private Object instantiateBean( final BeanData beanData ) throws Exception
 	{
 		final Object instance = instantiateConstructor( beanData );
 		autowireBean( beanData, instance );
 
 		return instance;
-	}
-
-	private void autowireBean( final BeanData beanData, final Object instance ) throws Exception
-	{
-		autowireField( beanData, instance );
-		autowireMethod( beanData, instance );
-	}
-
-	private void loadAndAutowireBeans() throws Exception
-	{
-		final Set<Class<?>> detectedBeans = beanDataHandler.findBeans();
-		final long start = System.currentTimeMillis();
-
-		loadBeanData( detectedBeans );
-		autowireBeans( detectedBeans );
-
-		final long stop = System.currentTimeMillis();
-
-		LOG.info( "All beans added in: " + ( stop - start ) + " ms" );
 	}
 
 	private Object instantiateConstructor( final BeanData beanData ) throws Exception
@@ -200,14 +251,20 @@ public class DefaultBeanLoader implements BeanLoader
 		for ( int i = 0; i < parameterTypes.length; i++ )
 		{
 			final Class<?> beanClass = parameterTypes[i];
-			final Object findBean = findBean( beanClass, true );
-			beansForConstructor[i] = findBean;
+			final Object bean = findBean( beanClass, true );
+			beansForConstructor[i] = bean;
 		}
 
 		LOG.info( "Invoking constructor: " + constructor );
 		final Object newInstance = constructor.newInstance( beansForConstructor );
 
 		return newInstance;
+	}
+
+	private void autowireBean( final BeanData beanData, final Object instance ) throws Exception
+	{
+		autowireField( beanData, instance );
+		autowireMethod( beanData, instance );
 	}
 
 	private void autowireField( final BeanData beanData, final Object objectToAutowire ) throws Exception
@@ -239,8 +296,8 @@ public class DefaultBeanLoader implements BeanLoader
 			for ( int i = 0; i < parameterTypes.length; i++ )
 			{
 				final Class<?> beanClass = parameterTypes[i];
-				final Object findBean = findBean( beanClass, true );
-				beansForMethod[i] = findBean;
+				final Object bean = findBean( beanClass, true );
+				beansForMethod[i] = bean;
 			}
 
 			method.invoke( objectToAutowire, beansForMethod );
@@ -249,8 +306,17 @@ public class DefaultBeanLoader implements BeanLoader
 
 	private Object findBean( final Class<?> beanNeeded, final boolean throwEx )
 	{
-		final Iterator<Class<?>> beanIterator = beanMap.keySet().iterator();
-		final List<Object> matches = new ArrayList<Object>();
+		synchronized ( beanMap )
+		{
+			final Iterator<Class<?>> beanIterator = beanMap.keySet().iterator();
+			final Class<?> matchingBean = getMatchingBean( beanNeeded, beanIterator, throwEx );
+			return beanMap.get( matchingBean );
+		}
+	}
+
+	private Class<?> getMatchingBean( final Class<?> beanNeeded, final Iterator<Class<?>> beanIterator, final boolean throwEx )
+	{
+		final List< Class<?>> matches = new ArrayList< Class<?>>();
 
 		while ( beanIterator.hasNext() )
 		{
@@ -258,21 +324,21 @@ public class DefaultBeanLoader implements BeanLoader
 
 			if ( beanNeeded.isAssignableFrom( beanClass ) )
 			{
-				matches.add( beanMap.get( beanClass ) );
+				matches.add( beanClass );
 			}
 		}
 
 		if ( matches.size() == 0 )
 		{
 			if ( throwEx )
-				throw new IllegalArgumentException( "No matching bean found for autowiring " + beanNeeded );
+				throw new IllegalArgumentException( "No matching bean found for " + beanNeeded );
 			else
 				return null;
 		}
 
 		else if ( matches.size() > 1 )
 		{
-			throw new RuntimeException( "Wrong number of beans found for autowiring " + beanNeeded + " " + matches );
+			throw new RuntimeException( "Wrong number of beans found for " + beanNeeded + " " + matches );
 		}
 
 		return matches.get( 0 );
