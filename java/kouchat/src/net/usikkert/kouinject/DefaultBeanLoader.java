@@ -135,45 +135,47 @@ public class DefaultBeanLoader implements BeanLoader
 	private void autowireBean() throws Exception
 	{
 		boolean beansAdded = false;
-
 		final Iterator<Class<?>> iterator = beanDataMap.keySet().iterator();
+
 		while ( iterator.hasNext() )
 		{
-			final Class<?> class1 = iterator.next();
-			final BeanData beanData = beanDataMap.get( class1 );
+			final Class<?> beanClass = iterator.next();
+			final BeanData beanData = beanDataMap.get( beanClass );
 			final List<Class<?>> missingDependencies = findMissingDependencies( beanData );
 
 			if ( allDependenciesAreMet( missingDependencies ) )
 			{
 				final Object instance = getInstance( beanData );
-				beanMap.put( class1, instance );
+				beanMap.put( beanClass, instance );
 				iterator.remove();
 				beansAdded = true;
-				LOG.info( "Bean added: " + class1.getName() );
+				LOG.info( "Bean added: " + beanClass.getName() );
 			}
+
 			else
 			{
-				LOG.info( "Bean skipped: " + class1.getName() + ", missing dependencies: "
-						+ missingDependencies );
+				LOG.info( "Bean skipped: " + beanClass.getName() + ", missing dependencies: " + missingDependencies );
 			}
 		}
 
 		if ( !beansAdded )
+		{
 			throw new RuntimeException( "Could not resolve all dependent beans" );
+		}
 	}
 
-	private Object getInstance( final BeanData beanData2 ) throws Exception
+	private Object getInstance( final BeanData beanData ) throws Exception
 	{
-		final Object instance = instantiateConstructor( beanData2 );
-		autowireBean( beanData2, instance );
+		final Object instance = instantiateConstructor( beanData );
+		autowireBean( beanData, instance );
 
 		return instance;
 	}
 
-	private void autowireBean( final BeanData beanData2, final Object instance ) throws Exception
+	private void autowireBean( final BeanData beanData, final Object instance ) throws Exception
 	{
-		autowireField( beanData2, instance );
-		autowireMethod( beanData2, instance );
+		autowireField( beanData, instance );
+		autowireMethod( beanData, instance );
 	}
 
 	private void loadAndAutowireBeans() throws Exception
@@ -197,13 +199,12 @@ public class DefaultBeanLoader implements BeanLoader
 
 		for ( int i = 0; i < parameterTypes.length; i++ )
 		{
-			final Class<?> class1 = parameterTypes[i];
-			final Object findBean = findBean( class1, true );
+			final Class<?> beanClass = parameterTypes[i];
+			final Object findBean = findBean( beanClass, true );
 			beansForConstructor[i] = findBean;
 		}
 
 		LOG.info( "Invoking constructor: " + constructor );
-
 		final Object newInstance = constructor.newInstance( beansForConstructor );
 
 		return newInstance;
@@ -233,16 +234,16 @@ public class DefaultBeanLoader implements BeanLoader
 			LOG.info( "Autowiring method: " + method );
 
 			final Class<?>[] parameterTypes = method.getParameterTypes();
-			final Object[] beansForConstructor = new Object[parameterTypes.length];
+			final Object[] beansForMethod = new Object[parameterTypes.length];
 
 			for ( int i = 0; i < parameterTypes.length; i++ )
 			{
-				final Class<?> class1 = parameterTypes[i];
-				final Object findBean = findBean( class1, true );
-				beansForConstructor[i] = findBean;
+				final Class<?> beanClass = parameterTypes[i];
+				final Object findBean = findBean( beanClass, true );
+				beansForMethod[i] = findBean;
 			}
 
-			method.invoke( objectToAutowire, beansForConstructor );
+			method.invoke( objectToAutowire, beansForMethod );
 		}
 	}
 
@@ -264,16 +265,14 @@ public class DefaultBeanLoader implements BeanLoader
 		if ( matches.size() == 0 )
 		{
 			if ( throwEx )
-				throw new IllegalArgumentException( "No matching bean found for autowiring "
-						+ beanNeeded );
+				throw new IllegalArgumentException( "No matching bean found for autowiring " + beanNeeded );
 			else
 				return null;
 		}
 
 		else if ( matches.size() > 1 )
 		{
-			throw new RuntimeException( "Wrong number of beans found for autowiring " + beanNeeded
-					+ " " + matches );
+			throw new RuntimeException( "Wrong number of beans found for autowiring " + beanNeeded + " " + matches );
 		}
 
 		return matches.get( 0 );
@@ -288,13 +287,13 @@ public class DefaultBeanLoader implements BeanLoader
 	{
 		final List<Class<?>> missingDeps = new ArrayList<Class<?>>();
 
-		for ( final Class<?> class1 : beanData.getDependencies() )
+		for ( final Class<?> beanClass : beanData.getDependencies() )
 		{
-			final Object dependency = findBean( class1, false );
+			final Object dependency = findBean( beanClass, false );
 
 			if ( dependency == null )
 			{
-				missingDeps.add( class1 );
+				missingDeps.add( beanClass );
 			}
 		}
 
