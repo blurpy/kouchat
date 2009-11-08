@@ -51,17 +51,18 @@ public class DefaultBeanLoaderTest
 	private DefaultBeanLoader beanLoader;
 
 	@Before
-	public void loadBeans()
+	public void setupBeanLoader()
 	{
 		final ClassLocator classLocator = new ClassPathScanner();
 		final BeanDataHandler beanDataHandler = new AnnotationBasedBeanDataHandler( "net.usikkert.kouinject", classLocator );
 		beanLoader = new DefaultBeanLoader( beanDataHandler );
-		beanLoader.loadBeans();
 	}
 
 	@Test
 	public void checkAbstractBean()
 	{
+		beanLoader.loadBeans();
+
 		final AbstractBean abstractBean = (AbstractBean) beanLoader.getBean( AbstractBean.class );
 		assertNotNull( abstractBean );
 
@@ -72,6 +73,8 @@ public class DefaultBeanLoaderTest
 	@Test
 	public void checkCoffeeBean()
 	{
+		beanLoader.loadBeans();
+
 		final CoffeeBean coffeeBean = (CoffeeBean) beanLoader.getBean( CoffeeBean.class );
 
 		assertNotNull( coffeeBean.getHelloBean() );
@@ -81,6 +84,8 @@ public class DefaultBeanLoaderTest
 	@Test
 	public void checkConstructorBean()
 	{
+		beanLoader.loadBeans();
+
 		final ConstructorBean constructorBean = (ConstructorBean) beanLoader.getBean( ConstructorBean.class );
 
 		assertNotNull( constructorBean.getHelloBean() );
@@ -90,6 +95,8 @@ public class DefaultBeanLoaderTest
 	@Test
 	public void checkEverythingBean()
 	{
+		beanLoader.loadBeans();
+
 		final EverythingBean everythingBean = (EverythingBean) beanLoader.getBean( EverythingBean.class );
 
 		assertNotNull( everythingBean.getCoffeeBean() );
@@ -105,6 +112,8 @@ public class DefaultBeanLoaderTest
 	@Test
 	public void checkFieldBean()
 	{
+		beanLoader.loadBeans();
+
 		final FieldBean fieldBean = (FieldBean) beanLoader.getBean( FieldBean.class );
 
 		assertNotNull( fieldBean.getHelloBean() );
@@ -115,6 +124,8 @@ public class DefaultBeanLoaderTest
 	@Test
 	public void checkHelloBean()
 	{
+		beanLoader.loadBeans();
+
 		final HelloBean helloBean = (HelloBean) beanLoader.getBean( HelloBean.class );
 		assertNotNull( helloBean );
 	}
@@ -122,6 +133,8 @@ public class DefaultBeanLoaderTest
 	@Test
 	public void checkInterfaceBean()
 	{
+		beanLoader.loadBeans();
+
 		final InterfaceBean interfaceBean = (InterfaceBean) beanLoader.getBean( InterfaceBean.class );
 		assertNotNull( interfaceBean );
 
@@ -132,6 +145,8 @@ public class DefaultBeanLoaderTest
 	@Test
 	public void checkJavaBean()
 	{
+		beanLoader.loadBeans();
+
 		final JavaBean javaBean = (JavaBean) beanLoader.getBean( JavaBean.class );
 
 		assertNotNull( javaBean.getFieldBean() );
@@ -141,6 +156,8 @@ public class DefaultBeanLoaderTest
 	@Test
 	public void checkLastBean()
 	{
+		beanLoader.loadBeans();
+
 		final LastBean lastBean = (LastBean) beanLoader.getBean( LastBean.class );
 
 		assertNotNull( lastBean.getEverythingBean() );
@@ -149,12 +166,16 @@ public class DefaultBeanLoaderTest
 	@Test( expected = IllegalArgumentException.class )
 	public void checkNoBean()
 	{
+		beanLoader.loadBeans();
+
 		beanLoader.getBean( NoBean.class );
 	}
 
 	@Test
 	public void checkSetterBean()
 	{
+		beanLoader.loadBeans();
+
 		final SetterBean setterBean = (SetterBean) beanLoader.getBean( SetterBean.class );
 
 		assertNotNull( setterBean.getFieldBean() );
@@ -163,6 +184,8 @@ public class DefaultBeanLoaderTest
 	@Test
 	public void addBeanShouldMakeBeanAvailableButNotAutowire()
 	{
+		beanLoader.loadBeans();
+
 		final NoBean noBean = new NoBean();
 		beanLoader.addBean( noBean );
 
@@ -175,6 +198,8 @@ public class DefaultBeanLoaderTest
 	@Test
 	public void autowireShouldInjectFieldsInBean()
 	{
+		beanLoader.loadBeans();
+
 		final NoBean noBean = new NoBean();
 		beanLoader.autowire( noBean );
 
@@ -185,21 +210,17 @@ public class DefaultBeanLoaderTest
 	@Test
 	public void beanLoaderShouldHandleMocks()
 	{
-		final ClassLocator classLocator = new ClassPathScanner();
-		final BeanDataHandler beanDataHandler = new AnnotationBasedBeanDataHandler( "net.usikkert.kouinject", classLocator );
-		final DefaultBeanLoader loader = new DefaultBeanLoader( beanDataHandler );
-
 		final HelloBean helloBean = mock( HelloBean.class );
-		loader.addBean( helloBean );
+		beanLoader.addBean( helloBean );
 
 		final AbstractBeanImpl abstractBean = mock( AbstractBeanImpl.class );
-		loader.addBean( abstractBean );
+		beanLoader.addBean( abstractBean );
 
 		final InterfaceBean interfaceBean = mock( InterfaceBean.class );
-		loader.addBean( interfaceBean );
+		beanLoader.addBean( interfaceBean );
 
 		final FieldBean fieldBean = new FieldBean();
-		loader.autowire( fieldBean );
+		beanLoader.autowire( fieldBean );
 
 		assertSame( helloBean, fieldBean.getHelloBean() );
 		assertSame( abstractBean, fieldBean.getAbstractBean() );
