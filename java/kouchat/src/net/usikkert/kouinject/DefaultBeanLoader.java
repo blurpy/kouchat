@@ -80,6 +80,60 @@ public class DefaultBeanLoader implements BeanLoader
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void autowire( final Object objectToAutowire )
+	{
+		try
+		{
+			final BeanData beanData = beanDataHandler.getBeanData( objectToAutowire.getClass(), true );
+			final List<Class<?>> missingDependencies = findMissingDependencies( beanData );
+
+			if ( allDependenciesAreMet( missingDependencies ) )
+			{
+				autowireBean( beanData, objectToAutowire );
+			}
+
+			else
+			{
+				throw new RuntimeException( "Could not autowire object, missing dependencies: " + missingDependencies );
+			}
+		}
+
+		catch ( final Exception e )
+		{
+			throw new RuntimeException( e );
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public <T extends Object> T getBean( final Class<T> beanClass )
+	{
+		return findBean( beanClass, true );
+	}
+
+	protected void addBean( final Object beanToAdd )
+	{
+		final Class<?> beanClass = beanToAdd.getClass();
+
+		if ( beanAlreadyExists( beanClass ) )
+		{
+			throw new RuntimeException( "Cannot add already existing bean: " + beanClass );
+		}
+
+		synchronized ( beanMap )
+		{
+			beanMap.put( beanClass, beanToAdd );
+		}
+
+		LOG.info( "Bean added: " + beanClass.getName() );
+	}
+
 	private void loadAndAutowireBeans() throws Exception
 	{
 		final Set<Class<?>> detectedBeans = beanDataHandler.findBeans();
@@ -188,60 +242,6 @@ public class DefaultBeanLoader implements BeanLoader
 		final Class<?> matchingBean = getMatchingBean( beanNeeded, beanIterator, true );
 
 		return beanDataMap.get( matchingBean );
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void autowire( final Object objectToAutowire )
-	{
-		try
-		{
-			final BeanData beanData = beanDataHandler.getBeanData( objectToAutowire.getClass(), true );
-			final List<Class<?>> missingDependencies = findMissingDependencies( beanData );
-
-			if ( allDependenciesAreMet( missingDependencies ) )
-			{
-				autowireBean( beanData, objectToAutowire );
-			}
-
-			else
-			{
-				throw new RuntimeException( "Could not autowire object, missing dependencies: " + missingDependencies );
-			}
-		}
-
-		catch ( final Exception e )
-		{
-			throw new RuntimeException( e );
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public <T extends Object> T getBean( final Class<T> beanClass )
-	{
-		return findBean( beanClass, true );
-	}
-
-	protected void addBean( final Object beanToAdd )
-	{
-		final Class<?> beanClass = beanToAdd.getClass();
-
-		if ( beanAlreadyExists( beanClass ) )
-		{
-			throw new RuntimeException( "Cannot add already existing bean: " + beanClass );
-		}
-
-		synchronized ( beanMap )
-		{
-			beanMap.put( beanClass, beanToAdd );
-		}
-
-		LOG.info( "Bean added: " + beanClass.getName() );
 	}
 
 	private Object instantiateBean( final BeanData beanData ) throws Exception
