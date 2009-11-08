@@ -238,7 +238,7 @@ public class DefaultBeanLoaderTest
 		assertSame( interfaceBean, fieldBean.getInterfaceBean() );
 	}
 
-	@Test( expected = RuntimeException.class )
+	@Test( expected = IllegalStateException.class )
 	public void circularDependenciesShouldBeDetected()
 	{
 		final ClassLocator classLocator = mock( ClassLocator.class );
@@ -254,7 +254,7 @@ public class DefaultBeanLoaderTest
 		loader.loadBeans();
 	}
 
-	@Test( expected = RuntimeException.class )
+	@Test( expected = IllegalStateException.class )
 	public void tooManyMatchesForADependencyShouldBeDetected()
 	{
 		final ClassLocator classLocator = mock( ClassLocator.class );
@@ -295,7 +295,7 @@ public class DefaultBeanLoaderTest
 		assertTrue( aCloserMatch.getSecondInterfaceImpl() instanceof TheInterface );
 	}
 
-	@Test( expected = RuntimeException.class )
+	@Test( expected = IllegalArgumentException.class )
 	public void noMatchesForADependencyShouldBeDetected()
 	{
 		final ClassLocator classLocator = mock( ClassLocator.class );

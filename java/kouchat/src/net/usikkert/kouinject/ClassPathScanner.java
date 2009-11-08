@@ -23,6 +23,7 @@ package net.usikkert.kouinject;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -63,13 +64,18 @@ public class ClassPathScanner implements ClassLocator
 			return classes;
 		}
 
-		catch ( final Exception e )
+		catch ( final IOException e )
+		{
+			throw new RuntimeException( e );
+		}
+
+		catch ( final ClassNotFoundException e )
 		{
 			throw new RuntimeException( e );
 		}
 	}
 
-	private Set<Class<?>> findClasses( final ClassLoader loader, final String basePackage ) throws Exception
+	private Set<Class<?>> findClasses( final ClassLoader loader, final String basePackage ) throws IOException, ClassNotFoundException
 	{
 		final Set<Class<?>> classes = new HashSet<Class<?>>();
 		final String path = basePackage.replace( '.', '/' );
@@ -100,7 +106,7 @@ public class ClassPathScanner implements ClassLocator
 		return classes;
 	}
 
-	private Set<Class<?>> getFromDirectory( final File directory, final String packageName ) throws Exception
+	private Set<Class<?>> getFromDirectory( final File directory, final String packageName ) throws ClassNotFoundException
 	{
 		final Set<Class<?>> classes = new HashSet<Class<?>>();
 
@@ -127,7 +133,7 @@ public class ClassPathScanner implements ClassLocator
 		return classes;
 	}
 
-	private Set<Class<?>> getFromJARFile( final String jar, final String packageName ) throws Exception
+	private Set<Class<?>> getFromJARFile( final String jar, final String packageName ) throws IOException, ClassNotFoundException
 	{
 		final Set<Class<?>> classes = new HashSet<Class<?>>();
 		final JarInputStream jarFile = new JarInputStream( new FileInputStream( jar ) );

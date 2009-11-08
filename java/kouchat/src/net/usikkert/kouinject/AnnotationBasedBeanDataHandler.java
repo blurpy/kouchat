@@ -164,7 +164,12 @@ public class AnnotationBasedBeanDataHandler implements BeanDataHandler
 				return beanClass.getDeclaredConstructor();
 			}
 
-			catch ( final Exception e )
+			catch ( final SecurityException e )
+			{
+				throw new RuntimeException( e );
+			}
+
+			catch ( final NoSuchMethodException e )
 			{
 				throw new RuntimeException( e );
 			}
@@ -172,8 +177,7 @@ public class AnnotationBasedBeanDataHandler implements BeanDataHandler
 
 		else if ( matches.size() > 1 )
 		{
-			throw new RuntimeException( "Wrong number of constructors found for autowiring "
-					+ beanClass + " " + matches );
+			throw new UnsupportedOperationException( "Wrong number of constructors found for autowiring " + beanClass + " " + matches );
 		}
 
 		return matches.get( 0 );

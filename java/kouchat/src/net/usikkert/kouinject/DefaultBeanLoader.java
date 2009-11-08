@@ -23,6 +23,7 @@ package net.usikkert.kouinject;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -74,7 +75,17 @@ public class DefaultBeanLoader implements BeanLoader
 			loadAndAutowireBeans();
 		}
 
-		catch ( final Exception e )
+		catch ( final IllegalAccessException e )
+		{
+			throw new RuntimeException( e );
+		}
+
+		catch ( final InvocationTargetException e )
+		{
+			throw new RuntimeException( e );
+		}
+
+		catch ( final InstantiationException e )
 		{
 			throw new RuntimeException( e );
 		}
@@ -86,25 +97,30 @@ public class DefaultBeanLoader implements BeanLoader
 	@Override
 	public void autowire( final Object objectToAutowire )
 	{
-		try
-		{
-			final BeanData beanData = beanDataHandler.getBeanData( objectToAutowire.getClass(), true );
-			final List<Class<?>> missingDependencies = findMissingDependencies( beanData );
+		final BeanData beanData = beanDataHandler.getBeanData( objectToAutowire.getClass(), true );
+		final List<Class<?>> missingDependencies = findMissingDependencies( beanData );
 
-			if ( allDependenciesAreMet( missingDependencies ) )
+		if ( allDependenciesAreMet( missingDependencies ) )
+		{
+			try
 			{
 				autowireBean( beanData, objectToAutowire );
 			}
 
-			else
+			catch ( final IllegalAccessException e )
 			{
-				throw new RuntimeException( "Could not autowire object, missing dependencies: " + missingDependencies );
+				throw new RuntimeException( e );
+			}
+
+			catch ( final InvocationTargetException e )
+			{
+				throw new RuntimeException( e );
 			}
 		}
 
-		catch ( final Exception e )
+		else
 		{
-			throw new RuntimeException( e );
+			throw new IllegalArgumentException( "Could not autowire object, missing dependencies: " + missingDependencies );
 		}
 	}
 
@@ -123,7 +139,7 @@ public class DefaultBeanLoader implements BeanLoader
 
 		if ( beanAlreadyExists( beanClass ) )
 		{
-			throw new RuntimeException( "Cannot add already existing bean: " + beanClass );
+			throw new IllegalArgumentException( "Cannot add already existing bean: " + beanClass );
 		}
 
 		synchronized ( beanMap )
@@ -134,7 +150,7 @@ public class DefaultBeanLoader implements BeanLoader
 		LOG.info( "Bean added: " + beanClass.getName() );
 	}
 
-	private void loadAndAutowireBeans() throws Exception
+	private void loadAndAutowireBeans() throws IllegalAccessException, InvocationTargetException, InstantiationException
 	{
 		final Set<Class<?>> detectedBeans = beanDataHandler.findBeans();
 		LOG.info( "Beans found: " + detectedBeans.size() );
@@ -162,7 +178,7 @@ public class DefaultBeanLoader implements BeanLoader
 		return beanDataMap;
 	}
 
-	private void createBeans( final Map<Class<?>, BeanData> beanDataMap ) throws Exception
+	private void createBeans( final Map<Class<?>, BeanData> beanDataMap ) throws IllegalAccessException, InvocationTargetException, InstantiationException
 	{
 		final Iterator<Class<?>> beanIterator = beanDataMap.keySet().iterator();
 
@@ -173,7 +189,7 @@ public class DefaultBeanLoader implements BeanLoader
 		}
 	}
 
-	private void createBean( final Class<?> beanClass, final Map<Class<?>, BeanData> beanDataMap ) throws Exception
+	private void createBean( final Class<?> beanClass, final Map<Class<?>, BeanData> beanDataMap ) throws IllegalAccessException, InvocationTargetException, InstantiationException
 	{
 		LOG.info( "Checking bean before creation: " + beanClass );
 
@@ -244,7 +260,7 @@ public class DefaultBeanLoader implements BeanLoader
 		return beanDataMap.get( matchingBean );
 	}
 
-	private Object instantiateBean( final BeanData beanData ) throws Exception
+	private Object instantiateBean( final BeanData beanData ) throws IllegalAccessException, InvocationTargetException, InstantiationException
 	{
 		final Object instance = instantiateConstructor( beanData );
 		autowireBean( beanData, instance );
@@ -252,7 +268,7 @@ public class DefaultBeanLoader implements BeanLoader
 		return instance;
 	}
 
-	private Object instantiateConstructor( final BeanData beanData ) throws Exception
+	private Object instantiateConstructor( final BeanData beanData ) throws InstantiationException, IllegalAccessException, InvocationTargetException
 	{
 		final Constructor<?> constructor = beanData.getConstructor();
 		final Class<?>[] parameterTypes = constructor.getParameterTypes();
@@ -271,13 +287,13 @@ public class DefaultBeanLoader implements BeanLoader
 		return newInstance;
 	}
 
-	private void autowireBean( final BeanData beanData, final Object instance ) throws Exception
+	private void autowireBean( final BeanData beanData, final Object instance ) throws IllegalAccessException, InvocationTargetException
 	{
 		autowireField( beanData, instance );
 		autowireMethod( beanData, instance );
 	}
 
-	private void autowireField( final BeanData beanData, final Object objectToAutowire ) throws Exception
+	private void autowireField( final BeanData beanData, final Object objectToAutowire ) throws IllegalAccessException
 	{
 		final List<Field> fields = beanData.getFields();
 
@@ -292,7 +308,7 @@ public class DefaultBeanLoader implements BeanLoader
 		}
 	}
 
-	private void autowireMethod( final BeanData beanData, final Object objectToAutowire ) throws Exception
+	private void autowireMethod( final BeanData beanData, final Object objectToAutowire ) throws IllegalAccessException, InvocationTargetException
 	{
 		final List<Method> methods = beanData.getMethods();
 
@@ -348,7 +364,7 @@ public class DefaultBeanLoader implements BeanLoader
 
 		else if ( matches.size() > 1 )
 		{
-			throw new RuntimeException( "Too many matching beans found for " + beanNeeded + " " + matches );
+			throw new IllegalStateException( "Too many matching beans found for " + beanNeeded + " " + matches );
 		}
 
 		return matches.get( 0 );
