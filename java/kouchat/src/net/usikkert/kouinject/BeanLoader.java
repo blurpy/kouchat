@@ -32,6 +32,4 @@ public interface BeanLoader
 	void autowire( Object objectToAutowire );
 
 	Object getBean( Class<?> beanClass );
-
-	void addBean( Object bean );
 }

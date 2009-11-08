@@ -55,9 +55,4 @@ public class IoCContext
 	{
 		return beanLoader.getBean( beanClass );
 	}
-
-	public static void addBean( final Object bean )
-	{
-		beanLoader.addBean( bean );
-	}
 }

@@ -43,6 +43,11 @@ import java.util.logging.Logger;
  * circular deps
  * refactor
  *
+ * generics
+ * test circular deps
+ * test too many matches
+ * test no matches
+ *
  * @author Christian Ihle
  */
 public class DefaultBeanLoader implements BeanLoader
@@ -217,8 +222,7 @@ public class DefaultBeanLoader implements BeanLoader
 		return findBean( beanNeeded, true );
 	}
 
-	@Override
-	public void addBean( final Object beanToAdd )
+	protected void addBean( final Object beanToAdd )
 	{
 		final Class<?> beanClass = beanToAdd.getClass();
 
