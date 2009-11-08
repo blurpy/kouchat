@@ -339,7 +339,7 @@ public class DefaultBeanLoader implements BeanLoader
 
 		else if ( matches.size() > 1 )
 		{
-			throw new RuntimeException( "Wrong number of beans found for " + beanNeeded + " " + matches );
+			throw new RuntimeException( "Too many matching beans found for " + beanNeeded + " " + matches );
 		}
 
 		return matches.get( 0 );
