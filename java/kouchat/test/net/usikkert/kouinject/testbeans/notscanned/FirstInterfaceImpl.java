@@ -24,12 +24,12 @@ package net.usikkert.kouinject.testbeans.notscanned;
 import net.usikkert.kouinject.annotation.Component;
 
 /**
- * Bean for testing too many matches for a dependency.
+ * Bean for testing dependency matching.
  *
  * @author Christian Ihle
  */
 @Component
-public class FirstInterfaceImpl implements TheInterface
+public class FirstInterfaceImpl implements FirstInterfaceImplInterface
 {
 
 }

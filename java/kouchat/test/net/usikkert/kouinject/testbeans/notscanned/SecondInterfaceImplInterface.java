@@ -21,15 +21,12 @@
 
 package net.usikkert.kouinject.testbeans.notscanned;
 
-import net.usikkert.kouinject.annotation.Component;
-
 /**
- * Bean for testing dependency matching.
+ * Interface for testing dependency matching.
  *
  * @author Christian Ihle
  */
-@Component
-public class SecondInterfaceImpl implements SecondInterfaceImplInterface
+public interface SecondInterfaceImplInterface extends TheInterface
 {
 
 }

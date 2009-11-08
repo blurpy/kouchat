@@ -27,10 +27,12 @@ import static org.mockito.Mockito.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.usikkert.kouinject.testbeans.notscanned.ACloserMatchOfImplementationUser;
 import net.usikkert.kouinject.testbeans.notscanned.FirstCircularBean;
 import net.usikkert.kouinject.testbeans.notscanned.FirstInterfaceImpl;
 import net.usikkert.kouinject.testbeans.notscanned.SecondCircularBean;
 import net.usikkert.kouinject.testbeans.notscanned.SecondInterfaceImpl;
+import net.usikkert.kouinject.testbeans.notscanned.TheInterface;
 import net.usikkert.kouinject.testbeans.notscanned.TheInterfaceUser;
 import net.usikkert.kouinject.testbeans.scanned.ConstructorBean;
 import net.usikkert.kouinject.testbeans.scanned.EverythingBean;
@@ -262,11 +264,35 @@ public class DefaultBeanLoaderTest
 		final Set<Class<?>> classes = new HashSet<Class<?>>();
 		classes.add( FirstInterfaceImpl.class );
 		classes.add( SecondInterfaceImpl.class );
-		classes.add( TheInterfaceUser.class );
 
 		when( classLocator.findClasses( "some.package" ) ).thenReturn( classes );
 
 		loader.loadBeans();
+
+		final TheInterfaceUser theInterfaceUser = new TheInterfaceUser();
+		loader.autowire( theInterfaceUser );
+	}
+
+	@Test
+	public void severalMatchesForAnInterfaceIsOKIfACloserMatchForImplIsRequested()
+	{
+		final ClassLocator classLocator = mock( ClassLocator.class );
+		final BeanDataHandler beanDataHandler = new AnnotationBasedBeanDataHandler( "some.package", classLocator );
+		final DefaultBeanLoader loader = new DefaultBeanLoader( beanDataHandler );
+
+		final Set<Class<?>> classes = new HashSet<Class<?>>();
+		classes.add( FirstInterfaceImpl.class );
+		classes.add( SecondInterfaceImpl.class );
+
+		when( classLocator.findClasses( "some.package" ) ).thenReturn( classes );
+
+		loader.loadBeans();
+
+		final ACloserMatchOfImplementationUser aCloserMatch = new ACloserMatchOfImplementationUser();
+		loader.autowire( aCloserMatch );
+
+		assertTrue( aCloserMatch.getFirstInterfaceImplInterface() instanceof TheInterface );
+		assertTrue( aCloserMatch.getSecondInterfaceImpl() instanceof TheInterface );
 	}
 
 	@Test( expected = RuntimeException.class )

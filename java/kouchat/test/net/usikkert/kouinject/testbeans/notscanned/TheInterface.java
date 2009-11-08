@@ -22,7 +22,7 @@
 package net.usikkert.kouinject.testbeans.notscanned;
 
 /**
- * Interface for testing too many matches for a dependency.
+ * Interface for testing dependency matching.
  *
  * @author Christian Ihle
  */

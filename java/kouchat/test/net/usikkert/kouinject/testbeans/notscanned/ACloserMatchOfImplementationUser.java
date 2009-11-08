@@ -22,14 +22,40 @@
 package net.usikkert.kouinject.testbeans.notscanned;
 
 import net.usikkert.kouinject.annotation.Component;
+import net.usikkert.kouinject.annotation.Inject;
 
 /**
- * Bean for testing dependency matching.
+ * Bean for testing that it's OK to have two implementations of the same
+ * interface loaded as long as a closer match than that interface is requested.
  *
  * @author Christian Ihle
  */
 @Component
-public class SecondInterfaceImpl implements SecondInterfaceImplInterface
+public class ACloserMatchOfImplementationUser
 {
+	private FirstInterfaceImplInterface firstInterfaceImplInterface;
 
+	private SecondInterfaceImpl secondInterfaceImpl;
+
+	public FirstInterfaceImplInterface getFirstInterfaceImplInterface()
+	{
+		return firstInterfaceImplInterface;
+	}
+
+	@Inject
+	public void setFirstInterfaceImplInterface( final FirstInterfaceImplInterface firstInterfaceImplInterface )
+	{
+		this.firstInterfaceImplInterface = firstInterfaceImplInterface;
+	}
+
+	public SecondInterfaceImpl getSecondInterfaceImpl()
+	{
+		return secondInterfaceImpl;
+	}
+
+	@Inject
+	public void setSecondInterfaceImpl( final SecondInterfaceImpl secondInterfaceImpl )
+	{
+		this.secondInterfaceImpl = secondInterfaceImpl;
+	}
 }
