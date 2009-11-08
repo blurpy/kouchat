@@ -22,6 +22,8 @@
 package net.usikkert.kouinject;
 
 /**
+ * Interface for the main IoC component, the component that loads beans and
+ * autowires the dependencies.
  *
  * @author Christian Ihle
  */
@@ -31,5 +33,5 @@ public interface BeanLoader
 
 	void autowire( Object objectToAutowire );
 
-	Object getBean( Class<?> beanClass );
+	<T extends Object> T getBean( Class<T> beanClass );
 }

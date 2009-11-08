@@ -74,10 +74,10 @@ public class DefaultBeanLoaderTest
 	{
 		beanLoader.loadBeans();
 
-		final AbstractBean abstractBean = (AbstractBean) beanLoader.getBean( AbstractBean.class );
+		final AbstractBean abstractBean = beanLoader.getBean( AbstractBean.class );
 		assertNotNull( abstractBean );
 
-		final AbstractBeanImpl abstractBeanImpl = (AbstractBeanImpl) beanLoader.getBean( AbstractBeanImpl.class );
+		final AbstractBeanImpl abstractBeanImpl = beanLoader.getBean( AbstractBeanImpl.class );
 		assertNotNull( abstractBeanImpl );
 	}
 
@@ -86,7 +86,7 @@ public class DefaultBeanLoaderTest
 	{
 		beanLoader.loadBeans();
 
-		final CoffeeBean coffeeBean = (CoffeeBean) beanLoader.getBean( CoffeeBean.class );
+		final CoffeeBean coffeeBean = beanLoader.getBean( CoffeeBean.class );
 
 		assertNotNull( coffeeBean.getHelloBean() );
 		assertNotNull( coffeeBean.getJavaBean() );
@@ -97,7 +97,7 @@ public class DefaultBeanLoaderTest
 	{
 		beanLoader.loadBeans();
 
-		final ConstructorBean constructorBean = (ConstructorBean) beanLoader.getBean( ConstructorBean.class );
+		final ConstructorBean constructorBean = beanLoader.getBean( ConstructorBean.class );
 
 		assertNotNull( constructorBean.getHelloBean() );
 		assertNotNull( constructorBean.getSetterBean() );
@@ -108,7 +108,7 @@ public class DefaultBeanLoaderTest
 	{
 		beanLoader.loadBeans();
 
-		final EverythingBean everythingBean = (EverythingBean) beanLoader.getBean( EverythingBean.class );
+		final EverythingBean everythingBean = beanLoader.getBean( EverythingBean.class );
 
 		assertNotNull( everythingBean.getCoffeeBean() );
 		assertNotNull( everythingBean.getConstructorBean() );
@@ -125,7 +125,7 @@ public class DefaultBeanLoaderTest
 	{
 		beanLoader.loadBeans();
 
-		final FieldBean fieldBean = (FieldBean) beanLoader.getBean( FieldBean.class );
+		final FieldBean fieldBean = beanLoader.getBean( FieldBean.class );
 
 		assertNotNull( fieldBean.getHelloBean() );
 		assertNotNull( fieldBean.getAbstractBean() );
@@ -137,7 +137,7 @@ public class DefaultBeanLoaderTest
 	{
 		beanLoader.loadBeans();
 
-		final HelloBean helloBean = (HelloBean) beanLoader.getBean( HelloBean.class );
+		final HelloBean helloBean = beanLoader.getBean( HelloBean.class );
 		assertNotNull( helloBean );
 	}
 
@@ -146,10 +146,10 @@ public class DefaultBeanLoaderTest
 	{
 		beanLoader.loadBeans();
 
-		final InterfaceBean interfaceBean = (InterfaceBean) beanLoader.getBean( InterfaceBean.class );
+		final InterfaceBean interfaceBean = beanLoader.getBean( InterfaceBean.class );
 		assertNotNull( interfaceBean );
 
-		final InterfaceBeanImpl interfaceBeanImpl = (InterfaceBeanImpl) beanLoader.getBean( InterfaceBeanImpl.class );
+		final InterfaceBeanImpl interfaceBeanImpl = beanLoader.getBean( InterfaceBeanImpl.class );
 		assertNotNull( interfaceBeanImpl );
 	}
 
@@ -158,7 +158,7 @@ public class DefaultBeanLoaderTest
 	{
 		beanLoader.loadBeans();
 
-		final JavaBean javaBean = (JavaBean) beanLoader.getBean( JavaBean.class );
+		final JavaBean javaBean = beanLoader.getBean( JavaBean.class );
 
 		assertNotNull( javaBean.getFieldBean() );
 		assertNotNull( javaBean.getHelloBean() );
@@ -169,7 +169,7 @@ public class DefaultBeanLoaderTest
 	{
 		beanLoader.loadBeans();
 
-		final LastBean lastBean = (LastBean) beanLoader.getBean( LastBean.class );
+		final LastBean lastBean = beanLoader.getBean( LastBean.class );
 
 		assertNotNull( lastBean.getEverythingBean() );
 	}
@@ -187,7 +187,7 @@ public class DefaultBeanLoaderTest
 	{
 		beanLoader.loadBeans();
 
-		final SetterBean setterBean = (SetterBean) beanLoader.getBean( SetterBean.class );
+		final SetterBean setterBean = beanLoader.getBean( SetterBean.class );
 
 		assertNotNull( setterBean.getFieldBean() );
 	}
@@ -200,7 +200,7 @@ public class DefaultBeanLoaderTest
 		final NoBean noBean = new NoBean();
 		beanLoader.addBean( noBean );
 
-		final NoBean noBeanFromBeanLoader = (NoBean) beanLoader.getBean( NoBean.class );
+		final NoBean noBeanFromBeanLoader = beanLoader.getBean( NoBean.class );
 		assertNotNull( noBeanFromBeanLoader );
 		assertNull( noBeanFromBeanLoader.getHelloBean() );
 		assertNull( noBeanFromBeanLoader.getCoffeeBean() );

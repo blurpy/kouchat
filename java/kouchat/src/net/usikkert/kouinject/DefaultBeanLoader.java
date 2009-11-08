@@ -35,14 +35,14 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 /**
- * KouInject
- * scope
- * child context?
- * initializer
- * destroyer
- * circular deps
- * refactor
- * generics
+ * Default implementation of the {@link BeanLoader}.
+ *
+ * TODO:
+ * Add scope support
+ * Add child contexts?
+ * Run initializer method
+ * Run destroyer method
+ * Allow circular deps in fields and methods?
  *
  * @author Christian Ihle
  */
@@ -213,9 +213,9 @@ public class DefaultBeanLoader implements BeanLoader
 	}
 
 	@Override
-	public Object getBean( final Class<?> beanNeeded )
+	public <T extends Object> T getBean( final Class<T> beanClass )
 	{
-		return findBean( beanNeeded, true );
+		return findBean( beanClass, true );
 	}
 
 	protected void addBean( final Object beanToAdd )
@@ -305,13 +305,13 @@ public class DefaultBeanLoader implements BeanLoader
 		}
 	}
 
-	private Object findBean( final Class<?> beanNeeded, final boolean throwEx )
+	private <T extends Object> T findBean( final Class<T> beanNeeded, final boolean throwEx )
 	{
 		synchronized ( beanMap )
 		{
 			final Iterator<Class<?>> beanIterator = beanMap.keySet().iterator();
 			final Class<?> matchingBean = getMatchingBean( beanNeeded, beanIterator, throwEx );
-			return beanMap.get( matchingBean );
+			return (T) beanMap.get( matchingBean );
 		}
 	}
 
