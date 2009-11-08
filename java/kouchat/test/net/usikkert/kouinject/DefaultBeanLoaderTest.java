@@ -268,4 +268,19 @@ public class DefaultBeanLoaderTest
 
 		loader.loadBeans();
 	}
+
+	@Test( expected = RuntimeException.class )
+	public void noMatchesForADependencyShouldBeDetected()
+	{
+		final ClassLocator classLocator = mock( ClassLocator.class );
+		final BeanDataHandler beanDataHandler = new AnnotationBasedBeanDataHandler( "some.package", classLocator );
+		final DefaultBeanLoader loader = new DefaultBeanLoader( beanDataHandler );
+
+		final Set<Class<?>> classes = new HashSet<Class<?>>();
+		classes.add( TheInterfaceUser.class );
+
+		when( classLocator.findClasses( "some.package" ) ).thenReturn( classes );
+
+		loader.loadBeans();
+	}
 }

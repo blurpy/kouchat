@@ -42,11 +42,7 @@ import java.util.logging.Logger;
  * destroyer
  * circular deps
  * refactor
- *
  * generics
- * test circular deps
- * test too many matches
- * test no matches
  *
  * @author Christian Ihle
  */
