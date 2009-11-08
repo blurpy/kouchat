@@ -52,6 +52,9 @@ public class AnnotationBasedBeanDataHandler implements BeanDataHandler
 		this.classLocator = classLocator;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Set<Class<?>> findBeans()
 	{
@@ -69,6 +72,9 @@ public class AnnotationBasedBeanDataHandler implements BeanDataHandler
 		return detectedBeans;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public BeanData getBeanData( final Class<?> beanClass, final boolean skipConstructor )
 	{

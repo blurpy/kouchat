@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * This class describes the bean meta-data needed to instantiate a new bean
+ * to a consistent state.
  *
  * @author Christian Ihle
  */

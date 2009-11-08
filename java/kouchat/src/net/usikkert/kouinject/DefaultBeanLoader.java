@@ -63,6 +63,9 @@ public class DefaultBeanLoader implements BeanLoader
 		this.beansInCreation = Collections.synchronizedCollection( new ArrayList<Class<?>>() );
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void loadBeans()
 	{
@@ -187,6 +190,9 @@ public class DefaultBeanLoader implements BeanLoader
 		return beanDataMap.get( matchingBean );
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void autowire( final Object objectToAutowire )
 	{
@@ -212,6 +218,9 @@ public class DefaultBeanLoader implements BeanLoader
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public <T extends Object> T getBean( final Class<T> beanClass )
 	{
