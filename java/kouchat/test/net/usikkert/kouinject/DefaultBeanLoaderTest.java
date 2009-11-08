@@ -24,6 +24,11 @@ package net.usikkert.kouinject;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import net.usikkert.kouinject.testbeans.notscanned.FirstCircularBean;
+import net.usikkert.kouinject.testbeans.notscanned.SecondCircularBean;
 import net.usikkert.kouinject.testbeans.scanned.ConstructorBean;
 import net.usikkert.kouinject.testbeans.scanned.EverythingBean;
 import net.usikkert.kouinject.testbeans.scanned.FieldBean;
@@ -226,5 +231,21 @@ public class DefaultBeanLoaderTest
 		assertSame( helloBean, fieldBean.getHelloBean() );
 		assertSame( abstractBean, fieldBean.getAbstractBean() );
 		assertSame( interfaceBean, fieldBean.getInterfaceBean() );
+	}
+
+	@Test( expected = RuntimeException.class )
+	public void circularDependenciesShouldBeDetected()
+	{
+		final ClassLocator classLocator = mock( ClassLocator.class );
+		final BeanDataHandler beanDataHandler = new AnnotationBasedBeanDataHandler( "some.package", classLocator );
+		final DefaultBeanLoader loader = new DefaultBeanLoader( beanDataHandler );
+
+		final Set<Class<?>> classes = new HashSet<Class<?>>();
+		classes.add( FirstCircularBean.class );
+		classes.add( SecondCircularBean.class );
+
+		when( classLocator.findClasses( "some.package" ) ).thenReturn( classes );
+
+		loader.loadBeans();
 	}
 }
