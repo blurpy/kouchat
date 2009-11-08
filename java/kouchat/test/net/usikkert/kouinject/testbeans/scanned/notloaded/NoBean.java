@@ -19,28 +19,36 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouinject.testbeans;
+package net.usikkert.kouinject.testbeans.scanned.notloaded;
 
-import net.usikkert.kouinject.annotation.Component;
 import net.usikkert.kouinject.annotation.Inject;
+import net.usikkert.kouinject.testbeans.scanned.HelloBean;
+import net.usikkert.kouinject.testbeans.scanned.coffee.CoffeeBean;
 
 /**
  *
  * @author Christian Ihle
  */
-@Component
-public class LastBean
+public class NoBean
 {
-	private EverythingBean everythingBean;
-
 	@Inject
-	public void setEverythingBean( final EverythingBean everythingBean )
+	private HelloBean helloBean;
+
+	private CoffeeBean coffeeBean;
+
+	public HelloBean getHelloBean()
 	{
-		this.everythingBean = everythingBean;
+		return helloBean;
 	}
 
-	public EverythingBean getEverythingBean()
+	public CoffeeBean getCoffeeBean()
 	{
-		return everythingBean;
+		return coffeeBean;
+	}
+
+	@Inject
+	public void setCoffeeBean( final CoffeeBean coffeeBean )
+	{
+		this.coffeeBean = coffeeBean;
 	}
 }

@@ -24,19 +24,19 @@ package net.usikkert.kouinject;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import net.usikkert.kouinject.testbeans.AbstractBean;
-import net.usikkert.kouinject.testbeans.AbstractBeanImpl;
-import net.usikkert.kouinject.testbeans.CoffeeBean;
-import net.usikkert.kouinject.testbeans.ConstructorBean;
-import net.usikkert.kouinject.testbeans.EverythingBean;
-import net.usikkert.kouinject.testbeans.FieldBean;
-import net.usikkert.kouinject.testbeans.HelloBean;
-import net.usikkert.kouinject.testbeans.InterfaceBean;
-import net.usikkert.kouinject.testbeans.InterfaceBeanImpl;
-import net.usikkert.kouinject.testbeans.JavaBean;
-import net.usikkert.kouinject.testbeans.LastBean;
-import net.usikkert.kouinject.testbeans.NoBean;
-import net.usikkert.kouinject.testbeans.SetterBean;
+import net.usikkert.kouinject.testbeans.scanned.ConstructorBean;
+import net.usikkert.kouinject.testbeans.scanned.EverythingBean;
+import net.usikkert.kouinject.testbeans.scanned.FieldBean;
+import net.usikkert.kouinject.testbeans.scanned.HelloBean;
+import net.usikkert.kouinject.testbeans.scanned.LastBean;
+import net.usikkert.kouinject.testbeans.scanned.SetterBean;
+import net.usikkert.kouinject.testbeans.scanned.coffee.CoffeeBean;
+import net.usikkert.kouinject.testbeans.scanned.coffee.JavaBean;
+import net.usikkert.kouinject.testbeans.scanned.hierarchy.abstractbean.AbstractBean;
+import net.usikkert.kouinject.testbeans.scanned.hierarchy.abstractbean.AbstractBeanImpl;
+import net.usikkert.kouinject.testbeans.scanned.hierarchy.interfacebean.InterfaceBean;
+import net.usikkert.kouinject.testbeans.scanned.hierarchy.interfacebean.InterfaceBeanImpl;
+import net.usikkert.kouinject.testbeans.scanned.notloaded.NoBean;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,7 +54,8 @@ public class DefaultBeanLoaderTest
 	public void setupBeanLoader()
 	{
 		final ClassLocator classLocator = new ClassPathScanner();
-		final BeanDataHandler beanDataHandler = new AnnotationBasedBeanDataHandler( "net.usikkert.kouinject", classLocator );
+		final BeanDataHandler beanDataHandler = new AnnotationBasedBeanDataHandler(
+				"net.usikkert.kouinject.testbeans.scanned", classLocator );
 		beanLoader = new DefaultBeanLoader( beanDataHandler );
 	}
 

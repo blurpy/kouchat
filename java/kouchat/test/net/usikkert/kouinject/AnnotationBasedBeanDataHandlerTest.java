@@ -31,14 +31,14 @@ import java.util.Set;
 
 import net.usikkert.kouinject.annotation.Component;
 import net.usikkert.kouinject.annotation.Inject;
-import net.usikkert.kouinject.testbeans.AbstractBean;
-import net.usikkert.kouinject.testbeans.ConstructorBean;
-import net.usikkert.kouinject.testbeans.EverythingBean;
-import net.usikkert.kouinject.testbeans.FieldBean;
-import net.usikkert.kouinject.testbeans.HelloBean;
-import net.usikkert.kouinject.testbeans.InterfaceBean;
-import net.usikkert.kouinject.testbeans.JavaBean;
-import net.usikkert.kouinject.testbeans.SetterBean;
+import net.usikkert.kouinject.testbeans.scanned.ConstructorBean;
+import net.usikkert.kouinject.testbeans.scanned.EverythingBean;
+import net.usikkert.kouinject.testbeans.scanned.FieldBean;
+import net.usikkert.kouinject.testbeans.scanned.HelloBean;
+import net.usikkert.kouinject.testbeans.scanned.SetterBean;
+import net.usikkert.kouinject.testbeans.scanned.coffee.JavaBean;
+import net.usikkert.kouinject.testbeans.scanned.hierarchy.abstractbean.AbstractBean;
+import net.usikkert.kouinject.testbeans.scanned.hierarchy.interfacebean.InterfaceBean;
 
 import org.junit.Before;
 import org.junit.Test;

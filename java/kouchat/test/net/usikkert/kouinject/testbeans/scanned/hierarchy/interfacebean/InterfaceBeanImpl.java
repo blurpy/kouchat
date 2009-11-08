@@ -19,28 +19,16 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-package net.usikkert.kouinject.testbeans;
+package net.usikkert.kouinject.testbeans.scanned.hierarchy.interfacebean;
 
 import net.usikkert.kouinject.annotation.Component;
-import net.usikkert.kouinject.annotation.Inject;
 
 /**
  *
  * @author Christian Ihle
  */
 @Component
-public class SetterBean
+public class InterfaceBeanImpl implements InterfaceBean
 {
-	private FieldBean fieldBean;
 
-	@Inject
-	public void setFieldBean( final FieldBean fieldBean )
-	{
-		this.fieldBean = fieldBean;
-	}
-
-	public FieldBean getFieldBean()
-	{
-		return fieldBean;
-	}
 }
