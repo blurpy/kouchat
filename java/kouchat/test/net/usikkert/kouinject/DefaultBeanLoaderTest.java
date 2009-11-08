@@ -274,7 +274,7 @@ public class DefaultBeanLoaderTest
 	}
 
 	@Test
-	public void severalMatchesForAnInterfaceIsOKIfACloserMatchForImplIsRequested()
+	public void severalBeansForAnInterfaceIsOKIfACloserMatchToImplIsRequested()
 	{
 		final ClassLocator classLocator = mock( ClassLocator.class );
 		final BeanDataHandler beanDataHandler = new AnnotationBasedBeanDataHandler( "some.package", classLocator );
