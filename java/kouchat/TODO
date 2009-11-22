@@ -12,6 +12,8 @@
  - Convert to the source formatting style in KouInject
  - Fix Event Dispatch Thread usage
  - User specified network interface
+ - Test KouInject
+ - Test EventBus
 
 
 * Release v2.0:
