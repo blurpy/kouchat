@@ -48,10 +48,10 @@ public class ConsoleMediator implements UserInterface
 	 */
 	public ConsoleMediator()
 	{
-		ConsoleChatWindow chat = new ConsoleChatWindow();
+		final ConsoleChatWindow chat = new ConsoleChatWindow();
 		msgController = new MessageController( chat, this );
 		controller = new Controller( this );
-		ConsoleInput ci = new ConsoleInput( controller, this );
+		final ConsoleInput ci = new ConsoleInput( controller, this );
 		ci.start();
 	}
 
@@ -150,7 +150,7 @@ public class ConsoleMediator implements UserInterface
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void notifyMessageArrived()
+	public void notifyMessageArrived( final User user )
 	{
 
 	}

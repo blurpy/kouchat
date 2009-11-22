@@ -11,6 +11,7 @@
   - Removed annoying error message if the system tray is missing
   - Upgraded to Checkstyle 5
   - Moved to using the default maven project structure
+  - Added balloon popup on new messages and new private messages
 
 
 * version 1.0.0 (10.06.2009):

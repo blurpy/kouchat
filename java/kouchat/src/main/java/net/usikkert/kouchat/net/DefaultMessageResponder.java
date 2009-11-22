@@ -85,7 +85,7 @@ public class DefaultMessageResponder implements MessageResponder
 	public void messageArrived( final int userCode, final String msg, final int color )
 	{
 		// A little hack to stop messages from showing before the user is logged on
-		Thread t = new Thread( "DefaultMessageResponderMessageArrived" )
+		final Thread t = new Thread( "DefaultMessageResponderMessageArrived" )
 		{
 			@Override
 			public void run()
@@ -103,7 +103,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 				if ( !controller.isNewUser( userCode ) )
 				{
-					User user = controller.getUser( userCode );
+					final User user = controller.getUser( userCode );
 
 					if ( !user.isAway() )
 					{
@@ -113,7 +113,7 @@ public class DefaultMessageResponder implements MessageResponder
 						if ( ui.isVisible() && !ui.isFocused() )
 							me.setNewMsg( true );
 
-						ui.notifyMessageArrived();
+						ui.notifyMessageArrived( user );
 					}
 				}
 
@@ -146,7 +146,7 @@ public class DefaultMessageResponder implements MessageResponder
 	@Override
 	public void userLogOff( final int userCode )
 	{
-		User user = controller.getUser( userCode );
+		final User user = controller.getUser( userCode );
 
 		if ( user != null )
 		{
@@ -244,7 +244,7 @@ public class DefaultMessageResponder implements MessageResponder
 		{
 			if ( time > 0 && nick.length() > 0 )
 			{
-				Topic topic = controller.getTopic();
+				final Topic topic = controller.getTopic();
 
 				if ( newTopic != null )
 				{
@@ -258,7 +258,7 @@ public class DefaultMessageResponder implements MessageResponder
 						// Shown during startup.
 						else
 						{
-							String date = Tools.dateToString( new Date( time ), "HH:mm:ss, dd. MMM. yy" );
+							final String date = Tools.dateToString( new Date( time ), "HH:mm:ss, dd. MMM. yy" );
 							msgController.showSystemMessage( "Topic is: " + newTopic + " (set by " + nick + " at " + date + ")" );
 						}
 
@@ -309,7 +309,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 		else
 		{
-			User orgUser = controller.getUser( user.getCode() );
+			final User orgUser = controller.getUser( user.getCode() );
 
 			// When users timeout, there can become sync issues
 			if ( !orgUser.getNick().equals( user.getNick() ) )
@@ -389,7 +389,7 @@ public class DefaultMessageResponder implements MessageResponder
 		{
 			try
 			{
-				User user = controller.getUser( userCode );
+				final User user = controller.getUser( userCode );
 				controller.changeAwayStatus( userCode, away, awayMsg );
 
 				if ( away )
@@ -452,7 +452,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 		else
 		{
-			User user = controller.getUser( userCode );
+			final User user = controller.getUser( userCode );
 			user.setLastIdle( System.currentTimeMillis() );
 
 			if ( !user.getIpAddress().equals( ipAddress ) )
@@ -512,11 +512,11 @@ public class DefaultMessageResponder implements MessageResponder
 
 		else
 		{
-			User user = controller.getUser( userCode );
+			final User user = controller.getUser( userCode );
 
 			if ( !controller.isNickInUse( newNick ) && Tools.isValidNick( newNick ) )
 			{
-				String oldNick = user.getNick();
+				final String oldNick = user.getNick();
 				controller.changeNick( userCode, newNick );
 				msgController.showSystemMessage( oldNick + " changed nick to " + newNick );
 
@@ -572,13 +572,13 @@ public class DefaultMessageResponder implements MessageResponder
 
 				if ( !controller.isNewUser( userCode ) )
 				{
-					String size = Tools.byteToString( byteSize );
+					final String size = Tools.byteToString( byteSize );
 					msgController.showSystemMessage( user + " is trying to send the file " + fileName + " [" + size + "]" );
-					User tmpUser = controller.getUser( userCode );
-					File defaultFile = new File( System.getProperty( "user.home" )
+					final User tmpUser = controller.getUser( userCode );
+					final File defaultFile = new File( System.getProperty( "user.home" )
 							+ System.getProperty( "file.separator" )
 							+ fileName );
-					FileReceiver fileRes = new FileReceiver( tmpUser, defaultFile, byteSize );
+					final FileReceiver fileRes = new FileReceiver( tmpUser, defaultFile, byteSize );
 					tList.addFileReceiver( fileRes );
 
 					if ( ui.askFileSave( user, fileName, size ) )
@@ -591,7 +591,7 @@ public class DefaultMessageResponder implements MessageResponder
 
 							try
 							{
-								int port = fileRes.startServer();
+								final int port = fileRes.startServer();
 								controller.sendFileAccept( tmpUser, port, fileHash, fileName );
 
 								if ( fileRes.transfer() )
@@ -661,8 +661,8 @@ public class DefaultMessageResponder implements MessageResponder
 	@Override
 	public void fileSendAborted( final int userCode, final String fileName, final int fileHash )
 	{
-		User user = controller.getUser( userCode );
-		FileSender fileSender = tList.getFileSender( user, fileName, fileHash );
+		final User user = controller.getUser( userCode );
+		final FileSender fileSender = tList.getFileSender( user, fileName, fileHash );
 
 		if ( fileSender != null )
 		{
@@ -671,7 +671,7 @@ public class DefaultMessageResponder implements MessageResponder
 			tList.removeFileSender( fileSender );
 		}
 
-		FileReceiver fileReceiver = tList.getFileReceiver( user, fileName );
+		final FileReceiver fileReceiver = tList.getFileReceiver( user, fileName );
 
 		if ( fileReceiver != null )
 		{
@@ -697,8 +697,8 @@ public class DefaultMessageResponder implements MessageResponder
 			@Override
 			public void run()
 			{
-				User user = controller.getUser( userCode );
-				FileSender fileSend = tList.getFileSender( user, fileName, fileHash );
+				final User user = controller.getUser( userCode );
+				final FileSender fileSend = tList.getFileSender( user, fileName, fileHash );
 
 				if ( fileSend != null )
 				{
@@ -735,7 +735,7 @@ public class DefaultMessageResponder implements MessageResponder
 	@Override
 	public void clientInfo( final int userCode, final String client, final long timeSinceLogon, final String operatingSystem, final int privateChatPort )
 	{
-		User user = controller.getUser( userCode );
+		final User user = controller.getUser( userCode );
 
 		if ( user != null )
 		{

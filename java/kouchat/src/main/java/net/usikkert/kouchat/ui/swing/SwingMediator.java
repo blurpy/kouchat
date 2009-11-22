@@ -136,7 +136,7 @@ public class SwingMediator implements Mediator, UserInterface
 	{
 		if ( me.isAway() )
 		{
-			int choice = UITools.showOptionDialog( "Back from '" + me.getAwayMsg() + "'?", "Away" );
+			final int choice = UITools.showOptionDialog( "Back from '" + me.getAwayMsg() + "'?", "Away" );
 
 			if ( choice == JOptionPane.YES_OPTION )
 			{
@@ -156,7 +156,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 		else
 		{
-			String reason = UITools.showInputDialog( "Reason for away?", "Away", null );
+			final String reason = UITools.showInputDialog( "Reason for away?", "Away", null );
 
 			if ( reason != null && reason.trim().length() > 0 )
 			{
@@ -189,8 +189,8 @@ public class SwingMediator implements Mediator, UserInterface
 	@Override
 	public void setTopic()
 	{
-		Topic topic = controller.getTopic();
-		String newTopic = UITools.showInputDialog( "Change topic?", "Topic", topic.getTopic() );
+		final Topic topic = controller.getTopic();
+		final String newTopic = UITools.showInputDialog( "Change topic?", "Topic", topic.getTopic() );
 
 		if ( newTopic != null )
 		{
@@ -224,7 +224,7 @@ public class SwingMediator implements Mediator, UserInterface
 	@Override
 	public void quit()
 	{
-		int choice = UITools.showOptionDialog( "Are you sure you want to quit?", "Quit" );
+		final int choice = UITools.showOptionDialog( "Are you sure you want to quit?", "Quit" );
 
 		if ( choice == JOptionPane.YES_OPTION )
 		{
@@ -273,7 +273,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 			gui.setTitle( UITools.createTitle( title ) );
 			gui.updateWindowIcon();
-			sysTray.setToolTip( tooltip );
+			sysTray.setToolTip( UITools.createTitle( title ) );
 		}
 	}
 
@@ -337,40 +337,40 @@ public class SwingMediator implements Mediator, UserInterface
 
 		else if ( user.isMe() )
 		{
-			String message = "You cannot send files to yourself.";
+			final String message = "You cannot send files to yourself.";
 			UITools.showWarningMessage( message, "Warning" );
 		}
 
 		else if ( me.isAway() )
 		{
-			String message = "You cannot send files while you are away.";
+			final String message = "You cannot send files while you are away.";
 			UITools.showWarningMessage( message, "Warning" );
 		}
 
 		else if ( user.isAway() )
 		{
-			String message = "You cannot send files to " + user.getNick() + ", which is away.";
+			final String message = "You cannot send files to " + user.getNick() + ", which is away.";
 			UITools.showWarningMessage( message, "Warning" );
 		}
 
 		else if ( !user.isOnline() )
 		{
-			String message = "You cannot send files to " + user.getNick() + ", which is not online anymore.";
+			final String message = "You cannot send files to " + user.getNick() + ", which is not online anymore.";
 			UITools.showWarningMessage( message, "Warning" );
 		}
 
 		else
 		{
-			JFileChooser chooser = UITools.createFileChooser( "Open" );
+			final JFileChooser chooser = UITools.createFileChooser( "Open" );
 
 			if ( selectedFile != null && selectedFile.exists() )
 				chooser.setSelectedFile( selectedFile );
 
-			int returnVal = chooser.showOpenDialog( null );
+			final int returnVal = chooser.showOpenDialog( null );
 
 			if ( returnVal == JFileChooser.APPROVE_OPTION )
 			{
-				File file = chooser.getSelectedFile().getAbsoluteFile();
+				final File file = chooser.getSelectedFile().getAbsoluteFile();
 
 				if ( file.exists() && file.isFile() )
 				{
@@ -395,7 +395,7 @@ public class SwingMediator implements Mediator, UserInterface
 	@Override
 	public void write()
 	{
-		String line = mainP.getMsgTF().getText();
+		final String line = mainP.getMsgTF().getText();
 
 		if ( line.trim().length() > 0 )
 		{
@@ -431,8 +431,8 @@ public class SwingMediator implements Mediator, UserInterface
 	@Override
 	public void writePrivate( final PrivateChatWindow privchat )
 	{
-		String line = privchat.getChatText();
-		User user = privchat.getUser();
+		final String line = privchat.getChatText();
+		final User user = privchat.getUser();
 
 		if ( line.trim().length() > 0 )
 		{
@@ -492,7 +492,7 @@ public class SwingMediator implements Mediator, UserInterface
 	@Override
 	public boolean changeNick( final String nick )
 	{
-		String trimNick = nick.trim();
+		final String trimNick = nick.trim();
 
 		if ( !trimNick.equals( me.getNick() ) )
 		{
@@ -503,7 +503,7 @@ public class SwingMediator implements Mediator, UserInterface
 
 			else if ( !Tools.isValidNick( trimNick ) )
 			{
-				String message = "'" + trimNick + "' is not a valid nick name.\n\n"
+				final String message = "'" + trimNick + "' is not a valid nick name.\n\n"
 						+ "A nick name can have between 1 and 10 characters.\nLegal characters are 'a-z',"
 						+ " '0-9', '-' and '_'.";
 				UITools.showWarningMessage( message, "Change nick" );
@@ -551,7 +551,7 @@ public class SwingMediator implements Mediator, UserInterface
 		else
 		{
 			transferDialog.setCancelButtonText( "Close" );
-			FileTransfer fileTransfer = transferDialog.getFileTransfer();
+			final FileTransfer fileTransfer = transferDialog.getFileTransfer();
 			cmdParser.cancelFileTransfer( fileTransfer );
 		}
 	}
@@ -563,13 +563,13 @@ public class SwingMediator implements Mediator, UserInterface
 	 * <ul>
 	 *   <li><i>Main chat in focus</i> - do nothing</li>
 	 *   <li><i>Main chat out of focus</i> - beep, update main chat icon</li>
-	 *   <li><i>Main chat hidden</i> - beep, update systray</li>
+	 *   <li><i>Main chat hidden</i> - beep, update systray, show balloon</li>
 	 * </ul>
 	 */
 	@Override
-	public void notifyMessageArrived()
+	public void notifyMessageArrived( final User user )
 	{
-		// Main chat hidden - beep, update systray
+		// Main chat hidden - beep, update systray, show balloon
 		if ( !gui.isVisible() )
 		{
 			if ( me.isAway() )
@@ -579,6 +579,8 @@ public class SwingMediator implements Mediator, UserInterface
 			{
 				sysTray.setNormalActivityState();
 				beeper.beep();
+				sysTray.showBalloonMessage( UITools.createTitle( me.getNick() ),
+						"New message from " + user.getNick() );
 			}
 		}
 
@@ -621,7 +623,7 @@ public class SwingMediator implements Mediator, UserInterface
 	 *   <ul>
 	 *	   <li><i>Private chat in focus</i> - do nothing</li>
 	 *	   <li><i>Private chat out of focus</i> - beep, update privchat icon</li>
-	 *	   <li><i>Private chat hidden</i> - beep, update systray</li>
+	 *	   <li><i>Private chat hidden</i> - beep, update systray, show balloon</li>
 	 *   </ul>
 	 * </ul>
 	 *
@@ -630,16 +632,18 @@ public class SwingMediator implements Mediator, UserInterface
 	@Override
 	public void notifyPrivateMessageArrived( final User user )
 	{
-		PrivateChatWindow privchat = user.getPrivchat();
+		final PrivateChatWindow privchat = user.getPrivchat();
 
 		// Main chat hidden
 		if ( !gui.isVisible() )
 		{
-			// Private chat hidden - beep, update systray
+			// Private chat hidden - beep, update systray, show balloon
 			if ( !privchat.isVisible() )
 			{
 				sysTray.setNormalActivityState();
 				beeper.beep();
+				sysTray.showBalloonMessage( UITools.createTitle( me.getNick() ),
+						"New private message from " + user.getNick() );
 			}
 
 			// Private chat out of focus - beep, update privchat icon
@@ -691,8 +695,8 @@ public class SwingMediator implements Mediator, UserInterface
 	public boolean askFileSave( final String user, final String fileName, final String size )
 	{
 		beeper.beep();
-		String message = user + " wants to send you the file " + fileName + " (" + size + ")\nAccept?";
-		int choice = UITools.showOptionDialog( message, "File send" );
+		final String message = user + " wants to send you the file " + fileName + " (" + size + ")\nAccept?";
+		final int choice = UITools.showOptionDialog( message, "File send" );
 
 		return choice == JOptionPane.YES_OPTION;
 	}
@@ -707,23 +711,23 @@ public class SwingMediator implements Mediator, UserInterface
 	@Override
 	public void showFileSave( final FileReceiver fileReceiver )
 	{
-		JFileChooser chooser = UITools.createFileChooser( "Save" );
+		final JFileChooser chooser = UITools.createFileChooser( "Save" );
 		chooser.setSelectedFile( fileReceiver.getFile() );
 		boolean done = false;
 
 		while ( !done )
 		{
 			done = true;
-			int returnVal = chooser.showSaveDialog( null );
+			final int returnVal = chooser.showSaveDialog( null );
 
 			if ( returnVal == JFileChooser.APPROVE_OPTION )
 			{
-				File file = chooser.getSelectedFile().getAbsoluteFile();
+				final File file = chooser.getSelectedFile().getAbsoluteFile();
 
 				if ( file.exists() )
 				{
-					String message = file.getName() + " already exists.\nOverwrite?";
-					int overwrite = UITools.showOptionDialog( message, "File exists" );
+					final String message = file.getName() + " already exists.\nOverwrite?";
+					final int overwrite = UITools.showOptionDialog( message, "File exists" );
 
 					if ( overwrite != JOptionPane.YES_OPTION )
 					{
@@ -811,11 +815,11 @@ public class SwingMediator implements Mediator, UserInterface
 	 */
 	private void updateAwayInPrivChats( final boolean away )
 	{
-		UserList list = controller.getUserList();
+		final UserList list = controller.getUserList();
 
 		for ( int i = 0; i < list.size(); i++ )
 		{
-			User user = list.get( i );
+			final User user = list.get( i );
 
 			if ( user.getPrivchat() != null )
 			{

@@ -27,6 +27,7 @@ import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
+import java.awt.TrayIcon.MessageType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -80,12 +81,12 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
 		if ( SystemTray.isSupported() )
 		{
 			statusIcons = new StatusIcons( imageLoader );
-			PopupMenu menu = new PopupMenu();
+			final PopupMenu menu = new PopupMenu();
 			quitMI = new MenuItem( "Quit" );
 			quitMI.addActionListener( this );
 			menu.add( quitMI );
 
-			SystemTray sysTray = SystemTray.getSystemTray();
+			final SystemTray sysTray = SystemTray.getSystemTray();
 			trayIcon = new TrayIcon( statusIcons.getNormalIcon(), "", menu );
 			trayIcon.setImageAutoSize( true );
 			trayIcon.addMouseListener( this );
@@ -295,7 +296,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
 	@Override
 	public void propertyChange( final PropertyChangeEvent e )
 	{
-		TrayIcon[] icons = (TrayIcon[]) e.getNewValue();
+		final TrayIcon[] icons = (TrayIcon[]) e.getNewValue();
 
 		if ( icons.length == 0 )
 		{
@@ -303,5 +304,19 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
 			systemTraySupported = false;
 			mediator.minimizeWindowIfHidden();
 		}
+	}
+
+	/**
+	 * Shows a balloon popup message by the system tray icon. The message
+	 * will disappear by itself after a few seconds, or if the user clicks
+	 * on it.
+	 *
+	 * @param title The title of the message.
+	 * @param message The message to show in the popup.
+	 */
+	public void showBalloonMessage( final String title, final String message )
+	{
+		if ( trayIcon != null )
+			trayIcon.displayMessage( title, message, MessageType.NONE );
 	}
 }

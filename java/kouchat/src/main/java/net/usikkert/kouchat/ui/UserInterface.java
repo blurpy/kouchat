@@ -91,10 +91,11 @@ public interface UserInterface
 	void changeAway( boolean away );
 
 	/**
-	 * A new message has arrived. Update the ui
-	 * if necessary.
+	 * A new message has arrived. Update the ui if necessary.
+	 *
+	 * @param user The user which sent a message.
 	 */
-	void notifyMessageArrived();
+	void notifyMessageArrived( User user );
 
 	/**
 	 * A new private message has arrived. Update the ui if necessary.
