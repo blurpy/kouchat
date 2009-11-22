@@ -10,6 +10,7 @@
     taskbar instead of being deactivated
   - Removed annoying error message if the system tray is missing
   - Upgraded to Checkstyle 5
+  - Moved to using the default maven project structure
 
 
 * version 1.0.0 (10.06.2009):

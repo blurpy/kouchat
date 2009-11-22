@@ -6,8 +6,12 @@
  - Animated system tray icon (issue 11)
  - Multi-line messages (issue 12)
  - System tray balloon on new message (issue 13)
+
+
+* Release v1.2.0:
  - Convert to the source formatting style in KouInject
- - Convert to standard maven project layout
+ - Fix Event Dispatch Thread usage
+ - User specified network interface
 
 
 * Release v2.0:
