@@ -14,8 +14,6 @@
   </description>
 
   <build>
-    <defaultGoal>package</defaultGoal>
-    <!--
     <resources>
       <resource>
         <directory>.</directory>
@@ -29,7 +27,7 @@
         </includes>
       </resource>
       <resource>
-        <directory>resources/</directory>
+        <directory>src/main/resources/</directory>
         <includes>
           <include>sounds/</include>
           <include>icons/</include>
@@ -47,7 +45,6 @@
         </includes>
       </resource>
     </resources>
-    -->
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
