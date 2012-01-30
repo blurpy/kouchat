@@ -125,9 +125,8 @@
   </developers>
 
   <scm>
-    <connection>scm:svn:http://kouchat.googlecode.com/svn/trunk/java/kouchat/</connection>
-    <developerConnection>scm:svn:https://kouchat.googlecode.com/svn/trunk/java/kouchat/</developerConnection>
-    <url>http://kouchat.googlecode.com/svn/</url>
+    <connection>scm:git:file://${basedir}/</connection>
+    <url>http://code.google.com/p/kouchat/source/browse/</url>
   </scm>
 
   <issueManagement>
