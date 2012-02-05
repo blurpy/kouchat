@@ -57,15 +57,27 @@ public class ArgumentParser {
      * @return If the argument was found by the parser.
      */
     public boolean hasArgument(final Argument argument) {
+        final ParsedArgument parsedArgument = getArgument(argument);
+
+        return parsedArgument != null;
+    }
+
+    /**
+     * Gets a parsed argument for the requested argument.
+     *
+     * @param argument The argument to get a parsed argument for.
+     * @return The parsed argument, or <code>null</code> if none was found by the parser.
+     */
+    public ParsedArgument getArgument(final Argument argument) {
         Validate.notNull(argument, "Argument can not be null");
 
         for (final ParsedArgument parsedArgument : parsedArguments) {
             if (parsedArgument.isEqualTo(argument)) {
-                return true;
+                return parsedArgument;
             }
         }
 
-        return false;
+        return null;
     }
 
     /**
@@ -84,6 +96,32 @@ public class ArgumentParser {
      */
     public List<ParsedArgument> getArguments() {
         return parsedArguments;
+    }
+
+    /**
+     * Gets a list of all the parsed arguments that did not match any of the valid arguments.
+     *
+     * @return All unknown arguments.
+     */
+    public List<ParsedArgument> getUnknownArguments() {
+        final ArrayList<ParsedArgument> unknownArguments = new ArrayList<ParsedArgument>();
+
+        for (final ParsedArgument parsedArgument : parsedArguments) {
+            if (parsedArgument.isEqualTo(Argument.UNKNOWN)) {
+                unknownArguments.add(parsedArgument);
+            }
+        }
+
+        return unknownArguments;
+    }
+
+    /**
+     * Gets the number of all the parsed arguments that did not match any of the valid arguments.
+     *
+     * @return Number of unknown arguments.
+     */
+    public int getNumberOfUnknownArguments() {
+        return getUnknownArguments().size();
     }
 
     private void parseArguments() {
