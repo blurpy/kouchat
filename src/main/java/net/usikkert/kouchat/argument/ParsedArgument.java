@@ -77,4 +77,9 @@ public class ParsedArgument {
 
         return argument.equals(anArgument);
     }
+
+    @Override
+    public String toString() {
+        return originalArgument;
+    }
 }
