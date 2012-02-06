@@ -40,99 +40,96 @@ import net.usikkert.kouchat.util.UncaughtExceptionLogger;
  *
  * @author Christian Ihle
  */
-public final class KouChat
-{
-	/**
-	 * Private constructor. This class should be run like an application,
-	 * not instantiated.
-	 */
-	private KouChat()
-	{
+public final class KouChat {
 
-	}
+    /**
+     * Private constructor. This class should be run like an application,
+     * not instantiated.
+     */
+    private KouChat() {
 
-	/**
-	 * The main method, for starting the application.
-	 *
-	 * <p>Takes the following options:</p>
-	 * <ul>
-	 *   <li>-c, --console - starts KouChat in console mode.</li>
-	 *   <li>-d, --debug - starts KouChat with verbose debug output enabled.</li>
-	 *   <li>-h, --help - shows information about available options.</li>
-	 *   <li>-v, --version - shows version information.</li>
-	 * </ul>
-	 *
-	 * @param options The options given when starting KouChat.
-	 */
-	public static void main( final String[] options )
-	{
-		System.out.println( Constants.APP_NAME + " v" + Constants.APP_VERSION );
-		System.out.println( "By " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL + " - " + Constants.APP_WEB );
+    }
 
-		if ( options.length == 0 )
-			System.out.println( "Use --help for more information" );
+    /**
+     * The main method, for starting the application.
+     *
+     * <p>Takes the following options:</p>
+     * <ul>
+     *   <li>-c, --console - starts KouChat in console mode.</li>
+     *   <li>-d, --debug - starts KouChat with verbose debug output enabled.</li>
+     *   <li>-h, --help - shows information about available options.</li>
+     *   <li>-v, --version - shows version information.</li>
+     * </ul>
+     *
+     * @param options The options given when starting KouChat.
+     */
+    public static void main(final String[] options) {
+        System.out.println(Constants.APP_NAME + " v" + Constants.APP_VERSION);
+        System.out.println("By " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL + " - " + Constants.APP_WEB);
 
-		boolean swing = true;
-		boolean help = false;
-		boolean debug = false;
-		boolean version = false;
+        if (options.length == 0) {
+            System.out.println("Use --help for more information");
+        }
 
-		for ( String option : options )
-		{
-			if ( option.equals( "--console" ) || option.equals( "-c" ) )
-				swing = false;
+        boolean swing = true;
+        boolean help = false;
+        boolean debug = false;
+        boolean version = false;
 
-			else if ( option.equals( "--help" ) || option.equals( "-h" ) )
-				help = true;
+        for (final String option : options) {
+            if (option.equals("--console") || option.equals("-c")) {
+                swing = false;
+            }
 
-			else if ( option.equals( "--debug" ) || option.equals( "-d" ) )
-				debug = true;
+            else if (option.equals("--help") || option.equals("-h")) {
+                help = true;
+            }
 
-			else if ( option.equals( "--version" ) || option.equals( "-v" ) )
-				version = true;
+            else if (option.equals("--debug") || option.equals("-d")) {
+                debug = true;
+            }
 
-			else
-			{
-				System.out.println( "\nUnknown option '" + option + "'. Use --help for more information" );
-				return;
-			}
-		}
+            else if (option.equals("--version") || option.equals("-v")) {
+                version = true;
+            }
 
-		if ( version )
-			return;
+            else {
+                System.out.println("\nUnknown option '" + option + "'. Use --help for more information");
+                return;
+            }
+        }
 
-		if ( help )
-		{
-			System.out.println( "\nOptions:"
-					+ "\n -c, --console \tstarts " + Constants.APP_NAME + " in console mode"
-					+ "\n -d, --debug \tstarts " + Constants.APP_NAME + " with verbose debug output enabled"
-					+ "\n -h, --help \tshows this help message"
-					+ "\n -v, --version \tshows version information" );
-			return;
-		}
+        if (version) {
+            return;
+        }
 
-		new LogInitializer( debug );
-		// Initialize as early as possible to catch all exceptions
-		new UncaughtExceptionLogger();
+        if (help) {
+            System.out.println("\nOptions:" +
+                    "\n -c, --console \tstarts " + Constants.APP_NAME + " in console mode" +
+                    "\n -d, --debug \tstarts " + Constants.APP_NAME + " with verbose debug output enabled" +
+                    "\n -h, --help \tshows this help message" +
+                    "\n -v, --version \tshows version information");
+            return;
+        }
 
-		try
-		{
-			if ( swing )
-			{
-				System.out.println( "\nLoading Swing User Interface\n" );
-				new UIFactory().loadUI( UIChoice.SWING );
-			}
+        new LogInitializer(debug);
+        // Initialize as early as possible to catch all exceptions
+        new UncaughtExceptionLogger();
 
-			else
-			{
-				System.out.println( "\nLoading Console User Interface\n" );
-				new UIFactory().loadUI( UIChoice.CONSOLE );
-			}
-		}
+        try {
+            if (swing) {
+                System.out.println("\nLoading Swing User Interface\n");
+                new UIFactory().loadUI(UIChoice.SWING);
+            }
 
-		catch ( final UIException e )
-		{
-			System.err.println( e );
-		}
-	}
+            else {
+                System.out.println("\nLoading Console User Interface\n");
+                new UIFactory().loadUI(UIChoice.CONSOLE);
+            }
+        }
+
+        catch (final UIException e) {
+            System.err.println(e);
+        }
+    }
 }
