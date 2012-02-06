@@ -22,6 +22,8 @@
 
 package net.usikkert.kouchat;
 
+import net.usikkert.kouchat.argument.Argument;
+import net.usikkert.kouchat.argument.ArgumentParser;
 import net.usikkert.kouchat.ui.UIChoice;
 import net.usikkert.kouchat.ui.UIException;
 import net.usikkert.kouchat.ui.UIFactory;
@@ -53,58 +55,38 @@ public final class KouChat {
     /**
      * The main method, for starting the application.
      *
-     * <p>Takes the following options:</p>
+     * <p>Takes the following arguments:</p>
      * <ul>
      *   <li>-c, --console - starts KouChat in console mode.</li>
      *   <li>-d, --debug - starts KouChat with verbose debug output enabled.</li>
-     *   <li>-h, --help - shows information about available options.</li>
+     *   <li>-h, --help - shows information about available arguments.</li>
      *   <li>-v, --version - shows version information.</li>
      * </ul>
      *
-     * @param options The options given when starting KouChat.
+     * @param arguments The arguments given when starting KouChat.
      */
-    public static void main(final String[] options) {
+    public static void main(final String[] arguments) {
         System.out.println(Constants.APP_NAME + " v" + Constants.APP_VERSION);
         System.out.println("By " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL + " - " + Constants.APP_WEB);
 
-        if (options.length == 0) {
+        final ArgumentParser argumentParser = new ArgumentParser(arguments);
+
+        if (argumentParser.getNumberOfArguments() == 0) {
             System.out.println("Use --help for more information");
         }
 
-        boolean swing = true;
-        boolean help = false;
-        boolean debug = false;
-        boolean version = false;
-
-        for (final String option : options) {
-            if (option.equals("--console") || option.equals("-c")) {
-                swing = false;
-            }
-
-            else if (option.equals("--help") || option.equals("-h")) {
-                help = true;
-            }
-
-            else if (option.equals("--debug") || option.equals("-d")) {
-                debug = true;
-            }
-
-            else if (option.equals("--version") || option.equals("-v")) {
-                version = true;
-            }
-
-            else {
-                System.out.println("\nUnknown option '" + option + "'. Use --help for more information");
-                return;
-            }
-        }
-
-        if (version) {
+        if (argumentParser.getNumberOfUnknownArguments() > 0) {
+            System.out.println("\nUnknown arguments: " + argumentParser.getUnknownArguments() +
+                    ". Use --help for more information");
             return;
         }
 
-        if (help) {
-            System.out.println("\nOptions:" +
+        if (argumentParser.hasArgument(Argument.VERSION)) {
+            return;
+        }
+
+        if (argumentParser.hasArgument(Argument.HELP)) {
+            System.out.println("\nArguments:" +
                     "\n -c, --console \tstarts " + Constants.APP_NAME + " in console mode" +
                     "\n -d, --debug \tstarts " + Constants.APP_NAME + " with verbose debug output enabled" +
                     "\n -h, --help \tshows this help message" +
@@ -112,12 +94,12 @@ public final class KouChat {
             return;
         }
 
-        new LogInitializer(debug);
+        new LogInitializer(argumentParser.hasArgument(Argument.DEBUG));
         // Initialize as early as possible to catch all exceptions
         new UncaughtExceptionLogger();
 
         try {
-            if (swing) {
+            if (!argumentParser.hasArgument(Argument.CONSOLE)) {
                 System.out.println("\nLoading Swing User Interface\n");
                 new UIFactory().loadUI(UIChoice.SWING);
             }
