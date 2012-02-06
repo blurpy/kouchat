@@ -1,7 +1,7 @@
 
 - KouChat v1.1.0 CHANGES
 
-* version 1.1.0 (xx.xx.2009):
+* version 1.1.0 (xx.xx.2012):
   - Fix for PatternSyntaxException when parsing commands containing regex
     meta characters
   - If the main window is minimized to the system tray and the system tray
@@ -12,6 +12,8 @@
   - Upgraded to Checkstyle 5
   - Moved to using the default maven project structure
   - Added balloon popup on new messages and new private messages
+  - Changed license to LGPL v3
+  - Updated headers to include copyright for 2012
 
 
 * version 1.0.0 (10.06.2009):
