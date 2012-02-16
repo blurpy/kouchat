@@ -55,13 +55,7 @@ public final class KouChat {
     /**
      * The main method, for starting the application.
      *
-     * <p>Takes the following arguments:</p>
-     * <ul>
-     *   <li>-c, --console - starts KouChat in console mode.</li>
-     *   <li>-d, --debug - starts KouChat with verbose debug output enabled.</li>
-     *   <li>-h, --help - shows information about available arguments.</li>
-     *   <li>-v, --version - shows version information.</li>
-     * </ul>
+     * <p>See {@link Argument} for the supported arguments.</p>
      *
      * @param arguments The arguments given when starting KouChat.
      */
@@ -86,11 +80,8 @@ public final class KouChat {
         }
 
         if (argumentParser.hasArgument(Argument.HELP)) {
-            System.out.println("\nArguments:" +
-                    "\n -c, --console \tstarts " + Constants.APP_NAME + " in console mode" +
-                    "\n -d, --debug \tstarts " + Constants.APP_NAME + " with verbose debug output enabled" +
-                    "\n -h, --help \tshows this help message" +
-                    "\n -v, --version \tshows version information");
+            System.out.println("\nArguments:");
+            System.out.println(Argument.getArgumentsAsString());
             return;
         }
 

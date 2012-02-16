@@ -22,6 +22,9 @@
 
 package net.usikkert.kouchat.argument;
 
+import java.util.Arrays;
+
+import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -31,18 +34,20 @@ import net.usikkert.kouchat.util.Validate;
  */
 public enum Argument {
 
-    HELP("-h", "--help"),
-    DEBUG("-d", "--debug"),
-    CONSOLE("-c", "--console"),
-    VERSION("-v", "--version"),
-    UNKNOWN(null, null);
+    CONSOLE("-c", "--console", "starts " + Constants.APP_NAME + " in console mode"),
+    DEBUG("-d", "--debug", "starts " + Constants.APP_NAME + " with verbose debug output enabled"),
+    HELP("-h", "--help", "shows this help message"),
+    VERSION("-v", "--version", "shows version information"),
+    UNKNOWN(null, null, null);
 
     private final String shortArgumentName;
     private final String fullArgumentName;
+    private final String description;
 
-    Argument(final String shortArgumentName, final String fullArgumentName) {
+    Argument(final String shortArgumentName, final String fullArgumentName, final String description) {
         this.shortArgumentName = shortArgumentName;
         this.fullArgumentName = fullArgumentName;
+        this.description = description;
     }
 
     /**
@@ -54,6 +59,33 @@ public enum Argument {
     public boolean isEqualTo(final String argument) {
         Validate.notNull(argument, "Argument can not be null");
 
-        return argument.equalsIgnoreCase(shortArgumentName) || argument.equalsIgnoreCase(fullArgumentName);
+        return argument.equals(shortArgumentName) || argument.equals(fullArgumentName);
+    }
+
+    /**
+     * Returns a formatted list of all the arguments with short name, full name and description.
+     * One argument on each line.
+     *
+     * @return String with all the arguments.
+     */
+    public static String getArgumentsAsString() {
+        final Argument[] arguments = getValidArguments();
+        final StringBuilder builder = new StringBuilder();
+
+        for (final Argument argument : arguments) {
+            builder.append("\n ")
+                   .append(argument.shortArgumentName)
+                   .append(", ")
+                   .append(argument.fullArgumentName)
+                   .append(" \t ")
+                   .append(argument.description);
+        }
+
+        return builder.toString().replaceFirst("\n", "");
+    }
+
+    static Argument[] getValidArguments() {
+        final Argument[] arguments = Argument.values();
+        return Arrays.copyOf(arguments, arguments.length - 1); // Skips UNKNOWN
     }
 }
