@@ -159,8 +159,7 @@ public class ChatLogger implements SettingsListener {
     public void settingChanged(final String setting) {
         if (setting.equals("logging")) {
             if (settings.isLogging()) {
-                if (!isOpen())
-                {
+                if (!isOpen()) {
                     open();
                 }
             }

@@ -186,8 +186,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
         if (e.getSource() == infoMI) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     User user = userListModel.getElementAt(userL.getSelectedIndex());
                     String info = "Information about " + user.getNick();
 
@@ -214,8 +213,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
         else if (e.getSource() == sendfileMI) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     mediator.sendFile(getUser(), null);
                 }
             });
@@ -224,8 +222,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
         else if (e.getSource() == privchatMI) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     User user = userListModel.getElementAt(userL.getSelectedIndex());
                     mediator.showPrivChat(user);
                 }
@@ -280,13 +277,11 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
             if (index != -1) {
                 Rectangle r = userL.getCellBounds(index, index);
 
-                if (r.x <= p.x && p.x <= r.x + r.width && r.y <= p.y && p.y <= r.y + r.height)
-                {
+                if (r.x <= p.x && p.x <= r.x + r.width && r.y <= p.y && p.y <= r.y + r.height) {
                     userL.setSelectedIndex(index);
                 }
 
-                else
-                {
+                else {
                     userL.clearSelection();
                 }
             }
@@ -308,14 +303,12 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
             if (userMenu.isPopupTrigger(e) && userL.getSelectedIndex() != -1) {
                 User temp = userListModel.getElementAt(userL.getSelectedIndex());
 
-                if (temp.isMe())
-                {
+                if (temp.isMe()) {
                     sendfileMI.setVisible(false);
                     privchatMI.setVisible(false);
                 }
 
-                else if (temp.isAway() || me.isAway())
-                {
+                else if (temp.isAway() || me.isAway()) {
                     sendfileMI.setVisible(true);
                     sendfileMI.setEnabled(false);
                     privchatMI.setVisible(true);
@@ -326,8 +319,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
                         privchatMI.setEnabled(true);
                 }
 
-                else
-                {
+                else {
                     sendfileMI.setVisible(true);
                     sendfileMI.setEnabled(true);
                     privchatMI.setVisible(true);

@@ -134,14 +134,12 @@ public class TextViewerDialog extends JDialog {
     public void setVisible(final boolean visible) {
         if (fileOpened) {
             if (visible) {
-                try
-                {
+                try {
                     Rectangle r = viewerTP.modelToView(0);
                     viewerScroll.getViewport().setViewPosition(new Point(r.x, r.y));
                 }
 
-                catch (final BadLocationException e)
-                {
+                catch (final BadLocationException e) {
                     LOG.log(Level.SEVERE, e.toString());
                 }
             }
@@ -166,8 +164,7 @@ public class TextViewerDialog extends JDialog {
             try {
                 reader = new BufferedReader(new InputStreamReader(fileURL.openStream()));
 
-                while (reader.ready())
-                {
+                while (reader.ready()) {
                     viewerDoc.insertString(viewerDoc.getLength(), reader.readLine() + "\n", viewerAttr);
                 }
 
@@ -184,8 +181,7 @@ public class TextViewerDialog extends JDialog {
             }
 
             finally {
-                if (reader != null)
-                {
+                if (reader != null) {
                     try
                     {
                         reader.close();

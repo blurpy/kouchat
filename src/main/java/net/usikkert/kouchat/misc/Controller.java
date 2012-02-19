@@ -333,8 +333,7 @@ public class Controller implements NetworkConnectionListener {
                 cancelFileTransfers(user);
                 userList.remove(user);
 
-                if (user.getPrivchat() != null)
-                {
+                if (user.getPrivchat() != null) {
                     msgController.showPrivateSystemMessage(user, "You logged off");
                     user.getPrivchat().setLoggedOff();
                 }

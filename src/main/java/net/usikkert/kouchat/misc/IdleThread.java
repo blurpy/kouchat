@@ -102,8 +102,7 @@ public class IdleThread extends Thread {
             for (int i = 0; i < userList.size(); i++) {
                 User temp = userList.get(i);
 
-                if (temp.getCode() != me.getCode() && temp.getLastIdle() < System.currentTimeMillis() - TIMEOUT)
-                {
+                if (temp.getCode() != me.getCode() && temp.getLastIdle() < System.currentTimeMillis() - TIMEOUT) {
                     userList.remove(temp);
                     userTimedOut(temp);
                     timeout = true;

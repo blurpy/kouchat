@@ -172,8 +172,7 @@ public class FileReceiver implements FileTransfer {
                 int transCounter = 0;
                 bCounter.prepare();
 
-                while (!cancel && (tmpTransferred = is.read(b)) != -1)
-                {
+                while (!cancel && (tmpTransferred = is.read(b)) != -1) {
                     fos.write(b, 0, tmpTransferred);
                     transferred += tmpTransferred;
                     percent = (int) ((transferred * 100) / size);
@@ -188,14 +187,12 @@ public class FileReceiver implements FileTransfer {
                     }
                 }
 
-                if (!cancel && transferred == size)
-                {
+                if (!cancel && transferred == size) {
                     received = true;
                     listener.statusCompleted();
                 }
 
-                else
-                {
+                else {
                     listener.statusFailed();
                 }
             }
@@ -461,8 +458,7 @@ public class FileReceiver implements FileTransfer {
             }
 
             try {
-                if (sSock != null)
-                {
+                if (sSock != null) {
                     sSock.close();
                     sSock = null;
                 }

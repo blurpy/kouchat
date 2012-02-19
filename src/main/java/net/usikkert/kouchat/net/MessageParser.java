@@ -105,8 +105,7 @@ public class MessageParser implements ReceiverListener {
             User tempme = settings.getMe();
 
             if (msgCode != tempme.getCode() && loggedOn) {
-                if (type.equals("MSG"))
-                {
+                if (type.equals("MSG")) {
                     int leftBracket = msg.indexOf("[");
                     int rightBracket = msg.indexOf("]");
                     int rgb = Integer.parseInt(msg.substring(leftBracket + 1, rightBracket));
@@ -114,8 +113,7 @@ public class MessageParser implements ReceiverListener {
                     responder.messageArrived(msgCode, msg.substring(rightBracket + 1, msg.length()), rgb);
                 }
 
-                else if (type.equals("LOGON"))
-                {
+                else if (type.equals("LOGON")) {
                     User newUser = new User(msgNick, msgCode);
                     newUser.setIpAddress(ipAddress);
                     newUser.setLastIdle(System.currentTimeMillis());
@@ -124,8 +122,7 @@ public class MessageParser implements ReceiverListener {
                     responder.userLogOn(newUser);
                 }
 
-                else if (type.equals("EXPOSING"))
-                {
+                else if (type.equals("EXPOSING")) {
                     User user = new User(msgNick, msgCode);
                     user.setIpAddress(ipAddress);
                     user.setAwayMsg(msg);
@@ -139,51 +136,42 @@ public class MessageParser implements ReceiverListener {
                     responder.userExposing(user);
                 }
 
-                else if (type.equals("LOGOFF"))
-                {
+                else if (type.equals("LOGOFF")) {
                     responder.userLogOff(msgCode);
                 }
 
-                else if (type.equals("AWAY"))
-                {
+                else if (type.equals("AWAY")) {
                     responder.awayChanged(msgCode, true, msg);
                 }
 
-                else if (type.equals("BACK"))
-                {
+                else if (type.equals("BACK")) {
                     responder.awayChanged(msgCode, false, "");
                 }
 
-                else if (type.equals("EXPOSE"))
-                {
+                else if (type.equals("EXPOSE")) {
                     responder.exposeRequested();
                 }
 
-                else if (type.equals("NICKCRASH"))
-                {
+                else if (type.equals("NICKCRASH")) {
                     if (tempme.getNick().equals(msg))
                     {
                         responder.nickCrash();
                     }
                 }
 
-                else if (type.equals("WRITING"))
-                {
+                else if (type.equals("WRITING")) {
                     responder.writingChanged(msgCode, true);
                 }
 
-                else if (type.equals("STOPPEDWRITING"))
-                {
+                else if (type.equals("STOPPEDWRITING")) {
                     responder.writingChanged(msgCode, false);
                 }
 
-                else if (type.equals("GETTOPIC"))
-                {
+                else if (type.equals("GETTOPIC")) {
                     responder.topicRequested();
                 }
 
-                else if (type.equals("TOPIC"))
-                {
+                else if (type.equals("TOPIC")) {
                     int leftBracket = msg.indexOf("[");
                     int rightBracket = msg.indexOf("]");
                     int leftPara = msg.indexOf("(");
@@ -204,18 +192,15 @@ public class MessageParser implements ReceiverListener {
                     }
                 }
 
-                else if (type.equals("NICK"))
-                {
+                else if (type.equals("NICK")) {
                     responder.nickChanged(msgCode, msgNick);
                 }
 
-                else if (type.equals("IDLE"))
-                {
+                else if (type.equals("IDLE")) {
                     responder.userIdle(msgCode, ipAddress);
                 }
 
-                else if (type.equals("SENDFILEACCEPT"))
-                {
+                else if (type.equals("SENDFILEACCEPT")) {
                     int leftPara = msg.indexOf("(");
                     int rightPara = msg.indexOf(")");
                     int fileCode = Integer.parseInt(msg.substring(leftPara + 1, rightPara));
@@ -234,8 +219,7 @@ public class MessageParser implements ReceiverListener {
                     }
                 }
 
-                else if (type.equals("SENDFILEABORT"))
-                {
+                else if (type.equals("SENDFILEABORT")) {
                     int leftPara = msg.indexOf("(");
                     int rightPara = msg.indexOf(")");
                     int fileCode = Integer.parseInt(msg.substring(leftPara + 1, rightPara));
@@ -251,8 +235,7 @@ public class MessageParser implements ReceiverListener {
                     }
                 }
 
-                else if (type.equals("SENDFILE"))
-                {
+                else if (type.equals("SENDFILE")) {
                     int leftPara = msg.indexOf("(");
                     int rightPara = msg.indexOf(")");
                     int fileCode = Integer.parseInt(msg.substring(leftPara + 1, rightPara));
@@ -271,8 +254,7 @@ public class MessageParser implements ReceiverListener {
                     }
                 }
 
-                else if (type.equals("CLIENT"))
-                {
+                else if (type.equals("CLIENT")) {
                     int leftPara = msg.indexOf("(");
                     int rightPara = msg.indexOf(")");
                     int leftBracket = msg.indexOf("[");

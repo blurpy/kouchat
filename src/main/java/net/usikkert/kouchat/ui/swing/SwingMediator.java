@@ -135,15 +135,13 @@ public class SwingMediator implements Mediator, UserInterface {
             final int choice = UITools.showOptionDialog("Back from '" + me.getAwayMsg() + "'?", "Away");
 
             if (choice == JOptionPane.YES_OPTION) {
-                try
-                {
+                try {
                     controller.changeAwayStatus(me.getCode(), false, "");
                     changeAway(false);
                     msgController.showSystemMessage("You came back");
                 }
 
-                catch (final CommandException e)
-                {
+                catch (final CommandException e) {
                     UITools.showWarningMessage(e.getMessage(), "Change away");
                 }
             }
@@ -153,21 +151,18 @@ public class SwingMediator implements Mediator, UserInterface {
             final String reason = UITools.showInputDialog("Reason for away?", "Away", null);
 
             if (reason != null && reason.trim().length() > 0) {
-                if (controller.isWrote())
-                {
+                if (controller.isWrote()) {
                     controller.changeWriting(me.getCode(), false);
                     mainP.getMsgTF().setText("");
                 }
 
-                try
-                {
+                try {
                     controller.changeAwayStatus(me.getCode(), true, reason);
                     changeAway(true);
                     msgController.showSystemMessage("You went away: " + me.getAwayMsg());
                 }
 
-                catch (final CommandException e)
-                {
+                catch (final CommandException e) {
                     UITools.showWarningMessage(e.getMessage(), "Change away");
                 }
             }
@@ -229,22 +224,19 @@ public class SwingMediator implements Mediator, UserInterface {
             String tooltip = me.getNick();
 
             if (!controller.isConnected()) {
-                if (controller.isLoggedOn())
-                {
+                if (controller.isLoggedOn()) {
                     title += " - Connection lost";
                     tooltip += " - Connection lost";
                 }
 
-                else
-                {
+                else {
                     title += " - Not connected";
                     tooltip += " - Not connected";
                 }
             }
 
             else {
-                if (me.isAway())
-                {
+                if (me.isAway()) {
                     title += " (Away)";
                     tooltip += " (Away)";
                 }
@@ -342,8 +334,7 @@ public class SwingMediator implements Mediator, UserInterface {
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 final File file = chooser.getSelectedFile().getAbsoluteFile();
 
-                if (file.exists() && file.isFile())
-                {
+                if (file.exists() && file.isFile()) {
                     try
                     {
                         cmdParser.sendFile(user, file);
@@ -372,14 +363,12 @@ public class SwingMediator implements Mediator, UserInterface {
             }
 
             else {
-                try
-                {
+                try {
                     controller.sendChatMessage(line);
                     msgController.showOwnMessage(line);
                 }
 
-                catch (final CommandException e)
-                {
+                catch (final CommandException e) {
                     msgController.showSystemMessage(e.getMessage());
                 }
             }
@@ -462,16 +451,14 @@ public class SwingMediator implements Mediator, UserInterface {
             }
 
             else {
-                try
-                {
+                try {
                     controller.changeMyNick(trimNick);
                     msgController.showSystemMessage("You changed nick to " + me.getNick());
                     updateTitleAndTray();
                     return true;
                 }
 
-                catch (final CommandException e)
-                {
+                catch (final CommandException e) {
                     UITools.showWarningMessage(e.getMessage(), "Change nick");
                 }
             }
@@ -656,8 +643,7 @@ public class SwingMediator implements Mediator, UserInterface {
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 final File file = chooser.getSelectedFile().getAbsoluteFile();
 
-                if (file.exists())
-                {
+                if (file.exists()) {
                     final String message = file.getName() + " already exists.\nOverwrite?";
                     final int overwrite = UITools.showOptionDialog(message, "File exists");
 
@@ -667,8 +653,7 @@ public class SwingMediator implements Mediator, UserInterface {
                     }
                 }
 
-                if (done)
-                {
+                if (done) {
                     fileReceiver.setFile(file);
                     fileReceiver.accept();
                 }
@@ -745,18 +730,15 @@ public class SwingMediator implements Mediator, UserInterface {
             final User user = list.get(i);
 
             if (user.getPrivchat() != null) {
-                if (!user.isAway())
-                {
+                if (!user.isAway()) {
                     user.getPrivchat().setAway(away);
                 }
 
-                if (away)
-                {
+                if (away) {
                     msgController.showPrivateSystemMessage(user, "You went away: " + me.getAwayMsg());
                 }
 
-                else
-                {
+                else {
                     msgController.showPrivateSystemMessage(user, "You came back");
                 }
             }

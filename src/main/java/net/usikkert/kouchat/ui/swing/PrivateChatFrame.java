@@ -201,8 +201,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
     private void fixTextFieldFocus() {
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
             public boolean dispatchKeyEvent(final KeyEvent e) {
-                if (e.getID() == KeyEvent.KEY_TYPED && isFocused() && e.getSource() == chatTP)
-                {
+                if (e.getID() == KeyEvent.KEY_TYPED && isFocused() && e.getSource() == chatTP) {
                     KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(msgTF, e);
                     msgTF.requestFocusInWindow();
 
@@ -298,8 +297,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
         if (e.getSource() == msgTF) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     cmdHistory.add(msgTF.getText());
                     mediator.writePrivate(user.getPrivchat());
                 }
@@ -356,16 +354,14 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                if (ke.getKeyCode() == KeyEvent.VK_UP)
-                {
+                if (ke.getKeyCode() == KeyEvent.VK_UP) {
                     String up = cmdHistory.goUp();
 
                     if (!msgTF.getText().equals(up))
                         msgTF.setText(up);
                 }
 
-                else if (ke.getKeyCode() == KeyEvent.VK_DOWN)
-                {
+                else if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
                     String down = cmdHistory.goDown();
 
                     if (!msgTF.getText().equals(down))

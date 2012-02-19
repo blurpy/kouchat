@@ -94,8 +94,7 @@ public class SmileyDocumentFilter extends DocumentFilter {
                 Smiley smiley = findSmiley(text, 0);
                 StyledDocument doc = (StyledDocument) fb.getDocument();
 
-                while (smiley != null)
-                {
+                while (smiley != null) {
                     if (!smileyIconRegistered(smileyAttr, smiley))
                         registerSmileyIcon(smileyAttr, smiley);
 
@@ -169,8 +168,7 @@ public class SmileyDocumentFilter extends DocumentFilter {
             do {
                 smileyPos = text.indexOf(smileyText, loopOffset);
 
-                if (newSmileyFound(smileyPos, firstMatch))
-                {
+                if (newSmileyFound(smileyPos, firstMatch)) {
                     Smiley tmpSmiley =
                         new Smiley(smileyPos, smileyMap.getSmiley(smileyText), smileyText);
 

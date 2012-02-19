@@ -114,15 +114,13 @@ public class CommandParser {
             }
 
             else {
-                try
-                {
+                try {
                     controller.changeAwayStatus(me.getCode(), true, args.trim());
                     ui.changeAway(true);
                     msgController.showSystemMessage("You went away: " + me.getAwayMsg());
                 }
 
-                catch (final CommandException e)
-                {
+                catch (final CommandException e) {
                     msgController.showSystemMessage(e.getMessage());
                 }
             }
@@ -240,13 +238,11 @@ public class CommandParser {
             User user = controller.getUser(nick);
 
             if (user != me) {
-                if (user == null)
-                {
+                if (user == null) {
                     msgController.showSystemMessage("/send - no such user '" + nick + "'");
                 }
 
-                else
-                {
+                else {
                     String file = "";
 
                     for (int i = 2; i < argsArray.length; i++)
@@ -487,21 +483,18 @@ public class CommandParser {
             else {
                 String privmsg = "";
 
-                for (int i = 2; i < argsArray.length; i++)
-                {
+                for (int i = 2; i < argsArray.length; i++) {
                     privmsg += argsArray[i] + " ";
                 }
 
                 privmsg = privmsg.trim();
 
-                try
-                {
+                try {
                     controller.sendPrivateMessage(privmsg, user);
                     msgController.showPrivateOwnMessage(user, privmsg);
                 }
 
-                catch (final CommandException e)
-                {
+                catch (final CommandException e) {
                     msgController.showSystemMessage(e.getMessage());
                 }
             }
@@ -524,18 +517,15 @@ public class CommandParser {
             String nick = argsArray[1].trim();
 
             if (!nick.equals(me.getNick())) {
-                if (controller.isNickInUse(nick))
-                {
+                if (controller.isNickInUse(nick)) {
                     msgController.showSystemMessage("/nick - '" + nick + "' is in use by someone else");
                 }
 
-                else if (!Tools.isValidNick(nick))
-                {
+                else if (!Tools.isValidNick(nick)) {
                     msgController.showSystemMessage("/nick - '" + nick + "' is not a valid nick name. (1-10 letters)");
                 }
 
-                else
-                {
+                else {
                     try
                     {
                         controller.changeMyNick(nick);

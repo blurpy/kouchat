@@ -108,8 +108,7 @@ public class AutoCompleter {
 
                 AutoCompleteList autoCompleteList = getAutoCompleteList(checkword);
 
-                if (autoCompleteList != null)
-                {
+                if (autoCompleteList != null) {
                     List<String> suggestions = getAutoCompleteSuggestions(
                             autoCompleteList.getWordList(), checkword);
 
@@ -151,8 +150,7 @@ public class AutoCompleter {
         if (continueLastSearch) {
             // Locate the position of the previous suggestion in the list
             for (int i = 0; i < suggestions.size(); i++) {
-                if (suggestions.get(i).equals(word))
-                {
+                if (suggestions.get(i).equals(word)) {
                     nextSuggestionPosition = i;
                     break;
                 }

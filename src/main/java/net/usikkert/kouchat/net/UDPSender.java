@@ -74,8 +74,7 @@ public class UDPSender {
                 byte[] encodedMsg = message.getBytes(Constants.MESSAGE_CHARSET);
                 int size = encodedMsg.length;
 
-                if (size > Constants.NETWORK_PACKET_SIZE)
-                {
+                if (size > Constants.NETWORK_PACKET_SIZE) {
                     LOG.log(Level.WARNING, "Message was " + size + " bytes, which is too large.\n"
                             + " The receiver might not get the complete message.\n'" + message + "'");
                 }

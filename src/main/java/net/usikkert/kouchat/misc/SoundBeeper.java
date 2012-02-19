@@ -83,8 +83,7 @@ public class SoundBeeper {
                 else
                     audioClip.setFramePosition(0);
 
-                if (audioClip != null)
-                {
+                if (audioClip != null) {
                     audioClip.start();
                     closeTime = System.currentTimeMillis() + WAIT_PERIOD;
 
@@ -115,8 +114,7 @@ public class SoundBeeper {
                 AudioFormat format = audioStream.getFormat();
                 DataLine.Info info = new DataLine.Info(Clip.class, format);
 
-                if (AudioSystem.isLineSupported(info))
-                {
+                if (AudioSystem.isLineSupported(info)) {
                     audioClip = (Clip) AudioSystem.getLine(info);
                     audioClip.open(audioStream);
                 }
@@ -141,8 +139,7 @@ public class SoundBeeper {
             }
 
             finally {
-                if (resourceStream != null)
-                {
+                if (resourceStream != null) {
                     try
                     {
                         resourceStream.close();
@@ -154,8 +151,7 @@ public class SoundBeeper {
                     }
                 }
 
-                if (audioStream != null)
-                {
+                if (audioStream != null) {
                     try
                     {
                         audioStream.close();
@@ -198,13 +194,11 @@ public class SoundBeeper {
         @Override
         public void run() {
             while (System.currentTimeMillis() < closeTime) {
-                try
-                {
+                try {
                     Thread.sleep(1000);
                 }
 
-                catch (final InterruptedException e)
-                {
+                catch (final InterruptedException e) {
                     LOG.log(Level.WARNING, e.toString());
                 }
             }

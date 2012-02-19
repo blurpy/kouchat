@@ -265,8 +265,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         if (e.getSource() == saveB) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     if (mediator.changeNick(nickTF.getText()))
                     {
                         settings.setSysColor(sysColorL.getForeground().getRGB());
@@ -288,8 +287,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         else if (e.getSource() == cancelB) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     setVisible(false);
                 }
             });
@@ -298,8 +296,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         else if (e.getSource() == chooseOwnColorB) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     Color newColor = UITools.showColorChooser("Choose color for own messages",
                             new Color(settings.getOwnColor()));
 
@@ -314,8 +311,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         else if (e.getSource() == chooseSysColorB) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     Color newColor = UITools.showColorChooser("Choose color for system messages",
                             new Color(settings.getSysColor()));
 
@@ -330,8 +326,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         else if (e.getSource() == testBrowserB) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     String browser = browserTF.getText();
 
                     if (browser.trim().length() > 0)

@@ -84,8 +84,7 @@ public class PrivateMessageParser implements ReceiverListener {
             User tempme = settings.getMe();
 
             if (fromCode != tempme.getCode() && toCode == tempme.getCode()) {
-                if (type.equals("PRIVMSG"))
-                {
+                if (type.equals("PRIVMSG")) {
                     int leftBracket = msg.indexOf("[");
                     int rightBracket = msg.indexOf("]");
                     int rgb = Integer.parseInt(msg.substring(leftBracket + 1, rightBracket));

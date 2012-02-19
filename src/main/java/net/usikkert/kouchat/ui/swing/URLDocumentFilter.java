@@ -104,8 +104,7 @@ public class URLDocumentFilter extends DocumentFilter {
             public void run() {
                 int startPos = findURLPos(text, 0);
 
-                if (startPos != -1)
-                {
+                if (startPos != -1) {
                     StyleConstants.setUnderline(urlAttr, true);
                     StyledDocument doc = (StyledDocument) fb.getDocument();
 
@@ -155,8 +154,7 @@ public class URLDocumentFilter extends DocumentFilter {
                 if (protPattern.matcher(t).matches())
                     firstMatch = protStart;
 
-                else
-                {
+                else {
                     prot = text.indexOf("://", prot + 1);
 
                     if (prot != -1 && (prot < firstMatch || firstMatch == -1))
@@ -170,8 +168,7 @@ public class URLDocumentFilter extends DocumentFilter {
                 if (wwwPattern.matcher(t).matches())
                     firstMatch = www + 1;
 
-                else
-                {
+                else {
                     www = text.indexOf(" www", www + 1);
 
                     if (www != -1 && (www < firstMatch || firstMatch == -1))
@@ -185,8 +182,7 @@ public class URLDocumentFilter extends DocumentFilter {
                 if (ftpPattern.matcher(t).matches())
                     firstMatch = ftp + 1;
 
-                else
-                {
+                else {
                     ftp = text.indexOf(" ftp", ftp + 1);
 
                     if (ftp != -1 && (ftp < firstMatch || firstMatch == -1))

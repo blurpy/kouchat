@@ -90,8 +90,7 @@ public class SizeDocumentFilter extends DocumentFilter {
                 int replaceTextSize = 0;
                 int allowedSize = maxBytes - docLength;
 
-                for (int i = 0; i < newText.length(); i++)
-                {
+                for (int i = 0; i < newText.length(); i++) {
                     if (replaceTextSize < allowedSize)
                     {
                         String tmpChar = "" + newText.charAt(i);

@@ -90,8 +90,7 @@ public class ConsoleInput extends Thread {
             try {
                 input = stdin.readLine();
 
-                if (input != null && input.trim().length() > 0)
-                {
+                if (input != null && input.trim().length() > 0) {
                     if (input.startsWith("/"))
                     {
                         cmdParser.parse(input);

@@ -87,8 +87,7 @@ public class DefaultMessageResponder implements MessageResponder {
         final Thread t = new Thread("DefaultMessageResponderMessageArrived") {
             @Override
             public void run() {
-                if (isAlive())
-                {
+                if (isAlive()) {
                     int counter = 0;
 
                     while (wList.isWaitingUser(userCode) && counter < 40)
@@ -98,8 +97,7 @@ public class DefaultMessageResponder implements MessageResponder {
                     }
                 }
 
-                if (!controller.isNewUser(userCode))
-                {
+                if (!controller.isNewUser(userCode)) {
                     final User user = controller.getUser(userCode);
 
                     if (!user.isAway())
@@ -114,8 +112,7 @@ public class DefaultMessageResponder implements MessageResponder {
                     }
                 }
 
-                else
-                {
+                else {
                     LOG.log(Level.SEVERE, "Could not find user: " + userCode);
                 }
             }
@@ -227,8 +224,7 @@ public class DefaultMessageResponder implements MessageResponder {
             if (time > 0 && nick.length() > 0) {
                 final Topic topic = controller.getTopic();
 
-                if (newTopic != null)
-                {
+                if (newTopic != null) {
                     if (!newTopic.equals(topic.getTopic()) && time > topic.getTime())
                     {
                         if (chatState.isLogonCompleted())
@@ -248,8 +244,7 @@ public class DefaultMessageResponder implements MessageResponder {
                     }
                 }
 
-                else
-                {
+                else {
                     if (!topic.getTopic().equals(newTopic) && time > topic.getTime() && chatState.isLogonCompleted())
                     {
                         msgController.showSystemMessage(nick + " removed the topic");
@@ -364,8 +359,7 @@ public class DefaultMessageResponder implements MessageResponder {
                 else
                     msgController.showSystemMessage(user.getNick() + " came back");
 
-                if (user.getPrivchat() != null)
-                {
+                if (user.getPrivchat() != null) {
                     user.getPrivchat().setAway(away);
 
                     if (away)
@@ -473,8 +467,7 @@ public class DefaultMessageResponder implements MessageResponder {
                 controller.changeNick(userCode, newNick);
                 msgController.showSystemMessage(oldNick + " changed nick to " + newNick);
 
-                if (user.getPrivchat() != null)
-                {
+                if (user.getPrivchat() != null) {
                     msgController.showPrivateSystemMessage(user, oldNick + " changed nick to " + user.getNick());
                     user.getPrivchat().updateUserInformation();
                 }
@@ -512,14 +505,12 @@ public class DefaultMessageResponder implements MessageResponder {
             public void run() {
                 int counter = 0;
 
-                while (wList.isWaitingUser(userCode) && counter < 40)
-                {
+                while (wList.isWaitingUser(userCode) && counter < 40) {
                     counter++;
                     Tools.sleep(50);
                 }
 
-                if (!controller.isNewUser(userCode))
-                {
+                if (!controller.isNewUser(userCode)) {
                     final String size = Tools.byteToString(byteSize);
                     msgController.showSystemMessage(user + " is trying to send the file " + fileName + " [" + size + "]");
                     final User tmpUser = controller.getUser(userCode);
@@ -589,8 +580,7 @@ public class DefaultMessageResponder implements MessageResponder {
                     tList.removeFileReceiver(fileRes);
                 }
 
-                else
-                {
+                else {
                     LOG.log(Level.SEVERE, "Could not find user: " + user);
                 }
             }
@@ -642,8 +632,7 @@ public class DefaultMessageResponder implements MessageResponder {
                 final User user = controller.getUser(userCode);
                 final FileSender fileSend = tList.getFileSender(user, fileName, fileHash);
 
-                if (fileSend != null)
-                {
+                if (fileSend != null) {
                     msgController.showSystemMessage(user.getNick() + " accepted sending of " + fileName);
 
                     // Give the server some time to set up the connection first

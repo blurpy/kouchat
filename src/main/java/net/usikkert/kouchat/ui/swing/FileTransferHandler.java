@@ -112,8 +112,7 @@ public class FileTransferHandler extends TransferHandler {
             try {
                 File file = null;
 
-                if (support.isDataFlavorSupported(DataFlavor.javaFileListFlavor))
-                {
+                if (support.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
                     @SuppressWarnings("unchecked")
                     List<File> fileList = (List<File>) support.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
 
@@ -121,8 +120,7 @@ public class FileTransferHandler extends TransferHandler {
                         file = fileList.get(0);
                 }
 
-                else if (support.isDataFlavorSupported(uriListFlavor))
-                {
+                else if (support.isDataFlavorSupported(uriListFlavor)) {
                     Object data = support.getTransferable().getTransferData(uriListFlavor);
 
                     if (data != null)
@@ -154,13 +152,11 @@ public class FileTransferHandler extends TransferHandler {
                     }
                 }
 
-                else
-                {
+                else {
                     LOG.log(Level.WARNING, "Data flavor not supported.");
                 }
 
-                if (file != null)
-                {
+                if (file != null) {
                     mediator.sendFile(fileDropSource.getUser(), file);
                     return true;
                 }

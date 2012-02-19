@@ -178,8 +178,7 @@ public class MockFileTransfer implements FileTransfer {
                 listener.statusTransferring();
                 sleep(500);
 
-                while (!cancel && transferred < getFileSize())
-                {
+                while (!cancel && transferred < getFileSize()) {
                     transferred += 10000;
                     percent += 2;
                     sleep(50);

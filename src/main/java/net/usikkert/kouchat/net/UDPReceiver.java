@@ -112,8 +112,7 @@ public class UDPReceiver implements Runnable {
             int counter = 0;
 
             while (counter < 10 && !connected) {
-                try
-                {
+                try {
                     udpSocket = new DatagramSocket(port);
                     connected = true;
                     worker = new Thread(this, "UDPReceiverWorker");
@@ -122,8 +121,7 @@ public class UDPReceiver implements Runnable {
                     LOG.log(Level.FINE, "Connected.");
                 }
 
-                catch (final IOException e)
-                {
+                catch (final IOException e) {
                     LOG.log(Level.SEVERE, e.toString() + " " + port);
 
                     counter++;

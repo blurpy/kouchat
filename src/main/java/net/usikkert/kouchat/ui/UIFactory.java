@@ -52,14 +52,12 @@ public class UIFactory {
 
         else {
             if (choice == UIChoice.SWING) {
-                if (GraphicsEnvironment.isHeadless())
-                {
+                if (GraphicsEnvironment.isHeadless()) {
                     throw new UIException("The Swing User Interface could not be loaded"
                             + " because a graphical environment could not be detected.");
                 }
 
-                else
-                {
+                else {
                     new KouChatFrame();
                     done = true;
                 }

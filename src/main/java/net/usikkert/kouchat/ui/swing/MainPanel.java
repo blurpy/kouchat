@@ -234,8 +234,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
         if (e.getSource() == msgTF) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     cmdHistory.add(msgTF.getText());
                     mediator.write();
                 }
@@ -255,8 +254,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
             @Override
             public void run() {
                 // Tab-completion
-                if (ke.getKeyCode() == KeyEvent.VK_TAB && ke.getModifiers() == 0)
-                {
+                if (ke.getKeyCode() == KeyEvent.VK_TAB && ke.getModifiers() == 0) {
                     if (autoCompleter != null)
                     {
                         int caretPos = msgTF.getCaretPosition();
@@ -297,8 +295,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
             @Override
             public void run() {
                 // Command history up
-                if (ke.getKeyCode() == KeyEvent.VK_UP)
-                {
+                if (ke.getKeyCode() == KeyEvent.VK_UP) {
                     String up = cmdHistory.goUp();
 
                     if (!msgTF.getText().equals(up))
@@ -306,8 +303,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
                 }
 
                 // Command history down
-                else if (ke.getKeyCode() == KeyEvent.VK_DOWN)
-                {
+                else if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
                     String down = cmdHistory.goDown();
 
                     if (!msgTF.getText().equals(down))

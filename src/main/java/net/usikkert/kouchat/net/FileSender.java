@@ -116,8 +116,7 @@ public class FileSender implements FileTransfer {
             try {
                 int counter = 0;
 
-                while (sock == null && counter < 10)
-                {
+                while (sock == null && counter < 10) {
                     counter++;
 
                     try
@@ -146,8 +145,7 @@ public class FileSender implements FileTransfer {
                     }
                 }
 
-                if (sock != null && !cancel)
-                {
+                if (sock != null && !cancel) {
                     listener.statusTransferring();
                     fis = new FileInputStream(file);
                     os = sock.getOutputStream();
@@ -188,8 +186,7 @@ public class FileSender implements FileTransfer {
                     }
                 }
 
-                else
-                {
+                else {
                     listener.statusFailed();
                 }
             }

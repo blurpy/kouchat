@@ -111,8 +111,7 @@ public class MessageReceiver implements Runnable {
                 DatagramPacket packet = new DatagramPacket(
                         new byte[Constants.NETWORK_PACKET_SIZE], Constants.NETWORK_PACKET_SIZE);
 
-                if (connected)
-                {
+                if (connected) {
                     mcSocket.receive(packet);
                     String ip = packet.getAddress().getHostAddress();
                     String message = new String(packet.getData(), Constants.MESSAGE_CHARSET).trim();
@@ -205,8 +204,7 @@ public class MessageReceiver implements Runnable {
             connected = false;
 
             try {
-                if (!mcSocket.isClosed())
-                {
+                if (!mcSocket.isClosed()) {
                     mcSocket.leaveGroup(address);
                 }
             }

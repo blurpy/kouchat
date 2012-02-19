@@ -145,8 +145,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
             if (StyleConstants.isUnderline(attr)) {
                 Object obj = attr.getAttribute(URLDocumentFilter.URL_ATTRIBUTE);
 
-                if (obj != null)
-                {
+                if (obj != null) {
                     final String url = obj.toString();
 
                     SwingUtilities.invokeLater(new Runnable()
