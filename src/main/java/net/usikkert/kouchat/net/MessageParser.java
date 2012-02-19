@@ -181,8 +181,7 @@ public class MessageParser implements ReceiverListener {
                         long theTime = Long.parseLong(msg.substring(leftBracket + 1, rightBracket));
                         String theTopic = null;
 
-                        if (msg.length() > rightBracket + 1)
-                        {
+                        if (msg.length() > rightBracket + 1) {
                             theTopic = msg.substring(rightBracket + 1, msg.length());
                         }
 

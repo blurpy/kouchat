@@ -260,8 +260,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
                         String orgText = msgTF.getText();
                         String newText = autoCompleter.completeWord(orgText, caretPos);
 
-                        if (newText.length() > 0)
-                        {
+                        if (newText.length() > 0) {
                             msgTF.setText(newText);
                             msgTF.setCaretPosition(autoCompleter.getNewCaretPosition());
                         }

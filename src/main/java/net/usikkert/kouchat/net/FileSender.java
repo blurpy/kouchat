@@ -160,8 +160,7 @@ public class FileSender implements FileTransfer {
                         bCounter.addBytes(tmpTransferred);
                         transCounter++;
 
-                        if (percent > tmpPercent || transCounter >= 250)
-                        {
+                        if (percent > tmpPercent || transCounter >= 250) {
                             transCounter = 0;
                             tmpPercent = percent;
                             listener.transferUpdate();

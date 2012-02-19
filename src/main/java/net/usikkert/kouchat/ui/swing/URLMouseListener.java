@@ -150,8 +150,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
 
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override
-                        public void run()
-                        {
+                        public void run() {
                             UITools.browse(url);
                         }
                     });

@@ -224,14 +224,12 @@ public class DefaultMessageResponder implements MessageResponder {
 
                 if (newTopic != null) {
                     if (!newTopic.equals(topic.getTopic()) && time > topic.getTime()) {
-                        if (chatState.isLogonCompleted())
-                        {
+                        if (chatState.isLogonCompleted()) {
                             msgController.showSystemMessage(nick + " changed the topic to: " + newTopic);
                         }
 
                         // Shown during startup.
-                        else
-                        {
+                        else {
                             final String date = Tools.dateToString(new Date(time), "HH:mm:ss, dd. MMM. yy");
                             msgController.showSystemMessage("Topic is: " + newTopic + " (set by " + nick + " at " + date + ")");
                         }
@@ -519,8 +517,7 @@ public class DefaultMessageResponder implements MessageResponder {
                     if (ui.askFileSave(user, fileName, size)) {
                         ui.showFileSave(fileRes);
 
-                        if (fileRes.isAccepted() && !fileRes.isCanceled())
-                        {
+                        if (fileRes.isAccepted() && !fileRes.isCanceled()) {
                             ui.showTransfer(fileRes);
 
                             try
@@ -558,8 +555,7 @@ public class DefaultMessageResponder implements MessageResponder {
                             }
                         }
 
-                        else if (!fileRes.isCanceled())
-                        {
+                        else if (!fileRes.isCanceled()) {
                             msgController.showSystemMessage("You declined to receive " + fileName + " from " + user);
                             controller.sendFileAbort(tmpUser, fileHash, fileName);
                         }

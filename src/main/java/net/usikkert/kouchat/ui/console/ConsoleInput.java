@@ -96,14 +96,12 @@ public class ConsoleInput extends Thread {
                     }
 
                     else {
-                        try
-                        {
+                        try {
                             controller.sendChatMessage(input);
                             msgController.showOwnMessage(input);
                         }
 
-                        catch (final CommandException e)
-                        {
+                        catch (final CommandException e) {
                             msgController.showSystemMessage(e.getMessage());
                         }
                     }

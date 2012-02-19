@@ -253,13 +253,11 @@ public class CommandParser {
                     File sendFile = new File(file);
 
                     if (sendFile.exists() && sendFile.isFile()) {
-                        try
-                        {
+                        try {
                             sendFile(user, sendFile);
                         }
 
-                        catch (final CommandException e)
-                        {
+                        catch (final CommandException e) {
                             msgController.showSystemMessage(e.getMessage());
                         }
                     }

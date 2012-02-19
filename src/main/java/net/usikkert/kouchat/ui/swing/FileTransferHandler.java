@@ -127,8 +127,7 @@ public class FileTransferHandler extends TransferHandler {
                         String[] uriList = data.toString().split("\r\n");
                         String fileURI = "";
 
-                        for (int i = 0; i < uriList.length; i++)
-                        {
+                        for (int i = 0; i < uriList.length; i++) {
                             if (uriList[i].startsWith("file:/"))
                             {
                                 fileURI = uriList[i];
@@ -136,16 +135,14 @@ public class FileTransferHandler extends TransferHandler {
                             }
                         }
 
-                        try
-                        {
+                        try {
                             URI uri = new URI(fileURI);
 
                             if (uri != null)
                                 file = new File(uri);
                         }
 
-                        catch (final URISyntaxException e)
-                        {
+                        catch (final URISyntaxException e) {
                             LOG.log(Level.WARNING, e.toString());
                         }
                     }

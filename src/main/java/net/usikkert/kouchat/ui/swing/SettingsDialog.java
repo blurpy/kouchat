@@ -327,31 +327,26 @@ public class SettingsDialog extends JDialog implements ActionListener {
                     String browser = browserTF.getText();
 
                     if (browser.trim().length() > 0) {
-                        try
-                        {
+                        try {
                             Runtime.getRuntime().exec(browser + " " + Constants.APP_WEB);
                         }
 
-                        catch (final IOException e)
-                        {
+                        catch (final IOException e) {
                             errorHandler.showError("Could not open the browser '" + browser
                                     + "'. Try using the full path.");
                         }
                     }
 
                     else if (UITools.isDesktopActionSupported(Desktop.Action.BROWSE)) {
-                        try
-                        {
+                        try {
                             Desktop.getDesktop().browse(new URI(Constants.APP_WEB));
                         }
 
-                        catch (final IOException e)
-                        {
+                        catch (final IOException e) {
                             errorHandler.showError("Could not open the default browser.");
                         }
 
-                        catch (final URISyntaxException e)
-                        {
+                        catch (final URISyntaxException e) {
                             LOG.log(Level.WARNING, e.toString());
                             errorHandler.showError("That's strange, could not open " + Constants.APP_WEB);
                         }
