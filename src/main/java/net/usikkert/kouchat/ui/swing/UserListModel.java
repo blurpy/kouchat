@@ -83,8 +83,7 @@ public class UserListModel extends AbstractListModel implements UserListListener
     public void userAdded(final int pos) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 fireIntervalAdded(this, pos, pos);
             }
         });
@@ -99,8 +98,7 @@ public class UserListModel extends AbstractListModel implements UserListListener
     public void userChanged(final int pos) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 fireContentsChanged(this, pos, pos);
             }
         });
@@ -115,8 +113,7 @@ public class UserListModel extends AbstractListModel implements UserListListener
     public void userRemoved(final int pos) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 fireIntervalRemoved(this, pos, pos);
             }
         });

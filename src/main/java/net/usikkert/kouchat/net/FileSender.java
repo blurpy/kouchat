@@ -113,8 +113,7 @@ public class FileSender implements FileTransfer {
             waiting = false;
             sent = false;
 
-            try
-            {
+            try {
                 int counter = 0;
 
                 while (sock == null && counter < 10)
@@ -195,20 +194,17 @@ public class FileSender implements FileTransfer {
                 }
             }
 
-            catch (final UnknownHostException e)
-            {
+            catch (final UnknownHostException e) {
                 LOG.log(Level.SEVERE, e.toString(), e);
                 listener.statusFailed();
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.SEVERE, e.toString());
                 listener.statusFailed();
             }
 
-            finally
-            {
+            finally {
                 stopSender();
                 cleanupConnections();
             }

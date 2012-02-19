@@ -76,26 +76,22 @@ public class CommandParser {
         if (args.length() == 0) {
             Topic topic = controller.getTopic();
 
-            if (topic.getTopic().equals(""))
-            {
+            if (topic.getTopic().equals("")) {
                 msgController.showSystemMessage("No topic set");
             }
 
-            else
-            {
+            else {
                 String date = Tools.dateToString(new Date(topic.getTime()), "HH:mm:ss, dd. MMM. yy");
                 msgController.showSystemMessage("Topic is: " + topic.getTopic() + " (set by " + topic.getNick() + " at " + date + ")");
             }
         }
 
         else {
-            try
-            {
+            try {
                 fixTopic(args);
             }
 
-            catch (final CommandException e)
-            {
+            catch (final CommandException e) {
                 msgController.showSystemMessage(e.getMessage());
             }
         }
@@ -113,13 +109,11 @@ public class CommandParser {
         }
 
         else {
-            if (args.trim().length() == 0)
-            {
+            if (args.trim().length() == 0) {
                 msgController.showSystemMessage("/away - missing argument <away message>");
             }
 
-            else
-            {
+            else {
                 try
                 {
                     controller.changeAwayStatus(me.getCode(), true, args.trim());
@@ -141,15 +135,13 @@ public class CommandParser {
      */
     private void cmdBack() {
         if (me.isAway()) {
-            try
-            {
+            try {
                 controller.changeAwayStatus(me.getCode(), false, "");
                 ui.changeAway(false);
                 msgController.showSystemMessage("You came back");
             }
 
-            catch (final CommandException e)
-            {
+            catch (final CommandException e) {
                 msgController.showSystemMessage(e.getMessage());
             }
         }
@@ -202,13 +194,11 @@ public class CommandParser {
 
             User user = controller.getUser(nick);
 
-            if (user == null)
-            {
+            if (user == null) {
                 msgController.showSystemMessage("/whois - no such user '" + nick + "'");
             }
 
-            else
-            {
+            else {
                 String info = "/whois - " + user.getNick();
 
                 if (user.isAway())
@@ -249,8 +239,7 @@ public class CommandParser {
             String nick = argsArray[1];
             User user = controller.getUser(nick);
 
-            if (user != me)
-            {
+            if (user != me) {
                 if (user == null)
                 {
                     msgController.showSystemMessage("/send - no such user '" + nick + "'");
@@ -288,8 +277,7 @@ public class CommandParser {
                 }
             }
 
-            else
-            {
+            else {
                 msgController.showSystemMessage("/send - no point in doing that!");
             }
         }
@@ -348,8 +336,7 @@ public class CommandParser {
             int counter = 1;
             File newFile = null;
 
-            do
-            {
+            do {
                 String newName = file.getParent() + File.separator + filename + "." + counter;
                 newFile = new File(newName);
                 counter++;
@@ -458,8 +445,7 @@ public class CommandParser {
         if (fileTransfer instanceof FileReceiver) {
             FileReceiver fileReceiver = (FileReceiver) fileTransfer;
 
-            if (!fileReceiver.isAccepted() && !fileReceiver.isRejected())
-            {
+            if (!fileReceiver.isAccepted() && !fileReceiver.isRejected()) {
                 msgController.showSystemMessage("/cancel - transfer of '" + file + "' from " + nick + " has not started yet");
                 return;
             }
@@ -486,23 +472,19 @@ public class CommandParser {
             String nick = argsArray[1];
             User user = controller.getUser(nick);
 
-            if (user == null)
-            {
+            if (user == null) {
                 msgController.showSystemMessage("/msg - no such user '" + nick + "'");
             }
 
-            else if (user == me)
-            {
+            else if (user == me) {
                 msgController.showSystemMessage("/msg - no point in doing that!");
             }
 
-            else if (user.getPrivateChatPort() == 0)
-            {
+            else if (user.getPrivateChatPort() == 0) {
                 msgController.showSystemMessage("/msg - " + user.getNick() + " can't receive private chat messages");
             }
 
-            else
-            {
+            else {
                 String privmsg = "";
 
                 for (int i = 2; i < argsArray.length; i++)
@@ -541,8 +523,7 @@ public class CommandParser {
             String[] argsArray = args.split("\\s");
             String nick = argsArray[1].trim();
 
-            if (!nick.equals(me.getNick()))
-            {
+            if (!nick.equals(me.getNick())) {
                 if (controller.isNickInUse(nick))
                 {
                     msgController.showSystemMessage("/nick - '" + nick + "' is in use by someone else");
@@ -569,8 +550,7 @@ public class CommandParser {
                 }
             }
 
-            else
-            {
+            else {
                 msgController.showSystemMessage("/nick - you are already called '" + nick + "'");
             }
         }
@@ -608,8 +588,7 @@ public class CommandParser {
         if (fsList.size() > 0) {
             transferInfo.append("\n- Sending:");
 
-            for (FileSender fs : fsList)
-            {
+            for (FileSender fs : fsList) {
                 appendTransferInfo(fs, transferInfo, "to");
             }
         }
@@ -617,8 +596,7 @@ public class CommandParser {
         if (frList.size() > 0) {
             transferInfo.append("\n- Receiving:");
 
-            for (FileReceiver fr : frList)
-            {
+            for (FileReceiver fr : frList) {
                 appendTransferInfo(fr, transferInfo, "from");
             }
         }
@@ -735,8 +713,7 @@ public class CommandParser {
             FileSender fs = (FileSender) fileTransfer;
 
             // This means that the other user has not answered yet
-            if (fs.isWaiting())
-            {
+            if (fs.isWaiting()) {
                 File file = fs.getFile();
                 User user = fs.getUser();
 

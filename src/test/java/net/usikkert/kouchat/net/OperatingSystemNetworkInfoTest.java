@@ -60,8 +60,7 @@ public class OperatingSystemNetworkInfoTest {
         while (networkInterfaces.hasMoreElements()) {
             NetworkInterface networkInterface = networkInterfaces.nextElement();
 
-            if (NetworkUtils.isUsable(networkInterface))
-            {
+            if (NetworkUtils.isUsable(networkInterface)) {
                 validNetworkAvailable = true;
                 break;
             }

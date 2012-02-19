@@ -72,8 +72,7 @@ public class ConsoleInput extends Thread {
 
         Runtime.getRuntime().addShutdownHook(new Thread("ConsoleInputShutdownHook") {
             @Override
-            public void run()
-            {
+            public void run() {
                 System.out.println("Quitting - good bye!");
             }
         });
@@ -88,8 +87,7 @@ public class ConsoleInput extends Thread {
         String input = "";
 
         while (input != null) {
-            try
-            {
+            try {
                 input = stdin.readLine();
 
                 if (input != null && input.trim().length() > 0)
@@ -115,8 +113,7 @@ public class ConsoleInput extends Thread {
                 }
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.SEVERE, e.toString(), e);
                 input = null;
             }

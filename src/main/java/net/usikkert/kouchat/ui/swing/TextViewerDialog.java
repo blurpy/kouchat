@@ -133,8 +133,7 @@ public class TextViewerDialog extends JDialog {
     @Override
     public void setVisible(final boolean visible) {
         if (fileOpened) {
-            if (visible)
-            {
+            if (visible) {
                 try
                 {
                     Rectangle r = viewerTP.modelToView(0);
@@ -164,8 +163,7 @@ public class TextViewerDialog extends JDialog {
         if (fileURL != null) {
             BufferedReader reader = null;
 
-            try
-            {
+            try {
                 reader = new BufferedReader(new InputStreamReader(fileURL.openStream()));
 
                 while (reader.ready())
@@ -177,18 +175,15 @@ public class TextViewerDialog extends JDialog {
                 fileOpened = true;
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.SEVERE, e.toString());
             }
 
-            catch (final BadLocationException e)
-            {
+            catch (final BadLocationException e) {
                 LOG.log(Level.SEVERE, e.toString());
             }
 
-            finally
-            {
+            finally {
                 if (reader != null)
                 {
                     try

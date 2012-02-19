@@ -184,8 +184,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
     @Override
     public void actionPerformed(final ActionEvent e) {
         if (e.getSource() == infoMI) {
-            SwingUtilities.invokeLater(new Runnable()
-            {
+            SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run()
                 {
@@ -213,8 +212,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
         }
 
         else if (e.getSource() == sendfileMI) {
-            SwingUtilities.invokeLater(new Runnable()
-            {
+            SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run()
                 {
@@ -224,8 +222,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
         }
 
         else if (e.getSource() == privchatMI) {
-            SwingUtilities.invokeLater(new Runnable()
-            {
+            SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run()
                 {
@@ -280,8 +277,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
             Point p = e.getPoint();
             int index = userL.locationToIndex(p);
 
-            if (index != -1)
-            {
+            if (index != -1) {
                 Rectangle r = userL.getCellBounds(index, index);
 
                 if (r.x <= p.x && p.x <= r.x + r.width && r.y <= p.y && p.y <= r.y + r.height)
@@ -309,8 +305,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
     public void mouseReleased(final MouseEvent e) {
         if (e.getSource() == userL) {
             // Right click
-            if (userMenu.isPopupTrigger(e) && userL.getSelectedIndex() != -1)
-            {
+            if (userMenu.isPopupTrigger(e) && userL.getSelectedIndex() != -1) {
                 User temp = userListModel.getElementAt(userL.getSelectedIndex());
 
                 if (temp.isMe())
@@ -347,8 +342,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
             }
 
             // Double left click
-            else if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2 && userL.getSelectedIndex() != -1)
-            {
+            else if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2 && userL.getSelectedIndex() != -1) {
                 User user = userListModel.getElementAt(userL.getSelectedIndex());
 
                 if (user != me && user.getPrivateChatPort() != 0)

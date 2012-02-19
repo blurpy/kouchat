@@ -77,8 +77,7 @@ public class SoundBeeper {
      */
     public synchronized void beep() {
         if (settings.isSound()) {
-            if (audioClip == null || !audioClip.isActive())
-            {
+            if (audioClip == null || !audioClip.isActive()) {
                 if (audioClip == null)
                     open();
                 else
@@ -111,8 +110,7 @@ public class SoundBeeper {
         if (resourceStream != null) {
             AudioInputStream audioStream = null;
 
-            try
-            {
+            try {
                 audioStream = AudioSystem.getAudioInputStream(resourceStream);
                 AudioFormat format = audioStream.getFormat();
                 DataLine.Info info = new DataLine.Info(Clip.class, format);
@@ -124,29 +122,25 @@ public class SoundBeeper {
                 }
             }
 
-            catch (final UnsupportedAudioFileException e)
-            {
+            catch (final UnsupportedAudioFileException e) {
                 LOG.log(Level.SEVERE, e.toString());
                 settings.setSound(false);
                 errorHandler.showError("Could not initialize the sound."
                         + "\nUnsupported file format: " + BEEP_FILE);
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.SEVERE, e.toString());
                 settings.setSound(false);
                 errorHandler.showError("Could not initialize the sound."
                         + "\nAudio file could not be opened: " + BEEP_FILE);
             }
 
-            catch (final LineUnavailableException e)
-            {
+            catch (final LineUnavailableException e) {
                 LOG.log(Level.WARNING, e.toString());
             }
 
-            finally
-            {
+            finally {
                 if (resourceStream != null)
                 {
                     try
@@ -203,8 +197,7 @@ public class SoundBeeper {
         /** The method that runs when the thread starts. */
         @Override
         public void run() {
-            while (System.currentTimeMillis() < closeTime)
-            {
+            while (System.currentTimeMillis() < closeTime) {
                 try
                 {
                     Thread.sleep(1000);

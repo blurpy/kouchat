@@ -86,8 +86,7 @@ public class DefaultMessageResponder implements MessageResponder {
         // A little hack to stop messages from showing before the user is logged on
         final Thread t = new Thread("DefaultMessageResponderMessageArrived") {
             @Override
-            public void run()
-            {
+            public void run() {
                 if (isAlive())
                 {
                     int counter = 0;
@@ -150,8 +149,7 @@ public class DefaultMessageResponder implements MessageResponder {
             controller.getUserList().remove(user);
             msgController.showSystemMessage(user.getNick() + " logged off");
 
-            if (user.getPrivchat() != null)
-            {
+            if (user.getPrivchat() != null) {
                 msgController.showPrivateSystemMessage(user, user.getNick() + " logged off");
                 user.getPrivchat().setLoggedOff();
             }
@@ -226,8 +224,7 @@ public class DefaultMessageResponder implements MessageResponder {
         }
 
         else {
-            if (time > 0 && nick.length() > 0)
-            {
+            if (time > 0 && nick.length() > 0) {
                 final Topic topic = controller.getTopic();
 
                 if (newTopic != null)
@@ -274,8 +271,7 @@ public class DefaultMessageResponder implements MessageResponder {
     public void userExposing(final User user) {
         if (controller.isNewUser(user.getCode())) {
             // Usually this happens when someone returns from a timeout
-            if (chatState.isLogonCompleted())
-            {
+            if (chatState.isLogonCompleted()) {
                 if (wList.isWaitingUser(user.getCode()))
                     wList.removeWaitingUser(user.getCode());
 
@@ -283,8 +279,7 @@ public class DefaultMessageResponder implements MessageResponder {
             }
 
             // This should ONLY happen during logon
-            else
-            {
+            else {
                 controller.getUserList().add(user);
             }
         }
@@ -293,13 +288,11 @@ public class DefaultMessageResponder implements MessageResponder {
             final User orgUser = controller.getUser(user.getCode());
 
             // When users timeout, there can become sync issues
-            if (!orgUser.getNick().equals(user.getNick()))
-            {
+            if (!orgUser.getNick().equals(user.getNick())) {
                 nickChanged(user.getCode(), user.getNick());
             }
 
-            if (!orgUser.getAwayMsg().equals(user.getAwayMsg()))
-            {
+            if (!orgUser.getAwayMsg().equals(user.getAwayMsg())) {
                 awayChanged(user.getCode(), user.isAway(), user.getAwayMsg());
             }
         }
@@ -362,8 +355,7 @@ public class DefaultMessageResponder implements MessageResponder {
         }
 
         else {
-            try
-            {
+            try {
                 final User user = controller.getUser(userCode);
                 controller.changeAwayStatus(userCode, away, awayMsg);
 
@@ -383,8 +375,7 @@ public class DefaultMessageResponder implements MessageResponder {
                 }
             }
 
-            catch (final CommandException e)
-            {
+            catch (final CommandException e) {
                 LOG.log(Level.SEVERE, "Something very strange going on here...\n" + e);
             }
         }
@@ -425,8 +416,7 @@ public class DefaultMessageResponder implements MessageResponder {
             final User user = controller.getUser(userCode);
             user.setLastIdle(System.currentTimeMillis());
 
-            if (!user.getIpAddress().equals(ipAddress))
-            {
+            if (!user.getIpAddress().equals(ipAddress)) {
                 msgController.showSystemMessage(user.getNick() + " changed ip from " + user.getIpAddress() + " to " + ipAddress);
                 user.setIpAddress(ipAddress);
             }
@@ -478,8 +468,7 @@ public class DefaultMessageResponder implements MessageResponder {
         else {
             final User user = controller.getUser(userCode);
 
-            if (!controller.isNickInUse(newNick) && Tools.isValidNick(newNick))
-            {
+            if (!controller.isNickInUse(newNick) && Tools.isValidNick(newNick)) {
                 final String oldNick = user.getNick();
                 controller.changeNick(userCode, newNick);
                 msgController.showSystemMessage(oldNick + " changed nick to " + newNick);
@@ -491,8 +480,7 @@ public class DefaultMessageResponder implements MessageResponder {
                 }
             }
 
-            else
-            {
+            else {
                 LOG.log(Level.SEVERE, user.getNick() + " tried to change nick to '" + newNick + "', which is invalid");
             }
         }
@@ -521,8 +509,7 @@ public class DefaultMessageResponder implements MessageResponder {
 
         new Thread("DefaultMessageResponderFileSend") {
             @Override
-            public void run()
-            {
+            public void run() {
                 int counter = 0;
 
                 while (wList.isWaitingUser(userCode) && counter < 40)
@@ -651,8 +638,7 @@ public class DefaultMessageResponder implements MessageResponder {
     public void fileSendAccepted(final int userCode, final String fileName, final int fileHash, final int port) {
         new Thread("DefaultMessageResponderFileSendAccepted") {
             @Override
-            public void run()
-            {
+            public void run() {
                 final User user = controller.getUser(userCode);
                 final FileSender fileSend = tList.getFileSender(user, fileName, fileHash);
 

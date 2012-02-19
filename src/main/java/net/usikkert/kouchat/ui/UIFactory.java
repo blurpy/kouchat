@@ -51,8 +51,7 @@ public class UIFactory {
         }
 
         else {
-            if (choice == UIChoice.SWING)
-            {
+            if (choice == UIChoice.SWING) {
                 if (GraphicsEnvironment.isHeadless())
                 {
                     throw new UIException("The Swing User Interface could not be loaded"
@@ -66,14 +65,12 @@ public class UIFactory {
                 }
             }
 
-            else if (choice == UIChoice.CONSOLE)
-            {
+            else if (choice == UIChoice.CONSOLE) {
                 new KouChatConsole();
                 done = true;
             }
 
-            else
-            {
+            else {
                 throw new UIException("Unknown User Interface requested.");
             }
         }

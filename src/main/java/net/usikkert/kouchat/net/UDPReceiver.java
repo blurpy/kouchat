@@ -72,8 +72,7 @@ public class UDPReceiver implements Runnable {
      */
     public void run() {
         while (connected) {
-            try
-            {
+            try {
                 DatagramPacket packet = new DatagramPacket(
                         new byte[Constants.NETWORK_PACKET_SIZE], Constants.NETWORK_PACKET_SIZE);
 
@@ -87,8 +86,7 @@ public class UDPReceiver implements Runnable {
             }
 
             // Happens when socket is closed, or network is down
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 if (connected)
                     LOG.log(Level.WARNING, e.toString());
                 else
@@ -113,8 +111,7 @@ public class UDPReceiver implements Runnable {
             int port = Constants.NETWORK_PRIVCHAT_PORT;
             int counter = 0;
 
-            while (counter < 10 && !connected)
-            {
+            while (counter < 10 && !connected) {
                 try
                 {
                     udpSocket = new DatagramSocket(port);
@@ -135,8 +132,7 @@ public class UDPReceiver implements Runnable {
                 }
             }
 
-            if (!connected)
-            {
+            if (!connected) {
                 String error = "Failed to initialize udp network:"
                     + "\nNo available listening port between " + Constants.NETWORK_PRIVCHAT_PORT
                     + " and " + (port - 1) + "."
@@ -161,8 +157,7 @@ public class UDPReceiver implements Runnable {
         else {
             connected = false;
 
-            if (udpSocket != null && !udpSocket.isClosed())
-            {
+            if (udpSocket != null && !udpSocket.isClosed()) {
                 udpSocket.close();
             }
 

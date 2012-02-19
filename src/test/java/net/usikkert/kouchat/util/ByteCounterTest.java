@@ -303,8 +303,7 @@ public class ByteCounterTest {
             assertEquals(4, timeSpent);
             counter.updateCounters(bytesAdded, timeSpent);
 
-            if (i < 250)
-            {
+            if (i < 250) {
                 assertEquals(1024 * i, counter.getBytesCounted());
                 assertEquals(i * 4, counter.getTimeCounted());
             }
@@ -328,8 +327,7 @@ public class ByteCounterTest {
             assertEquals(1, timeSpent);
             counter.updateCounters(bytesAdded, timeSpent);
 
-            if (i < 1000)
-            {
+            if (i < 1000) {
                 assertEquals(1024 * i, counter.getBytesCounted());
                 assertEquals(i, counter.getTimeCounted());
             }
@@ -364,8 +362,7 @@ public class ByteCounterTest {
 
             counter.updateCounters(bytesAdded, timeSpent);
 
-            if (time < 1000)
-            {
+            if (time < 1000) {
                 assertEquals(1024 * i, counter.getBytesCounted());
                 assertEquals(time, counter.getTimeCounted());
             }
@@ -400,8 +397,7 @@ public class ByteCounterTest {
 
             counter.updateCounters(bytesAdded, timeSpent);
 
-            if (time < 1000)
-            {
+            if (time < 1000) {
                 assertEquals(1024 * i, counter.getBytesCounted());
                 assertEquals(time, counter.getTimeCounted());
             }

@@ -169,8 +169,7 @@ public class MockFileTransfer implements FileTransfer {
          */
         @Override
         public void run() {
-            try
-            {
+            try {
                 sleep(500);
                 listener.statusWaiting();
                 sleep(500);
@@ -193,8 +192,7 @@ public class MockFileTransfer implements FileTransfer {
                     listener.statusCompleted();
             }
 
-            catch (final InterruptedException e)
-            {
+            catch (final InterruptedException e) {
                 e.printStackTrace();
             }
         }

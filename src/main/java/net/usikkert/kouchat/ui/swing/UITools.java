@@ -79,13 +79,11 @@ public final class UITools {
 
         // The default is to use the browser in the settings.
         if (browser != null && browser.trim().length() > 0 ) {
-            try
-            {
+            try {
                 Runtime.getRuntime().exec(browser + " " + url);
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.WARNING, e.toString());
                 ERRORHANDLER.showError("Could not open the browser '"
                         + browser + "'. Please check the settings.");
@@ -94,20 +92,17 @@ public final class UITools {
 
         // But if no browser is set there, try opening the system default browser
         else if (isDesktopActionSupported(Action.BROWSE)) {
-            try
-            {
+            try {
                 Desktop.getDesktop().browse(new URI(url));
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.WARNING, e.toString());
                 ERRORHANDLER.showError("Could not open '" + url + "' with the default browser."
                         + " Try setting a browser in the settings.");
             }
 
-            catch (final URISyntaxException e)
-            {
+            catch (final URISyntaxException e) {
                 LOG.log(Level.WARNING, e.toString());
             }
         }
@@ -129,14 +124,12 @@ public final class UITools {
         boolean desktopOpenSuccess = false;
 
         if (isDesktopActionSupported(Action.OPEN)) {
-            try
-            {
+            try {
                 Desktop.getDesktop().open(file);
                 desktopOpenSuccess = true;
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.WARNING, e.toString());
             }
         }
@@ -160,8 +153,7 @@ public final class UITools {
      */
     public static boolean isDesktopActionSupported(final Action action) {
         if (Desktop.isDesktopSupported()) {
-            if (Desktop.getDesktop().isSupported(action))
-            {
+            if (Desktop.getDesktop().isSupported(action)) {
                 return true;
             }
         }
@@ -175,28 +167,23 @@ public final class UITools {
      */
     public static void setSystemLookAndFeel() {
         if (isSystemLookAndFeelSupported()) {
-            try
-            {
+            try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             }
 
-            catch (final ClassNotFoundException e)
-            {
+            catch (final ClassNotFoundException e) {
                 LOG.log(Level.WARNING, e.toString());
             }
 
-            catch (final InstantiationException e)
-            {
+            catch (final InstantiationException e) {
                 LOG.log(Level.WARNING, e.toString());
             }
 
-            catch (final IllegalAccessException e)
-            {
+            catch (final IllegalAccessException e) {
                 LOG.log(Level.WARNING, e.toString());
             }
 
-            catch (final UnsupportedLookAndFeelException e)
-            {
+            catch (final UnsupportedLookAndFeelException e) {
                 LOG.log(Level.WARNING, e.toString());
             }
         }
@@ -271,8 +258,7 @@ public final class UITools {
         LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
 
         for (LookAndFeelInfo lookAndFeelInfo : lookAndFeels) {
-            if (lookAndFeelInfo.getName().equals(lnfName))
-            {
+            if (lookAndFeelInfo.getName().equals(lnfName)) {
                 return lookAndFeelInfo;
             }
         }
@@ -294,8 +280,7 @@ public final class UITools {
         LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
 
         for (LookAndFeelInfo lookAndFeelInfo : lookAndFeels) {
-            if (lookAndFeelInfo.getClassName().equals(lookAndFeel.getClass().getName()))
-            {
+            if (lookAndFeelInfo.getClassName().equals(lookAndFeel.getClass().getName())) {
                 return lookAndFeelInfo;
             }
         }

@@ -145,14 +145,12 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer {
             else
                 setIcon(dot);
 
-            if (user.isWriting())
-            {
+            if (user.isWriting()) {
                 setText(user.getNick() + " *");
                 setToolTipText(user.getNick() + " is writing");
             }
 
-            else
-            {
+            else {
                 setText(user.getNick());
 
                 if (user.isAway())

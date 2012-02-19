@@ -78,8 +78,7 @@ public class TransferList {
         FileSender fileSender = null;
 
         for (FileSender fs : senders) {
-            if (fs.getUser() == user && fs.getFile().getName().equals(fileName) && fs.getFile().hashCode() == fileHash)
-            {
+            if (fs.getUser() == user && fs.getFile().getName().equals(fileName) && fs.getFile().hashCode() == fileHash) {
                 fileSender = fs;
                 break;
             }
@@ -99,8 +98,7 @@ public class TransferList {
         FileSender fileSender = null;
 
         for (FileSender fs : senders) {
-            if (fs.getUser() == user && fs.getFile().getName().equals(fileName))
-            {
+            if (fs.getUser() == user && fs.getFile().getName().equals(fileName)) {
                 fileSender = fs;
                 break;
             }
@@ -119,8 +117,7 @@ public class TransferList {
         List<FileSender> list = new ArrayList<FileSender>();
 
         for (FileSender fs : senders) {
-            if (fs.getUser() == user)
-            {
+            if (fs.getUser() == user) {
                 list.add(fs);
             }
         }
@@ -171,8 +168,7 @@ public class TransferList {
         List<FileReceiver> list = new ArrayList<FileReceiver>();
 
         for (FileReceiver fr : receivers) {
-            if (fr.getUser() == user)
-            {
+            if (fr.getUser() == user) {
                 list.add(fr);
             }
         }
@@ -191,8 +187,7 @@ public class TransferList {
         FileReceiver fileReceiver = null;
 
         for (FileReceiver fr : receivers) {
-            if (fr.getUser() == user && fr.getFile().getName().equals(fileName))
-            {
+            if (fr.getUser() == user && fr.getFile().getName().equals(fileName)) {
                 fileReceiver = fr;
                 break;
             }

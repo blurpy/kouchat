@@ -109,8 +109,7 @@ public class FileTransferHandler extends TransferHandler {
     @Override
     public boolean importData(final TransferSupport support) {
         if (canImport(support)) {
-            try
-            {
+            try {
                 File file = null;
 
                 if (support.isDataFlavorSupported(DataFlavor.javaFileListFlavor))
@@ -170,13 +169,11 @@ public class FileTransferHandler extends TransferHandler {
                     LOG.log(Level.WARNING, "No file dropped.");
             }
 
-            catch (final UnsupportedFlavorException e)
-            {
+            catch (final UnsupportedFlavorException e) {
                 LOG.log(Level.WARNING, e.toString());
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.WARNING, e.toString());
             }
         }

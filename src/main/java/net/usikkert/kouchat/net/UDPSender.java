@@ -69,8 +69,7 @@ public class UDPSender {
      */
     public boolean send(final String message, final String ip, final int port) {
         if (connected) {
-            try
-            {
+            try {
                 InetAddress address = InetAddress.getByName(ip);
                 byte[] encodedMsg = message.getBytes(Constants.MESSAGE_CHARSET);
                 int size = encodedMsg.length;
@@ -88,8 +87,7 @@ public class UDPSender {
                 return true;
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.SEVERE, "Could not send message: " + message);
             }
         }
@@ -110,8 +108,7 @@ public class UDPSender {
         else {
             connected = false;
 
-            if (udpSocket != null && !udpSocket.isClosed())
-            {
+            if (udpSocket != null && !udpSocket.isClosed()) {
                 udpSocket.close();
             }
 
@@ -130,15 +127,13 @@ public class UDPSender {
         }
 
         else {
-            try
-            {
+            try {
                 udpSocket = new DatagramSocket();
                 connected = true;
                 LOG.log(Level.FINE, "Connected.");
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.SEVERE, e.toString(), e);
                 errorHandler.showError("Failed to initialize network:\n" + e
                         + "\n\nYou will not be able to send private messages!");

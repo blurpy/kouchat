@@ -71,8 +71,7 @@ public class ChatLogger implements SettingsListener {
 
         Runtime.getRuntime().addShutdownHook(new Thread("ChatLoggerShutdownHook") {
             @Override
-            public void run()
-            {
+            public void run() {
                 close();
             }
         });
@@ -107,19 +106,16 @@ public class ChatLogger implements SettingsListener {
      */
     public void close() {
         if (open) {
-            try
-            {
+            try {
                 writer.flush();
                 writer.close();
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.SEVERE, e.toString(), e);
             }
 
-            finally
-            {
+            finally {
                 open = false;
             }
         }
@@ -132,15 +128,13 @@ public class ChatLogger implements SettingsListener {
      */
     public void append(final String line) {
         if (open) {
-            try
-            {
+            try {
                 writer.append(line);
                 writer.newLine();
                 writer.flush();
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.SEVERE, e.toString(), e);
                 close();
             }
@@ -164,16 +158,14 @@ public class ChatLogger implements SettingsListener {
     @Override
     public void settingChanged(final String setting) {
         if (setting.equals("logging")) {
-            if (settings.isLogging())
-            {
+            if (settings.isLogging()) {
                 if (!isOpen())
                 {
                     open();
                 }
             }
 
-            else
-            {
+            else {
                 close();
             }
         }

@@ -140,8 +140,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
         // Try to stop the gui from lagging during startup
         SwingUtilities.invokeLater(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 mediator.start();
                 mainP.getMsgTF().requestFocusInWindow();
             }
@@ -171,8 +170,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
         LookAndFeelInfo lookAndFeel = UITools.getLookAndFeel(settings.getLookAndFeel());
 
         if (lookAndFeel == null) {
-            if (UITools.isSystemLookAndFeelSupported())
-            {
+            if (UITools.isSystemLookAndFeelSupported()) {
                 UITools.setSystemLookAndFeel();
             }
         }
@@ -192,8 +190,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void actionPerformed(final ActionEvent e)
-            {
+            public void actionPerformed(final ActionEvent e) {
                 mediator.minimize();
             }
         };
@@ -209,8 +206,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
     private void fixTextFieldFocus() {
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
             @Override
-            public boolean dispatchKeyEvent(final KeyEvent e)
-            {
+            public boolean dispatchKeyEvent(final KeyEvent e) {
                 if (e.getID() == KeyEvent.KEY_TYPED && isFocused() && (e.getSource() == mainP.getChatTP() || e.getSource() == sideP.getUserList()))
                 {
                     KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(mainP.getMsgTF(), e);
@@ -255,8 +251,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
     public void windowClosing(final WindowEvent e) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 mediator.quit();
             }
         });

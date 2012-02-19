@@ -55,8 +55,7 @@ public class NetworkUtilsTest {
         Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
 
         if (networkInterfaces != null) {
-            try
-            {
+            try {
                 NetworkInterface interface1 = networkInterfaces.nextElement();
                 NetworkInterface interface2 = networkInterfaces.nextElement();
 
@@ -68,8 +67,7 @@ public class NetworkUtilsTest {
                 assertFalse(NetworkUtils.sameNetworkInterface(null, interface2));
             }
 
-            catch (final NoSuchElementException e)
-            {
+            catch (final NoSuchElementException e) {
                 System.err.println("Not enough network interfaces - aborting test");
             }
         }

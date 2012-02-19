@@ -104,8 +104,7 @@ public class MessageParser implements ReceiverListener {
 
             User tempme = settings.getMe();
 
-            if (msgCode != tempme.getCode() && loggedOn)
-            {
+            if (msgCode != tempme.getCode() && loggedOn) {
                 if (type.equals("MSG"))
                 {
                     int leftBracket = msg.indexOf("[");
@@ -303,14 +302,12 @@ public class MessageParser implements ReceiverListener {
                 }
             }
 
-            else if (msgCode == tempme.getCode() && type.equals("LOGON"))
-            {
+            else if (msgCode == tempme.getCode() && type.equals("LOGON")) {
                 responder.meLogOn(ipAddress);
                 loggedOn = true;
             }
 
-            else if (msgCode == tempme.getCode() && type.equals("IDLE") && loggedOn)
-            {
+            else if (msgCode == tempme.getCode() && type.equals("IDLE") && loggedOn) {
                 responder.meIdle(ipAddress);
             }
         }

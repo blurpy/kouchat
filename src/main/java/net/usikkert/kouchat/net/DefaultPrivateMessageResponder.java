@@ -90,8 +90,7 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder {
             else if (user.getPrivateChatPort() == 0)
                 LOG.log(Level.WARNING, "Got message from " + user.getNick() + " which has no reply port: " + msg);
 
-            else
-            {
+            else {
                 msgController.showPrivateUserMessage(user, msg, color);
 
                 // Not visible, or not in front

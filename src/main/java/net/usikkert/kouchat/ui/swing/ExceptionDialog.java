@@ -94,8 +94,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
         closeB.setText("Close");
         closeB.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(final ActionEvent e)
-            {
+            public void actionPerformed(final ActionEvent e) {
                 dispose();
             }
         });
@@ -147,8 +146,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
     public void uncaughtException(final Thread thread, final Throwable throwable) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 StringWriter stringWriter = new StringWriter();
 
                 stringWriter.append(Tools.dateToString(new Date(), "dd.MMM.yyyy HH:mm:ss")

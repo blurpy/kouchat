@@ -93,8 +93,7 @@ public class Controller implements NetworkConnectionListener {
 
         Runtime.getRuntime().addShutdownHook(new Thread("ControllerShutdownHook") {
             @Override
-            public void run()
-            {
+            public void run() {
                 logOff(false);
                 shutdown();
             }
@@ -329,8 +328,7 @@ public class Controller implements NetworkConnectionListener {
         for (int i = 0; i < userList.size(); i++) {
             User user = userList.get(i);
 
-            if (!user.isMe())
-            {
+            if (!user.isMe()) {
                 user.setOnline(false);
                 cancelFileTransfers(user);
                 userList.remove(user);
@@ -623,18 +621,15 @@ public class Controller implements NetworkConnectionListener {
          */
         @Override
         public void run() {
-            try
-            {
+            try {
                 Thread.sleep(1500);
             }
 
-            catch (final InterruptedException e)
-            {
+            catch (final InterruptedException e) {
                 LOG.log(Level.SEVERE, e.toString(), e);
             }
 
-            if (networkService.isNetworkUp())
-            {
+            if (networkService.isNetworkUp()) {
                 chatState.setLogonCompleted(true);
                 // To stop the timer from running in the background
                 cancel();

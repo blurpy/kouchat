@@ -178,8 +178,7 @@ public final class NetworkUtils {
 
         if (address != null) {
             // Convert byte array to hex format
-            for (int i = 0; i < address.length; i++)
-            {
+            for (int i = 0; i < address.length; i++) {
                 macAddress += String.format("%02x", address[i]);
                 if (i != address.length - 1)
                     macAddress += "-";

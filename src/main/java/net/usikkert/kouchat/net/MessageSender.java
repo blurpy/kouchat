@@ -104,8 +104,7 @@ public class MessageSender {
      */
     public synchronized boolean send(final String message) {
         if (connected) {
-            try
-            {
+            try {
                 byte[] encodedMsg = message.getBytes(Constants.MESSAGE_CHARSET);
                 int size = encodedMsg.length;
 
@@ -122,8 +121,7 @@ public class MessageSender {
                 return true;
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.WARNING, "Could not send message: " + message);
             }
         }
@@ -144,21 +142,18 @@ public class MessageSender {
         else {
             connected = false;
 
-            try
-            {
+            try {
                 if (!mcSocket.isClosed())
                 {
                     mcSocket.leaveGroup(address);
                 }
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.WARNING, e.toString());
             }
 
-            if (!mcSocket.isClosed())
-            {
+            if (!mcSocket.isClosed()) {
                 mcSocket.close();
                 mcSocket = null;
             }
@@ -179,13 +174,11 @@ public class MessageSender {
         LOG.log(Level.FINE, "Connecting...");
 
         try {
-            if (connected)
-            {
+            if (connected) {
                 LOG.log(Level.FINE, "Already connected.");
             }
 
-            else
-            {
+            else {
                 if (mcSocket == null)
                     mcSocket = new MulticastSocket(port);
 
@@ -202,8 +195,7 @@ public class MessageSender {
         catch (final IOException e) {
             LOG.log(Level.SEVERE, "Could not start sender: " + e.toString());
 
-            if (mcSocket != null)
-            {
+            if (mcSocket != null) {
                 if (!mcSocket.isClosed())
                     mcSocket.close();
 

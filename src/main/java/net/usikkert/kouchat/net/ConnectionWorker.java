@@ -86,8 +86,7 @@ public class ConnectionWorker implements Runnable {
         while (run) {
             boolean networkUp = updateNetwork();
 
-            try
-            {
+            try {
                 if (networkUp)
                     Thread.sleep(SLEEP_UP);
                 else
@@ -95,8 +94,7 @@ public class ConnectionWorker implements Runnable {
             }
 
             // Sleep interrupted - probably from stop() or checkNetwork()
-            catch (final InterruptedException e)
-            {
+            catch (final InterruptedException e) {
                 LOG.log(Level.FINE, e.toString());
             }
         }
@@ -142,8 +140,7 @@ public class ConnectionWorker implements Runnable {
             LOG.log(Level.FINE, "Changing network from " + origNetwork + " to " + netif.getName());
             networkInterface = netif;
 
-            if (networkUp)
-            {
+            if (networkUp) {
                 notifyNetworkDown(true);
                 notifyNetworkUp(true);
             }

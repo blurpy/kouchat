@@ -216,8 +216,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
     public void caretUpdate(final CaretEvent e) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 mediator.updateWriting();
             }
         });
@@ -233,8 +232,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
     public void actionPerformed(final ActionEvent e) {
         // The input field
         if (e.getSource() == msgTF) {
-            SwingUtilities.invokeLater(new Runnable()
-            {
+            SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run()
                 {
@@ -255,8 +253,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
     public void keyPressed(final KeyEvent ke) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 // Tab-completion
                 if (ke.getKeyCode() == KeyEvent.VK_TAB && ke.getModifiers() == 0)
                 {
@@ -298,8 +295,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
     public void keyReleased(final KeyEvent ke) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 // Command history up
                 if (ke.getKeyCode() == KeyEvent.VK_UP)
                 {

@@ -237,8 +237,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void actionPerformed(final ActionEvent e)
-            {
+            public void actionPerformed(final ActionEvent e) {
                 setVisible(false);
             }
         };
@@ -264,8 +263,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(final ActionEvent e) {
         if (e.getSource() == saveB) {
-            SwingUtilities.invokeLater(new Runnable()
-            {
+            SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run()
                 {
@@ -288,8 +286,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         }
 
         else if (e.getSource() == cancelB) {
-            SwingUtilities.invokeLater(new Runnable()
-            {
+            SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run()
                 {
@@ -299,8 +296,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         }
 
         else if (e.getSource() == chooseOwnColorB) {
-            SwingUtilities.invokeLater(new Runnable()
-            {
+            SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run()
                 {
@@ -316,8 +312,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         }
 
         else if (e.getSource() == chooseSysColorB) {
-            SwingUtilities.invokeLater(new Runnable()
-            {
+            SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run()
                 {
@@ -333,8 +328,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         }
 
         else if (e.getSource() == testBrowserB) {
-            SwingUtilities.invokeLater(new Runnable()
-            {
+            SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run()
                 {
@@ -386,8 +380,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
             JFileChooser chooser = UITools.createFileChooser("Open");
             int returnVal = chooser.showOpenDialog(null);
 
-            if (returnVal == JFileChooser.APPROVE_OPTION)
-            {
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = chooser.getSelectedFile().getAbsoluteFile();
                 browserTF.setText(file.getAbsolutePath());
             }
@@ -446,8 +439,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         for (int i = 0; i < lookAndFeelCB.getItemCount(); i++) {
             LookAndFeelWrapper lafw = (LookAndFeelWrapper) lookAndFeelCB.getItemAt(i);
 
-            if (lafw.getLookAndFeelInfo().getClassName().equals(lnfClass))
-            {
+            if (lafw.getLookAndFeelInfo().getClassName().equals(lnfClass)) {
                 lookAndFeelCB.setSelectedIndex(i);
                 break;
             }

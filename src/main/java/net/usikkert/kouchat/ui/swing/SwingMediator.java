@@ -134,8 +134,7 @@ public class SwingMediator implements Mediator, UserInterface {
         if (me.isAway()) {
             final int choice = UITools.showOptionDialog("Back from '" + me.getAwayMsg() + "'?", "Away");
 
-            if (choice == JOptionPane.YES_OPTION)
-            {
+            if (choice == JOptionPane.YES_OPTION) {
                 try
                 {
                     controller.changeAwayStatus(me.getCode(), false, "");
@@ -153,8 +152,7 @@ public class SwingMediator implements Mediator, UserInterface {
         else {
             final String reason = UITools.showInputDialog("Reason for away?", "Away", null);
 
-            if (reason != null && reason.trim().length() > 0)
-            {
+            if (reason != null && reason.trim().length() > 0) {
                 if (controller.isWrote())
                 {
                     controller.changeWriting(me.getCode(), false);
@@ -187,13 +185,11 @@ public class SwingMediator implements Mediator, UserInterface {
         final String newTopic = UITools.showInputDialog("Change topic?", "Topic", topic.getTopic());
 
         if (newTopic != null) {
-            try
-            {
+            try {
                 cmdParser.fixTopic(newTopic);
             }
 
-            catch (final CommandException e)
-            {
+            catch (final CommandException e) {
                 UITools.showWarningMessage(e.getMessage(), "Change topic");
             }
         }
@@ -232,8 +228,7 @@ public class SwingMediator implements Mediator, UserInterface {
             String title = me.getNick();
             String tooltip = me.getNick();
 
-            if (!controller.isConnected())
-            {
+            if (!controller.isConnected()) {
                 if (controller.isLoggedOn())
                 {
                     title += " - Connection lost";
@@ -247,8 +242,7 @@ public class SwingMediator implements Mediator, UserInterface {
                 }
             }
 
-            else
-            {
+            else {
                 if (me.isAway())
                 {
                     title += " (Away)";
@@ -345,8 +339,7 @@ public class SwingMediator implements Mediator, UserInterface {
 
             final int returnVal = chooser.showOpenDialog(null);
 
-            if (returnVal == JFileChooser.APPROVE_OPTION)
-            {
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
                 final File file = chooser.getSelectedFile().getAbsoluteFile();
 
                 if (file.exists() && file.isFile())
@@ -374,13 +367,11 @@ public class SwingMediator implements Mediator, UserInterface {
         final String line = mainP.getMsgTF().getText();
 
         if (line.trim().length() > 0) {
-            if (line.startsWith("/"))
-            {
+            if (line.startsWith("/")) {
                 cmdParser.parse(line);
             }
 
-            else
-            {
+            else {
                 try
                 {
                     controller.sendChatMessage(line);
@@ -409,14 +400,12 @@ public class SwingMediator implements Mediator, UserInterface {
         final User user = privchat.getUser();
 
         if (line.trim().length() > 0) {
-            try
-            {
+            try {
                 controller.sendPrivateMessage(line, user);
                 msgController.showPrivateOwnMessage(user, line);
             }
 
-            catch (final CommandException e)
-            {
+            catch (final CommandException e) {
                 msgController.showPrivateSystemMessage(user, e.getMessage());
             }
         }
@@ -438,15 +427,13 @@ public class SwingMediator implements Mediator, UserInterface {
     @Override
     public void updateWriting() {
         if (mainP.getMsgTF().getText().length() > 0) {
-            if (!controller.isWrote())
-            {
+            if (!controller.isWrote()) {
                 controller.changeWriting(me.getCode(), true);
             }
         }
 
         else {
-            if (controller.isWrote())
-            {
+            if (controller.isWrote()) {
                 controller.changeWriting(me.getCode(), false);
             }
         }
@@ -463,21 +450,18 @@ public class SwingMediator implements Mediator, UserInterface {
         final String trimNick = nick.trim();
 
         if (!trimNick.equals(me.getNick())) {
-            if (controller.isNickInUse(trimNick))
-            {
+            if (controller.isNickInUse(trimNick)) {
                 UITools.showWarningMessage("The nick is in use by someone else.", "Change nick");
             }
 
-            else if (!Tools.isValidNick(trimNick))
-            {
+            else if (!Tools.isValidNick(trimNick)) {
                 final String message = "'" + trimNick + "' is not a valid nick name.\n\n"
                         + "A nick name can have between 1 and 10 characters.\nLegal characters are 'a-z',"
                         + " '0-9', '-' and '_'.";
                 UITools.showWarningMessage(message, "Change nick");
             }
 
-            else
-            {
+            else {
                 try
                 {
                     controller.changeMyNick(trimNick);
@@ -537,8 +521,7 @@ public class SwingMediator implements Mediator, UserInterface {
             if (me.isAway())
                 sysTray.setAwayActivityState();
 
-            else
-            {
+            else {
                 sysTray.setNormalActivityState();
                 beeper.beep();
                 sysTray.showBalloonMessage(UITools.createTitle(me.getNick()),
@@ -597,8 +580,7 @@ public class SwingMediator implements Mediator, UserInterface {
         // Main chat hidden
         if (!gui.isVisible()) {
             // Private chat hidden - beep, update systray, show balloon
-            if (!privchat.isVisible())
-            {
+            if (!privchat.isVisible()) {
                 sysTray.setNormalActivityState();
                 beeper.beep();
                 sysTray.showBalloonMessage(UITools.createTitle(me.getNick()),
@@ -606,8 +588,7 @@ public class SwingMediator implements Mediator, UserInterface {
             }
 
             // Private chat out of focus - beep, update privchat icon
-            else if (!privchat.isFocused())
-            {
+            else if (!privchat.isFocused()) {
                 privchat.updateUserInformation();
                 beeper.beep();
             }
@@ -616,16 +597,14 @@ public class SwingMediator implements Mediator, UserInterface {
         // Main chat out of focus
         else if (!gui.isFocused()) {
             // Private chat hidden - beep, update main chat icon
-            if (!privchat.isVisible())
-            {
+            if (!privchat.isVisible()) {
                 me.setNewMsg(true);
                 updateTitleAndTray();
                 beeper.beep();
             }
 
             // Private chat out of focus - beep, update privchat icon
-            else if (!privchat.isFocused())
-            {
+            else if (!privchat.isFocused()) {
                 privchat.updateUserInformation();
                 beeper.beep();
             }
@@ -674,8 +653,7 @@ public class SwingMediator implements Mediator, UserInterface {
             done = true;
             final int returnVal = chooser.showSaveDialog(null);
 
-            if (returnVal == JFileChooser.APPROVE_OPTION)
-            {
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
                 final File file = chooser.getSelectedFile().getAbsoluteFile();
 
                 if (file.exists())
@@ -696,8 +674,7 @@ public class SwingMediator implements Mediator, UserInterface {
                 }
             }
 
-            else
-            {
+            else {
                 fileReceiver.reject();
             }
         }
@@ -767,8 +744,7 @@ public class SwingMediator implements Mediator, UserInterface {
         for (int i = 0; i < list.size(); i++) {
             final User user = list.get(i);
 
-            if (user.getPrivchat() != null)
-            {
+            if (user.getPrivchat() != null) {
                 if (!user.isAway())
                 {
                     user.getPrivchat().setAway(away);

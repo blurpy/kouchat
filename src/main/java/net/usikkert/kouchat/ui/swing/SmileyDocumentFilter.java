@@ -90,8 +90,7 @@ public class SmileyDocumentFilter extends DocumentFilter {
         // Do this in the background so the text wont lag
         SwingUtilities.invokeLater(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 Smiley smiley = findSmiley(text, 0);
                 StyledDocument doc = (StyledDocument) fb.getDocument();
 
@@ -167,8 +166,7 @@ public class SmileyDocumentFilter extends DocumentFilter {
             // Needs this extra loop because of the required whitespace check,
             // which happens after the first smiley is found.
             // This makes sure :):) :) :):) only finds the smiley in the center.
-            do
-            {
+            do {
                 smileyPos = text.indexOf(smileyText, loopOffset);
 
                 if (newSmileyFound(smileyPos, firstMatch))

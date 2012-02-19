@@ -125,8 +125,7 @@ public class CommandHistory {
         String down = "";
 
         if (history.size() > 0) {
-            if (cursor < history.size() - 1)
-            {
+            if (cursor < history.size() - 1) {
                 cursor++;
                 direction = Direction.DOWN;
                 down = history.get(cursor);

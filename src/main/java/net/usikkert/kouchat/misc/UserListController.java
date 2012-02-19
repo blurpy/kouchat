@@ -65,8 +65,7 @@ public class UserListController {
         for (int i = 0; i < userList.size(); i++) {
             User temp = userList.get(i);
 
-            if (temp.getCode() == code)
-            {
+            if (temp.getCode() == code) {
                 user = temp;
                 break;
             }
@@ -87,8 +86,7 @@ public class UserListController {
         for (int i = 0; i < userList.size(); i++) {
             User temp = userList.get(i);
 
-            if (temp.getNick().equalsIgnoreCase(nickname))
-            {
+            if (temp.getNick().equalsIgnoreCase(nickname)) {
                 user = temp;
                 break;
             }
@@ -107,8 +105,7 @@ public class UserListController {
         for (int i = 0; i < userList.size(); i++) {
             User temp = userList.get(i);
 
-            if (temp.getCode() == code)
-            {
+            if (temp.getCode() == code) {
                 temp.setNick(nickname);
                 userList.set(i, temp);
                 break;
@@ -127,8 +124,7 @@ public class UserListController {
         for (int i = 0; i < userList.size(); i++) {
             User temp = userList.get(i);
 
-            if (temp.getCode() == code)
-            {
+            if (temp.getCode() == code) {
                 temp.setAway(away);
                 temp.setAwayMsg(awaymsg);
                 userList.set(i, temp);
@@ -147,8 +143,7 @@ public class UserListController {
         for (int i = 0; i < userList.size(); i++) {
             User temp = userList.get(i);
 
-            if (temp.getCode() == code)
-            {
+            if (temp.getCode() == code) {
                 temp.setWriting(writing);
                 userList.set(i, temp);
                 break;
@@ -166,8 +161,7 @@ public class UserListController {
         for (int i = 0; i < userList.size(); i++) {
             User temp = userList.get(i);
 
-            if (temp.getCode() == code)
-            {
+            if (temp.getCode() == code) {
                 temp.setNewPrivMsg(newMsg);
                 userList.set(i, temp);
                 break;
@@ -187,8 +181,7 @@ public class UserListController {
         for (int i = 0; i < userList.size(); i++) {
             User temp = userList.get(i);
 
-            if (temp.getNick().equalsIgnoreCase(nickname) && !temp.isMe())
-            {
+            if (temp.getNick().equalsIgnoreCase(nickname) && !temp.isMe()) {
                 inUse = true;
                 break;
             }
@@ -209,8 +202,7 @@ public class UserListController {
         for (int i = 0; i < userList.size(); i++) {
             User temp = userList.get(i);
 
-            if (temp.getCode() == code)
-            {
+            if (temp.getCode() == code) {
                 newUser = false;
                 break;
             }

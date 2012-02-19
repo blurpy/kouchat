@@ -207,47 +207,39 @@ public final class Settings {
         }
 
         finally {
-            try
-            {
+            try {
                 if (buffWriter != null)
                     buffWriter.flush();
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.SEVERE, e.toString(), e);
             }
 
-            try
-            {
+            try {
                 if (fileWriter != null)
                     fileWriter.flush();
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.SEVERE, e.toString(), e);
             }
 
-            try
-            {
+            try {
                 if (buffWriter != null)
                     buffWriter.close();
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.SEVERE, e.toString(), e);
             }
 
-            try
-            {
+            try {
                 if (fileWriter != null)
                     fileWriter.close();
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.SEVERE, e.toString(), e);
             }
         }
@@ -267,28 +259,23 @@ public final class Settings {
 
             String tmpNick = fileContents.getProperty("nick");
 
-            if (tmpNick != null && Tools.isValidNick(tmpNick))
-            {
+            if (tmpNick != null && Tools.isValidNick(tmpNick)) {
                 me.setNick(tmpNick.trim());
             }
 
-            try
-            {
+            try {
                 ownColor = Integer.parseInt(fileContents.getProperty("owncolor"));
             }
 
-            catch (final NumberFormatException e)
-            {
+            catch (final NumberFormatException e) {
                 LOG.log(Level.WARNING, "Could not read setting for owncolor..");
             }
 
-            try
-            {
+            try {
                 sysColor = Integer.parseInt(fileContents.getProperty("syscolor"));
             }
 
-            catch (final NumberFormatException e)
-            {
+            catch (final NumberFormatException e) {
                 LOG.log(Level.WARNING, "Could not read setting for syscolor..");
             }
 
@@ -312,14 +299,12 @@ public final class Settings {
         }
 
         finally {
-            try
-            {
+            try {
                 if (fileStream != null)
                     fileStream.close();
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.SEVERE, e.toString(), e);
             }
         }

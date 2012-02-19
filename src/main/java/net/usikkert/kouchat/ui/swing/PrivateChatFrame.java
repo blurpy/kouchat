@@ -200,8 +200,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      */
     private void fixTextFieldFocus() {
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
-            public boolean dispatchKeyEvent(final KeyEvent e)
-            {
+            public boolean dispatchKeyEvent(final KeyEvent e) {
                 if (e.getID() == KeyEvent.KEY_TYPED && isFocused() && e.getSource() == chatTP)
                 {
                     KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(msgTF, e);
@@ -228,8 +227,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void actionPerformed(final ActionEvent e)
-            {
+            public void actionPerformed(final ActionEvent e) {
                 close();
             }
         };
@@ -298,8 +296,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
     public void actionPerformed(final ActionEvent e) {
         // Sends a message when the user presses the enter key.
         if (e.getSource() == msgTF) {
-            SwingUtilities.invokeLater(new Runnable()
-            {
+            SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run()
                 {
@@ -358,8 +355,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
     public void keyReleased(final KeyEvent ke) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 if (ke.getKeyCode() == KeyEvent.VK_UP)
                 {
                     String up = cmdHistory.goUp();

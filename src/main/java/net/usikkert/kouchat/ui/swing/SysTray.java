@@ -91,15 +91,13 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
             trayIcon.addMouseListener(this);
             trayIcon.setToolTip(Constants.APP_NAME);
 
-            try
-            {
+            try {
                 sysTray.add(trayIcon);
                 sysTray.addPropertyChangeListener("trayIcons", this);
                 systemTraySupported = true;
             }
 
-            catch (final AWTException e)
-            {
+            catch (final AWTException e) {
                 // This may happen if the System Tray is hidden on a system
                 // that actually supports a System Tray.
                 LOG.log(Level.SEVERE, e.toString());

@@ -107,8 +107,7 @@ public class MessageReceiver implements Runnable {
      */
     public void run() {
         while (connected) {
-            try
-            {
+            try {
                 DatagramPacket packet = new DatagramPacket(
                         new byte[Constants.NETWORK_PACKET_SIZE], Constants.NETWORK_PACKET_SIZE);
 
@@ -125,8 +124,7 @@ public class MessageReceiver implements Runnable {
             }
 
             // Happens when socket is closed, or network is down
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 if (connected)
                     LOG.log(Level.WARNING, e.toString());
                 else
@@ -158,13 +156,11 @@ public class MessageReceiver implements Runnable {
         LOG.log(Level.FINE, "Connecting...");
 
         try {
-            if (connected)
-            {
+            if (connected) {
                 LOG.log(Level.FINE, "Already connected.");
             }
 
-            else
-            {
+            else {
                 if (mcSocket == null)
                     mcSocket = new MulticastSocket(port);
 
@@ -180,8 +176,7 @@ public class MessageReceiver implements Runnable {
         catch (final IOException e) {
             LOG.log(Level.SEVERE, "Could not start receiver: " + e.toString());
 
-            if (mcSocket != null)
-            {
+            if (mcSocket != null) {
                 if (!mcSocket.isClosed())
                     mcSocket.close();
 
@@ -209,21 +204,18 @@ public class MessageReceiver implements Runnable {
         else {
             connected = false;
 
-            try
-            {
+            try {
                 if (!mcSocket.isClosed())
                 {
                     mcSocket.leaveGroup(address);
                 }
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.WARNING, e.toString());
             }
 
-            if (!mcSocket.isClosed())
-            {
+            if (!mcSocket.isClosed()) {
                 mcSocket.close();
                 mcSocket = null;
             }

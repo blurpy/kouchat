@@ -142,8 +142,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
 
             AttributeSet attr = doc.getCharacterElement(clickPos).getAttributes();
 
-            if (StyleConstants.isUnderline(attr))
-            {
+            if (StyleConstants.isUnderline(attr)) {
                 Object obj = attr.getAttribute(URLDocumentFilter.URL_ATTRIBUTE);
 
                 if (obj != null)

@@ -79,15 +79,13 @@ public class SizeDocumentFilter extends DocumentFilter {
             int removedLength = Tools.getBytes(docText.substring(offset, offset + length));
 
             // Everything OK, insert the text as it is.
-            if ((docLength + textLength - removedLength) <= maxBytes)
-            {
+            if ((docLength + textLength - removedLength) <= maxBytes) {
                 super.replace(fb, offset, length, newText, attrs);
             }
 
             // Text too big to fit. Will need to find out which
             // characters that can be inserted without going over the limit.
-            else
-            {
+            else {
                 String replaceText = "";
                 int replaceTextSize = 0;
                 int allowedSize = maxBytes - docLength;

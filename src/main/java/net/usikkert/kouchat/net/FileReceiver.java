@@ -122,22 +122,19 @@ public class FileReceiver implements FileTransfer {
         int counter = 0;
 
         while (!done && counter < 10) {
-            try
-            {
+            try {
                 sSock = new ServerSocket(port);
                 TimeoutThread tt = new TimeoutThread();
                 tt.start();
                 done = true;
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.WARNING, "Could not open " + port, e);
                 port++;
             }
 
-            finally
-            {
+            finally {
                 counter++;
             }
         }
@@ -161,8 +158,7 @@ public class FileReceiver implements FileTransfer {
         cancel = false;
 
         try {
-            if (sSock != null)
-            {
+            if (sSock != null) {
                 sock = sSock.accept();
                 listener.statusTransferring();
                 fos = new FileOutputStream(file);
@@ -456,18 +452,15 @@ public class FileReceiver implements FileTransfer {
          */
         @Override
         public void run() {
-            try
-            {
+            try {
                 sleep(15000);
             }
 
-            catch (final InterruptedException e)
-            {
+            catch (final InterruptedException e) {
                 LOG.log(Level.SEVERE, e.toString(), e);
             }
 
-            try
-            {
+            try {
                 if (sSock != null)
                 {
                     sSock.close();
@@ -475,8 +468,7 @@ public class FileReceiver implements FileTransfer {
                 }
             }
 
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 LOG.log(Level.SEVERE, e.toString(), e);
             }
         }

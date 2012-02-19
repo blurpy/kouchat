@@ -52,8 +52,7 @@ public class SwingPopupErrorHandler implements ErrorListener {
     public void errorReported(final String errorMsg) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 UITools.showErrorMessage(errorMsg, "Error");
             }
         });

@@ -101,8 +101,7 @@ public class URLDocumentFilter extends DocumentFilter {
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 int startPos = findURLPos(text, 0);
 
                 if (startPos != -1)
@@ -149,8 +148,7 @@ public class URLDocumentFilter extends DocumentFilter {
         while (retry) {
             retry = false;
 
-            if (prot != -1 && (prot < firstMatch || firstMatch == -1))
-            {
+            if (prot != -1 && (prot < firstMatch || firstMatch == -1)) {
                 int protStart = text.lastIndexOf(' ', prot) + 1;
                 String t = text.substring(protStart, text.length() - 1);
 
@@ -166,8 +164,7 @@ public class URLDocumentFilter extends DocumentFilter {
                 }
             }
 
-            if (www != -1 && (www < firstMatch || firstMatch == -1))
-            {
+            if (www != -1 && (www < firstMatch || firstMatch == -1)) {
                 String t = text.substring(www + 1, text.length() - 1);
 
                 if (wwwPattern.matcher(t).matches())
@@ -182,8 +179,7 @@ public class URLDocumentFilter extends DocumentFilter {
                 }
             }
 
-            if (ftp != -1 && (ftp < firstMatch || firstMatch == -1))
-            {
+            if (ftp != -1 && (ftp < firstMatch || firstMatch == -1)) {
                 String t = text.substring(ftp + 1, text.length() - 1);
 
                 if (ftpPattern.matcher(t).matches())

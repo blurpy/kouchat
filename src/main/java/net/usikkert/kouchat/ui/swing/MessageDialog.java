@@ -90,8 +90,7 @@ public class MessageDialog extends JDialog {
         okB.setText("OK");
         okB.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(final ActionEvent e)
-            {
+            public void actionPerformed(final ActionEvent e) {
                 dispose();
             }
         });
@@ -129,8 +128,7 @@ public class MessageDialog extends JDialog {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void actionPerformed(final ActionEvent e)
-            {
+            public void actionPerformed(final ActionEvent e) {
                 dispose();
             }
         };

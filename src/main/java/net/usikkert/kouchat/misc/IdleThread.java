@@ -99,8 +99,7 @@ public class IdleThread extends Thread {
             controller.sendIdleMessage();
             boolean timeout = false;
 
-            for (int i = 0; i < userList.size(); i++)
-            {
+            for (int i = 0; i < userList.size(); i++) {
                 User temp = userList.get(i);
 
                 if (temp.getCode() != me.getCode() && temp.getLastIdle() < System.currentTimeMillis() - TIMEOUT)
@@ -115,14 +114,12 @@ public class IdleThread extends Thread {
             if (timeout)
                 controller.updateAfterTimeout();
 
-            try
-            {
+            try {
                 sleep(IDLE_TIME);
             }
 
             // Sleep interrupted - probably from stopThread()
-            catch (final InterruptedException e)
-            {
+            catch (final InterruptedException e) {
                 LOG.log(Level.FINE, e.toString());
             }
         }
