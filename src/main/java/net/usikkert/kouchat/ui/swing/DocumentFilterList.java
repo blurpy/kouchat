@@ -43,53 +43,53 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class DocumentFilterList extends DocumentFilter
 {
-	/** A list of sub-filters that are notified when text is added. */
-	private final List<DocumentFilter> filters;
+    /** A list of sub-filters that are notified when text is added. */
+    private final List<DocumentFilter> filters;
 
-	/**
-	 * Constructor.
-	 */
-	public DocumentFilterList()
-	{
-		filters = new ArrayList<DocumentFilter>();
-	}
+    /**
+     * Constructor.
+     */
+    public DocumentFilterList()
+    {
+        filters = new ArrayList<DocumentFilter>();
+    }
 
-	/**
-	 * Inserts the text at the end of the Document, and notifies the sub-filters.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public synchronized void insertString( final FilterBypass fb, final int offset, final String text,
-			final AttributeSet attr ) throws BadLocationException
-	{
-		super.insertString( fb, offset, text, attr );
+    /**
+     * Inserts the text at the end of the Document, and notifies the sub-filters.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized void insertString( final FilterBypass fb, final int offset, final String text,
+            final AttributeSet attr ) throws BadLocationException
+    {
+        super.insertString( fb, offset, text, attr );
 
-		for ( DocumentFilter filter : filters )
-		{
-			filter.insertString( fb, offset, text, attr );
-		}
-	}
+        for ( DocumentFilter filter : filters )
+        {
+            filter.insertString( fb, offset, text, attr );
+        }
+    }
 
-	/**
-	 * Adds the document filter for notification when text is added.
-	 *
-	 * @param filter The document filter to add.
-	 */
-	public synchronized void addDocumentFilter( final DocumentFilter filter )
-	{
-		Validate.notNull( filter, "Document filter can not be null" );
-		filters.add( filter );
-	}
+    /**
+     * Adds the document filter for notification when text is added.
+     *
+     * @param filter The document filter to add.
+     */
+    public synchronized void addDocumentFilter( final DocumentFilter filter )
+    {
+        Validate.notNull( filter, "Document filter can not be null" );
+        filters.add( filter );
+    }
 
-	/**
-	 * Removes the document filter from the notification list.
-	 *
-	 * @param filter The document filter to remove.
-	 */
-	public synchronized void removeDocumentFilter( final DocumentFilter filter )
-	{
-		Validate.notNull( filter, "Document filter can not be null" );
-		filters.remove( filter );
-	}
+    /**
+     * Removes the document filter from the notification list.
+     *
+     * @param filter The document filter to remove.
+     */
+    public synchronized void removeDocumentFilter( final DocumentFilter filter )
+    {
+        Validate.notNull( filter, "Document filter can not be null" );
+        filters.remove( filter );
+    }
 }

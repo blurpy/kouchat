@@ -34,51 +34,51 @@ import net.usikkert.kouchat.ui.swing.KouChatFrame;
  */
 public class UIFactory
 {
-	private boolean done;
+    private boolean done;
 
-	/**
-	 * Loads the User Interface matching the ui argument.
-	 *
-	 * @param choice Which ui to load.
-	 * Two choices are available at this moment: 'swing' and 'console'.
-	 *
-	 * @throws UIException If a ui has already been loaded, or if an
-	 * unknown ui type was requested, or if no graphical environment was detected.
-	 */
-	public void loadUI( final UIChoice choice ) throws UIException
-	{
-		if ( done )
-		{
-			throw new UIException( "A User Interface has already been loaded." );
-		}
+    /**
+     * Loads the User Interface matching the ui argument.
+     *
+     * @param choice Which ui to load.
+     * Two choices are available at this moment: 'swing' and 'console'.
+     *
+     * @throws UIException If a ui has already been loaded, or if an
+     * unknown ui type was requested, or if no graphical environment was detected.
+     */
+    public void loadUI( final UIChoice choice ) throws UIException
+    {
+        if ( done )
+        {
+            throw new UIException( "A User Interface has already been loaded." );
+        }
 
-		else
-		{
-			if ( choice == UIChoice.SWING )
-			{
-				if ( GraphicsEnvironment.isHeadless() )
-				{
-					throw new UIException( "The Swing User Interface could not be loaded"
-							+ " because a graphical environment could not be detected." );
-				}
+        else
+        {
+            if ( choice == UIChoice.SWING )
+            {
+                if ( GraphicsEnvironment.isHeadless() )
+                {
+                    throw new UIException( "The Swing User Interface could not be loaded"
+                            + " because a graphical environment could not be detected." );
+                }
 
-				else
-				{
-					new KouChatFrame();
-					done = true;
-				}
-			}
+                else
+                {
+                    new KouChatFrame();
+                    done = true;
+                }
+            }
 
-			else if ( choice == UIChoice.CONSOLE )
-			{
-				new KouChatConsole();
-				done = true;
-			}
+            else if ( choice == UIChoice.CONSOLE )
+            {
+                new KouChatConsole();
+                done = true;
+            }
 
-			else
-			{
-				throw new UIException( "Unknown User Interface requested." );
-			}
-		}
-	}
+            else
+            {
+                throw new UIException( "Unknown User Interface requested." );
+            }
+        }
+    }
 }

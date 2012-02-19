@@ -29,11 +29,11 @@ package net.usikkert.kouchat.util;
  */
 public interface UncaughtExceptionListener
 {
-	/**
-	 * When an uncaught exception is detected this method is run.
-	 *
-	 * @param thread The thread where the uncaught exception happened.
-	 * @param throwable The uncaught exception.
-	 */
-	void uncaughtException( final Thread thread, final Throwable throwable );
+    /**
+     * When an uncaught exception is detected this method is run.
+     *
+     * @param thread The thread where the uncaught exception happened.
+     * @param throwable The uncaught exception.
+     */
+    void uncaughtException( final Thread thread, final Throwable throwable );
 }

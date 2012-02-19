@@ -35,44 +35,44 @@ import java.util.List;
  */
 public class WaitingList
 {
-	private final List<Integer> users;
+    private final List<Integer> users;
 
-	/**
-	 * Constructor.
-	 */
-	public WaitingList()
-	{
-		users = new ArrayList<Integer>();
-	}
+    /**
+     * Constructor.
+     */
+    public WaitingList()
+    {
+        users = new ArrayList<Integer>();
+    }
 
-	/**
-	 * Adds a user to the waiting list.
-	 *
-	 * @param userCode The unique code of the user to add.
-	 */
-	public void addWaitingUser( final int userCode )
-	{
-		users.add( userCode );
-	}
+    /**
+     * Adds a user to the waiting list.
+     *
+     * @param userCode The unique code of the user to add.
+     */
+    public void addWaitingUser( final int userCode )
+    {
+        users.add( userCode );
+    }
 
-	/**
-	 * Checks if a user is on the waiting list.
-	 *
-	 * @param userCode The unique code of the user to check for.
-	 * @return If the user is on the waiting list.
-	 */
-	public boolean isWaitingUser( final int userCode )
-	{
-		return users.contains( userCode );
-	}
+    /**
+     * Checks if a user is on the waiting list.
+     *
+     * @param userCode The unique code of the user to check for.
+     * @return If the user is on the waiting list.
+     */
+    public boolean isWaitingUser( final int userCode )
+    {
+        return users.contains( userCode );
+    }
 
-	/**
-	 * Removes a user from the waiting list.
-	 *
-	 * @param userCode The unique code of the user to remove.
-	 */
-	public void removeWaitingUser( final int userCode )
-	{
-		users.remove( new Integer( userCode ) );
-	}
+    /**
+     * Removes a user from the waiting list.
+     *
+     * @param userCode The unique code of the user to remove.
+     */
+    public void removeWaitingUser( final int userCode )
+    {
+        users.remove( new Integer( userCode ) );
+    }
 }

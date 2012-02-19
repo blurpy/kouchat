@@ -38,49 +38,49 @@ import org.junit.Test;
  */
 public class OperatingSystemNetworkInfoTest
 {
-	/**
-	 * Tests if the network interface for the operating system can be found.
-	 *
-	 * <p>But only if there are usable network interfaces available.</p>
-	 */
-	@Test
-	public void testFindingTheOSNetworkInterface()
-	{
-		Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
-		OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo();
-		NetworkInterface osInterface = osNicInfo.getOperatingSystemNetworkInterface();
+    /**
+     * Tests if the network interface for the operating system can be found.
+     *
+     * <p>But only if there are usable network interfaces available.</p>
+     */
+    @Test
+    public void testFindingTheOSNetworkInterface()
+    {
+        Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
+        OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo();
+        NetworkInterface osInterface = osNicInfo.getOperatingSystemNetworkInterface();
 
-		if ( networkInterfaces == null )
-		{
-			System.err.println( "No network interfaces found." );
-			assertNull( osInterface );
-			return;
-		}
+        if ( networkInterfaces == null )
+        {
+            System.err.println( "No network interfaces found." );
+            assertNull( osInterface );
+            return;
+        }
 
-		boolean validNetworkAvailable = false;
+        boolean validNetworkAvailable = false;
 
-		while ( networkInterfaces.hasMoreElements() )
-		{
-			NetworkInterface networkInterface = networkInterfaces.nextElement();
+        while ( networkInterfaces.hasMoreElements() )
+        {
+            NetworkInterface networkInterface = networkInterfaces.nextElement();
 
-			if ( NetworkUtils.isUsable( networkInterface ) )
-			{
-				validNetworkAvailable = true;
-				break;
-			}
-		}
+            if ( NetworkUtils.isUsable( networkInterface ) )
+            {
+                validNetworkAvailable = true;
+                break;
+            }
+        }
 
-		if ( !validNetworkAvailable )
-		{
-			System.err.println( "No usable network interfaces found." );
-			assertNull( osInterface );
-			return;
-		}
+        if ( !validNetworkAvailable )
+        {
+            System.err.println( "No usable network interfaces found." );
+            assertNull( osInterface );
+            return;
+        }
 
-		assertNotNull( osInterface );
+        assertNotNull( osInterface );
 
-		// This is known to sometimes fail in Vista. It is unknown why Vista
-		// prefers unusable network interfaces.
-		assertTrue( NetworkUtils.isUsable( osInterface ) );
-	}
+        // This is known to sometimes fail in Vista. It is unknown why Vista
+        // prefers unusable network interfaces.
+        assertTrue( NetworkUtils.isUsable( osInterface ) );
+    }
 }

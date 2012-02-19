@@ -36,101 +36,101 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class NetworkInformation implements NetworkInformationMBean
 {
-	/** Information and control of the network. */
-	private final ConnectionWorker connectionWorker;
+    /** Information and control of the network. */
+    private final ConnectionWorker connectionWorker;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param connectionWorker To get information about the network, and control the network.
-	 */
-	public NetworkInformation( final ConnectionWorker connectionWorker )
-	{
-		Validate.notNull( connectionWorker, "Connection worker can not be null" );
-		this.connectionWorker = connectionWorker;
-	}
+    /**
+     * Constructor.
+     *
+     * @param connectionWorker To get information about the network, and control the network.
+     */
+    public NetworkInformation( final ConnectionWorker connectionWorker )
+    {
+        Validate.notNull( connectionWorker, "Connection worker can not be null" );
+        this.connectionWorker = connectionWorker;
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public String showCurrentNetwork()
-	{
-		NetworkInterface networkInterface = connectionWorker.getCurrentNetworkInterface();
+    /** {@inheritDoc} */
+    @Override
+    public String showCurrentNetwork()
+    {
+        NetworkInterface networkInterface = connectionWorker.getCurrentNetworkInterface();
 
-		if ( networkInterface == null )
-			return "No current network interface.";
-		else
-			return NetworkUtils.getNetworkInterfaceInfo( networkInterface );
-	}
+        if ( networkInterface == null )
+            return "No current network interface.";
+        else
+            return NetworkUtils.getNetworkInterfaceInfo( networkInterface );
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public String showOperatingSystemNetwork()
-	{
-		OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo();
-		NetworkInterface osInterface = osNicInfo.getOperatingSystemNetworkInterface();
+    /** {@inheritDoc} */
+    @Override
+    public String showOperatingSystemNetwork()
+    {
+        OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo();
+        NetworkInterface osInterface = osNicInfo.getOperatingSystemNetworkInterface();
 
-		if ( osInterface == null )
-			return "No network interface detected.";
-		else
-			return NetworkUtils.getNetworkInterfaceInfo( osInterface );
-	}
+        if ( osInterface == null )
+            return "No network interface detected.";
+        else
+            return NetworkUtils.getNetworkInterfaceInfo( osInterface );
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public String[] showUsableNetworks()
-	{
-		List<String> list = new ArrayList<String>();
+    /** {@inheritDoc} */
+    @Override
+    public String[] showUsableNetworks()
+    {
+        List<String> list = new ArrayList<String>();
 
-		Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
+        Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
 
-		if ( networkInterfaces == null )
-			return new String[] { "No network interfaces detected." };
+        if ( networkInterfaces == null )
+            return new String[] { "No network interfaces detected." };
 
-		while ( networkInterfaces.hasMoreElements() )
-		{
-			NetworkInterface netif = networkInterfaces.nextElement();
+        while ( networkInterfaces.hasMoreElements() )
+        {
+            NetworkInterface netif = networkInterfaces.nextElement();
 
-			if ( NetworkUtils.isUsable( netif ) )
-				list.add( NetworkUtils.getNetworkInterfaceInfo( netif ) );
-		}
+            if ( NetworkUtils.isUsable( netif ) )
+                list.add( NetworkUtils.getNetworkInterfaceInfo( netif ) );
+        }
 
-		if ( list.size() == 0 )
-			return new String[] { "No usable network interfaces detected." };
+        if ( list.size() == 0 )
+            return new String[] { "No usable network interfaces detected." };
 
-		return list.toArray( new String[0] );
-	}
+        return list.toArray( new String[0] );
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public String[] showAllNetworks()
-	{
-		List<String> list = new ArrayList<String>();
+    /** {@inheritDoc} */
+    @Override
+    public String[] showAllNetworks()
+    {
+        List<String> list = new ArrayList<String>();
 
-		Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
+        Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
 
-		if ( networkInterfaces == null )
-			return new String[] { "No network interfaces detected." };
+        if ( networkInterfaces == null )
+            return new String[] { "No network interfaces detected." };
 
-		while ( networkInterfaces.hasMoreElements() )
-		{
-			NetworkInterface netif = networkInterfaces.nextElement();
-			list.add( NetworkUtils.getNetworkInterfaceInfo( netif ) );
-		}
+        while ( networkInterfaces.hasMoreElements() )
+        {
+            NetworkInterface netif = networkInterfaces.nextElement();
+            list.add( NetworkUtils.getNetworkInterfaceInfo( netif ) );
+        }
 
-		return list.toArray( new String[0] );
-	}
+        return list.toArray( new String[0] );
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public void disconnect()
-	{
-		connectionWorker.stop();
-	}
+    /** {@inheritDoc} */
+    @Override
+    public void disconnect()
+    {
+        connectionWorker.stop();
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public void connect()
-	{
-		connectionWorker.start();
-	}
+    /** {@inheritDoc} */
+    @Override
+    public void connect()
+    {
+        connectionWorker.start();
+    }
 }

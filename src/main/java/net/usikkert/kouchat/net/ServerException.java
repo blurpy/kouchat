@@ -29,45 +29,45 @@ package net.usikkert.kouchat.net;
  */
 public class ServerException extends Exception
 {
-	/** Standard serial version UID. */
-	private static final long serialVersionUID = 1L;
+    /** Standard serial version UID. */
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Creates a ServerException with no message or cause.
-	 */
-	public ServerException()
-	{
-		super();
-	}
+    /**
+     * Creates a ServerException with no message or cause.
+     */
+    public ServerException()
+    {
+        super();
+    }
 
-	/**
-	 * Creates a ServerException with the specified message and cause.
-	 *
-	 * @param message The exception message to use.
-	 * @param cause The cause of the exception.
-	 */
-	public ServerException( final String message, final Throwable cause )
-	{
-		super( message, cause );
-	}
+    /**
+     * Creates a ServerException with the specified message and cause.
+     *
+     * @param message The exception message to use.
+     * @param cause The cause of the exception.
+     */
+    public ServerException( final String message, final Throwable cause )
+    {
+        super( message, cause );
+    }
 
-	/**
-	 * Creates a ServerException with the specified message.
-	 *
-	 * @param message The exception message to use.
-	 */
-	public ServerException( final String message )
-	{
-		super( message );
-	}
+    /**
+     * Creates a ServerException with the specified message.
+     *
+     * @param message The exception message to use.
+     */
+    public ServerException( final String message )
+    {
+        super( message );
+    }
 
-	/**
-	 * Creates a ServerException with the specified cause.
-	 *
-	 * @param cause The cause of the exception.
-	 */
-	public ServerException( final Throwable cause )
-	{
-		super( cause );
-	}
+    /**
+     * Creates a ServerException with the specified cause.
+     *
+     * @param cause The cause of the exception.
+     */
+    public ServerException( final Throwable cause )
+    {
+        super( cause );
+    }
 }

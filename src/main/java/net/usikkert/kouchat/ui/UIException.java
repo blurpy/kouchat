@@ -30,44 +30,44 @@ package net.usikkert.kouchat.ui;
  */
 public class UIException extends Exception
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Creates a UIException with no message or cause.
-	 */
-	public UIException()
-	{
-		super();
-	}
+    /**
+     * Creates a UIException with no message or cause.
+     */
+    public UIException()
+    {
+        super();
+    }
 
-	/**
-	 * Creates a UIException with the specified message and cause.
-	 *
-	 * @param message The exception message to use.
-	 * @param cause The cause of the exception.
-	 */
-	public UIException( final String message, final Throwable cause )
-	{
-		super( message, cause );
-	}
+    /**
+     * Creates a UIException with the specified message and cause.
+     *
+     * @param message The exception message to use.
+     * @param cause The cause of the exception.
+     */
+    public UIException( final String message, final Throwable cause )
+    {
+        super( message, cause );
+    }
 
-	/**
-	 * Creates a UIException with the specified message.
-	 *
-	 * @param message The exception message to use.
-	 */
-	public UIException( final String message )
-	{
-		super( message );
-	}
+    /**
+     * Creates a UIException with the specified message.
+     *
+     * @param message The exception message to use.
+     */
+    public UIException( final String message )
+    {
+        super( message );
+    }
 
-	/**
-	 * Creates a UIException with the specified cause.
-	 *
-	 * @param cause The cause of the exception.
-	 */
-	public UIException( final Throwable cause )
-	{
-		super( cause );
-	}
+    /**
+     * Creates a UIException with the specified cause.
+     *
+     * @param cause The cause of the exception.
+     */
+    public UIException( final Throwable cause )
+    {
+        super( cause );
+    }
 }

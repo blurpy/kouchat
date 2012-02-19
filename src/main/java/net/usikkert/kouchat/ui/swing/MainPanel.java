@@ -68,275 +68,275 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class MainPanel extends JPanel implements ActionListener, CaretListener, ChatWindow, KeyListener
 {
-	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = Logger.getLogger( MainPanel.class.getName() );
+    private static final long serialVersionUID = 1L;
+    private static final Logger LOG = Logger.getLogger( MainPanel.class.getName() );
 
-	private final JScrollPane chatSP;
-	private final JTextPane chatTP;
-	private final MutableAttributeSet chatAttr;
-	private final StyledDocument chatDoc;
-	private final JTextField msgTF;
-	private final CommandHistory cmdHistory;
-	private AutoCompleter autoCompleter;
-	private Mediator mediator;
+    private final JScrollPane chatSP;
+    private final JTextPane chatTP;
+    private final MutableAttributeSet chatAttr;
+    private final StyledDocument chatDoc;
+    private final JTextField msgTF;
+    private final CommandHistory cmdHistory;
+    private AutoCompleter autoCompleter;
+    private Mediator mediator;
 
-	/**
-	 * Constructor. Creates the panel.
-	 *
-	 * @param sideP The panel on the right, containing the user list and the buttons.
-	 * @param imageLoader The image loader.
-	 */
-	public MainPanel( final SidePanel sideP, final ImageLoader imageLoader )
-	{
-		Validate.notNull( sideP, "Side panel can not be null" );
-		Validate.notNull( imageLoader, "Image loader can not be null" );
+    /**
+     * Constructor. Creates the panel.
+     *
+     * @param sideP The panel on the right, containing the user list and the buttons.
+     * @param imageLoader The image loader.
+     */
+    public MainPanel( final SidePanel sideP, final ImageLoader imageLoader )
+    {
+        Validate.notNull( sideP, "Side panel can not be null" );
+        Validate.notNull( imageLoader, "Image loader can not be null" );
 
-		setLayout( new BorderLayout( 2, 2 ) );
+        setLayout( new BorderLayout( 2, 2 ) );
 
-		chatTP = new JTextPane();
-		chatTP.setEditable( false );
-		chatTP.setBorder( BorderFactory.createEmptyBorder( 4, 6, 4, 6 ) );
-		chatTP.setEditorKit( new MiddleAlignedIconViewEditorKit() );
-		chatTP.setBackground( UIManager.getColor( "TextPane.background" ) );
+        chatTP = new JTextPane();
+        chatTP.setEditable( false );
+        chatTP.setBorder( BorderFactory.createEmptyBorder( 4, 6, 4, 6 ) );
+        chatTP.setEditorKit( new MiddleAlignedIconViewEditorKit() );
+        chatTP.setBackground( UIManager.getColor( "TextPane.background" ) );
 
-		chatSP = new JScrollPane( chatTP );
-		chatSP.setMinimumSize( new Dimension( 290, 200 ) );
-		chatAttr = new SimpleAttributeSet();
-		chatDoc = chatTP.getStyledDocument();
+        chatSP = new JScrollPane( chatTP );
+        chatSP.setMinimumSize( new Dimension( 290, 200 ) );
+        chatAttr = new SimpleAttributeSet();
+        chatDoc = chatTP.getStyledDocument();
 
-		URLMouseListener urlML = new URLMouseListener( chatTP );
-		chatTP.addMouseListener( urlML );
-		chatTP.addMouseMotionListener( urlML );
+        URLMouseListener urlML = new URLMouseListener( chatTP );
+        chatTP.addMouseListener( urlML );
+        chatTP.addMouseMotionListener( urlML );
 
-		DocumentFilterList documentFilterList = new DocumentFilterList();
-		documentFilterList.addDocumentFilter( new URLDocumentFilter( false ) );
-		documentFilterList.addDocumentFilter( new SmileyDocumentFilter( false, imageLoader ) );
-		AbstractDocument doc = (AbstractDocument) chatDoc;
-		doc.setDocumentFilter( documentFilterList );
+        DocumentFilterList documentFilterList = new DocumentFilterList();
+        documentFilterList.addDocumentFilter( new URLDocumentFilter( false ) );
+        documentFilterList.addDocumentFilter( new SmileyDocumentFilter( false, imageLoader ) );
+        AbstractDocument doc = (AbstractDocument) chatDoc;
+        doc.setDocumentFilter( documentFilterList );
 
-		msgTF = new JTextField();
-		msgTF.addActionListener( this );
-		msgTF.addCaretListener( this );
-		msgTF.addKeyListener( this );
+        msgTF = new JTextField();
+        msgTF.addActionListener( this );
+        msgTF.addCaretListener( this );
+        msgTF.addKeyListener( this );
 
-		// Make sure tab generates key events
-		msgTF.setFocusTraversalKeys( KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
-				new HashSet<AWTKeyStroke>() );
+        // Make sure tab generates key events
+        msgTF.setFocusTraversalKeys( KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
+                new HashSet<AWTKeyStroke>() );
 
-		AbstractDocument msgDoc = (AbstractDocument) msgTF.getDocument();
-		msgDoc.setDocumentFilter( new SizeDocumentFilter( Constants.MESSAGE_MAX_BYTES ) );
+        AbstractDocument msgDoc = (AbstractDocument) msgTF.getDocument();
+        msgDoc.setDocumentFilter( new SizeDocumentFilter( Constants.MESSAGE_MAX_BYTES ) );
 
-		add( chatSP, BorderLayout.CENTER );
-		add( sideP, BorderLayout.EAST );
-		add( msgTF, BorderLayout.SOUTH );
+        add( chatSP, BorderLayout.CENTER );
+        add( sideP, BorderLayout.EAST );
+        add( msgTF, BorderLayout.SOUTH );
 
-		new CopyPastePopup( msgTF );
-		new CopyPopup( chatTP );
+        new CopyPastePopup( msgTF );
+        new CopyPopup( chatTP );
 
-		setBorder( BorderFactory.createEmptyBorder( 4, 4, 4, 4 ) );
-		cmdHistory = new CommandHistory();
-	}
+        setBorder( BorderFactory.createEmptyBorder( 4, 4, 4, 4 ) );
+        cmdHistory = new CommandHistory();
+    }
 
-	/**
-	 * Sets the mediator to use in the listeners.
-	 *
-	 * @param mediator The mediator to use.
-	 */
-	public void setMediator( final Mediator mediator )
-	{
-		this.mediator = mediator;
-	}
+    /**
+     * Sets the mediator to use in the listeners.
+     *
+     * @param mediator The mediator to use.
+     */
+    public void setMediator( final Mediator mediator )
+    {
+        this.mediator = mediator;
+    }
 
-	/**
-	 * Sets the ready-to-use autocompleter for the input field.
-	 *
-	 * @param autoCompleter The autocompleter to use.
-	 */
-	public void setAutoCompleter( final AutoCompleter autoCompleter )
-	{
-		this.autoCompleter = autoCompleter;
-	}
+    /**
+     * Sets the ready-to-use autocompleter for the input field.
+     *
+     * @param autoCompleter The autocompleter to use.
+     */
+    public void setAutoCompleter( final AutoCompleter autoCompleter )
+    {
+        this.autoCompleter = autoCompleter;
+    }
 
-	/**
-	 * Adds the message to the chat area, in the chosen color.
-	 *
-	 * @param message The message to append.
-	 * @param color The color to use for the message.
-	 */
-	@Override
-	public void appendToChat( final String message, final int color )
-	{
-		try
-		{
-			StyleConstants.setForeground( chatAttr, new Color( color ) );
-			chatDoc.insertString( chatDoc.getLength(), message + "\n", chatAttr );
-			chatTP.setCaretPosition( chatDoc.getLength() );
-		}
+    /**
+     * Adds the message to the chat area, in the chosen color.
+     *
+     * @param message The message to append.
+     * @param color The color to use for the message.
+     */
+    @Override
+    public void appendToChat( final String message, final int color )
+    {
+        try
+        {
+            StyleConstants.setForeground( chatAttr, new Color( color ) );
+            chatDoc.insertString( chatDoc.getLength(), message + "\n", chatAttr );
+            chatTP.setCaretPosition( chatDoc.getLength() );
+        }
 
-		catch ( final BadLocationException e )
-		{
-			LOG.log( Level.SEVERE, e.toString(), e );
-		}
-	}
+        catch ( final BadLocationException e )
+        {
+            LOG.log( Level.SEVERE, e.toString(), e );
+        }
+    }
 
-	/**
-	 * Gets the chat area.
-	 *
-	 * @return The chat area.
-	 */
-	public JTextPane getChatTP()
-	{
-		return chatTP;
-	}
+    /**
+     * Gets the chat area.
+     *
+     * @return The chat area.
+     */
+    public JTextPane getChatTP()
+    {
+        return chatTP;
+    }
 
-	/**
-	 * Gets the chat area's scrollpane.
-	 *
-	 * @return The chat area's scrollpane.
-	 */
-	public JScrollPane getChatSP()
-	{
-		return chatSP;
-	}
+    /**
+     * Gets the chat area's scrollpane.
+     *
+     * @return The chat area's scrollpane.
+     */
+    public JScrollPane getChatSP()
+    {
+        return chatSP;
+    }
 
-	/**
-	 * Clears all the text from the chat area.
-	 */
-	public void clearChat()
-	{
-		chatTP.setText( "" );
-	}
+    /**
+     * Clears all the text from the chat area.
+     */
+    public void clearChat()
+    {
+        chatTP.setText( "" );
+    }
 
-	/**
-	 * Gets the input field.
-	 *
-	 * @return The input field.
-	 */
-	public JTextField getMsgTF()
-	{
-		return msgTF;
-	}
+    /**
+     * Gets the input field.
+     *
+     * @return The input field.
+     */
+    public JTextField getMsgTF()
+    {
+        return msgTF;
+    }
 
-	/**
-	 * Updates the write status after the caret has moved.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void caretUpdate( final CaretEvent e )
-	{
-		SwingUtilities.invokeLater( new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				mediator.updateWriting();
-			}
-		} );
-	}
+    /**
+     * Updates the write status after the caret has moved.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void caretUpdate( final CaretEvent e )
+    {
+        SwingUtilities.invokeLater( new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                mediator.updateWriting();
+            }
+        } );
+    }
 
-	/**
-	 * When enter is pressed in the input field, the text is added to the
-	 * command history, and the mediator shows the text in the chat area.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void actionPerformed( final ActionEvent e )
-	{
-		// The input field
-		if ( e.getSource() == msgTF )
-		{
-			SwingUtilities.invokeLater( new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					cmdHistory.add( msgTF.getText() );
-					mediator.write();
-				}
-			} );
-		}
-	}
+    /**
+     * When enter is pressed in the input field, the text is added to the
+     * command history, and the mediator shows the text in the chat area.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void actionPerformed( final ActionEvent e )
+    {
+        // The input field
+        if ( e.getSource() == msgTF )
+        {
+            SwingUtilities.invokeLater( new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    cmdHistory.add( msgTF.getText() );
+                    mediator.write();
+                }
+            } );
+        }
+    }
 
-	/**
-	 * When tab is pressed while in the input field, the word at the
-	 * caret position will be autocompleted if any suggestions are found.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void keyPressed( final KeyEvent ke )
-	{
-		SwingUtilities.invokeLater( new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				// Tab-completion
-				if ( ke.getKeyCode() == KeyEvent.VK_TAB && ke.getModifiers() == 0 )
-				{
-					if ( autoCompleter != null )
-					{
-						int caretPos = msgTF.getCaretPosition();
-						String orgText = msgTF.getText();
-						String newText = autoCompleter.completeWord( orgText, caretPos );
+    /**
+     * When tab is pressed while in the input field, the word at the
+     * caret position will be autocompleted if any suggestions are found.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void keyPressed( final KeyEvent ke )
+    {
+        SwingUtilities.invokeLater( new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                // Tab-completion
+                if ( ke.getKeyCode() == KeyEvent.VK_TAB && ke.getModifiers() == 0 )
+                {
+                    if ( autoCompleter != null )
+                    {
+                        int caretPos = msgTF.getCaretPosition();
+                        String orgText = msgTF.getText();
+                        String newText = autoCompleter.completeWord( orgText, caretPos );
 
-						if ( newText.length() > 0 )
-						{
-							msgTF.setText( newText );
-							msgTF.setCaretPosition( autoCompleter.getNewCaretPosition() );
-						}
-					}
-				}
-			}
-		} );
-	}
+                        if ( newText.length() > 0 )
+                        {
+                            msgTF.setText( newText );
+                            msgTF.setCaretPosition( autoCompleter.getNewCaretPosition() );
+                        }
+                    }
+                }
+            }
+        } );
+    }
 
-	/**
-	 * Not implemented.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void keyTyped( final KeyEvent ke )
-	{
+    /**
+     * Not implemented.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void keyTyped( final KeyEvent ke )
+    {
 
-	}
+    }
 
-	/**
-	 * After some text has been added to the command history, it can
-	 * be accessed by browsing through the history with the up and down
-	 * keys while focus is on the input field.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void keyReleased( final KeyEvent ke )
-	{
-		SwingUtilities.invokeLater( new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				// Command history up
-				if ( ke.getKeyCode() == KeyEvent.VK_UP )
-				{
-					String up = cmdHistory.goUp();
+    /**
+     * After some text has been added to the command history, it can
+     * be accessed by browsing through the history with the up and down
+     * keys while focus is on the input field.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void keyReleased( final KeyEvent ke )
+    {
+        SwingUtilities.invokeLater( new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                // Command history up
+                if ( ke.getKeyCode() == KeyEvent.VK_UP )
+                {
+                    String up = cmdHistory.goUp();
 
-					if ( !msgTF.getText().equals( up ) )
-						msgTF.setText( up );
-				}
+                    if ( !msgTF.getText().equals( up ) )
+                        msgTF.setText( up );
+                }
 
-				// Command history down
-				else if ( ke.getKeyCode() == KeyEvent.VK_DOWN )
-				{
-					String down = cmdHistory.goDown();
+                // Command history down
+                else if ( ke.getKeyCode() == KeyEvent.VK_DOWN )
+                {
+                    String down = cmdHistory.goDown();
 
-					if ( !msgTF.getText().equals( down ) )
-						msgTF.setText( down );
-				}
-			}
-		} );
-	}
+                    if ( !msgTF.getText().equals( down ) )
+                        msgTF.setText( down );
+                }
+            }
+        } );
+    }
 }

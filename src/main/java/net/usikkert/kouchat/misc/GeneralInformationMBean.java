@@ -29,13 +29,13 @@ package net.usikkert.kouchat.misc;
  */
 public interface GeneralInformationMBean
 {
-	/** The name of this MBean. */
-	String NAME = "General";
+    /** The name of this MBean. */
+    String NAME = "General";
 
-	/**
-	 * Shows information about the client and user.
-	 *
-	 * @return Information about the client and user.
-	 */
-	String about();
+    /**
+     * Shows information about the client and user.
+     *
+     * @return Information about the client and user.
+     */
+    String about();
 }

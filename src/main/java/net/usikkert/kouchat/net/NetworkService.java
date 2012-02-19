@@ -34,169 +34,169 @@ import net.usikkert.kouchat.event.ReceiverListener;
  */
 public class NetworkService implements NetworkConnectionListener
 {
-	/** The thread responsible for keeping the network connection up. */
-	private final ConnectionWorker connectionWorker;
+    /** The thread responsible for keeping the network connection up. */
+    private final ConnectionWorker connectionWorker;
 
-	/** The multicast message sender. */
-	private final MessageSender messageSender;
+    /** The multicast message sender. */
+    private final MessageSender messageSender;
 
-	/** The multicast message receiver. */
-	private final MessageReceiver messageReceiver;
+    /** The multicast message receiver. */
+    private final MessageReceiver messageReceiver;
 
-	/** The private message sender. */
-	private final UDPSender udpSender;
+    /** The private message sender. */
+    private final UDPSender udpSender;
 
-	/** The private message receiver. */
-	private final UDPReceiver udpReceiver;
+    /** The private message receiver. */
+    private final UDPReceiver udpReceiver;
 
-	/**
-	 * Constructor.
-	 */
-	public NetworkService()
-	{
-		messageReceiver = new MessageReceiver();
-		messageSender = new MessageSender();
-		connectionWorker = new ConnectionWorker();
-		udpReceiver = new UDPReceiver();
-		udpSender = new UDPSender();
-		connectionWorker.registerNetworkConnectionListener( this );
-	}
+    /**
+     * Constructor.
+     */
+    public NetworkService()
+    {
+        messageReceiver = new MessageReceiver();
+        messageSender = new MessageSender();
+        connectionWorker = new ConnectionWorker();
+        udpReceiver = new UDPReceiver();
+        udpSender = new UDPSender();
+        connectionWorker.registerNetworkConnectionListener( this );
+    }
 
-	/**
-	 * Starts the thread responsible for connecting to the network.
-	 */
-	public void connect()
-	{
-		connectionWorker.start();
-	}
+    /**
+     * Starts the thread responsible for connecting to the network.
+     */
+    public void connect()
+    {
+        connectionWorker.start();
+    }
 
-	/**
-	 * Stops the thread responsible for connecting to the network.
-	 */
-	public void disconnect()
-	{
-		connectionWorker.stop();
-	}
+    /**
+     * Stops the thread responsible for connecting to the network.
+     */
+    public void disconnect()
+    {
+        connectionWorker.stop();
+    }
 
-	/**
-	 * Gets the connection worker.
-	 *
-	 * @return The connection worker.
-	 */
-	public ConnectionWorker getConnectionWorker()
-	{
-		return connectionWorker;
-	}
+    /**
+     * Gets the connection worker.
+     *
+     * @return The connection worker.
+     */
+    public ConnectionWorker getConnectionWorker()
+    {
+        return connectionWorker;
+    }
 
-	/**
-	 * Checks if the connection thread is alive.
-	 *
-	 * @return If the connection thread is alive.
-	 */
-	public boolean isConnectionWorkerAlive()
-	{
-		return connectionWorker.isAlive();
-	}
+    /**
+     * Checks if the connection thread is alive.
+     *
+     * @return If the connection thread is alive.
+     */
+    public boolean isConnectionWorkerAlive()
+    {
+        return connectionWorker.isAlive();
+    }
 
-	/**
-	 * Checks if the network is up.
-	 *
-	 * @return If the network is up.
-	 */
-	public boolean isNetworkUp()
-	{
-		return connectionWorker.isNetworkUp();
-	}
+    /**
+     * Checks if the network is up.
+     *
+     * @return If the network is up.
+     */
+    public boolean isNetworkUp()
+    {
+        return connectionWorker.isNetworkUp();
+    }
 
-	/**
-	 * Registers the listener as a connection listener.
-	 *
-	 * @param listener The listener to register.
-	 */
-	public void registerNetworkConnectionListener( final NetworkConnectionListener listener )
-	{
-		connectionWorker.registerNetworkConnectionListener( listener );
-	}
+    /**
+     * Registers the listener as a connection listener.
+     *
+     * @param listener The listener to register.
+     */
+    public void registerNetworkConnectionListener( final NetworkConnectionListener listener )
+    {
+        connectionWorker.registerNetworkConnectionListener( listener );
+    }
 
-	/**
-	 * Register a listener for incoming messages from the network.
-	 *
-	 * @param listener The listener to register.
-	 */
-	public void registerMessageReceiverListener( final ReceiverListener listener )
-	{
-		messageReceiver.registerReceiverListener( listener );
-	}
+    /**
+     * Register a listener for incoming messages from the network.
+     *
+     * @param listener The listener to register.
+     */
+    public void registerMessageReceiverListener( final ReceiverListener listener )
+    {
+        messageReceiver.registerReceiverListener( listener );
+    }
 
-	/**
-	 * Register a listener for incoming UDP messages from the network.
-	 *
-	 * @param listener The listener to register.
-	 */
-	public void registerUDPReceiverListener( final ReceiverListener listener )
-	{
-		udpReceiver.registerReceiverListener( listener );
-	}
+    /**
+     * Register a listener for incoming UDP messages from the network.
+     *
+     * @param listener The listener to register.
+     */
+    public void registerUDPReceiverListener( final ReceiverListener listener )
+    {
+        udpReceiver.registerReceiverListener( listener );
+    }
 
-	/**
-	 * Send a message with multicast, to all users.
-	 *
-	 * @param message The message to send.
-	 * @return If the message was sent or not.
-	 */
-	public boolean sendMulticastMsg( final String message )
-	{
-		return messageSender.send( message );
-	}
+    /**
+     * Send a message with multicast, to all users.
+     *
+     * @param message The message to send.
+     * @return If the message was sent or not.
+     */
+    public boolean sendMulticastMsg( final String message )
+    {
+        return messageSender.send( message );
+    }
 
-	/**
-	 * Send a message with UDP, to a single user.
-	 *
-	 * @param message The message to send.
-	 * @param ip The ip address of the user.
-	 * @param port The port to send the message to.
-	 * @return If the message was sent or not.
-	 */
-	public boolean sendUDPMsg( final String message, final String ip, final int port )
-	{
-		return udpSender.send( message, ip, port );
-	}
+    /**
+     * Send a message with UDP, to a single user.
+     *
+     * @param message The message to send.
+     * @param ip The ip address of the user.
+     * @param port The port to send the message to.
+     * @return If the message was sent or not.
+     */
+    public boolean sendUDPMsg( final String message, final String ip, final int port )
+    {
+        return udpSender.send( message, ip, port );
+    }
 
-	/**
-	 * Checks the state of the network, and tries to keep the best possible
-	 * network connection up.
-	 */
-	public void checkNetwork()
-	{
-		connectionWorker.checkNetwork();
-	}
+    /**
+     * Checks the state of the network, and tries to keep the best possible
+     * network connection up.
+     */
+    public void checkNetwork()
+    {
+        connectionWorker.checkNetwork();
+    }
 
-	/**
-	 * Stops all senders and receivers.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void networkWentDown( final boolean silent )
-	{
-		udpSender.stopSender();
-		udpReceiver.stopReceiver();
-		messageSender.stopSender();
-		messageReceiver.stopReceiver();
-	}
+    /**
+     * Stops all senders and receivers.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void networkWentDown( final boolean silent )
+    {
+        udpSender.stopSender();
+        udpReceiver.stopReceiver();
+        messageSender.stopSender();
+        messageReceiver.stopReceiver();
+    }
 
-	/**
-	 * Starts all senders and receivers.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void networkCameUp( final boolean silent )
-	{
-		udpSender.startSender();
-		udpReceiver.startReceiver();
-		NetworkInterface currentNetworkInterface = connectionWorker.getCurrentNetworkInterface();
-		messageSender.startSender( currentNetworkInterface );
-		messageReceiver.startReceiver( currentNetworkInterface );
-	}
+    /**
+     * Starts all senders and receivers.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void networkCameUp( final boolean silent )
+    {
+        udpSender.startSender();
+        udpReceiver.startReceiver();
+        NetworkInterface currentNetworkInterface = connectionWorker.getCurrentNetworkInterface();
+        messageSender.startSender( currentNetworkInterface );
+        messageReceiver.startReceiver( currentNetworkInterface );
+    }
 }

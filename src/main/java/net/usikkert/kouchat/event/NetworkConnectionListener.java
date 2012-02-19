@@ -31,17 +31,17 @@ package net.usikkert.kouchat.event;
  */
 public interface NetworkConnectionListener
 {
-	/**
-	 * The connection to the network was lost.
-	 *
-	 * @param silent Don't give any messages to the user about the change.
-	 */
-	void networkWentDown( boolean silent );
+    /**
+     * The connection to the network was lost.
+     *
+     * @param silent Don't give any messages to the user about the change.
+     */
+    void networkWentDown( boolean silent );
 
-	/**
-	 * The connection to the network came up and is ready for use.
-	 *
-	 * @param silent Don't give any messages to the user about the change.
-	 */
-	void networkCameUp( boolean silent );
+    /**
+     * The connection to the network came up and is ready for use.
+     *
+     * @param silent Don't give any messages to the user about the change.
+     */
+    void networkCameUp( boolean silent );
 }

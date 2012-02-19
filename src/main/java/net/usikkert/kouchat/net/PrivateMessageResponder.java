@@ -32,12 +32,12 @@ package net.usikkert.kouchat.net;
  */
 public interface PrivateMessageResponder
 {
-	/**
-	 * A new private message has arrived.
-	 *
-	 * @param userCode The unique code for the user that sent the private message.
-	 * @param msg The message from the user.
-	 * @param color The color to show the message in.
-	 */
-	void messageArrived( int userCode, String msg, int color );
+    /**
+     * A new private message has arrived.
+     *
+     * @param userCode The unique code for the user that sent the private message.
+     * @param msg The message from the user.
+     * @param color The color to show the message in.
+     */
+    void messageArrived( int userCode, String msg, int color );
 }

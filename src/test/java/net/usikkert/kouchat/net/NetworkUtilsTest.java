@@ -42,63 +42,63 @@ import org.junit.Test;
  */
 public class NetworkUtilsTest
 {
-	/**
-	 * Tests if 2 network interfaces are the same.
-	 *
-	 * <p>NetworkInterface is a final class, and can't be mocked easily.
-	 * So this test will only work when there are at least 2 network interfaces available.</p>
-	 */
-	@Test
-	public void testSameNetworkInterface()
-	{
-		assertFalse( NetworkUtils.sameNetworkInterface( null, null ) );
+    /**
+     * Tests if 2 network interfaces are the same.
+     *
+     * <p>NetworkInterface is a final class, and can't be mocked easily.
+     * So this test will only work when there are at least 2 network interfaces available.</p>
+     */
+    @Test
+    public void testSameNetworkInterface()
+    {
+        assertFalse( NetworkUtils.sameNetworkInterface( null, null ) );
 
-		Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
+        Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
 
-		if ( networkInterfaces != null )
-		{
-			try
-			{
-				NetworkInterface interface1 = networkInterfaces.nextElement();
-				NetworkInterface interface2 = networkInterfaces.nextElement();
+        if ( networkInterfaces != null )
+        {
+            try
+            {
+                NetworkInterface interface1 = networkInterfaces.nextElement();
+                NetworkInterface interface2 = networkInterfaces.nextElement();
 
-				assertTrue( NetworkUtils.sameNetworkInterface( interface1, interface1 ) );
-				assertTrue( NetworkUtils.sameNetworkInterface( interface2, interface2 ) );
+                assertTrue( NetworkUtils.sameNetworkInterface( interface1, interface1 ) );
+                assertTrue( NetworkUtils.sameNetworkInterface( interface2, interface2 ) );
 
-				assertFalse( NetworkUtils.sameNetworkInterface( interface1, interface2 ) );
-				assertFalse( NetworkUtils.sameNetworkInterface( interface1, null ) );
-				assertFalse( NetworkUtils.sameNetworkInterface( null, interface2 ) );
-			}
+                assertFalse( NetworkUtils.sameNetworkInterface( interface1, interface2 ) );
+                assertFalse( NetworkUtils.sameNetworkInterface( interface1, null ) );
+                assertFalse( NetworkUtils.sameNetworkInterface( null, interface2 ) );
+            }
 
-			catch ( final NoSuchElementException e )
-			{
-				System.err.println( "Not enough network interfaces - aborting test" );
-			}
-		}
+            catch ( final NoSuchElementException e )
+            {
+                System.err.println( "Not enough network interfaces - aborting test" );
+            }
+        }
 
-		else
-			System.err.println( "No network interfaces - aborting test" );
-	}
+        else
+            System.err.println( "No network interfaces - aborting test" );
+    }
 
-	/**
-	 * Tests that the hostname returned is the correct name of the localhost.
-	 */
-	@Test
-	public void testGetLocalHostName()
-	{
-		try
-		{
-			InetAddress localHostAddress = InetAddress.getLocalHost(); // Could throw exception
+    /**
+     * Tests that the hostname returned is the correct name of the localhost.
+     */
+    @Test
+    public void testGetLocalHostName()
+    {
+        try
+        {
+            InetAddress localHostAddress = InetAddress.getLocalHost(); // Could throw exception
 
-			String localHostName = NetworkUtils.getLocalHostName();
-			assertNotNull( "Name of localhost should not be null", localHostName );
-			InetAddress addressByName = InetAddress.getByName( localHostName );
-			assertEquals( "The addresses should be equal", localHostAddress, addressByName );
-		}
+            String localHostName = NetworkUtils.getLocalHostName();
+            assertNotNull( "Name of localhost should not be null", localHostName );
+            InetAddress addressByName = InetAddress.getByName( localHostName );
+            assertEquals( "The addresses should be equal", localHostAddress, addressByName );
+        }
 
-		catch ( final UnknownHostException e )
-		{
-			System.err.println( "Could not get localhost - aborting test: " + e.toString() );
-		}
-	}
+        catch ( final UnknownHostException e )
+        {
+            System.err.println( "Could not get localhost - aborting test: " + e.toString() );
+        }
+    }
 }

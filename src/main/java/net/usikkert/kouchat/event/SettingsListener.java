@@ -30,10 +30,10 @@ package net.usikkert.kouchat.event;
  */
 public interface SettingsListener
 {
-	/**
-	 * When a setting is changed, this method is called.
-	 *
-	 * @param setting The setting which was changed.
-	 */
-	void settingChanged( String setting );
+    /**
+     * When a setting is changed, this method is called.
+     *
+     * @param setting The setting which was changed.
+     */
+    void settingChanged( String setting );
 }

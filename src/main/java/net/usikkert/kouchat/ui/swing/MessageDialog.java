@@ -52,126 +52,126 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class MessageDialog extends JDialog
 {
-	/** Standard serial version UID. */
-	private static final long serialVersionUID = 1L;
+    /** Standard serial version UID. */
+    private static final long serialVersionUID = 1L;
 
-	private final JLabel appNameL, contentL;
+    private final JLabel appNameL, contentL;
 
-	/**
-	 * Creates a new MessageDialog. To open the dialog, use setVisible().
-	 *
-	 * @param parent The parent frame.
-	 * @param modal If the dialog should block or not.
-	 * @param imageLoader The image loader.
-	 */
-	public MessageDialog( final Frame parent, final boolean modal, final ImageLoader imageLoader )
-	{
-		super( parent, modal );
-		Validate.notNull( imageLoader, "Image loader can not be null" );
+    /**
+     * Creates a new MessageDialog. To open the dialog, use setVisible().
+     *
+     * @param parent The parent frame.
+     * @param modal If the dialog should block or not.
+     * @param imageLoader The image loader.
+     */
+    public MessageDialog( final Frame parent, final boolean modal, final ImageLoader imageLoader )
+    {
+        super( parent, modal );
+        Validate.notNull( imageLoader, "Image loader can not be null" );
 
-		setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
-		setTitle( UITools.createTitle( "Missing title" ) );
-		setResizable( false );
-		setIconImage( imageLoader.getAppIcon().getImage() );
+        setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
+        setTitle( UITools.createTitle( "Missing title" ) );
+        setResizable( false );
+        setIconImage( imageLoader.getAppIcon().getImage() );
 
-		appNameL = new JLabel();
-		appNameL.setFont( new Font( "Dialog", 0, 22 ) );
-		appNameL.setIcon( imageLoader.getAppIcon() );
-		appNameL.setText( " No top text" );
+        appNameL = new JLabel();
+        appNameL.setFont( new Font( "Dialog", 0, 22 ) );
+        appNameL.setIcon( imageLoader.getAppIcon() );
+        appNameL.setText( " No top text" );
 
-		JPanel northP = new JPanel();
-		northP.setBackground( Color.WHITE );
-		northP.setBorder( BorderFactory.createMatteBorder( 0, 0, 1,	0, Color.BLACK ) );
-		northP.setLayout( new FlowLayout( FlowLayout.LEFT, 12, 12 ) );
-		northP.add( appNameL );
+        JPanel northP = new JPanel();
+        northP.setBackground( Color.WHITE );
+        northP.setBorder( BorderFactory.createMatteBorder( 0, 0, 1, 0, Color.BLACK ) );
+        northP.setLayout( new FlowLayout( FlowLayout.LEFT, 12, 12 ) );
+        northP.add( appNameL );
 
-		getContentPane().add( northP, BorderLayout.PAGE_START );
+        getContentPane().add( northP, BorderLayout.PAGE_START );
 
-		JButton okB = new JButton();
-		okB.setText( "OK" );
-		okB.addActionListener( new ActionListener()
-		{
-			@Override
-			public void actionPerformed( final ActionEvent e )
-			{
-				dispose();
-			}
-		} );
+        JButton okB = new JButton();
+        okB.setText( "OK" );
+        okB.addActionListener( new ActionListener()
+        {
+            @Override
+            public void actionPerformed( final ActionEvent e )
+            {
+                dispose();
+            }
+        } );
 
-		getRootPane().setDefaultButton( okB );
+        getRootPane().setDefaultButton( okB );
 
-		JPanel southP = new JPanel();
-		southP.setLayout( new FlowLayout( FlowLayout.CENTER, 12, 12 ) );
-		southP.add( okB );
+        JPanel southP = new JPanel();
+        southP.setLayout( new FlowLayout( FlowLayout.CENTER, 12, 12 ) );
+        southP.add( okB );
 
-		getContentPane().add( southP, BorderLayout.PAGE_END );
+        getContentPane().add( southP, BorderLayout.PAGE_END );
 
-		JLabel iconIconL = new JLabel();
-		iconIconL.setIcon( UIManager.getDefaults().getIcon( "OptionPane.informationIcon" ) );
+        JLabel iconIconL = new JLabel();
+        iconIconL.setIcon( UIManager.getDefaults().getIcon( "OptionPane.informationIcon" ) );
 
-		JPanel leftP = new JPanel();
-		leftP.setLayout( new FlowLayout( FlowLayout.CENTER, 12, 12 ) );
-		leftP.add( iconIconL );
+        JPanel leftP = new JPanel();
+        leftP.setLayout( new FlowLayout( FlowLayout.CENTER, 12, 12 ) );
+        leftP.add( iconIconL );
 
-		getContentPane().add( leftP, BorderLayout.LINE_START );
+        getContentPane().add( leftP, BorderLayout.LINE_START );
 
-		contentL = new JLabel( "No content" );
+        contentL = new JLabel( "No content" );
 
-		JPanel centerP = new JPanel();
-		centerP.setBorder( BorderFactory.createEmptyBorder( 12, 2, 0, 12 ) );
-		centerP.setLayout( new BorderLayout() );
-		centerP.add( contentL, BorderLayout.CENTER );
+        JPanel centerP = new JPanel();
+        centerP.setBorder( BorderFactory.createEmptyBorder( 12, 2, 0, 12 ) );
+        centerP.setLayout( new BorderLayout() );
+        centerP.add( contentL, BorderLayout.CENTER );
 
-		getContentPane().add( centerP, BorderLayout.CENTER );
+        getContentPane().add( centerP, BorderLayout.CENTER );
 
-		// Close with Escape key
-		KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0, false );
+        // Close with Escape key
+        KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0, false );
 
-		Action escapeAction = new AbstractAction()
-		{
-			private static final long serialVersionUID = 1L;
+        Action escapeAction = new AbstractAction()
+        {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void actionPerformed( final ActionEvent e )
-			{
-				dispose();
-			}
-		};
+            @Override
+            public void actionPerformed( final ActionEvent e )
+            {
+                dispose();
+            }
+        };
 
-		getRootPane().getInputMap( JComponent.WHEN_IN_FOCUSED_WINDOW ).put( escapeKeyStroke, "ESCAPE" );
-		getRootPane().getActionMap().put( "ESCAPE", escapeAction );
-	}
+        getRootPane().getInputMap( JComponent.WHEN_IN_FOCUSED_WINDOW ).put( escapeKeyStroke, "ESCAPE" );
+        getRootPane().getActionMap().put( "ESCAPE", escapeAction );
+    }
 
-	/**
-	 * This is the text shown at the top (below the titlebar), to the left of the icon.
-	 *
-	 * @param text The text to show.
-	 */
-	public void setTopText( final String text )
-	{
-		appNameL.setText( " " + text );
-	}
+    /**
+     * This is the text shown at the top (below the titlebar), to the left of the icon.
+     *
+     * @param text The text to show.
+     */
+    public void setTopText( final String text )
+    {
+        appNameL.setText( " " + text );
+    }
 
-	/**
-	 * This is the main content.
-	 *
-	 * @param info The text to add.
-	 */
-	public void setContent( final String info )
-	{
-		contentL.setText( info );
-	}
+    /**
+     * This is the main content.
+     *
+     * @param info The text to add.
+     */
+    public void setContent( final String info )
+    {
+        contentL.setText( info );
+    }
 
-	/**
-	 * Shows the Message Dialog.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setVisible( final boolean visible )
-	{
-		pack();
-		setLocationRelativeTo( getParent() );
-		super.setVisible( visible );
-	}
+    /**
+     * Shows the Message Dialog.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void setVisible( final boolean visible )
+    {
+        pack();
+        setLocationRelativeTo( getParent() );
+        super.setVisible( visible );
+    }
 }

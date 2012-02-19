@@ -29,13 +29,13 @@ package net.usikkert.kouchat.ui;
  */
 public enum UIChoice
 {
-	/**
-	 * The default user interface is the graphical user interface, based on swing.
-	 */
-	SWING,
+    /**
+     * The default user interface is the graphical user interface, based on swing.
+     */
+    SWING,
 
-	/**
-	 * Optional and very basic console mode user interface.
-	 */
-	CONSOLE
+    /**
+     * Optional and very basic console mode user interface.
+     */
+    CONSOLE
 }

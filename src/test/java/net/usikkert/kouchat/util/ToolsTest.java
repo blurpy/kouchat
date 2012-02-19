@@ -34,89 +34,89 @@ import org.junit.Test;
  */
 public class ToolsTest
 {
-	/**
-	 * Tests that capitalization of the first letter in a word works as expected.
-	 */
-	@Test
-	public void testCapitalizeFirstLetter()
-	{
-		assertNull( Tools.capitalizeFirstLetter( null ) );
-		assertEquals( "Monkey", Tools.capitalizeFirstLetter( "monkey" ) );
-		assertEquals( "Kou", Tools.capitalizeFirstLetter( "kou" ) );
-		assertEquals( "Up", Tools.capitalizeFirstLetter( "up" ) );
-		assertEquals( "O", Tools.capitalizeFirstLetter( "o" ) );
-		assertEquals( "-", Tools.capitalizeFirstLetter( "-" ) );
-		assertEquals( "", Tools.capitalizeFirstLetter( "" ) );
-		assertEquals( "CAKE", Tools.capitalizeFirstLetter( "CAKE" ) );
-		assertEquals( "123", Tools.capitalizeFirstLetter( "123" ) );
-	}
+    /**
+     * Tests that capitalization of the first letter in a word works as expected.
+     */
+    @Test
+    public void testCapitalizeFirstLetter()
+    {
+        assertNull( Tools.capitalizeFirstLetter( null ) );
+        assertEquals( "Monkey", Tools.capitalizeFirstLetter( "monkey" ) );
+        assertEquals( "Kou", Tools.capitalizeFirstLetter( "kou" ) );
+        assertEquals( "Up", Tools.capitalizeFirstLetter( "up" ) );
+        assertEquals( "O", Tools.capitalizeFirstLetter( "o" ) );
+        assertEquals( "-", Tools.capitalizeFirstLetter( "-" ) );
+        assertEquals( "", Tools.capitalizeFirstLetter( "" ) );
+        assertEquals( "CAKE", Tools.capitalizeFirstLetter( "CAKE" ) );
+        assertEquals( "123", Tools.capitalizeFirstLetter( "123" ) );
+    }
 
-	/**
-	 * Tests the shortening of words.
-	 */
-	@Test
-	public void testShorten()
-	{
-		assertNull( Tools.shorten( null, 5 ) );
-		assertEquals( "Monkey", Tools.shorten( "Monkey", 12 ) );
-		assertEquals( "Monkey", Tools.shorten( "Monkey", 6 ) );
-		assertEquals( "Monke", Tools.shorten( "Monkey", 5 ) );
-		assertEquals( "M", Tools.shorten( "Monkey", 1 ) );
-		assertEquals( "", Tools.shorten( "Monkey", 0 ) );
-		assertEquals( "", Tools.shorten( "Monkey", -5 ) );
-	}
+    /**
+     * Tests the shortening of words.
+     */
+    @Test
+    public void testShorten()
+    {
+        assertNull( Tools.shorten( null, 5 ) );
+        assertEquals( "Monkey", Tools.shorten( "Monkey", 12 ) );
+        assertEquals( "Monkey", Tools.shorten( "Monkey", 6 ) );
+        assertEquals( "Monke", Tools.shorten( "Monkey", 5 ) );
+        assertEquals( "M", Tools.shorten( "Monkey", 1 ) );
+        assertEquals( "", Tools.shorten( "Monkey", 0 ) );
+        assertEquals( "", Tools.shorten( "Monkey", -5 ) );
+    }
 
-	/**
-	 * Tests getting the file extension from a file name.
-	 */
-	@Test
-	public void testGetFileExtension()
-	{
-		assertNull( Tools.getFileExtension( null ) );
-		assertEquals( "", Tools.getFileExtension( "file" ) );
-		assertEquals( ".txt", Tools.getFileExtension( "file.txt" ) );
-		assertEquals( ".", Tools.getFileExtension( "file." ) );
-		assertEquals( ".txt", Tools.getFileExtension( ".txt" ) );
-		assertEquals( ".jpg", Tools.getFileExtension( "image.txt.jpg" ) );
-	}
+    /**
+     * Tests getting the file extension from a file name.
+     */
+    @Test
+    public void testGetFileExtension()
+    {
+        assertNull( Tools.getFileExtension( null ) );
+        assertEquals( "", Tools.getFileExtension( "file" ) );
+        assertEquals( ".txt", Tools.getFileExtension( "file.txt" ) );
+        assertEquals( ".", Tools.getFileExtension( "file." ) );
+        assertEquals( ".txt", Tools.getFileExtension( ".txt" ) );
+        assertEquals( ".jpg", Tools.getFileExtension( "image.txt.jpg" ) );
+    }
 
-	/**
-	 * Tests getting the base name from a file name.
-	 */
-	@Test
-	public void testGetFileBaseName()
-	{
-		assertNull( Tools.getFileBaseName( null ) );
-		assertEquals( "file", Tools.getFileBaseName( "file" ) );
-		assertEquals( "file", Tools.getFileBaseName( "file.txt" ) );
-		assertEquals( "file", Tools.getFileBaseName( "file." ) );
-		assertEquals( "", Tools.getFileBaseName( ".txt" ) );
-		assertEquals( "image.txt", Tools.getFileBaseName( "image.txt.jpg" ) );
-	}
+    /**
+     * Tests getting the base name from a file name.
+     */
+    @Test
+    public void testGetFileBaseName()
+    {
+        assertNull( Tools.getFileBaseName( null ) );
+        assertEquals( "file", Tools.getFileBaseName( "file" ) );
+        assertEquals( "file", Tools.getFileBaseName( "file.txt" ) );
+        assertEquals( "file", Tools.getFileBaseName( "file." ) );
+        assertEquals( "", Tools.getFileBaseName( ".txt" ) );
+        assertEquals( "image.txt", Tools.getFileBaseName( "image.txt.jpg" ) );
+    }
 
-	/**
-	 * Test finding how many percent a fraction is of the total.
-	 */
-	@Test
-	public void testPercent()
-	{
-		assertEquals( 0.08, Tools.percent( 1, 1250 ), 10 );
-		assertEquals( 25, Tools.percent( 50, 200 ), 10 );
-		assertEquals( 50, Tools.percent( 5, 10 ),  10 );
-		assertEquals( 100, Tools.percent( 10, 10 ), 10 );
-		assertEquals( 200, Tools.percent( 60, 30 ), 10 );
-	}
+    /**
+     * Test finding how many percent a fraction is of the total.
+     */
+    @Test
+    public void testPercent()
+    {
+        assertEquals( 0.08, Tools.percent( 1, 1250 ), 10 );
+        assertEquals( 25, Tools.percent( 50, 200 ), 10 );
+        assertEquals( 50, Tools.percent( 5, 10 ),  10 );
+        assertEquals( 100, Tools.percent( 10, 10 ), 10 );
+        assertEquals( 200, Tools.percent( 60, 30 ), 10 );
+    }
 
-	/**
-	 * Test finding the fraction from the percent of the total.
-	 */
-	@Test
-	public void testPercentOf()
-	{
-		assertEquals( 1, Tools.percentOf( 0.08, 1250 ), 10 );
-		assertEquals( 50, Tools.percentOf( 25, 200 ),  10 );
-		assertEquals( 5, Tools.percentOf( 50, 10 ), 10 );
-		assertEquals( 10, Tools.percentOf( 100, 10 ), 10 );
-		assertEquals( 60, Tools.percentOf( 200, 30 ), 10 );
-	}
+    /**
+     * Test finding the fraction from the percent of the total.
+     */
+    @Test
+    public void testPercentOf()
+    {
+        assertEquals( 1, Tools.percentOf( 0.08, 1250 ), 10 );
+        assertEquals( 50, Tools.percentOf( 25, 200 ),  10 );
+        assertEquals( 5, Tools.percentOf( 50, 10 ), 10 );
+        assertEquals( 10, Tools.percentOf( 100, 10 ), 10 );
+        assertEquals( 60, Tools.percentOf( 200, 30 ), 10 );
+    }
 }

@@ -42,135 +42,135 @@ import javax.swing.text.StyledDocument;
  */
 public class URLMouseListener implements MouseListener, MouseMotionListener
 {
-	private final Cursor handCursor;
-	private final JTextPane textPane;
-	private final StyledDocument doc;
+    private final Cursor handCursor;
+    private final JTextPane textPane;
+    private final StyledDocument doc;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param textPane The text pane this listener is registered to.
-	 */
-	public URLMouseListener( final JTextPane textPane )
-	{
-		this.textPane = textPane;
+    /**
+     * Constructor.
+     *
+     * @param textPane The text pane this listener is registered to.
+     */
+    public URLMouseListener( final JTextPane textPane )
+    {
+        this.textPane = textPane;
 
-		doc = textPane.getStyledDocument();
-		handCursor = new Cursor( Cursor.HAND_CURSOR );
-	}
+        doc = textPane.getStyledDocument();
+        handCursor = new Cursor( Cursor.HAND_CURSOR );
+    }
 
-	/**
-	 * Not implemented.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void mouseDragged( final MouseEvent e )
-	{
+    /**
+     * Not implemented.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseDragged( final MouseEvent e )
+    {
 
-	}
+    }
 
-	/**
-	 * Updates the mouse cursor when hovering over a link.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void mouseMoved( final MouseEvent e )
-	{
-		int mousePos = textPane.viewToModel( e.getPoint() );
+    /**
+     * Updates the mouse cursor when hovering over a link.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseMoved( final MouseEvent e )
+    {
+        int mousePos = textPane.viewToModel( e.getPoint() );
 
-		AttributeSet attr = doc.getCharacterElement( mousePos ).getAttributes();
+        AttributeSet attr = doc.getCharacterElement( mousePos ).getAttributes();
 
-		if ( StyleConstants.isUnderline( attr ) )
-		{
-			if ( textPane.getCursor() != handCursor )
-				textPane.setCursor( handCursor );
-		}
+        if ( StyleConstants.isUnderline( attr ) )
+        {
+            if ( textPane.getCursor() != handCursor )
+                textPane.setCursor( handCursor );
+        }
 
-		else
-		{
-			if ( textPane.getCursor() == handCursor )
-				textPane.setCursor( null );
-		}
-	}
+        else
+        {
+            if ( textPane.getCursor() == handCursor )
+                textPane.setCursor( null );
+        }
+    }
 
-	/**
-	 * Not implemented.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void mouseClicked( final MouseEvent e )
-	{
+    /**
+     * Not implemented.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseClicked( final MouseEvent e )
+    {
 
-	}
+    }
 
-	/**
-	 * Not implemented.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void mouseEntered( final MouseEvent e )
-	{
+    /**
+     * Not implemented.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseEntered( final MouseEvent e )
+    {
 
-	}
+    }
 
-	/**
-	 * Not implemented.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void mouseExited( final MouseEvent e )
-	{
+    /**
+     * Not implemented.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseExited( final MouseEvent e )
+    {
 
-	}
+    }
 
-	/**
-	 * Not implemented.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void mousePressed( final MouseEvent e )
-	{
+    /**
+     * Not implemented.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void mousePressed( final MouseEvent e )
+    {
 
-	}
+    }
 
-	/**
-	 * Opens the clicked link in a browser.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void mouseReleased( final MouseEvent e )
-	{
-		if ( e.getButton() == MouseEvent.BUTTON1 )
-		{
-			int clickPos = textPane.viewToModel( e.getPoint() );
+    /**
+     * Opens the clicked link in a browser.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseReleased( final MouseEvent e )
+    {
+        if ( e.getButton() == MouseEvent.BUTTON1 )
+        {
+            int clickPos = textPane.viewToModel( e.getPoint() );
 
-			AttributeSet attr = doc.getCharacterElement( clickPos ).getAttributes();
+            AttributeSet attr = doc.getCharacterElement( clickPos ).getAttributes();
 
-			if ( StyleConstants.isUnderline( attr ) )
-			{
-				Object obj = attr.getAttribute( URLDocumentFilter.URL_ATTRIBUTE );
+            if ( StyleConstants.isUnderline( attr ) )
+            {
+                Object obj = attr.getAttribute( URLDocumentFilter.URL_ATTRIBUTE );
 
-				if ( obj != null )
-				{
-					final String url = obj.toString();
+                if ( obj != null )
+                {
+                    final String url = obj.toString();
 
-					SwingUtilities.invokeLater( new Runnable()
-					{
-						@Override
-						public void run()
-						{
-							UITools.browse( url );
-						}
-					} );
-				}
-			}
-		}
-	}
+                    SwingUtilities.invokeLater( new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            UITools.browse( url );
+                        }
+                    } );
+                }
+            }
+        }
+    }
 }

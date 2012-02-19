@@ -31,44 +31,44 @@ import java.net.SocketException;
  */
 public interface NetworkInformationMBean
 {
-	/** The name of this MBean. */
-	String NAME = "Network";
+    /** The name of this MBean. */
+    String NAME = "Network";
 
-	/**
-	 * Shows the current connected network.
-	 *
-	 * @return A string with information.
-	 * @throws SocketException In case of network errors.
-	 */
-	String showCurrentNetwork() throws SocketException;
+    /**
+     * Shows the current connected network.
+     *
+     * @return A string with information.
+     * @throws SocketException In case of network errors.
+     */
+    String showCurrentNetwork() throws SocketException;
 
-	/**
-	 * Shows the network that the operation system would have chosen.
-	 *
-	 * @return A string with information.
-	 * @throws SocketException In case of network errors.
-	 */
-	String showOperatingSystemNetwork() throws SocketException;
+    /**
+     * Shows the network that the operation system would have chosen.
+     *
+     * @return A string with information.
+     * @throws SocketException In case of network errors.
+     */
+    String showOperatingSystemNetwork() throws SocketException;
 
-	/**
-	 * Shows the available networks that are usable for chat.
-	 *
-	 * @return A string with information.
-	 * @throws SocketException In case of network errors.
-	 */
-	String[] showUsableNetworks() throws SocketException;
+    /**
+     * Shows the available networks that are usable for chat.
+     *
+     * @return A string with information.
+     * @throws SocketException In case of network errors.
+     */
+    String[] showUsableNetworks() throws SocketException;
 
-	/**
-	 * Shows all the available networks.
-	 *
-	 * @return A string with information.
-	 * @throws SocketException In case of network errors.
-	 */
-	String[] showAllNetworks() throws SocketException;
+    /**
+     * Shows all the available networks.
+     *
+     * @return A string with information.
+     * @throws SocketException In case of network errors.
+     */
+    String[] showAllNetworks() throws SocketException;
 
-	/** Disconnects from the network, without logging off. */
-	void disconnect();
+    /** Disconnects from the network, without logging off. */
+    void disconnect();
 
-	/** Connects to the network. */
-	void connect();
+    /** Connects to the network. */
+    void connect();
 }

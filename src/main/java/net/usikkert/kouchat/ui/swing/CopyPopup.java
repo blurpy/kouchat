@@ -41,120 +41,120 @@ import javax.swing.text.DefaultEditorKit;
  */
 public class CopyPopup extends JPopupMenu implements MouseListener, ActionListener
 {
-	/** Standard serial version UID. */
-	private static final long serialVersionUID = 1L;
+    /** Standard serial version UID. */
+    private static final long serialVersionUID = 1L;
 
-	/** Menu item to copy selected text in the text pane. */
-	private final JMenuItem copyMI;
+    /** Menu item to copy selected text in the text pane. */
+    private final JMenuItem copyMI;
 
-	/** Menu item to select all the text in the text pane. */
-	private final JMenuItem selectAllMI;
+    /** Menu item to select all the text in the text pane. */
+    private final JMenuItem selectAllMI;
 
-	/** The text pane. */
-	private final JTextPane textpane;
+    /** The text pane. */
+    private final JTextPane textpane;
 
-	/**
-	 * Constructor. Creates the menu.
-	 *
-	 * @param textpane The text pane to use the popup on.
-	 */
-	public CopyPopup( final JTextPane textpane )
-	{
-		this.textpane = textpane;
+    /**
+     * Constructor. Creates the menu.
+     *
+     * @param textpane The text pane to use the popup on.
+     */
+    public CopyPopup( final JTextPane textpane )
+    {
+        this.textpane = textpane;
 
-		copyMI = new JMenuItem( new DefaultEditorKit.CopyAction() );
-		copyMI.setText( "Copy" );
-		copyMI.setMnemonic( 'C' );
-		copyMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_C, KeyEvent.CTRL_MASK ) );
+        copyMI = new JMenuItem( new DefaultEditorKit.CopyAction() );
+        copyMI.setText( "Copy" );
+        copyMI.setMnemonic( 'C' );
+        copyMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_C, KeyEvent.CTRL_MASK ) );
 
-		selectAllMI = new JMenuItem( "Select All" );
-		selectAllMI.setMnemonic( 'A' );
-		selectAllMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_A, KeyEvent.CTRL_MASK ) );
+        selectAllMI = new JMenuItem( "Select All" );
+        selectAllMI.setMnemonic( 'A' );
+        selectAllMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_A, KeyEvent.CTRL_MASK ) );
 
-		add( copyMI );
-		add( selectAllMI );
+        add( copyMI );
+        add( selectAllMI );
 
-		textpane.addMouseListener( this );
-		selectAllMI.addActionListener( this );
-	}
+        textpane.addMouseListener( this );
+        selectAllMI.addActionListener( this );
+    }
 
-	/**
-	 * Not implemented.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void mouseClicked( final MouseEvent e )
-	{
+    /**
+     * Not implemented.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseClicked( final MouseEvent e )
+    {
 
-	}
+    }
 
-	/**
-	 * Not implemented.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void mouseEntered( final MouseEvent e )
-	{
+    /**
+     * Not implemented.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseEntered( final MouseEvent e )
+    {
 
-	}
+    }
 
-	/**
-	 * Not implemented.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void mouseExited( final MouseEvent e )
-	{
+    /**
+     * Not implemented.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseExited( final MouseEvent e )
+    {
 
-	}
+    }
 
-	/**
-	 * Not implemented.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void mousePressed( final MouseEvent e )
-	{
+    /**
+     * Not implemented.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void mousePressed( final MouseEvent e )
+    {
 
-	}
+    }
 
-	/**
-	 * Shows the popup menu if right mouse button was used.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void mouseReleased( final MouseEvent e )
-	{
-		if ( isPopupTrigger( e ) )
-		{
-			if ( textpane.getSelectedText() == null )
-				copyMI.setEnabled( false );
-			else
-				copyMI.setEnabled( true );
+    /**
+     * Shows the popup menu if right mouse button was used.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseReleased( final MouseEvent e )
+    {
+        if ( isPopupTrigger( e ) )
+        {
+            if ( textpane.getSelectedText() == null )
+                copyMI.setEnabled( false );
+            else
+                copyMI.setEnabled( true );
 
-			if ( textpane.getText().length() == 0 )
-				selectAllMI.setEnabled( false );
-			else
-				selectAllMI.setEnabled( true );
+            if ( textpane.getText().length() == 0 )
+                selectAllMI.setEnabled( false );
+            else
+                selectAllMI.setEnabled( true );
 
-			show( textpane, e.getX(), e.getY() );
-		}
-	}
+            show( textpane, e.getX(), e.getY() );
+        }
+    }
 
-	/**
-	 * Selects all the text.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void actionPerformed( final ActionEvent e )
-	{
-		textpane.requestFocusInWindow();
-		textpane.selectAll();
-	}
+    /**
+     * Selects all the text.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void actionPerformed( final ActionEvent e )
+    {
+        textpane.requestFocusInWindow();
+        textpane.selectAll();
+    }
 }

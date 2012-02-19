@@ -40,123 +40,123 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class IdleThread extends Thread
 {
-	/** The logger. */
-	private static final Logger LOG = Logger.getLogger( IdleThread.class.getName() );
+    /** The logger. */
+    private static final Logger LOG = Logger.getLogger( IdleThread.class.getName() );
 
-	/**
-	 * Number of milliseconds to wait before the next
-	 * idle message will be sent.
-	 */
-	private static final int IDLE_TIME = 15000;
+    /**
+     * Number of milliseconds to wait before the next
+     * idle message will be sent.
+     */
+    private static final int IDLE_TIME = 15000;
 
-	/**
-	 * If an idle message has not been received from another
-	 * client in this number of milliseconds, then it's not
-	 * on the network anymore and must be removed.
-	 */
-	private static final int TIMEOUT = 120000;
+    /**
+     * If an idle message has not been received from another
+     * client in this number of milliseconds, then it's not
+     * on the network anymore and must be removed.
+     */
+    private static final int TIMEOUT = 120000;
 
-	private final Controller controller;
-	private final UserList userList;
-	private final User me;
-	private final MessageController msgController;
+    private final Controller controller;
+    private final UserList userList;
+    private final User me;
+    private final MessageController msgController;
 
-	/** The thread runs while this is true. */
-	private boolean run;
+    /** The thread runs while this is true. */
+    private boolean run;
 
-	/**
-	 * Constructor. Makes sure the thread is ready to start.
-	 *
-	 * @param controller The controller.
-	 * @param ui The user interface.
-	 */
-	public IdleThread( final Controller controller, final UserInterface ui )
-	{
-		Validate.notNull( controller, "Controller can not be null" );
-		Validate.notNull( ui, "User interface can not be null" );
-		this.controller = controller;
+    /**
+     * Constructor. Makes sure the thread is ready to start.
+     *
+     * @param controller The controller.
+     * @param ui The user interface.
+     */
+    public IdleThread( final Controller controller, final UserInterface ui )
+    {
+        Validate.notNull( controller, "Controller can not be null" );
+        Validate.notNull( ui, "User interface can not be null" );
+        this.controller = controller;
 
-		userList = controller.getUserList();
-		me = Settings.getSettings().getMe();
-		msgController = ui.getMessageController();
+        userList = controller.getUserList();
+        me = Settings.getSettings().getMe();
+        msgController = ui.getMessageController();
 
-		run = true;
-		setName( "IdleThread" );
-	}
+        run = true;
+        setName( "IdleThread" );
+    }
 
-	/**
-	 * This is where most of the action is.
-	 *
-	 * <li>Sends idle messages
-	 * <li>Restarts the network if there are problems
-	 * <li>Removes timed out clients
-	 */
-	@Override
-	public void run()
-	{
-		// In case of any error messages during startup
-		me.setLastIdle( System.currentTimeMillis() );
+    /**
+     * This is where most of the action is.
+     *
+     * <li>Sends idle messages
+     * <li>Restarts the network if there are problems
+     * <li>Removes timed out clients
+     */
+    @Override
+    public void run()
+    {
+        // In case of any error messages during startup
+        me.setLastIdle( System.currentTimeMillis() );
 
-		while ( run )
-		{
-			controller.sendIdleMessage();
-			boolean timeout = false;
+        while ( run )
+        {
+            controller.sendIdleMessage();
+            boolean timeout = false;
 
-			for ( int i = 0; i < userList.size(); i++ )
-			{
-				User temp = userList.get( i );
+            for ( int i = 0; i < userList.size(); i++ )
+            {
+                User temp = userList.get( i );
 
-				if ( temp.getCode() != me.getCode() && temp.getLastIdle() < System.currentTimeMillis() - TIMEOUT )
-				{
-					userList.remove( temp );
-					userTimedOut( temp );
-					timeout = true;
-					i--;
-				}
-			}
+                if ( temp.getCode() != me.getCode() && temp.getLastIdle() < System.currentTimeMillis() - TIMEOUT )
+                {
+                    userList.remove( temp );
+                    userTimedOut( temp );
+                    timeout = true;
+                    i--;
+                }
+            }
 
-			if ( timeout )
-				controller.updateAfterTimeout();
+            if ( timeout )
+                controller.updateAfterTimeout();
 
-			try
-			{
-				sleep( IDLE_TIME );
-			}
+            try
+            {
+                sleep( IDLE_TIME );
+            }
 
-			// Sleep interrupted - probably from stopThread()
-			catch ( final InterruptedException e )
-			{
-				LOG.log( Level.FINE, e.toString() );
-			}
-		}
-	}
+            // Sleep interrupted - probably from stopThread()
+            catch ( final InterruptedException e )
+            {
+                LOG.log( Level.FINE, e.toString() );
+            }
+        }
+    }
 
-	/**
-	 * When a user times out, all current file transfers must
-	 * be canceled, and messages must be shown in the normal
-	 * chat window, and the private chat window.
-	 *
-	 * @param user The user which timed out.
-	 */
-	private void userTimedOut( final User user )
-	{
-		controller.cancelFileTransfers( user );
-		user.setOnline( false );
-		msgController.showSystemMessage( user.getNick() + " timed out" );
+    /**
+     * When a user times out, all current file transfers must
+     * be canceled, and messages must be shown in the normal
+     * chat window, and the private chat window.
+     *
+     * @param user The user which timed out.
+     */
+    private void userTimedOut( final User user )
+    {
+        controller.cancelFileTransfers( user );
+        user.setOnline( false );
+        msgController.showSystemMessage( user.getNick() + " timed out" );
 
-		if ( user.getPrivchat() != null )
-		{
-			msgController.showPrivateSystemMessage( user, user.getNick() + " timed out" );
-			user.getPrivchat().setLoggedOff();
-		}
-	}
+        if ( user.getPrivchat() != null )
+        {
+            msgController.showPrivateSystemMessage( user, user.getNick() + " timed out" );
+            user.getPrivchat().setLoggedOff();
+        }
+    }
 
-	/**
-	 * Shuts down the thread in a controlled manner.
-	 */
-	public void stopThread()
-	{
-		run = false;
-		interrupt();
-	}
+    /**
+     * Shuts down the thread in a controlled manner.
+     */
+    public void stopThread()
+    {
+        run = false;
+        interrupt();
+    }
 }

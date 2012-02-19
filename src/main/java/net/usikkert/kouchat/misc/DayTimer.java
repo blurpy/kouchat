@@ -38,69 +38,69 @@ import net.usikkert.kouchat.util.Tools;
  */
 public class DayTimer extends TimerTask
 {
-	/**
-	 * Which hour of the day the timer should notify about
-	 * day change.
-	 */
-	private static final int NOTIFY_HOUR = 0;
+    /**
+     * Which hour of the day the timer should notify about
+     * day change.
+     */
+    private static final int NOTIFY_HOUR = 0;
 
-	/**
-	 * How often the timer should check if the day has changed,
-	 * in milliseconds. Currently set to 1 hour.
-	 */
-	private static final long TIMER_INTERVAL = 1000 * 60 * 60;
+    /**
+     * How often the timer should check if the day has changed,
+     * in milliseconds. Currently set to 1 hour.
+     */
+    private static final long TIMER_INTERVAL = 1000 * 60 * 60;
 
-	/** The controller for showing messages in the ui. */
-	private final MessageController msgController;
+    /** The controller for showing messages in the ui. */
+    private final MessageController msgController;
 
-	/** If the day changed check is done for the day. */
-	private boolean done;
+    /** If the day changed check is done for the day. */
+    private boolean done;
 
-	/**
-	 * Constructor. Starts the timer.
-	 *
-	 * @param ui The user interface.
-	 */
-	public DayTimer( final UserInterface ui )
-	{
-		msgController = ui.getMessageController();
-		Calendar cal = Calendar.getInstance();
-		int currentHour = cal.get( Calendar.HOUR_OF_DAY );
+    /**
+     * Constructor. Starts the timer.
+     *
+     * @param ui The user interface.
+     */
+    public DayTimer( final UserInterface ui )
+    {
+        msgController = ui.getMessageController();
+        Calendar cal = Calendar.getInstance();
+        int currentHour = cal.get( Calendar.HOUR_OF_DAY );
 
-		// To stop the timer from thinking that the day has changed if
-		// the application is started between 00 and 01 o'clock.
-		if ( currentHour == NOTIFY_HOUR )
-			done = true;
+        // To stop the timer from thinking that the day has changed if
+        // the application is started between 00 and 01 o'clock.
+        if ( currentHour == NOTIFY_HOUR )
+            done = true;
 
-		cal.set( Calendar.HOUR_OF_DAY, NOTIFY_HOUR );
-		cal.set( Calendar.MINUTE, 0 );
-		cal.set( Calendar.SECOND, 0 );
+        cal.set( Calendar.HOUR_OF_DAY, NOTIFY_HOUR );
+        cal.set( Calendar.MINUTE, 0 );
+        cal.set( Calendar.SECOND, 0 );
 
-		Timer timer = new Timer( "DayTimer" );
-		timer.scheduleAtFixedRate( this, new Date( cal.getTimeInMillis() ), TIMER_INTERVAL );
-	}
+        Timer timer = new Timer( "DayTimer" );
+        timer.scheduleAtFixedRate( this, new Date( cal.getTimeInMillis() ), TIMER_INTERVAL );
+    }
 
-	/**
-	 * This method is run by the timer every hour, and
-	 * compares the current time against the time when
-	 * the day changes.
-	 */
-	@Override
-	public void run()
-	{
-		int hour = Calendar.getInstance().get( Calendar.HOUR_OF_DAY );
+    /**
+     * This method is run by the timer every hour, and
+     * compares the current time against the time when
+     * the day changes.
+     */
+    @Override
+    public void run()
+    {
+        int hour = Calendar.getInstance().get( Calendar.HOUR_OF_DAY );
 
-		// Needs an extra check, so the message only shows once a day.
-		if ( hour == NOTIFY_HOUR && !done )
-		{
-			String date = Tools.dateToString( null, "EEEE, d MMMM yyyy" );
-			msgController.showSystemMessage( "Day changed to " + date );
-			done = true;
-		}
+        // Needs an extra check, so the message only shows once a day.
+        if ( hour == NOTIFY_HOUR && !done )
+        {
+            String date = Tools.dateToString( null, "EEEE, d MMMM yyyy" );
+            msgController.showSystemMessage( "Day changed to " + date );
+            done = true;
+        }
 
-		else if ( hour != NOTIFY_HOUR && done )
-		{
-			done = false;
-		}
-	}
+        else if ( hour != NOTIFY_HOUR && done )
+        {
+            done = false;
+        }
+    }
 }

@@ -33,10 +33,10 @@ import net.usikkert.kouchat.misc.User;
  */
 public interface FileDropSource
 {
-	/**
-	 * Get the user a file was dropped on.
-	 *
-	 * @return The user.
-	 */
-	User getUser();
+    /**
+     * Get the user a file was dropped on.
+     *
+     * @return The user.
+     */
+    User getUser();
 }

@@ -47,183 +47,183 @@ import javax.swing.text.JTextComponent;
  */
 public class FileTransferHandler extends TransferHandler
 {
-	/** The logger. */
-	private static final Logger LOG = Logger.getLogger( FileTransferHandler.class.getName() );
+    /** The logger. */
+    private static final Logger LOG = Logger.getLogger( FileTransferHandler.class.getName() );
 
-	/** Standard serial version UID. */
-	private static final long serialVersionUID = 1L;
+    /** Standard serial version UID. */
+    private static final long serialVersionUID = 1L;
 
-	/** The object where the file gets dropped. */
-	private final FileDropSource fileDropSource;
+    /** The object where the file gets dropped. */
+    private final FileDropSource fileDropSource;
 
-	/** The mediator. */
-	private Mediator mediator;
+    /** The mediator. */
+    private Mediator mediator;
 
-	/** Mime type for uri-list, which is how dropped files are recognized in linux. */
-	private DataFlavor uriListFlavor;
+    /** Mime type for uri-list, which is how dropped files are recognized in linux. */
+    private DataFlavor uriListFlavor;
 
-	/**
-	 * Constructor. Sets the file drop source.
-	 *
-	 * @param fileDropSource The source to find which user the file was dropped on.
-	 */
-	public FileTransferHandler( final FileDropSource fileDropSource )
-	{
-		this.fileDropSource = fileDropSource;
+    /**
+     * Constructor. Sets the file drop source.
+     *
+     * @param fileDropSource The source to find which user the file was dropped on.
+     */
+    public FileTransferHandler( final FileDropSource fileDropSource )
+    {
+        this.fileDropSource = fileDropSource;
 
-		try
-		{
-			uriListFlavor = new DataFlavor( "text/uri-list;class=java.lang.String" );
-		}
+        try
+        {
+            uriListFlavor = new DataFlavor( "text/uri-list;class=java.lang.String" );
+        }
 
-		catch ( final ClassNotFoundException e )
-		{
-			LOG.log( Level.WARNING, e.toString() );
-		}
-	}
+        catch ( final ClassNotFoundException e )
+        {
+            LOG.log( Level.WARNING, e.toString() );
+        }
+    }
 
-	/**
-	 * Sets the mediator to use for opening the dropped file.
-	 *
-	 * @param mediator The mediator to use.
-	 */
-	public void setMediator( final Mediator mediator )
-	{
-		this.mediator = mediator;
-	}
+    /**
+     * Sets the mediator to use for opening the dropped file.
+     *
+     * @param mediator The mediator to use.
+     */
+    public void setMediator( final Mediator mediator )
+    {
+        this.mediator = mediator;
+    }
 
-	/**
-	 * Checks to see if the dropped data is a URI list or a file list.
-	 * Returns false if the data is of any other type.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canImport( final TransferSupport support )
-	{
-		return support.isDataFlavorSupported( DataFlavor.javaFileListFlavor ) || support.isDataFlavorSupported( uriListFlavor );
-	}
+    /**
+     * Checks to see if the dropped data is a URI list or a file list.
+     * Returns false if the data is of any other type.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean canImport( final TransferSupport support )
+    {
+        return support.isDataFlavorSupported( DataFlavor.javaFileListFlavor ) || support.isDataFlavorSupported( uriListFlavor );
+    }
 
-	/**
-	 * Double checks to see if the data is of the correct type,
-	 * and then tries to create a file object to send to the mediator.
-	 * Supports both Linux and Windows file lists.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean importData( final TransferSupport support )
-	{
-		if ( canImport( support ) )
-		{
-			try
-			{
-				File file = null;
+    /**
+     * Double checks to see if the data is of the correct type,
+     * and then tries to create a file object to send to the mediator.
+     * Supports both Linux and Windows file lists.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean importData( final TransferSupport support )
+    {
+        if ( canImport( support ) )
+        {
+            try
+            {
+                File file = null;
 
-				if ( support.isDataFlavorSupported( DataFlavor.javaFileListFlavor ) )
-				{
-					@SuppressWarnings( "unchecked" )
-					List<File> fileList = (List<File>) support.getTransferable().getTransferData( DataFlavor.javaFileListFlavor );
+                if ( support.isDataFlavorSupported( DataFlavor.javaFileListFlavor ) )
+                {
+                    @SuppressWarnings( "unchecked" )
+                    List<File> fileList = (List<File>) support.getTransferable().getTransferData( DataFlavor.javaFileListFlavor );
 
-					if ( fileList.size() > 0 )
-						file = fileList.get( 0 );
-				}
+                    if ( fileList.size() > 0 )
+                        file = fileList.get( 0 );
+                }
 
-				else if ( support.isDataFlavorSupported( uriListFlavor ) )
-				{
-					Object data = support.getTransferable().getTransferData( uriListFlavor );
+                else if ( support.isDataFlavorSupported( uriListFlavor ) )
+                {
+                    Object data = support.getTransferable().getTransferData( uriListFlavor );
 
-					if ( data != null )
-					{
-						String[] uriList = data.toString().split( "\r\n" );
-						String fileURI = "";
+                    if ( data != null )
+                    {
+                        String[] uriList = data.toString().split( "\r\n" );
+                        String fileURI = "";
 
-						for ( int i = 0; i < uriList.length; i++ )
-						{
-							if ( uriList[i].startsWith( "file:/" ) )
-							{
-								fileURI = uriList[i];
-								break;
-							}
-						}
+                        for ( int i = 0; i < uriList.length; i++ )
+                        {
+                            if ( uriList[i].startsWith( "file:/" ) )
+                            {
+                                fileURI = uriList[i];
+                                break;
+                            }
+                        }
 
-						try
-						{
-							URI uri = new URI( fileURI );
+                        try
+                        {
+                            URI uri = new URI( fileURI );
 
-							if ( uri != null )
-								file = new File( uri );
-						}
+                            if ( uri != null )
+                                file = new File( uri );
+                        }
 
-						catch ( final URISyntaxException e )
-						{
-							LOG.log( Level.WARNING, e.toString() );
-						}
-					}
-				}
+                        catch ( final URISyntaxException e )
+                        {
+                            LOG.log( Level.WARNING, e.toString() );
+                        }
+                    }
+                }
 
-				else
-				{
-					LOG.log( Level.WARNING, "Data flavor not supported." );
-				}
+                else
+                {
+                    LOG.log( Level.WARNING, "Data flavor not supported." );
+                }
 
-				if ( file != null )
-				{
-					mediator.sendFile( fileDropSource.getUser(), file );
-					return true;
-				}
+                if ( file != null )
+                {
+                    mediator.sendFile( fileDropSource.getUser(), file );
+                    return true;
+                }
 
-				else
-					LOG.log( Level.WARNING, "No file dropped." );
-			}
+                else
+                    LOG.log( Level.WARNING, "No file dropped." );
+            }
 
-			catch ( final UnsupportedFlavorException e )
-			{
-				LOG.log( Level.WARNING, e.toString() );
-			}
+            catch ( final UnsupportedFlavorException e )
+            {
+                LOG.log( Level.WARNING, e.toString() );
+            }
 
-			catch ( final IOException e )
-			{
-				LOG.log( Level.WARNING, e.toString() );
-			}
-		}
+            catch ( final IOException e )
+            {
+                LOG.log( Level.WARNING, e.toString() );
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * Adds (back) support for copying the contents of the component
-	 * this transfer handler is registered on.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected Transferable createTransferable( final JComponent c )
-	{
-		if ( c instanceof JTextComponent )
-		{
-			String data = ( (JTextComponent) c ).getSelectedText();
-			return new StringSelection( data );
-		}
+    /**
+     * Adds (back) support for copying the contents of the component
+     * this transfer handler is registered on.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    protected Transferable createTransferable( final JComponent c )
+    {
+        if ( c instanceof JTextComponent )
+        {
+            String data = ( (JTextComponent) c ).getSelectedText();
+            return new StringSelection( data );
+        }
 
-		else if ( c instanceof JList )
-		{
-			String data = ( (JList) c ).getSelectedValue().toString();
-			return new StringSelection( data );
-		}
+        else if ( c instanceof JList )
+        {
+            String data = ( (JList) c ).getSelectedValue().toString();
+            return new StringSelection( data );
+        }
 
-		else
-			return null;
-	}
+        else
+            return null;
+    }
 
-	/**
-	 * To enable copy to clipboard.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getSourceActions( final JComponent c )
-	{
-		return COPY;
-	}
+    /**
+     * To enable copy to clipboard.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public int getSourceActions( final JComponent c )
+    {
+        return COPY;
+    }
 }

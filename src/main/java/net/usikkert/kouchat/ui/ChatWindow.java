@@ -31,11 +31,11 @@ package net.usikkert.kouchat.ui;
  */
 public interface ChatWindow
 {
-	/**
-	 * Adds a new line of text to the chat area, in the specified color.
-	 *
-	 * @param message The text to add to the chat.
-	 * @param color The color to show the text in.
-	 */
-	void appendToChat( String message, int color );
+    /**
+     * Adds a new line of text to the chat area, in the specified color.
+     *
+     * @param message The text to add to the chat.
+     * @param color The color to show the text in.
+     */
+    void appendToChat( String message, int color );
 }

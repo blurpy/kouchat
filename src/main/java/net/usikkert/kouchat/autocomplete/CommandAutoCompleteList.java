@@ -30,48 +30,48 @@ package net.usikkert.kouchat.autocomplete;
  */
 public class CommandAutoCompleteList implements AutoCompleteList
 {
-	/** The commands. */
-	private static final String[] COMMANDS =
-	{
-		"/about",
-		"/away",
-		"/back",
-		"/cancel",
-		"/clear",
-		"/help",
-		"/msg",
-		"/nick",
-		"/quit",
-		"/receive",
-		"/reject",
-		"/send",
-		"/topic",
-		"/transfers",
-		"/users",
-		"/whois",
-		"//"
-	};
+    /** The commands. */
+    private static final String[] COMMANDS =
+    {
+        "/about",
+        "/away",
+        "/back",
+        "/cancel",
+        "/clear",
+        "/help",
+        "/msg",
+        "/nick",
+        "/quit",
+        "/receive",
+        "/reject",
+        "/send",
+        "/topic",
+        "/transfers",
+        "/users",
+        "/whois",
+        "//"
+    };
 
-	/**
-	 * Checks if the word is a command, by seeing if the first character is
-	 * a slash.
-	 *
-	 * @param word The word to check.
-	 * @return If the word is a command.
-	 */
-	@Override
-	public boolean acceptsWord( final String word )
-	{
-		return word.startsWith( "/" );
-	}
+    /**
+     * Checks if the word is a command, by seeing if the first character is
+     * a slash.
+     *
+     * @param word The word to check.
+     * @return If the word is a command.
+     */
+    @Override
+    public boolean acceptsWord( final String word )
+    {
+        return word.startsWith( "/" );
+    }
 
-	/**
-	 * Returns the list of commands.
-	 * @return The list of commands.
-	 */
-	@Override
-	public String[] getWordList()
-	{
-		return COMMANDS;
-	}
+    /**
+     * Returns the list of commands.
+     * @return The list of commands.
+     */
+    @Override
+    public String[] getWordList()
+    {
+        return COMMANDS;
+    }
 }

@@ -49,129 +49,129 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class ButtonPanel extends JPanel implements ActionListener
 {
-	/** Standard version uid. */
-	private static final long serialVersionUID = 1L;
+    /** Standard version uid. */
+    private static final long serialVersionUID = 1L;
 
-	/** The minimize button. Minimizes the application to the system tray. */
-	private final JButton minimizeB;
+    /** The minimize button. Minimizes the application to the system tray. */
+    private final JButton minimizeB;
 
-	/** The clear button. Clears the text in the main chat. */
-	private final JButton clearB;
+    /** The clear button. Clears the text in the main chat. */
+    private final JButton clearB;
 
-	/** The away button. Changes the away state of the user. */
-	private final JButton awayB;
+    /** The away button. Changes the away state of the user. */
+    private final JButton awayB;
 
-	/** The topic button. Changes the topic in the main chat. */
-	private final JButton topicB;
+    /** The topic button. Changes the topic in the main chat. */
+    private final JButton topicB;
 
-	/** The mediator. */
-	private Mediator mediator;
+    /** The mediator. */
+    private Mediator mediator;
 
-	/**
-	 * Constructor.
-	 */
-	public ButtonPanel()
-	{
-		setLayout( new GridLayout( 4, 1 ) );
+    /**
+     * Constructor.
+     */
+    public ButtonPanel()
+    {
+        setLayout( new GridLayout( 4, 1 ) );
 
-		clearB = new JButton( "Clear" );
-		clearB.addActionListener( this );
-		clearB.setToolTipText( "Clear all the text in the chat area." );
-		add( clearB );
+        clearB = new JButton( "Clear" );
+        clearB.addActionListener( this );
+        clearB.setToolTipText( "Clear all the text in the chat area." );
+        add( clearB );
 
-		awayB = new JButton( "Away" );
-		awayB.addActionListener( this );
-		awayB.setToolTipText( "Set/unset your user as away." );
-		add( awayB );
+        awayB = new JButton( "Away" );
+        awayB.addActionListener( this );
+        awayB.setToolTipText( "Set/unset your user as away." );
+        add( awayB );
 
-		topicB = new JButton( "Topic" );
-		topicB.addActionListener( this );
-		topicB.setToolTipText( "Change the topic of this chat." );
-		add( topicB );
+        topicB = new JButton( "Topic" );
+        topicB.addActionListener( this );
+        topicB.setToolTipText( "Change the topic of this chat." );
+        add( topicB );
 
-		minimizeB = new JButton( "Minimize" );
-		minimizeB.addActionListener( this );
-		minimizeB.setToolTipText( "Minimize to the system tray." );
-		add( minimizeB );
+        minimizeB = new JButton( "Minimize" );
+        minimizeB.addActionListener( this );
+        minimizeB.setToolTipText( "Minimize to the system tray." );
+        add( minimizeB );
 
-		setBorder( BorderFactory.createEmptyBorder( 0, 0, 1, 1 ) );
-	}
+        setBorder( BorderFactory.createEmptyBorder( 0, 0, 1, 1 ) );
+    }
 
-	/**
-	 * Sets the mediator to use.
-	 *
-	 * @param mediator The mediator to set.
-	 */
-	public void setMediator( final Mediator mediator )
-	{
-		Validate.notNull( mediator, "Mediator can not be null" );
-		this.mediator = mediator;
-	}
+    /**
+     * Sets the mediator to use.
+     *
+     * @param mediator The mediator to set.
+     */
+    public void setMediator( final Mediator mediator )
+    {
+        Validate.notNull( mediator, "Mediator can not be null" );
+        this.mediator = mediator;
+    }
 
-	/**
-	 * Enables or disabled the away button.
-	 *
-	 * @param away If away, the button is disabled. Else enabled.
-	 */
-	public void setAwayState( final boolean away )
-	{
-		topicB.setEnabled( !away );
-	}
+    /**
+     * Enables or disabled the away button.
+     *
+     * @param away If away, the button is disabled. Else enabled.
+     */
+    public void setAwayState( final boolean away )
+    {
+        topicB.setEnabled( !away );
+    }
 
-	/**
-	 * The listener for button clicks.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void actionPerformed( final ActionEvent e )
-	{
-		if ( e.getSource() == minimizeB )
-		{
-			SwingUtilities.invokeLater( new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					mediator.minimize();
-				}
-			} );
-		}
+    /**
+     * The listener for button clicks.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void actionPerformed( final ActionEvent e )
+    {
+        if ( e.getSource() == minimizeB )
+        {
+            SwingUtilities.invokeLater( new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    mediator.minimize();
+                }
+            } );
+        }
 
-		else if ( e.getSource() == clearB )
-		{
-			SwingUtilities.invokeLater( new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					mediator.clearChat();
-				}
-			} );
-		}
+        else if ( e.getSource() == clearB )
+        {
+            SwingUtilities.invokeLater( new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    mediator.clearChat();
+                }
+            } );
+        }
 
-		else if ( e.getSource() == awayB )
-		{
-			SwingUtilities.invokeLater( new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					mediator.setAway();
-				}
-			} );
-		}
+        else if ( e.getSource() == awayB )
+        {
+            SwingUtilities.invokeLater( new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    mediator.setAway();
+                }
+            } );
+        }
 
-		else if ( e.getSource() == topicB )
-		{
-			SwingUtilities.invokeLater( new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					mediator.setTopic();
-				}
-			} );
-		}
-	}
+        else if ( e.getSource() == topicB )
+        {
+            SwingUtilities.invokeLater( new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    mediator.setTopic();
+                }
+            } );
+        }
+    }
 }

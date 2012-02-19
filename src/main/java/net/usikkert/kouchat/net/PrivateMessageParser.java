@@ -43,73 +43,73 @@ import net.usikkert.kouchat.misc.User;
  */
 public class PrivateMessageParser implements ReceiverListener
 {
-	/** The logger. */
-	private static final Logger LOG = Logger.getLogger( PrivateMessageParser.class.getName() );
+    /** The logger. */
+    private static final Logger LOG = Logger.getLogger( PrivateMessageParser.class.getName() );
 
-	private final Settings settings;
-	private final PrivateMessageResponder privmsgResponder;
+    private final Settings settings;
+    private final PrivateMessageResponder privmsgResponder;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param privmsgResponder The private message responder.
-	 */
-	public PrivateMessageParser( final PrivateMessageResponder privmsgResponder )
-	{
-		this.privmsgResponder = privmsgResponder;
-		settings = Settings.getSettings();
-	}
+    /**
+     * Constructor.
+     *
+     * @param privmsgResponder The private message responder.
+     */
+    public PrivateMessageParser( final PrivateMessageResponder privmsgResponder )
+    {
+        this.privmsgResponder = privmsgResponder;
+        settings = Settings.getSettings();
+    }
 
-	/**
-	 * Parses raw udp messages from the network, and gives
-	 * the result to the message responder.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void messageArrived( final String message, final String ipAddress )
-	{
-		try
-		{
-			int exclamation = message.indexOf( "!" );
-			int hash = message.indexOf( "#" );
-			int colon = message.indexOf( ":" );
+    /**
+     * Parses raw udp messages from the network, and gives
+     * the result to the message responder.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void messageArrived( final String message, final String ipAddress )
+    {
+        try
+        {
+            int exclamation = message.indexOf( "!" );
+            int hash = message.indexOf( "#" );
+            int colon = message.indexOf( ":" );
 
-			int fromCode = Integer.parseInt( message.substring( 0, exclamation ) );
+            int fromCode = Integer.parseInt( message.substring( 0, exclamation ) );
 
-			String type = message.substring( exclamation + 1, hash );
-			String msg = message.substring( colon + 1, message.length() );
+            String type = message.substring( exclamation + 1, hash );
+            String msg = message.substring( colon + 1, message.length() );
 
-			int leftPara = msg.indexOf( "(" );
-			int rightPara = msg.indexOf( ")" );
-			int toCode = Integer.parseInt( msg.substring( leftPara + 1, rightPara ) );
+            int leftPara = msg.indexOf( "(" );
+            int rightPara = msg.indexOf( ")" );
+            int toCode = Integer.parseInt( msg.substring( leftPara + 1, rightPara ) );
 
-			User tempme = settings.getMe();
+            User tempme = settings.getMe();
 
-			if ( fromCode != tempme.getCode() && toCode == tempme.getCode() )
-			{
-				if ( type.equals( "PRIVMSG" ) )
-				{
-					int leftBracket = msg.indexOf( "[" );
-					int rightBracket = msg.indexOf( "]" );
-					int rgb = Integer.parseInt( msg.substring( leftBracket + 1, rightBracket ) );
-					String privmsg = msg.substring( rightBracket + 1, msg.length() );
+            if ( fromCode != tempme.getCode() && toCode == tempme.getCode() )
+            {
+                if ( type.equals( "PRIVMSG" ) )
+                {
+                    int leftBracket = msg.indexOf( "[" );
+                    int rightBracket = msg.indexOf( "]" );
+                    int rgb = Integer.parseInt( msg.substring( leftBracket + 1, rightBracket ) );
+                    String privmsg = msg.substring( rightBracket + 1, msg.length() );
 
-					privmsgResponder.messageArrived( fromCode, privmsg, rgb );
-				}
-			}
-		}
+                    privmsgResponder.messageArrived( fromCode, privmsg, rgb );
+                }
+            }
+        }
 
-		// Just ignore, someone sent a badly formatted message
-		catch ( final StringIndexOutOfBoundsException e )
-		{
-			LOG.log( Level.SEVERE, e.toString(), e );
-		}
+        // Just ignore, someone sent a badly formatted message
+        catch ( final StringIndexOutOfBoundsException e )
+        {
+            LOG.log( Level.SEVERE, e.toString(), e );
+        }
 
-		// Just ignore, someone sent a badly formatted message
-		catch ( final NumberFormatException e )
-		{
-			LOG.log( Level.SEVERE, e.toString(), e );
-		}
-	}
+        // Just ignore, someone sent a badly formatted message
+        catch ( final NumberFormatException e )
+        {
+            LOG.log( Level.SEVERE, e.toString(), e );
+        }
+    }
 }

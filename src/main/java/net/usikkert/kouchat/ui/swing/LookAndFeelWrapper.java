@@ -33,37 +33,37 @@ import javax.swing.UIManager.LookAndFeelInfo;
  */
 public class LookAndFeelWrapper
 {
-	/** The wrapped LookAndFeelInfo. */
-	private final LookAndFeelInfo lookAndFeelInfo;
+    /** The wrapped LookAndFeelInfo. */
+    private final LookAndFeelInfo lookAndFeelInfo;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param lookAndFeelInfo The LookAndFeelInfo to wrap.
-	 */
-	public LookAndFeelWrapper( final LookAndFeelInfo lookAndFeelInfo )
-	{
-		this.lookAndFeelInfo = lookAndFeelInfo;
-	}
+    /**
+     * Constructor.
+     *
+     * @param lookAndFeelInfo The LookAndFeelInfo to wrap.
+     */
+    public LookAndFeelWrapper( final LookAndFeelInfo lookAndFeelInfo )
+    {
+        this.lookAndFeelInfo = lookAndFeelInfo;
+    }
 
-	/**
-	 * Gets the wrapped LookAndFeelInfo.
-	 *
-	 * @return The wrapped LookAndFeelInfo.
-	 */
-	public LookAndFeelInfo getLookAndFeelInfo()
-	{
-		return lookAndFeelInfo;
-	}
+    /**
+     * Gets the wrapped LookAndFeelInfo.
+     *
+     * @return The wrapped LookAndFeelInfo.
+     */
+    public LookAndFeelInfo getLookAndFeelInfo()
+    {
+        return lookAndFeelInfo;
+    }
 
-	/**
-	 * Overridden to return the name of the wrapped LookAndFeelInfo.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String toString()
-	{
-		return lookAndFeelInfo.getName();
-	}
+    /**
+     * Overridden to return the name of the wrapped LookAndFeelInfo.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString()
+    {
+        return lookAndFeelInfo.getName();
+    }
 }

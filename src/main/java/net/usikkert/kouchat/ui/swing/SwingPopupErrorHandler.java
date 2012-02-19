@@ -35,41 +35,41 @@ import net.usikkert.kouchat.misc.ErrorHandler;
  */
 public class SwingPopupErrorHandler implements ErrorListener
 {
-	/**
-	 * Default constructor. Registers the class as a listener
-	 * in the error handler.
-	 */
-	public SwingPopupErrorHandler()
-	{
-		ErrorHandler.getErrorHandler().addErrorListener( this );
-	}
+    /**
+     * Default constructor. Registers the class as a listener
+     * in the error handler.
+     */
+    public SwingPopupErrorHandler()
+    {
+        ErrorHandler.getErrorHandler().addErrorListener( this );
+    }
 
-	/**
-	 * Shows an error message in a non-blocking JOptionPane message box.
-	 *
-	 * @param errorMsg The message to show.
-	 */
-	@Override
-	public void errorReported( final String errorMsg )
-	{
-		SwingUtilities.invokeLater( new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				UITools.showErrorMessage( errorMsg, "Error" );
-			}
-		} );
-	}
+    /**
+     * Shows an error message in a non-blocking JOptionPane message box.
+     *
+     * @param errorMsg The message to show.
+     */
+    @Override
+    public void errorReported( final String errorMsg )
+    {
+        SwingUtilities.invokeLater( new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                UITools.showErrorMessage( errorMsg, "Error" );
+            }
+        } );
+    }
 
-	/**
-	 * Shows a critical error message in a JOptionPane message box.
-	 *
-	 * @param criticalErrorMsg The message to show.
-	 */
-	@Override
-	public void criticalErrorReported( final String criticalErrorMsg )
-	{
-		UITools.showErrorMessage( criticalErrorMsg, "Critical Error" );
-	}
+    /**
+     * Shows a critical error message in a JOptionPane message box.
+     *
+     * @param criticalErrorMsg The message to show.
+     */
+    @Override
+    public void criticalErrorReported( final String criticalErrorMsg )
+    {
+        UITools.showErrorMessage( criticalErrorMsg, "Critical Error" );
+    }
 }

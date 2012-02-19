@@ -29,37 +29,37 @@ package net.usikkert.kouchat.util;
  */
 public final class Validate
 {
-	/**
-	 * Private constructor. Only static methods in this class.
-	 */
-	private Validate()
-	{
+    /**
+     * Private constructor. Only static methods in this class.
+     */
+    private Validate()
+    {
 
-	}
+    }
 
-	/**
-	 * Checks if <code>obj</code> is <code>null</code>, and throws
-	 * an {@link IllegalArgumentException} if that is true.
-	 *
-	 * @param obj The object to check.
-	 * @param errorMsg The error message to use in the exception.
-	 */
-	public static void notNull( final Object obj, final String errorMsg )
-	{
-		if ( obj == null )
-			throw new IllegalArgumentException( errorMsg );
-	}
+    /**
+     * Checks if <code>obj</code> is <code>null</code>, and throws
+     * an {@link IllegalArgumentException} if that is true.
+     *
+     * @param obj The object to check.
+     * @param errorMsg The error message to use in the exception.
+     */
+    public static void notNull( final Object obj, final String errorMsg )
+    {
+        if ( obj == null )
+            throw new IllegalArgumentException( errorMsg );
+    }
 
-	/**
-	 * Checks if <code>text</code> is <code>null</code> or empty,
-	 * and throws an {@link IllegalArgumentException} if that is true.
-	 *
-	 * @param text The string to check.
-	 * @param errorMsg The error message to use in the exception.
-	 */
-	public static void notEmpty( final String text, final String errorMsg )
-	{
-		if ( text == null || text.trim().length() == 0 )
-			throw new IllegalArgumentException( errorMsg );
-	}
+    /**
+     * Checks if <code>text</code> is <code>null</code> or empty,
+     * and throws an {@link IllegalArgumentException} if that is true.
+     *
+     * @param text The string to check.
+     * @param errorMsg The error message to use in the exception.
+     */
+    public static void notEmpty( final String text, final String errorMsg )
+    {
+        if ( text == null || text.trim().length() == 0 )
+            throw new IllegalArgumentException( errorMsg );
+    }
 }

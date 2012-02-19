@@ -32,26 +32,26 @@ package net.usikkert.kouchat.autocomplete;
  */
 public interface AutoCompleteList
 {
-	/**
-	 * Gets the list of words this autocompleter currently contains.
-	 *
-	 * @return The list of words for this autocompleter.
-	 */
-	String[] getWordList();
+    /**
+     * Gets the list of words this autocompleter currently contains.
+     *
+     * @return The list of words for this autocompleter.
+     */
+    String[] getWordList();
 
-	/**
-	 * Checks if this autocompleter supports that type of word.
-	 * <br><br>
-	 * This should <strong>not</strong> check if the list of words contains
-	 * a match, only if the word matches a pattern of words this list can
-	 * have.
-	 * <br><br>
-	 * The use of a regex match, or a {@link String#startsWith(String)}
-	 * is a good start.
-	 *
-	 * @param word The word to check.
-	 * @return True if this autocompleter can give suggestions for that
-	 * type of word.
-	 */
-	boolean acceptsWord( String word );
+    /**
+     * Checks if this autocompleter supports that type of word.
+     * <br><br>
+     * This should <strong>not</strong> check if the list of words contains
+     * a match, only if the word matches a pattern of words this list can
+     * have.
+     * <br><br>
+     * The use of a regex match, or a {@link String#startsWith(String)}
+     * is a good start.
+     *
+     * @param word The word to check.
+     * @return True if this autocompleter can give suggestions for that
+     * type of word.
+     */
+    boolean acceptsWord( String word );
 }

@@ -31,34 +31,34 @@ package net.usikkert.kouchat.event;
  */
 public interface FileTransferListener
 {
-	/**
-	 * Called before anything has happened yet.
-	 */
-	void statusWaiting();
+    /**
+     * Called before anything has happened yet.
+     */
+    void statusWaiting();
 
-	/**
-	 * Called when the file transfer process is started, but before
-	 * connection has been established.
-	 */
-	void statusConnecting();
+    /**
+     * Called when the file transfer process is started, but before
+     * connection has been established.
+     */
+    void statusConnecting();
 
-	/**
-	 * Called when a file is transferring.
-	 */
-	void statusTransferring();
+    /**
+     * Called when a file is transferring.
+     */
+    void statusTransferring();
 
-	/**
-	 * Called when a file transfer finished successfully.
-	 */
-	void statusCompleted();
+    /**
+     * Called when a file transfer finished successfully.
+     */
+    void statusCompleted();
 
-	/**
-	 * Called if for some reason the transfer failed.
-	 */
-	void statusFailed();
+    /**
+     * Called if for some reason the transfer failed.
+     */
+    void statusFailed();
 
-	/**
-	 * Used to notify that more of the transfer has completed.
-	 */
-	void transferUpdate();
+    /**
+     * Used to notify that more of the transfer has completed.
+     */
+    void transferUpdate();
 }

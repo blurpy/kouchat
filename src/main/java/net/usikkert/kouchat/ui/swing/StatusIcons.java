@@ -34,70 +34,70 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class StatusIcons
 {
-	/** User is not away, and has no new messages. */
-	private final Image normalIcon;
+    /** User is not away, and has no new messages. */
+    private final Image normalIcon;
 
-	/** User is not away, but has new messages. */
-	private final Image normalActivityIcon;
+    /** User is not away, but has new messages. */
+    private final Image normalActivityIcon;
 
-	/** User is away, but has no new messages. */
-	private final Image awayIcon;
+    /** User is away, but has no new messages. */
+    private final Image awayIcon;
 
-	/** User is away, and has new messages. */
-	private final Image awayActivityIcon;
+    /** User is away, and has new messages. */
+    private final Image awayActivityIcon;
 
-	/**
-	 * Constructor. Loads the icons.
-	 *
-	 * @param imageLoader The image loader.
-	 */
-	public StatusIcons( final ImageLoader imageLoader )
-	{
-		Validate.notNull( imageLoader, "Image loader can not be null" );
+    /**
+     * Constructor. Loads the icons.
+     *
+     * @param imageLoader The image loader.
+     */
+    public StatusIcons( final ImageLoader imageLoader )
+    {
+        Validate.notNull( imageLoader, "Image loader can not be null" );
 
-		normalIcon = imageLoader.getKouNormalIcon().getImage();
-		normalActivityIcon = imageLoader.getKouNormalActivityIcon().getImage();
-		awayIcon = imageLoader.getKouAwayIcon().getImage();
-		awayActivityIcon = imageLoader.getKouAwayActivityIcon().getImage();
-	}
+        normalIcon = imageLoader.getKouNormalIcon().getImage();
+        normalActivityIcon = imageLoader.getKouNormalActivityIcon().getImage();
+        awayIcon = imageLoader.getKouAwayIcon().getImage();
+        awayActivityIcon = imageLoader.getKouAwayActivityIcon().getImage();
+    }
 
-	/**
-	 * Gets the normal icon.
-	 *
-	 * @return The normal icon.
-	 */
-	public Image getNormalIcon()
-	{
-		return normalIcon;
-	}
+    /**
+     * Gets the normal icon.
+     *
+     * @return The normal icon.
+     */
+    public Image getNormalIcon()
+    {
+        return normalIcon;
+    }
 
-	/**
-	 * Gets the normal activity icon.
-	 *
-	 * @return The normal activity icon.
-	 */
-	public Image getNormalActivityIcon()
-	{
-		return normalActivityIcon;
-	}
+    /**
+     * Gets the normal activity icon.
+     *
+     * @return The normal activity icon.
+     */
+    public Image getNormalActivityIcon()
+    {
+        return normalActivityIcon;
+    }
 
-	/**
-	 * Gets the away icon.
-	 *
-	 * @return The away icon.
-	 */
-	public Image getAwayIcon()
-	{
-		return awayIcon;
-	}
+    /**
+     * Gets the away icon.
+     *
+     * @return The away icon.
+     */
+    public Image getAwayIcon()
+    {
+        return awayIcon;
+    }
 
-	/**
-	 * Gets the away activity icon.
-	 *
-	 * @return The away activity icon.
-	 */
-	public Image getAwayActivityIcon()
-	{
-		return awayActivityIcon;
-	}
+    /**
+     * Gets the away activity icon.
+     *
+     * @return The away activity icon.
+     */
+    public Image getAwayActivityIcon()
+    {
+        return awayActivityIcon;
+    }
 }

@@ -40,76 +40,76 @@ import net.usikkert.kouchat.event.UserListListener;
  */
 public interface UserList
 {
-	/**
-	 * Adds a user to the list, and notifies with {@link UserListListener#userAdded(int)}.
-	 *
-	 * @param user The user to add.
-	 * @return If the user was successfully added to the list.
-	 */
-	boolean add( User user );
+    /**
+     * Adds a user to the list, and notifies with {@link UserListListener#userAdded(int)}.
+     *
+     * @param user The user to add.
+     * @return If the user was successfully added to the list.
+     */
+    boolean add( User user );
 
-	/**
-	 * Gets the user at the specified position.
-	 *
-	 * @param pos The position to get the user.
-	 * @return The user, or <code>null</code> of the user was not found.
-	 */
-	User get( int pos );
+    /**
+     * Gets the user at the specified position.
+     *
+     * @param pos The position to get the user.
+     * @return The user, or <code>null</code> of the user was not found.
+     */
+    User get( int pos );
 
-	/**
-	 * Gets the position in the list where this user is located.
-	 *
-	 * @param user The user to locate the position of.
-	 * @return The position, or -1 if not found.
-	 */
-	int indexOf( User user );
+    /**
+     * Gets the position in the list where this user is located.
+     *
+     * @param user The user to locate the position of.
+     * @return The position, or -1 if not found.
+     */
+    int indexOf( User user );
 
-	/**
-	 * Removes the user at the specified position from the list,
-	 * and notifies with {@link UserListListener#userRemoved(int)}.
-	 *
-	 * @param pos The position of the user to remove.
-	 * @return The user that was removed.
-	 */
-	User remove( int pos );
+    /**
+     * Removes the user at the specified position from the list,
+     * and notifies with {@link UserListListener#userRemoved(int)}.
+     *
+     * @param pos The position of the user to remove.
+     * @return The user that was removed.
+     */
+    User remove( int pos );
 
-	/**
-	 * Removes the specified user from the list,
-	 * and notifies with {@link UserListListener#userRemoved(int)}.
-	 *
-	 * @param user The user to remove.
-	 * @return If the user was successfully removed.
-	 */
-	boolean remove( User user );
+    /**
+     * Removes the specified user from the list,
+     * and notifies with {@link UserListListener#userRemoved(int)}.
+     *
+     * @param user The user to remove.
+     * @return If the user was successfully removed.
+     */
+    boolean remove( User user );
 
-	/**
-	 * Sets the specified user at the specified position in the user list,
-	 * and notifies with {@link UserListListener#userChanged(int)}.
-	 *
-	 * @param pos The position to put the user.
-	 * @param user The user to put in the position.
-	 * @return The user that was previously in that position.
-	 */
-	User set( int pos, User user );
+    /**
+     * Sets the specified user at the specified position in the user list,
+     * and notifies with {@link UserListListener#userChanged(int)}.
+     *
+     * @param pos The position to put the user.
+     * @param user The user to put in the position.
+     * @return The user that was previously in that position.
+     */
+    User set( int pos, User user );
 
-	/**
-	 * Gets the number for users in the list.
-	 *
-	 * @return The number of users.
-	 */
-	int size();
+    /**
+     * Gets the number for users in the list.
+     *
+     * @return The number of users.
+     */
+    int size();
 
-	/**
-	 * Adds a listener for changes to the user list.
-	 *
-	 * @param listener The listener to add.
-	 */
-	void addUserListListener( UserListListener listener );
+    /**
+     * Adds a listener for changes to the user list.
+     *
+     * @param listener The listener to add.
+     */
+    void addUserListListener( UserListListener listener );
 
-	/**
-	 * Removes a listener for changes to the user list.
-	 *
-	 * @param listener The listener to remove.
-	 */
-	void removeUserListListener( UserListListener listener );
+    /**
+     * Removes a listener for changes to the user list.
+     *
+     * @param listener The listener to remove.
+     */
+    void removeUserListListener( UserListListener listener );
 }

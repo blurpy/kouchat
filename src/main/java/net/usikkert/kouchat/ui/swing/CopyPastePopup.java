@@ -41,146 +41,146 @@ import javax.swing.text.DefaultEditorKit;
  */
 public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionListener
 {
-	/** Standard serial version UID. */
-	private static final long serialVersionUID = 1L;
+    /** Standard serial version UID. */
+    private static final long serialVersionUID = 1L;
 
-	/** Menu item to copy selected text. */
-	private final JMenuItem copyMI;
+    /** Menu item to copy selected text. */
+    private final JMenuItem copyMI;
 
-	/** Menu item to paste text into the text field. */
-	private final JMenuItem pasteMI;
+    /** Menu item to paste text into the text field. */
+    private final JMenuItem pasteMI;
 
-	/** Menu item to cut selected text. */
-	private final JMenuItem cutMI;
+    /** Menu item to cut selected text. */
+    private final JMenuItem cutMI;
 
-	/** Menu item to clear all the text from the text field. */
-	private final JMenuItem clearMI;
+    /** Menu item to clear all the text from the text field. */
+    private final JMenuItem clearMI;
 
-	/** The text field this popup is connected to. */
-	private final JTextField textfield;
+    /** The text field this popup is connected to. */
+    private final JTextField textfield;
 
-	/**
-	 * Constructor. Creates the menu.
-	 *
-	 * @param textfield The text field to use the popup on.
-	 */
-	public CopyPastePopup( final JTextField textfield )
-	{
-		this.textfield = textfield;
+    /**
+     * Constructor. Creates the menu.
+     *
+     * @param textfield The text field to use the popup on.
+     */
+    public CopyPastePopup( final JTextField textfield )
+    {
+        this.textfield = textfield;
 
-		copyMI = new JMenuItem( new DefaultEditorKit.CopyAction() );
-		copyMI.setText( "Copy" );
-		copyMI.setMnemonic( 'C' );
-		copyMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_C, KeyEvent.CTRL_MASK ) );
+        copyMI = new JMenuItem( new DefaultEditorKit.CopyAction() );
+        copyMI.setText( "Copy" );
+        copyMI.setMnemonic( 'C' );
+        copyMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_C, KeyEvent.CTRL_MASK ) );
 
-		cutMI = new JMenuItem( new DefaultEditorKit.CutAction() );
-		cutMI.setText( "Cut" );
-		cutMI.setMnemonic( 'U' );
-		cutMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_X, KeyEvent.CTRL_MASK ) );
+        cutMI = new JMenuItem( new DefaultEditorKit.CutAction() );
+        cutMI.setText( "Cut" );
+        cutMI.setMnemonic( 'U' );
+        cutMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_X, KeyEvent.CTRL_MASK ) );
 
-		pasteMI = new JMenuItem( new DefaultEditorKit.PasteAction() );
-		pasteMI.setText( "Paste" );
-		pasteMI.setMnemonic( 'P' );
-		pasteMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_V, KeyEvent.CTRL_MASK ) );
+        pasteMI = new JMenuItem( new DefaultEditorKit.PasteAction() );
+        pasteMI.setText( "Paste" );
+        pasteMI.setMnemonic( 'P' );
+        pasteMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_V, KeyEvent.CTRL_MASK ) );
 
-		clearMI = new JMenuItem( "Clear" );
-		clearMI.setMnemonic( 'L' );
+        clearMI = new JMenuItem( "Clear" );
+        clearMI.setMnemonic( 'L' );
 
-		add( cutMI );
-		add( copyMI );
-		add( pasteMI );
-		addSeparator();
-		add( clearMI );
+        add( cutMI );
+        add( copyMI );
+        add( pasteMI );
+        addSeparator();
+        add( clearMI );
 
-		textfield.addMouseListener( this );
-		clearMI.addActionListener( this );
-	}
+        textfield.addMouseListener( this );
+        clearMI.addActionListener( this );
+    }
 
-	/**
-	 * Not implemented.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void mouseClicked( final MouseEvent e )
-	{
+    /**
+     * Not implemented.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseClicked( final MouseEvent e )
+    {
 
-	}
+    }
 
-	/**
-	 * Not implemented.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void mouseEntered( final MouseEvent e )
-	{
+    /**
+     * Not implemented.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseEntered( final MouseEvent e )
+    {
 
-	}
+    }
 
-	/**
-	 * Not implemented.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void mouseExited( final MouseEvent e )
-	{
+    /**
+     * Not implemented.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseExited( final MouseEvent e )
+    {
 
-	}
+    }
 
-	/**
-	 * Not implemented.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void mousePressed( final MouseEvent e )
-	{
+    /**
+     * Not implemented.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void mousePressed( final MouseEvent e )
+    {
 
-	}
+    }
 
-	/**
-	 * Shows the popup menu if right mouse button was used.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void mouseReleased( final MouseEvent e )
-	{
-		if ( isPopupTrigger( e ) && textfield.isEnabled() )
-		{
-			textfield.requestFocusInWindow();
+    /**
+     * Shows the popup menu if right mouse button was used.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseReleased( final MouseEvent e )
+    {
+        if ( isPopupTrigger( e ) && textfield.isEnabled() )
+        {
+            textfield.requestFocusInWindow();
 
-			if ( textfield.getSelectedText() == null )
-			{
-				copyMI.setEnabled( false );
-				cutMI.setEnabled( false );
-			}
+            if ( textfield.getSelectedText() == null )
+            {
+                copyMI.setEnabled( false );
+                cutMI.setEnabled( false );
+            }
 
-			else
-			{
-				copyMI.setEnabled( true );
-				cutMI.setEnabled( true );
-			}
+            else
+            {
+                copyMI.setEnabled( true );
+                cutMI.setEnabled( true );
+            }
 
-			if ( textfield.getText().length() > 0 )
-				clearMI.setEnabled( true );
-			else
-				clearMI.setEnabled( false );
+            if ( textfield.getText().length() > 0 )
+                clearMI.setEnabled( true );
+            else
+                clearMI.setEnabled( false );
 
-			show( textfield, e.getX(), e.getY() );
-		}
-	}
+            show( textfield, e.getX(), e.getY() );
+        }
+    }
 
-	/**
-	 * Clears the text in the text field.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void actionPerformed( final ActionEvent e )
-	{
-		textfield.setText( "" );
-	}
+    /**
+     * Clears the text in the text field.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void actionPerformed( final ActionEvent e )
+    {
+        textfield.setText( "" );
+    }
 }

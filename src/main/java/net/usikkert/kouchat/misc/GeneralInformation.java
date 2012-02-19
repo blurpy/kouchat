@@ -29,19 +29,19 @@ package net.usikkert.kouchat.misc;
  */
 public class GeneralInformation implements GeneralInformationMBean
 {
-	/** {@inheritDoc} */
-	@Override
-	public String about()
-	{
-		User me = Settings.getSettings().getMe();
-		StringBuilder sb = new StringBuilder();
+    /** {@inheritDoc} */
+    @Override
+    public String about()
+    {
+        User me = Settings.getSettings().getMe();
+        StringBuilder sb = new StringBuilder();
 
-		sb.append( "Client: " + me.getClient() + "\n" );
-		sb.append( "User name: " + me.getNick() + "\n" );
-		sb.append( "IP address: " + me.getIpAddress() + "\n" );
-		sb.append( "Host name: " + me.getHostName() + "\n" );
-		sb.append( "Operating System: " + me.getOperatingSystem() );
+        sb.append( "Client: " + me.getClient() + "\n" );
+        sb.append( "User name: " + me.getNick() + "\n" );
+        sb.append( "IP address: " + me.getIpAddress() + "\n" );
+        sb.append( "Host name: " + me.getHostName() + "\n" );
+        sb.append( "Operating System: " + me.getOperatingSystem() );
 
-		return sb.toString();
-	}
+        return sb.toString();
+    }
 }

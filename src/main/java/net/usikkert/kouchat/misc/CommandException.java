@@ -30,44 +30,44 @@ package net.usikkert.kouchat.misc;
  */
 public class CommandException extends Exception
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Creates a CommandException with no message or cause.
-	 */
-	public CommandException()
-	{
-		super();
-	}
+    /**
+     * Creates a CommandException with no message or cause.
+     */
+    public CommandException()
+    {
+        super();
+    }
 
-	/**
-	 * Creates a CommandException with the specified message and cause.
-	 *
-	 * @param message The exception message to use.
-	 * @param cause The cause of the exception.
-	 */
-	public CommandException( final String message, final Throwable cause )
-	{
-		super( message, cause );
-	}
+    /**
+     * Creates a CommandException with the specified message and cause.
+     *
+     * @param message The exception message to use.
+     * @param cause The cause of the exception.
+     */
+    public CommandException( final String message, final Throwable cause )
+    {
+        super( message, cause );
+    }
 
-	/**
-	 * Creates a CommandException with the specified message.
-	 *
-	 * @param message The exception message to use.
-	 */
-	public CommandException( final String message )
-	{
-		super( message );
-	}
+    /**
+     * Creates a CommandException with the specified message.
+     *
+     * @param message The exception message to use.
+     */
+    public CommandException( final String message )
+    {
+        super( message );
+    }
 
-	/**
-	 * Creates a CommandException with the specified cause.
-	 *
-	 * @param cause The cause of the exception.
-	 */
-	public CommandException( final Throwable cause )
-	{
-		super( cause );
-	}
+    /**
+     * Creates a CommandException with the specified cause.
+     *
+     * @param cause The cause of the exception.
+     */
+    public CommandException( final Throwable cause )
+    {
+        super( cause );
+    }
 }

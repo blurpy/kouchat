@@ -38,150 +38,150 @@ import net.usikkert.kouchat.event.UserListListener;
  */
 public class SortedUserList implements UserList
 {
-	/** The list of users in the chat. */
-	private final List<User> userList;
+    /** The list of users in the chat. */
+    private final List<User> userList;
 
-	/** The list of listeners of changes to the user list. */
-	private final List<UserListListener> listeners;
+    /** The list of listeners of changes to the user list. */
+    private final List<UserListListener> listeners;
 
-	/**
-	 * Constructor.
-	 */
-	public SortedUserList()
-	{
-		userList = new ArrayList<User>();
-		listeners = new ArrayList<UserListListener>();
-	}
+    /**
+     * Constructor.
+     */
+    public SortedUserList()
+    {
+        userList = new ArrayList<User>();
+        listeners = new ArrayList<UserListListener>();
+    }
 
-	/**
-	 * Adds the user, and then sorts the list.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean add( final User user )
-	{
-		boolean success = userList.add( user );
+    /**
+     * Adds the user, and then sorts the list.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean add( final User user )
+    {
+        boolean success = userList.add( user );
 
-		if ( success )
-		{
-			Collections.sort( userList );
-			fireUserAdded( userList.indexOf( user ) );
-		}
+        if ( success )
+        {
+            Collections.sort( userList );
+            fireUserAdded( userList.indexOf( user ) );
+        }
 
-		return success;
-	}
+        return success;
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public User get( final int pos )
-	{
-		if ( pos < userList.size() )
-			return userList.get( pos );
-		else
-			return null;
-	}
+    /** {@inheritDoc} */
+    @Override
+    public User get( final int pos )
+    {
+        if ( pos < userList.size() )
+            return userList.get( pos );
+        else
+            return null;
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public int indexOf( final User user )
-	{
-		return userList.indexOf( user );
-	}
+    /** {@inheritDoc} */
+    @Override
+    public int indexOf( final User user )
+    {
+        return userList.indexOf( user );
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public User remove( final int pos )
-	{
-		User user = userList.remove( pos );
-		fireUserRemoved( pos );
+    /** {@inheritDoc} */
+    @Override
+    public User remove( final int pos )
+    {
+        User user = userList.remove( pos );
+        fireUserRemoved( pos );
 
-		return user;
-	}
+        return user;
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public boolean remove( final User user )
-	{
-		int pos = userList.indexOf( user );
-		boolean success = userList.remove( user );
-		fireUserRemoved( pos );
+    /** {@inheritDoc} */
+    @Override
+    public boolean remove( final User user )
+    {
+        int pos = userList.indexOf( user );
+        boolean success = userList.remove( user );
+        fireUserRemoved( pos );
 
-		return success;
-	}
+        return success;
+    }
 
-	/**
-	 * Sets the user, and then sorts the list.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public User set( final int pos, final User user )
-	{
-		User oldUser = userList.set( pos, user );
-		Collections.sort( userList );
-		fireUserChanged( userList.indexOf( user ) );
+    /**
+     * Sets the user, and then sorts the list.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public User set( final int pos, final User user )
+    {
+        User oldUser = userList.set( pos, user );
+        Collections.sort( userList );
+        fireUserChanged( userList.indexOf( user ) );
 
-		return oldUser;
-	}
+        return oldUser;
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public int size()
-	{
-		return userList.size();
-	}
+    /** {@inheritDoc} */
+    @Override
+    public int size()
+    {
+        return userList.size();
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public void addUserListListener( final UserListListener listener )
-	{
-		listeners.add( listener );
-	}
+    /** {@inheritDoc} */
+    @Override
+    public void addUserListListener( final UserListListener listener )
+    {
+        listeners.add( listener );
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public void removeUserListListener( final UserListListener listener )
-	{
-		listeners.remove( listener );
-	}
+    /** {@inheritDoc} */
+    @Override
+    public void removeUserListListener( final UserListListener listener )
+    {
+        listeners.remove( listener );
+    }
 
-	/**
-	 * Notifies the listeners that a user was added.
-	 *
-	 * @param pos The position where the user was added.
-	 */
-	private void fireUserAdded( final int pos )
-	{
-		for ( UserListListener listener : listeners )
-		{
-			listener.userAdded( pos );
-		}
-	}
+    /**
+     * Notifies the listeners that a user was added.
+     *
+     * @param pos The position where the user was added.
+     */
+    private void fireUserAdded( final int pos )
+    {
+        for ( UserListListener listener : listeners )
+        {
+            listener.userAdded( pos );
+        }
+    }
 
-	/**
-	 * Notifies the listeners that a user was changed.
-	 *
-	 * @param pos The position of the changed user.
-	 */
-	private void fireUserChanged( final int pos )
-	{
-		for ( UserListListener listener : listeners )
-		{
-			listener.userChanged( pos );
-		}
-	}
+    /**
+     * Notifies the listeners that a user was changed.
+     *
+     * @param pos The position of the changed user.
+     */
+    private void fireUserChanged( final int pos )
+    {
+        for ( UserListListener listener : listeners )
+        {
+            listener.userChanged( pos );
+        }
+    }
 
-	/**
-	 * Notifies the listeners that a user was removed.
-	 *
-	 * @param pos The position of the removed user.
-	 */
-	private void fireUserRemoved( final int pos )
-	{
-		for ( UserListListener listener : listeners )
-		{
-			listener.userRemoved( pos );
-		}
-	}
+    /**
+     * Notifies the listeners that a user was removed.
+     *
+     * @param pos The position of the removed user.
+     */
+    private void fireUserRemoved( final int pos )
+    {
+        for ( UserListListener listener : listeners )
+        {
+            listener.userRemoved( pos );
+        }
+    }
 }

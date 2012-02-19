@@ -34,45 +34,45 @@ import org.junit.Test;
  */
 public class SimpleReceiverListenerTest
 {
-	/**
-	 * Tests that any message and ip address is saved when no
-	 * expected message is set.
-	 */
-	@Test
-	public void testListenerWithNoExpectedMessage()
-	{
-		SimpleReceiverListener listener = new SimpleReceiverListener( null );
-		listener.messageArrived( "A message", "An ip address" );
+    /**
+     * Tests that any message and ip address is saved when no
+     * expected message is set.
+     */
+    @Test
+    public void testListenerWithNoExpectedMessage()
+    {
+        SimpleReceiverListener listener = new SimpleReceiverListener( null );
+        listener.messageArrived( "A message", "An ip address" );
 
-		assertEquals( "A message", listener.getMessage() );
-		assertEquals( "An ip address", listener.getIpAddress() );
-	}
+        assertEquals( "A message", listener.getMessage() );
+        assertEquals( "An ip address", listener.getIpAddress() );
+    }
 
-	/**
-	 * Tests that the message and ip address is not saved when an expected
-	 * message is set, but another message is received.
-	 */
-	@Test
-	public void testListenerWithWrongMessage()
-	{
-		SimpleReceiverListener listener = new SimpleReceiverListener( "Some message :)" );
-		listener.messageArrived( "A message", "An ip address" );
+    /**
+     * Tests that the message and ip address is not saved when an expected
+     * message is set, but another message is received.
+     */
+    @Test
+    public void testListenerWithWrongMessage()
+    {
+        SimpleReceiverListener listener = new SimpleReceiverListener( "Some message :)" );
+        listener.messageArrived( "A message", "An ip address" );
 
-		assertNull( listener.getMessage() );
-		assertNull( listener.getIpAddress() );
-	}
+        assertNull( listener.getMessage() );
+        assertNull( listener.getIpAddress() );
+    }
 
-	/**
-	 * Tests that the message and ip address is saved when an expected
-	 * message is set, and received.
-	 */
-	@Test
-	public void testListenerWithCorrectMessage()
-	{
-		SimpleReceiverListener listener = new SimpleReceiverListener( "Another message :)" );
-		listener.messageArrived( "Another message :)", "An ip address" );
+    /**
+     * Tests that the message and ip address is saved when an expected
+     * message is set, and received.
+     */
+    @Test
+    public void testListenerWithCorrectMessage()
+    {
+        SimpleReceiverListener listener = new SimpleReceiverListener( "Another message :)" );
+        listener.messageArrived( "Another message :)", "An ip address" );
 
-		assertEquals( "Another message :)", listener.getMessage() );
-		assertEquals( "An ip address", listener.getIpAddress() );
-	}
+        assertEquals( "Another message :)", listener.getMessage() );
+        assertEquals( "An ip address", listener.getIpAddress() );
+    }
 }

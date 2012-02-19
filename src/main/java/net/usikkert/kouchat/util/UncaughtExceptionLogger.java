@@ -38,48 +38,48 @@ import java.util.logging.Logger;
  */
 public class UncaughtExceptionLogger implements Thread.UncaughtExceptionHandler
 {
-	/** The logger. */
-	private static final Logger LOG = Logger.getLogger( UncaughtExceptionLogger.class.getName() );
+    /** The logger. */
+    private static final Logger LOG = Logger.getLogger( UncaughtExceptionLogger.class.getName() );
 
-	/** The listeners being notified of uncaught exceptions. */
-	private final Collection<UncaughtExceptionListener> listeners;
+    /** The listeners being notified of uncaught exceptions. */
+    private final Collection<UncaughtExceptionListener> listeners;
 
-	/**
-	 * Default constructor. Registers this class as the
-	 * default uncaught exception handler.
-	 */
-	public UncaughtExceptionLogger()
-	{
-		Thread.setDefaultUncaughtExceptionHandler( this );
-		listeners = new ArrayList<UncaughtExceptionListener>();
-	}
+    /**
+     * Default constructor. Registers this class as the
+     * default uncaught exception handler.
+     */
+    public UncaughtExceptionLogger()
+    {
+        Thread.setDefaultUncaughtExceptionHandler( this );
+        listeners = new ArrayList<UncaughtExceptionListener>();
+    }
 
-	/**
-	 * Logs the exception with information about which thread
-	 * the exception happened in, and notifies listeners.
-	 *
-	 * @param thread The thread that got the exception.
-	 * @param throwable The exception the thread got.
-	 */
-	@Override
-	public void uncaughtException( final Thread thread, final Throwable throwable )
-	{
-		LOG.log( Level.SEVERE, "UncaughtException in thread: " + thread.getName()
-				+ " (id " + thread.getId() + ", priority " + thread.getPriority() + ")", throwable );
+    /**
+     * Logs the exception with information about which thread
+     * the exception happened in, and notifies listeners.
+     *
+     * @param thread The thread that got the exception.
+     * @param throwable The exception the thread got.
+     */
+    @Override
+    public void uncaughtException( final Thread thread, final Throwable throwable )
+    {
+        LOG.log( Level.SEVERE, "UncaughtException in thread: " + thread.getName()
+                + " (id " + thread.getId() + ", priority " + thread.getPriority() + ")", throwable );
 
-		for ( UncaughtExceptionListener listener : listeners )
-		{
-			listener.uncaughtException( thread, throwable );
-		}
-	}
+        for ( UncaughtExceptionListener listener : listeners )
+        {
+            listener.uncaughtException( thread, throwable );
+        }
+    }
 
-	/**
-	 * Registers a new uncaught exceptions listener.
-	 *
-	 * @param listener The listener to register.
-	 */
-	public void registerUncaughtExceptionListener( final UncaughtExceptionListener listener )
-	{
-		listeners.add( listener );
-	}
+    /**
+     * Registers a new uncaught exceptions listener.
+     *
+     * @param listener The listener to register.
+     */
+    public void registerUncaughtExceptionListener( final UncaughtExceptionListener listener )
+    {
+        listeners.add( listener );
+    }
 }

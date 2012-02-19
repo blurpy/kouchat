@@ -40,118 +40,118 @@ import net.usikkert.kouchat.misc.ErrorHandler;
  */
 public class UDPSender
 {
-	/** The logger. */
-	private static final Logger LOG = Logger.getLogger( UDPSender.class.getName() );
+    /** The logger. */
+    private static final Logger LOG = Logger.getLogger( UDPSender.class.getName() );
 
-	/** The datagram socket used for sending messages. */
-	private DatagramSocket udpSocket;
+    /** The datagram socket used for sending messages. */
+    private DatagramSocket udpSocket;
 
-	/** If connected to the network or not. */
-	private boolean connected;
+    /** If connected to the network or not. */
+    private boolean connected;
 
-	/** The error handler for registering important messages. */
-	private final ErrorHandler errorHandler;
+    /** The error handler for registering important messages. */
+    private final ErrorHandler errorHandler;
 
-	/**
-	 * Default constructor.
-	 */
-	public UDPSender()
-	{
-		errorHandler = ErrorHandler.getErrorHandler();
-	}
+    /**
+     * Default constructor.
+     */
+    public UDPSender()
+    {
+        errorHandler = ErrorHandler.getErrorHandler();
+    }
 
-	/**
-	 * Sends a packet with a message to a user.
-	 *
-	 * @param message The message to send.
-	 * @param ip The ip address of the user.
-	 * @param port The port to send the message to.
-	 * @return If the message was sent or not.
-	 */
-	public boolean send( final String message, final String ip, final int port )
-	{
-		if ( connected )
-		{
-			try
-			{
-				InetAddress address = InetAddress.getByName( ip );
-				byte[] encodedMsg = message.getBytes( Constants.MESSAGE_CHARSET );
-				int size = encodedMsg.length;
+    /**
+     * Sends a packet with a message to a user.
+     *
+     * @param message The message to send.
+     * @param ip The ip address of the user.
+     * @param port The port to send the message to.
+     * @return If the message was sent or not.
+     */
+    public boolean send( final String message, final String ip, final int port )
+    {
+        if ( connected )
+        {
+            try
+            {
+                InetAddress address = InetAddress.getByName( ip );
+                byte[] encodedMsg = message.getBytes( Constants.MESSAGE_CHARSET );
+                int size = encodedMsg.length;
 
-				if ( size > Constants.NETWORK_PACKET_SIZE )
-				{
-					LOG.log( Level.WARNING, "Message was " + size + " bytes, which is too large.\n"
-							+ " The receiver might not get the complete message.\n'" + message + "'" );
-				}
+                if ( size > Constants.NETWORK_PACKET_SIZE )
+                {
+                    LOG.log( Level.WARNING, "Message was " + size + " bytes, which is too large.\n"
+                            + " The receiver might not get the complete message.\n'" + message + "'" );
+                }
 
-				DatagramPacket packet = new DatagramPacket( encodedMsg, size, address, port );
-				udpSocket.send( packet );
-				LOG.log( Level.FINE, "Sent message: " + message );
+                DatagramPacket packet = new DatagramPacket( encodedMsg, size, address, port );
+                udpSocket.send( packet );
+                LOG.log( Level.FINE, "Sent message: " + message );
 
-				return true;
-			}
+                return true;
+            }
 
-			catch ( final IOException e )
-			{
-				LOG.log( Level.SEVERE, "Could not send message: " + message );
-			}
-		}
+            catch ( final IOException e )
+            {
+                LOG.log( Level.SEVERE, "Could not send message: " + message );
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * Closes the UDP socket.
-	 */
-	public void stopSender()
-	{
-		LOG.log( Level.FINE, "Disconnecting..." );
+    /**
+     * Closes the UDP socket.
+     */
+    public void stopSender()
+    {
+        LOG.log( Level.FINE, "Disconnecting..." );
 
-		if ( !connected )
-		{
-			LOG.log( Level.FINE, "Not connected." );
-		}
+        if ( !connected )
+        {
+            LOG.log( Level.FINE, "Not connected." );
+        }
 
-		else
-		{
-			connected = false;
+        else
+        {
+            connected = false;
 
-			if ( udpSocket != null && !udpSocket.isClosed() )
-			{
-				udpSocket.close();
-			}
+            if ( udpSocket != null && !udpSocket.isClosed() )
+            {
+                udpSocket.close();
+            }
 
-			LOG.log( Level.FINE, "Disconnected." );
-		}
-	}
+            LOG.log( Level.FINE, "Disconnected." );
+        }
+    }
 
-	/**
-	 * Creates a new UDP socket.
-	 */
-	public void startSender()
-	{
-		LOG.log( Level.FINE, "Connecting..." );
+    /**
+     * Creates a new UDP socket.
+     */
+    public void startSender()
+    {
+        LOG.log( Level.FINE, "Connecting..." );
 
-		if ( connected )
-		{
-			LOG.log( Level.FINE, "Already connected." );
-		}
+        if ( connected )
+        {
+            LOG.log( Level.FINE, "Already connected." );
+        }
 
-		else
-		{
-			try
-			{
-				udpSocket = new DatagramSocket();
-				connected = true;
-				LOG.log( Level.FINE, "Connected." );
-			}
+        else
+        {
+            try
+            {
+                udpSocket = new DatagramSocket();
+                connected = true;
+                LOG.log( Level.FINE, "Connected." );
+            }
 
-			catch ( final IOException e )
-			{
-				LOG.log( Level.SEVERE, e.toString(), e );
-				errorHandler.showError( "Failed to initialize network:\n" + e
-						+ "\n\nYou will not be able to send private messages!" );
-			}
-		}
-	}
+            catch ( final IOException e )
+            {
+                LOG.log( Level.SEVERE, e.toString(), e );
+                errorHandler.showError( "Failed to initialize network:\n" + e
+                        + "\n\nYou will not be able to send private messages!" );
+            }
+        }
+    }
 }

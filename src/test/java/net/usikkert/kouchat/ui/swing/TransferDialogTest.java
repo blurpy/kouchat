@@ -34,48 +34,48 @@ import org.junit.Test;
  */
 public class TransferDialogTest
 {
-	/** The image loader. */
-	private final ImageLoader imageLoader = new ImageLoader();
+    /** The image loader. */
+    private final ImageLoader imageLoader = new ImageLoader();
 
-	/**
-	 * Creates a {@link TransferDialog} for receiving a file,
-	 * and simulates the file transfer.
-	 *
-	 * @throws InterruptedException In case of sleep issues.
-	 */
-	@Test
-	public void testReceiveDialog() throws InterruptedException
-	{
-		MockMediator mediator = new MockMediator();
-		MockFileTransfer fileTransfer = new MockFileTransfer( Direction.RECEIVE );
+    /**
+     * Creates a {@link TransferDialog} for receiving a file,
+     * and simulates the file transfer.
+     *
+     * @throws InterruptedException In case of sleep issues.
+     */
+    @Test
+    public void testReceiveDialog() throws InterruptedException
+    {
+        MockMediator mediator = new MockMediator();
+        MockFileTransfer fileTransfer = new MockFileTransfer( Direction.RECEIVE );
 
-		new TransferDialog( mediator, fileTransfer, imageLoader );
+        new TransferDialog( mediator, fileTransfer, imageLoader );
 
-		// Returns true when the close button is clicked
-		while ( !mediator.isClose() )
-		{
-			Thread.sleep( 100 );
-		}
-	}
+        // Returns true when the close button is clicked
+        while ( !mediator.isClose() )
+        {
+            Thread.sleep( 100 );
+        }
+    }
 
-	/**
-	 * Creates a {@link TransferDialog} for sending a file,
-	 * and simulates the file transfer.
-	 *
-	 * @throws InterruptedException In case of sleep issues.
-	 */
-	@Test
-	public void testSendDialog() throws InterruptedException
-	{
-		MockMediator mediator = new MockMediator();
-		MockFileTransfer fileTransfer = new MockFileTransfer( Direction.SEND );
+    /**
+     * Creates a {@link TransferDialog} for sending a file,
+     * and simulates the file transfer.
+     *
+     * @throws InterruptedException In case of sleep issues.
+     */
+    @Test
+    public void testSendDialog() throws InterruptedException
+    {
+        MockMediator mediator = new MockMediator();
+        MockFileTransfer fileTransfer = new MockFileTransfer( Direction.SEND );
 
-		new TransferDialog( mediator, fileTransfer, imageLoader );
+        new TransferDialog( mediator, fileTransfer, imageLoader );
 
-		// Returns true when the close button is clicked
-		while ( !mediator.isClose() )
-		{
-			Thread.sleep( 100 );
-		}
-	}
+        // Returns true when the close button is clicked
+        while ( !mediator.isClose() )
+        {
+            Thread.sleep( 100 );
+        }
+    }
 }

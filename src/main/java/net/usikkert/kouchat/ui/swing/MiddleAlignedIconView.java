@@ -33,33 +33,33 @@ import javax.swing.text.IconView;
  */
 public class MiddleAlignedIconView extends IconView
 {
-	/**
-	 * Constructor.
-	 *
-	 * @param elem The icon.
-	 */
-	public MiddleAlignedIconView( final Element elem )
-	{
-		super( elem );
-	}
+    /**
+     * Constructor.
+     *
+     * @param elem The icon.
+     */
+    public MiddleAlignedIconView( final Element elem )
+    {
+        super( elem );
+    }
 
-	/**
-	 * Decides how to align the icon.
-	 *
-	 * <p>Options:</p>
-	 * <ul>
-	 *   <li><b>0</b> - aligns the top of the image along the bottom of the text.</li>
-	 *   <li><b>0.25</b> - aligns the middle of the image along the bottom of the text.</li>
-	 *   <li><b>0.5</b> - aligns the top of the image along the top of the text.</li>
-	 *   <li><b>0.75</b> - aligns the middle of the image along the middle of the text.</li>
-	 *   <li><b>1</b> - aligns the bottom of the image along the bottom of the text.</li>
-	 * </ul>
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public float getAlignment( final int axis )
-	{
-		return 0.75f;
-	}
+    /**
+     * Decides how to align the icon.
+     *
+     * <p>Options:</p>
+     * <ul>
+     *   <li><b>0</b> - aligns the top of the image along the bottom of the text.</li>
+     *   <li><b>0.25</b> - aligns the middle of the image along the bottom of the text.</li>
+     *   <li><b>0.5</b> - aligns the top of the image along the top of the text.</li>
+     *   <li><b>0.75</b> - aligns the middle of the image along the middle of the text.</li>
+     *   <li><b>1</b> - aligns the bottom of the image along the bottom of the text.</li>
+     * </ul>
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public float getAlignment( final int axis )
+    {
+        return 0.75f;
+    }
 }

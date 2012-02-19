@@ -32,69 +32,69 @@ import net.usikkert.kouchat.event.ReceiverListener;
  */
 public class SimpleReceiverListener implements ReceiverListener
 {
-	/** An expected message. */
-	private final String expectedMessage;
+    /** An expected message. */
+    private final String expectedMessage;
 
-	/** The arrived message, or null. */
-	private String message;
+    /** The arrived message, or null. */
+    private String message;
 
-	/** The ip address of the arrived message, or null. */
-	private String ipAddress;
+    /** The ip address of the arrived message, or null. */
+    private String ipAddress;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param expectedMessage An expected message, or <code>null</code>.
-	 */
-	public SimpleReceiverListener( final String expectedMessage )
-	{
-		this.expectedMessage = expectedMessage;
-	}
+    /**
+     * Constructor.
+     *
+     * @param expectedMessage An expected message, or <code>null</code>.
+     */
+    public SimpleReceiverListener( final String expectedMessage )
+    {
+        this.expectedMessage = expectedMessage;
+    }
 
-	/**
-	 * Stores the message and ip address, and nothing more.
-	 *
-	 * <p>If {@link #expectedMessage} is not null, then the message and ip
-	 * is stored only if the message equals the expected message.</p>
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void messageArrived( final String message, final String ipAddress )
-	{
-		if ( expectedMessage == null || expectedMessage.equals( message ) )
-		{
-			this.message = message;
-			this.ipAddress = ipAddress;
-		}
-	}
+    /**
+     * Stores the message and ip address, and nothing more.
+     *
+     * <p>If {@link #expectedMessage} is not null, then the message and ip
+     * is stored only if the message equals the expected message.</p>
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void messageArrived( final String message, final String ipAddress )
+    {
+        if ( expectedMessage == null || expectedMessage.equals( message ) )
+        {
+            this.message = message;
+            this.ipAddress = ipAddress;
+        }
+    }
 
-	/**
-	 * Gets the arrived message.
-	 *
-	 * @return The message.
-	 */
-	public String getMessage()
-	{
-		return message;
-	}
+    /**
+     * Gets the arrived message.
+     *
+     * @return The message.
+     */
+    public String getMessage()
+    {
+        return message;
+    }
 
-	/**
-	 * Gets the ip address of the arrived message.
-	 *
-	 * @return The ip address.
-	 */
-	public String getIpAddress()
-	{
-		return ipAddress;
-	}
+    /**
+     * Gets the ip address of the arrived message.
+     *
+     * @return The ip address.
+     */
+    public String getIpAddress()
+    {
+        return ipAddress;
+    }
 
-	/**
-	 * Resets the message and ip address to <code>null</code>.
-	 */
-	public void reset()
-	{
-		message = null;
-		ipAddress = null;
-	}
+    /**
+     * Resets the message and ip address to <code>null</code>.
+     */
+    public void reset()
+    {
+        message = null;
+        ipAddress = null;
+    }
 }

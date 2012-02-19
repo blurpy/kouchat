@@ -29,11 +29,11 @@ package net.usikkert.kouchat.event;
  */
 public interface ReceiverListener
 {
-	/**
-	 * Called when a new message arrives over the network.
-	 *
-	 * @param message The message that arrived.
-	 * @param ipAddress The ip address of the user that sent the message.
-	 */
-	void messageArrived( String message, String ipAddress );
+    /**
+     * Called when a new message arrives over the network.
+     *
+     * @param message The message that arrived.
+     * @param ipAddress The ip address of the user that sent the message.
+     */
+    void messageArrived( String message, String ipAddress );
 }

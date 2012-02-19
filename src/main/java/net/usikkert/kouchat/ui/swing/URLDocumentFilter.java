@@ -48,162 +48,162 @@ import javax.swing.text.StyledDocument;
  */
 public class URLDocumentFilter extends DocumentFilter
 {
-	/**
-	 * The url is saved as an attribute in the Document, so
-	 * this attribute can be used to retrieve the url later.
-	 */
-	public static final String URL_ATTRIBUTE = "url.attribute";
+    /**
+     * The url is saved as an attribute in the Document, so
+     * this attribute can be used to retrieve the url later.
+     */
+    public static final String URL_ATTRIBUTE = "url.attribute";
 
-	/** Regex for: <code>protocol://host</code>. */
-	private final Pattern protPattern;
+    /** Regex for: <code>protocol://host</code>. */
+    private final Pattern protPattern;
 
-	/** Regex for: <code>www.host.name</code>. */
-	private final Pattern wwwPattern;
+    /** Regex for: <code>www.host.name</code>. */
+    private final Pattern wwwPattern;
 
-	/** Regex for: <code>ftp.host.name</code>. */
-	private final Pattern ftpPattern;
+    /** Regex for: <code>ftp.host.name</code>. */
+    private final Pattern ftpPattern;
 
-	/**
-	 * If this document filter is the only document filter used.
-	 * This must be true if it is, or the text will not be visible.
-	 * If this is not the only filter, then this must be false, or
-	 * the same text will be shown several times.
-	 */
-	private final boolean standAlone;
+    /**
+     * If this document filter is the only document filter used.
+     * This must be true if it is, or the text will not be visible.
+     * If this is not the only filter, then this must be false, or
+     * the same text will be shown several times.
+     */
+    private final boolean standAlone;
 
-	/**
-	 * Constructor. Creates regex patterns to use for url checking.
-	 *
-	 * @param standAlone If this is the only document filter used.
-	 */
-	public URLDocumentFilter( final boolean standAlone )
-	{
-		this.standAlone = standAlone;
+    /**
+     * Constructor. Creates regex patterns to use for url checking.
+     *
+     * @param standAlone If this is the only document filter used.
+     */
+    public URLDocumentFilter( final boolean standAlone )
+    {
+        this.standAlone = standAlone;
 
-		protPattern = Pattern.compile( "\\w{2,}://\\w+\\S+.+" );
-		wwwPattern = Pattern.compile( "www\\.\\w+\\S+\\.\\S+.+" );
-		ftpPattern = Pattern.compile( "ftp\\.\\w+\\S+\\.\\S+.+" );
-	}
+        protPattern = Pattern.compile( "\\w{2,}://\\w+\\S+.+" );
+        wwwPattern = Pattern.compile( "www\\.\\w+\\S+\\.\\S+.+" );
+        ftpPattern = Pattern.compile( "ftp\\.\\w+\\S+\\.\\S+.+" );
+    }
 
-	/**
-	 * Checks if any parts of the text contains any urls. If a url is found,
-	 * it is underlined and saved in an attribute.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void insertString( final FilterBypass fb, final int offset, final String text, final AttributeSet attr )
-			throws BadLocationException
-	{
-		if ( standAlone )
-			super.insertString( fb, offset, text, attr );
+    /**
+     * Checks if any parts of the text contains any urls. If a url is found,
+     * it is underlined and saved in an attribute.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void insertString( final FilterBypass fb, final int offset, final String text, final AttributeSet attr )
+            throws BadLocationException
+    {
+        if ( standAlone )
+            super.insertString( fb, offset, text, attr );
 
-		// Make a copy now, or else it could change if another message comes
-		final MutableAttributeSet urlAttr = (MutableAttributeSet) attr.copyAttributes();
+        // Make a copy now, or else it could change if another message comes
+        final MutableAttributeSet urlAttr = (MutableAttributeSet) attr.copyAttributes();
 
-		SwingUtilities.invokeLater( new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				int startPos = findURLPos( text, 0 );
+        SwingUtilities.invokeLater( new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                int startPos = findURLPos( text, 0 );
 
-				if ( startPos != -1 )
-				{
-					StyleConstants.setUnderline( urlAttr, true );
-					StyledDocument doc = (StyledDocument) fb.getDocument();
+                if ( startPos != -1 )
+                {
+                    StyleConstants.setUnderline( urlAttr, true );
+                    StyledDocument doc = (StyledDocument) fb.getDocument();
 
-					while ( startPos != -1 )
-					{
-						int stopPos = text.indexOf( " ", startPos );
+                    while ( startPos != -1 )
+                    {
+                        int stopPos = text.indexOf( " ", startPos );
 
-						if ( stopPos == -1 )
-							stopPos = text.indexOf( "\n", startPos );
+                        if ( stopPos == -1 )
+                            stopPos = text.indexOf( "\n", startPos );
 
-						urlAttr.addAttribute( URL_ATTRIBUTE, text.substring( startPos, stopPos ) );
-						doc.setCharacterAttributes( offset + startPos, stopPos - startPos, urlAttr, false );
-						startPos = findURLPos( text, stopPos );
-					}
-				}
-			}
-		} );
-	}
+                        urlAttr.addAttribute( URL_ATTRIBUTE, text.substring( startPos, stopPos ) );
+                        doc.setCharacterAttributes( offset + startPos, stopPos - startPos, urlAttr, false );
+                        startPos = findURLPos( text, stopPos );
+                    }
+                }
+            }
+        } );
+    }
 
-	/**
-	 * Returns the position of the first matching
-	 * url in the text, starting from the specified offset.
-	 *
-	 * @param text The text to find urls in.
-	 * @param offset Where in the text to begin the search.
-	 * @return The position of the first character in the url, or -1
-	 * if no url was found.
-	 */
-	private int findURLPos( final String text, final int offset )
-	{
-		int prot = text.indexOf( "://", offset );
-		int www = text.indexOf( " www", offset );
-		int ftp = text.indexOf( " ftp", offset );
+    /**
+     * Returns the position of the first matching
+     * url in the text, starting from the specified offset.
+     *
+     * @param text The text to find urls in.
+     * @param offset Where in the text to begin the search.
+     * @return The position of the first character in the url, or -1
+     * if no url was found.
+     */
+    private int findURLPos( final String text, final int offset )
+    {
+        int prot = text.indexOf( "://", offset );
+        int www = text.indexOf( " www", offset );
+        int ftp = text.indexOf( " ftp", offset );
 
-		int firstMatch = -1;
-		boolean retry = true;
+        int firstMatch = -1;
+        boolean retry = true;
 
-		// Needs to loop because the text can get through the first test above,
-		// but fail the regex match. If another url exists after the failed regex
-		// match, it will not be found.
-		while ( retry )
-		{
-			retry = false;
+        // Needs to loop because the text can get through the first test above,
+        // but fail the regex match. If another url exists after the failed regex
+        // match, it will not be found.
+        while ( retry )
+        {
+            retry = false;
 
-			if ( prot != -1 && ( prot < firstMatch || firstMatch == -1 ) )
-			{
-				int protStart = text.lastIndexOf( ' ', prot ) + 1;
-				String t = text.substring( protStart, text.length() - 1 );
+            if ( prot != -1 && ( prot < firstMatch || firstMatch == -1 ) )
+            {
+                int protStart = text.lastIndexOf( ' ', prot ) + 1;
+                String t = text.substring( protStart, text.length() - 1 );
 
-				if ( protPattern.matcher( t ).matches() )
-					firstMatch = protStart;
+                if ( protPattern.matcher( t ).matches() )
+                    firstMatch = protStart;
 
-				else
-				{
-					prot = text.indexOf( "://", prot + 1 );
+                else
+                {
+                    prot = text.indexOf( "://", prot + 1 );
 
-					if ( prot != -1 && ( prot < firstMatch || firstMatch == -1 ) )
-						retry = true;
-				}
-			}
+                    if ( prot != -1 && ( prot < firstMatch || firstMatch == -1 ) )
+                        retry = true;
+                }
+            }
 
-			if ( www != -1 && ( www < firstMatch || firstMatch == -1 ) )
-			{
-				String t = text.substring( www + 1, text.length() - 1 );
+            if ( www != -1 && ( www < firstMatch || firstMatch == -1 ) )
+            {
+                String t = text.substring( www + 1, text.length() - 1 );
 
-				if ( wwwPattern.matcher( t ).matches() )
-					firstMatch = www + 1;
+                if ( wwwPattern.matcher( t ).matches() )
+                    firstMatch = www + 1;
 
-				else
-				{
-					www = text.indexOf( " www", www + 1 );
+                else
+                {
+                    www = text.indexOf( " www", www + 1 );
 
-					if ( www != -1 && ( www < firstMatch || firstMatch == -1 ) )
-						retry = true;
-				}
-			}
+                    if ( www != -1 && ( www < firstMatch || firstMatch == -1 ) )
+                        retry = true;
+                }
+            }
 
-			if ( ftp != -1 && ( ftp < firstMatch || firstMatch == -1 ) )
-			{
-				String t = text.substring( ftp + 1, text.length() - 1 );
+            if ( ftp != -1 && ( ftp < firstMatch || firstMatch == -1 ) )
+            {
+                String t = text.substring( ftp + 1, text.length() - 1 );
 
-				if ( ftpPattern.matcher( t ).matches() )
-					firstMatch = ftp + 1;
+                if ( ftpPattern.matcher( t ).matches() )
+                    firstMatch = ftp + 1;
 
-				else
-				{
-					ftp = text.indexOf( " ftp", ftp + 1 );
+                else
+                {
+                    ftp = text.indexOf( " ftp", ftp + 1 );
 
-					if ( ftp != -1 && ( ftp < firstMatch || firstMatch == -1 ) )
-						retry = true;
-				}
-			}
-		}
+                    if ( ftp != -1 && ( ftp < firstMatch || firstMatch == -1 ) )
+                        retry = true;
+                }
+            }
+        }
 
-		return firstMatch;
-	}
+        return firstMatch;
+    }
 }

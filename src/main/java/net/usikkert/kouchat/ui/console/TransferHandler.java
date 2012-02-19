@@ -37,87 +37,87 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class TransferHandler implements FileTransferListener
 {
-	/** The file transfer to handle. */
-	private final FileTransfer fileTransfer;
+    /** The file transfer to handle. */
+    private final FileTransfer fileTransfer;
 
-	/** The message controller. */
-	private final MessageController msgController;
+    /** The message controller. */
+    private final MessageController msgController;
 
-	/**
-	 * Constructor. Registers this class as a listener of
-	 * file transfer events.
-	 *
-	 * @param fileTransfer The file transfer to handle.
-	 * @param msgController The message controller.
-	 */
-	public TransferHandler( final FileTransfer fileTransfer, final MessageController msgController )
-	{
-		Validate.notNull( fileTransfer, "File transfer can not be null" );
-		Validate.notNull( msgController, "Message controller can not be null" );
+    /**
+     * Constructor. Registers this class as a listener of
+     * file transfer events.
+     *
+     * @param fileTransfer The file transfer to handle.
+     * @param msgController The message controller.
+     */
+    public TransferHandler( final FileTransfer fileTransfer, final MessageController msgController )
+    {
+        Validate.notNull( fileTransfer, "File transfer can not be null" );
+        Validate.notNull( msgController, "Message controller can not be null" );
 
-		this.fileTransfer = fileTransfer;
-		this.msgController = msgController;
+        this.fileTransfer = fileTransfer;
+        this.msgController = msgController;
 
-		fileTransfer.registerListener( this );
-	}
+        fileTransfer.registerListener( this );
+    }
 
-	/**
-	 * Not implemented.
-	 */
-	@Override
-	public void statusCompleted()
-	{
+    /**
+     * Not implemented.
+     */
+    @Override
+    public void statusCompleted()
+    {
 
-	}
+    }
 
-	/**
-	 * Not implemented.
-	 */
-	@Override
-	public void statusConnecting()
-	{
+    /**
+     * Not implemented.
+     */
+    @Override
+    public void statusConnecting()
+    {
 
-	}
+    }
 
-	/**
-	 * Not implemented.
-	 */
-	@Override
-	public void statusFailed()
-	{
+    /**
+     * Not implemented.
+     */
+    @Override
+    public void statusFailed()
+    {
 
-	}
+    }
 
-	/**
-	 * Shows a message if starting to receive a file.
-	 * There is no need to show a message when sending a message,
-	 * as that is taken care of elsewhere.
-	 */
-	@Override
-	public void statusTransferring()
-	{
-		if ( fileTransfer.getDirection() == Direction.RECEIVE )
-		{
-			msgController.showSystemMessage( "Receiving " + fileTransfer.getFile().getName()
-					+ " from " + fileTransfer.getUser().getNick() );
-		}
-	}
+    /**
+     * Shows a message if starting to receive a file.
+     * There is no need to show a message when sending a message,
+     * as that is taken care of elsewhere.
+     */
+    @Override
+    public void statusTransferring()
+    {
+        if ( fileTransfer.getDirection() == Direction.RECEIVE )
+        {
+            msgController.showSystemMessage( "Receiving " + fileTransfer.getFile().getName()
+                    + " from " + fileTransfer.getUser().getNick() );
+        }
+    }
 
-	/**
-	 * Not implemented.
-	 */
-	@Override
-	public void statusWaiting()
-	{
+    /**
+     * Not implemented.
+     */
+    @Override
+    public void statusWaiting()
+    {
 
-	}
+    }
 
-	/**
-	 * Not implemented.
-	 */
-	@Override
-	public void transferUpdate()
-	{
+    /**
+     * Not implemented.
+     */
+    @Override
+    public void transferUpdate()
+    {
 
-	}
+    }
 }

@@ -38,76 +38,76 @@ import net.usikkert.kouchat.ui.UserInterface;
  */
 public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 {
-	/** The logger. */
-	private static final Logger LOG = Logger.getLogger( DefaultPrivateMessageResponder.class.getName() );
+    /** The logger. */
+    private static final Logger LOG = Logger.getLogger( DefaultPrivateMessageResponder.class.getName() );
 
-	/** The controller for lower layers. */
-	private final Controller controller;
+    /** The controller for lower layers. */
+    private final Controller controller;
 
-	/** The user interface to notify. */
-	private final UserInterface ui;
+    /** The user interface to notify. */
+    private final UserInterface ui;
 
-	/** The controller for showing messages in the user interface. */
-	private final MessageController msgController;
+    /** The controller for showing messages in the user interface. */
+    private final MessageController msgController;
 
-	/** The application user. */
-	private final User me;
+    /** The application user. */
+    private final User me;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param controller The controller.
-	 * @param ui The user interface.
-	 */
-	public DefaultPrivateMessageResponder( final Controller controller, final UserInterface ui )
-	{
-		this.controller = controller;
-		this.ui = ui;
-		me = Settings.getSettings().getMe();
+    /**
+     * Constructor.
+     *
+     * @param controller The controller.
+     * @param ui The user interface.
+     */
+    public DefaultPrivateMessageResponder( final Controller controller, final UserInterface ui )
+    {
+        this.controller = controller;
+        this.ui = ui;
+        me = Settings.getSettings().getMe();
 
-		msgController = ui.getMessageController();
-	}
+        msgController = ui.getMessageController();
+    }
 
-	/**
-	 * Shows the message in the user's private chat window,
-	 * and notifies the user interface that a new message
-	 * has arrived.
-	 *
-	 * @param userCode The unique code of the user who sent the message.
-	 * @param msg The message.
-	 * @param color The color the message has.
-	 */
-	@Override
-	public void messageArrived( final int userCode, final String msg, final int color )
-	{
-		if ( !controller.isNewUser( userCode ) )
-		{
-			User user = controller.getUser( userCode );
+    /**
+     * Shows the message in the user's private chat window,
+     * and notifies the user interface that a new message
+     * has arrived.
+     *
+     * @param userCode The unique code of the user who sent the message.
+     * @param msg The message.
+     * @param color The color the message has.
+     */
+    @Override
+    public void messageArrived( final int userCode, final String msg, final int color )
+    {
+        if ( !controller.isNewUser( userCode ) )
+        {
+            User user = controller.getUser( userCode );
 
-			if ( me.isAway() )
-				LOG.log( Level.WARNING, "Got message from " + user.getNick() + " while away: " + msg );
+            if ( me.isAway() )
+                LOG.log( Level.WARNING, "Got message from " + user.getNick() + " while away: " + msg );
 
-			else if ( user.isAway() )
-				LOG.log( Level.WARNING, "Got message from " + user.getNick() + " which is away: " + msg );
+            else if ( user.isAway() )
+                LOG.log( Level.WARNING, "Got message from " + user.getNick() + " which is away: " + msg );
 
-			else if ( user.getPrivateChatPort() == 0 )
-				LOG.log( Level.WARNING, "Got message from " + user.getNick() + " which has no reply port: " + msg );
+            else if ( user.getPrivateChatPort() == 0 )
+                LOG.log( Level.WARNING, "Got message from " + user.getNick() + " which has no reply port: " + msg );
 
-			else
-			{
-				msgController.showPrivateUserMessage( user, msg, color );
+            else
+            {
+                msgController.showPrivateUserMessage( user, msg, color );
 
-				// Not visible, or not in front
-				if ( !user.getPrivchat().isVisible() || !user.getPrivchat().isFocused() )
-					controller.changeNewMessage( user.getCode(), true );
+                // Not visible, or not in front
+                if ( !user.getPrivchat().isVisible() || !user.getPrivchat().isFocused() )
+                    controller.changeNewMessage( user.getCode(), true );
 
-				ui.notifyPrivateMessageArrived( user );
-			}
-		}
+                ui.notifyPrivateMessageArrived( user );
+            }
+        }
 
-		else
-		{
-			LOG.log( Level.SEVERE, "Could not find user: " + userCode );
-		}
-	}
+        else
+        {
+            LOG.log( Level.SEVERE, "Could not find user: " + userCode );
+        }
+    }
 }

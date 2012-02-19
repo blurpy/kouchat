@@ -34,58 +34,58 @@ import java.util.Map;
  */
 public class ResourceValidator
 {
-	/** The map of resources to validate. */
-	private final Map<String, URL> resourceMap;
+    /** The map of resources to validate. */
+    private final Map<String, URL> resourceMap;
 
-	/**
-	 * Constructor.
-	 */
-	public ResourceValidator()
-	{
-		resourceMap = new HashMap<String, URL>();
-	}
+    /**
+     * Constructor.
+     */
+    public ResourceValidator()
+    {
+        resourceMap = new HashMap<String, URL>();
+    }
 
-	/**
-	 * Clears all the added resources from the validation list.
-	 */
-	public void clearResources()
-	{
-		resourceMap.clear();
-	}
+    /**
+     * Clears all the added resources from the validation list.
+     */
+    public void clearResources()
+    {
+        resourceMap.clear();
+    }
 
-	/**
-	 * Adds a resource to be validated.
-	 *
-	 * @param resource The resource to check.
-	 * @param location The location of the resource.
-	 */
-	public void addResource( final URL resource, final String location )
-	{
-		resourceMap.put( location, resource );
-	}
+    /**
+     * Adds a resource to be validated.
+     *
+     * @param resource The resource to check.
+     * @param location The location of the resource.
+     */
+    public void addResource( final URL resource, final String location )
+    {
+        resourceMap.put( location, resource );
+    }
 
-	/**
-	 * Checks if any of the resources were not loaded, and returns a
-	 * string with a list of the locations of the missing resources.
-	 * Each location is on a separate line.
-	 *
-	 * @return A list of the resources that has not been loaded.
-	 */
-	public String validate()
-	{
-		StringBuilder missingResourceList = new StringBuilder();
+    /**
+     * Checks if any of the resources were not loaded, and returns a
+     * string with a list of the locations of the missing resources.
+     * Each location is on a separate line.
+     *
+     * @return A list of the resources that has not been loaded.
+     */
+    public String validate()
+    {
+        StringBuilder missingResourceList = new StringBuilder();
 
-		for ( String location : resourceMap.keySet() )
-		{
-			if ( resourceMap.get( location ) == null )
-			{
-				if ( missingResourceList.length() != 0 )
-					missingResourceList.append( "\n" );
+        for ( String location : resourceMap.keySet() )
+        {
+            if ( resourceMap.get( location ) == null )
+            {
+                if ( missingResourceList.length() != 0 )
+                    missingResourceList.append( "\n" );
 
-				missingResourceList.append( location );
-			}
-		}
+                missingResourceList.append( location );
+            }
+        }
 
-		return missingResourceList.toString();
-	}
+        return missingResourceList.toString();
+    }
 }

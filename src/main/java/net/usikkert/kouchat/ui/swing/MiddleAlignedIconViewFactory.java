@@ -41,32 +41,32 @@ import javax.swing.text.ViewFactory;
  */
 public class MiddleAlignedIconViewFactory implements ViewFactory
 {
-	/**
-	 * This works the same as original view factory, except the
-	 * use of a middle aligned icon view.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public View create( final Element elem )
-	{
-		String kind = elem.getName();
+    /**
+     * This works the same as original view factory, except the
+     * use of a middle aligned icon view.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public View create( final Element elem )
+    {
+        String kind = elem.getName();
 
-		if ( kind != null )
-		{
-			if ( kind.equals( AbstractDocument.ContentElementName ) )
-				return new LabelView( elem );
-			else if ( kind.equals( AbstractDocument.ParagraphElementName ) )
-				return new ParagraphView( elem );
-			else if ( kind.equals( AbstractDocument.SectionElementName ) )
-				return new BoxView( elem, View.Y_AXIS );
-			else if ( kind.equals( StyleConstants.ComponentElementName ) )
-				return new ComponentView( elem );
-			else if ( kind.equals( StyleConstants.IconElementName ) )
-				return new MiddleAlignedIconView( elem ); // Overridden icon view
-		}
+        if ( kind != null )
+        {
+            if ( kind.equals( AbstractDocument.ContentElementName ) )
+                return new LabelView( elem );
+            else if ( kind.equals( AbstractDocument.ParagraphElementName ) )
+                return new ParagraphView( elem );
+            else if ( kind.equals( AbstractDocument.SectionElementName ) )
+                return new BoxView( elem, View.Y_AXIS );
+            else if ( kind.equals( StyleConstants.ComponentElementName ) )
+                return new ComponentView( elem );
+            else if ( kind.equals( StyleConstants.IconElementName ) )
+                return new MiddleAlignedIconView( elem ); // Overridden icon view
+        }
 
-		// Default is text display
-		return new LabelView( elem );
-	}
+        // Default is text display
+        return new LabelView( elem );
+    }
 }

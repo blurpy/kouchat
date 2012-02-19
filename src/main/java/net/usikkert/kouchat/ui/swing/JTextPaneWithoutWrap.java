@@ -37,47 +37,47 @@ import javax.swing.JTextPane;
  */
 public class JTextPaneWithoutWrap extends JTextPane
 {
-	/** Standard serial version UID. */
-	private static final long serialVersionUID = 1L;
+    /** Standard serial version UID. */
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Makes sure the size of the textpane fills the whole viewport.
-	 *
-	 * <p>Since {@link #getScrollableTracksViewportWidth()} is disabled
-	 * then the size set here is the textpane's preferred size.
-	 * Which is the width of the text in it. If the text in this
-	 * textpane is shorter than the viewport, then the part of the
-	 * textpane not filled with text is grayed out.</p>
-	 *
-	 * <p>To fix this, the size is adjusted to the same size
-	 * as the viewport.</p>
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setSize( final Dimension d )
-	{
-		// Parent is the viewport
-		if ( d.width < getParent().getSize().width )
-			d.width = getParent().getSize().width;
+    /**
+     * Makes sure the size of the textpane fills the whole viewport.
+     *
+     * <p>Since {@link #getScrollableTracksViewportWidth()} is disabled
+     * then the size set here is the textpane's preferred size.
+     * Which is the width of the text in it. If the text in this
+     * textpane is shorter than the viewport, then the part of the
+     * textpane not filled with text is grayed out.</p>
+     *
+     * <p>To fix this, the size is adjusted to the same size
+     * as the viewport.</p>
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void setSize( final Dimension d )
+    {
+        // Parent is the viewport
+        if ( d.width < getParent().getSize().width )
+            d.width = getParent().getSize().width;
 
-		super.setSize( d );
-	}
+        super.setSize( d );
+    }
 
-	/**
-	 * If the scrollpane should be the same size as the viewport.
-	 *
-	 * <p>If that's the case then long lines will wrap at the end of
-	 * the textpane. If the scrollpane has it's own size then
-	 * there is no need to wrap long lines.</p>
-	 *
-	 * @return false, to disable word wrap.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean getScrollableTracksViewportWidth()
-	{
-		return false;
-	}
+    /**
+     * If the scrollpane should be the same size as the viewport.
+     *
+     * <p>If that's the case then long lines will wrap at the end of
+     * the textpane. If the scrollpane has it's own size then
+     * there is no need to wrap long lines.</p>
+     *
+     * @return false, to disable word wrap.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean getScrollableTracksViewportWidth()
+    {
+        return false;
+    }
 }

@@ -33,90 +33,90 @@ import net.usikkert.kouchat.util.Tools;
  */
 public class UserAutoCompleteList implements AutoCompleteList, UserListListener
 {
-	/** The real user list. */
-	private final UserList userList;
+    /** The real user list. */
+    private final UserList userList;
 
-	/** A simple array with users, for use in auto completion. */
-	private String[] users;
+    /** A simple array with users, for use in auto completion. */
+    private String[] users;
 
-	/**
-	 * Constructor. Registers itself as a user list listener.
-	 *
-	 * @param userList The list of online users.
-	 */
-	public UserAutoCompleteList( final UserList userList )
-	{
-		this.userList = userList;
-		userList.addUserListListener( this );
-		updateWords();
-	}
+    /**
+     * Constructor. Registers itself as a user list listener.
+     *
+     * @param userList The list of online users.
+     */
+    public UserAutoCompleteList( final UserList userList )
+    {
+        this.userList = userList;
+        userList.addUserListListener( this );
+        updateWords();
+    }
 
-	/**
-	 * Updates the list of users.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void userAdded( final int pos )
-	{
-		updateWords();
-	}
+    /**
+     * Updates the list of users.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void userAdded( final int pos )
+    {
+        updateWords();
+    }
 
-	/**
-	 * Updates the list of users.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void userChanged( final int pos )
-	{
-		updateWords();
-	}
+    /**
+     * Updates the list of users.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void userChanged( final int pos )
+    {
+        updateWords();
+    }
 
-	/**
-	 * Updates the list of users.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void userRemoved( final int pos )
-	{
-		updateWords();
-	}
+    /**
+     * Updates the list of users.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void userRemoved( final int pos )
+    {
+        updateWords();
+    }
 
-	/**
-	 * Iterates through the user list, and adds all the nick names to the
-	 * list of words.
-	 */
-	private void updateWords()
-	{
-		users = new String[userList.size()];
+    /**
+     * Iterates through the user list, and adds all the nick names to the
+     * list of words.
+     */
+    private void updateWords()
+    {
+        users = new String[userList.size()];
 
-		for ( int i = 0; i < userList.size(); i++ )
-		{
-			users[i] = userList.get( i ).getNick();
-		}
-	}
+        for ( int i = 0; i < userList.size(); i++ )
+        {
+            users[i] = userList.get( i ).getNick();
+        }
+    }
 
-	/**
-	 * Checks if the word is a valid nick name.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean acceptsWord( final String word )
-	{
-		return Tools.isValidNick( word );
-	}
+    /**
+     * Checks if the word is a valid nick name.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean acceptsWord( final String word )
+    {
+        return Tools.isValidNick( word );
+    }
 
-	/**
-	 * Returns a list of all the users.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String[] getWordList()
-	{
-		return users;
-	}
+    /**
+     * Returns a list of all the users.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public String[] getWordList()
+    {
+        return users;
+    }
 }

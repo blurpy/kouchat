@@ -41,91 +41,91 @@ import net.usikkert.kouchat.ui.UserInterface;
  */
 public class ConsoleInput extends Thread
 {
-	/** The logger. */
-	private static final Logger LOG = Logger.getLogger( ConsoleInput.class.getName() );
+    /** The logger. */
+    private static final Logger LOG = Logger.getLogger( ConsoleInput.class.getName() );
 
-	/** For reading keyboard input from the command line. */
-	private final BufferedReader stdin;
+    /** For reading keyboard input from the command line. */
+    private final BufferedReader stdin;
 
-	/** The controller, for access to lower layer functionality. */
-	private final Controller controller;
+    /** The controller, for access to lower layer functionality. */
+    private final Controller controller;
 
-	/** For parsing commands. */
-	private final CommandParser cmdParser;
+    /** For parsing commands. */
+    private final CommandParser cmdParser;
 
-	/** For showing messages in the ui. */
-	private final MessageController msgController;
+    /** For showing messages in the ui. */
+    private final MessageController msgController;
 
-	/**
-	 * Constructor. Initializes input from System.in.
-	 *
-	 * @param controller The controller to use.
-	 * @param ui The user interface to send messages to.
-	 */
-	public ConsoleInput( final Controller controller, final UserInterface ui )
-	{
-		this.controller = controller;
+    /**
+     * Constructor. Initializes input from System.in.
+     *
+     * @param controller The controller to use.
+     * @param ui The user interface to send messages to.
+     */
+    public ConsoleInput( final Controller controller, final UserInterface ui )
+    {
+        this.controller = controller;
 
-		setName( "ConsoleInputThread" );
-		msgController = ui.getMessageController();
-		stdin = new BufferedReader( new InputStreamReader( System.in ) );
-		cmdParser = new CommandParser( controller, ui );
+        setName( "ConsoleInputThread" );
+        msgController = ui.getMessageController();
+        stdin = new BufferedReader( new InputStreamReader( System.in ) );
+        cmdParser = new CommandParser( controller, ui );
 
-		Runtime.getRuntime().addShutdownHook( new Thread( "ConsoleInputShutdownHook" )
-		{
-			@Override
-			public void run()
-			{
-				System.out.println( "Quitting - good bye!" );
-			}
-		} );
-	}
+        Runtime.getRuntime().addShutdownHook( new Thread( "ConsoleInputShutdownHook" )
+        {
+            @Override
+            public void run()
+            {
+                System.out.println( "Quitting - good bye!" );
+            }
+        } );
+    }
 
-	/**
-	 * Starts a loop waiting for input.
-	 * To stop the loop and exit the application, write /quit.
-	 */
-	@Override
-	public void run()
-	{
-		String input = "";
+    /**
+     * Starts a loop waiting for input.
+     * To stop the loop and exit the application, write /quit.
+     */
+    @Override
+    public void run()
+    {
+        String input = "";
 
-		while ( input != null )
-		{
-			try
-			{
-				input = stdin.readLine();
+        while ( input != null )
+        {
+            try
+            {
+                input = stdin.readLine();
 
-				if ( input != null && input.trim().length() > 0 )
-				{
-					if ( input.startsWith( "/" ) )
-					{
-						cmdParser.parse( input );
-					}
+                if ( input != null && input.trim().length() > 0 )
+                {
+                    if ( input.startsWith( "/" ) )
+                    {
+                        cmdParser.parse( input );
+                    }
 
-					else
-					{
-						try
-						{
-							controller.sendChatMessage( input );
-							msgController.showOwnMessage( input );
-						}
+                    else
+                    {
+                        try
+                        {
+                            controller.sendChatMessage( input );
+                            msgController.showOwnMessage( input );
+                        }
 
-						catch ( final CommandException e )
-						{
-							msgController.showSystemMessage( e.getMessage() );
-						}
-					}
-				}
-			}
+                        catch ( final CommandException e )
+                        {
+                            msgController.showSystemMessage( e.getMessage() );
+                        }
+                    }
+                }
+            }
 
-			catch ( final IOException e )
-			{
-				LOG.log( Level.SEVERE, e.toString(), e );
-				input = null;
-			}
-		}
+            catch ( final IOException e )
+            {
+                LOG.log( Level.SEVERE, e.toString(), e );
+                input = null;
+            }
+        }
 
-		System.exit( 1 );
-	}
+        System.exit( 1 );
+    }
 }

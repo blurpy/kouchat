@@ -41,154 +41,154 @@ import net.usikkert.kouchat.util.Tools;
  */
 public class ChatLogger implements SettingsListener
 {
-	/**
-	 * The name of the log file. Uses date, time, and milliseconds to make sure
-	 * it is unique.
-	 */
-	private static final String LOG_FILE = "kouchat-" + Tools.dateToString( null, "yyyy.MM.dd-HH.mm.ss-SSS" ) + ".log";
+    /**
+     * The name of the log file. Uses date, time, and milliseconds to make sure
+     * it is unique.
+     */
+    private static final String LOG_FILE = "kouchat-" + Tools.dateToString( null, "yyyy.MM.dd-HH.mm.ss-SSS" ) + ".log";
 
-	/** The logger. */
-	private static final Logger LOG = Logger.getLogger( ChatLogger.class.getName() );
+    /** The logger. */
+    private static final Logger LOG = Logger.getLogger( ChatLogger.class.getName() );
 
-	private final Settings settings;
-	private final ErrorHandler errorHandler;
-	private BufferedWriter writer;
-	private boolean open;
+    private final Settings settings;
+    private final ErrorHandler errorHandler;
+    private BufferedWriter writer;
+    private boolean open;
 
-	/**
-	 * Default constructor. Adds a shutdown hook to make sure the log file
-	 * is closed on shutdown.
-	 */
-	public ChatLogger()
-	{
-		settings = Settings.getSettings();
-		settings.addSettingsListener( this );
+    /**
+     * Default constructor. Adds a shutdown hook to make sure the log file
+     * is closed on shutdown.
+     */
+    public ChatLogger()
+    {
+        settings = Settings.getSettings();
+        settings.addSettingsListener( this );
 
-		errorHandler = ErrorHandler.getErrorHandler();
+        errorHandler = ErrorHandler.getErrorHandler();
 
-		if ( settings.isLogging() )
-		{
-			open();
-		}
+        if ( settings.isLogging() )
+        {
+            open();
+        }
 
-		Runtime.getRuntime().addShutdownHook( new Thread( "ChatLoggerShutdownHook" )
-		{
-			@Override
-			public void run()
-			{
-				close();
-			}
-		} );
-	}
+        Runtime.getRuntime().addShutdownHook( new Thread( "ChatLoggerShutdownHook" )
+        {
+            @Override
+            public void run()
+            {
+                close();
+            }
+        } );
+    }
 
-	/**
-	 * Opens the log file for writing.
-	 * Will append if the log file already exists.
-	 */
-	public void open()
-	{
-		close();
+    /**
+     * Opens the log file for writing.
+     * Will append if the log file already exists.
+     */
+    public void open()
+    {
+        close();
 
-		try
-		{
-			File logdir = new File( Constants.APP_LOG_FOLDER );
+        try
+        {
+            File logdir = new File( Constants.APP_LOG_FOLDER );
 
-			if ( !logdir.exists() )
-				logdir.mkdirs();
+            if ( !logdir.exists() )
+                logdir.mkdirs();
 
-			writer = new BufferedWriter( new FileWriter( Constants.APP_LOG_FOLDER + LOG_FILE, true ) );
-			open = true;
-		}
+            writer = new BufferedWriter( new FileWriter( Constants.APP_LOG_FOLDER + LOG_FILE, true ) );
+            open = true;
+        }
 
-		catch ( final IOException e )
-		{
-			LOG.log( Level.SEVERE, e.toString(), e );
-			settings.setLogging( false );
-			errorHandler.showError( "Could not initialize the logging:\n" + e );
-		}
-	}
+        catch ( final IOException e )
+        {
+            LOG.log( Level.SEVERE, e.toString(), e );
+            settings.setLogging( false );
+            errorHandler.showError( "Could not initialize the logging:\n" + e );
+        }
+    }
 
-	/**
-	 * Flushed and closes the current open log file.
-	 */
-	public void close()
-	{
-		if ( open )
-		{
-			try
-			{
-				writer.flush();
-				writer.close();
-			}
+    /**
+     * Flushed and closes the current open log file.
+     */
+    public void close()
+    {
+        if ( open )
+        {
+            try
+            {
+                writer.flush();
+                writer.close();
+            }
 
-			catch ( final IOException e )
-			{
-				LOG.log( Level.SEVERE, e.toString(), e );
-			}
+            catch ( final IOException e )
+            {
+                LOG.log( Level.SEVERE, e.toString(), e );
+            }
 
-			finally
-			{
-				open = false;
-			}
-		}
-	}
+            finally
+            {
+                open = false;
+            }
+        }
+    }
 
-	/**
-	 * Adds a new line of text to the current open log file, if any.
-	 *
-	 * @param line The line of text to add to the log.
-	 */
-	public void append( final String line )
-	{
-		if ( open )
-		{
-			try
-			{
-				writer.append( line );
-				writer.newLine();
-				writer.flush();
-			}
+    /**
+     * Adds a new line of text to the current open log file, if any.
+     *
+     * @param line The line of text to add to the log.
+     */
+    public void append( final String line )
+    {
+        if ( open )
+        {
+            try
+            {
+                writer.append( line );
+                writer.newLine();
+                writer.flush();
+            }
 
-			catch ( final IOException e )
-			{
-				LOG.log( Level.SEVERE, e.toString(), e );
-				close();
-			}
-		}
-	}
+            catch ( final IOException e )
+            {
+                LOG.log( Level.SEVERE, e.toString(), e );
+                close();
+            }
+        }
+    }
 
-	/**
-	 * Returns if a log file is opened for writing or not.
-	 *
-	 * @return True if a log file is open.
-	 */
-	public boolean isOpen()
-	{
-		return open;
-	}
+    /**
+     * Returns if a log file is opened for writing or not.
+     *
+     * @return True if a log file is open.
+     */
+    public boolean isOpen()
+    {
+        return open;
+    }
 
-	/**
-	 * Opens or closes the log file when the logging setting is changed.
-	 *
-	 * @param setting The setting that was changed.
-	 */
-	@Override
-	public void settingChanged( final String setting )
-	{
-		if ( setting.equals( "logging" ) )
-		{
-			if ( settings.isLogging() )
-			{
-				if ( !isOpen() )
-				{
-					open();
-				}
-			}
+    /**
+     * Opens or closes the log file when the logging setting is changed.
+     *
+     * @param setting The setting that was changed.
+     */
+    @Override
+    public void settingChanged( final String setting )
+    {
+        if ( setting.equals( "logging" ) )
+        {
+            if ( settings.isLogging() )
+            {
+                if ( !isOpen() )
+                {
+                    open();
+                }
+            }
 
-			else
-			{
-				close();
-			}
-		}
-	}
+            else
+            {
+                close();
+            }
+        }
+    }
 }

@@ -36,28 +36,28 @@ import javax.swing.text.ViewFactory;
  */
 public class MiddleAlignedIconViewEditorKit extends StyledEditorKit
 {
-	/** Default version uid. */
-	private static final long serialVersionUID = 1L;
+    /** Default version uid. */
+    private static final long serialVersionUID = 1L;
 
-	/** The custom view factory to use. */
-	private final ViewFactory viewFactory;
+    /** The custom view factory to use. */
+    private final ViewFactory viewFactory;
 
-	/**
-	 * Constructor. Initializes the view factory.
-	 */
-	public MiddleAlignedIconViewEditorKit()
-	{
-		viewFactory = new MiddleAlignedIconViewFactory();
-	}
+    /**
+     * Constructor. Initializes the view factory.
+     */
+    public MiddleAlignedIconViewEditorKit()
+    {
+        viewFactory = new MiddleAlignedIconViewFactory();
+    }
 
-	/**
-	 * Gets the {@link MiddleAlignedIconViewFactory}.
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ViewFactory getViewFactory()
-	{
-		return viewFactory;
-	}
+    /**
+     * Gets the {@link MiddleAlignedIconViewFactory}.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public ViewFactory getViewFactory()
+    {
+        return viewFactory;
+    }
 }

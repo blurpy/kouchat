@@ -29,12 +29,12 @@ package net.usikkert.kouchat.misc;
  */
 public interface ControllerInformationMBean
 {
-	/** The name of this MBean. */
-	String NAME = "Controller";
+    /** The name of this MBean. */
+    String NAME = "Controller";
 
-	/** Logs the client on to the network. */
-	void logOn();
+    /** Logs the client on to the network. */
+    void logOn();
 
-	/** Logs the client off the network. */
-	void logOff();
+    /** Logs the client off the network. */
+    void logOff();
 }
