@@ -70,8 +70,7 @@ public class JMXAgent {
         Logger log = Logger.getLogger(JMXAgent.class.getName());
         MBeanServer platformMBeanServer = ManagementFactory.getPlatformMBeanServer();
 
-        try
-        {
+        try {
             // NetworkInformation MBean
             ObjectName networkInfoName = new ObjectName(
                     Constants.APP_NAME + ":name=" + NetworkInformationMBean.NAME);
@@ -91,23 +90,19 @@ public class JMXAgent {
                     new GeneralInformation(), generalInfoName);
         }
 
-        catch (final MalformedObjectNameException e)
-        {
+        catch (final MalformedObjectNameException e) {
             log.log(Level.SEVERE, e.toString(), e);
         }
 
-        catch (final InstanceAlreadyExistsException e)
-        {
+        catch (final InstanceAlreadyExistsException e) {
             log.log(Level.SEVERE, e.toString(), e);
         }
 
-        catch (final MBeanRegistrationException e)
-        {
+        catch (final MBeanRegistrationException e) {
             log.log(Level.SEVERE, e.toString(), e);
         }
 
-        catch (final NotCompliantMBeanException e)
-        {
+        catch (final NotCompliantMBeanException e) {
             log.log(Level.SEVERE, e.toString(), e);
         }
     }

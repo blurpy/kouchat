@@ -99,8 +99,7 @@ public class URLDocumentFilter extends DocumentFilter {
         // Make a copy now, or else it could change if another message comes
         final MutableAttributeSet urlAttr = (MutableAttributeSet) attr.copyAttributes();
 
-        SwingUtilities.invokeLater(new Runnable()
-        {
+        SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run()
             {
@@ -147,8 +146,7 @@ public class URLDocumentFilter extends DocumentFilter {
         // Needs to loop because the text can get through the first test above,
         // but fail the regex match. If another url exists after the failed regex
         // match, it will not be found.
-        while (retry)
-        {
+        while (retry) {
             retry = false;
 
             if (prot != -1 && (prot < firstMatch || firstMatch == -1))

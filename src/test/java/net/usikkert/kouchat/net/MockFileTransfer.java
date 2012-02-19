@@ -168,8 +168,7 @@ public class MockFileTransfer implements FileTransfer {
          * {@inheritDoc}
          */
         @Override
-        public void run()
-        {
+        public void run() {
             try
             {
                 sleep(500);

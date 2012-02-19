@@ -78,8 +78,7 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder {
      */
     @Override
     public void messageArrived(final int userCode, final String msg, final int color) {
-        if (!controller.isNewUser(userCode))
-        {
+        if (!controller.isNewUser(userCode)) {
             User user = controller.getUser(userCode);
 
             if (me.isAway())
@@ -103,8 +102,7 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder {
             }
         }
 
-        else
-        {
+        else {
             LOG.log(Level.SEVERE, "Could not find user: " + userCode);
         }
     }

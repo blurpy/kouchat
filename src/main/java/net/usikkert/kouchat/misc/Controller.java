@@ -91,8 +91,7 @@ public class Controller implements NetworkConnectionListener {
         Validate.notNull(ui, "User interface can not be null");
         this.ui = ui;
 
-        Runtime.getRuntime().addShutdownHook(new Thread("ControllerShutdownHook")
-        {
+        Runtime.getRuntime().addShutdownHook(new Thread("ControllerShutdownHook") {
             @Override
             public void run()
             {
@@ -170,8 +169,7 @@ public class Controller implements NetworkConnectionListener {
     public void changeWriting(final int code, final boolean writing) {
         userListController.changeWriting(code, writing);
 
-        if (code == me.getCode())
-        {
+        if (code == me.getCode()) {
             chatState.setWrote(writing);
 
             if (writing)
@@ -196,8 +194,7 @@ public class Controller implements NetworkConnectionListener {
         else if (Tools.getBytes(awaymsg) > Constants.MESSAGE_MAX_BYTES)
             throw new CommandException("You can not set an away message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes");
 
-        if (code == me.getCode())
-        {
+        if (code == me.getCode()) {
             if (away)
                 messages.sendAwayMessage(awaymsg);
             else
@@ -329,8 +326,7 @@ public class Controller implements NetworkConnectionListener {
     private void removeAllUsers() {
         UserList userList = getUserList();
 
-        for (int i = 0; i < userList.size(); i++)
-        {
+        for (int i = 0; i < userList.size(); i++) {
             User user = userList.get(i);
 
             if (!user.isMe())
@@ -359,13 +355,11 @@ public class Controller implements NetworkConnectionListener {
         List<FileSender> fsList = tList.getFileSenders(user);
         List<FileReceiver> frList = tList.getFileReceivers(user);
 
-        for (FileSender fs : fsList)
-        {
+        for (FileSender fs : fsList) {
             fs.cancel();
         }
 
-        for (FileReceiver fr : frList)
-        {
+        for (FileReceiver fr : frList) {
             fr.cancel();
         }
     }
@@ -628,8 +622,7 @@ public class Controller implements NetworkConnectionListener {
          * The task runs as a thread.
          */
         @Override
-        public void run()
-        {
+        public void run() {
             try
             {
                 Thread.sleep(1500);
@@ -671,15 +664,13 @@ public class Controller implements NetworkConnectionListener {
     @Override
     public void networkCameUp(final boolean silent) {
         // Network came up after a logon
-        if (!isLoggedOn())
-        {
+        if (!isLoggedOn()) {
             runDelayedLogon();
             sendLogOn();
         }
 
         // Network came up after a timeout
-        else
-        {
+        else {
             ui.showTopic();
 
             if (!silent)
@@ -702,8 +693,7 @@ public class Controller implements NetworkConnectionListener {
     public void networkWentDown(final boolean silent) {
         ui.showTopic();
 
-        if (isLoggedOn())
-        {
+        if (isLoggedOn()) {
             if (!silent)
                 msgController.showSystemMessage("You lost contact with the network");
         }

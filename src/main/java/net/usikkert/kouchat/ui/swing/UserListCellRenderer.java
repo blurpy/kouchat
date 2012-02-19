@@ -117,15 +117,13 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer {
     @Override
     public Component getListCellRendererComponent(final JList list, final Object value,
             final int index, final boolean isSelected, final boolean cellHasFocus) {
-        if (isSelected)
-        {
+        if (isSelected) {
             setBackground(list.getSelectionBackground());
             setForeground(list.getSelectionForeground());
             setBorder(selectedBorder);
         }
 
-        else
-        {
+        else {
             setBackground(list.getBackground());
             setForeground(list.getForeground());
             setBorder(normalBorder);
@@ -133,8 +131,7 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer {
 
         User user = (User) value;
 
-        if (user != null)
-        {
+        if (user != null) {
             if (user.isMe())
                 setFont(list.getFont().deriveFont(Font.BOLD));
             else
@@ -185,8 +182,7 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer {
         Color background = getBackground();
         Component parent = getParent();
 
-        if (parent != null)
-        {
+        if (parent != null) {
             parent = parent.getParent();
         }
 

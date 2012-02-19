@@ -50,8 +50,7 @@ public class SwingPopupErrorHandler implements ErrorListener {
      */
     @Override
     public void errorReported(final String errorMsg) {
-        SwingUtilities.invokeLater(new Runnable()
-        {
+        SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run()
             {

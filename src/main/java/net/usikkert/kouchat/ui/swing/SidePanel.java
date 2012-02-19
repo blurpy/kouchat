@@ -183,8 +183,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      */
     @Override
     public void actionPerformed(final ActionEvent e) {
-        if (e.getSource() == infoMI)
-        {
+        if (e.getSource() == infoMI) {
             SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
@@ -213,8 +212,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
             });
         }
 
-        else if (e.getSource() == sendfileMI)
-        {
+        else if (e.getSource() == sendfileMI) {
             SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
@@ -225,8 +223,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
             });
         }
 
-        else if (e.getSource() == privchatMI)
-        {
+        else if (e.getSource() == privchatMI) {
             SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
@@ -279,8 +276,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      */
     @Override
     public void mousePressed(final MouseEvent e) {
-        if (e.getSource() == userL)
-        {
+        if (e.getSource() == userL) {
             Point p = e.getPoint();
             int index = userL.locationToIndex(p);
 
@@ -311,8 +307,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      */
     @Override
     public void mouseReleased(final MouseEvent e) {
-        if (e.getSource() == userL)
-        {
+        if (e.getSource() == userL) {
             // Right click
             if (userMenu.isPopupTrigger(e) && userL.getSelectedIndex() != -1)
             {

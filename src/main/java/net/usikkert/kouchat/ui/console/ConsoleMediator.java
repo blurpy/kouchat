@@ -100,8 +100,7 @@ public class ConsoleMediator implements UserInterface {
      */
     @Override
     public void showFileSave(final FileReceiver fileReceiver) {
-        while (!fileReceiver.isAccepted() && !fileReceiver.isRejected() && !fileReceiver.isCanceled())
-        {
+        while (!fileReceiver.isAccepted() && !fileReceiver.isRejected() && !fileReceiver.isCanceled()) {
             Tools.sleep(500);
         }
     }

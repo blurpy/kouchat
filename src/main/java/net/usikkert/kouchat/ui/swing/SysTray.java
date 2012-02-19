@@ -78,8 +78,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
     public SysTray(final ImageLoader imageLoader) {
         Validate.notNull(imageLoader, "Image loader can not be null");
 
-        if (SystemTray.isSupported())
-        {
+        if (SystemTray.isSupported()) {
             statusIcons = new StatusIcons(imageLoader);
             final PopupMenu menu = new PopupMenu();
             quitMI = new MenuItem("Quit");
@@ -107,8 +106,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
             }
         }
 
-        else
-        {
+        else {
             LOG.log(Level.SEVERE, "System Tray is not supported. Deactivating System Tray support.");
         }
     }
@@ -135,8 +133,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      * Sets the tray icon to away.
      */
     public void setAwayState() {
-        if (trayIcon != null)
-        {
+        if (trayIcon != null) {
             setTrayIcon(statusIcons.getAwayIcon());
         }
     }
@@ -145,8 +142,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      * Sets the tray icon to away with activity.
      */
     public void setAwayActivityState() {
-        if (trayIcon != null)
-        {
+        if (trayIcon != null) {
             setTrayIcon(statusIcons.getAwayActivityIcon());
         }
     }
@@ -155,8 +151,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      * Sets the tray icon to normal.
      */
     public void setNormalState() {
-        if (trayIcon != null)
-        {
+        if (trayIcon != null) {
             setTrayIcon(statusIcons.getNormalIcon());
         }
     }
@@ -165,8 +160,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      * Sets the tray icon to normal with activity.
      */
     public void setNormalActivityState() {
-        if (trayIcon != null)
-        {
+        if (trayIcon != null) {
             setTrayIcon(statusIcons.getNormalActivityIcon());
         }
     }
@@ -188,8 +182,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      */
     @Override
     public void actionPerformed(final ActionEvent e) {
-        if (e.getSource() == quitMI)
-        {
+        if (e.getSource() == quitMI) {
             mediator.quit();
         }
     }
@@ -204,8 +197,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      */
     @Override
     public void mouseClicked(final MouseEvent e) {
-        if (e.getSource() == trayIcon && e.getButton() == MouseEvent.BUTTON1)
-        {
+        if (e.getSource() == trayIcon && e.getButton() == MouseEvent.BUTTON1) {
             if (trayIcon.getImage() == statusIcons.getNormalActivityIcon())
                 trayIcon.setImage(statusIcons.getNormalIcon());
 
@@ -283,8 +275,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
     public void propertyChange(final PropertyChangeEvent e) {
         final TrayIcon[] icons = (TrayIcon[]) e.getNewValue();
 
-        if (icons.length == 0)
-        {
+        if (icons.length == 0) {
             LOG.log(Level.SEVERE, "System Tray removed. Deactivating System Tray support.");
             systemTraySupported = false;
             mediator.minimizeWindowIfHidden();

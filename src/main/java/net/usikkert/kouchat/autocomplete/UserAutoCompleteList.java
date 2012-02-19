@@ -87,8 +87,7 @@ public class UserAutoCompleteList implements AutoCompleteList, UserListListener 
     private void updateWords() {
         users = new String[userList.size()];
 
-        for (int i = 0; i < userList.size(); i++)
-        {
+        for (int i = 0; i < userList.size(); i++) {
             users[i] = userList.get(i).getNick();
         }
     }

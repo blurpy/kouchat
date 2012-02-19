@@ -70,8 +70,7 @@ public final class NetworkUtils {
         if (netif == null)
             return false;
 
-        try
-        {
+        try {
             return netif.isUp() && !netif.isLoopback() && !netif.isPointToPoint()
                     && !netif.isVirtual() && netif.supportsMulticast()
                     && !netif.getName().toLowerCase().contains("vmnet")
@@ -79,8 +78,7 @@ public final class NetworkUtils {
                     && hasIPv4Address(netif);
         }
 
-        catch (final SocketException e)
-        {
+        catch (final SocketException e) {
             LOG.log(Level.WARNING, e.toString());
             return false;
         }
@@ -98,8 +96,7 @@ public final class NetworkUtils {
 
         Enumeration<InetAddress> inetAddresses = netif.getInetAddresses();
 
-        while (inetAddresses.hasMoreElements())
-        {
+        while (inetAddresses.hasMoreElements()) {
             InetAddress inetAddress = inetAddresses.nextElement();
             if (inetAddress instanceof Inet4Address)
                 return true;
@@ -118,8 +115,7 @@ public final class NetworkUtils {
         if (netif == null)
             return "Invalid network interface.";
 
-        try
-        {
+        try {
             return "Interface name: " + netif.getDisplayName() + "\n"
                     + "Device: " + netif.getName() + "\n"
                     + "Is loopback: " + netif.isLoopback() + "\n"
@@ -131,8 +127,7 @@ public final class NetworkUtils {
                     + "IP addresses: " + getIPv4Addresses(netif);
         }
 
-        catch (final SocketException e)
-        {
+        catch (final SocketException e) {
             LOG.log(Level.WARNING, e.toString());
             return "Failed to get network interface information.";
         }
@@ -151,8 +146,7 @@ public final class NetworkUtils {
         String ipAddress = "";
         Enumeration<InetAddress> inetAddresses = netif.getInetAddresses();
 
-        while (inetAddresses.hasMoreElements())
-        {
+        while (inetAddresses.hasMoreElements()) {
             InetAddress inetAddress = inetAddresses.nextElement();
             if (inetAddress instanceof Inet4Address)
                 ipAddress += inetAddress.getHostAddress() + " ";
@@ -174,18 +168,15 @@ public final class NetworkUtils {
         String macAddress = "";
         byte[] address = null;
 
-        try
-        {
+        try {
             address = netif.getHardwareAddress();
         }
 
-        catch (final SocketException e)
-        {
+        catch (final SocketException e) {
             LOG.log(Level.WARNING, e.toString());
         }
 
-        if (address != null)
-        {
+        if (address != null) {
             // Convert byte array to hex format
             for (int i = 0; i < address.length; i++)
             {
@@ -218,8 +209,7 @@ public final class NetworkUtils {
         if (networkInterfaces == null)
             return null;
 
-        while (networkInterfaces.hasMoreElements())
-        {
+        while (networkInterfaces.hasMoreElements()) {
             NetworkInterface netif = networkInterfaces.nextElement();
             if (sameNetworkInterface(origNetIf, netif))
                 return netif;
@@ -260,8 +250,7 @@ public final class NetworkUtils {
         if (networkInterfaces == null)
             return null;
 
-        while (networkInterfaces.hasMoreElements())
-        {
+        while (networkInterfaces.hasMoreElements()) {
             NetworkInterface netif = networkInterfaces.nextElement();
             if (isUsable(netif))
                 return netif;
@@ -279,13 +268,11 @@ public final class NetworkUtils {
     public static Enumeration<NetworkInterface> getNetworkInterfaces() {
         Enumeration<NetworkInterface> networkInterfaces = null;
 
-        try
-        {
+        try {
             networkInterfaces = NetworkInterface.getNetworkInterfaces();
         }
 
-        catch (final SocketException e)
-        {
+        catch (final SocketException e) {
             LOG.log(Level.WARNING, e.toString());
         }
 
@@ -298,13 +285,11 @@ public final class NetworkUtils {
      * @return The host name, or <code>null</code> if the host name cannot be determined.
      */
     public static String getLocalHostName() {
-        try
-        {
+        try {
             return InetAddress.getLocalHost().getHostName();
         }
 
-        catch (final UnknownHostException e)
-        {
+        catch (final UnknownHostException e) {
             LOG.log(Level.WARNING, e.toString());
         }
 
@@ -318,8 +303,7 @@ public final class NetworkUtils {
      * @return The host name, or <code>null</code> if the host name cannot be determined.
      */
     public static String getHostName(final String ipAddress) {
-        try
-        {
+        try {
             InetAddress inetAddress = InetAddress.getByName(ipAddress);
             String hostName = inetAddress.getHostName();
 
@@ -327,8 +311,7 @@ public final class NetworkUtils {
                 return hostName;
         }
 
-        catch (final UnknownHostException e)
-        {
+        catch (final UnknownHostException e) {
             LOG.log(Level.WARNING, e.toString());
         }
 

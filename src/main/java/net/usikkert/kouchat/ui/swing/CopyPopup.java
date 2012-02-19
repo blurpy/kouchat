@@ -124,8 +124,7 @@ public class CopyPopup extends JPopupMenu implements MouseListener, ActionListen
      */
     @Override
     public void mouseReleased(final MouseEvent e) {
-        if (isPopupTrigger(e))
-        {
+        if (isPopupTrigger(e)) {
             if (textpane.getSelectedText() == null)
                 copyMI.setEnabled(false);
             else

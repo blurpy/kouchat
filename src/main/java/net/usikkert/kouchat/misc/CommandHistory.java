@@ -82,8 +82,7 @@ public class CommandHistory {
         else if (history.size() > 0 && command.equals(history.get(history.size() - 1)))
             add = false;
 
-        if (add)
-        {
+        if (add) {
             history.add(command);
 
             if (history.size() > MAX_COMMANDS)
@@ -105,8 +104,7 @@ public class CommandHistory {
     public String goUp() {
         String up = "";
 
-        if (history.size() > 0)
-        {
+        if (history.size() > 0) {
             if (direction != Direction.MIDDLE && cursor > 0)
                 cursor--;
 
@@ -126,8 +124,7 @@ public class CommandHistory {
     public String goDown() {
         String down = "";
 
-        if (history.size() > 0)
-        {
+        if (history.size() > 0) {
             if (cursor < history.size() - 1)
             {
                 cursor++;

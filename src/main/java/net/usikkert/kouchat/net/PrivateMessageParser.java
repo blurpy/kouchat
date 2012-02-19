@@ -67,8 +67,7 @@ public class PrivateMessageParser implements ReceiverListener {
      */
     @Override
     public void messageArrived(final String message, final String ipAddress) {
-        try
-        {
+        try {
             int exclamation = message.indexOf("!");
             int hash = message.indexOf("#");
             int colon = message.indexOf(":");
@@ -99,14 +98,12 @@ public class PrivateMessageParser implements ReceiverListener {
         }
 
         // Just ignore, someone sent a badly formatted message
-        catch (final StringIndexOutOfBoundsException e)
-        {
+        catch (final StringIndexOutOfBoundsException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
         }
 
         // Just ignore, someone sent a badly formatted message
-        catch (final NumberFormatException e)
-        {
+        catch (final NumberFormatException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
         }
     }

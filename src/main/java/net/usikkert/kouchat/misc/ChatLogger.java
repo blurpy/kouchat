@@ -65,13 +65,11 @@ public class ChatLogger implements SettingsListener {
 
         errorHandler = ErrorHandler.getErrorHandler();
 
-        if (settings.isLogging())
-        {
+        if (settings.isLogging()) {
             open();
         }
 
-        Runtime.getRuntime().addShutdownHook(new Thread("ChatLoggerShutdownHook")
-        {
+        Runtime.getRuntime().addShutdownHook(new Thread("ChatLoggerShutdownHook") {
             @Override
             public void run()
             {
@@ -87,8 +85,7 @@ public class ChatLogger implements SettingsListener {
     public void open() {
         close();
 
-        try
-        {
+        try {
             File logdir = new File(Constants.APP_LOG_FOLDER);
 
             if (!logdir.exists())
@@ -98,8 +95,7 @@ public class ChatLogger implements SettingsListener {
             open = true;
         }
 
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
             settings.setLogging(false);
             errorHandler.showError("Could not initialize the logging:\n" + e);
@@ -110,8 +106,7 @@ public class ChatLogger implements SettingsListener {
      * Flushed and closes the current open log file.
      */
     public void close() {
-        if (open)
-        {
+        if (open) {
             try
             {
                 writer.flush();
@@ -136,8 +131,7 @@ public class ChatLogger implements SettingsListener {
      * @param line The line of text to add to the log.
      */
     public void append(final String line) {
-        if (open)
-        {
+        if (open) {
             try
             {
                 writer.append(line);
@@ -169,8 +163,7 @@ public class ChatLogger implements SettingsListener {
      */
     @Override
     public void settingChanged(final String setting) {
-        if (setting.equals("logging"))
-        {
+        if (setting.equals("logging")) {
             if (settings.isLogging())
             {
                 if (!isOpen())

@@ -71,8 +71,7 @@ public class ResourceValidator {
     public String validate() {
         StringBuilder missingResourceList = new StringBuilder();
 
-        for (String location : resourceMap.keySet())
-        {
+        for (String location : resourceMap.keySet()) {
             if (resourceMap.get(location) == null)
             {
                 if (missingResourceList.length() != 0)

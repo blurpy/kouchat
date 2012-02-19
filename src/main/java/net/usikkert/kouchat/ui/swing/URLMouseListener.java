@@ -79,14 +79,12 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
 
         AttributeSet attr = doc.getCharacterElement(mousePos).getAttributes();
 
-        if (StyleConstants.isUnderline(attr))
-        {
+        if (StyleConstants.isUnderline(attr)) {
             if (textPane.getCursor() != handCursor)
                 textPane.setCursor(handCursor);
         }
 
-        else
-        {
+        else {
             if (textPane.getCursor() == handCursor)
                 textPane.setCursor(null);
         }
@@ -139,8 +137,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
      */
     @Override
     public void mouseReleased(final MouseEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON1)
-        {
+        if (e.getButton() == MouseEvent.BUTTON1) {
             int clickPos = textPane.viewToModel(e.getPoint());
 
             AttributeSet attr = doc.getCharacterElement(clickPos).getAttributes();

@@ -80,8 +80,7 @@ public final class LogInitializer {
     public void initHandlers() {
         Handler[] handlers = Logger.getLogger("").getHandlers();
 
-        for (Handler handler : handlers)
-        {
+        for (Handler handler : handlers) {
             if (handler instanceof ConsoleHandler)
             {
                 handler.setLevel(Level.ALL);

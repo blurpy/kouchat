@@ -82,8 +82,7 @@ public class NetworkInformation implements NetworkInformationMBean {
         if (networkInterfaces == null)
             return new String[] { "No network interfaces detected." };
 
-        while (networkInterfaces.hasMoreElements())
-        {
+        while (networkInterfaces.hasMoreElements()) {
             NetworkInterface netif = networkInterfaces.nextElement();
 
             if (NetworkUtils.isUsable(netif))
@@ -106,8 +105,7 @@ public class NetworkInformation implements NetworkInformationMBean {
         if (networkInterfaces == null)
             return new String[] { "No network interfaces detected." };
 
-        while (networkInterfaces.hasMoreElements())
-        {
+        while (networkInterfaces.hasMoreElements()) {
             NetworkInterface netif = networkInterfaces.nextElement();
             list.add(NetworkUtils.getNetworkInterfaceInfo(netif));
         }

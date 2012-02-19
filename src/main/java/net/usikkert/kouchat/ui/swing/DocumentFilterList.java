@@ -63,8 +63,7 @@ public class DocumentFilterList extends DocumentFilter {
             final AttributeSet attr) throws BadLocationException {
         super.insertString(fb, offset, text, attr);
 
-        for (DocumentFilter filter : filters)
-        {
+        for (DocumentFilter filter : filters) {
             filter.insertString(fb, offset, text, attr);
         }
     }

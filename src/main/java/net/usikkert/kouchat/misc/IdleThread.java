@@ -95,8 +95,7 @@ public class IdleThread extends Thread {
         // In case of any error messages during startup
         me.setLastIdle(System.currentTimeMillis());
 
-        while (run)
-        {
+        while (run) {
             controller.sendIdleMessage();
             boolean timeout = false;
 
@@ -141,8 +140,7 @@ public class IdleThread extends Thread {
         user.setOnline(false);
         msgController.showSystemMessage(user.getNick() + " timed out");
 
-        if (user.getPrivchat() != null)
-        {
+        if (user.getPrivchat() != null) {
             msgController.showPrivateSystemMessage(user, user.getNick() + " timed out");
             user.getPrivchat().setLoggedOff();
         }

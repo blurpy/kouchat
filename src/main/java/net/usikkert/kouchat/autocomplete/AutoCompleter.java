@@ -92,8 +92,7 @@ public class AutoCompleter {
     public String completeWord(final String line, final int caretPosition) {
         String completedLine = "";
 
-        if (autoCompleteLists.size() > 0)
-        {
+        if (autoCompleteLists.size() > 0) {
             final int stop = findStopPosition(line, caretPosition);
             final int start = findStartPosition(line, caretPosition);
             final String word = line.substring(start, stop);
@@ -150,8 +149,7 @@ public class AutoCompleter {
             final List<String> suggestions, final String word) {
         int nextSuggestionPosition = -1;
 
-        if (continueLastSearch)
-        {
+        if (continueLastSearch) {
             // Locate the position of the previous suggestion in the list
             for (int i = 0; i < suggestions.size(); i++)
             {
@@ -237,8 +235,7 @@ public class AutoCompleter {
      *         or <em>null</em> if none.
      */
     private AutoCompleteList getAutoCompleteList(final String word) {
-        for (AutoCompleteList acl : autoCompleteLists)
-        {
+        for (AutoCompleteList acl : autoCompleteLists) {
             if (acl.acceptsWord(word))
             {
                 return acl;
@@ -259,8 +256,7 @@ public class AutoCompleter {
     private List<String> getAutoCompleteSuggestions(final String[] wordList, final String word) {
         List<String> suggestions = new ArrayList<String>();
 
-        for (int i = 0; i < wordList.length; i++)
-        {
+        for (int i = 0; i < wordList.length; i++) {
             if (wordList[i].toLowerCase().startsWith(word.toLowerCase()))
             {
                 suggestions.add(wordList[i]);

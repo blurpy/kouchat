@@ -60,8 +60,7 @@ public class SimpleReceiverListener implements ReceiverListener {
      */
     @Override
     public void messageArrived(final String message, final String ipAddress) {
-        if (expectedMessage == null || expectedMessage.equals(message))
-        {
+        if (expectedMessage == null || expectedMessage.equals(message)) {
             this.message = message;
             this.ipAddress = ipAddress;
         }

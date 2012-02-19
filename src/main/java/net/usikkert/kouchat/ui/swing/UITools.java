@@ -78,8 +78,7 @@ public final class UITools {
         String browser = SETTINGS.getBrowser();
 
         // The default is to use the browser in the settings.
-        if (browser != null && browser.trim().length() > 0 )
-        {
+        if (browser != null && browser.trim().length() > 0 ) {
             try
             {
                 Runtime.getRuntime().exec(browser + " " + url);
@@ -94,8 +93,7 @@ public final class UITools {
         }
 
         // But if no browser is set there, try opening the system default browser
-        else if (isDesktopActionSupported(Action.BROWSE))
-        {
+        else if (isDesktopActionSupported(Action.BROWSE)) {
             try
             {
                 Desktop.getDesktop().browse(new URI(url));
@@ -114,8 +112,7 @@ public final class UITools {
             }
         }
 
-        else
-        {
+        else {
             ERRORHANDLER.showError("No browser detected."
                     + " A browser can be chosen in the settings.");
         }
@@ -131,8 +128,7 @@ public final class UITools {
     public static void open(final File file) {
         boolean desktopOpenSuccess = false;
 
-        if (isDesktopActionSupported(Action.OPEN))
-        {
+        if (isDesktopActionSupported(Action.OPEN)) {
             try
             {
                 Desktop.getDesktop().open(file);
@@ -145,8 +141,7 @@ public final class UITools {
             }
         }
 
-        if (!desktopOpenSuccess)
-        {
+        if (!desktopOpenSuccess) {
             browse(file.getAbsolutePath());
         }
     }
@@ -164,8 +159,7 @@ public final class UITools {
      * @return If the system supports this action or not.
      */
     public static boolean isDesktopActionSupported(final Action action) {
-        if (Desktop.isDesktopSupported())
-        {
+        if (Desktop.isDesktopSupported()) {
             if (Desktop.getDesktop().isSupported(action))
             {
                 return true;
@@ -180,8 +174,7 @@ public final class UITools {
      * Ignores any exceptions, as this is not critical.
      */
     public static void setSystemLookAndFeel() {
-        if (isSystemLookAndFeelSupported())
-        {
+        if (isSystemLookAndFeelSupported()) {
             try
             {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -215,8 +208,7 @@ public final class UITools {
      * @param lnfName Name of the look and feel to change to.
      */
     public static void setLookAndFeel(final String lnfName) {
-        try
-        {
+        try {
             LookAndFeelInfo lookAndFeel = getLookAndFeel(lnfName);
 
             if (lookAndFeel != null)
@@ -224,23 +216,19 @@ public final class UITools {
 
         }
 
-        catch (final ClassNotFoundException e)
-        {
+        catch (final ClassNotFoundException e) {
             LOG.log(Level.WARNING, e.toString());
         }
 
-        catch (final InstantiationException e)
-        {
+        catch (final InstantiationException e) {
             LOG.log(Level.WARNING, e.toString());
         }
 
-        catch (final IllegalAccessException e)
-        {
+        catch (final IllegalAccessException e) {
             LOG.log(Level.WARNING, e.toString());
         }
 
-        catch (final UnsupportedLookAndFeelException e)
-        {
+        catch (final UnsupportedLookAndFeelException e) {
             LOG.log(Level.WARNING, e.toString());
         }
     }
@@ -265,8 +253,7 @@ public final class UITools {
         LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
         LookAndFeelWrapper[] lookAndFeelWrappers = new LookAndFeelWrapper[lookAndFeels.length];
 
-        for (int i = 0; i < lookAndFeels.length; i++)
-        {
+        for (int i = 0; i < lookAndFeels.length; i++) {
             lookAndFeelWrappers[i] = new LookAndFeelWrapper(lookAndFeels[i]);
         }
 
@@ -283,8 +270,7 @@ public final class UITools {
     public static LookAndFeelInfo getLookAndFeel(final String lnfName) {
         LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
 
-        for (LookAndFeelInfo lookAndFeelInfo : lookAndFeels)
-        {
+        for (LookAndFeelInfo lookAndFeelInfo : lookAndFeels) {
             if (lookAndFeelInfo.getName().equals(lnfName))
             {
                 return lookAndFeelInfo;
@@ -307,8 +293,7 @@ public final class UITools {
 
         LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
 
-        for (LookAndFeelInfo lookAndFeelInfo : lookAndFeels)
-        {
+        for (LookAndFeelInfo lookAndFeelInfo : lookAndFeels) {
             if (lookAndFeelInfo.getClassName().equals(lookAndFeel.getClass().getName()))
             {
                 return lookAndFeelInfo;

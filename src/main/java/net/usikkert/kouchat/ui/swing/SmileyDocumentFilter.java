@@ -88,8 +88,7 @@ public class SmileyDocumentFilter extends DocumentFilter {
         final MutableAttributeSet smileyAttr = (MutableAttributeSet) attr.copyAttributes();
 
         // Do this in the background so the text wont lag
-        SwingUtilities.invokeLater(new Runnable()
-        {
+        SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run()
             {
@@ -161,8 +160,7 @@ public class SmileyDocumentFilter extends DocumentFilter {
         int firstMatch = -1;
         Smiley smiley = null;
 
-        for (String smileyText : smileyMap.getTextSmileys())
-        {
+        for (String smileyText : smileyMap.getTextSmileys()) {
             int smileyPos = 0;
             int loopOffset = offset;
 

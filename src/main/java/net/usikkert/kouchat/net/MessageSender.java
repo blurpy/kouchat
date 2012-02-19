@@ -82,13 +82,11 @@ public class MessageSender {
         this.port = port;
         errorHandler = ErrorHandler.getErrorHandler();
 
-        try
-        {
+        try {
             address = InetAddress.getByName(ipAddress);
         }
 
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
             errorHandler.showCriticalError("Failed to initialize the network:\n" + e + "\n"
                     + Constants.APP_NAME + " will now shutdown.");
@@ -105,8 +103,7 @@ public class MessageSender {
      * @see Constants#NETWORK_PACKET_SIZE
      */
     public synchronized boolean send(final String message) {
-        if (connected)
-        {
+        if (connected) {
             try
             {
                 byte[] encodedMsg = message.getBytes(Constants.MESSAGE_CHARSET);
@@ -140,13 +137,11 @@ public class MessageSender {
     public synchronized void stopSender() {
         LOG.log(Level.FINE, "Disconnecting...");
 
-        if (!connected)
-        {
+        if (!connected) {
             LOG.log(Level.FINE, "Not connected.");
         }
 
-        else
-        {
+        else {
             connected = false;
 
             try
@@ -183,8 +178,7 @@ public class MessageSender {
     public synchronized boolean startSender(final NetworkInterface networkInterface) {
         LOG.log(Level.FINE, "Connecting...");
 
-        try
-        {
+        try {
             if (connected)
             {
                 LOG.log(Level.FINE, "Already connected.");
@@ -205,8 +199,7 @@ public class MessageSender {
             }
         }
 
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             LOG.log(Level.SEVERE, "Could not start sender: " + e.toString());
 
             if (mcSocket != null)

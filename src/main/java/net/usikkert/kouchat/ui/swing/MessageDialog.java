@@ -88,8 +88,7 @@ public class MessageDialog extends JDialog {
 
         JButton okB = new JButton();
         okB.setText("OK");
-        okB.addActionListener(new ActionListener()
-        {
+        okB.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e)
             {
@@ -126,8 +125,7 @@ public class MessageDialog extends JDialog {
         // Close with Escape key
         KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
 
-        Action escapeAction = new AbstractAction()
-        {
+        Action escapeAction = new AbstractAction() {
             private static final long serialVersionUID = 1L;
 
             @Override

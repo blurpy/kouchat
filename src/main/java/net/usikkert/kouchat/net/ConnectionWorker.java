@@ -83,8 +83,7 @@ public class ConnectionWorker implements Runnable {
     public void run() {
         LOG.log(Level.FINE, "Network is starting");
 
-        while (run)
-        {
+        while (run) {
             boolean networkUp = updateNetwork();
 
             try
@@ -128,8 +127,7 @@ public class ConnectionWorker implements Runnable {
         NetworkInterface netif = selectNetworkInterface();
 
         // No network interface to connect with
-        if (!NetworkUtils.isUsable(netif))
-        {
+        if (!NetworkUtils.isUsable(netif)) {
             LOG.log(Level.FINE, "Network is down");
 
             if (networkUp)
@@ -139,8 +137,7 @@ public class ConnectionWorker implements Runnable {
         }
 
         // Switching network interface, like going from cable to wireless
-        else if (isNewNetworkInterface(netif))
-        {
+        else if (isNewNetworkInterface(netif)) {
             String origNetwork = networkInterface == null ? "[null]" : networkInterface.getName();
             LOG.log(Level.FINE, "Changing network from " + origNetwork + " to " + netif.getName());
             networkInterface = netif;
@@ -156,8 +153,7 @@ public class ConnectionWorker implements Runnable {
         }
 
         // If the connection was lost, like unplugging cable, and plugging back in
-        else if (!networkUp)
-        {
+        else if (!networkUp) {
             LOG.log(Level.FINE, "Network " + netif.getName() + " is up again");
             networkInterface = netif;
             notifyNetworkUp(false);
@@ -186,8 +182,7 @@ public class ConnectionWorker implements Runnable {
     private synchronized void notifyNetworkUp(final boolean silent) {
         networkUp = true;
 
-        for (NetworkConnectionListener listener : listeners)
-        {
+        for (NetworkConnectionListener listener : listeners) {
             listener.networkCameUp(silent);
         }
     }
@@ -200,8 +195,7 @@ public class ConnectionWorker implements Runnable {
     private synchronized void notifyNetworkDown(final boolean silent) {
         networkUp = false;
 
-        for (NetworkConnectionListener listener : listeners)
-        {
+        for (NetworkConnectionListener listener : listeners) {
             listener.networkWentDown(silent);
         }
     }
@@ -219,8 +213,7 @@ public class ConnectionWorker implements Runnable {
      * Starts a new thread if no thread is already running.
      */
     public synchronized void start() {
-        if (!run && !isAlive())
-        {
+        if (!run && !isAlive()) {
             run = true;
             worker = new Thread(this, "ConnectionWorker");
             worker.start();
@@ -253,16 +246,14 @@ public class ConnectionWorker implements Runnable {
     private NetworkInterface selectNetworkInterface() {
         NetworkInterface firstUsableNetIf = NetworkUtils.findFirstUsableNetworkInterface();
 
-        if (firstUsableNetIf == null)
-        {
+        if (firstUsableNetIf == null) {
             LOG.log(Level.FINER, "No usable network interface detected.");
             return null;
         }
 
         NetworkInterface osNetIf = osNetworkInfo.getOperatingSystemNetworkInterface();
 
-        if (NetworkUtils.isUsable(osNetIf))
-        {
+        if (NetworkUtils.isUsable(osNetIf)) {
             LOG.log(Level.FINER, "Using operating system's choice of network interface.");
             return osNetIf;
         }

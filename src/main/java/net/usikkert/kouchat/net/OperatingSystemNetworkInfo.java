@@ -103,8 +103,7 @@ public class OperatingSystemNetworkInfo {
      * @param listener The message listener.
      */
     private void waitForMessage(final SimpleReceiverListener listener) {
-        for (int i = 0; i < 40; i++)
-        {
+        for (int i = 0; i < 40; i++) {
             if (listener.getIpAddress() == null)
                 Tools.sleep(50);
             else
@@ -126,19 +125,16 @@ public class OperatingSystemNetworkInfo {
         if (listener.getIpAddress() == null)
             return null;
 
-        try
-        {
+        try {
             InetAddress osAddress = InetAddress.getByName(listener.getIpAddress());
             return NetworkInterface.getByInetAddress(osAddress);
         }
 
-        catch (final UnknownHostException e)
-        {
+        catch (final UnknownHostException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
         }
 
-        catch (final SocketException e)
-        {
+        catch (final SocketException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
         }
 

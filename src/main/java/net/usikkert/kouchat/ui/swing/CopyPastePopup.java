@@ -142,8 +142,7 @@ public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionL
      */
     @Override
     public void mouseReleased(final MouseEvent e) {
-        if (isPopupTrigger(e) && textfield.isEnabled())
-        {
+        if (isPopupTrigger(e) && textfield.isEnabled()) {
             textfield.requestFocusInWindow();
 
             if (textfield.getSelectedText() == null)

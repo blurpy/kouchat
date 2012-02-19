@@ -121,8 +121,7 @@ public class FileReceiver implements FileTransfer {
         boolean done = false;
         int counter = 0;
 
-        while (!done && counter < 10)
-        {
+        while (!done && counter < 10) {
             try
             {
                 sSock = new ServerSocket(port);
@@ -161,8 +160,7 @@ public class FileReceiver implements FileTransfer {
         received = false;
         cancel = false;
 
-        try
-        {
+        try {
             if (sSock != null)
             {
                 sock = sSock.accept();
@@ -207,14 +205,12 @@ public class FileReceiver implements FileTransfer {
             }
         }
 
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             LOG.log(Level.SEVERE, e.toString());
             listener.statusFailed();
         }
 
-        finally
-        {
+        finally {
             stopReceiver();
             cleanupConnections();
         }
@@ -236,58 +232,48 @@ public class FileReceiver implements FileTransfer {
      * Closes the connection to the user.
      */
     private void stopReceiver() {
-        try
-        {
+        try {
             if (is != null)
                 is.close();
         }
 
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
         }
 
-        try
-        {
+        try {
             if (fos != null)
                 fos.flush();
         }
 
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
         }
 
-        try
-        {
+        try {
             if (fos != null)
                 fos.close();
         }
 
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
         }
 
-        try
-        {
+        try {
             if (sock != null)
                 sock.close();
         }
 
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
         }
 
-        try
-        {
+        try {
             if (sSock != null)
                 sSock.close();
         }
 
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
         }
     }
@@ -460,8 +446,7 @@ public class FileReceiver implements FileTransfer {
         /**
          * Constructor. Sets the name of the thread.
          */
-        public TimeoutThread()
-        {
+        public TimeoutThread() {
             setName("TimeoutThread");
         }
 
@@ -470,8 +455,7 @@ public class FileReceiver implements FileTransfer {
          * server connection if it is not already closed.
          */
         @Override
-        public void run()
-        {
+        public void run() {
             try
             {
                 sleep(15000);

@@ -62,8 +62,7 @@ public class SizeDocumentFilter extends DocumentFilter {
     @Override
     public void replace(final FilterBypass fb, final int offset, final int length,
             final String text, final AttributeSet attrs) throws BadLocationException {
-        if (text != null && text.length() > 0)
-        {
+        if (text != null && text.length() > 0) {
             String newText = text;
 
             // Replace newlines with space
@@ -119,8 +118,7 @@ public class SizeDocumentFilter extends DocumentFilter {
         }
 
         // Empty text, just continue normally.
-        else
-        {
+        else {
             super.replace(fb, offset, length, text, attrs);
         }
     }

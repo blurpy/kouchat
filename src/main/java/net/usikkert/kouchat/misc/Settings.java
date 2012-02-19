@@ -178,8 +178,7 @@ public final class Settings {
         if (!appFolder.exists())
             appFolder.mkdir();
 
-        try
-        {
+        try {
             fileWriter = new FileWriter(FILENAME);
             buffWriter = new BufferedWriter(fileWriter);
 
@@ -202,14 +201,12 @@ public final class Settings {
             buffWriter.newLine();
         }
 
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             LOG.log(Level.SEVERE, e.toString());
             errorHandler.showError("Settings could not be saved:\n " + e);
         }
 
-        finally
-        {
+        finally {
             try
             {
                 if (buffWriter != null)
@@ -263,8 +260,7 @@ public final class Settings {
     private void loadSettings() {
         FileInputStream fileStream = null;
 
-        try
-        {
+        try {
             Properties fileContents = new Properties();
             fileStream = new FileInputStream(FILENAME);
             fileContents.load(fileStream);
@@ -307,18 +303,15 @@ public final class Settings {
                 smileys = Boolean.valueOf(fileContents.getProperty("smileys"));
         }
 
-        catch (final FileNotFoundException e)
-        {
+        catch (final FileNotFoundException e) {
             LOG.log(Level.WARNING, "Could not find " + FILENAME + ", using default settings.");
         }
 
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
         }
 
-        finally
-        {
+        finally {
             try
             {
                 if (fileStream != null)
@@ -357,8 +350,7 @@ public final class Settings {
      * @param ownColor The color for own messages.
      */
     public void setOwnColor(final int ownColor) {
-        if (this.ownColor != ownColor)
-        {
+        if (this.ownColor != ownColor) {
             this.ownColor = ownColor;
             fireSettingChanged("ownColor");
         }
@@ -380,8 +372,7 @@ public final class Settings {
      * @param sysColor The color for system messages.
      */
     public void setSysColor(final int sysColor) {
-        if (this.sysColor != sysColor)
-        {
+        if (this.sysColor != sysColor) {
             this.sysColor = sysColor;
             fireSettingChanged("sysColor");
         }
@@ -403,8 +394,7 @@ public final class Settings {
      * @param sound If sound is enabled.
      */
     public void setSound(final boolean sound) {
-        if (this.sound != sound)
-        {
+        if (this.sound != sound) {
             this.sound = sound;
             fireSettingChanged("sound");
         }
@@ -426,8 +416,7 @@ public final class Settings {
      * @param logging If logging is enabled.
      */
     public void setLogging(final boolean logging) {
-        if (this.logging != logging)
-        {
+        if (this.logging != logging) {
             this.logging = logging;
             fireSettingChanged("logging");
         }
@@ -493,8 +482,7 @@ public final class Settings {
      * @param setting The setting that has changed.
      */
     private void fireSettingChanged(final String setting) {
-        for (SettingsListener listener : listeners)
-        {
+        for (SettingsListener listener : listeners) {
             listener.settingChanged(setting);
         }
     }

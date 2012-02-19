@@ -170,8 +170,7 @@ public class ImageLoader {
     private void validate(final ResourceValidator resourceValidator) {
         String missing = resourceValidator.validate();
 
-        if (missing.length() > 0)
-        {
+        if (missing.length() > 0) {
             String error = "These images were expected, but not found:\n\n" + missing + "\n\n"
                     + Constants.APP_NAME + " will now shutdown.";
 

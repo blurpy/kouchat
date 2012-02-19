@@ -92,8 +92,7 @@ public class MessageParser implements ReceiverListener {
      */
     @Override
     public void messageArrived(final String message, final String ipAddress) {
-        try
-        {
+        try {
             int exclamation = message.indexOf("!");
             int hash = message.indexOf("#");
             int colon = message.indexOf(":");
@@ -316,13 +315,11 @@ public class MessageParser implements ReceiverListener {
             }
         }
 
-        catch (final StringIndexOutOfBoundsException e)
-        {
+        catch (final StringIndexOutOfBoundsException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
         }
 
-        catch (final NumberFormatException e)
-        {
+        catch (final NumberFormatException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
         }
     }

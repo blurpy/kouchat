@@ -81,8 +81,7 @@ public class UserListModel extends AbstractListModel implements UserListListener
      */
     @Override
     public void userAdded(final int pos) {
-        SwingUtilities.invokeLater(new Runnable()
-        {
+        SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run()
             {
@@ -98,8 +97,7 @@ public class UserListModel extends AbstractListModel implements UserListListener
      */
     @Override
     public void userChanged(final int pos) {
-        SwingUtilities.invokeLater(new Runnable()
-        {
+        SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run()
             {
@@ -115,8 +113,7 @@ public class UserListModel extends AbstractListModel implements UserListListener
      */
     @Override
     public void userRemoved(final int pos) {
-        SwingUtilities.invokeLater(new Runnable()
-        {
+        SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run()
             {

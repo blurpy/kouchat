@@ -70,13 +70,11 @@ public class FileTransferHandler extends TransferHandler {
     public FileTransferHandler(final FileDropSource fileDropSource) {
         this.fileDropSource = fileDropSource;
 
-        try
-        {
+        try {
             uriListFlavor = new DataFlavor("text/uri-list;class=java.lang.String");
         }
 
-        catch (final ClassNotFoundException e)
-        {
+        catch (final ClassNotFoundException e) {
             LOG.log(Level.WARNING, e.toString());
         }
     }
@@ -110,8 +108,7 @@ public class FileTransferHandler extends TransferHandler {
      */
     @Override
     public boolean importData(final TransferSupport support) {
-        if (canImport(support))
-        {
+        if (canImport(support)) {
             try
             {
                 File file = null;
@@ -195,14 +192,12 @@ public class FileTransferHandler extends TransferHandler {
      */
     @Override
     protected Transferable createTransferable(final JComponent c) {
-        if (c instanceof JTextComponent)
-        {
+        if (c instanceof JTextComponent) {
             String data = ((JTextComponent) c).getSelectedText();
             return new StringSelection(data);
         }
 
-        else if (c instanceof JList)
-        {
+        else if (c instanceof JList) {
             String data = ((JList) c).getSelectedValue().toString();
             return new StringSelection(data);
         }

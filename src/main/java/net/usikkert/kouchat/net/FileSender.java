@@ -107,8 +107,7 @@ public class FileSender implements FileTransfer {
      * @return If the file transfer was successful.
      */
     public boolean transfer(final int port) {
-        if (!cancel)
-        {
+        if (!cancel) {
             listener.statusConnecting();
 
             waiting = false;
@@ -231,47 +230,39 @@ public class FileSender implements FileTransfer {
      * Closes the connection to the user.
      */
     private void stopSender() {
-        try
-        {
+        try {
             if (fis != null)
                 fis.close();
         }
 
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
         }
 
-        try
-        {
+        try {
             if (os != null)
                 os.flush();
         }
 
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
         }
 
-        try
-        {
+        try {
             if (os != null)
                 os.close();
         }
 
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
         }
 
-        try
-        {
+        try {
             if (sock != null)
                 sock.close();
         }
 
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
         }
     }

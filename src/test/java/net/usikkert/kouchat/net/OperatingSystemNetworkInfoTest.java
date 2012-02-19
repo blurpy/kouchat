@@ -49,8 +49,7 @@ public class OperatingSystemNetworkInfoTest {
         OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo();
         NetworkInterface osInterface = osNicInfo.getOperatingSystemNetworkInterface();
 
-        if (networkInterfaces == null)
-        {
+        if (networkInterfaces == null) {
             System.err.println("No network interfaces found.");
             assertNull(osInterface);
             return;
@@ -58,8 +57,7 @@ public class OperatingSystemNetworkInfoTest {
 
         boolean validNetworkAvailable = false;
 
-        while (networkInterfaces.hasMoreElements())
-        {
+        while (networkInterfaces.hasMoreElements()) {
             NetworkInterface networkInterface = networkInterfaces.nextElement();
 
             if (NetworkUtils.isUsable(networkInterface))
@@ -69,8 +67,7 @@ public class OperatingSystemNetworkInfoTest {
             }
         }
 
-        if (!validNetworkAvailable)
-        {
+        if (!validNetworkAvailable) {
             System.err.println("No usable network interfaces found.");
             assertNull(osInterface);
             return;

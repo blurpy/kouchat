@@ -51,8 +51,7 @@ public class MiddleAlignedIconViewFactory implements ViewFactory {
     public View create(final Element elem) {
         String kind = elem.getName();
 
-        if (kind != null)
-        {
+        if (kind != null) {
             if (kind.equals(AbstractDocument.ContentElementName))
                 return new LabelView(elem);
             else if (kind.equals(AbstractDocument.ParagraphElementName))

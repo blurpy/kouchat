@@ -71,8 +71,7 @@ public class UDPReceiver implements Runnable {
      * extracts the message and IP address, and notifies the listener.
      */
     public void run() {
-        while (connected)
-        {
+        while (connected) {
             try
             {
                 DatagramPacket packet = new DatagramPacket(
@@ -106,13 +105,11 @@ public class UDPReceiver implements Runnable {
     public void startReceiver() {
         LOG.log(Level.FINE, "Connecting...");
 
-        if (connected)
-        {
+        if (connected) {
             LOG.log(Level.FINE, "Already connected.");
         }
 
-        else
-        {
+        else {
             int port = Constants.NETWORK_PRIVCHAT_PORT;
             int counter = 0;
 
@@ -157,13 +154,11 @@ public class UDPReceiver implements Runnable {
     public void stopReceiver() {
         LOG.log(Level.FINE, "Disconnecting...");
 
-        if (!connected)
-        {
+        if (!connected) {
             LOG.log(Level.FINE, "Not connected.");
         }
 
-        else
-        {
+        else {
             connected = false;
 
             if (udpSocket != null && !udpSocket.isClosed())

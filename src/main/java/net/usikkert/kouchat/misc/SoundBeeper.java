@@ -76,8 +76,7 @@ public class SoundBeeper {
      * 5 seconds the sound resource is released.
      */
     public synchronized void beep() {
-        if (settings.isSound())
-        {
+        if (settings.isSound()) {
             if (audioClip == null || !audioClip.isActive())
             {
                 if (audioClip == null)
@@ -109,8 +108,7 @@ public class SoundBeeper {
     public void open() {
         InputStream resourceStream = getClass().getResourceAsStream(BEEP_FILE);
 
-        if (resourceStream != null)
-        {
+        if (resourceStream != null) {
             AudioInputStream audioStream = null;
 
             try
@@ -177,8 +175,7 @@ public class SoundBeeper {
             }
         }
 
-        else
-        {
+        else {
             LOG.log(Level.SEVERE, "Audio file not found: " + BEEP_FILE);
             settings.setSound(false);
             errorHandler.showError("Could not initialize the sound."
@@ -190,8 +187,7 @@ public class SoundBeeper {
      * Closes the audio file and frees the resources used.
      */
     public void close() {
-        if (audioClip != null)
-        {
+        if (audioClip != null) {
             audioClip.flush();
             audioClip.close();
             audioClip = null;
@@ -206,8 +202,7 @@ public class SoundBeeper {
     private class CloseTimer implements Runnable {
         /** The method that runs when the thread starts. */
         @Override
-        public void run()
-        {
+        public void run() {
             while (System.currentTimeMillis() < closeTime)
             {
                 try

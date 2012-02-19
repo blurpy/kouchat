@@ -46,13 +46,11 @@ public class UIFactory {
      * unknown ui type was requested, or if no graphical environment was detected.
      */
     public void loadUI(final UIChoice choice) throws UIException {
-        if (done)
-        {
+        if (done) {
             throw new UIException("A User Interface has already been loaded.");
         }
 
-        else
-        {
+        else {
             if (choice == UIChoice.SWING)
             {
                 if (GraphicsEnvironment.isHeadless())

@@ -162,15 +162,13 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      */
     @Override
     public void appendToChat(final String message, final int color) {
-        try
-        {
+        try {
             StyleConstants.setForeground(chatAttr, new Color(color));
             chatDoc.insertString(chatDoc.getLength(), message + "\n", chatAttr);
             chatTP.setCaretPosition(chatDoc.getLength());
         }
 
-        catch (final BadLocationException e)
-        {
+        catch (final BadLocationException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
         }
     }
@@ -216,8 +214,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      */
     @Override
     public void caretUpdate(final CaretEvent e) {
-        SwingUtilities.invokeLater(new Runnable()
-        {
+        SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run()
             {
@@ -235,8 +232,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
     @Override
     public void actionPerformed(final ActionEvent e) {
         // The input field
-        if (e.getSource() == msgTF)
-        {
+        if (e.getSource() == msgTF) {
             SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
@@ -257,8 +253,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      */
     @Override
     public void keyPressed(final KeyEvent ke) {
-        SwingUtilities.invokeLater(new Runnable()
-        {
+        SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run()
             {
@@ -301,8 +296,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      */
     @Override
     public void keyReleased(final KeyEvent ke) {
-        SwingUtilities.invokeLater(new Runnable()
-        {
+        SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run()
             {

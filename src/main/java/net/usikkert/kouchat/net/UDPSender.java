@@ -68,8 +68,7 @@ public class UDPSender {
      * @return If the message was sent or not.
      */
     public boolean send(final String message, final String ip, final int port) {
-        if (connected)
-        {
+        if (connected) {
             try
             {
                 InetAddress address = InetAddress.getByName(ip);
@@ -104,13 +103,11 @@ public class UDPSender {
     public void stopSender() {
         LOG.log(Level.FINE, "Disconnecting...");
 
-        if (!connected)
-        {
+        if (!connected) {
             LOG.log(Level.FINE, "Not connected.");
         }
 
-        else
-        {
+        else {
             connected = false;
 
             if (udpSocket != null && !udpSocket.isClosed())
@@ -128,13 +125,11 @@ public class UDPSender {
     public void startSender() {
         LOG.log(Level.FINE, "Connecting...");
 
-        if (connected)
-        {
+        if (connected) {
             LOG.log(Level.FINE, "Already connected.");
         }
 
-        else
-        {
+        else {
             try
             {
                 udpSocket = new DatagramSocket();

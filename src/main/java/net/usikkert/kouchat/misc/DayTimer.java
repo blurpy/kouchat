@@ -89,15 +89,13 @@ public class DayTimer extends TimerTask {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
         // Needs an extra check, so the message only shows once a day.
-        if (hour == NOTIFY_HOUR && !done)
-        {
+        if (hour == NOTIFY_HOUR && !done) {
             String date = Tools.dateToString(null, "EEEE, d MMMM yyyy");
             msgController.showSystemMessage("Day changed to " + date);
             done = true;
         }
 
-        else if (hour != NOTIFY_HOUR && done)
-        {
+        else if (hour != NOTIFY_HOUR && done) {
             done = false;
         }
     }

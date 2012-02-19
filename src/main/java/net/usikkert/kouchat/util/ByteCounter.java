@@ -102,8 +102,7 @@ public class ByteCounter {
         timeCounted += timeSpent;
         bytesCounted += bytesAdded;
 
-        if (timeCounted >= ONE_SECOND)
-        {
+        if (timeCounted >= ONE_SECOND) {
             if (timeSpent > ONE_SECOND)
                 calculateOnlyTimeSpent(bytesAdded, timeSpent);
             else

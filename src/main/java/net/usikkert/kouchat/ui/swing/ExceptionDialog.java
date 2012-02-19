@@ -92,8 +92,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
 
         JButton closeB = new JButton();
         closeB.setText("Close");
-        closeB.addActionListener(new ActionListener()
-        {
+        closeB.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e)
             {
@@ -146,8 +145,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
      */
     @Override
     public void uncaughtException(final Thread thread, final Throwable throwable) {
-        SwingUtilities.invokeLater(new Runnable()
-        {
+        SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run()
             {

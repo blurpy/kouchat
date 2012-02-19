@@ -54,8 +54,7 @@ public class NetworkUtilsTest {
 
         Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
 
-        if (networkInterfaces != null)
-        {
+        if (networkInterfaces != null) {
             try
             {
                 NetworkInterface interface1 = networkInterfaces.nextElement();
@@ -84,8 +83,7 @@ public class NetworkUtilsTest {
      */
     @Test
     public void testGetLocalHostName() {
-        try
-        {
+        try {
             InetAddress localHostAddress = InetAddress.getLocalHost(); // Could throw exception
 
             String localHostName = NetworkUtils.getLocalHostName();
@@ -94,8 +92,7 @@ public class NetworkUtilsTest {
             assertEquals("The addresses should be equal", localHostAddress, addressByName);
         }
 
-        catch (final UnknownHostException e)
-        {
+        catch (final UnknownHostException e) {
             System.err.println("Could not get localhost - aborting test: " + e.toString());
         }
     }

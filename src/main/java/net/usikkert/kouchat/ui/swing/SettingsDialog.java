@@ -233,8 +233,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
     private void hideWithEscape() {
         KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
 
-        Action escapeAction = new AbstractAction()
-        {
+        Action escapeAction = new AbstractAction() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -264,8 +263,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
      */
     @Override
     public void actionPerformed(final ActionEvent e) {
-        if (e.getSource() == saveB)
-        {
+        if (e.getSource() == saveB) {
             SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
@@ -289,8 +287,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
             });
         }
 
-        else if (e.getSource() == cancelB)
-        {
+        else if (e.getSource() == cancelB) {
             SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
@@ -301,8 +298,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
             });
         }
 
-        else if (e.getSource() == chooseOwnColorB)
-        {
+        else if (e.getSource() == chooseOwnColorB) {
             SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
@@ -319,8 +315,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
             });
         }
 
-        else if (e.getSource() == chooseSysColorB)
-        {
+        else if (e.getSource() == chooseSysColorB) {
             SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
@@ -337,8 +332,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
             });
         }
 
-        else if (e.getSource() == testBrowserB)
-        {
+        else if (e.getSource() == testBrowserB) {
             SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
@@ -388,8 +382,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
             });
         }
 
-        else if (e.getSource() == chooseBrowserB)
-        {
+        else if (e.getSource() == chooseBrowserB) {
             JFileChooser chooser = UITools.createFileChooser("Open");
             int returnVal = chooser.showOpenDialog(null);
 
@@ -411,8 +404,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         String newLookAndFeel = lnfw.getLookAndFeelInfo().getName();
         LookAndFeelInfo currentLookAndFeel = UITools.getCurrentLookAndFeel();
 
-        if (currentLookAndFeel == null || !newLookAndFeel.equals(currentLookAndFeel.getName()))
-        {
+        if (currentLookAndFeel == null || !newLookAndFeel.equals(currentLookAndFeel.getName())) {
             UITools.showInfoMessage("The new look and feel will be used the next time "
                     + Constants.APP_NAME + " is started.",
                     "Changed look and feel");
@@ -451,8 +443,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         else
             lnfClass = lookAndFeel.getClassName();
 
-        for (int i = 0; i < lookAndFeelCB.getItemCount(); i++)
-        {
+        for (int i = 0; i < lookAndFeelCB.getItemCount(); i++) {
             LookAndFeelWrapper lafw = (LookAndFeelWrapper) lookAndFeelCB.getItemAt(i);
 
             if (lafw.getLookAndFeelInfo().getClassName().equals(lnfClass))

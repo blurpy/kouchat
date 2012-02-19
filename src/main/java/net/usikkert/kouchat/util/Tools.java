@@ -112,13 +112,11 @@ public final class Tools {
         Date date = null;
         SimpleDateFormat formatter = new SimpleDateFormat(format);
 
-        try
-        {
+        try {
             date = formatter.parse(s);
         }
 
-        catch (final ParseException e)
-        {
+        catch (final ParseException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
         }
 
@@ -164,14 +162,12 @@ public final class Tools {
         String size = "";
         double kbSize = bytes / 1024.0;
 
-        if (kbSize > 1024)
-        {
+        if (kbSize > 1024) {
             kbSize /= 1024;
             size = decimalFormat("0.00", kbSize) + "MB";
         }
 
-        else
-        {
+        else {
             size = decimalFormat("0.00", kbSize) + "KB";
         }
 
@@ -185,8 +181,7 @@ public final class Tools {
      * @return How long it's been since 'then'.
      */
     public static String howLongFromNow(final long then) {
-        if (then != 0)
-        {
+        if (then != 0) {
             long diff = System.currentTimeMillis() - then;
             long totSec = diff / 1000;
 
@@ -203,8 +198,7 @@ public final class Tools {
                     + ":" + getDoubleDigit(seconds);
         }
 
-        else
-        {
+        else {
             return "0 days, 00:00:00";
         }
     }
@@ -216,13 +210,11 @@ public final class Tools {
      * @return Number of bytes found in the text.
      */
     public static int getBytes(final String text) {
-        try
-        {
+        try {
             return text.getBytes(Constants.MESSAGE_CHARSET).length;
         }
 
-        catch (final UnsupportedEncodingException e)
-        {
+        catch (final UnsupportedEncodingException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
             return 0;
         }
@@ -234,13 +226,11 @@ public final class Tools {
      * @param millis Number of milliseconds to sleep.
      */
     public static void sleep(final long millis) {
-        try
-        {
+        try {
             Thread.sleep(millis);
         }
 
-        catch (final InterruptedException e)
-        {
+        catch (final InterruptedException e) {
             LOG.log(Level.WARNING, e.toString());
         }
     }

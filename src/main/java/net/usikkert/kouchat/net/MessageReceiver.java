@@ -90,13 +90,11 @@ public class MessageReceiver implements Runnable {
         this.port = port;
         errorHandler = ErrorHandler.getErrorHandler();
 
-        try
-        {
+        try {
             address = InetAddress.getByName(ipAddress);
         }
 
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
             errorHandler.showCriticalError("Failed to initialize the network:\n" + e + "\n"
                     + Constants.APP_NAME + " will now shutdown.");
@@ -108,8 +106,7 @@ public class MessageReceiver implements Runnable {
      * Waits for incoming packets, and notifies the listener when they arrive.
      */
     public void run() {
-        while (connected)
-        {
+        while (connected) {
             try
             {
                 DatagramPacket packet = new DatagramPacket(
@@ -160,8 +157,7 @@ public class MessageReceiver implements Runnable {
     public synchronized boolean startReceiver(final NetworkInterface networkInterface) {
         LOG.log(Level.FINE, "Connecting...");
 
-        try
-        {
+        try {
             if (connected)
             {
                 LOG.log(Level.FINE, "Already connected.");
@@ -181,8 +177,7 @@ public class MessageReceiver implements Runnable {
             }
         }
 
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             LOG.log(Level.SEVERE, "Could not start receiver: " + e.toString());
 
             if (mcSocket != null)
@@ -194,8 +189,7 @@ public class MessageReceiver implements Runnable {
             }
         }
 
-        if (connected && (worker == null || !worker.isAlive()))
-        {
+        if (connected && (worker == null || !worker.isAlive())) {
             startThread();
         }
 
@@ -208,13 +202,11 @@ public class MessageReceiver implements Runnable {
     public synchronized void stopReceiver() {
         LOG.log(Level.FINE, "Disconnecting...");
 
-        if (!connected)
-        {
+        if (!connected) {
             LOG.log(Level.FINE, "Not connected.");
         }
 
-        else
-        {
+        else {
             connected = false;
 
             try

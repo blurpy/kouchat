@@ -92,8 +92,7 @@ public class TextViewerDialog extends JDialog {
         viewerDoc = viewerTP.getStyledDocument();
 
         // Enables the url support
-        if (links)
-        {
+        if (links) {
             URLMouseListener urlML = new URLMouseListener(viewerTP);
             viewerTP.addMouseListener(urlML);
             viewerTP.addMouseMotionListener(urlML);
@@ -133,8 +132,7 @@ public class TextViewerDialog extends JDialog {
      */
     @Override
     public void setVisible(final boolean visible) {
-        if (fileOpened)
-        {
+        if (fileOpened) {
             if (visible)
             {
                 try
@@ -152,8 +150,7 @@ public class TextViewerDialog extends JDialog {
             super.setVisible(visible);
         }
 
-        else
-        {
+        else {
             errorHandler.showError("The file " + textFile + " could not be opened.");
         }
     }
@@ -164,8 +161,7 @@ public class TextViewerDialog extends JDialog {
     private void readFile() {
         URL fileURL = getClass().getResource("/" + textFile);
 
-        if (fileURL != null)
-        {
+        if (fileURL != null) {
             BufferedReader reader = null;
 
             try
@@ -208,8 +204,7 @@ public class TextViewerDialog extends JDialog {
             }
         }
 
-        else
-        {
+        else {
             LOG.log(Level.SEVERE, "Text file not found: " + textFile);
         }
     }

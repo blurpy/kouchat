@@ -138,8 +138,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
         mediator.updateTitleAndTray();
 
         // Try to stop the gui from lagging during startup
-        SwingUtilities.invokeLater(new Runnable()
-        {
+        SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run()
             {
@@ -171,16 +170,14 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
     private void setLookAndFeel() {
         LookAndFeelInfo lookAndFeel = UITools.getLookAndFeel(settings.getLookAndFeel());
 
-        if (lookAndFeel == null)
-        {
+        if (lookAndFeel == null) {
             if (UITools.isSystemLookAndFeelSupported())
             {
                 UITools.setSystemLookAndFeel();
             }
         }
 
-        else
-        {
+        else {
             UITools.setLookAndFeel(settings.getLookAndFeel());
         }
     }
@@ -191,8 +188,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
     private void hideWithEscape() {
         KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
 
-        Action escapeAction = new AbstractAction()
-        {
+        Action escapeAction = new AbstractAction() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -211,8 +207,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * if the chat area or the user list was focused when typing was started.
      */
     private void fixTextFieldFocus() {
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher()
-        {
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
             @Override
             public boolean dispatchKeyEvent(final KeyEvent e)
             {
@@ -258,8 +253,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      */
     @Override
     public void windowClosing(final WindowEvent e) {
-        SwingUtilities.invokeLater(new Runnable()
-        {
+        SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run()
             {
@@ -279,8 +273,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
         sideP.getUserList().repaint();
         mainP.getMsgTF().requestFocusInWindow();
 
-        if (me.isNewMsg())
-        {
+        if (me.isNewMsg()) {
             me.setNewMsg(false);
             mediator.updateTitleAndTray();
         }
@@ -340,16 +333,14 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * Changes the window icon depending on away status and if a new message has arrived.
      */
     public void updateWindowIcon() {
-        if (me.isNewMsg())
-        {
+        if (me.isNewMsg()) {
             if (me.isAway())
                 setWindowIcon(statusIcons.getAwayActivityIcon());
             else
                 setWindowIcon(statusIcons.getNormalActivityIcon());
         }
 
-        else
-        {
+        else {
             if (me.isAway())
                 setWindowIcon(statusIcons.getAwayIcon());
             else

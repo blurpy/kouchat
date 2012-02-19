@@ -51,8 +51,7 @@ public class TransferDialogTest {
         new TransferDialog(mediator, fileTransfer, imageLoader);
 
         // Returns true when the close button is clicked
-        while (!mediator.isClose())
-        {
+        while (!mediator.isClose()) {
             Thread.sleep(100);
         }
     }
@@ -71,8 +70,7 @@ public class TransferDialogTest {
         new TransferDialog(mediator, fileTransfer, imageLoader);
 
         // Returns true when the close button is clicked
-        while (!mediator.isClose())
-        {
+        while (!mediator.isClose()) {
             Thread.sleep(100);
         }
     }

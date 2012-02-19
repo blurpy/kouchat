@@ -298,8 +298,7 @@ public class ByteCounterTest {
     public void testVerySlowTransfer() {
         long bytesAdded = 1024;
 
-        for (int i = 1; i <= 250; i++)
-        {
+        for (int i = 1; i <= 250; i++) {
             long timeSpent = counter.updateTimeSpent(i * 4);
             assertEquals(4, timeSpent);
             counter.updateCounters(bytesAdded, timeSpent);
@@ -324,8 +323,7 @@ public class ByteCounterTest {
     public void testSlowTransfer() {
         long bytesAdded = 1024;
 
-        for (int i = 1; i <= 1000; i++)
-        {
+        for (int i = 1; i <= 1000; i++) {
             long timeSpent = counter.updateTimeSpent(i);
             assertEquals(1, timeSpent);
             counter.updateCounters(bytesAdded, timeSpent);
@@ -351,8 +349,7 @@ public class ByteCounterTest {
         long bytesAdded = 1024;
         int time = 0;
 
-        for (int i = 1; time < 1000; i++)
-        {
+        for (int i = 1; time < 1000; i++) {
             boolean addTime = (i % 10 == 0 ? true : false);
 
             if (addTime)
@@ -388,8 +385,7 @@ public class ByteCounterTest {
         long bytesAdded = 1024;
         int time = 0;
 
-        for (int i = 1; time < 1000; i++)
-        {
+        for (int i = 1; time < 1000; i++) {
             boolean addTime = (i % 50 == 0 ? true : false);
 
             if (addTime)
@@ -429,8 +425,7 @@ public class ByteCounterTest {
         long bytesAdded = 1024;
         counter.prepare();
 
-        while (counter.getBytesPerSec() == 0)
-        {
+        while (counter.getBytesPerSec() == 0) {
             counter.addBytes(bytesAdded);
         }
     }

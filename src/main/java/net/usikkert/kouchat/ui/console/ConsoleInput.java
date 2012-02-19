@@ -70,8 +70,7 @@ public class ConsoleInput extends Thread {
         stdin = new BufferedReader(new InputStreamReader(System.in));
         cmdParser = new CommandParser(controller, ui);
 
-        Runtime.getRuntime().addShutdownHook(new Thread("ConsoleInputShutdownHook")
-        {
+        Runtime.getRuntime().addShutdownHook(new Thread("ConsoleInputShutdownHook") {
             @Override
             public void run()
             {
@@ -88,8 +87,7 @@ public class ConsoleInput extends Thread {
     public void run() {
         String input = "";
 
-        while (input != null)
-        {
+        while (input != null) {
             try
             {
                 input = stdin.readLine();

@@ -91,8 +91,7 @@ public class TransferHandler implements FileTransferListener {
      */
     @Override
     public void statusTransferring() {
-        if (fileTransfer.getDirection() == Direction.RECEIVE)
-        {
+        if (fileTransfer.getDirection() == Direction.RECEIVE) {
             msgController.showSystemMessage("Receiving " + fileTransfer.getFile().getName()
                     + " from " + fileTransfer.getUser().getNick());
         }

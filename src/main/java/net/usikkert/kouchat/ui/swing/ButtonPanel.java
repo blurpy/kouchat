@@ -122,8 +122,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
      */
     @Override
     public void actionPerformed(final ActionEvent e) {
-        if (e.getSource() == minimizeB)
-        {
+        if (e.getSource() == minimizeB) {
             SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
@@ -134,8 +133,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
             });
         }
 
-        else if (e.getSource() == clearB)
-        {
+        else if (e.getSource() == clearB) {
             SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
@@ -146,8 +144,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
             });
         }
 
-        else if (e.getSource() == awayB)
-        {
+        else if (e.getSource() == awayB) {
             SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
@@ -158,8 +155,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
             });
         }
 
-        else if (e.getSource() == topicB)
-        {
+        else if (e.getSource() == topicB) {
             SwingUtilities.invokeLater(new Runnable()
             {
                 @Override

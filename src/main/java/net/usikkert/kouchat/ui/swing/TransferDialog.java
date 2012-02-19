@@ -253,8 +253,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
         if (event.getSource() == cancelB)
             mediator.transferCancelled(this);
 
-        else if (event.getSource() == openB)
-        {
+        else if (event.getSource() == openB) {
             File folder = fileTransfer.getFile().getParentFile();
             UITools.open(folder);
         }
@@ -268,8 +267,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
     public void statusCompleted() {
         statusL.setForeground(new Color(0, 176, 0));
 
-        if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE)
-        {
+        if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE) {
             statusL.setText("File successfully received");
             openB.setEnabled(true);
         }
@@ -330,15 +328,13 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 
         statusL.setText("Waiting...");
 
-        if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE)
-        {
+        if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE) {
             sourceL.setText(other.getNick() + " (" + other.getIpAddress() + ")");
             destinationL.setText(me.getNick() + " (" + me.getIpAddress() + ")");
             openB.setVisible(true);
         }
 
-        else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND)
-        {
+        else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND) {
             destinationL.setText(other.getNick() + " (" + other.getIpAddress() + ")");
             sourceL.setText(me.getNick() + " (" + me.getIpAddress() + ")");
         }

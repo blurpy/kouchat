@@ -84,8 +84,7 @@ public class DefaultMessageResponder implements MessageResponder {
     @Override
     public void messageArrived(final int userCode, final String msg, final int color) {
         // A little hack to stop messages from showing before the user is logged on
-        final Thread t = new Thread("DefaultMessageResponderMessageArrived")
-        {
+        final Thread t = new Thread("DefaultMessageResponderMessageArrived") {
             @Override
             public void run()
             {
@@ -123,8 +122,7 @@ public class DefaultMessageResponder implements MessageResponder {
             }
         };
 
-        if (controller.isNewUser(userCode))
-        {
+        if (controller.isNewUser(userCode)) {
             wList.addWaitingUser(userCode);
             controller.sendExposeMessage();
             controller.sendGetTopicMessage();
@@ -146,8 +144,7 @@ public class DefaultMessageResponder implements MessageResponder {
     public void userLogOff(final int userCode) {
         final User user = controller.getUser(userCode);
 
-        if (user != null)
-        {
+        if (user != null) {
             controller.cancelFileTransfers(user);
             user.setOnline(false);
             controller.getUserList().remove(user);
@@ -170,19 +167,16 @@ public class DefaultMessageResponder implements MessageResponder {
      */
     @Override
     public void userLogOn(final User newUser) {
-        if (me.getNick().trim().equalsIgnoreCase(newUser.getNick()))
-        {
+        if (me.getNick().trim().equalsIgnoreCase(newUser.getNick())) {
             controller.sendNickCrashMessage(newUser.getNick());
             newUser.setNick("" + newUser.getCode());
         }
 
-        else if (controller.isNickInUse(newUser.getNick()))
-        {
+        else if (controller.isNickInUse(newUser.getNick())) {
             newUser.setNick("" + newUser.getCode());
         }
 
-        else if (!Tools.isValidNick(newUser.getNick()))
-        {
+        else if (!Tools.isValidNick(newUser.getNick())) {
             newUser.setNick("" + newUser.getCode());
         }
 
@@ -198,19 +192,16 @@ public class DefaultMessageResponder implements MessageResponder {
      * @param newUser The unknown user.
      */
     private void userShowedUp(final User newUser) {
-        if (me.getNick().trim().equalsIgnoreCase(newUser.getNick()))
-        {
+        if (me.getNick().trim().equalsIgnoreCase(newUser.getNick())) {
             controller.sendNickCrashMessage(newUser.getNick());
             newUser.setNick("" + newUser.getCode());
         }
 
-        else if (controller.isNickInUse(newUser.getNick()))
-        {
+        else if (controller.isNickInUse(newUser.getNick())) {
             newUser.setNick("" + newUser.getCode());
         }
 
-        else if (!Tools.isValidNick(newUser.getNick()))
-        {
+        else if (!Tools.isValidNick(newUser.getNick())) {
             newUser.setNick("" + newUser.getCode());
         }
 
@@ -228,15 +219,13 @@ public class DefaultMessageResponder implements MessageResponder {
      */
     @Override
     public void topicChanged(final int userCode, final String newTopic, final String nick, final long time) {
-        if (controller.isNewUser(userCode))
-        {
+        if (controller.isNewUser(userCode)) {
             wList.addWaitingUser(userCode);
             controller.sendExposeMessage();
             controller.sendGetTopicMessage();
         }
 
-        else
-        {
+        else {
             if (time > 0 && nick.length() > 0)
             {
                 final Topic topic = controller.getTopic();
@@ -283,8 +272,7 @@ public class DefaultMessageResponder implements MessageResponder {
      */
     @Override
     public void userExposing(final User user) {
-        if (controller.isNewUser(user.getCode()))
-        {
+        if (controller.isNewUser(user.getCode())) {
             // Usually this happens when someone returns from a timeout
             if (chatState.isLogonCompleted())
             {
@@ -301,8 +289,7 @@ public class DefaultMessageResponder implements MessageResponder {
             }
         }
 
-        else
-        {
+        else {
             final User orgUser = controller.getUser(user.getCode());
 
             // When users timeout, there can become sync issues
@@ -368,15 +355,13 @@ public class DefaultMessageResponder implements MessageResponder {
      */
     @Override
     public void awayChanged(final int userCode, final boolean away, final String awayMsg) {
-        if (controller.isNewUser(userCode))
-        {
+        if (controller.isNewUser(userCode)) {
             wList.addWaitingUser(userCode);
             controller.sendExposeMessage();
             controller.sendGetTopicMessage();
         }
 
-        else
-        {
+        else {
             try
             {
                 final User user = controller.getUser(userCode);
@@ -415,8 +400,7 @@ public class DefaultMessageResponder implements MessageResponder {
     public void meIdle(final String ipAddress) {
         me.setLastIdle(System.currentTimeMillis());
 
-        if (!me.getIpAddress().equals(ipAddress) && chatState.isLoggedOn())
-        {
+        if (!me.getIpAddress().equals(ipAddress) && chatState.isLoggedOn()) {
             msgController.showSystemMessage("You changed ip from " + me.getIpAddress() + " to " + ipAddress);
             me.setIpAddress(ipAddress);
         }
@@ -431,15 +415,13 @@ public class DefaultMessageResponder implements MessageResponder {
      */
     @Override
     public void userIdle(final int userCode, final String ipAddress) {
-        if (controller.isNewUser(userCode))
-        {
+        if (controller.isNewUser(userCode)) {
             wList.addWaitingUser(userCode);
             controller.sendExposeMessage();
             controller.sendGetTopicMessage();
         }
 
-        else
-        {
+        else {
             final User user = controller.getUser(userCode);
             user.setLastIdle(System.currentTimeMillis());
 
@@ -487,15 +469,13 @@ public class DefaultMessageResponder implements MessageResponder {
      */
     @Override
     public void nickChanged(final int userCode, final String newNick) {
-        if (controller.isNewUser(userCode))
-        {
+        if (controller.isNewUser(userCode)) {
             wList.addWaitingUser(userCode);
             controller.sendExposeMessage();
             controller.sendGetTopicMessage();
         }
 
-        else
-        {
+        else {
             final User user = controller.getUser(userCode);
 
             if (!controller.isNickInUse(newNick) && Tools.isValidNick(newNick))
@@ -533,15 +513,13 @@ public class DefaultMessageResponder implements MessageResponder {
      */
     @Override
     public void fileSend(final int userCode, final long byteSize, final String fileName, final String user, final int fileHash) {
-        if (controller.isNewUser(userCode))
-        {
+        if (controller.isNewUser(userCode)) {
             wList.addWaitingUser(userCode);
             controller.sendExposeMessage();
             controller.sendGetTopicMessage();
         }
 
-        new Thread("DefaultMessageResponderFileSend")
-        {
+        new Thread("DefaultMessageResponderFileSend") {
             @Override
             public void run()
             {
@@ -646,8 +624,7 @@ public class DefaultMessageResponder implements MessageResponder {
         final User user = controller.getUser(userCode);
         final FileSender fileSender = tList.getFileSender(user, fileName, fileHash);
 
-        if (fileSender != null)
-        {
+        if (fileSender != null) {
             fileSender.cancel();
             msgController.showSystemMessage(user.getNick() + " aborted reception of " + fileName);
             tList.removeFileSender(fileSender);
@@ -655,8 +632,7 @@ public class DefaultMessageResponder implements MessageResponder {
 
         final FileReceiver fileReceiver = tList.getFileReceiver(user, fileName);
 
-        if (fileReceiver != null)
-        {
+        if (fileReceiver != null) {
             fileReceiver.cancel();
             msgController.showSystemMessage(user.getNick() + " aborted sending of " + fileName);
         }
@@ -673,8 +649,7 @@ public class DefaultMessageResponder implements MessageResponder {
      */
     @Override
     public void fileSendAccepted(final int userCode, final String fileName, final int fileHash, final int port) {
-        new Thread("DefaultMessageResponderFileSendAccepted")
-        {
+        new Thread("DefaultMessageResponderFileSendAccepted") {
             @Override
             public void run()
             {
@@ -717,8 +692,7 @@ public class DefaultMessageResponder implements MessageResponder {
     public void clientInfo(final int userCode, final String client, final long timeSinceLogon, final String operatingSystem, final int privateChatPort) {
         final User user = controller.getUser(userCode);
 
-        if (user != null)
-        {
+        if (user != null) {
             user.setClient(client);
             user.setLogonTime(System.currentTimeMillis() - timeSinceLogon);
             user.setOperatingSystem(operatingSystem);

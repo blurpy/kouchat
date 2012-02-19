@@ -140,8 +140,7 @@ public class Messages {
 
         boolean sent = networkService.sendMulticastMsg(msg);
 
-        if (!sent)
-        {
+        if (!sent) {
             checkNetwork();
             notifyUser("Failed to send message: " + chatMsg);
         }
@@ -271,8 +270,7 @@ public class Messages {
 
         boolean sent = networkService.sendMulticastMsg(msg);
 
-        if (!sent)
-        {
+        if (!sent) {
             checkNetwork();
             notifyUser("Failed to accept file transfer from " + user.getNick() + ": " + fileName);
         }
@@ -296,8 +294,7 @@ public class Messages {
 
         boolean sent = networkService.sendMulticastMsg(msg);
 
-        if (!sent)
-        {
+        if (!sent) {
             checkNetwork();
             notifyUser("Failed to send file to " + user.getNick() + ": " + file.getName());
         }
@@ -340,8 +337,7 @@ public class Messages {
 
         boolean sent = networkService.sendUDPMsg(msg, user.getIpAddress(), user.getPrivateChatPort());
 
-        if (!sent)
-        {
+        if (!sent) {
             checkNetwork();
             notifyUser("Failed to send private message to " + user.getNick() + ": " + privMsg);
         }
