@@ -32,8 +32,8 @@ import org.junit.Test;
  *
  * @author Christian Ihle
  */
-public class SimpleReceiverListenerTest
-{
+public class SimpleReceiverListenerTest {
+
     /**
      * Tests that any message and ip address is saved when no
      * expected message is set.

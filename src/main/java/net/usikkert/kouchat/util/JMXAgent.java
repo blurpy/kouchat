@@ -58,8 +58,8 @@ import net.usikkert.kouchat.net.NetworkInformationMBean;
  *
  * @author Christian Ihle
  */
-public class JMXAgent
-{
+public class JMXAgent {
+
     /**
      * Default constructor. Registers the MBeans, and logs any failures.
      *

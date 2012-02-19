@@ -28,8 +28,8 @@ package net.usikkert.kouchat.misc;
  *
  * @author Christian Ihle
  */
-public class CommandException extends Exception
-{
+public class CommandException extends Exception {
+
     private static final long serialVersionUID = 1L;
 
     /**

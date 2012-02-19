@@ -27,8 +27,8 @@ package net.usikkert.kouchat.util;
  *
  * @author Christian Ihle
  */
-public final class Validate
-{
+public final class Validate {
+
     /**
      * Private constructor. Only static methods in this class.
      */

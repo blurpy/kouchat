@@ -35,8 +35,8 @@ import net.usikkert.kouchat.misc.UserList;
  *
  * @author Christian Ihle
  */
-public class UserListModel extends AbstractListModel implements UserListListener
-{
+public class UserListModel extends AbstractListModel implements UserListListener {
+
     /** Default serial version UID. */
     private static final long serialVersionUID = 1L;
 

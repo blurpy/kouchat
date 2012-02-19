@@ -27,8 +27,8 @@ package net.usikkert.kouchat.misc;
  *
  * @author Christian Ihle
  */
-public class GeneralInformation implements GeneralInformationMBean
-{
+public class GeneralInformation implements GeneralInformationMBean {
+
     /** {@inheritDoc} */
     @Override
     public String about() {

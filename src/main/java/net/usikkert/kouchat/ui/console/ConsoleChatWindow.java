@@ -29,8 +29,8 @@ import net.usikkert.kouchat.ui.ChatWindow;
  *
  * @author Christian Ihle
  */
-public class ConsoleChatWindow implements ChatWindow
-{
+public class ConsoleChatWindow implements ChatWindow {
+
     /**
      * Shows messages with a simple <code>System.out.println()</code>.
      *

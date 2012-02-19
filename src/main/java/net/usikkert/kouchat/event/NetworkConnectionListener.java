@@ -29,8 +29,8 @@ package net.usikkert.kouchat.event;
  *
  * @author Christian Ihle
  */
-public interface NetworkConnectionListener
-{
+public interface NetworkConnectionListener {
+
     /**
      * The connection to the network was lost.
      *

@@ -31,8 +31,8 @@ import javax.swing.UIManager.LookAndFeelInfo;
  *
  * @author Christian Ihle
  */
-public class LookAndFeelWrapper
-{
+public class LookAndFeelWrapper {
+
     /** The wrapped LookAndFeelInfo. */
     private final LookAndFeelInfo lookAndFeelInfo;
 

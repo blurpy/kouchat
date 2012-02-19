@@ -61,8 +61,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class Controller implements NetworkConnectionListener
-{
+public class Controller implements NetworkConnectionListener {
+
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(Controller.class.getName());
 

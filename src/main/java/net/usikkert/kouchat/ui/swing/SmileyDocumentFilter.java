@@ -39,8 +39,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class SmileyDocumentFilter extends DocumentFilter
-{
+public class SmileyDocumentFilter extends DocumentFilter {
+
     /**
      * If this document filter is the only document filter used.
      * This must be true if it is, or the text will not be visible.

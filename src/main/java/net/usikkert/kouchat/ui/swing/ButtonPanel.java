@@ -47,8 +47,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class ButtonPanel extends JPanel implements ActionListener
-{
+public class ButtonPanel extends JPanel implements ActionListener {
+
     /** Standard version uid. */
     private static final long serialVersionUID = 1L;
 

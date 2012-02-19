@@ -38,8 +38,8 @@ import net.usikkert.kouchat.misc.ErrorHandler;
  *
  * @author Christian Ihle
  */
-public class MessageSender
-{
+public class MessageSender {
+
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(MessageSender.class.getName());
 

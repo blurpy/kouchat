@@ -32,8 +32,8 @@ import net.usikkert.kouchat.ui.PrivateChatWindow;
  *
  * @author Christian Ihle
  */
-public interface Mediator
-{
+public interface Mediator {
+
     /**
      * Hides the main window in the system tray,
      * if a system tray is supported.

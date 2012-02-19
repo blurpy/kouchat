@@ -29,8 +29,8 @@ import net.usikkert.kouchat.Constants;
  *
  * @author Christian Ihle
  */
-public class KouChatConsole
-{
+public class KouChatConsole {
+
     /**
      * Default constructor. Initializes the User Interface and
      * the necessary services.

@@ -27,8 +27,8 @@ package net.usikkert.kouchat;
  *
  * @author Christian Ihle
  */
-public interface Constants
-{
+public interface Constants {
+
     /**
      * The name of the application.
      */

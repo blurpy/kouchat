@@ -31,8 +31,8 @@ import net.usikkert.kouchat.misc.User;
  *
  * @author Christian Ihle
  */
-public interface PrivateChatWindow
-{
+public interface PrivateChatWindow {
+
     /**
      * Adds a new line of text to the private chat area, in the specified color.
      *

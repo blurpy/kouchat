@@ -27,8 +27,8 @@ package net.usikkert.kouchat.misc;
  *
  * @author Christian Ihle
  */
-public class ControllerInformation implements ControllerInformationMBean
-{
+public class ControllerInformation implements ControllerInformationMBean {
+
     /** The controller. */
     private final Controller controller;
 

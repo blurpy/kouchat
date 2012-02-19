@@ -37,8 +37,8 @@ package net.usikkert.kouchat.util;
  *
  * @author Christian Ihle
  */
-public class ByteCounter
-{
+public class ByteCounter {
+
     /** Number of milliseconds in one second. */
     private static final int ONE_SECOND = 1000;
 

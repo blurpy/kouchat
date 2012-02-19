@@ -34,8 +34,8 @@ import javax.swing.text.ViewFactory;
  * @see MiddleAlignedIconViewFactory
  * @see MiddleAlignedIconView
  */
-public class MiddleAlignedIconViewEditorKit extends StyledEditorKit
-{
+public class MiddleAlignedIconViewEditorKit extends StyledEditorKit {
+
     /** Default version uid. */
     private static final long serialVersionUID = 1L;
 

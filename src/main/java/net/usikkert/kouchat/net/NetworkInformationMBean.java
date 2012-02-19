@@ -29,8 +29,8 @@ import java.net.SocketException;
  *
  * @author Christian Ihle
  */
-public interface NetworkInformationMBean
-{
+public interface NetworkInformationMBean {
+
     /** The name of this MBean. */
     String NAME = "Network";
 

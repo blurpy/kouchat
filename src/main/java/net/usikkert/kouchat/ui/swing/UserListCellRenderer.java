@@ -45,8 +45,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class UserListCellRenderer extends JLabel implements ListCellRenderer
-{
+public class UserListCellRenderer extends JLabel implements ListCellRenderer {
+
     /** Standard serial version UID. */
     private static final long serialVersionUID = 1L;
 

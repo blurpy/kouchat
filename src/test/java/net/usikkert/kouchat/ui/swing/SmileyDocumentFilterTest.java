@@ -37,8 +37,8 @@ import org.junit.Test;
  *
  * @author Christian Ihle
  */
-public class SmileyDocumentFilterTest
-{
+public class SmileyDocumentFilterTest {
+
     /** The image loader. */
     private final ImageLoader imageLoader;
 

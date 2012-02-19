@@ -31,8 +31,8 @@ import net.usikkert.kouchat.misc.User;
  *
  * @author Christian Ihle
  */
-public interface FileDropSource
-{
+public interface FileDropSource {
+
     /**
      * Get the user a file was dropped on.
      *

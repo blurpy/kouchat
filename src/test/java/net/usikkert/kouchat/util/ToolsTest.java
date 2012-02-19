@@ -32,8 +32,8 @@ import org.junit.Test;
  *
  * @author Christian Ihle
  */
-public class ToolsTest
-{
+public class ToolsTest {
+
     /**
      * Tests that capitalization of the first letter in a word works as expected.
      */

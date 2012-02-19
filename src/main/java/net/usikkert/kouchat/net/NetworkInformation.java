@@ -34,8 +34,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class NetworkInformation implements NetworkInformationMBean
-{
+public class NetworkInformation implements NetworkInformationMBean {
+
     /** Information and control of the network. */
     private final ConnectionWorker connectionWorker;
 

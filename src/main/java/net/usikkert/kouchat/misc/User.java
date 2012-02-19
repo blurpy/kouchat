@@ -29,8 +29,8 @@ import net.usikkert.kouchat.ui.PrivateChatWindow;
  *
  * @author Christian Ihle
  */
-public class User implements Comparable<User>
-{
+public class User implements Comparable<User> {
+
     /** The nick name of the user. */
     private String nick;
 

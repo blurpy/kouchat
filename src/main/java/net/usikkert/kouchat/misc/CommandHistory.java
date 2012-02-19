@@ -32,8 +32,8 @@ import java.util.List;
  *
  * @author Christian Ihle
  */
-public class CommandHistory
-{
+public class CommandHistory {
+
     /**
      * Defines the max number of commands to save in the history.
      */

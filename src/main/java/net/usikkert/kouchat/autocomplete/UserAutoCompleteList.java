@@ -31,8 +31,8 @@ import net.usikkert.kouchat.util.Tools;
  *
  * @author Christian Ihle
  */
-public class UserAutoCompleteList implements AutoCompleteList, UserListListener
-{
+public class UserAutoCompleteList implements AutoCompleteList, UserListListener {
+
     /** The real user list. */
     private final UserList userList;
 

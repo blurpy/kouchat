@@ -38,8 +38,8 @@ import net.usikkert.kouchat.event.UserListListener;
  *
  * @author Christian Ihle
  */
-public interface UserList
-{
+public interface UserList {
+
     /**
      * Adds a user to the list, and notifies with {@link UserListListener#userAdded(int)}.
      *

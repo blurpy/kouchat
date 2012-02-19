@@ -51,8 +51,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class SwingMediator implements Mediator, UserInterface
-{
+public class SwingMediator implements Mediator, UserInterface {
+
     private final SidePanel sideP;
     private final SettingsDialog settingsDialog;
     private final KouChatFrame gui;

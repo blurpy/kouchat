@@ -36,8 +36,8 @@ import net.usikkert.kouchat.misc.User;
  *
  * @author Christian Ihle
  */
-public interface FileTransfer
-{
+public interface FileTransfer {
+
     /**
      * Enum to describe if a file is being sent or received.
      */

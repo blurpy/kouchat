@@ -31,8 +31,8 @@ import javax.swing.text.IconView;
  *
  * @author Christian Ihle
  */
-public class MiddleAlignedIconView extends IconView
-{
+public class MiddleAlignedIconView extends IconView {
+
     /**
      * Constructor.
      *

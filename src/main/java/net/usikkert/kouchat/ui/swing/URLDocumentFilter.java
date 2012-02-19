@@ -46,8 +46,8 @@ import javax.swing.text.StyledDocument;
  *
  * @author Christian Ihle
  */
-public class URLDocumentFilter extends DocumentFilter
-{
+public class URLDocumentFilter extends DocumentFilter {
+
     /**
      * The url is saved as an attribute in the Document, so
      * this attribute can be used to retrieve the url later.

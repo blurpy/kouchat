@@ -50,8 +50,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class SysTray implements ActionListener, MouseListener, PropertyChangeListener
-{
+public class SysTray implements ActionListener, MouseListener, PropertyChangeListener {
+
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(SysTray.class.getName());
 

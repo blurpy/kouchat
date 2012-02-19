@@ -40,8 +40,8 @@ import javax.swing.text.StyledDocument;
  *
  * @author Christian Ihle
  */
-public class URLMouseListener implements MouseListener, MouseMotionListener
-{
+public class URLMouseListener implements MouseListener, MouseMotionListener {
+
     private final Cursor handCursor;
     private final JTextPane textPane;
     private final StyledDocument doc;

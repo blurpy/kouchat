@@ -35,8 +35,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class TransferHandler implements FileTransferListener
-{
+public class TransferHandler implements FileTransferListener {
+
     /** The file transfer to handle. */
     private final FileTransfer fileTransfer;
 

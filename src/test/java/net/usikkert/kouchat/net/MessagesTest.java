@@ -38,8 +38,8 @@ import org.junit.Test;
  *
  * @author Christian Ihle
  */
-public class MessagesTest
-{
+public class MessagesTest {
+
     /** The settings. */
     private final Settings settings;
 

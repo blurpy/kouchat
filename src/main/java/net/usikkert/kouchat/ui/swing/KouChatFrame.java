@@ -54,8 +54,8 @@ import net.usikkert.kouchat.util.UncaughtExceptionLogger;
  *
  * @author Christian Ihle
  */
-public class KouChatFrame extends JFrame implements WindowListener, FocusListener
-{
+public class KouChatFrame extends JFrame implements WindowListener, FocusListener {
+
     /** Standard serial version UID. */
     private static final long serialVersionUID = 1L;
 

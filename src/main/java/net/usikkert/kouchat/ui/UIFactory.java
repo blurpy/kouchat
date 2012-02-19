@@ -32,8 +32,8 @@ import net.usikkert.kouchat.ui.swing.KouChatFrame;
  *
  * @author Christian Ihle
  */
-public class UIFactory
-{
+public class UIFactory {
+
     private boolean done;
 
     /**

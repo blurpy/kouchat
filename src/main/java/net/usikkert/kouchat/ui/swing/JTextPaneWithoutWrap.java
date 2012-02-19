@@ -35,8 +35,8 @@ import javax.swing.JTextPane;
  *
  * @author Christian Ihle
  */
-public class JTextPaneWithoutWrap extends JTextPane
-{
+public class JTextPaneWithoutWrap extends JTextPane {
+
     /** Standard serial version UID. */
     private static final long serialVersionUID = 1L;
 

@@ -41,8 +41,8 @@ import net.usikkert.kouchat.misc.User;
  *
  * @author Christian Ihle
  */
-public class PrivateMessageParser implements ReceiverListener
-{
+public class PrivateMessageParser implements ReceiverListener {
+
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(PrivateMessageParser.class.getName());
 

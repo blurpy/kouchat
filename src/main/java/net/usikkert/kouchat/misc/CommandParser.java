@@ -42,8 +42,8 @@ import net.usikkert.kouchat.util.Tools;
  *
  * @author Christian Ihle
  */
-public class CommandParser
-{
+public class CommandParser {
+
     private final Controller controller;
     private final UserInterface ui;
     private final MessageController msgController;

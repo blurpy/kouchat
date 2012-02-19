@@ -38,8 +38,8 @@ import net.usikkert.kouchat.misc.ErrorHandler;
  *
  * @author Christian Ihle
  */
-public class UDPSender
-{
+public class UDPSender {
+
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(UDPSender.class.getName());
 

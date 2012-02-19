@@ -30,8 +30,8 @@ package net.usikkert.kouchat.autocomplete;
  *
  * @author Christian Ihle
  */
-public interface AutoCompleteList
-{
+public interface AutoCompleteList {
+
     /**
      * Gets the list of words this autocompleter currently contains.
      *

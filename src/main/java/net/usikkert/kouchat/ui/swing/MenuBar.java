@@ -40,8 +40,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class MenuBar extends JMenuBar implements ActionListener
-{
+public class MenuBar extends JMenuBar implements ActionListener {
+
     /** Standard serial version UID. */
     private static final long serialVersionUID = 1L;
 

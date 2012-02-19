@@ -30,8 +30,8 @@ import net.usikkert.kouchat.event.ReceiverListener;
  *
  * @author Christian Ihle
  */
-public class SimpleReceiverListener implements ReceiverListener
-{
+public class SimpleReceiverListener implements ReceiverListener {
+
     /** An expected message. */
     private final String expectedMessage;
 

@@ -45,8 +45,8 @@ import javax.swing.text.JTextComponent;
  *
  * @author Christian Ihle
  */
-public class FileTransferHandler extends TransferHandler
-{
+public class FileTransferHandler extends TransferHandler {
+
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(FileTransferHandler.class.getName());
 

@@ -33,8 +33,8 @@ import java.util.List;
  *
  * @author Christian Ihle
  */
-public class AutoCompleter
-{
+public class AutoCompleter {
+
     /**
      * The word that was used to build autocomplete suggestions in the
      * previous search.

@@ -36,8 +36,8 @@ import net.usikkert.kouchat.event.UserListListener;
  *
  * @author Christian Ihle
  */
-public class SortedUserList implements UserList
-{
+public class SortedUserList implements UserList {
+
     /** The list of users in the chat. */
     private final List<User> userList;
 

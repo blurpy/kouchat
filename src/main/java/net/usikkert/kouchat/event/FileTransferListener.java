@@ -29,8 +29,8 @@ package net.usikkert.kouchat.event;
  *
  * @author Christian Ihle
  */
-public interface FileTransferListener
-{
+public interface FileTransferListener {
+
     /**
      * Called before anything has happened yet.
      */

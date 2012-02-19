@@ -38,8 +38,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class IdleThread extends Thread
-{
+public class IdleThread extends Thread {
+
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(IdleThread.class.getName());
 

@@ -37,8 +37,8 @@ import net.usikkert.kouchat.net.FileSender;
  *
  * @author Christian Ihle
  */
-public interface UserInterface
-{
+public interface UserInterface {
+
     /**
      * Will ask the user to accept or reject a file transfer from
      * another user.

@@ -30,8 +30,8 @@ package net.usikkert.kouchat.net;
  *
  * @author Christian Ihle
  */
-public interface PrivateMessageResponder
-{
+public interface PrivateMessageResponder {
+
     /**
      * A new private message has arrived.
      *

@@ -32,8 +32,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class StatusIcons
-{
+public class StatusIcons {
+
     /** User is not away, and has no new messages. */
     private final Image normalIcon;
 

@@ -35,8 +35,8 @@ import net.usikkert.kouchat.util.Tools;
  *
  * @author Christian Ihle
  */
-public class ConsoleMediator implements UserInterface
-{
+public class ConsoleMediator implements UserInterface {
+
     /** For showing messages in the ui. */
     private final MessageController msgController;
 

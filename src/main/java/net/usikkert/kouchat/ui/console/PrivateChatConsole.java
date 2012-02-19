@@ -30,8 +30,8 @@ import net.usikkert.kouchat.ui.PrivateChatWindow;
  *
  * @author Christian Ihle
  */
-public class PrivateChatConsole implements PrivateChatWindow
-{
+public class PrivateChatConsole implements PrivateChatWindow {
+
     /** The user in this chat session. */
     private User user;
 

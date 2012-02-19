@@ -41,8 +41,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class DocumentFilterList extends DocumentFilter
-{
+public class DocumentFilterList extends DocumentFilter {
+
     /** A list of sub-filters that are notified when text is added. */
     private final List<DocumentFilter> filters;
 

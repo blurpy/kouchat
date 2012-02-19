@@ -27,8 +27,8 @@ package net.usikkert.kouchat.misc;
  *
  * @author Christian Ihle
  */
-public interface ControllerInformationMBean
-{
+public interface ControllerInformationMBean {
+
     /** The name of this MBean. */
     String NAME = "Controller";
 

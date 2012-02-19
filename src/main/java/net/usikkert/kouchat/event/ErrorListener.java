@@ -29,8 +29,8 @@ package net.usikkert.kouchat.event;
  *
  * @author Christian Ihle
  */
-public interface ErrorListener
-{
+public interface ErrorListener {
+
     /**
      * This method is called when an error occurs.
      *

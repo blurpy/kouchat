@@ -27,8 +27,8 @@ package net.usikkert.kouchat.ui;
  *
  * @author Christian Ihle
  */
-public enum UIChoice
-{
+public enum UIChoice {
+
     /**
      * The default user interface is the graphical user interface, based on swing.
      */

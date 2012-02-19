@@ -33,8 +33,8 @@ import java.util.List;
  *
  * @author Christian Ihle
  */
-public class WaitingList
-{
+public class WaitingList {
+
     private final List<Integer> users;
 
     /**

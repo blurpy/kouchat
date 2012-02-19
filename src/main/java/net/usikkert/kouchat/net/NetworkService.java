@@ -32,8 +32,8 @@ import net.usikkert.kouchat.event.ReceiverListener;
  *
  * @author Christian Ihle
  */
-public class NetworkService implements NetworkConnectionListener
-{
+public class NetworkService implements NetworkConnectionListener {
+
     /** The thread responsible for keeping the network connection up. */
     private final ConnectionWorker connectionWorker;
 

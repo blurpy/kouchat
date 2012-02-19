@@ -33,8 +33,8 @@ import net.usikkert.kouchat.misc.ErrorHandler;
  *
  * @author Christian Ihle
  */
-public class SwingPopupErrorHandler implements ErrorListener
-{
+public class SwingPopupErrorHandler implements ErrorListener {
+
     /**
      * Default constructor. Registers the class as a listener
      * in the error handler.

@@ -32,8 +32,8 @@ import org.junit.Test;
  *
  * @author Christian Ihle
  */
-public class TransferDialogTest
-{
+public class TransferDialogTest {
+
     /** The image loader. */
     private final ImageLoader imageLoader = new ImageLoader();
 

@@ -54,8 +54,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class ExceptionDialog extends JDialog implements UncaughtExceptionListener
-{
+public class ExceptionDialog extends JDialog implements UncaughtExceptionListener {
+
     /** Standard serial version UID. */
     private static final long serialVersionUID = 1L;
 

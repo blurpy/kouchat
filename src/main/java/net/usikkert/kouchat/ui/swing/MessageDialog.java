@@ -50,8 +50,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class MessageDialog extends JDialog
-{
+public class MessageDialog extends JDialog {
+
     /** Standard serial version UID. */
     private static final long serialVersionUID = 1L;
 

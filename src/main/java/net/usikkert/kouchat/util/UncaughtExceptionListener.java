@@ -27,8 +27,8 @@ package net.usikkert.kouchat.util;
  *
  * @author Christian Ihle
  */
-public interface UncaughtExceptionListener
-{
+public interface UncaughtExceptionListener {
+
     /**
      * When an uncaught exception is detected this method is run.
      *

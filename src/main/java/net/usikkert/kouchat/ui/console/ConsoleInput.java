@@ -39,8 +39,8 @@ import net.usikkert.kouchat.ui.UserInterface;
  *
  * @author Christian Ihle
  */
-public class ConsoleInput extends Thread
-{
+public class ConsoleInput extends Thread {
+
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(ConsoleInput.class.getName());
 

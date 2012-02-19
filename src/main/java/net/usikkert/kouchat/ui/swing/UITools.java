@@ -54,8 +54,8 @@ import net.usikkert.kouchat.misc.Settings;
  *
  * @author Christian Ihle
  */
-public final class UITools
-{
+public final class UITools {
+
     private static final Logger LOG = Logger.getLogger(UITools.class.getName());
     private static final ErrorHandler ERRORHANDLER = ErrorHandler.getErrorHandler();
     private static final Settings SETTINGS = Settings.getSettings();

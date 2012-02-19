@@ -52,8 +52,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class SidePanel extends JPanel implements ActionListener, MouseListener, FileDropSource
-{
+public class SidePanel extends JPanel implements ActionListener, MouseListener, FileDropSource {
+
     /** The standard version UID. */
     private static final long serialVersionUID = 1L;
 

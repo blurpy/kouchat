@@ -36,8 +36,8 @@ import org.junit.Test;
  *
  * @author Christian Ihle
  */
-public class OperatingSystemNetworkInfoTest
-{
+public class OperatingSystemNetworkInfoTest {
+
     /**
      * Tests if the network interface for the operating system can be found.
      *

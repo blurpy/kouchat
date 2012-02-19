@@ -32,8 +32,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class Smiley
-{
+public class Smiley {
+
     /** The position of the first character in the smiley. */
     private final int startPosition;
 

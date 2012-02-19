@@ -39,8 +39,8 @@ import net.usikkert.kouchat.util.ResourceValidator;
  *
  * @author Christian Ihle
  */
-public class ImageLoader
-{
+public class ImageLoader {
+
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(ImageLoader.class.getName());
 

@@ -28,8 +28,8 @@ package net.usikkert.kouchat.ui;
  *
  * @author Christian Ihle
  */
-public class UIException extends Exception
-{
+public class UIException extends Exception {
+
     private static final long serialVersionUID = 1L;
 
     /**

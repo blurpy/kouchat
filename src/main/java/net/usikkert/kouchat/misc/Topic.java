@@ -27,8 +27,8 @@ package net.usikkert.kouchat.misc;
  *
  * @author Christian Ihle
  */
-public class Topic
-{
+public class Topic {
+
     /** The current topic. */
     private String topic;
 

@@ -27,8 +27,8 @@ package net.usikkert.kouchat.ui.swing;
  *
  * @author Christian Ihle
  */
-public interface Images
-{
+public interface Images {
+
     /** Path to the icons. */
     String ICON_PATH = "/icons";
 

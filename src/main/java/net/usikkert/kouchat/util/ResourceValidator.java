@@ -32,8 +32,8 @@ import java.util.Map;
  *
  * @author Christian Ihle
  */
-public class ResourceValidator
-{
+public class ResourceValidator {
+
     /** The map of resources to validate. */
     private final Map<String, URL> resourceMap;
 

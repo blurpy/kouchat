@@ -27,8 +27,8 @@ package net.usikkert.kouchat.misc;
  *
  * @author Christian Ihle
  */
-public class ChatState
-{
+public class ChatState {
+
     /** Information about the current topic in the chat. */
     private final Topic topic;
 

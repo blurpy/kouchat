@@ -40,8 +40,8 @@ import org.junit.Test;
  *
  * @author Christian Ihle
  */
-public class NetworkUtilsTest
-{
+public class NetworkUtilsTest {
+
     /**
      * Tests if 2 network interfaces are the same.
      *

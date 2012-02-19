@@ -36,8 +36,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class Messages
-{
+public class Messages {
+
     /** The network service used for sending the actual messages. */
     private final NetworkService networkService;
 

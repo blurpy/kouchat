@@ -40,8 +40,8 @@ import net.usikkert.kouchat.misc.ErrorHandler;
  *
  * @author Christian Ihle
  */
-public class MessageReceiver implements Runnable
-{
+public class MessageReceiver implements Runnable {
+
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(MessageReceiver.class.getName());
 

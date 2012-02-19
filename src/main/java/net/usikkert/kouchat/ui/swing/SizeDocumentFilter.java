@@ -36,8 +36,8 @@ import net.usikkert.kouchat.util.Tools;
  *
  * @author Christian Ihle
  */
-public class SizeDocumentFilter extends DocumentFilter
-{
+public class SizeDocumentFilter extends DocumentFilter {
+
     private final int maxBytes;
 
     /**

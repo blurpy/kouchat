@@ -27,8 +27,8 @@ package net.usikkert.kouchat.event;
  *
  * @author Christian Ihle
  */
-public interface ReceiverListener
-{
+public interface ReceiverListener {
+
     /**
      * Called when a new message arrives over the network.
      *

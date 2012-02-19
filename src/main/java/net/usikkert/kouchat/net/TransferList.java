@@ -32,8 +32,8 @@ import net.usikkert.kouchat.misc.User;
  *
  * @author Christian Ihle
  */
-public class TransferList
-{
+public class TransferList {
+
     /** The list of all the file senders. */
     private final List<FileSender> senders;
 

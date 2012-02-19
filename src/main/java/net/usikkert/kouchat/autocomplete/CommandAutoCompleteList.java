@@ -28,8 +28,8 @@ package net.usikkert.kouchat.autocomplete;
  *
  * @author Christian Ihle
  */
-public class CommandAutoCompleteList implements AutoCompleteList
-{
+public class CommandAutoCompleteList implements AutoCompleteList {
+
     /** The commands. */
     private static final String[] COMMANDS = {
         "/about",

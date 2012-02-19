@@ -40,8 +40,8 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  *
  * @author Christian Ihle
  */
-public class SoundBeeper
-{
+public class SoundBeeper {
+
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(SoundBeeper.class.getName());
 

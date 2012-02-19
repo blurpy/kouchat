@@ -32,8 +32,8 @@ import org.junit.Test;
  *
  * @author Christian Ihle
  */
-public class ByteCounterTest
-{
+public class ByteCounterTest {
+
     /** The byte counter being tested. */
     private ByteCounter counter;
 

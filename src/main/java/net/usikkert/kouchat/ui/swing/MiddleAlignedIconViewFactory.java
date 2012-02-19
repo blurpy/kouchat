@@ -39,8 +39,8 @@ import javax.swing.text.ViewFactory;
  *
  * @author Christian Ihle
  */
-public class MiddleAlignedIconViewFactory implements ViewFactory
-{
+public class MiddleAlignedIconViewFactory implements ViewFactory {
+
     /**
      * This works the same as original view factory, except the
      * use of a middle aligned icon view.

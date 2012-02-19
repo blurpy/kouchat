@@ -29,8 +29,8 @@ package net.usikkert.kouchat.ui;
  *
  * @author Christian Ihle
  */
-public interface ChatWindow
-{
+public interface ChatWindow {
+
     /**
      * Adds a new line of text to the chat area, in the specified color.
      *

@@ -39,8 +39,8 @@ import net.usikkert.kouchat.util.Tools;
  *
  * @author Christian Ihle
  */
-public class OperatingSystemNetworkInfo
-{
+public class OperatingSystemNetworkInfo {
+
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(OperatingSystemNetworkInfo.class.getName());
 

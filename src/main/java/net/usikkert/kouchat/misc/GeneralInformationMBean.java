@@ -27,8 +27,8 @@ package net.usikkert.kouchat.misc;
  *
  * @author Christian Ihle
  */
-public interface GeneralInformationMBean
-{
+public interface GeneralInformationMBean {
+
     /** The name of this MBean. */
     String NAME = "General";
 

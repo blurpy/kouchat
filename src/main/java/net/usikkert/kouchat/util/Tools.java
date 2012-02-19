@@ -41,8 +41,8 @@ import net.usikkert.kouchat.Constants;
  *
  * @author Christian Ihle
  */
-public final class Tools
-{
+public final class Tools {
+
     private static final Logger LOG = Logger.getLogger(Tools.class.getName());
     private static final Pattern VALID_NICK = Pattern.compile("[\\p{Alnum}[-_]]{1,10}");
 

@@ -67,8 +67,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class SettingsDialog extends JDialog implements ActionListener
-{
+public class SettingsDialog extends JDialog implements ActionListener {
+
     private static final Logger LOG = Logger.getLogger(SettingsDialog.class.getName());
     private static final long serialVersionUID = 1L;
 

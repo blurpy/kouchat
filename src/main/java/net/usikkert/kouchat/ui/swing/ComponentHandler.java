@@ -30,8 +30,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class ComponentHandler
-{
+public class ComponentHandler {
+
     /** The side panel. */
     private SidePanel sidePanel;
 

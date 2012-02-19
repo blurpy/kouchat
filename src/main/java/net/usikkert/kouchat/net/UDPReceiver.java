@@ -39,8 +39,8 @@ import net.usikkert.kouchat.misc.Settings;
  *
  * @author Christian Ihle
  */
-public class UDPReceiver implements Runnable
-{
+public class UDPReceiver implements Runnable {
+
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(UDPReceiver.class.getName());
 

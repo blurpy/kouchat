@@ -66,8 +66,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class MainPanel extends JPanel implements ActionListener, CaretListener, ChatWindow, KeyListener
-{
+public class MainPanel extends JPanel implements ActionListener, CaretListener, ChatWindow, KeyListener {
+
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(MainPanel.class.getName());
 

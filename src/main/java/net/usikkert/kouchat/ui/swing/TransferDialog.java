@@ -51,8 +51,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class TransferDialog extends JDialog implements FileTransferListener, ActionListener
-{
+public class TransferDialog extends JDialog implements FileTransferListener, ActionListener {
+
     /** Standard serial version UID. */
     private static final long serialVersionUID = 1L;
 

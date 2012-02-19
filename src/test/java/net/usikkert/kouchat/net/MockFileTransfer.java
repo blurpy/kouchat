@@ -35,8 +35,8 @@ import net.usikkert.kouchat.misc.Settings;
  *
  * @author Christian Ihle
  */
-public class MockFileTransfer implements FileTransfer
-{
+public class MockFileTransfer implements FileTransfer {
+
     private final Direction direction;
     private final File file;
     private final User user;

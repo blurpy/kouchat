@@ -32,8 +32,8 @@ import net.usikkert.kouchat.misc.User;
  *
  * @author Christian Ihle
  */
-public interface MessageResponder
-{
+public interface MessageResponder {
+
     /**
      * A chat message has arrived from a user.
      *

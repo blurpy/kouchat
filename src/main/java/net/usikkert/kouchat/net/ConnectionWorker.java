@@ -39,8 +39,8 @@ import net.usikkert.kouchat.event.NetworkConnectionListener;
  *
  * @author Christian Ihle
  */
-public class ConnectionWorker implements Runnable
-{
+public class ConnectionWorker implements Runnable {
+
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(ConnectionWorker.class.getName());
 

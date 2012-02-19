@@ -28,8 +28,8 @@ package net.usikkert.kouchat.event;
  *
  * @author Christian Ihle
  */
-public interface SettingsListener
-{
+public interface SettingsListener {
+
     /**
      * When a setting is changed, this method is called.
      *

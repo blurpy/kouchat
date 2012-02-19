@@ -36,8 +36,8 @@ import net.usikkert.kouchat.ui.UserInterface;
  *
  * @author Christian Ihle
  */
-public class DefaultPrivateMessageResponder implements PrivateMessageResponder
-{
+public class DefaultPrivateMessageResponder implements PrivateMessageResponder {
+
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(DefaultPrivateMessageResponder.class.getName());
 

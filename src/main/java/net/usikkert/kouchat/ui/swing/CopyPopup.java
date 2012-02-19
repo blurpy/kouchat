@@ -39,8 +39,8 @@ import javax.swing.text.DefaultEditorKit;
  *
  * @author Christian Ihle
  */
-public class CopyPopup extends JPopupMenu implements MouseListener, ActionListener
-{
+public class CopyPopup extends JPopupMenu implements MouseListener, ActionListener {
+
     /** Standard serial version UID. */
     private static final long serialVersionUID = 1L;
 

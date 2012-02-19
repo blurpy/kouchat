@@ -44,8 +44,8 @@ import net.usikkert.kouchat.util.ByteCounter;
  *
  * @author Christian Ihle
  */
-public class FileSender implements FileTransfer
-{
+public class FileSender implements FileTransfer {
+
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(FileSender.class.getName());
 

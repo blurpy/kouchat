@@ -32,8 +32,8 @@ import net.usikkert.kouchat.util.Tools;
  *
  * @author Christian Ihle
  */
-public class MessageController
-{
+public class MessageController {
+
     private final Settings settings;
     private final User me;
     private final ChatWindow chat;

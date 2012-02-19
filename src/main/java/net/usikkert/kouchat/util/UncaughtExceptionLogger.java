@@ -36,8 +36,8 @@ import java.util.logging.Logger;
  *
  * @author Christian Ihle
  */
-public class UncaughtExceptionLogger implements Thread.UncaughtExceptionHandler
-{
+public class UncaughtExceptionLogger implements Thread.UncaughtExceptionHandler {
+
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(UncaughtExceptionLogger.class.getName());
 

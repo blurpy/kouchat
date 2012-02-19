@@ -43,8 +43,8 @@ import net.usikkert.kouchat.util.Tools;
  *
  * @author Christian Ihle
  */
-public class DefaultMessageResponder implements MessageResponder
-{
+public class DefaultMessageResponder implements MessageResponder {
+
     private static final Logger LOG = Logger.getLogger(DefaultMessageResponder.class.getName());
 
     private final Controller controller;

@@ -39,8 +39,8 @@ import net.usikkert.kouchat.util.Tools;
  *
  * @author Christian Ihle
  */
-public class ChatLogger implements SettingsListener
-{
+public class ChatLogger implements SettingsListener {
+
     /**
      * The name of the log file. Uses date, time, and milliseconds to make sure
      * it is unique.

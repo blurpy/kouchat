@@ -35,8 +35,8 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class SmileyMap
-{
+public class SmileyMap {
+
     /** The map linking the smiley code with the smiley image. */
     private final Map<String, ImageIcon> smileyMap;
 

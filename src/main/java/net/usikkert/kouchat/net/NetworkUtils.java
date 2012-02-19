@@ -36,8 +36,8 @@ import java.util.logging.Logger;
  *
  * @author Christian Ihle
  */
-public final class NetworkUtils
-{
+public final class NetworkUtils {
+
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(NetworkUtils.class.getName());
 

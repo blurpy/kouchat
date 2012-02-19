@@ -57,8 +57,8 @@ import net.usikkert.kouchat.util.Tools;
  *
  * @author Christian Ihle
  */
-public final class Settings
-{
+public final class Settings {
+
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(Settings.class.getName());
 

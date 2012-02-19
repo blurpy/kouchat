@@ -30,8 +30,8 @@ package net.usikkert.kouchat.misc;
  *
  * @author Christian Ihle
  */
-public class UserListController
-{
+public class UserListController {
+
     /** The user list. */
     private final UserList userList;
 

@@ -28,8 +28,8 @@ package net.usikkert.kouchat.event;
  *
  * @author Christian Ihle
  */
-public interface UserListListener
-{
+public interface UserListListener {
+
     /**
      * A new user has been added to the user list.
      *

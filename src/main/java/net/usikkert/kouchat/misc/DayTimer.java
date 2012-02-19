@@ -36,8 +36,8 @@ import net.usikkert.kouchat.util.Tools;
  *
  * @author Christian Ihle
  */
-public class DayTimer extends TimerTask
-{
+public class DayTimer extends TimerTask {
+
     /**
      * Which hour of the day the timer should notify about
      * day change.

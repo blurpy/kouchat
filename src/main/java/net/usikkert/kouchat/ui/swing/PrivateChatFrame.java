@@ -76,8 +76,8 @@ import net.usikkert.kouchat.util.Validate;
  * @author Christian Ihle
  */
 public class PrivateChatFrame extends JFrame implements ActionListener, KeyListener,
-        PrivateChatWindow, FileDropSource, WindowListener, FocusListener
-{
+        PrivateChatWindow, FileDropSource, WindowListener, FocusListener {
+
     private static final Logger LOG = Logger.getLogger(PrivateChatFrame.class.getName());
     private static final long serialVersionUID = 1L;
 
