@@ -121,5 +121,5 @@ public interface FileTransfer
      *
      * @param listener The listener to register.
      */
-    void registerListener( FileTransferListener listener );
+    void registerListener(FileTransferListener listener);
 }

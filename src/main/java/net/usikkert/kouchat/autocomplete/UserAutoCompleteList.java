@@ -44,10 +44,10 @@ public class UserAutoCompleteList implements AutoCompleteList, UserListListener
      *
      * @param userList The list of online users.
      */
-    public UserAutoCompleteList( final UserList userList )
+    public UserAutoCompleteList(final UserList userList)
     {
         this.userList = userList;
-        userList.addUserListListener( this );
+        userList.addUserListListener(this);
         updateWords();
     }
 
@@ -57,7 +57,7 @@ public class UserAutoCompleteList implements AutoCompleteList, UserListListener
      * {@inheritDoc}
      */
     @Override
-    public void userAdded( final int pos )
+    public void userAdded(final int pos)
     {
         updateWords();
     }
@@ -68,7 +68,7 @@ public class UserAutoCompleteList implements AutoCompleteList, UserListListener
      * {@inheritDoc}
      */
     @Override
-    public void userChanged( final int pos )
+    public void userChanged(final int pos)
     {
         updateWords();
     }
@@ -79,7 +79,7 @@ public class UserAutoCompleteList implements AutoCompleteList, UserListListener
      * {@inheritDoc}
      */
     @Override
-    public void userRemoved( final int pos )
+    public void userRemoved(final int pos)
     {
         updateWords();
     }
@@ -92,9 +92,9 @@ public class UserAutoCompleteList implements AutoCompleteList, UserListListener
     {
         users = new String[userList.size()];
 
-        for ( int i = 0; i < userList.size(); i++ )
+        for (int i = 0; i < userList.size(); i++)
         {
-            users[i] = userList.get( i ).getNick();
+            users[i] = userList.get(i).getNick();
         }
     }
 
@@ -104,9 +104,9 @@ public class UserAutoCompleteList implements AutoCompleteList, UserListListener
      * {@inheritDoc}
      */
     @Override
-    public boolean acceptsWord( final String word )
+    public boolean acceptsWord(final String word)
     {
-        return Tools.isValidNick( word );
+        return Tools.isValidNick(word);
     }
 
     /**

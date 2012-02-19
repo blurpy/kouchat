@@ -87,59 +87,59 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      */
     public KouChatFrame()
     {
-        System.setProperty( Constants.PROPERTY_CLIENT_UI, "Swing" );
+        System.setProperty(Constants.PROPERTY_CLIENT_UI, "Swing");
         settings = Settings.getSettings();
         me = settings.getMe();
         setLookAndFeel();
         new SwingPopupErrorHandler();
         ImageLoader imageLoader = new ImageLoader();
-        registerUncaughtExceptionListener( imageLoader );
-        statusIcons = new StatusIcons( imageLoader );
+        registerUncaughtExceptionListener(imageLoader);
+        statusIcons = new StatusIcons(imageLoader);
 
         ButtonPanel buttonP = new ButtonPanel();
-        sideP = new SidePanel( buttonP, imageLoader );
-        mainP = new MainPanel( sideP, imageLoader );
-        SysTray sysTray = new SysTray( imageLoader );
-        SettingsDialog settingsDialog = new SettingsDialog( imageLoader );
-        menuBar = new MenuBar( imageLoader );
+        sideP = new SidePanel(buttonP, imageLoader);
+        mainP = new MainPanel(sideP, imageLoader);
+        SysTray sysTray = new SysTray(imageLoader);
+        SettingsDialog settingsDialog = new SettingsDialog(imageLoader);
+        menuBar = new MenuBar(imageLoader);
 
         ComponentHandler compHandler = new ComponentHandler();
-        compHandler.setGui( this );
-        compHandler.setButtonPanel( buttonP );
-        compHandler.setSidePanel( sideP );
-        compHandler.setMainPanel( mainP );
-        compHandler.setSysTray( sysTray );
-        compHandler.setSettingsDialog( settingsDialog );
-        compHandler.setMenuBar( menuBar );
+        compHandler.setGui(this);
+        compHandler.setButtonPanel(buttonP);
+        compHandler.setSidePanel(sideP);
+        compHandler.setMainPanel(mainP);
+        compHandler.setSysTray(sysTray);
+        compHandler.setSettingsDialog(settingsDialog);
+        compHandler.setMenuBar(menuBar);
 
-        mediator = new SwingMediator( compHandler, imageLoader );
-        buttonP.setMediator( mediator );
-        sideP.setMediator( mediator );
-        mainP.setMediator( mediator );
-        sysTray.setMediator( mediator );
-        settingsDialog.setMediator( mediator );
-        menuBar.setMediator( mediator );
+        mediator = new SwingMediator(compHandler, imageLoader);
+        buttonP.setMediator(mediator);
+        sideP.setMediator(mediator);
+        mainP.setMediator(mediator);
+        sysTray.setMediator(mediator);
+        settingsDialog.setMediator(mediator);
+        menuBar.setMediator(mediator);
 
         // Show tooltips for 10 seconds. Default is very short.
-        ToolTipManager.sharedInstance().setDismissDelay( 10000 );
+        ToolTipManager.sharedInstance().setDismissDelay(10000);
 
-        setJMenuBar( menuBar );
-        getContentPane().add( mainP, BorderLayout.CENTER );
-        setTitle( Constants.APP_NAME );
-        setIconImage( imageLoader.getAppIcon().getImage() );
-        setSize( 650, 480 );
-        setMinimumSize( new Dimension( 450, 300 ) );
-        setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE );
-        setVisible( true );
+        setJMenuBar(menuBar);
+        getContentPane().add(mainP, BorderLayout.CENTER);
+        setTitle(Constants.APP_NAME);
+        setIconImage(imageLoader.getAppIcon().getImage());
+        setSize(650, 480);
+        setMinimumSize(new Dimension(450, 300));
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        setVisible(true);
 
-        getRootPane().addFocusListener( this );
-        addWindowListener( this );
+        getRootPane().addFocusListener(this);
+        addWindowListener(this);
         fixTextFieldFocus();
         hideWithEscape();
         mediator.updateTitleAndTray();
 
         // Try to stop the gui from lagging during startup
-        SwingUtilities.invokeLater( new Runnable()
+        SwingUtilities.invokeLater(new Runnable()
         {
             @Override
             public void run()
@@ -147,7 +147,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
                 mediator.start();
                 mainP.getMsgTF().requestFocusInWindow();
             }
-        } );
+        });
     }
 
     /**
@@ -155,12 +155,12 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      *
      * @param imageLoader The image loader.
      */
-    private void registerUncaughtExceptionListener( final ImageLoader imageLoader )
+    private void registerUncaughtExceptionListener(final ImageLoader imageLoader)
     {
         UncaughtExceptionLogger uncaughtExceptionLogger =
             (UncaughtExceptionLogger) Thread.getDefaultUncaughtExceptionHandler();
         uncaughtExceptionLogger.registerUncaughtExceptionListener(
-                new ExceptionDialog( null, true, imageLoader ) );
+                new ExceptionDialog(null, true, imageLoader));
     }
 
     /**
@@ -172,11 +172,11 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      */
     private void setLookAndFeel()
     {
-        LookAndFeelInfo lookAndFeel = UITools.getLookAndFeel( settings.getLookAndFeel() );
+        LookAndFeelInfo lookAndFeel = UITools.getLookAndFeel(settings.getLookAndFeel());
 
-        if ( lookAndFeel == null )
+        if (lookAndFeel == null)
         {
-            if ( UITools.isSystemLookAndFeelSupported() )
+            if (UITools.isSystemLookAndFeelSupported())
             {
                 UITools.setSystemLookAndFeel();
             }
@@ -184,7 +184,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 
         else
         {
-            UITools.setLookAndFeel( settings.getLookAndFeel() );
+            UITools.setLookAndFeel(settings.getLookAndFeel());
         }
     }
 
@@ -193,21 +193,21 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      */
     private void hideWithEscape()
     {
-        KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0, false );
+        KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
 
         Action escapeAction = new AbstractAction()
         {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void actionPerformed( final ActionEvent e )
+            public void actionPerformed(final ActionEvent e)
             {
                 mediator.minimize();
             }
         };
 
-        mainP.getInputMap( JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT ).put( escapeKeyStroke, "ESCAPE" );
-        mainP.getActionMap().put( "ESCAPE", escapeAction );
+        mainP.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(escapeKeyStroke, "ESCAPE");
+        mainP.getActionMap().put("ESCAPE", escapeAction);
     }
 
     /**
@@ -216,14 +216,14 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      */
     private void fixTextFieldFocus()
     {
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher( new KeyEventDispatcher()
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher()
         {
             @Override
-            public boolean dispatchKeyEvent( final KeyEvent e )
+            public boolean dispatchKeyEvent(final KeyEvent e)
             {
-                if ( e.getID() == KeyEvent.KEY_TYPED && isFocused() && ( e.getSource() == mainP.getChatTP() || e.getSource() == sideP.getUserList() ) )
+                if (e.getID() == KeyEvent.KEY_TYPED && isFocused() && (e.getSource() == mainP.getChatTP() || e.getSource() == sideP.getUserList()))
                 {
-                    KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent( mainP.getMsgTF(), e );
+                    KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(mainP.getMsgTF(), e);
                     mainP.getMsgTF().requestFocusInWindow();
 
                     return true;
@@ -232,7 +232,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
                 else
                     return false;
             }
-        } );
+        });
     }
 
     /**
@@ -241,7 +241,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * {@inheritDoc}
      */
     @Override
-    public void focusGained( final FocusEvent e )
+    public void focusGained(final FocusEvent e)
     {
 
     }
@@ -252,9 +252,9 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * {@inheritDoc}
      */
     @Override
-    public void focusLost( final FocusEvent e )
+    public void focusLost(final FocusEvent e)
     {
-        if ( menuBar.isPopupMenuVisible() )
+        if (menuBar.isPopupMenuVisible())
             getRootPane().requestFocusInWindow();
     }
 
@@ -264,16 +264,16 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * {@inheritDoc}
      */
     @Override
-    public void windowClosing( final WindowEvent e )
+    public void windowClosing(final WindowEvent e)
     {
-        SwingUtilities.invokeLater( new Runnable()
+        SwingUtilities.invokeLater(new Runnable()
         {
             @Override
             public void run()
             {
                 mediator.quit();
             }
-        } );
+        });
     }
 
     /**
@@ -282,15 +282,15 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * {@inheritDoc}
      */
     @Override
-    public void windowActivated( final WindowEvent e )
+    public void windowActivated(final WindowEvent e)
     {
         mainP.getChatSP().repaint();
         sideP.getUserList().repaint();
         mainP.getMsgTF().requestFocusInWindow();
 
-        if ( me.isNewMsg() )
+        if (me.isNewMsg())
         {
-            me.setNewMsg( false );
+            me.setNewMsg(false);
             mediator.updateTitleAndTray();
         }
     }
@@ -301,7 +301,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * {@inheritDoc}
      */
     @Override
-    public void windowClosed( final WindowEvent e )
+    public void windowClosed(final WindowEvent e)
     {
 
     }
@@ -312,7 +312,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * {@inheritDoc}
      */
     @Override
-    public void windowDeactivated( final WindowEvent e )
+    public void windowDeactivated(final WindowEvent e)
     {
 
     }
@@ -323,7 +323,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * {@inheritDoc}
      */
     @Override
-    public void windowDeiconified( final WindowEvent e )
+    public void windowDeiconified(final WindowEvent e)
     {
 
     }
@@ -334,7 +334,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * {@inheritDoc}
      */
     @Override
-    public void windowIconified( final WindowEvent e )
+    public void windowIconified(final WindowEvent e)
     {
 
     }
@@ -345,7 +345,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * {@inheritDoc}
      */
     @Override
-    public void windowOpened( final WindowEvent e )
+    public void windowOpened(final WindowEvent e)
     {
 
     }
@@ -355,20 +355,20 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      */
     public void updateWindowIcon()
     {
-        if ( me.isNewMsg() )
+        if (me.isNewMsg())
         {
-            if ( me.isAway() )
-                setWindowIcon( statusIcons.getAwayActivityIcon() );
+            if (me.isAway())
+                setWindowIcon(statusIcons.getAwayActivityIcon());
             else
-                setWindowIcon( statusIcons.getNormalActivityIcon() );
+                setWindowIcon(statusIcons.getNormalActivityIcon());
         }
 
         else
         {
-            if ( me.isAway() )
-                setWindowIcon( statusIcons.getAwayIcon() );
+            if (me.isAway())
+                setWindowIcon(statusIcons.getAwayIcon());
             else
-                setWindowIcon( statusIcons.getNormalIcon() );
+                setWindowIcon(statusIcons.getNormalIcon());
         }
     }
 
@@ -377,9 +377,9 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      *
      * @param icon The window icon to use.
      */
-    public void setWindowIcon( final Image icon )
+    public void setWindowIcon(final Image icon)
     {
-        if ( getIconImage() != icon )
-            setIconImage( icon );
+        if (getIconImage() != icon)
+            setIconImage(icon);
     }
 }

@@ -69,7 +69,7 @@ import net.usikkert.kouchat.util.Validate;
 public class MainPanel extends JPanel implements ActionListener, CaretListener, ChatWindow, KeyListener
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger( MainPanel.class.getName() );
+    private static final Logger LOG = Logger.getLogger(MainPanel.class.getName());
 
     private final JScrollPane chatSP;
     private final JTextPane chatTP;
@@ -86,54 +86,54 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      * @param sideP The panel on the right, containing the user list and the buttons.
      * @param imageLoader The image loader.
      */
-    public MainPanel( final SidePanel sideP, final ImageLoader imageLoader )
+    public MainPanel(final SidePanel sideP, final ImageLoader imageLoader)
     {
-        Validate.notNull( sideP, "Side panel can not be null" );
-        Validate.notNull( imageLoader, "Image loader can not be null" );
+        Validate.notNull(sideP, "Side panel can not be null");
+        Validate.notNull(imageLoader, "Image loader can not be null");
 
-        setLayout( new BorderLayout( 2, 2 ) );
+        setLayout(new BorderLayout(2, 2));
 
         chatTP = new JTextPane();
-        chatTP.setEditable( false );
-        chatTP.setBorder( BorderFactory.createEmptyBorder( 4, 6, 4, 6 ) );
-        chatTP.setEditorKit( new MiddleAlignedIconViewEditorKit() );
-        chatTP.setBackground( UIManager.getColor( "TextPane.background" ) );
+        chatTP.setEditable(false);
+        chatTP.setBorder(BorderFactory.createEmptyBorder(4, 6, 4, 6));
+        chatTP.setEditorKit(new MiddleAlignedIconViewEditorKit());
+        chatTP.setBackground(UIManager.getColor("TextPane.background"));
 
-        chatSP = new JScrollPane( chatTP );
-        chatSP.setMinimumSize( new Dimension( 290, 200 ) );
+        chatSP = new JScrollPane(chatTP);
+        chatSP.setMinimumSize(new Dimension(290, 200));
         chatAttr = new SimpleAttributeSet();
         chatDoc = chatTP.getStyledDocument();
 
-        URLMouseListener urlML = new URLMouseListener( chatTP );
-        chatTP.addMouseListener( urlML );
-        chatTP.addMouseMotionListener( urlML );
+        URLMouseListener urlML = new URLMouseListener(chatTP);
+        chatTP.addMouseListener(urlML);
+        chatTP.addMouseMotionListener(urlML);
 
         DocumentFilterList documentFilterList = new DocumentFilterList();
-        documentFilterList.addDocumentFilter( new URLDocumentFilter( false ) );
-        documentFilterList.addDocumentFilter( new SmileyDocumentFilter( false, imageLoader ) );
+        documentFilterList.addDocumentFilter(new URLDocumentFilter(false));
+        documentFilterList.addDocumentFilter(new SmileyDocumentFilter(false, imageLoader));
         AbstractDocument doc = (AbstractDocument) chatDoc;
-        doc.setDocumentFilter( documentFilterList );
+        doc.setDocumentFilter(documentFilterList);
 
         msgTF = new JTextField();
-        msgTF.addActionListener( this );
-        msgTF.addCaretListener( this );
-        msgTF.addKeyListener( this );
+        msgTF.addActionListener(this);
+        msgTF.addCaretListener(this);
+        msgTF.addKeyListener(this);
 
         // Make sure tab generates key events
-        msgTF.setFocusTraversalKeys( KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
-                new HashSet<AWTKeyStroke>() );
+        msgTF.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
+                new HashSet<AWTKeyStroke>());
 
         AbstractDocument msgDoc = (AbstractDocument) msgTF.getDocument();
-        msgDoc.setDocumentFilter( new SizeDocumentFilter( Constants.MESSAGE_MAX_BYTES ) );
+        msgDoc.setDocumentFilter(new SizeDocumentFilter(Constants.MESSAGE_MAX_BYTES));
 
-        add( chatSP, BorderLayout.CENTER );
-        add( sideP, BorderLayout.EAST );
-        add( msgTF, BorderLayout.SOUTH );
+        add(chatSP, BorderLayout.CENTER);
+        add(sideP, BorderLayout.EAST);
+        add(msgTF, BorderLayout.SOUTH);
 
-        new CopyPastePopup( msgTF );
-        new CopyPopup( chatTP );
+        new CopyPastePopup(msgTF);
+        new CopyPopup(chatTP);
 
-        setBorder( BorderFactory.createEmptyBorder( 4, 4, 4, 4 ) );
+        setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         cmdHistory = new CommandHistory();
     }
 
@@ -142,7 +142,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      *
      * @param mediator The mediator to use.
      */
-    public void setMediator( final Mediator mediator )
+    public void setMediator(final Mediator mediator)
     {
         this.mediator = mediator;
     }
@@ -152,7 +152,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      *
      * @param autoCompleter The autocompleter to use.
      */
-    public void setAutoCompleter( final AutoCompleter autoCompleter )
+    public void setAutoCompleter(final AutoCompleter autoCompleter)
     {
         this.autoCompleter = autoCompleter;
     }
@@ -164,18 +164,18 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      * @param color The color to use for the message.
      */
     @Override
-    public void appendToChat( final String message, final int color )
+    public void appendToChat(final String message, final int color)
     {
         try
         {
-            StyleConstants.setForeground( chatAttr, new Color( color ) );
-            chatDoc.insertString( chatDoc.getLength(), message + "\n", chatAttr );
-            chatTP.setCaretPosition( chatDoc.getLength() );
+            StyleConstants.setForeground(chatAttr, new Color(color));
+            chatDoc.insertString(chatDoc.getLength(), message + "\n", chatAttr);
+            chatTP.setCaretPosition(chatDoc.getLength());
         }
 
-        catch ( final BadLocationException e )
+        catch (final BadLocationException e)
         {
-            LOG.log( Level.SEVERE, e.toString(), e );
+            LOG.log(Level.SEVERE, e.toString(), e);
         }
     }
 
@@ -204,7 +204,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      */
     public void clearChat()
     {
-        chatTP.setText( "" );
+        chatTP.setText("");
     }
 
     /**
@@ -223,16 +223,16 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      * {@inheritDoc}
      */
     @Override
-    public void caretUpdate( final CaretEvent e )
+    public void caretUpdate(final CaretEvent e)
     {
-        SwingUtilities.invokeLater( new Runnable()
+        SwingUtilities.invokeLater(new Runnable()
         {
             @Override
             public void run()
             {
                 mediator.updateWriting();
             }
-        } );
+        });
     }
 
     /**
@@ -242,20 +242,20 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed( final ActionEvent e )
+    public void actionPerformed(final ActionEvent e)
     {
         // The input field
-        if ( e.getSource() == msgTF )
+        if (e.getSource() == msgTF)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    cmdHistory.add( msgTF.getText() );
+                    cmdHistory.add(msgTF.getText());
                     mediator.write();
                 }
-            } );
+            });
         }
     }
 
@@ -266,31 +266,31 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      * {@inheritDoc}
      */
     @Override
-    public void keyPressed( final KeyEvent ke )
+    public void keyPressed(final KeyEvent ke)
     {
-        SwingUtilities.invokeLater( new Runnable()
+        SwingUtilities.invokeLater(new Runnable()
         {
             @Override
             public void run()
             {
                 // Tab-completion
-                if ( ke.getKeyCode() == KeyEvent.VK_TAB && ke.getModifiers() == 0 )
+                if (ke.getKeyCode() == KeyEvent.VK_TAB && ke.getModifiers() == 0)
                 {
-                    if ( autoCompleter != null )
+                    if (autoCompleter != null)
                     {
                         int caretPos = msgTF.getCaretPosition();
                         String orgText = msgTF.getText();
-                        String newText = autoCompleter.completeWord( orgText, caretPos );
+                        String newText = autoCompleter.completeWord(orgText, caretPos);
 
-                        if ( newText.length() > 0 )
+                        if (newText.length() > 0)
                         {
-                            msgTF.setText( newText );
-                            msgTF.setCaretPosition( autoCompleter.getNewCaretPosition() );
+                            msgTF.setText(newText);
+                            msgTF.setCaretPosition(autoCompleter.getNewCaretPosition());
                         }
                     }
                 }
             }
-        } );
+        });
     }
 
     /**
@@ -299,7 +299,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      * {@inheritDoc}
      */
     @Override
-    public void keyTyped( final KeyEvent ke )
+    public void keyTyped(final KeyEvent ke)
     {
 
     }
@@ -312,31 +312,31 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      * {@inheritDoc}
      */
     @Override
-    public void keyReleased( final KeyEvent ke )
+    public void keyReleased(final KeyEvent ke)
     {
-        SwingUtilities.invokeLater( new Runnable()
+        SwingUtilities.invokeLater(new Runnable()
         {
             @Override
             public void run()
             {
                 // Command history up
-                if ( ke.getKeyCode() == KeyEvent.VK_UP )
+                if (ke.getKeyCode() == KeyEvent.VK_UP)
                 {
                     String up = cmdHistory.goUp();
 
-                    if ( !msgTF.getText().equals( up ) )
-                        msgTF.setText( up );
+                    if (!msgTF.getText().equals(up))
+                        msgTF.setText(up);
                 }
 
                 // Command history down
-                else if ( ke.getKeyCode() == KeyEvent.VK_DOWN )
+                else if (ke.getKeyCode() == KeyEvent.VK_DOWN)
                 {
                     String down = cmdHistory.goDown();
 
-                    if ( !msgTF.getText().equals( down ) )
-                        msgTF.setText( down );
+                    if (!msgTF.getText().equals(down))
+                        msgTF.setText(down);
                 }
             }
-        } );
+        });
     }
 }

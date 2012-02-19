@@ -67,7 +67,7 @@ public class ChatState
      *
      * @param wrote True if the application user is writing at this moment.
      */
-    public void setWrote( final boolean wrote )
+    public void setWrote(final boolean wrote)
     {
         this.wrote = wrote;
     }
@@ -97,7 +97,7 @@ public class ChatState
      *
      * @param loggedOn If the user has logged on.
      */
-    public void setLoggedOn( final boolean loggedOn )
+    public void setLoggedOn(final boolean loggedOn)
     {
         this.loggedOn = loggedOn;
     }
@@ -117,7 +117,7 @@ public class ChatState
      *
      * @param logonCompleted If the logon is complete.
      */
-    public void setLogonCompleted( final boolean logonCompleted )
+    public void setLogonCompleted(final boolean logonCompleted)
     {
         this.logonCompleted = logonCompleted;
     }

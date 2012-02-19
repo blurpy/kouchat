@@ -45,12 +45,12 @@ public final class LogInitializer
      *
      * @param debug If verbose debug logging should be enabled.
      */
-    public LogInitializer( final boolean debug )
+    public LogInitializer(final boolean debug)
     {
         initHandlers();
         initParentLoggers();
 
-        if ( debug )
+        if (debug)
             activateDebug();
     }
 
@@ -60,13 +60,13 @@ public final class LogInitializer
      */
     public void initParentLoggers()
     {
-        Logger.getLogger( MAIN_PACKAGE );
-        Logger.getLogger( MAIN_PACKAGE + ".misc" );
-        Logger.getLogger( MAIN_PACKAGE + ".net" );
-        Logger.getLogger( MAIN_PACKAGE + ".ui" );
-        Logger.getLogger( MAIN_PACKAGE + ".ui.console" );
-        Logger.getLogger( MAIN_PACKAGE + ".ui.swing" );
-        Logger.getLogger( MAIN_PACKAGE + ".util" );
+        Logger.getLogger(MAIN_PACKAGE);
+        Logger.getLogger(MAIN_PACKAGE + ".misc");
+        Logger.getLogger(MAIN_PACKAGE + ".net");
+        Logger.getLogger(MAIN_PACKAGE + ".ui");
+        Logger.getLogger(MAIN_PACKAGE + ".ui.console");
+        Logger.getLogger(MAIN_PACKAGE + ".ui.swing");
+        Logger.getLogger(MAIN_PACKAGE + ".util");
     }
 
     /**
@@ -81,13 +81,13 @@ public final class LogInitializer
      */
     public void initHandlers()
     {
-        Handler[] handlers = Logger.getLogger( "" ).getHandlers();
+        Handler[] handlers = Logger.getLogger("").getHandlers();
 
-        for ( Handler handler : handlers )
+        for (Handler handler : handlers)
         {
-            if ( handler instanceof ConsoleHandler )
+            if (handler instanceof ConsoleHandler)
             {
-                handler.setLevel( Level.ALL );
+                handler.setLevel(Level.ALL);
                 break;
             }
         }
@@ -98,7 +98,7 @@ public final class LogInitializer
      */
     public void activateDebug()
     {
-        Logger mainLogger = Logger.getLogger( MAIN_PACKAGE );
-        mainLogger.setLevel( Level.ALL );
+        Logger mainLogger = Logger.getLogger(MAIN_PACKAGE);
+        mainLogger.setLevel(Level.ALL);
     }
 }

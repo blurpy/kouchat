@@ -48,7 +48,7 @@ public interface UserInterface
      * @param size The size of the file, in readable format.
      * @return True if the user wants to receive the file, or false if not.
      */
-    boolean askFileSave( String user, String fileName, String size );
+    boolean askFileSave(String user, String fileName, String size);
 
     /**
      * Asks the user where to save the file. The file receiver must
@@ -56,7 +56,7 @@ public interface UserInterface
      *
      * @param fileReceiver Information about the file to save.
      */
-    void showFileSave( FileReceiver fileReceiver );
+    void showFileSave(FileReceiver fileReceiver);
 
     /**
      * Creates a {@link FileTransferListener} for the file receiver,
@@ -64,7 +64,7 @@ public interface UserInterface
      *
      * @param fileRes The file reception object.
      */
-    void showTransfer( FileReceiver fileRes );
+    void showTransfer(FileReceiver fileRes);
 
     /**
      * Creates a FileTransferListener for the file sender,
@@ -72,7 +72,7 @@ public interface UserInterface
      *
      * @param fileSend The file sending object.
      */
-    void showTransfer( FileSender fileSend );
+    void showTransfer(FileSender fileSend);
 
     /**
      * Updates the ui after a topic or user info change.
@@ -89,21 +89,21 @@ public interface UserInterface
      *
      * @param away If the user is away.
      */
-    void changeAway( boolean away );
+    void changeAway(boolean away);
 
     /**
      * A new message has arrived. Update the ui if necessary.
      *
      * @param user The user which sent a message.
      */
-    void notifyMessageArrived( User user );
+    void notifyMessageArrived(User user);
 
     /**
      * A new private message has arrived. Update the ui if necessary.
      *
      * @param user The user which sent a message.
      */
-    void notifyPrivateMessageArrived( User user );
+    void notifyPrivateMessageArrived(User user);
 
     /**
      * Returns the message controller.
@@ -120,7 +120,7 @@ public interface UserInterface
      * @param user The user to update with a
      * {@link PrivateChatWindow}
      */
-    void createPrivChat( User user );
+    void createPrivChat(User user);
 
     /**
      * Checks if the main chat is visible.

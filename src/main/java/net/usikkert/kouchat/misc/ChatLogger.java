@@ -45,10 +45,10 @@ public class ChatLogger implements SettingsListener
      * The name of the log file. Uses date, time, and milliseconds to make sure
      * it is unique.
      */
-    private static final String LOG_FILE = "kouchat-" + Tools.dateToString( null, "yyyy.MM.dd-HH.mm.ss-SSS" ) + ".log";
+    private static final String LOG_FILE = "kouchat-" + Tools.dateToString(null, "yyyy.MM.dd-HH.mm.ss-SSS") + ".log";
 
     /** The logger. */
-    private static final Logger LOG = Logger.getLogger( ChatLogger.class.getName() );
+    private static final Logger LOG = Logger.getLogger(ChatLogger.class.getName());
 
     private final Settings settings;
     private final ErrorHandler errorHandler;
@@ -62,23 +62,23 @@ public class ChatLogger implements SettingsListener
     public ChatLogger()
     {
         settings = Settings.getSettings();
-        settings.addSettingsListener( this );
+        settings.addSettingsListener(this);
 
         errorHandler = ErrorHandler.getErrorHandler();
 
-        if ( settings.isLogging() )
+        if (settings.isLogging())
         {
             open();
         }
 
-        Runtime.getRuntime().addShutdownHook( new Thread( "ChatLoggerShutdownHook" )
+        Runtime.getRuntime().addShutdownHook(new Thread("ChatLoggerShutdownHook")
         {
             @Override
             public void run()
             {
                 close();
             }
-        } );
+        });
     }
 
     /**
@@ -91,20 +91,20 @@ public class ChatLogger implements SettingsListener
 
         try
         {
-            File logdir = new File( Constants.APP_LOG_FOLDER );
+            File logdir = new File(Constants.APP_LOG_FOLDER);
 
-            if ( !logdir.exists() )
+            if (!logdir.exists())
                 logdir.mkdirs();
 
-            writer = new BufferedWriter( new FileWriter( Constants.APP_LOG_FOLDER + LOG_FILE, true ) );
+            writer = new BufferedWriter(new FileWriter(Constants.APP_LOG_FOLDER + LOG_FILE, true));
             open = true;
         }
 
-        catch ( final IOException e )
+        catch (final IOException e)
         {
-            LOG.log( Level.SEVERE, e.toString(), e );
-            settings.setLogging( false );
-            errorHandler.showError( "Could not initialize the logging:\n" + e );
+            LOG.log(Level.SEVERE, e.toString(), e);
+            settings.setLogging(false);
+            errorHandler.showError("Could not initialize the logging:\n" + e);
         }
     }
 
@@ -113,7 +113,7 @@ public class ChatLogger implements SettingsListener
      */
     public void close()
     {
-        if ( open )
+        if (open)
         {
             try
             {
@@ -121,9 +121,9 @@ public class ChatLogger implements SettingsListener
                 writer.close();
             }
 
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                LOG.log( Level.SEVERE, e.toString(), e );
+                LOG.log(Level.SEVERE, e.toString(), e);
             }
 
             finally
@@ -138,20 +138,20 @@ public class ChatLogger implements SettingsListener
      *
      * @param line The line of text to add to the log.
      */
-    public void append( final String line )
+    public void append(final String line)
     {
-        if ( open )
+        if (open)
         {
             try
             {
-                writer.append( line );
+                writer.append(line);
                 writer.newLine();
                 writer.flush();
             }
 
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                LOG.log( Level.SEVERE, e.toString(), e );
+                LOG.log(Level.SEVERE, e.toString(), e);
                 close();
             }
         }
@@ -173,13 +173,13 @@ public class ChatLogger implements SettingsListener
      * @param setting The setting that was changed.
      */
     @Override
-    public void settingChanged( final String setting )
+    public void settingChanged(final String setting)
     {
-        if ( setting.equals( "logging" ) )
+        if (setting.equals("logging"))
         {
-            if ( settings.isLogging() )
+            if (settings.isLogging())
             {
-                if ( !isOpen() )
+                if (!isOpen())
                 {
                     open();
                 }

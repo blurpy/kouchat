@@ -48,7 +48,7 @@ import javax.swing.text.JTextComponent;
 public class FileTransferHandler extends TransferHandler
 {
     /** The logger. */
-    private static final Logger LOG = Logger.getLogger( FileTransferHandler.class.getName() );
+    private static final Logger LOG = Logger.getLogger(FileTransferHandler.class.getName());
 
     /** Standard serial version UID. */
     private static final long serialVersionUID = 1L;
@@ -67,18 +67,18 @@ public class FileTransferHandler extends TransferHandler
      *
      * @param fileDropSource The source to find which user the file was dropped on.
      */
-    public FileTransferHandler( final FileDropSource fileDropSource )
+    public FileTransferHandler(final FileDropSource fileDropSource)
     {
         this.fileDropSource = fileDropSource;
 
         try
         {
-            uriListFlavor = new DataFlavor( "text/uri-list;class=java.lang.String" );
+            uriListFlavor = new DataFlavor("text/uri-list;class=java.lang.String");
         }
 
-        catch ( final ClassNotFoundException e )
+        catch (final ClassNotFoundException e)
         {
-            LOG.log( Level.WARNING, e.toString() );
+            LOG.log(Level.WARNING, e.toString());
         }
     }
 
@@ -87,7 +87,7 @@ public class FileTransferHandler extends TransferHandler
      *
      * @param mediator The mediator to use.
      */
-    public void setMediator( final Mediator mediator )
+    public void setMediator(final Mediator mediator)
     {
         this.mediator = mediator;
     }
@@ -99,9 +99,9 @@ public class FileTransferHandler extends TransferHandler
      * {@inheritDoc}
      */
     @Override
-    public boolean canImport( final TransferSupport support )
+    public boolean canImport(final TransferSupport support)
     {
-        return support.isDataFlavorSupported( DataFlavor.javaFileListFlavor ) || support.isDataFlavorSupported( uriListFlavor );
+        return support.isDataFlavorSupported(DataFlavor.javaFileListFlavor) || support.isDataFlavorSupported(uriListFlavor);
     }
 
     /**
@@ -112,35 +112,35 @@ public class FileTransferHandler extends TransferHandler
      * {@inheritDoc}
      */
     @Override
-    public boolean importData( final TransferSupport support )
+    public boolean importData(final TransferSupport support)
     {
-        if ( canImport( support ) )
+        if (canImport(support))
         {
             try
             {
                 File file = null;
 
-                if ( support.isDataFlavorSupported( DataFlavor.javaFileListFlavor ) )
+                if (support.isDataFlavorSupported(DataFlavor.javaFileListFlavor))
                 {
-                    @SuppressWarnings( "unchecked" )
-                    List<File> fileList = (List<File>) support.getTransferable().getTransferData( DataFlavor.javaFileListFlavor );
+                    @SuppressWarnings("unchecked")
+                    List<File> fileList = (List<File>) support.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
 
-                    if ( fileList.size() > 0 )
-                        file = fileList.get( 0 );
+                    if (fileList.size() > 0)
+                        file = fileList.get(0);
                 }
 
-                else if ( support.isDataFlavorSupported( uriListFlavor ) )
+                else if (support.isDataFlavorSupported(uriListFlavor))
                 {
-                    Object data = support.getTransferable().getTransferData( uriListFlavor );
+                    Object data = support.getTransferable().getTransferData(uriListFlavor);
 
-                    if ( data != null )
+                    if (data != null)
                     {
-                        String[] uriList = data.toString().split( "\r\n" );
+                        String[] uriList = data.toString().split("\r\n");
                         String fileURI = "";
 
-                        for ( int i = 0; i < uriList.length; i++ )
+                        for (int i = 0; i < uriList.length; i++)
                         {
-                            if ( uriList[i].startsWith( "file:/" ) )
+                            if (uriList[i].startsWith("file:/"))
                             {
                                 fileURI = uriList[i];
                                 break;
@@ -149,42 +149,42 @@ public class FileTransferHandler extends TransferHandler
 
                         try
                         {
-                            URI uri = new URI( fileURI );
+                            URI uri = new URI(fileURI);
 
-                            if ( uri != null )
-                                file = new File( uri );
+                            if (uri != null)
+                                file = new File(uri);
                         }
 
-                        catch ( final URISyntaxException e )
+                        catch (final URISyntaxException e)
                         {
-                            LOG.log( Level.WARNING, e.toString() );
+                            LOG.log(Level.WARNING, e.toString());
                         }
                     }
                 }
 
                 else
                 {
-                    LOG.log( Level.WARNING, "Data flavor not supported." );
+                    LOG.log(Level.WARNING, "Data flavor not supported.");
                 }
 
-                if ( file != null )
+                if (file != null)
                 {
-                    mediator.sendFile( fileDropSource.getUser(), file );
+                    mediator.sendFile(fileDropSource.getUser(), file);
                     return true;
                 }
 
                 else
-                    LOG.log( Level.WARNING, "No file dropped." );
+                    LOG.log(Level.WARNING, "No file dropped.");
             }
 
-            catch ( final UnsupportedFlavorException e )
+            catch (final UnsupportedFlavorException e)
             {
-                LOG.log( Level.WARNING, e.toString() );
+                LOG.log(Level.WARNING, e.toString());
             }
 
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                LOG.log( Level.WARNING, e.toString() );
+                LOG.log(Level.WARNING, e.toString());
             }
         }
 
@@ -198,18 +198,18 @@ public class FileTransferHandler extends TransferHandler
      * {@inheritDoc}
      */
     @Override
-    protected Transferable createTransferable( final JComponent c )
+    protected Transferable createTransferable(final JComponent c)
     {
-        if ( c instanceof JTextComponent )
+        if (c instanceof JTextComponent)
         {
-            String data = ( (JTextComponent) c ).getSelectedText();
-            return new StringSelection( data );
+            String data = ((JTextComponent) c).getSelectedText();
+            return new StringSelection(data);
         }
 
-        else if ( c instanceof JList )
+        else if (c instanceof JList)
         {
-            String data = ( (JList) c ).getSelectedValue().toString();
-            return new StringSelection( data );
+            String data = ((JList) c).getSelectedValue().toString();
+            return new StringSelection(data);
         }
 
         else
@@ -222,7 +222,7 @@ public class FileTransferHandler extends TransferHandler
      * {@inheritDoc}
      */
     @Override
-    public int getSourceActions( final JComponent c )
+    public int getSourceActions(final JComponent c)
     {
         return COPY;
     }

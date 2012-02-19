@@ -41,7 +41,7 @@ import net.usikkert.kouchat.util.Validate;
 public class IdleThread extends Thread
 {
     /** The logger. */
-    private static final Logger LOG = Logger.getLogger( IdleThread.class.getName() );
+    private static final Logger LOG = Logger.getLogger(IdleThread.class.getName());
 
     /**
      * Number of milliseconds to wait before the next
@@ -70,10 +70,10 @@ public class IdleThread extends Thread
      * @param controller The controller.
      * @param ui The user interface.
      */
-    public IdleThread( final Controller controller, final UserInterface ui )
+    public IdleThread(final Controller controller, final UserInterface ui)
     {
-        Validate.notNull( controller, "Controller can not be null" );
-        Validate.notNull( ui, "User interface can not be null" );
+        Validate.notNull(controller, "Controller can not be null");
+        Validate.notNull(ui, "User interface can not be null");
         this.controller = controller;
 
         userList = controller.getUserList();
@@ -81,7 +81,7 @@ public class IdleThread extends Thread
         msgController = ui.getMessageController();
 
         run = true;
-        setName( "IdleThread" );
+        setName("IdleThread");
     }
 
     /**
@@ -95,38 +95,38 @@ public class IdleThread extends Thread
     public void run()
     {
         // In case of any error messages during startup
-        me.setLastIdle( System.currentTimeMillis() );
+        me.setLastIdle(System.currentTimeMillis());
 
-        while ( run )
+        while (run)
         {
             controller.sendIdleMessage();
             boolean timeout = false;
 
-            for ( int i = 0; i < userList.size(); i++ )
+            for (int i = 0; i < userList.size(); i++)
             {
-                User temp = userList.get( i );
+                User temp = userList.get(i);
 
-                if ( temp.getCode() != me.getCode() && temp.getLastIdle() < System.currentTimeMillis() - TIMEOUT )
+                if (temp.getCode() != me.getCode() && temp.getLastIdle() < System.currentTimeMillis() - TIMEOUT)
                 {
-                    userList.remove( temp );
-                    userTimedOut( temp );
+                    userList.remove(temp);
+                    userTimedOut(temp);
                     timeout = true;
                     i--;
                 }
             }
 
-            if ( timeout )
+            if (timeout)
                 controller.updateAfterTimeout();
 
             try
             {
-                sleep( IDLE_TIME );
+                sleep(IDLE_TIME);
             }
 
             // Sleep interrupted - probably from stopThread()
-            catch ( final InterruptedException e )
+            catch (final InterruptedException e)
             {
-                LOG.log( Level.FINE, e.toString() );
+                LOG.log(Level.FINE, e.toString());
             }
         }
     }
@@ -138,15 +138,15 @@ public class IdleThread extends Thread
      *
      * @param user The user which timed out.
      */
-    private void userTimedOut( final User user )
+    private void userTimedOut(final User user)
     {
-        controller.cancelFileTransfers( user );
-        user.setOnline( false );
-        msgController.showSystemMessage( user.getNick() + " timed out" );
+        controller.cancelFileTransfers(user);
+        user.setOnline(false);
+        msgController.showSystemMessage(user.getNick() + " timed out");
 
-        if ( user.getPrivchat() != null )
+        if (user.getPrivchat() != null)
         {
-            msgController.showPrivateSystemMessage( user, user.getNick() + " timed out" );
+            msgController.showPrivateSystemMessage(user, user.getNick() + " timed out");
             user.getPrivchat().setLoggedOff();
         }
     }

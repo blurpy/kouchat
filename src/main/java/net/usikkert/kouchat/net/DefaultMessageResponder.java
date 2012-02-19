@@ -45,7 +45,7 @@ import net.usikkert.kouchat.util.Tools;
  */
 public class DefaultMessageResponder implements MessageResponder
 {
-    private static final Logger LOG = Logger.getLogger( DefaultMessageResponder.class.getName() );
+    private static final Logger LOG = Logger.getLogger(DefaultMessageResponder.class.getName());
 
     private final Controller controller;
     private final User me;
@@ -61,7 +61,7 @@ public class DefaultMessageResponder implements MessageResponder
      * @param controller The controller to use for communication.
      * @param ui The user interface to update.
      */
-    public DefaultMessageResponder( final Controller controller, final UserInterface ui )
+    public DefaultMessageResponder(final Controller controller, final UserInterface ui)
     {
         this.controller = controller;
         this.ui = ui;
@@ -83,51 +83,51 @@ public class DefaultMessageResponder implements MessageResponder
      * @param color The color the message has.
      */
     @Override
-    public void messageArrived( final int userCode, final String msg, final int color )
+    public void messageArrived(final int userCode, final String msg, final int color)
     {
         // A little hack to stop messages from showing before the user is logged on
-        final Thread t = new Thread( "DefaultMessageResponderMessageArrived" )
+        final Thread t = new Thread("DefaultMessageResponderMessageArrived")
         {
             @Override
             public void run()
             {
-                if ( isAlive() )
+                if (isAlive())
                 {
                     int counter = 0;
 
-                    while ( wList.isWaitingUser( userCode ) && counter < 40 )
+                    while (wList.isWaitingUser(userCode) && counter < 40)
                     {
                         counter++;
-                        Tools.sleep( 50 );
+                        Tools.sleep(50);
                     }
                 }
 
-                if ( !controller.isNewUser( userCode ) )
+                if (!controller.isNewUser(userCode))
                 {
-                    final User user = controller.getUser( userCode );
+                    final User user = controller.getUser(userCode);
 
-                    if ( !user.isAway() )
+                    if (!user.isAway())
                     {
-                        msgController.showUserMessage( user.getNick(), msg, color );
+                        msgController.showUserMessage(user.getNick(), msg, color);
 
                         // Visible but not in front
-                        if ( ui.isVisible() && !ui.isFocused() )
-                            me.setNewMsg( true );
+                        if (ui.isVisible() && !ui.isFocused())
+                            me.setNewMsg(true);
 
-                        ui.notifyMessageArrived( user );
+                        ui.notifyMessageArrived(user);
                     }
                 }
 
                 else
                 {
-                    LOG.log( Level.SEVERE, "Could not find user: " + userCode );
+                    LOG.log(Level.SEVERE, "Could not find user: " + userCode);
                 }
             }
         };
 
-        if ( controller.isNewUser( userCode ) )
+        if (controller.isNewUser(userCode))
         {
-            wList.addWaitingUser( userCode );
+            wList.addWaitingUser(userCode);
             controller.sendExposeMessage();
             controller.sendGetTopicMessage();
 
@@ -145,20 +145,20 @@ public class DefaultMessageResponder implements MessageResponder
      * @param userCode The unique code of the user who logged off.
      */
     @Override
-    public void userLogOff( final int userCode )
+    public void userLogOff(final int userCode)
     {
-        final User user = controller.getUser( userCode );
+        final User user = controller.getUser(userCode);
 
-        if ( user != null )
+        if (user != null)
         {
-            controller.cancelFileTransfers( user );
-            user.setOnline( false );
-            controller.getUserList().remove( user );
-            msgController.showSystemMessage( user.getNick() + " logged off" );
+            controller.cancelFileTransfers(user);
+            user.setOnline(false);
+            controller.getUserList().remove(user);
+            msgController.showSystemMessage(user.getNick() + " logged off");
 
-            if ( user.getPrivchat() != null )
+            if (user.getPrivchat() != null)
             {
-                msgController.showPrivateSystemMessage( user, user.getNick() + " logged off" );
+                msgController.showPrivateSystemMessage(user, user.getNick() + " logged off");
                 user.getPrivchat().setLoggedOff();
             }
         }
@@ -172,26 +172,26 @@ public class DefaultMessageResponder implements MessageResponder
      * @param newUser The user logging on to the chat.
      */
     @Override
-    public void userLogOn( final User newUser )
+    public void userLogOn(final User newUser)
     {
-        if ( me.getNick().trim().equalsIgnoreCase( newUser.getNick() ) )
+        if (me.getNick().trim().equalsIgnoreCase(newUser.getNick()))
         {
-            controller.sendNickCrashMessage( newUser.getNick() );
-            newUser.setNick( "" + newUser.getCode() );
+            controller.sendNickCrashMessage(newUser.getNick());
+            newUser.setNick("" + newUser.getCode());
         }
 
-        else if ( controller.isNickInUse( newUser.getNick() ) )
+        else if (controller.isNickInUse(newUser.getNick()))
         {
-            newUser.setNick( "" + newUser.getCode() );
+            newUser.setNick("" + newUser.getCode());
         }
 
-        else if ( !Tools.isValidNick( newUser.getNick() ) )
+        else if (!Tools.isValidNick(newUser.getNick()))
         {
-            newUser.setNick( "" + newUser.getCode() );
+            newUser.setNick("" + newUser.getCode());
         }
 
-        controller.getUserList().add( newUser );
-        msgController.showSystemMessage( newUser.getNick() + " logged on from " + newUser.getIpAddress() );
+        controller.getUserList().add(newUser);
+        msgController.showSystemMessage(newUser.getNick() + " logged on from " + newUser.getIpAddress());
     }
 
     /**
@@ -201,26 +201,26 @@ public class DefaultMessageResponder implements MessageResponder
      *
      * @param newUser The unknown user.
      */
-    private void userShowedUp( final User newUser )
+    private void userShowedUp(final User newUser)
     {
-        if ( me.getNick().trim().equalsIgnoreCase( newUser.getNick() ) )
+        if (me.getNick().trim().equalsIgnoreCase(newUser.getNick()))
         {
-            controller.sendNickCrashMessage( newUser.getNick() );
-            newUser.setNick( "" + newUser.getCode() );
+            controller.sendNickCrashMessage(newUser.getNick());
+            newUser.setNick("" + newUser.getCode());
         }
 
-        else if ( controller.isNickInUse( newUser.getNick() ) )
+        else if (controller.isNickInUse(newUser.getNick()))
         {
-            newUser.setNick( "" + newUser.getCode() );
+            newUser.setNick("" + newUser.getCode());
         }
 
-        else if ( !Tools.isValidNick( newUser.getNick() ) )
+        else if (!Tools.isValidNick(newUser.getNick()))
         {
-            newUser.setNick( "" + newUser.getCode() );
+            newUser.setNick("" + newUser.getCode());
         }
 
-        controller.getUserList().add( newUser );
-        msgController.showSystemMessage( newUser.getNick() + " showed up unexpectedly from " + newUser.getIpAddress() );
+        controller.getUserList().add(newUser);
+        msgController.showSystemMessage(newUser.getNick() + " showed up unexpectedly from " + newUser.getIpAddress());
     }
 
     /**
@@ -232,48 +232,48 @@ public class DefaultMessageResponder implements MessageResponder
      * @param time The time when the topic was set.
      */
     @Override
-    public void topicChanged( final int userCode, final String newTopic, final String nick, final long time )
+    public void topicChanged(final int userCode, final String newTopic, final String nick, final long time)
     {
-        if ( controller.isNewUser( userCode ) )
+        if (controller.isNewUser(userCode))
         {
-            wList.addWaitingUser( userCode );
+            wList.addWaitingUser(userCode);
             controller.sendExposeMessage();
             controller.sendGetTopicMessage();
         }
 
         else
         {
-            if ( time > 0 && nick.length() > 0 )
+            if (time > 0 && nick.length() > 0)
             {
                 final Topic topic = controller.getTopic();
 
-                if ( newTopic != null )
+                if (newTopic != null)
                 {
-                    if ( !newTopic.equals( topic.getTopic() ) && time > topic.getTime() )
+                    if (!newTopic.equals(topic.getTopic()) && time > topic.getTime())
                     {
-                        if ( chatState.isLogonCompleted() )
+                        if (chatState.isLogonCompleted())
                         {
-                            msgController.showSystemMessage( nick + " changed the topic to: " + newTopic );
+                            msgController.showSystemMessage(nick + " changed the topic to: " + newTopic);
                         }
 
                         // Shown during startup.
                         else
                         {
-                            final String date = Tools.dateToString( new Date( time ), "HH:mm:ss, dd. MMM. yy" );
-                            msgController.showSystemMessage( "Topic is: " + newTopic + " (set by " + nick + " at " + date + ")" );
+                            final String date = Tools.dateToString(new Date(time), "HH:mm:ss, dd. MMM. yy");
+                            msgController.showSystemMessage("Topic is: " + newTopic + " (set by " + nick + " at " + date + ")");
                         }
 
-                        topic.changeTopic( newTopic, nick, time );
+                        topic.changeTopic(newTopic, nick, time);
                         ui.showTopic();
                     }
                 }
 
                 else
                 {
-                    if ( !topic.getTopic().equals( newTopic ) && time > topic.getTime() && chatState.isLogonCompleted() )
+                    if (!topic.getTopic().equals(newTopic) && time > topic.getTime() && chatState.isLogonCompleted())
                     {
-                        msgController.showSystemMessage( nick + " removed the topic" );
-                        topic.changeTopic( "", "", time );
+                        msgController.showSystemMessage(nick + " removed the topic");
+                        topic.changeTopic("", "", time);
                         ui.showTopic();
                     }
                 }
@@ -288,39 +288,39 @@ public class DefaultMessageResponder implements MessageResponder
      * @param user The unknown user who was exposed.
      */
     @Override
-    public void userExposing( final User user )
+    public void userExposing(final User user)
     {
-        if ( controller.isNewUser( user.getCode() ) )
+        if (controller.isNewUser(user.getCode()))
         {
             // Usually this happens when someone returns from a timeout
-            if ( chatState.isLogonCompleted() )
+            if (chatState.isLogonCompleted())
             {
-                if ( wList.isWaitingUser( user.getCode() ) )
-                    wList.removeWaitingUser( user.getCode() );
+                if (wList.isWaitingUser(user.getCode()))
+                    wList.removeWaitingUser(user.getCode());
 
-                userShowedUp( user );
+                userShowedUp(user);
             }
 
             // This should ONLY happen during logon
             else
             {
-                controller.getUserList().add( user );
+                controller.getUserList().add(user);
             }
         }
 
         else
         {
-            final User orgUser = controller.getUser( user.getCode() );
+            final User orgUser = controller.getUser(user.getCode());
 
             // When users timeout, there can become sync issues
-            if ( !orgUser.getNick().equals( user.getNick() ) )
+            if (!orgUser.getNick().equals(user.getNick()))
             {
-                nickChanged( user.getCode(), user.getNick() );
+                nickChanged(user.getCode(), user.getNick());
             }
 
-            if ( !orgUser.getAwayMsg().equals( user.getAwayMsg() ) )
+            if (!orgUser.getAwayMsg().equals(user.getAwayMsg()))
             {
-                awayChanged( user.getCode(), user.isAway(), user.getAwayMsg() );
+                awayChanged(user.getCode(), user.isAway(), user.getAwayMsg());
             }
         }
     }
@@ -332,12 +332,12 @@ public class DefaultMessageResponder implements MessageResponder
      * @param ipAddress The IP address of the application user.
      */
     @Override
-    public void meLogOn( final String ipAddress )
+    public void meLogOn(final String ipAddress)
     {
-        chatState.setLoggedOn( true );
-        me.setIpAddress( ipAddress );
-        me.setHostName( NetworkUtils.getLocalHostName() );
-        msgController.showSystemMessage( "You logged on as " + me.getNick() + " from " + createHostInfo( me ) );
+        chatState.setLoggedOn(true);
+        me.setIpAddress(ipAddress);
+        me.setHostName(NetworkUtils.getLocalHostName());
+        msgController.showSystemMessage("You logged on as " + me.getNick() + " from " + createHostInfo(me));
         ui.showTopic();
     }
 
@@ -348,9 +348,9 @@ public class DefaultMessageResponder implements MessageResponder
      * @param user The user to get host info from.
      * @return A string with host info.
      */
-    private String createHostInfo( final User user )
+    private String createHostInfo(final User user)
     {
-        if ( user.getHostName() != null )
+        if (user.getHostName() != null)
             return user.getHostName() + " (" + user.getIpAddress() + ")";
         else
             return user.getIpAddress();
@@ -363,9 +363,9 @@ public class DefaultMessageResponder implements MessageResponder
      * @param writing If the user is writing or not.
      */
     @Override
-    public void writingChanged( final int userCode, final boolean writing )
+    public void writingChanged(final int userCode, final boolean writing)
     {
-        controller.changeWriting( userCode, writing );
+        controller.changeWriting(userCode, writing);
     }
 
     /**
@@ -377,11 +377,11 @@ public class DefaultMessageResponder implements MessageResponder
      * @param awayMsg The away message if the user is away, or an empty string.
      */
     @Override
-    public void awayChanged( final int userCode, final boolean away, final String awayMsg )
+    public void awayChanged(final int userCode, final boolean away, final String awayMsg)
     {
-        if ( controller.isNewUser( userCode ) )
+        if (controller.isNewUser(userCode))
         {
-            wList.addWaitingUser( userCode );
+            wList.addWaitingUser(userCode);
             controller.sendExposeMessage();
             controller.sendGetTopicMessage();
         }
@@ -390,28 +390,28 @@ public class DefaultMessageResponder implements MessageResponder
         {
             try
             {
-                final User user = controller.getUser( userCode );
-                controller.changeAwayStatus( userCode, away, awayMsg );
+                final User user = controller.getUser(userCode);
+                controller.changeAwayStatus(userCode, away, awayMsg);
 
-                if ( away )
-                    msgController.showSystemMessage( user.getNick() + " went away: " + awayMsg );
+                if (away)
+                    msgController.showSystemMessage(user.getNick() + " went away: " + awayMsg);
                 else
-                    msgController.showSystemMessage( user.getNick() + " came back" );
+                    msgController.showSystemMessage(user.getNick() + " came back");
 
-                if ( user.getPrivchat() != null )
+                if (user.getPrivchat() != null)
                 {
-                    user.getPrivchat().setAway( away );
+                    user.getPrivchat().setAway(away);
 
-                    if ( away )
-                        msgController.showPrivateSystemMessage( user, user.getNick() + " went away: " + user.getAwayMsg() );
+                    if (away)
+                        msgController.showPrivateSystemMessage(user, user.getNick() + " went away: " + user.getAwayMsg());
                     else
-                        msgController.showPrivateSystemMessage( user, user.getNick() + " came back" );
+                        msgController.showPrivateSystemMessage(user, user.getNick() + " came back");
                 }
             }
 
-            catch ( final CommandException e )
+            catch (final CommandException e)
             {
-                LOG.log( Level.SEVERE, "Something very strange going on here...\n" + e );
+                LOG.log(Level.SEVERE, "Something very strange going on here...\n" + e);
             }
         }
     }
@@ -423,14 +423,14 @@ public class DefaultMessageResponder implements MessageResponder
      * @param ipAddress The IP address of the application user.
      */
     @Override
-    public void meIdle( final String ipAddress )
+    public void meIdle(final String ipAddress)
     {
-        me.setLastIdle( System.currentTimeMillis() );
+        me.setLastIdle(System.currentTimeMillis());
 
-        if ( !me.getIpAddress().equals( ipAddress ) && chatState.isLoggedOn() )
+        if (!me.getIpAddress().equals(ipAddress) && chatState.isLoggedOn())
         {
-            msgController.showSystemMessage( "You changed ip from " + me.getIpAddress() + " to " + ipAddress );
-            me.setIpAddress( ipAddress );
+            msgController.showSystemMessage("You changed ip from " + me.getIpAddress() + " to " + ipAddress);
+            me.setIpAddress(ipAddress);
         }
     }
 
@@ -442,24 +442,24 @@ public class DefaultMessageResponder implements MessageResponder
      * @param ipAddress The IP address of that user.
      */
     @Override
-    public void userIdle( final int userCode, final String ipAddress )
+    public void userIdle(final int userCode, final String ipAddress)
     {
-        if ( controller.isNewUser( userCode ) )
+        if (controller.isNewUser(userCode))
         {
-            wList.addWaitingUser( userCode );
+            wList.addWaitingUser(userCode);
             controller.sendExposeMessage();
             controller.sendGetTopicMessage();
         }
 
         else
         {
-            final User user = controller.getUser( userCode );
-            user.setLastIdle( System.currentTimeMillis() );
+            final User user = controller.getUser(userCode);
+            user.setLastIdle(System.currentTimeMillis());
 
-            if ( !user.getIpAddress().equals( ipAddress ) )
+            if (!user.getIpAddress().equals(ipAddress))
             {
-                msgController.showSystemMessage( user.getNick() + " changed ip from " + user.getIpAddress() + " to " + ipAddress );
-                user.setIpAddress( ipAddress );
+                msgController.showSystemMessage(user.getNick() + " changed ip from " + user.getIpAddress() + " to " + ipAddress);
+                user.setIpAddress(ipAddress);
             }
         }
     }
@@ -480,8 +480,8 @@ public class DefaultMessageResponder implements MessageResponder
     @Override
     public void nickCrash()
     {
-        controller.changeNick( me.getCode(), "" + me.getCode() );
-        msgController.showSystemMessage( "Nick crash, resetting nick to " + me.getNick() );
+        controller.changeNick(me.getCode(), "" + me.getCode());
+        msgController.showSystemMessage("Nick crash, resetting nick to " + me.getNick());
         ui.showTopic();
     }
 
@@ -502,35 +502,35 @@ public class DefaultMessageResponder implements MessageResponder
      * @param newNick The new nick name.
      */
     @Override
-    public void nickChanged( final int userCode, final String newNick )
+    public void nickChanged(final int userCode, final String newNick)
     {
-        if ( controller.isNewUser( userCode ) )
+        if (controller.isNewUser(userCode))
         {
-            wList.addWaitingUser( userCode );
+            wList.addWaitingUser(userCode);
             controller.sendExposeMessage();
             controller.sendGetTopicMessage();
         }
 
         else
         {
-            final User user = controller.getUser( userCode );
+            final User user = controller.getUser(userCode);
 
-            if ( !controller.isNickInUse( newNick ) && Tools.isValidNick( newNick ) )
+            if (!controller.isNickInUse(newNick) && Tools.isValidNick(newNick))
             {
                 final String oldNick = user.getNick();
-                controller.changeNick( userCode, newNick );
-                msgController.showSystemMessage( oldNick + " changed nick to " + newNick );
+                controller.changeNick(userCode, newNick);
+                msgController.showSystemMessage(oldNick + " changed nick to " + newNick);
 
-                if ( user.getPrivchat() != null )
+                if (user.getPrivchat() != null)
                 {
-                    msgController.showPrivateSystemMessage( user, oldNick + " changed nick to " + user.getNick() );
+                    msgController.showPrivateSystemMessage(user, oldNick + " changed nick to " + user.getNick());
                     user.getPrivchat().updateUserInformation();
                 }
             }
 
             else
             {
-                LOG.log( Level.SEVERE, user.getNick() + " tried to change nick to '" + newNick + "', which is invalid" );
+                LOG.log(Level.SEVERE, user.getNick() + " tried to change nick to '" + newNick + "', which is invalid");
             }
         }
     }
@@ -549,102 +549,102 @@ public class DefaultMessageResponder implements MessageResponder
      * @param fileHash The hash code of the file.
      */
     @Override
-    public void fileSend( final int userCode, final long byteSize, final String fileName, final String user, final int fileHash )
+    public void fileSend(final int userCode, final long byteSize, final String fileName, final String user, final int fileHash)
     {
-        if ( controller.isNewUser( userCode ) )
+        if (controller.isNewUser(userCode))
         {
-            wList.addWaitingUser( userCode );
+            wList.addWaitingUser(userCode);
             controller.sendExposeMessage();
             controller.sendGetTopicMessage();
         }
 
-        new Thread( "DefaultMessageResponderFileSend" )
+        new Thread("DefaultMessageResponderFileSend")
         {
             @Override
             public void run()
             {
                 int counter = 0;
 
-                while ( wList.isWaitingUser( userCode ) && counter < 40 )
+                while (wList.isWaitingUser(userCode) && counter < 40)
                 {
                     counter++;
-                    Tools.sleep( 50 );
+                    Tools.sleep(50);
                 }
 
-                if ( !controller.isNewUser( userCode ) )
+                if (!controller.isNewUser(userCode))
                 {
-                    final String size = Tools.byteToString( byteSize );
-                    msgController.showSystemMessage( user + " is trying to send the file " + fileName + " [" + size + "]" );
-                    final User tmpUser = controller.getUser( userCode );
-                    final File defaultFile = new File( System.getProperty( "user.home" )
-                            + System.getProperty( "file.separator" )
-                            + fileName );
-                    final FileReceiver fileRes = new FileReceiver( tmpUser, defaultFile, byteSize );
-                    tList.addFileReceiver( fileRes );
+                    final String size = Tools.byteToString(byteSize);
+                    msgController.showSystemMessage(user + " is trying to send the file " + fileName + " [" + size + "]");
+                    final User tmpUser = controller.getUser(userCode);
+                    final File defaultFile = new File(System.getProperty("user.home")
+                            + System.getProperty("file.separator")
+                            + fileName);
+                    final FileReceiver fileRes = new FileReceiver(tmpUser, defaultFile, byteSize);
+                    tList.addFileReceiver(fileRes);
 
-                    if ( ui.askFileSave( user, fileName, size ) )
+                    if (ui.askFileSave(user, fileName, size))
                     {
-                        ui.showFileSave( fileRes );
+                        ui.showFileSave(fileRes);
 
-                        if ( fileRes.isAccepted() && !fileRes.isCanceled() )
+                        if (fileRes.isAccepted() && !fileRes.isCanceled())
                         {
-                            ui.showTransfer( fileRes );
+                            ui.showTransfer(fileRes);
 
                             try
                             {
                                 final int port = fileRes.startServer();
-                                controller.sendFileAccept( tmpUser, port, fileHash, fileName );
+                                controller.sendFileAccept(tmpUser, port, fileHash, fileName);
 
-                                if ( fileRes.transfer() )
+                                if (fileRes.transfer())
                                 {
-                                    msgController.showSystemMessage( "Successfully received " + fileName
-                                            + " from " + user + ", and saved as " + fileRes.getFile().getName() );
+                                    msgController.showSystemMessage("Successfully received " + fileName
+                                            + " from " + user + ", and saved as " + fileRes.getFile().getName());
                                 }
 
                                 else
                                 {
-                                    msgController.showSystemMessage( "Failed to receive " + fileName + " from " + user );
+                                    msgController.showSystemMessage("Failed to receive " + fileName + " from " + user);
                                     fileRes.cancel();
                                 }
                             }
 
                             // Failed to start the server
-                            catch ( final ServerException e )
+                            catch (final ServerException e)
                             {
-                                LOG.log( Level.SEVERE, e.toString(), e );
-                                msgController.showSystemMessage( "Failed to receive " + fileName + " from " + user );
-                                controller.sendFileAbort( tmpUser, fileHash, fileName );
+                                LOG.log(Level.SEVERE, e.toString(), e);
+                                msgController.showSystemMessage("Failed to receive " + fileName + " from " + user);
+                                controller.sendFileAbort(tmpUser, fileHash, fileName);
                                 fileRes.cancel();
                             }
 
                             // Failed to send the accept message
-                            catch ( final CommandException e )
+                            catch (final CommandException e)
                             {
-                                msgController.showSystemMessage( "Failed to receive " + fileName + " from " + user );
+                                msgController.showSystemMessage("Failed to receive " + fileName + " from " + user);
                                 fileRes.cancel();
                             }
                         }
 
-                        else if ( !fileRes.isCanceled() )
+                        else if (!fileRes.isCanceled())
                         {
-                            msgController.showSystemMessage( "You declined to receive " + fileName + " from " + user );
-                            controller.sendFileAbort( tmpUser, fileHash, fileName );
+                            msgController.showSystemMessage("You declined to receive " + fileName + " from " + user);
+                            controller.sendFileAbort(tmpUser, fileHash, fileName);
                         }
 
                     }
 
-                    else if ( !fileRes.isCanceled() )
+                    else if (!fileRes.isCanceled())
                     {
-                        msgController.showSystemMessage( "You declined to receive " + fileName + " from " + user );
-                        controller.sendFileAbort( tmpUser, fileHash, fileName );
+                        msgController.showSystemMessage("You declined to receive " + fileName + " from " + user);
+                        controller.sendFileAbort(tmpUser, fileHash, fileName);
                     }
 
-                    tList.removeFileReceiver( fileRes );
+                    tList.removeFileReceiver(fileRes);
                 }
 
                 else
                 {
-                    LOG.log( Level.SEVERE, "Could not find user: " + user );
+                    LOG.log(Level.SEVERE, "Could not find user: " + user);
                 }
             }
         } .start();
@@ -660,24 +660,24 @@ public class DefaultMessageResponder implements MessageResponder
      * @param fileHash The hash code of the file.
      */
     @Override
-    public void fileSendAborted( final int userCode, final String fileName, final int fileHash )
+    public void fileSendAborted(final int userCode, final String fileName, final int fileHash)
     {
-        final User user = controller.getUser( userCode );
-        final FileSender fileSender = tList.getFileSender( user, fileName, fileHash );
+        final User user = controller.getUser(userCode);
+        final FileSender fileSender = tList.getFileSender(user, fileName, fileHash);
 
-        if ( fileSender != null )
+        if (fileSender != null)
         {
             fileSender.cancel();
-            msgController.showSystemMessage( user.getNick() + " aborted reception of " + fileName );
-            tList.removeFileSender( fileSender );
+            msgController.showSystemMessage(user.getNick() + " aborted reception of " + fileName);
+            tList.removeFileSender(fileSender);
         }
 
-        final FileReceiver fileReceiver = tList.getFileReceiver( user, fileName );
+        final FileReceiver fileReceiver = tList.getFileReceiver(user, fileName);
 
-        if ( fileReceiver != null )
+        if (fileReceiver != null)
         {
             fileReceiver.cancel();
-            msgController.showSystemMessage( user.getNick() + " aborted sending of " + fileName );
+            msgController.showSystemMessage(user.getNick() + " aborted sending of " + fileName);
         }
     }
 
@@ -691,34 +691,34 @@ public class DefaultMessageResponder implements MessageResponder
      * @param port The port to use for connecting to the other user.
      */
     @Override
-    public void fileSendAccepted( final int userCode, final String fileName, final int fileHash, final int port )
+    public void fileSendAccepted(final int userCode, final String fileName, final int fileHash, final int port)
     {
-        new Thread( "DefaultMessageResponderFileSendAccepted" )
+        new Thread("DefaultMessageResponderFileSendAccepted")
         {
             @Override
             public void run()
             {
-                final User user = controller.getUser( userCode );
-                final FileSender fileSend = tList.getFileSender( user, fileName, fileHash );
+                final User user = controller.getUser(userCode);
+                final FileSender fileSend = tList.getFileSender(user, fileName, fileHash);
 
-                if ( fileSend != null )
+                if (fileSend != null)
                 {
-                    msgController.showSystemMessage( user.getNick() + " accepted sending of " + fileName );
+                    msgController.showSystemMessage(user.getNick() + " accepted sending of " + fileName);
 
                     // Give the server some time to set up the connection first
-                    Tools.sleep( 200 );
+                    Tools.sleep(200);
 
-                    if ( fileSend.transfer( port ) )
+                    if (fileSend.transfer(port))
                     {
-                        msgController.showSystemMessage( fileName + " successfully sent to " + user.getNick() );
+                        msgController.showSystemMessage(fileName + " successfully sent to " + user.getNick());
                     }
 
                     else
                     {
-                        msgController.showSystemMessage( "Failed to send " + fileName + " to " + user.getNick() );
+                        msgController.showSystemMessage("Failed to send " + fileName + " to " + user.getNick());
                     }
 
-                    tList.removeFileSender( fileSend );
+                    tList.removeFileSender(fileSend);
                 }
             }
         } .start();
@@ -734,19 +734,19 @@ public class DefaultMessageResponder implements MessageResponder
      * @param privateChatPort The port to use for sending private chat messages to this user.
      */
     @Override
-    public void clientInfo( final int userCode, final String client, final long timeSinceLogon, final String operatingSystem, final int privateChatPort )
+    public void clientInfo(final int userCode, final String client, final long timeSinceLogon, final String operatingSystem, final int privateChatPort)
     {
-        final User user = controller.getUser( userCode );
+        final User user = controller.getUser(userCode);
 
-        if ( user != null )
+        if (user != null)
         {
-            user.setClient( client );
-            user.setLogonTime( System.currentTimeMillis() - timeSinceLogon );
-            user.setOperatingSystem( operatingSystem );
-            user.setPrivateChatPort( privateChatPort );
+            user.setClient(client);
+            user.setLogonTime(System.currentTimeMillis() - timeSinceLogon);
+            user.setOperatingSystem(operatingSystem);
+            user.setPrivateChatPort(privateChatPort);
         }
 
         else
-            LOG.log( Level.SEVERE, "Could not find user: " + userCode );
+            LOG.log(Level.SEVERE, "Could not find user: " + userCode);
     }
 }

@@ -90,45 +90,45 @@ public class AutoCompleter
      *         the suggested autocompleted word.
      *         Use {@link #getNewCaretPosition()} to get the new caret position.
      */
-    public String completeWord( final String line, final int caretPosition )
+    public String completeWord(final String line, final int caretPosition)
     {
         String completedLine = "";
 
-        if ( autoCompleteLists.size() > 0 )
+        if (autoCompleteLists.size() > 0)
         {
-            final int stop = findStopPosition( line, caretPosition );
-            final int start = findStartPosition( line, caretPosition );
-            final String word = line.substring( start, stop );
+            final int stop = findStopPosition(line, caretPosition);
+            final int start = findStartPosition(line, caretPosition);
+            final String word = line.substring(start, stop);
 
-            if ( word.trim().length() > 0 )
+            if (word.trim().length() > 0)
             {
-                final boolean continueLastSearch = continueLastSearch( word, line );
+                final boolean continueLastSearch = continueLastSearch(word, line);
                 String checkword = "";
 
-                if ( continueLastSearch )
+                if (continueLastSearch)
                     checkword = lastWord;
                 else
                     checkword = word;
 
-                AutoCompleteList autoCompleteList = getAutoCompleteList( checkword );
+                AutoCompleteList autoCompleteList = getAutoCompleteList(checkword);
 
-                if ( autoCompleteList != null )
+                if (autoCompleteList != null)
                 {
                     List<String> suggestions = getAutoCompleteSuggestions(
-                            autoCompleteList.getWordList(), checkword );
+                            autoCompleteList.getWordList(), checkword);
 
-                    if ( suggestions.size() > 0 )
+                    if (suggestions.size() > 0)
                     {
                         int nextSuggestionPosition = findNextSuggestionPosition(
-                                continueLastSearch, suggestions, word );
-                        String newWord = suggestions.get( nextSuggestionPosition );
-                        completedLine = line.substring( 0, start ) + newWord;
+                                continueLastSearch, suggestions, word);
+                        String newWord = suggestions.get(nextSuggestionPosition);
+                        completedLine = line.substring(0, start) + newWord;
                         newCaretPosition = completedLine.length();
-                        completedLine += line.substring( stop );
+                        completedLine += line.substring(stop);
                         lastCompletedLine = completedLine;
                         lastCompletedWord = newWord;
 
-                        if ( !continueLastSearch )
+                        if (!continueLastSearch)
                             lastWord = word;
                     }
                 }
@@ -148,17 +148,17 @@ public class AutoCompleter
      *             search, the word will be the same as the suggestion from that search.
      * @return The position in the list where the next suggestion can be found.
      */
-    private int findNextSuggestionPosition( final boolean continueLastSearch,
-            final List<String> suggestions, final String word )
+    private int findNextSuggestionPosition(final boolean continueLastSearch,
+            final List<String> suggestions, final String word)
     {
         int nextSuggestionPosition = -1;
 
-        if ( continueLastSearch )
+        if (continueLastSearch)
         {
             // Locate the position of the previous suggestion in the list
-            for ( int i = 0; i < suggestions.size(); i++ )
+            for (int i = 0; i < suggestions.size(); i++)
             {
-                if ( suggestions.get( i ).equals( word ) )
+                if (suggestions.get(i).equals(word))
                 {
                     nextSuggestionPosition = i;
                     break;
@@ -167,14 +167,14 @@ public class AutoCompleter
 
             /* If more suggestions are available, increase position,
              * or else start from the beginning again. */
-            if ( nextSuggestionPosition > -1 && nextSuggestionPosition < suggestions.size() - 1 )
+            if (nextSuggestionPosition > -1 && nextSuggestionPosition < suggestions.size() - 1)
                 nextSuggestionPosition++;
             else
                 nextSuggestionPosition = 0;
         }
 
         // New search, start with first suggestion
-        if ( nextSuggestionPosition == -1 )
+        if (nextSuggestionPosition == -1)
             nextSuggestionPosition = 0;
 
         return nextSuggestionPosition;
@@ -193,9 +193,9 @@ public class AutoCompleter
      * @param line The line to compare against the previous autocompleted line.
      * @return True if the search should be continued instead of restarted.
      */
-    private boolean continueLastSearch( final String word, final String line )
+    private boolean continueLastSearch(final String word, final String line)
     {
-        return lastCompletedWord.equals( word ) && lastCompletedLine.equals( line );
+        return lastCompletedWord.equals(word) && lastCompletedLine.equals(line);
     }
 
     /**
@@ -205,11 +205,11 @@ public class AutoCompleter
      * @param caretPosition The position in the line where the word is.
      * @return The position where the word ends.
      */
-    private int findStopPosition( final String line, final int caretPosition )
+    private int findStopPosition(final String line, final int caretPosition)
     {
-        int stop = line.indexOf( ' ', caretPosition );
+        int stop = line.indexOf(' ', caretPosition);
 
-        if ( stop == -1 )
+        if (stop == -1)
             stop = line.length();
 
         return stop;
@@ -222,11 +222,11 @@ public class AutoCompleter
      * @param caretPosition The position in the line where the word is.
      * @return The position where the word starts.
      */
-    private int findStartPosition( final String line, final int caretPosition )
+    private int findStartPosition(final String line, final int caretPosition)
     {
-        int start = line.lastIndexOf( ' ', caretPosition - 1 );
+        int start = line.lastIndexOf(' ', caretPosition - 1);
 
-        if ( start == -1 )
+        if (start == -1)
             start = 0;
         else
             start++;
@@ -242,11 +242,11 @@ public class AutoCompleter
      * @return The first {@link AutoCompleteList} to support that word,
      *         or <em>null</em> if none.
      */
-    private AutoCompleteList getAutoCompleteList( final String word )
+    private AutoCompleteList getAutoCompleteList(final String word)
     {
-        for ( AutoCompleteList acl : autoCompleteLists )
+        for (AutoCompleteList acl : autoCompleteLists)
         {
-            if ( acl.acceptsWord( word ) )
+            if (acl.acceptsWord(word))
             {
                 return acl;
             }
@@ -263,15 +263,15 @@ public class AutoCompleter
      * @param word The word to get suggestions for.
      * @return A list of suggestions.
      */
-    private List<String> getAutoCompleteSuggestions( final String[] wordList, final String word )
+    private List<String> getAutoCompleteSuggestions(final String[] wordList, final String word)
     {
         List<String> suggestions = new ArrayList<String>();
 
-        for ( int i = 0; i < wordList.length; i++ )
+        for (int i = 0; i < wordList.length; i++)
         {
-            if ( wordList[i].toLowerCase().startsWith( word.toLowerCase() ) )
+            if (wordList[i].toLowerCase().startsWith(word.toLowerCase()))
             {
-                suggestions.add( wordList[i] );
+                suggestions.add(wordList[i]);
             }
         }
 
@@ -293,8 +293,8 @@ public class AutoCompleter
      *
      * @param acl The list to add.
      */
-    public void addAutoCompleteList( final AutoCompleteList acl )
+    public void addAutoCompleteList(final AutoCompleteList acl)
     {
-        autoCompleteLists.add( acl );
+        autoCompleteLists.add(acl);
     }
 }

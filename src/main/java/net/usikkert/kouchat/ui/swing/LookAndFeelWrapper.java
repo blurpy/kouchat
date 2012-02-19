@@ -41,7 +41,7 @@ public class LookAndFeelWrapper
      *
      * @param lookAndFeelInfo The LookAndFeelInfo to wrap.
      */
-    public LookAndFeelWrapper( final LookAndFeelInfo lookAndFeelInfo )
+    public LookAndFeelWrapper(final LookAndFeelInfo lookAndFeelInfo)
     {
         this.lookAndFeelInfo = lookAndFeelInfo;
     }

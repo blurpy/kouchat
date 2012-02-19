@@ -37,7 +37,7 @@ public class ControllerInformation implements ControllerInformationMBean
      *
      * @param controller The controller.
      */
-    public ControllerInformation( final Controller controller )
+    public ControllerInformation(final Controller controller)
     {
         this.controller = controller;
     }
@@ -53,6 +53,6 @@ public class ControllerInformation implements ControllerInformationMBean
     @Override
     public void logOff()
     {
-        controller.logOff( true );
+        controller.logOff(true);
     }
 }

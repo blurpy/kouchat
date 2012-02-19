@@ -39,7 +39,7 @@ public interface PrivateChatWindow
      * @param message The text to add to the private chat.
      * @param color The color to show the text in.
      */
-    void appendToPrivateChat( String message, int color );
+    void appendToPrivateChat(String message, int color);
 
     /**
      * Gets the user this private chat is connected to.
@@ -65,7 +65,7 @@ public interface PrivateChatWindow
      *
      * @param visible True to show the window, false to hide.
      */
-    void setVisible( boolean visible );
+    void setVisible(boolean visible);
 
     /**
      * Checks if the window is visible at the moment.
@@ -80,7 +80,7 @@ public interface PrivateChatWindow
      *
      * @param away True if away.
      */
-    void setAway( boolean away );
+    void setAway(boolean away);
 
     /**
      * Gives the window a chance to update after the user logged off.

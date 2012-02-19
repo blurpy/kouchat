@@ -53,10 +53,10 @@ public class Smiley
      * @param icon The icon replacing the text smiley code.
      * @param code The text smiley code.
      */
-    public Smiley( final int startPosition, final ImageIcon icon, final String code )
+    public Smiley(final int startPosition, final ImageIcon icon, final String code)
     {
-        Validate.notNull( icon, "Icon can not be null" );
-        Validate.notEmpty( code, "Code can not be empty" );
+        Validate.notNull(icon, "Icon can not be null");
+        Validate.notEmpty(code, "Code can not be empty");
 
         this.startPosition = startPosition;
         this.icon = icon;

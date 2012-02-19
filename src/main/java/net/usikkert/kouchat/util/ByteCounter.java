@@ -73,11 +73,11 @@ public class ByteCounter
      *
      * @param bytes Number of bytes transferred since last time.
      */
-    public void addBytes( final long bytes )
+    public void addBytes(final long bytes)
     {
         long currentTime = System.currentTimeMillis();
-        long timeSpent = updateTimeSpent( currentTime );
-        updateCounters( bytes, timeSpent );
+        long timeSpent = updateTimeSpent(currentTime);
+        updateCounters(bytes, timeSpent);
     }
 
     /**
@@ -87,7 +87,7 @@ public class ByteCounter
      * @param currentTime The time when update was run.
      * @return Time spent since the last update.
      */
-    protected long updateTimeSpent( final long currentTime )
+    protected long updateTimeSpent(final long currentTime)
     {
         long timeSpent = currentTime - previousTime;
         previousTime = currentTime;
@@ -101,17 +101,17 @@ public class ByteCounter
      * @param bytesAdded Number of bytes added since last update.
      * @param timeSpent The time spent since last update.
      */
-    protected void updateCounters( final long bytesAdded, final long timeSpent )
+    protected void updateCounters(final long bytesAdded, final long timeSpent)
     {
         timeCounted += timeSpent;
         bytesCounted += bytesAdded;
 
-        if ( timeCounted >= ONE_SECOND )
+        if (timeCounted >= ONE_SECOND)
         {
-            if ( timeSpent > ONE_SECOND )
-                calculateOnlyTimeSpent( bytesAdded, timeSpent );
+            if (timeSpent > ONE_SECOND)
+                calculateOnlyTimeSpent(bytesAdded, timeSpent);
             else
-                calculateFirstSecond( bytesAdded, timeSpent );
+                calculateFirstSecond(bytesAdded, timeSpent);
         }
     }
 
@@ -126,9 +126,9 @@ public class ByteCounter
      * @param bytesAdded Number of bytes added since last update.
      * @param timeSpent The time spent since last update.
      */
-    private void calculateOnlyTimeSpent( final long bytesAdded, final long timeSpent )
+    private void calculateOnlyTimeSpent(final long bytesAdded, final long timeSpent)
     {
-        bytesPerSec = getBytesAddedInTimeLeft( bytesAdded, timeSpent, ONE_SECOND );
+        bytesPerSec = getBytesAddedInTimeLeft(bytesAdded, timeSpent, ONE_SECOND);
         timeCounted = 0;
         bytesCounted = 0;
     }
@@ -148,12 +148,12 @@ public class ByteCounter
      * @param bytesAdded Number of bytes added since last update.
      * @param timeSpent The time spent since last update.
      */
-    private void calculateFirstSecond( final long bytesAdded, final long timeSpent )
+    private void calculateFirstSecond(final long bytesAdded, final long timeSpent)
     {
         long originalTimeCount = timeCounted - timeSpent;
         long originalByteCount = bytesCounted - bytesAdded;
         long timeLeftInSecond = ONE_SECOND - originalTimeCount;
-        long bytesAddedInTimeLeft = getBytesAddedInTimeLeft( bytesAdded, timeSpent, timeLeftInSecond );
+        long bytesAddedInTimeLeft = getBytesAddedInTimeLeft(bytesAdded, timeSpent, timeLeftInSecond);
 
         bytesPerSec = originalByteCount + bytesAddedInTimeLeft;
         timeCounted %= ONE_SECOND;
@@ -170,10 +170,10 @@ public class ByteCounter
      * @param timeLeft The number of milliseconds left in a second.
      * @return The average number of bytes added in the remaining milliseconds of a second.
      */
-    private long getBytesAddedInTimeLeft( final long bytesAdded, final long timeSpent, final long timeLeft )
+    private long getBytesAddedInTimeLeft(final long bytesAdded, final long timeSpent, final long timeLeft)
     {
-        double percent = Tools.percent( timeLeft, timeSpent );
-        return (long) Tools.percentOf( percent, bytesAdded );
+        double percent = Tools.percent(timeLeft, timeSpent);
+        return (long) Tools.percentOf(percent, bytesAdded);
     }
 
     /**

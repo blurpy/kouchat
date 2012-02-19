@@ -64,7 +64,7 @@ import net.usikkert.kouchat.util.Validate;
 public class Controller implements NetworkConnectionListener
 {
     /** The logger. */
-    private static final Logger LOG = Logger.getLogger( Controller.class.getName() );
+    private static final Logger LOG = Logger.getLogger(Controller.class.getName());
 
     private final ChatState chatState;
     private final UserListController userListController;
@@ -87,20 +87,20 @@ public class Controller implements NetworkConnectionListener
      *
      * @param ui The active user interface object.
      */
-    public Controller( final UserInterface ui )
+    public Controller(final UserInterface ui)
     {
-        Validate.notNull( ui, "User interface can not be null" );
+        Validate.notNull(ui, "User interface can not be null");
         this.ui = ui;
 
-        Runtime.getRuntime().addShutdownHook( new Thread( "ControllerShutdownHook" )
+        Runtime.getRuntime().addShutdownHook(new Thread("ControllerShutdownHook")
         {
             @Override
             public void run()
             {
-                logOff( false );
+                logOff(false);
                 shutdown();
             }
-        } );
+        });
 
         me = Settings.getSettings().getMe();
 
@@ -108,25 +108,25 @@ public class Controller implements NetworkConnectionListener
         chatState = new ChatState();
         tList = new TransferList();
         wList = new WaitingList();
-        idleThread = new IdleThread( this, ui );
+        idleThread = new IdleThread(this, ui);
         networkService = new NetworkService();
-        msgResponder = new DefaultMessageResponder( this, ui );
-        privmsgResponder = new DefaultPrivateMessageResponder( this, ui );
-        msgParser = new MessageParser( msgResponder );
-        networkService.registerMessageReceiverListener( msgParser );
-        privmsgParser = new PrivateMessageParser( privmsgResponder );
-        networkService.registerUDPReceiverListener( privmsgParser );
-        messages = new Messages( networkService );
-        networkService.registerNetworkConnectionListener( this );
+        msgResponder = new DefaultMessageResponder(this, ui);
+        privmsgResponder = new DefaultPrivateMessageResponder(this, ui);
+        msgParser = new MessageParser(msgResponder);
+        networkService.registerMessageReceiverListener(msgParser);
+        privmsgParser = new PrivateMessageParser(privmsgResponder);
+        networkService.registerUDPReceiverListener(privmsgParser);
+        messages = new Messages(networkService);
+        networkService.registerNetworkConnectionListener(this);
         msgController = ui.getMessageController();
 
-        new JMXAgent( this, networkService.getConnectionWorker() );
-        new DayTimer( ui );
+        new JMXAgent(this, networkService.getConnectionWorker());
+        new DayTimer(ui);
         idleThread.start();
 
-        msgController.showSystemMessage( "Welcome to " + Constants.APP_NAME + " v" + Constants.APP_VERSION + "!" );
-        String date = Tools.dateToString( null, "EEEE, d MMMM yyyy" );
-        msgController.showSystemMessage( "Today is " + date );
+        msgController.showSystemMessage("Welcome to " + Constants.APP_NAME + " v" + Constants.APP_VERSION + "!");
+        String date = Tools.dateToString(null, "EEEE, d MMMM yyyy");
+        msgController.showSystemMessage("Today is " + date);
     }
 
     /**
@@ -171,15 +171,15 @@ public class Controller implements NetworkConnectionListener
      * @param code The user code for the user to update.
      * @param writing True if the user is writing.
      */
-    public void changeWriting( final int code, final boolean writing )
+    public void changeWriting(final int code, final boolean writing)
     {
-        userListController.changeWriting( code, writing );
+        userListController.changeWriting(code, writing);
 
-        if ( code == me.getCode() )
+        if (code == me.getCode())
         {
-            chatState.setWrote( writing );
+            chatState.setWrote(writing);
 
-            if ( writing )
+            if (writing)
                 messages.sendWritingMessage();
             else
                 messages.sendStoppedWritingMessage();
@@ -195,22 +195,22 @@ public class Controller implements NetworkConnectionListener
      * @throws CommandException If there is no connection to the network,
      *         or the user tries to set an away message that is to long.
      */
-    public void changeAwayStatus( final int code, final boolean away, final String awaymsg ) throws CommandException
+    public void changeAwayStatus(final int code, final boolean away, final String awaymsg) throws CommandException
     {
-        if ( code == me.getCode() && !isLoggedOn() )
-            throw new CommandException( "You can not change away mode without being connected" );
-        else if ( Tools.getBytes( awaymsg ) > Constants.MESSAGE_MAX_BYTES )
-            throw new CommandException( "You can not set an away message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes" );
+        if (code == me.getCode() && !isLoggedOn())
+            throw new CommandException("You can not change away mode without being connected");
+        else if (Tools.getBytes(awaymsg) > Constants.MESSAGE_MAX_BYTES)
+            throw new CommandException("You can not set an away message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes");
 
-        if ( code == me.getCode() )
+        if (code == me.getCode())
         {
-            if ( away )
-                messages.sendAwayMessage( awaymsg );
+            if (away)
+                messages.sendAwayMessage(awaymsg);
             else
                 messages.sendBackMessage();
         }
 
-        userListController.changeAwayStatus( code, away, awaymsg );
+        userListController.changeAwayStatus(code, away, awaymsg);
     }
 
     /**
@@ -219,9 +219,9 @@ public class Controller implements NetworkConnectionListener
      * @param nick The nick to check.
      * @return True if the nick is already in use.
      */
-    public boolean isNickInUse( final String nick )
+    public boolean isNickInUse(final String nick)
     {
-        return userListController.isNickNameInUse( nick );
+        return userListController.isNickNameInUse(nick);
     }
 
     /**
@@ -230,9 +230,9 @@ public class Controller implements NetworkConnectionListener
      * @param code The user code of the user to check.
      * @return True if the user is not in the user list.
      */
-    public boolean isNewUser( final int code )
+    public boolean isNewUser(final int code)
     {
-        return userListController.isNewUser( code );
+        return userListController.isNewUser(code);
     }
 
     /**
@@ -242,13 +242,13 @@ public class Controller implements NetworkConnectionListener
      * @param newNick The new nick for the application user.
      * @throws CommandException If the user is away.
      */
-    public void changeMyNick( final String newNick ) throws CommandException
+    public void changeMyNick(final String newNick) throws CommandException
     {
-        if ( me.isAway() )
-            throw new CommandException( "You can not change nick while away" );
+        if (me.isAway())
+            throw new CommandException("You can not change nick while away");
 
-        messages.sendNickMessage( newNick );
-        changeNick( me.getCode(), newNick );
+        messages.sendNickMessage(newNick);
+        changeNick(me.getCode(), newNick);
         Settings.getSettings().saveSettings();
     }
 
@@ -258,9 +258,9 @@ public class Controller implements NetworkConnectionListener
      * @param code The user code for the user.
      * @param nick The new nick for the user.
      */
-    public void changeNick( final int code, final String nick )
+    public void changeNick(final int code, final String nick)
     {
-        userListController.changeNickName( code, nick );
+        userListController.changeNickName(code, nick);
     }
 
     /**
@@ -269,9 +269,9 @@ public class Controller implements NetworkConnectionListener
      * @param code The user code for the user.
      * @return The user with the specified user code, or <em>null</em> if not found.
      */
-    public User getUser( final int code )
+    public User getUser(final int code)
     {
-        return userListController.getUser( code );
+        return userListController.getUser(code);
     }
 
     /**
@@ -280,9 +280,9 @@ public class Controller implements NetworkConnectionListener
      * @param nick The nick name to check for.
      * @return The user with the specified nick name, or <em>null</em> if not found.
      */
-    public User getUser( final String nick )
+    public User getUser(final String nick)
     {
-        return userListController.getUser( nick );
+        return userListController.getUser(nick);
     }
 
     /**
@@ -302,8 +302,8 @@ public class Controller implements NetworkConnectionListener
      */
     private void runDelayedLogon()
     {
-        Timer delayedLogonTimer = new Timer( "DelayedLogonTimer" );
-        delayedLogonTimer.schedule( new DelayedLogonTask(), 0 );
+        Timer delayedLogonTimer = new Timer("DelayedLogonTimer");
+        delayedLogonTimer.schedule(new DelayedLogonTask(), 0);
     }
 
     /**
@@ -311,7 +311,7 @@ public class Controller implements NetworkConnectionListener
      */
     public void logOn()
     {
-        if ( !networkService.isConnectionWorkerAlive() )
+        if (!networkService.isConnectionWorkerAlive())
             networkService.connect();
     }
 
@@ -326,14 +326,14 @@ public class Controller implements NetworkConnectionListener
      *
      * @param removeUsers Set to true to remove users from the user list.
      */
-    public void logOff( final boolean removeUsers )
+    public void logOff(final boolean removeUsers)
     {
         messages.sendLogoffMessage();
-        chatState.setLoggedOn( false );
-        chatState.setLogonCompleted( false );
+        chatState.setLoggedOn(false);
+        chatState.setLogonCompleted(false);
         networkService.disconnect();
         getTopic().resetTopic();
-        if ( removeUsers )
+        if (removeUsers)
             removeAllUsers();
         me.reset();
     }
@@ -346,19 +346,19 @@ public class Controller implements NetworkConnectionListener
     {
         UserList userList = getUserList();
 
-        for ( int i = 0; i < userList.size(); i++ )
+        for (int i = 0; i < userList.size(); i++)
         {
-            User user = userList.get( i );
+            User user = userList.get(i);
 
-            if ( !user.isMe() )
+            if (!user.isMe())
             {
-                user.setOnline( false );
-                cancelFileTransfers( user );
-                userList.remove( user );
+                user.setOnline(false);
+                cancelFileTransfers(user);
+                userList.remove(user);
 
-                if ( user.getPrivchat() != null )
+                if (user.getPrivchat() != null)
                 {
-                    msgController.showPrivateSystemMessage( user, "You logged off" );
+                    msgController.showPrivateSystemMessage(user, "You logged off");
                     user.getPrivchat().setLoggedOff();
                 }
 
@@ -372,17 +372,17 @@ public class Controller implements NetworkConnectionListener
      *
      * @param user The user to cancel for.
      */
-    public void cancelFileTransfers( final User user )
+    public void cancelFileTransfers(final User user)
     {
-        List<FileSender> fsList = tList.getFileSenders( user );
-        List<FileReceiver> frList = tList.getFileReceivers( user );
+        List<FileSender> fsList = tList.getFileSenders(user);
+        List<FileReceiver> frList = tList.getFileReceivers(user);
 
-        for ( FileSender fs : fsList )
+        for (FileSender fs : fsList)
         {
             fs.cancel();
         }
 
-        for ( FileReceiver fr : frList )
+        for (FileReceiver fr : frList)
         {
             fr.cancel();
         }
@@ -428,7 +428,7 @@ public class Controller implements NetworkConnectionListener
      */
     public void sendIdleMessage()
     {
-        if ( isConnected() )
+        if (isConnected())
             messages.sendIdleMessage();
     }
 
@@ -441,18 +441,18 @@ public class Controller implements NetworkConnectionListener
      *         or the message is empty,
      *         or the message is too long.
      */
-    public void sendChatMessage( final String msg ) throws CommandException
+    public void sendChatMessage(final String msg) throws CommandException
     {
-        if ( !isConnected() )
-            throw new CommandException( "You can not send a chat message without being connected" );
-        else if ( me.isAway() )
-            throw new CommandException( "You can not send a chat message while away" );
-        else if ( msg.trim().length() == 0 )
-            throw new CommandException( "You can not send an empty chat message" );
-        else if ( Tools.getBytes( msg ) > Constants.MESSAGE_MAX_BYTES )
-            throw new CommandException( "You can not send a chat message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes" );
+        if (!isConnected())
+            throw new CommandException("You can not send a chat message without being connected");
+        else if (me.isAway())
+            throw new CommandException("You can not send a chat message while away");
+        else if (msg.trim().length() == 0)
+            throw new CommandException("You can not send an empty chat message");
+        else if (Tools.getBytes(msg) > Constants.MESSAGE_MAX_BYTES)
+            throw new CommandException("You can not send a chat message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes");
         else
-            messages.sendChatMessage( msg );
+            messages.sendChatMessage(msg);
     }
 
     /**
@@ -460,7 +460,7 @@ public class Controller implements NetworkConnectionListener
      */
     public void sendTopicRequestedMessage()
     {
-        messages.sendTopicRequestedMessage( getTopic() );
+        messages.sendTopicRequestedMessage(getTopic());
     }
 
     /**
@@ -471,20 +471,20 @@ public class Controller implements NetworkConnectionListener
      *         or the application user is away,
      *         or the topic is too long.
      */
-    public void changeTopic( final String newTopic ) throws CommandException
+    public void changeTopic(final String newTopic) throws CommandException
     {
-        if ( !isLoggedOn() )
-            throw new CommandException( "You can not change the topic without being connected" );
-        else if ( me.isAway() )
-            throw new CommandException( "You can not change the topic while away" );
-        else if ( Tools.getBytes( newTopic ) > Constants.MESSAGE_MAX_BYTES )
-            throw new CommandException( "You can not set a topic with more than " + Constants.MESSAGE_MAX_BYTES + " bytes" );
+        if (!isLoggedOn())
+            throw new CommandException("You can not change the topic without being connected");
+        else if (me.isAway())
+            throw new CommandException("You can not change the topic while away");
+        else if (Tools.getBytes(newTopic) > Constants.MESSAGE_MAX_BYTES)
+            throw new CommandException("You can not set a topic with more than " + Constants.MESSAGE_MAX_BYTES + " bytes");
 
         long time = System.currentTimeMillis();
-        Topic newTopicObj = new Topic( newTopic, me.getNick(), time );
-        messages.sendTopicChangeMessage( newTopicObj );
+        Topic newTopicObj = new Topic(newTopic, me.getNick(), time);
+        messages.sendTopicChangeMessage(newTopicObj);
         Topic topic = getTopic();
-        topic.changeTopic( newTopicObj );
+        topic.changeTopic(newTopicObj);
     }
 
     /**
@@ -494,9 +494,9 @@ public class Controller implements NetworkConnectionListener
      *
      * @param nick The nick that is already in use by the application user.
      */
-    public void sendNickCrashMessage( final String nick )
+    public void sendNickCrashMessage(final String nick)
     {
-        messages.sendNickCrashMessage( nick );
+        messages.sendNickCrashMessage(nick);
     }
 
     /**
@@ -507,9 +507,9 @@ public class Controller implements NetworkConnectionListener
      * @param fileHash The unique hash code of the file.
      * @param fileName The name of the file.
      */
-    public void sendFileAbort( final User user, final int fileHash, final String fileName )
+    public void sendFileAbort(final User user, final int fileHash, final String fileName)
     {
-        messages.sendFileAbort( user, fileHash, fileName );
+        messages.sendFileAbort(user, fileHash, fileName);
     }
 
     /**
@@ -523,9 +523,9 @@ public class Controller implements NetworkConnectionListener
      * @param fileName The name of the file.
      * @throws CommandException If the message was not sent successfully.
      */
-    public void sendFileAccept( final User user, final int port, final int fileHash, final String fileName ) throws CommandException
+    public void sendFileAccept(final User user, final int port, final int fileHash, final String fileName) throws CommandException
     {
-        messages.sendFileAccept( user, port, fileHash, fileName );
+        messages.sendFileAccept(user, port, fileHash, fileName);
     }
 
     /**
@@ -539,18 +539,18 @@ public class Controller implements NetworkConnectionListener
      *                          or the specified user is away,
      *                          or the file name is too long.
      */
-    public void sendFile( final User user, final File file ) throws CommandException
+    public void sendFile(final User user, final File file) throws CommandException
     {
-        if ( !isConnected() )
-            throw new CommandException( "You can not send a file without being connected" );
-        else if ( me.isAway() )
-            throw new CommandException( "You can not send a file while away" );
-        else if ( user.isAway() )
-            throw new CommandException( "You can not send a file to a user that is away" );
-        else if ( Tools.getBytes( file.getName() ) > Constants.MESSAGE_MAX_BYTES )
-            throw new CommandException( "You can not send a file with a name with more than " + Constants.MESSAGE_MAX_BYTES + " bytes" );
+        if (!isConnected())
+            throw new CommandException("You can not send a file without being connected");
+        else if (me.isAway())
+            throw new CommandException("You can not send a file while away");
+        else if (user.isAway())
+            throw new CommandException("You can not send a file to a user that is away");
+        else if (Tools.getBytes(file.getName()) > Constants.MESSAGE_MAX_BYTES)
+            throw new CommandException("You can not send a file with a name with more than " + Constants.MESSAGE_MAX_BYTES + " bytes");
         else
-            messages.sendFile( user, file );
+            messages.sendFile(user, file);
     }
 
     /**
@@ -580,7 +580,7 @@ public class Controller implements NetworkConnectionListener
      */
     public void updateAfterTimeout()
     {
-        if ( userListController.isTimeoutUsers() )
+        if (userListController.isTimeoutUsers())
             messages.sendExposeMessage();
     }
 
@@ -604,22 +604,22 @@ public class Controller implements NetworkConnectionListener
      *                          or the specified user has no port to send the private message to,
      *                          or the specified user is away.
      */
-    public void sendPrivateMessage( final String privmsg, final User user ) throws CommandException
+    public void sendPrivateMessage(final String privmsg, final User user) throws CommandException
     {
-        if ( !isConnected() )
-            throw new CommandException( "You can not send a private chat message without being connected" );
-        else if ( me.isAway() )
-            throw new CommandException( "You can not send a private chat message while away" );
-        else if ( privmsg.trim().length() == 0 )
-            throw new CommandException( "You can not send an empty private chat message" );
-        else if ( Tools.getBytes( privmsg ) > Constants.MESSAGE_MAX_BYTES )
-            throw new CommandException( "You can not send a private chat message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes" );
-        else if ( user.getPrivateChatPort() == 0 )
-            throw new CommandException( "You can not send a private chat message to a user with no available port number" );
-        else if ( user.isAway() )
-            throw new CommandException( "You can not send a private chat message to a user that is away" );
+        if (!isConnected())
+            throw new CommandException("You can not send a private chat message without being connected");
+        else if (me.isAway())
+            throw new CommandException("You can not send a private chat message while away");
+        else if (privmsg.trim().length() == 0)
+            throw new CommandException("You can not send an empty private chat message");
+        else if (Tools.getBytes(privmsg) > Constants.MESSAGE_MAX_BYTES)
+            throw new CommandException("You can not send a private chat message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes");
+        else if (user.getPrivateChatPort() == 0)
+            throw new CommandException("You can not send a private chat message to a user with no available port number");
+        else if (user.isAway())
+            throw new CommandException("You can not send a private chat message to a user that is away");
         else
-            messages.sendPrivateMessage( privmsg, user );
+            messages.sendPrivateMessage(privmsg, user);
     }
 
     /**
@@ -629,9 +629,9 @@ public class Controller implements NetworkConnectionListener
      * @param code The user code for the user to update.
      * @param newMsg True if the user has unread private messages.
      */
-    public void changeNewMessage( final int code, final boolean newMsg )
+    public void changeNewMessage(final int code, final boolean newMsg)
     {
-        userListController.changeNewMessage( code, newMsg );
+        userListController.changeNewMessage(code, newMsg);
     }
 
     /**
@@ -671,17 +671,17 @@ public class Controller implements NetworkConnectionListener
         {
             try
             {
-                Thread.sleep( 1500 );
+                Thread.sleep(1500);
             }
 
-            catch ( final InterruptedException e )
+            catch (final InterruptedException e)
             {
-                LOG.log( Level.SEVERE, e.toString(), e );
+                LOG.log(Level.SEVERE, e.toString(), e);
             }
 
-            if ( networkService.isNetworkUp() )
+            if (networkService.isNetworkUp())
             {
-                chatState.setLogonCompleted( true );
+                chatState.setLogonCompleted(true);
                 // To stop the timer from running in the background
                 cancel();
             }
@@ -697,8 +697,8 @@ public class Controller implements NetworkConnectionListener
     public AutoCompleter getAutoCompleter()
     {
         AutoCompleter autoCompleter = new AutoCompleter();
-        autoCompleter.addAutoCompleteList( new CommandAutoCompleteList() );
-        autoCompleter.addAutoCompleteList( new UserAutoCompleteList( getUserList() ) );
+        autoCompleter.addAutoCompleteList(new CommandAutoCompleteList());
+        autoCompleter.addAutoCompleteList(new UserAutoCompleteList(getUserList()));
 
         return autoCompleter;
     }
@@ -709,10 +709,10 @@ public class Controller implements NetworkConnectionListener
      * @param silent If true, wont show the "you are connected..." message to the user.
      */
     @Override
-    public void networkCameUp( final boolean silent )
+    public void networkCameUp(final boolean silent)
     {
         // Network came up after a logon
-        if ( !isLoggedOn() )
+        if (!isLoggedOn())
         {
             runDelayedLogon();
             sendLogOn();
@@ -723,10 +723,10 @@ public class Controller implements NetworkConnectionListener
         {
             ui.showTopic();
 
-            if ( !silent )
-                msgController.showSystemMessage( "You are connected to the network again" );
+            if (!silent)
+                msgController.showSystemMessage("You are connected to the network again");
 
-            messages.sendTopicRequestedMessage( getTopic() );
+            messages.sendTopicRequestedMessage(getTopic());
             messages.sendExposingMessage();
             messages.sendGetTopicMessage();
             messages.sendExposeMessage();
@@ -740,18 +740,18 @@ public class Controller implements NetworkConnectionListener
      * @param silent If true, wont show the "you lost contact..." message to the user.
      */
     @Override
-    public void networkWentDown( final boolean silent )
+    public void networkWentDown(final boolean silent)
     {
         ui.showTopic();
 
-        if ( isLoggedOn() )
+        if (isLoggedOn())
         {
-            if ( !silent )
-                msgController.showSystemMessage( "You lost contact with the network" );
+            if (!silent)
+                msgController.showSystemMessage("You lost contact with the network");
         }
 
         else
-            msgController.showSystemMessage( "You logged off" );
+            msgController.showSystemMessage("You logged off");
     }
 
     /**

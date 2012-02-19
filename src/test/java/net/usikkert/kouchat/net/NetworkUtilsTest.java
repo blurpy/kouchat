@@ -51,33 +51,33 @@ public class NetworkUtilsTest
     @Test
     public void testSameNetworkInterface()
     {
-        assertFalse( NetworkUtils.sameNetworkInterface( null, null ) );
+        assertFalse(NetworkUtils.sameNetworkInterface(null, null));
 
         Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
 
-        if ( networkInterfaces != null )
+        if (networkInterfaces != null)
         {
             try
             {
                 NetworkInterface interface1 = networkInterfaces.nextElement();
                 NetworkInterface interface2 = networkInterfaces.nextElement();
 
-                assertTrue( NetworkUtils.sameNetworkInterface( interface1, interface1 ) );
-                assertTrue( NetworkUtils.sameNetworkInterface( interface2, interface2 ) );
+                assertTrue(NetworkUtils.sameNetworkInterface(interface1, interface1));
+                assertTrue(NetworkUtils.sameNetworkInterface(interface2, interface2));
 
-                assertFalse( NetworkUtils.sameNetworkInterface( interface1, interface2 ) );
-                assertFalse( NetworkUtils.sameNetworkInterface( interface1, null ) );
-                assertFalse( NetworkUtils.sameNetworkInterface( null, interface2 ) );
+                assertFalse(NetworkUtils.sameNetworkInterface(interface1, interface2));
+                assertFalse(NetworkUtils.sameNetworkInterface(interface1, null));
+                assertFalse(NetworkUtils.sameNetworkInterface(null, interface2));
             }
 
-            catch ( final NoSuchElementException e )
+            catch (final NoSuchElementException e)
             {
-                System.err.println( "Not enough network interfaces - aborting test" );
+                System.err.println("Not enough network interfaces - aborting test");
             }
         }
 
         else
-            System.err.println( "No network interfaces - aborting test" );
+            System.err.println("No network interfaces - aborting test");
     }
 
     /**
@@ -91,14 +91,14 @@ public class NetworkUtilsTest
             InetAddress localHostAddress = InetAddress.getLocalHost(); // Could throw exception
 
             String localHostName = NetworkUtils.getLocalHostName();
-            assertNotNull( "Name of localhost should not be null", localHostName );
-            InetAddress addressByName = InetAddress.getByName( localHostName );
-            assertEquals( "The addresses should be equal", localHostAddress, addressByName );
+            assertNotNull("Name of localhost should not be null", localHostName);
+            InetAddress addressByName = InetAddress.getByName(localHostName);
+            assertEquals("The addresses should be equal", localHostAddress, addressByName);
         }
 
-        catch ( final UnknownHostException e )
+        catch (final UnknownHostException e)
         {
-            System.err.println( "Could not get localhost - aborting test: " + e.toString() );
+            System.err.println("Could not get localhost - aborting test: " + e.toString());
         }
     }
 }

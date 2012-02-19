@@ -35,5 +35,5 @@ public interface ReceiverListener
      * @param message The message that arrived.
      * @param ipAddress The ip address of the user that sent the message.
      */
-    void messageArrived( String message, String ipAddress );
+    void messageArrived(String message, String ipAddress);
 }

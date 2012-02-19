@@ -58,78 +58,78 @@ public class MenuBar extends JMenuBar implements ActionListener
      *
      * @param imageLoader The image loader.
      */
-    public MenuBar( final ImageLoader imageLoader )
+    public MenuBar(final ImageLoader imageLoader)
     {
-        Validate.notNull( imageLoader, "Image loader can not be null" );
+        Validate.notNull(imageLoader, "Image loader can not be null");
         this.imageLoader = imageLoader;
 
-        fileMenu = new JMenu( "File" );
-        fileMenu.setMnemonic( 'F' );
-        minimizeMI = new JMenuItem( "Minimize" );
-        minimizeMI.setMnemonic( 'M' );
-        minimizeMI.addActionListener( this );
-        quitMI = new JMenuItem( "Quit" );
-        quitMI.setMnemonic( 'Q' );
-        quitMI.addActionListener( this );
+        fileMenu = new JMenu("File");
+        fileMenu.setMnemonic('F');
+        minimizeMI = new JMenuItem("Minimize");
+        minimizeMI.setMnemonic('M');
+        minimizeMI.addActionListener(this);
+        quitMI = new JMenuItem("Quit");
+        quitMI.setMnemonic('Q');
+        quitMI.addActionListener(this);
 
-        fileMenu.add( minimizeMI );
+        fileMenu.add(minimizeMI);
         fileMenu.addSeparator();
-        fileMenu.add( quitMI );
+        fileMenu.add(quitMI);
 
-        toolsMenu = new JMenu( "Tools" );
-        toolsMenu.setMnemonic( 'T' );
-        clearMI = new JMenuItem( "Clear chat" );
-        clearMI.setMnemonic( 'C' );
-        clearMI.addActionListener( this );
-        awayMI = new JMenuItem( "Set away" );
-        awayMI.setMnemonic( 'A' );
-        awayMI.addActionListener( this );
-        awayMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_F2, 0 ) );
-        topicMI = new JMenuItem( "Change topic" );
-        topicMI.setMnemonic( 'O' );
-        topicMI.addActionListener( this );
-        topicMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_F3, 0 ) );
-        settingsMI = new JMenuItem( "Settings" );
-        settingsMI.setMnemonic( 'S' );
-        settingsMI.addActionListener( this );
-        settingsMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_F4, 0 ) );
+        toolsMenu = new JMenu("Tools");
+        toolsMenu.setMnemonic('T');
+        clearMI = new JMenuItem("Clear chat");
+        clearMI.setMnemonic('C');
+        clearMI.addActionListener(this);
+        awayMI = new JMenuItem("Set away");
+        awayMI.setMnemonic('A');
+        awayMI.addActionListener(this);
+        awayMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0));
+        topicMI = new JMenuItem("Change topic");
+        topicMI.setMnemonic('O');
+        topicMI.addActionListener(this);
+        topicMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
+        settingsMI = new JMenuItem("Settings");
+        settingsMI.setMnemonic('S');
+        settingsMI.addActionListener(this);
+        settingsMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0));
 
-        toolsMenu.add( clearMI );
-        toolsMenu.add( awayMI );
-        toolsMenu.add( topicMI );
+        toolsMenu.add(clearMI);
+        toolsMenu.add(awayMI);
+        toolsMenu.add(topicMI);
         toolsMenu.addSeparator();
-        toolsMenu.add( settingsMI );
+        toolsMenu.add(settingsMI);
 
-        helpMenu = new JMenu( "Help" );
-        helpMenu.setMnemonic( 'H' );
-        faqMI = new JMenuItem( "FAQ" );
-        faqMI.setMnemonic( 'F' );
-        faqMI.addActionListener( this );
-        faqMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_F1, 0 ) );
-        licenseMI = new JMenuItem( "License" );
-        licenseMI.setMnemonic( 'L' );
-        licenseMI.addActionListener( this );
-        tipsMI = new JMenuItem( "Tips & tricks" );
-        tipsMI.setMnemonic( 'T' );
-        tipsMI.addActionListener( this );
-        commandsMI = new JMenuItem( "Commands" );
-        commandsMI.setMnemonic( 'C' );
-        commandsMI.addActionListener( this );
-        aboutMI = new JMenuItem( "About" );
-        aboutMI.setMnemonic( 'A' );
-        aboutMI.addActionListener( this );
+        helpMenu = new JMenu("Help");
+        helpMenu.setMnemonic('H');
+        faqMI = new JMenuItem("FAQ");
+        faqMI.setMnemonic('F');
+        faqMI.addActionListener(this);
+        faqMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
+        licenseMI = new JMenuItem("License");
+        licenseMI.setMnemonic('L');
+        licenseMI.addActionListener(this);
+        tipsMI = new JMenuItem("Tips & tricks");
+        tipsMI.setMnemonic('T');
+        tipsMI.addActionListener(this);
+        commandsMI = new JMenuItem("Commands");
+        commandsMI.setMnemonic('C');
+        commandsMI.addActionListener(this);
+        aboutMI = new JMenuItem("About");
+        aboutMI.setMnemonic('A');
+        aboutMI.addActionListener(this);
 
-        helpMenu.add( faqMI );
-        helpMenu.add( tipsMI );
-        helpMenu.add( licenseMI );
+        helpMenu.add(faqMI);
+        helpMenu.add(tipsMI);
+        helpMenu.add(licenseMI);
         helpMenu.addSeparator();
-        helpMenu.add( commandsMI );
+        helpMenu.add(commandsMI);
         helpMenu.addSeparator();
-        helpMenu.add( aboutMI );
+        helpMenu.add(aboutMI);
 
-        add( fileMenu );
-        add( toolsMenu );
-        add( helpMenu );
+        add(fileMenu);
+        add(toolsMenu);
+        add(helpMenu);
     }
 
     /**
@@ -137,7 +137,7 @@ public class MenuBar extends JMenuBar implements ActionListener
      *
      * @param mediator The mediator to set.
      */
-    public void setMediator( final Mediator mediator )
+    public void setMediator(final Mediator mediator)
     {
         this.mediator = mediator;
     }
@@ -147,10 +147,10 @@ public class MenuBar extends JMenuBar implements ActionListener
      *
      * @param away If away or not.
      */
-    public void setAwayState( final boolean away )
+    public void setAwayState(final boolean away)
     {
-        settingsMI.setEnabled( !away );
-        topicMI.setEnabled( !away );
+        settingsMI.setEnabled(!away);
+        topicMI.setEnabled(!away);
     }
 
     /**
@@ -169,178 +169,178 @@ public class MenuBar extends JMenuBar implements ActionListener
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed( final ActionEvent e )
+    public void actionPerformed(final ActionEvent e)
     {
         // File/Quit
-        if ( e.getSource() == quitMI )
+        if (e.getSource() == quitMI)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
                     mediator.quit();
                 }
-            } );
+            });
         }
 
         // Tools/Settings
-        else if ( e.getSource() == settingsMI )
+        else if (e.getSource() == settingsMI)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
                     mediator.showSettings();
                 }
-            } );
+            });
         }
 
         // File/Minimize
-        else if ( e.getSource() == minimizeMI )
+        else if (e.getSource() == minimizeMI)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
                     mediator.minimize();
                 }
-            } );
+            });
         }
 
         // Tools/Set away
-        else if ( e.getSource() == awayMI )
+        else if (e.getSource() == awayMI)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
                     mediator.setAway();
                 }
-            } );
+            });
         }
 
         // Tools/Change topic
-        else if ( e.getSource() == topicMI )
+        else if (e.getSource() == topicMI)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
                     mediator.setTopic();
                 }
-            } );
+            });
         }
 
         // Tools/Clear chat
-        else if ( e.getSource() == clearMI )
+        else if (e.getSource() == clearMI)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
                     mediator.clearChat();
                 }
-            } );
+            });
         }
 
         // Help/FAQ
-        else if ( e.getSource() == faqMI )
+        else if (e.getSource() == faqMI)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    if ( faqViewer == null )
+                    if (faqViewer == null)
                     {
-                        faqViewer = new TextViewerDialog( Constants.FILE_FAQ,
-                                "Frequently Asked Questions", true, imageLoader );
+                        faqViewer = new TextViewerDialog(Constants.FILE_FAQ,
+                                "Frequently Asked Questions", true, imageLoader);
                     }
 
-                    faqViewer.setVisible( true );
+                    faqViewer.setVisible(true);
                 }
-            } );
+            });
         }
 
         // Help/Tips & tricks
-        else if ( e.getSource() == tipsMI )
+        else if (e.getSource() == tipsMI)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    if ( tipsViewer == null )
+                    if (tipsViewer == null)
                     {
-                        tipsViewer = new TextViewerDialog( Constants.FILE_TIPS,
-                                "Tips & tricks", false, imageLoader );
+                        tipsViewer = new TextViewerDialog(Constants.FILE_TIPS,
+                                "Tips & tricks", false, imageLoader);
                     }
 
-                    tipsViewer.setVisible( true );
+                    tipsViewer.setVisible(true);
                 }
-            } );
+            });
         }
 
         // Help/License
-        else if ( e.getSource() == licenseMI )
+        else if (e.getSource() == licenseMI)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    if ( licenseViewer == null )
+                    if (licenseViewer == null)
                     {
-                        licenseViewer = new TextViewerDialog( Constants.FILE_LICENSE,
-                                Constants.APP_LICENSE_NAME, false, imageLoader );
+                        licenseViewer = new TextViewerDialog(Constants.FILE_LICENSE,
+                                Constants.APP_LICENSE_NAME, false, imageLoader);
                     }
 
-                    licenseViewer.setVisible( true );
+                    licenseViewer.setVisible(true);
                 }
-            } );
+            });
         }
 
         // Help/Commands
-        else if ( e.getSource() == commandsMI )
+        else if (e.getSource() == commandsMI)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
                     mediator.showCommands();
                 }
-            } );
+            });
         }
 
         // Help/About
-        else if ( e.getSource() == aboutMI )
+        else if (e.getSource() == aboutMI)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    MessageDialog aboutD = new MessageDialog( null, true, imageLoader );
+                    MessageDialog aboutD = new MessageDialog(null, true, imageLoader);
 
-                    aboutD.setTitle( UITools.createTitle( "About" ) );
-                    aboutD.setTopText( Constants.APP_NAME + " v" + Constants.APP_VERSION );
-                    aboutD.setContent( "<html>Copyright " + Constants.APP_COPYRIGHT_YEARS + " by " + Constants.AUTHOR_NAME + "."
+                    aboutD.setTitle(UITools.createTitle("About"));
+                    aboutD.setTopText(Constants.APP_NAME + " v" + Constants.APP_VERSION);
+                    aboutD.setContent("<html>Copyright " + Constants.APP_COPYRIGHT_YEARS + " by " + Constants.AUTHOR_NAME + "."
                             + "<br>" + Constants.AUTHOR_MAIL
                             + "<br>" + Constants.APP_WEB
                             + "<br>"
                             + "<br>Source available under the " + Constants.APP_LICENSE_NAME + "."
-                            + "<br>See the license for details.</html>" );
+                            + "<br>See the license for details.</html>");
 
-                    aboutD.setVisible( true );
+                    aboutD.setVisible(true);
                 }
-            } );
+            });
         }
     }
 }

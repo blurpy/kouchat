@@ -76,24 +76,24 @@ public class CommandHistory
      *
      * @param command The command to add to the list.
      */
-    public void add( final String command )
+    public void add(final String command)
     {
         boolean add = true;
 
-        if ( command.trim().length() == 0 )
+        if (command.trim().length() == 0)
             add = false;
-        else if ( history.size() > 0 && command.equals( history.get( history.size() - 1 ) ) )
+        else if (history.size() > 0 && command.equals(history.get(history.size() - 1)))
             add = false;
 
-        if ( add )
+        if (add)
         {
-            history.add( command );
+            history.add(command);
 
-            if ( history.size() > MAX_COMMANDS )
-                history.remove( 0 );
+            if (history.size() > MAX_COMMANDS)
+                history.remove(0);
         }
 
-        if ( history.size() > 0 )
+        if (history.size() > 0)
             cursor = history.size() - 1;
 
         direction = Direction.MIDDLE;
@@ -109,13 +109,13 @@ public class CommandHistory
     {
         String up = "";
 
-        if ( history.size() > 0 )
+        if (history.size() > 0)
         {
-            if ( direction != Direction.MIDDLE && cursor > 0 )
+            if (direction != Direction.MIDDLE && cursor > 0)
                 cursor--;
 
             direction = Direction.UP;
-            up = history.get( cursor );
+            up = history.get(cursor);
         }
 
         return up;
@@ -131,13 +131,13 @@ public class CommandHistory
     {
         String down = "";
 
-        if ( history.size() > 0 )
+        if (history.size() > 0)
         {
-            if ( cursor < history.size() - 1 )
+            if (cursor < history.size() - 1)
             {
                 cursor++;
                 direction = Direction.DOWN;
-                down = history.get( cursor );
+                down = history.get(cursor);
             }
 
             else

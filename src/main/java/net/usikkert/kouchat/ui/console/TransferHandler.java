@@ -50,15 +50,15 @@ public class TransferHandler implements FileTransferListener
      * @param fileTransfer The file transfer to handle.
      * @param msgController The message controller.
      */
-    public TransferHandler( final FileTransfer fileTransfer, final MessageController msgController )
+    public TransferHandler(final FileTransfer fileTransfer, final MessageController msgController)
     {
-        Validate.notNull( fileTransfer, "File transfer can not be null" );
-        Validate.notNull( msgController, "Message controller can not be null" );
+        Validate.notNull(fileTransfer, "File transfer can not be null");
+        Validate.notNull(msgController, "Message controller can not be null");
 
         this.fileTransfer = fileTransfer;
         this.msgController = msgController;
 
-        fileTransfer.registerListener( this );
+        fileTransfer.registerListener(this);
     }
 
     /**
@@ -96,10 +96,10 @@ public class TransferHandler implements FileTransferListener
     @Override
     public void statusTransferring()
     {
-        if ( fileTransfer.getDirection() == Direction.RECEIVE )
+        if (fileTransfer.getDirection() == Direction.RECEIVE)
         {
-            msgController.showSystemMessage( "Receiving " + fileTransfer.getFile().getName()
-                    + " from " + fileTransfer.getUser().getNick() );
+            msgController.showSystemMessage("Receiving " + fileTransfer.getFile().getName()
+                    + " from " + fileTransfer.getUser().getNick());
         }
     }
 

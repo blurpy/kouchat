@@ -46,7 +46,7 @@ public class SizeDocumentFilter extends DocumentFilter
      * @param maxBytes The maximum number of bytes the
      * Document can contain.
      */
-    public SizeDocumentFilter( final int maxBytes )
+    public SizeDocumentFilter(final int maxBytes)
     {
         this.maxBytes = maxBytes;
     }
@@ -61,30 +61,30 @@ public class SizeDocumentFilter extends DocumentFilter
      * {@inheritDoc}
      */
     @Override
-    public void replace( final FilterBypass fb, final int offset, final int length,
-            final String text, final AttributeSet attrs ) throws BadLocationException
+    public void replace(final FilterBypass fb, final int offset, final int length,
+            final String text, final AttributeSet attrs) throws BadLocationException
     {
-        if ( text != null && text.length() > 0 )
+        if (text != null && text.length() > 0)
         {
             String newText = text;
 
             // Replace newlines with space
-            if ( newText.contains( "\n" ) )
-                newText = newText.replace( '\n', ' ' );
+            if (newText.contains("\n"))
+                newText = newText.replace('\n', ' ');
 
             // Replace tabs with space
-            if ( newText.contains( "\t" ) )
-                newText = newText.replace( '\t', ' ' );
+            if (newText.contains("\t"))
+                newText = newText.replace('\t', ' ');
 
-            String docText = fb.getDocument().getText( 0, fb.getDocument().getLength() );
-            int textLength = Tools.getBytes( newText );
-            int docLength = Tools.getBytes( docText );
-            int removedLength = Tools.getBytes( docText.substring( offset, offset + length ) );
+            String docText = fb.getDocument().getText(0, fb.getDocument().getLength());
+            int textLength = Tools.getBytes(newText);
+            int docLength = Tools.getBytes(docText);
+            int removedLength = Tools.getBytes(docText.substring(offset, offset + length));
 
             // Everything OK, insert the text as it is.
-            if ( ( docLength + textLength - removedLength ) <= maxBytes )
+            if ((docLength + textLength - removedLength) <= maxBytes)
             {
-                super.replace( fb, offset, length, newText, attrs );
+                super.replace(fb, offset, length, newText, attrs);
             }
 
             // Text too big to fit. Will need to find out which
@@ -95,14 +95,14 @@ public class SizeDocumentFilter extends DocumentFilter
                 int replaceTextSize = 0;
                 int allowedSize = maxBytes - docLength;
 
-                for ( int i = 0; i < newText.length(); i++ )
+                for (int i = 0; i < newText.length(); i++)
                 {
-                    if ( replaceTextSize < allowedSize )
+                    if (replaceTextSize < allowedSize)
                     {
-                        String tmpChar = "" + newText.charAt( i );
-                        int tmpCharSize = Tools.getBytes( tmpChar );
+                        String tmpChar = "" + newText.charAt(i);
+                        int tmpCharSize = Tools.getBytes(tmpChar);
 
-                        if ( replaceTextSize + tmpCharSize <= allowedSize )
+                        if (replaceTextSize + tmpCharSize <= allowedSize)
                         {
                             replaceText += tmpChar;
                             replaceTextSize += tmpCharSize;
@@ -116,14 +116,14 @@ public class SizeDocumentFilter extends DocumentFilter
                         break;
                 }
 
-                super.replace( fb, offset, length, replaceText, attrs );
+                super.replace(fb, offset, length, replaceText, attrs);
             }
         }
 
         // Empty text, just continue normally.
         else
         {
-            super.replace( fb, offset, length, text, attrs );
+            super.replace(fb, offset, length, text, attrs);
         }
     }
 }

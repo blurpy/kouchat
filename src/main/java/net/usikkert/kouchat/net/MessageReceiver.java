@@ -43,7 +43,7 @@ import net.usikkert.kouchat.misc.ErrorHandler;
 public class MessageReceiver implements Runnable
 {
     /** The logger. */
-    private static final Logger LOG = Logger.getLogger( MessageReceiver.class.getName() );
+    private static final Logger LOG = Logger.getLogger(MessageReceiver.class.getName());
 
     /** The multicast socket used for receiving messages. */
     private MulticastSocket mcSocket;
@@ -76,7 +76,7 @@ public class MessageReceiver implements Runnable
      */
     public MessageReceiver()
     {
-        this( Constants.NETWORK_IP, Constants.NETWORK_CHAT_PORT );
+        this(Constants.NETWORK_IP, Constants.NETWORK_CHAT_PORT);
     }
 
     /**
@@ -87,22 +87,22 @@ public class MessageReceiver implements Runnable
      * @param ipAddress Multicast ip address to connect to.
      * @param port Port to connect to.
      */
-    public MessageReceiver( final String ipAddress, final int port )
+    public MessageReceiver(final String ipAddress, final int port)
     {
         this.port = port;
         errorHandler = ErrorHandler.getErrorHandler();
 
         try
         {
-            address = InetAddress.getByName( ipAddress );
+            address = InetAddress.getByName(ipAddress);
         }
 
-        catch ( final IOException e )
+        catch (final IOException e)
         {
-            LOG.log( Level.SEVERE, e.toString(), e );
-            errorHandler.showCriticalError( "Failed to initialize the network:\n" + e + "\n"
-                    + Constants.APP_NAME + " will now shutdown." );
-            System.exit( 1 );
+            LOG.log(Level.SEVERE, e.toString(), e);
+            errorHandler.showCriticalError("Failed to initialize the network:\n" + e + "\n"
+                    + Constants.APP_NAME + " will now shutdown.");
+            System.exit(1);
         }
     }
 
@@ -111,32 +111,32 @@ public class MessageReceiver implements Runnable
      */
     public void run()
     {
-        while ( connected )
+        while (connected)
         {
             try
             {
                 DatagramPacket packet = new DatagramPacket(
-                        new byte[Constants.NETWORK_PACKET_SIZE], Constants.NETWORK_PACKET_SIZE );
+                        new byte[Constants.NETWORK_PACKET_SIZE], Constants.NETWORK_PACKET_SIZE);
 
-                if ( connected )
+                if (connected)
                 {
-                    mcSocket.receive( packet );
+                    mcSocket.receive(packet);
                     String ip = packet.getAddress().getHostAddress();
-                    String message = new String( packet.getData(), Constants.MESSAGE_CHARSET ).trim();
-                    LOG.log( Level.FINE, "Message arrived from " + ip + ": " + message );
+                    String message = new String(packet.getData(), Constants.MESSAGE_CHARSET).trim();
+                    LOG.log(Level.FINE, "Message arrived from " + ip + ": " + message);
 
-                    if ( listener != null )
-                        listener.messageArrived( message, ip );
+                    if (listener != null)
+                        listener.messageArrived(message, ip);
                 }
             }
 
             // Happens when socket is closed, or network is down
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                if ( connected )
-                    LOG.log( Level.WARNING, e.toString() );
+                if (connected)
+                    LOG.log(Level.WARNING, e.toString());
                 else
-                    LOG.log( Level.FINE, e.toString() );
+                    LOG.log(Level.FINE, e.toString());
             }
         }
     }
@@ -146,8 +146,8 @@ public class MessageReceiver implements Runnable
      */
     private void startThread()
     {
-        LOG.log( Level.FINE, "Starting." );
-        worker = new Thread( this, "MessageReceiverWorker" );
+        LOG.log(Level.FINE, "Starting.");
+        worker = new Thread(this, "MessageReceiverWorker");
         worker.start();
     }
 
@@ -161,45 +161,45 @@ public class MessageReceiver implements Runnable
      * @param networkInterface The network interface to use, or <code>null</code>.
      * @return If connected to the network or not.
      */
-    public synchronized boolean startReceiver( final NetworkInterface networkInterface )
+    public synchronized boolean startReceiver(final NetworkInterface networkInterface)
     {
-        LOG.log( Level.FINE, "Connecting..." );
+        LOG.log(Level.FINE, "Connecting...");
 
         try
         {
-            if ( connected )
+            if (connected)
             {
-                LOG.log( Level.FINE, "Already connected." );
+                LOG.log(Level.FINE, "Already connected.");
             }
 
             else
             {
-                if ( mcSocket == null )
-                    mcSocket = new MulticastSocket( port );
+                if (mcSocket == null)
+                    mcSocket = new MulticastSocket(port);
 
-                if ( networkInterface != null )
-                    mcSocket.setNetworkInterface( networkInterface );
+                if (networkInterface != null)
+                    mcSocket.setNetworkInterface(networkInterface);
 
-                mcSocket.joinGroup( address );
-                LOG.log( Level.FINE, "Connected to " + mcSocket.getNetworkInterface().getDisplayName() + "." );
+                mcSocket.joinGroup(address);
+                LOG.log(Level.FINE, "Connected to " + mcSocket.getNetworkInterface().getDisplayName() + ".");
                 connected = true;
             }
         }
 
-        catch ( final IOException e )
+        catch (final IOException e)
         {
-            LOG.log( Level.SEVERE, "Could not start receiver: " + e.toString() );
+            LOG.log(Level.SEVERE, "Could not start receiver: " + e.toString());
 
-            if ( mcSocket != null )
+            if (mcSocket != null)
             {
-                if ( !mcSocket.isClosed() )
+                if (!mcSocket.isClosed())
                     mcSocket.close();
 
                 mcSocket = null;
             }
         }
 
-        if ( connected && ( worker == null || !worker.isAlive() ) )
+        if (connected && (worker == null || !worker.isAlive()))
         {
             startThread();
         }
@@ -212,11 +212,11 @@ public class MessageReceiver implements Runnable
      */
     public synchronized void stopReceiver()
     {
-        LOG.log( Level.FINE, "Disconnecting..." );
+        LOG.log(Level.FINE, "Disconnecting...");
 
-        if ( !connected )
+        if (!connected)
         {
-            LOG.log( Level.FINE, "Not connected." );
+            LOG.log(Level.FINE, "Not connected.");
         }
 
         else
@@ -225,24 +225,24 @@ public class MessageReceiver implements Runnable
 
             try
             {
-                if ( !mcSocket.isClosed() )
+                if (!mcSocket.isClosed())
                 {
-                    mcSocket.leaveGroup( address );
+                    mcSocket.leaveGroup(address);
                 }
             }
 
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                LOG.log( Level.WARNING, e.toString() );
+                LOG.log(Level.WARNING, e.toString());
             }
 
-            if ( !mcSocket.isClosed() )
+            if (!mcSocket.isClosed())
             {
                 mcSocket.close();
                 mcSocket = null;
             }
 
-            LOG.log( Level.FINE, "Disconnected." );
+            LOG.log(Level.FINE, "Disconnected.");
         }
     }
 
@@ -252,7 +252,7 @@ public class MessageReceiver implements Runnable
      *
      * @param listener The listener to register.
      */
-    public void registerReceiverListener( final ReceiverListener listener )
+    public void registerReceiverListener(final ReceiverListener listener)
     {
         this.listener = listener;
     }

@@ -41,7 +41,7 @@ import net.usikkert.kouchat.misc.ErrorHandler;
 public class MessageSender
 {
     /** The logger. */
-    private static final Logger LOG = Logger.getLogger( MessageSender.class.getName() );
+    private static final Logger LOG = Logger.getLogger(MessageSender.class.getName());
 
     /** The multicast socket used for sending messages. */
     private MulticastSocket mcSocket;
@@ -68,7 +68,7 @@ public class MessageSender
      */
     public MessageSender()
     {
-        this( Constants.NETWORK_IP, Constants.NETWORK_CHAT_PORT );
+        this(Constants.NETWORK_IP, Constants.NETWORK_CHAT_PORT);
     }
 
     /**
@@ -79,22 +79,22 @@ public class MessageSender
      * @param ipAddress Multicast ip address to connect to.
      * @param port Port to connect to.
      */
-    public MessageSender( final String ipAddress, final int port )
+    public MessageSender(final String ipAddress, final int port)
     {
         this.port = port;
         errorHandler = ErrorHandler.getErrorHandler();
 
         try
         {
-            address = InetAddress.getByName( ipAddress );
+            address = InetAddress.getByName(ipAddress);
         }
 
-        catch ( final IOException e )
+        catch (final IOException e)
         {
-            LOG.log( Level.SEVERE, e.toString(), e );
-            errorHandler.showCriticalError( "Failed to initialize the network:\n" + e + "\n"
-                    + Constants.APP_NAME + " will now shutdown." );
-            System.exit( 1 );
+            LOG.log(Level.SEVERE, e.toString(), e);
+            errorHandler.showCriticalError("Failed to initialize the network:\n" + e + "\n"
+                    + Constants.APP_NAME + " will now shutdown.");
+            System.exit(1);
         }
     }
 
@@ -106,31 +106,31 @@ public class MessageSender
      * @see Constants#MESSAGE_CHARSET
      * @see Constants#NETWORK_PACKET_SIZE
      */
-    public synchronized boolean send( final String message )
+    public synchronized boolean send(final String message)
     {
-        if ( connected )
+        if (connected)
         {
             try
             {
-                byte[] encodedMsg = message.getBytes( Constants.MESSAGE_CHARSET );
+                byte[] encodedMsg = message.getBytes(Constants.MESSAGE_CHARSET);
                 int size = encodedMsg.length;
 
-                if ( size > Constants.NETWORK_PACKET_SIZE )
+                if (size > Constants.NETWORK_PACKET_SIZE)
                 {
-                    LOG.log( Level.WARNING, "Message was " + size + " bytes, which is too large.\n"
-                            + " The receiver might not get the complete message.\n'" + message + "'" );
+                    LOG.log(Level.WARNING, "Message was " + size + " bytes, which is too large.\n"
+                            + " The receiver might not get the complete message.\n'" + message + "'");
                 }
 
-                DatagramPacket packet = new DatagramPacket( encodedMsg, size, address, port );
-                mcSocket.send( packet );
-                LOG.log( Level.FINE, "Sent message: " + message );
+                DatagramPacket packet = new DatagramPacket(encodedMsg, size, address, port);
+                mcSocket.send(packet);
+                LOG.log(Level.FINE, "Sent message: " + message);
 
                 return true;
             }
 
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                LOG.log( Level.WARNING, "Could not send message: " + message );
+                LOG.log(Level.WARNING, "Could not send message: " + message);
             }
         }
 
@@ -142,11 +142,11 @@ public class MessageSender
      */
     public synchronized void stopSender()
     {
-        LOG.log( Level.FINE, "Disconnecting..." );
+        LOG.log(Level.FINE, "Disconnecting...");
 
-        if ( !connected )
+        if (!connected)
         {
-            LOG.log( Level.FINE, "Not connected." );
+            LOG.log(Level.FINE, "Not connected.");
         }
 
         else
@@ -155,24 +155,24 @@ public class MessageSender
 
             try
             {
-                if ( !mcSocket.isClosed() )
+                if (!mcSocket.isClosed())
                 {
-                    mcSocket.leaveGroup( address );
+                    mcSocket.leaveGroup(address);
                 }
             }
 
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                LOG.log( Level.WARNING, e.toString() );
+                LOG.log(Level.WARNING, e.toString());
             }
 
-            if ( !mcSocket.isClosed() )
+            if (!mcSocket.isClosed())
             {
                 mcSocket.close();
                 mcSocket = null;
             }
 
-            LOG.log( Level.FINE, "Disconnected." );
+            LOG.log(Level.FINE, "Disconnected.");
         }
     }
 
@@ -184,39 +184,39 @@ public class MessageSender
      * @param networkInterface The network interface to use, or <code>null</code>.
      * @return If connected to the network or not.
      */
-    public synchronized boolean startSender( final NetworkInterface networkInterface )
+    public synchronized boolean startSender(final NetworkInterface networkInterface)
     {
-        LOG.log( Level.FINE, "Connecting..." );
+        LOG.log(Level.FINE, "Connecting...");
 
         try
         {
-            if ( connected )
+            if (connected)
             {
-                LOG.log( Level.FINE, "Already connected." );
+                LOG.log(Level.FINE, "Already connected.");
             }
 
             else
             {
-                if ( mcSocket == null )
-                    mcSocket = new MulticastSocket( port );
+                if (mcSocket == null)
+                    mcSocket = new MulticastSocket(port);
 
-                if ( networkInterface != null )
-                    mcSocket.setNetworkInterface( networkInterface );
+                if (networkInterface != null)
+                    mcSocket.setNetworkInterface(networkInterface);
 
-                mcSocket.joinGroup( address );
-                mcSocket.setTimeToLive( 64 );
-                LOG.log( Level.FINE, "Connected to " + mcSocket.getNetworkInterface().getDisplayName() + "." );
+                mcSocket.joinGroup(address);
+                mcSocket.setTimeToLive(64);
+                LOG.log(Level.FINE, "Connected to " + mcSocket.getNetworkInterface().getDisplayName() + ".");
                 connected = true;
             }
         }
 
-        catch ( final IOException e )
+        catch (final IOException e)
         {
-            LOG.log( Level.SEVERE, "Could not start sender: " + e.toString() );
+            LOG.log(Level.SEVERE, "Could not start sender: " + e.toString());
 
-            if ( mcSocket != null )
+            if (mcSocket != null)
             {
-                if ( !mcSocket.isClosed() )
+                if (!mcSocket.isClosed())
                     mcSocket.close();
 
                 mcSocket = null;

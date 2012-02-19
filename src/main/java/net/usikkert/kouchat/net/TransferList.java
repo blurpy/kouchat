@@ -54,9 +54,9 @@ public class TransferList
      *
      * @param fileSender The file sender to add.
      */
-    public void addFileSender( final FileSender fileSender )
+    public void addFileSender(final FileSender fileSender)
     {
-        senders.add( fileSender );
+        senders.add(fileSender);
     }
 
     /**
@@ -64,9 +64,9 @@ public class TransferList
      *
      * @param fileSender The file sender to remove.
      */
-    public void removeFileSender( final FileSender fileSender )
+    public void removeFileSender(final FileSender fileSender)
     {
-        senders.remove( fileSender );
+        senders.remove(fileSender);
     }
 
     /**
@@ -77,13 +77,13 @@ public class TransferList
      * @param fileHash The file's hash code.
      * @return The file sender object, or <code>null</code> if none was found.
      */
-    public FileSender getFileSender( final User user, final String fileName, final int fileHash )
+    public FileSender getFileSender(final User user, final String fileName, final int fileHash)
     {
         FileSender fileSender = null;
 
-        for ( FileSender fs : senders )
+        for (FileSender fs : senders)
         {
-            if ( fs.getUser() == user && fs.getFile().getName().equals( fileName ) && fs.getFile().hashCode() == fileHash )
+            if (fs.getUser() == user && fs.getFile().getName().equals(fileName) && fs.getFile().hashCode() == fileHash)
             {
                 fileSender = fs;
                 break;
@@ -100,13 +100,13 @@ public class TransferList
      * @param fileName The name of the file being sent.
      * @return The file sender object, or <code>null</code> if none was found.
      */
-    public FileSender getFileSender( final User user, final String fileName )
+    public FileSender getFileSender(final User user, final String fileName)
     {
         FileSender fileSender = null;
 
-        for ( FileSender fs : senders )
+        for (FileSender fs : senders)
         {
-            if ( fs.getUser() == user && fs.getFile().getName().equals( fileName ) )
+            if (fs.getUser() == user && fs.getFile().getName().equals(fileName))
             {
                 fileSender = fs;
                 break;
@@ -122,15 +122,15 @@ public class TransferList
      * @param user The given user.
      * @return A list of all the file senders for the user.
      */
-    public List<FileSender> getFileSenders( final User user )
+    public List<FileSender> getFileSenders(final User user)
     {
         List<FileSender> list = new ArrayList<FileSender>();
 
-        for ( FileSender fs : senders )
+        for (FileSender fs : senders)
         {
-            if ( fs.getUser() == user )
+            if (fs.getUser() == user)
             {
-                list.add( fs );
+                list.add(fs);
             }
         }
 
@@ -146,9 +146,9 @@ public class TransferList
     {
         List<FileSender> list = new ArrayList<FileSender>();
 
-        for ( FileSender fs : senders )
+        for (FileSender fs : senders)
         {
-            list.add( fs );
+            list.add(fs);
         }
 
         return list;
@@ -159,9 +159,9 @@ public class TransferList
      *
      * @param fileReceiver The file receiver to add.
      */
-    public void addFileReceiver( final FileReceiver fileReceiver )
+    public void addFileReceiver(final FileReceiver fileReceiver)
     {
-        receivers.add( fileReceiver );
+        receivers.add(fileReceiver);
     }
 
     /**
@@ -169,9 +169,9 @@ public class TransferList
      *
      * @param fileReceiver The file receiver to remove.
      */
-    public void removeFileReceiver( final FileReceiver fileReceiver )
+    public void removeFileReceiver(final FileReceiver fileReceiver)
     {
-        receivers.remove( fileReceiver );
+        receivers.remove(fileReceiver);
     }
 
     /**
@@ -180,15 +180,15 @@ public class TransferList
      * @param user The given user.
      * @return A list of all the file receivers for the user.
      */
-    public List<FileReceiver> getFileReceivers( final User user )
+    public List<FileReceiver> getFileReceivers(final User user)
     {
         List<FileReceiver> list = new ArrayList<FileReceiver>();
 
-        for ( FileReceiver fr : receivers )
+        for (FileReceiver fr : receivers)
         {
-            if ( fr.getUser() == user )
+            if (fr.getUser() == user)
             {
-                list.add( fr );
+                list.add(fr);
             }
         }
 
@@ -202,13 +202,13 @@ public class TransferList
      * @param fileName The name of the file being received.
      * @return The file receiver object, or <code>null</code> if none was found.
      */
-    public FileReceiver getFileReceiver( final User user, final String fileName )
+    public FileReceiver getFileReceiver(final User user, final String fileName)
     {
         FileReceiver fileReceiver = null;
 
-        for ( FileReceiver fr : receivers )
+        for (FileReceiver fr : receivers)
         {
-            if ( fr.getUser() == user && fr.getFile().getName().equals( fileName ) )
+            if (fr.getUser() == user && fr.getFile().getName().equals(fileName))
             {
                 fileReceiver = fr;
                 break;
@@ -227,9 +227,9 @@ public class TransferList
     {
         List<FileReceiver> list = new ArrayList<FileReceiver>();
 
-        for ( FileReceiver fr : receivers )
+        for (FileReceiver fr : receivers)
         {
-            list.add( fr );
+            list.add(fr);
         }
 
         return list;
@@ -243,13 +243,13 @@ public class TransferList
      * @return Either a file receiver, a file sender, or <code>null</code>
      * if none of them was found.
      */
-    public FileTransfer getFileTransfer( final User user, final String fileName )
+    public FileTransfer getFileTransfer(final User user, final String fileName)
     {
-        FileReceiver fileReceiver = getFileReceiver( user, fileName );
+        FileReceiver fileReceiver = getFileReceiver(user, fileName);
 
-        if ( fileReceiver != null )
+        if (fileReceiver != null)
             return fileReceiver;
         else
-            return getFileSender( user, fileName );
+            return getFileSender(user, fileName);
     }
 }

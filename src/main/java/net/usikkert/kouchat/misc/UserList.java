@@ -46,7 +46,7 @@ public interface UserList
      * @param user The user to add.
      * @return If the user was successfully added to the list.
      */
-    boolean add( User user );
+    boolean add(User user);
 
     /**
      * Gets the user at the specified position.
@@ -54,7 +54,7 @@ public interface UserList
      * @param pos The position to get the user.
      * @return The user, or <code>null</code> of the user was not found.
      */
-    User get( int pos );
+    User get(int pos);
 
     /**
      * Gets the position in the list where this user is located.
@@ -62,7 +62,7 @@ public interface UserList
      * @param user The user to locate the position of.
      * @return The position, or -1 if not found.
      */
-    int indexOf( User user );
+    int indexOf(User user);
 
     /**
      * Removes the user at the specified position from the list,
@@ -71,7 +71,7 @@ public interface UserList
      * @param pos The position of the user to remove.
      * @return The user that was removed.
      */
-    User remove( int pos );
+    User remove(int pos);
 
     /**
      * Removes the specified user from the list,
@@ -80,7 +80,7 @@ public interface UserList
      * @param user The user to remove.
      * @return If the user was successfully removed.
      */
-    boolean remove( User user );
+    boolean remove(User user);
 
     /**
      * Sets the specified user at the specified position in the user list,
@@ -90,7 +90,7 @@ public interface UserList
      * @param user The user to put in the position.
      * @return The user that was previously in that position.
      */
-    User set( int pos, User user );
+    User set(int pos, User user);
 
     /**
      * Gets the number for users in the list.
@@ -104,12 +104,12 @@ public interface UserList
      *
      * @param listener The listener to add.
      */
-    void addUserListListener( UserListListener listener );
+    void addUserListListener(UserListListener listener);
 
     /**
      * Removes a listener for changes to the user list.
      *
      * @param listener The listener to remove.
      */
-    void removeUserListListener( UserListListener listener );
+    void removeUserListListener(UserListListener listener);
 }

@@ -44,7 +44,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public void activatedPrivChat( final User user )
+    public void activatedPrivChat(final User user)
     {
 
     }
@@ -55,7 +55,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public boolean changeNick( final String nick )
+    public boolean changeNick(final String nick)
     {
         return false;
     }
@@ -99,7 +99,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public void sendFile( final User user, final File selectedFile )
+    public void sendFile(final User user, final File selectedFile)
     {
 
     }
@@ -143,7 +143,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public void showPrivChat( final User user )
+    public void showPrivChat(final User user)
     {
 
     }
@@ -198,14 +198,14 @@ public class MockMediator implements Mediator
      * @param transferDialog The file transfer dialog.
      */
     @Override
-    public void transferCancelled( final TransferDialog transferDialog )
+    public void transferCancelled(final TransferDialog transferDialog)
     {
-        if ( transferDialog.getCancelButtonText().equals( "Close" ) )
+        if (transferDialog.getCancelButtonText().equals("Close"))
             close = true;
 
         else
         {
-            transferDialog.setCancelButtonText( "Close" );
+            transferDialog.setCancelButtonText("Close");
             FileTransfer fileTransfer = transferDialog.getFileTransfer();
             fileTransfer.cancel();
         }
@@ -250,7 +250,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public void writePrivate( final PrivateChatWindow privchat )
+    public void writePrivate(final PrivateChatWindow privchat)
     {
 
     }

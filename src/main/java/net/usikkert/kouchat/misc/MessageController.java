@@ -46,7 +46,7 @@ public class MessageController
      * @param chat The user interface object to write the formatted messages to.
      * @param ui The user interface.
      */
-    public MessageController( final ChatWindow chat, final UserInterface ui )
+    public MessageController(final ChatWindow chat, final UserInterface ui)
     {
         this.chat = chat;
         this.ui = ui;
@@ -66,11 +66,11 @@ public class MessageController
      * @param message The message the user wrote.
      * @param color The color the user chose for the message.
      */
-    public void showUserMessage( final String user, final String message, final int color )
+    public void showUserMessage(final String user, final String message, final int color)
     {
         String msg = Tools.getTime() + " <" + user + ">: " + message;
-        chat.appendToChat( msg, color );
-        cLog.append( msg );
+        chat.appendToChat(msg, color);
+        cLog.append(msg);
     }
 
     /**
@@ -81,11 +81,11 @@ public class MessageController
      *
      * @param message The system message to show.
      */
-    public void showSystemMessage( final String message )
+    public void showSystemMessage(final String message)
     {
         String msg = Tools.getTime() + " *** " + message;
-        chat.appendToChat( msg, settings.getSysColor() );
-        cLog.append( msg );
+        chat.appendToChat(msg, settings.getSysColor());
+        cLog.append(msg);
     }
 
     /**
@@ -96,11 +96,11 @@ public class MessageController
      *
      * @param message The message written by the application user.
      */
-    public void showOwnMessage( final String message )
+    public void showOwnMessage(final String message)
     {
         String msg = Tools.getTime() + " <" + me.getNick() + ">: " + message;
-        chat.appendToChat( msg, settings.getOwnColor() );
-        cLog.append( msg );
+        chat.appendToChat(msg, settings.getOwnColor());
+        cLog.append(msg);
     }
 
     /**
@@ -113,13 +113,13 @@ public class MessageController
      * @param privmsg The message the user wrote.
      * @param color The color the user chose for the message.
      */
-    public void showPrivateUserMessage( final User user, final String privmsg, final int color )
+    public void showPrivateUserMessage(final User user, final String privmsg, final int color)
     {
-        if ( user.getPrivchat() == null )
-            ui.createPrivChat( user );
+        if (user.getPrivchat() == null)
+            ui.createPrivChat(user);
 
         String msg = Tools.getTime() + " <" + user + ">: " + privmsg;
-        user.getPrivchat().appendToPrivateChat( msg, color );
+        user.getPrivchat().appendToPrivateChat(msg, color);
     }
 
     /**
@@ -131,13 +131,13 @@ public class MessageController
      * @param user The user which the message was meant for.
      * @param privmsg The message written by the application user.
      */
-    public void showPrivateOwnMessage( final User user, final String privmsg )
+    public void showPrivateOwnMessage(final User user, final String privmsg)
     {
-        if ( user.getPrivchat() == null )
-            ui.createPrivChat( user );
+        if (user.getPrivchat() == null)
+            ui.createPrivChat(user);
 
         String msg = Tools.getTime() + " <" + me.getNick() + ">: " + privmsg;
-        user.getPrivchat().appendToPrivateChat( msg, settings.getOwnColor() );
+        user.getPrivchat().appendToPrivateChat(msg, settings.getOwnColor());
     }
 
     /**
@@ -149,9 +149,9 @@ public class MessageController
      * @param user The user this system message applies to.
      * @param privmsg The system message to show.
      */
-    public void showPrivateSystemMessage( final User user, final String privmsg )
+    public void showPrivateSystemMessage(final User user, final String privmsg)
     {
         String msg = Tools.getTime() + " *** " + privmsg;
-        user.getPrivchat().appendToPrivateChat( msg, settings.getSysColor() );
+        user.getPrivchat().appendToPrivateChat(msg, settings.getSysColor());
     }
 }

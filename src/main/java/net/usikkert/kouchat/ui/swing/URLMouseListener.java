@@ -51,12 +51,12 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
      *
      * @param textPane The text pane this listener is registered to.
      */
-    public URLMouseListener( final JTextPane textPane )
+    public URLMouseListener(final JTextPane textPane)
     {
         this.textPane = textPane;
 
         doc = textPane.getStyledDocument();
-        handCursor = new Cursor( Cursor.HAND_CURSOR );
+        handCursor = new Cursor(Cursor.HAND_CURSOR);
     }
 
     /**
@@ -65,7 +65,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
      * {@inheritDoc}
      */
     @Override
-    public void mouseDragged( final MouseEvent e )
+    public void mouseDragged(final MouseEvent e)
     {
 
     }
@@ -76,22 +76,22 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
      * {@inheritDoc}
      */
     @Override
-    public void mouseMoved( final MouseEvent e )
+    public void mouseMoved(final MouseEvent e)
     {
-        int mousePos = textPane.viewToModel( e.getPoint() );
+        int mousePos = textPane.viewToModel(e.getPoint());
 
-        AttributeSet attr = doc.getCharacterElement( mousePos ).getAttributes();
+        AttributeSet attr = doc.getCharacterElement(mousePos).getAttributes();
 
-        if ( StyleConstants.isUnderline( attr ) )
+        if (StyleConstants.isUnderline(attr))
         {
-            if ( textPane.getCursor() != handCursor )
-                textPane.setCursor( handCursor );
+            if (textPane.getCursor() != handCursor)
+                textPane.setCursor(handCursor);
         }
 
         else
         {
-            if ( textPane.getCursor() == handCursor )
-                textPane.setCursor( null );
+            if (textPane.getCursor() == handCursor)
+                textPane.setCursor(null);
         }
     }
 
@@ -101,7 +101,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
      * {@inheritDoc}
      */
     @Override
-    public void mouseClicked( final MouseEvent e )
+    public void mouseClicked(final MouseEvent e)
     {
 
     }
@@ -112,7 +112,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
      * {@inheritDoc}
      */
     @Override
-    public void mouseEntered( final MouseEvent e )
+    public void mouseEntered(final MouseEvent e)
     {
 
     }
@@ -123,7 +123,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
      * {@inheritDoc}
      */
     @Override
-    public void mouseExited( final MouseEvent e )
+    public void mouseExited(final MouseEvent e)
     {
 
     }
@@ -134,7 +134,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
      * {@inheritDoc}
      */
     @Override
-    public void mousePressed( final MouseEvent e )
+    public void mousePressed(final MouseEvent e)
     {
 
     }
@@ -145,30 +145,30 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
      * {@inheritDoc}
      */
     @Override
-    public void mouseReleased( final MouseEvent e )
+    public void mouseReleased(final MouseEvent e)
     {
-        if ( e.getButton() == MouseEvent.BUTTON1 )
+        if (e.getButton() == MouseEvent.BUTTON1)
         {
-            int clickPos = textPane.viewToModel( e.getPoint() );
+            int clickPos = textPane.viewToModel(e.getPoint());
 
-            AttributeSet attr = doc.getCharacterElement( clickPos ).getAttributes();
+            AttributeSet attr = doc.getCharacterElement(clickPos).getAttributes();
 
-            if ( StyleConstants.isUnderline( attr ) )
+            if (StyleConstants.isUnderline(attr))
             {
-                Object obj = attr.getAttribute( URLDocumentFilter.URL_ATTRIBUTE );
+                Object obj = attr.getAttribute(URLDocumentFilter.URL_ATTRIBUTE);
 
-                if ( obj != null )
+                if (obj != null)
                 {
                     final String url = obj.toString();
 
-                    SwingUtilities.invokeLater( new Runnable()
+                    SwingUtilities.invokeLater(new Runnable()
                     {
                         @Override
                         public void run()
                         {
-                            UITools.browse( url );
+                            UITools.browse(url);
                         }
-                    } );
+                    });
                 }
             }
         }

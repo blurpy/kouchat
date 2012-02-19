@@ -41,7 +41,7 @@ public interface MessageResponder
      * @param msg The message.
      * @param color The color the message has.
      */
-    void messageArrived( int userCode, String msg, int color );
+    void messageArrived(int userCode, String msg, int color);
 
     /**
      * A user has changed the topic.
@@ -51,7 +51,7 @@ public interface MessageResponder
      * @param nick The nick name of the user who changed the topic.
      * @param time The time when the topic was set.
      */
-    void topicChanged( int userCode, String newTopic, String nick, long time );
+    void topicChanged(int userCode, String newTopic, String nick, long time);
 
     /**
      * A user has requested the get the current topic.
@@ -65,7 +65,7 @@ public interface MessageResponder
      * @param away If the user is away or not.
      * @param awayMsg The away message if the user is away, or an empty string.
      */
-    void awayChanged( int userCode, boolean away, String awayMsg );
+    void awayChanged(int userCode, boolean away, String awayMsg);
 
     /**
      * A user has changed it's nick name.
@@ -73,7 +73,7 @@ public interface MessageResponder
      * @param userCode The unique code of the user who changed nick name.
      * @param newNick The new nick name.
      */
-    void nickChanged( int userCode, String newNick );
+    void nickChanged(int userCode, String newNick);
 
     /**
      * A user sent a message that the application user's nick is already in use.
@@ -85,28 +85,28 @@ public interface MessageResponder
      *
      * @param ipAddress The IP address of the application user.
      */
-    void meLogOn( String ipAddress );
+    void meLogOn(String ipAddress);
 
     /**
      * A new user has logged on to the chat.
      *
      * @param newUser The user logging on to the chat.
      */
-    void userLogOn( User newUser );
+    void userLogOn(User newUser);
 
     /**
      * A user has logged off the chat.
      *
      * @param userCode The unique code of the user who logged off.
      */
-    void userLogOff( int userCode );
+    void userLogOff(int userCode);
 
     /**
      * A user is notifying that it is available and logged on to the chat.
      *
      * @param user The unknown user who was exposed.
      */
-    void userExposing( User user );
+    void userExposing(User user);
 
     /**
      * A user has requested information about the other clients that are logged
@@ -120,7 +120,7 @@ public interface MessageResponder
      * @param userCode The unique code of the user who started or stopped writing.
      * @param writing If the user is writing or not.
      */
-    void writingChanged( int userCode, boolean writing );
+    void writingChanged(int userCode, boolean writing);
 
     /**
      * The application user notifies that it is still connected to the network,
@@ -128,7 +128,7 @@ public interface MessageResponder
      *
      * @param ipAddress The IP address of the application user.
      */
-    void meIdle( String ipAddress );
+    void meIdle(String ipAddress);
 
     /**
      * A user notifies that it is still connected to the network,
@@ -137,7 +137,7 @@ public interface MessageResponder
      * @param userCode The unique code of the user who sent the idle message.
      * @param ipAddress The IP address of that user.
      */
-    void userIdle( int userCode, String ipAddress );
+    void userIdle(int userCode, String ipAddress);
 
     /**
      * A user is asking the application user to receive a file.
@@ -148,7 +148,7 @@ public interface MessageResponder
      * @param user The nick name of the user.
      * @param fileHash The hash code of the file.
      */
-    void fileSend( int userCode, long byteSize, String fileName, String user, int fileHash );
+    void fileSend(int userCode, long byteSize, String fileName, String user, int fileHash);
 
     /**
      * A user has aborted a file transfer from the application user.
@@ -157,7 +157,7 @@ public interface MessageResponder
      * @param fileName The name of the file.
      * @param fileHash The hash code of the file.
      */
-    void fileSendAborted( int userCode, String fileName, int fileHash );
+    void fileSendAborted(int userCode, String fileName, int fileHash);
 
     /**
      * A user has accepted a file transfer from the application user.
@@ -167,7 +167,7 @@ public interface MessageResponder
      * @param fileHash The hash code of the file.
      * @param port The port to use for connecting to the other user.
      */
-    void fileSendAccepted( int userCode, String fileName, int fileHash, int port );
+    void fileSendAccepted(int userCode, String fileName, int fileHash, int port);
 
     /**
      * A user has sent information about it's client.
@@ -178,5 +178,5 @@ public interface MessageResponder
      * @param operatingSystem The user's operating system.
      * @param privateChatPort The port to use for sending private chat messages to this user.
      */
-    void clientInfo( int userCode, String client, long timeSinceLogon, String operatingSystem, int privateChatPort );
+    void clientInfo(int userCode, String client, long timeSinceLogon, String operatingSystem, int privateChatPort);
 }

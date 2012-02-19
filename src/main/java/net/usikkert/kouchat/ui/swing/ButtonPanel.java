@@ -72,29 +72,29 @@ public class ButtonPanel extends JPanel implements ActionListener
      */
     public ButtonPanel()
     {
-        setLayout( new GridLayout( 4, 1 ) );
+        setLayout(new GridLayout(4, 1));
 
-        clearB = new JButton( "Clear" );
-        clearB.addActionListener( this );
-        clearB.setToolTipText( "Clear all the text in the chat area." );
-        add( clearB );
+        clearB = new JButton("Clear");
+        clearB.addActionListener(this);
+        clearB.setToolTipText("Clear all the text in the chat area.");
+        add(clearB);
 
-        awayB = new JButton( "Away" );
-        awayB.addActionListener( this );
-        awayB.setToolTipText( "Set/unset your user as away." );
-        add( awayB );
+        awayB = new JButton("Away");
+        awayB.addActionListener(this);
+        awayB.setToolTipText("Set/unset your user as away.");
+        add(awayB);
 
-        topicB = new JButton( "Topic" );
-        topicB.addActionListener( this );
-        topicB.setToolTipText( "Change the topic of this chat." );
-        add( topicB );
+        topicB = new JButton("Topic");
+        topicB.addActionListener(this);
+        topicB.setToolTipText("Change the topic of this chat.");
+        add(topicB);
 
-        minimizeB = new JButton( "Minimize" );
-        minimizeB.addActionListener( this );
-        minimizeB.setToolTipText( "Minimize to the system tray." );
-        add( minimizeB );
+        minimizeB = new JButton("Minimize");
+        minimizeB.addActionListener(this);
+        minimizeB.setToolTipText("Minimize to the system tray.");
+        add(minimizeB);
 
-        setBorder( BorderFactory.createEmptyBorder( 0, 0, 1, 1 ) );
+        setBorder(BorderFactory.createEmptyBorder(0, 0, 1, 1));
     }
 
     /**
@@ -102,9 +102,9 @@ public class ButtonPanel extends JPanel implements ActionListener
      *
      * @param mediator The mediator to set.
      */
-    public void setMediator( final Mediator mediator )
+    public void setMediator(final Mediator mediator)
     {
-        Validate.notNull( mediator, "Mediator can not be null" );
+        Validate.notNull(mediator, "Mediator can not be null");
         this.mediator = mediator;
     }
 
@@ -113,9 +113,9 @@ public class ButtonPanel extends JPanel implements ActionListener
      *
      * @param away If away, the button is disabled. Else enabled.
      */
-    public void setAwayState( final boolean away )
+    public void setAwayState(final boolean away)
     {
-        topicB.setEnabled( !away );
+        topicB.setEnabled(!away);
     }
 
     /**
@@ -124,54 +124,54 @@ public class ButtonPanel extends JPanel implements ActionListener
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed( final ActionEvent e )
+    public void actionPerformed(final ActionEvent e)
     {
-        if ( e.getSource() == minimizeB )
+        if (e.getSource() == minimizeB)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
                     mediator.minimize();
                 }
-            } );
+            });
         }
 
-        else if ( e.getSource() == clearB )
+        else if (e.getSource() == clearB)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
                     mediator.clearChat();
                 }
-            } );
+            });
         }
 
-        else if ( e.getSource() == awayB )
+        else if (e.getSource() == awayB)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
                     mediator.setAway();
                 }
-            } );
+            });
         }
 
-        else if ( e.getSource() == topicB )
+        else if (e.getSource() == topicB)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
                     mediator.setTopic();
                 }
-            } );
+            });
         }
     }
 }

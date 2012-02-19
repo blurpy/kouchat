@@ -57,7 +57,7 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class TextViewerDialog extends JDialog
 {
-    private static final Logger LOG = Logger.getLogger( TextViewerDialog.class.getName() );
+    private static final Logger LOG = Logger.getLogger(TextViewerDialog.class.getName());
     private static final long serialVersionUID = 1L;
 
     private final ErrorHandler errorHandler;
@@ -78,50 +78,50 @@ public class TextViewerDialog extends JDialog
      * @param links True to enabled support for opening urls by clicking on them.
      * @param imageLoader The image loader.
      */
-    public TextViewerDialog( final String textFile, final String title, final boolean links, final ImageLoader imageLoader )
+    public TextViewerDialog(final String textFile, final String title, final boolean links, final ImageLoader imageLoader)
     {
-        Validate.notNull( textFile, "Text file can not be null" );
-        Validate.notNull( title, "Title can not be null" );
-        Validate.notNull( imageLoader, "Image loader can not be null" );
+        Validate.notNull(textFile, "Text file can not be null");
+        Validate.notNull(title, "Title can not be null");
+        Validate.notNull(imageLoader, "Image loader can not be null");
 
         this.textFile = textFile;
         errorHandler = ErrorHandler.getErrorHandler();
 
         viewerTP = new JTextPane();
-        viewerTP.setFont( new Font( "Monospaced", Font.PLAIN, viewerTP.getFont().getSize() ) );
-        viewerTP.setEditable( false );
+        viewerTP.setFont(new Font("Monospaced", Font.PLAIN, viewerTP.getFont().getSize()));
+        viewerTP.setEditable(false);
         viewerDoc = viewerTP.getStyledDocument();
 
         // Enables the url support
-        if ( links )
+        if (links)
         {
-            URLMouseListener urlML = new URLMouseListener( viewerTP );
-            viewerTP.addMouseListener( urlML );
-            viewerTP.addMouseMotionListener( urlML );
+            URLMouseListener urlML = new URLMouseListener(viewerTP);
+            viewerTP.addMouseListener(urlML);
+            viewerTP.addMouseMotionListener(urlML);
             AbstractDocument doc = (AbstractDocument) viewerDoc;
-            doc.setDocumentFilter( new URLDocumentFilter( true ) );
+            doc.setDocumentFilter(new URLDocumentFilter(true));
         }
 
-        new CopyPopup( viewerTP );
+        new CopyPopup(viewerTP);
         viewerAttr = new SimpleAttributeSet();
-        viewerScroll = new JScrollPane( viewerTP );
-        viewerScroll.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS );
+        viewerScroll = new JScrollPane(viewerTP);
+        viewerScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        JPanel panel = new JPanel( new BorderLayout() );
-        panel.setBorder( BorderFactory.createEmptyBorder( 5, 4, 4, 4 ) );
-        panel.add( viewerScroll, BorderLayout.CENTER );
-        add( panel, BorderLayout.CENTER );
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(BorderFactory.createEmptyBorder(5, 4, 4, 4));
+        panel.add(viewerScroll, BorderLayout.CENTER);
+        add(panel, BorderLayout.CENTER);
 
         // To get 80 columns and 24 rows
-        FontMetrics fm = viewerTP.getFontMetrics( viewerTP.getFont() );
-        int width = fm.charWidth( '_' ) * 80;
+        FontMetrics fm = viewerTP.getFontMetrics(viewerTP.getFont());
+        int width = fm.charWidth('_') * 80;
         int height = fm.getHeight() * 24;
-        viewerTP.setPreferredSize( new Dimension( width, height ) );
+        viewerTP.setPreferredSize(new Dimension(width, height));
 
-        setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
-        setTitle( UITools.createTitle( title ) );
-        setIconImage( imageLoader.getAppIcon().getImage() );
-        setResizable( false );
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        setTitle(UITools.createTitle(title));
+        setIconImage(imageLoader.getAppIcon().getImage());
+        setResizable(false);
         readFile();
         pack();
     }
@@ -133,30 +133,30 @@ public class TextViewerDialog extends JDialog
      * {@inheritDoc}
      */
     @Override
-    public void setVisible( final boolean visible )
+    public void setVisible(final boolean visible)
     {
-        if ( fileOpened )
+        if (fileOpened)
         {
-            if ( visible )
+            if (visible)
             {
                 try
                 {
-                    Rectangle r = viewerTP.modelToView( 0 );
-                    viewerScroll.getViewport().setViewPosition( new Point( r.x, r.y ) );
+                    Rectangle r = viewerTP.modelToView(0);
+                    viewerScroll.getViewport().setViewPosition(new Point(r.x, r.y));
                 }
 
-                catch ( final BadLocationException e )
+                catch (final BadLocationException e)
                 {
-                    LOG.log( Level.SEVERE, e.toString() );
+                    LOG.log(Level.SEVERE, e.toString());
                 }
             }
 
-            super.setVisible( visible );
+            super.setVisible(visible);
         }
 
         else
         {
-            errorHandler.showError( "The file " + textFile + " could not be opened." );
+            errorHandler.showError("The file " + textFile + " could not be opened.");
         }
     }
 
@@ -165,47 +165,47 @@ public class TextViewerDialog extends JDialog
      */
     private void readFile()
     {
-        URL fileURL = getClass().getResource( "/" + textFile );
+        URL fileURL = getClass().getResource("/" + textFile);
 
-        if ( fileURL != null )
+        if (fileURL != null)
         {
             BufferedReader reader = null;
 
             try
             {
-                reader = new BufferedReader( new InputStreamReader( fileURL.openStream() ) );
+                reader = new BufferedReader(new InputStreamReader(fileURL.openStream()));
 
-                while ( reader.ready() )
+                while (reader.ready())
                 {
-                    viewerDoc.insertString( viewerDoc.getLength(), reader.readLine() + "\n", viewerAttr );
+                    viewerDoc.insertString(viewerDoc.getLength(), reader.readLine() + "\n", viewerAttr);
                 }
 
-                viewerTP.setCaretPosition( 0 );
+                viewerTP.setCaretPosition(0);
                 fileOpened = true;
             }
 
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                LOG.log( Level.SEVERE, e.toString() );
+                LOG.log(Level.SEVERE, e.toString());
             }
 
-            catch ( final BadLocationException e )
+            catch (final BadLocationException e)
             {
-                LOG.log( Level.SEVERE, e.toString() );
+                LOG.log(Level.SEVERE, e.toString());
             }
 
             finally
             {
-                if ( reader != null )
+                if (reader != null)
                 {
                     try
                     {
                         reader.close();
                     }
 
-                    catch ( final IOException e )
+                    catch (final IOException e)
                     {
-                        LOG.log( Level.WARNING, "Problems closing: " + textFile );
+                        LOG.log(Level.WARNING, "Problems closing: " + textFile);
                     }
                 }
             }
@@ -213,7 +213,7 @@ public class TextViewerDialog extends JDialog
 
         else
         {
-            LOG.log( Level.SEVERE, "Text file not found: " + textFile );
+            LOG.log(Level.SEVERE, "Text file not found: " + textFile);
         }
     }
 }

@@ -61,23 +61,23 @@ public class DayTimer extends TimerTask
      *
      * @param ui The user interface.
      */
-    public DayTimer( final UserInterface ui )
+    public DayTimer(final UserInterface ui)
     {
         msgController = ui.getMessageController();
         Calendar cal = Calendar.getInstance();
-        int currentHour = cal.get( Calendar.HOUR_OF_DAY );
+        int currentHour = cal.get(Calendar.HOUR_OF_DAY);
 
         // To stop the timer from thinking that the day has changed if
         // the application is started between 00 and 01 o'clock.
-        if ( currentHour == NOTIFY_HOUR )
+        if (currentHour == NOTIFY_HOUR)
             done = true;
 
-        cal.set( Calendar.HOUR_OF_DAY, NOTIFY_HOUR );
-        cal.set( Calendar.MINUTE, 0 );
-        cal.set( Calendar.SECOND, 0 );
+        cal.set(Calendar.HOUR_OF_DAY, NOTIFY_HOUR);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
 
-        Timer timer = new Timer( "DayTimer" );
-        timer.scheduleAtFixedRate( this, new Date( cal.getTimeInMillis() ), TIMER_INTERVAL );
+        Timer timer = new Timer("DayTimer");
+        timer.scheduleAtFixedRate(this, new Date(cal.getTimeInMillis()), TIMER_INTERVAL);
     }
 
     /**
@@ -88,17 +88,17 @@ public class DayTimer extends TimerTask
     @Override
     public void run()
     {
-        int hour = Calendar.getInstance().get( Calendar.HOUR_OF_DAY );
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
         // Needs an extra check, so the message only shows once a day.
-        if ( hour == NOTIFY_HOUR && !done )
+        if (hour == NOTIFY_HOUR && !done)
         {
-            String date = Tools.dateToString( null, "EEEE, d MMMM yyyy" );
-            msgController.showSystemMessage( "Day changed to " + date );
+            String date = Tools.dateToString(null, "EEEE, d MMMM yyyy");
+            msgController.showSystemMessage("Day changed to " + date);
             done = true;
         }
 
-        else if ( hour != NOTIFY_HOUR && done )
+        else if (hour != NOTIFY_HOUR && done)
         {
             done = false;
         }

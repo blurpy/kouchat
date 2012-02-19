@@ -47,7 +47,7 @@ import net.usikkert.kouchat.util.ByteCounter;
 public class FileReceiver implements FileTransfer
 {
     /** The logger. */
-    private static final Logger LOG = Logger.getLogger( FileReceiver.class.getName() );
+    private static final Logger LOG = Logger.getLogger(FileReceiver.class.getName());
 
     /** The user sending the file. */
     private final User user;
@@ -101,7 +101,7 @@ public class FileReceiver implements FileTransfer
      * @param file The file the user is sending.
      * @param size The size of the file, in bytes.
      */
-    public FileReceiver( final User user, final File file, final long size )
+    public FileReceiver(final User user, final File file, final long size)
     {
         this.user = user;
         this.file = file;
@@ -123,19 +123,19 @@ public class FileReceiver implements FileTransfer
         boolean done = false;
         int counter = 0;
 
-        while ( !done && counter < 10 )
+        while (!done && counter < 10)
         {
             try
             {
-                sSock = new ServerSocket( port );
+                sSock = new ServerSocket(port);
                 TimeoutThread tt = new TimeoutThread();
                 tt.start();
                 done = true;
             }
 
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                LOG.log( Level.WARNING, "Could not open " + port, e );
+                LOG.log(Level.WARNING, "Could not open " + port, e);
                 port++;
             }
 
@@ -145,8 +145,8 @@ public class FileReceiver implements FileTransfer
             }
         }
 
-        if ( !done )
-            throw new ServerException( "Could not start server" );
+        if (!done)
+            throw new ServerException("Could not start server");
 
         return port;
     }
@@ -166,11 +166,11 @@ public class FileReceiver implements FileTransfer
 
         try
         {
-            if ( sSock != null )
+            if (sSock != null)
             {
                 sock = sSock.accept();
                 listener.statusTransferring();
-                fos = new FileOutputStream( file );
+                fos = new FileOutputStream(file);
                 is = sock.getInputStream();
 
                 byte[] b = new byte[1024];
@@ -181,15 +181,15 @@ public class FileReceiver implements FileTransfer
                 int transCounter = 0;
                 bCounter.prepare();
 
-                while ( !cancel && ( tmpTransferred = is.read( b ) ) != -1 )
+                while (!cancel && (tmpTransferred = is.read(b)) != -1)
                 {
-                    fos.write( b, 0, tmpTransferred );
+                    fos.write(b, 0, tmpTransferred);
                     transferred += tmpTransferred;
-                    percent = (int) ( ( transferred * 100 ) / size );
-                    bCounter.addBytes( tmpTransferred );
+                    percent = (int) ((transferred * 100) / size);
+                    bCounter.addBytes(tmpTransferred);
                     transCounter++;
 
-                    if ( percent > tmpPercent || transCounter >= 250 )
+                    if (percent > tmpPercent || transCounter >= 250)
                     {
                         transCounter = 0;
                         tmpPercent = percent;
@@ -197,7 +197,7 @@ public class FileReceiver implements FileTransfer
                     }
                 }
 
-                if ( !cancel && transferred == size )
+                if (!cancel && transferred == size)
                 {
                     received = true;
                     listener.statusCompleted();
@@ -210,9 +210,9 @@ public class FileReceiver implements FileTransfer
             }
         }
 
-        catch ( final IOException e )
+        catch (final IOException e)
         {
-            LOG.log( Level.SEVERE, e.toString() );
+            LOG.log(Level.SEVERE, e.toString());
             listener.statusFailed();
         }
 
@@ -243,57 +243,57 @@ public class FileReceiver implements FileTransfer
     {
         try
         {
-            if ( is != null )
+            if (is != null)
                 is.close();
         }
 
-        catch ( final IOException e )
+        catch (final IOException e)
         {
-            LOG.log( Level.SEVERE, e.toString(), e );
+            LOG.log(Level.SEVERE, e.toString(), e);
         }
 
         try
         {
-            if ( fos != null )
+            if (fos != null)
                 fos.flush();
         }
 
-        catch ( final IOException e )
+        catch (final IOException e)
         {
-            LOG.log( Level.SEVERE, e.toString(), e );
+            LOG.log(Level.SEVERE, e.toString(), e);
         }
 
         try
         {
-            if ( fos != null )
+            if (fos != null)
                 fos.close();
         }
 
-        catch ( final IOException e )
+        catch (final IOException e)
         {
-            LOG.log( Level.SEVERE, e.toString(), e );
+            LOG.log(Level.SEVERE, e.toString(), e);
         }
 
         try
         {
-            if ( sock != null )
+            if (sock != null)
                 sock.close();
         }
 
-        catch ( final IOException e )
+        catch (final IOException e)
         {
-            LOG.log( Level.SEVERE, e.toString(), e );
+            LOG.log(Level.SEVERE, e.toString(), e);
         }
 
         try
         {
-            if ( sSock != null )
+            if (sSock != null)
                 sSock.close();
         }
 
-        catch ( final IOException e )
+        catch (final IOException e)
         {
-            LOG.log( Level.SEVERE, e.toString(), e );
+            LOG.log(Level.SEVERE, e.toString(), e);
         }
     }
 
@@ -317,7 +317,7 @@ public class FileReceiver implements FileTransfer
         cancel = true;
         stopReceiver();
 
-        if ( listener != null )
+        if (listener != null)
             listener.statusFailed();
     }
 
@@ -359,7 +359,7 @@ public class FileReceiver implements FileTransfer
      *
      * @param file The new file to save to.
      */
-    public void setFile(  final File file )
+    public void setFile( final File file)
     {
         this.file = file;
     }
@@ -426,7 +426,7 @@ public class FileReceiver implements FileTransfer
      * @param listener The listener to register.
      */
     @Override
-    public void registerListener( final FileTransferListener listener )
+    public void registerListener(final FileTransferListener listener)
     {
         this.listener = listener;
         listener.statusWaiting();
@@ -484,7 +484,7 @@ public class FileReceiver implements FileTransfer
          */
         public TimeoutThread()
         {
-            setName( "TimeoutThread" );
+            setName("TimeoutThread");
         }
 
         /**
@@ -496,26 +496,26 @@ public class FileReceiver implements FileTransfer
         {
             try
             {
-                sleep( 15000 );
+                sleep(15000);
             }
 
-            catch ( final InterruptedException e )
+            catch (final InterruptedException e)
             {
-                LOG.log( Level.SEVERE, e.toString(), e );
+                LOG.log(Level.SEVERE, e.toString(), e);
             }
 
             try
             {
-                if ( sSock != null )
+                if (sSock != null)
                 {
                     sSock.close();
                     sSock = null;
                 }
             }
 
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                LOG.log( Level.SEVERE, e.toString(), e );
+                LOG.log(Level.SEVERE, e.toString(), e);
             }
         }
     }

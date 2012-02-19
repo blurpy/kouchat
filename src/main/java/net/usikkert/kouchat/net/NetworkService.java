@@ -59,7 +59,7 @@ public class NetworkService implements NetworkConnectionListener
         connectionWorker = new ConnectionWorker();
         udpReceiver = new UDPReceiver();
         udpSender = new UDPSender();
-        connectionWorker.registerNetworkConnectionListener( this );
+        connectionWorker.registerNetworkConnectionListener(this);
     }
 
     /**
@@ -113,9 +113,9 @@ public class NetworkService implements NetworkConnectionListener
      *
      * @param listener The listener to register.
      */
-    public void registerNetworkConnectionListener( final NetworkConnectionListener listener )
+    public void registerNetworkConnectionListener(final NetworkConnectionListener listener)
     {
-        connectionWorker.registerNetworkConnectionListener( listener );
+        connectionWorker.registerNetworkConnectionListener(listener);
     }
 
     /**
@@ -123,9 +123,9 @@ public class NetworkService implements NetworkConnectionListener
      *
      * @param listener The listener to register.
      */
-    public void registerMessageReceiverListener( final ReceiverListener listener )
+    public void registerMessageReceiverListener(final ReceiverListener listener)
     {
-        messageReceiver.registerReceiverListener( listener );
+        messageReceiver.registerReceiverListener(listener);
     }
 
     /**
@@ -133,9 +133,9 @@ public class NetworkService implements NetworkConnectionListener
      *
      * @param listener The listener to register.
      */
-    public void registerUDPReceiverListener( final ReceiverListener listener )
+    public void registerUDPReceiverListener(final ReceiverListener listener)
     {
-        udpReceiver.registerReceiverListener( listener );
+        udpReceiver.registerReceiverListener(listener);
     }
 
     /**
@@ -144,9 +144,9 @@ public class NetworkService implements NetworkConnectionListener
      * @param message The message to send.
      * @return If the message was sent or not.
      */
-    public boolean sendMulticastMsg( final String message )
+    public boolean sendMulticastMsg(final String message)
     {
-        return messageSender.send( message );
+        return messageSender.send(message);
     }
 
     /**
@@ -157,9 +157,9 @@ public class NetworkService implements NetworkConnectionListener
      * @param port The port to send the message to.
      * @return If the message was sent or not.
      */
-    public boolean sendUDPMsg( final String message, final String ip, final int port )
+    public boolean sendUDPMsg(final String message, final String ip, final int port)
     {
-        return udpSender.send( message, ip, port );
+        return udpSender.send(message, ip, port);
     }
 
     /**
@@ -177,7 +177,7 @@ public class NetworkService implements NetworkConnectionListener
      * {@inheritDoc}
      */
     @Override
-    public void networkWentDown( final boolean silent )
+    public void networkWentDown(final boolean silent)
     {
         udpSender.stopSender();
         udpReceiver.stopReceiver();
@@ -191,12 +191,12 @@ public class NetworkService implements NetworkConnectionListener
      * {@inheritDoc}
      */
     @Override
-    public void networkCameUp( final boolean silent )
+    public void networkCameUp(final boolean silent)
     {
         udpSender.startSender();
         udpReceiver.startReceiver();
         NetworkInterface currentNetworkInterface = connectionWorker.getCurrentNetworkInterface();
-        messageSender.startSender( currentNetworkInterface );
-        messageReceiver.startReceiver( currentNetworkInterface );
+        messageSender.startSender(currentNetworkInterface);
+        messageReceiver.startReceiver(currentNetworkInterface);
     }
 }

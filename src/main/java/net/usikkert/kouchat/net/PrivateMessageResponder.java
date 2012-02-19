@@ -39,5 +39,5 @@ public interface PrivateMessageResponder
      * @param msg The message from the user.
      * @param color The color to show the message in.
      */
-    void messageArrived( int userCode, String msg, int color );
+    void messageArrived(int userCode, String msg, int color);
 }

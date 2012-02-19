@@ -59,14 +59,14 @@ public class SortedUserList implements UserList
      * {@inheritDoc}
      */
     @Override
-    public boolean add( final User user )
+    public boolean add(final User user)
     {
-        boolean success = userList.add( user );
+        boolean success = userList.add(user);
 
-        if ( success )
+        if (success)
         {
-            Collections.sort( userList );
-            fireUserAdded( userList.indexOf( user ) );
+            Collections.sort(userList);
+            fireUserAdded(userList.indexOf(user));
         }
 
         return success;
@@ -74,38 +74,38 @@ public class SortedUserList implements UserList
 
     /** {@inheritDoc} */
     @Override
-    public User get( final int pos )
+    public User get(final int pos)
     {
-        if ( pos < userList.size() )
-            return userList.get( pos );
+        if (pos < userList.size())
+            return userList.get(pos);
         else
             return null;
     }
 
     /** {@inheritDoc} */
     @Override
-    public int indexOf( final User user )
+    public int indexOf(final User user)
     {
-        return userList.indexOf( user );
+        return userList.indexOf(user);
     }
 
     /** {@inheritDoc} */
     @Override
-    public User remove( final int pos )
+    public User remove(final int pos)
     {
-        User user = userList.remove( pos );
-        fireUserRemoved( pos );
+        User user = userList.remove(pos);
+        fireUserRemoved(pos);
 
         return user;
     }
 
     /** {@inheritDoc} */
     @Override
-    public boolean remove( final User user )
+    public boolean remove(final User user)
     {
-        int pos = userList.indexOf( user );
-        boolean success = userList.remove( user );
-        fireUserRemoved( pos );
+        int pos = userList.indexOf(user);
+        boolean success = userList.remove(user);
+        fireUserRemoved(pos);
 
         return success;
     }
@@ -116,11 +116,11 @@ public class SortedUserList implements UserList
      * {@inheritDoc}
      */
     @Override
-    public User set( final int pos, final User user )
+    public User set(final int pos, final User user)
     {
-        User oldUser = userList.set( pos, user );
-        Collections.sort( userList );
-        fireUserChanged( userList.indexOf( user ) );
+        User oldUser = userList.set(pos, user);
+        Collections.sort(userList);
+        fireUserChanged(userList.indexOf(user));
 
         return oldUser;
     }
@@ -134,16 +134,16 @@ public class SortedUserList implements UserList
 
     /** {@inheritDoc} */
     @Override
-    public void addUserListListener( final UserListListener listener )
+    public void addUserListListener(final UserListListener listener)
     {
-        listeners.add( listener );
+        listeners.add(listener);
     }
 
     /** {@inheritDoc} */
     @Override
-    public void removeUserListListener( final UserListListener listener )
+    public void removeUserListListener(final UserListListener listener)
     {
-        listeners.remove( listener );
+        listeners.remove(listener);
     }
 
     /**
@@ -151,11 +151,11 @@ public class SortedUserList implements UserList
      *
      * @param pos The position where the user was added.
      */
-    private void fireUserAdded( final int pos )
+    private void fireUserAdded(final int pos)
     {
-        for ( UserListListener listener : listeners )
+        for (UserListListener listener : listeners)
         {
-            listener.userAdded( pos );
+            listener.userAdded(pos);
         }
     }
 
@@ -164,11 +164,11 @@ public class SortedUserList implements UserList
      *
      * @param pos The position of the changed user.
      */
-    private void fireUserChanged( final int pos )
+    private void fireUserChanged(final int pos)
     {
-        for ( UserListListener listener : listeners )
+        for (UserListListener listener : listeners)
         {
-            listener.userChanged( pos );
+            listener.userChanged(pos);
         }
     }
 
@@ -177,11 +177,11 @@ public class SortedUserList implements UserList
      *
      * @param pos The position of the removed user.
      */
-    private void fireUserRemoved( final int pos )
+    private void fireUserRemoved(final int pos)
     {
-        for ( UserListListener listener : listeners )
+        for (UserListListener listener : listeners)
         {
-            listener.userRemoved( pos );
+            listener.userRemoved(pos);
         }
     }
 }

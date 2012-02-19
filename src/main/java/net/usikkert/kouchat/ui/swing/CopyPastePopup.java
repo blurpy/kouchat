@@ -64,36 +64,36 @@ public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionL
      *
      * @param textfield The text field to use the popup on.
      */
-    public CopyPastePopup( final JTextField textfield )
+    public CopyPastePopup(final JTextField textfield)
     {
         this.textfield = textfield;
 
-        copyMI = new JMenuItem( new DefaultEditorKit.CopyAction() );
-        copyMI.setText( "Copy" );
-        copyMI.setMnemonic( 'C' );
-        copyMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_C, KeyEvent.CTRL_MASK ) );
+        copyMI = new JMenuItem(new DefaultEditorKit.CopyAction());
+        copyMI.setText("Copy");
+        copyMI.setMnemonic('C');
+        copyMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK));
 
-        cutMI = new JMenuItem( new DefaultEditorKit.CutAction() );
-        cutMI.setText( "Cut" );
-        cutMI.setMnemonic( 'U' );
-        cutMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_X, KeyEvent.CTRL_MASK ) );
+        cutMI = new JMenuItem(new DefaultEditorKit.CutAction());
+        cutMI.setText("Cut");
+        cutMI.setMnemonic('U');
+        cutMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_MASK));
 
-        pasteMI = new JMenuItem( new DefaultEditorKit.PasteAction() );
-        pasteMI.setText( "Paste" );
-        pasteMI.setMnemonic( 'P' );
-        pasteMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_V, KeyEvent.CTRL_MASK ) );
+        pasteMI = new JMenuItem(new DefaultEditorKit.PasteAction());
+        pasteMI.setText("Paste");
+        pasteMI.setMnemonic('P');
+        pasteMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_MASK));
 
-        clearMI = new JMenuItem( "Clear" );
-        clearMI.setMnemonic( 'L' );
+        clearMI = new JMenuItem("Clear");
+        clearMI.setMnemonic('L');
 
-        add( cutMI );
-        add( copyMI );
-        add( pasteMI );
+        add(cutMI);
+        add(copyMI);
+        add(pasteMI);
         addSeparator();
-        add( clearMI );
+        add(clearMI);
 
-        textfield.addMouseListener( this );
-        clearMI.addActionListener( this );
+        textfield.addMouseListener(this);
+        clearMI.addActionListener(this);
     }
 
     /**
@@ -102,7 +102,7 @@ public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionL
      * {@inheritDoc}
      */
     @Override
-    public void mouseClicked( final MouseEvent e )
+    public void mouseClicked(final MouseEvent e)
     {
 
     }
@@ -113,7 +113,7 @@ public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionL
      * {@inheritDoc}
      */
     @Override
-    public void mouseEntered( final MouseEvent e )
+    public void mouseEntered(final MouseEvent e)
     {
 
     }
@@ -124,7 +124,7 @@ public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionL
      * {@inheritDoc}
      */
     @Override
-    public void mouseExited( final MouseEvent e )
+    public void mouseExited(final MouseEvent e)
     {
 
     }
@@ -135,7 +135,7 @@ public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionL
      * {@inheritDoc}
      */
     @Override
-    public void mousePressed( final MouseEvent e )
+    public void mousePressed(final MouseEvent e)
     {
 
     }
@@ -146,30 +146,30 @@ public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionL
      * {@inheritDoc}
      */
     @Override
-    public void mouseReleased( final MouseEvent e )
+    public void mouseReleased(final MouseEvent e)
     {
-        if ( isPopupTrigger( e ) && textfield.isEnabled() )
+        if (isPopupTrigger(e) && textfield.isEnabled())
         {
             textfield.requestFocusInWindow();
 
-            if ( textfield.getSelectedText() == null )
+            if (textfield.getSelectedText() == null)
             {
-                copyMI.setEnabled( false );
-                cutMI.setEnabled( false );
+                copyMI.setEnabled(false);
+                cutMI.setEnabled(false);
             }
 
             else
             {
-                copyMI.setEnabled( true );
-                cutMI.setEnabled( true );
+                copyMI.setEnabled(true);
+                cutMI.setEnabled(true);
             }
 
-            if ( textfield.getText().length() > 0 )
-                clearMI.setEnabled( true );
+            if (textfield.getText().length() > 0)
+                clearMI.setEnabled(true);
             else
-                clearMI.setEnabled( false );
+                clearMI.setEnabled(false);
 
-            show( textfield, e.getX(), e.getY() );
+            show(textfield, e.getX(), e.getY());
         }
     }
 
@@ -179,8 +179,8 @@ public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionL
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed( final ActionEvent e )
+    public void actionPerformed(final ActionEvent e)
     {
-        textfield.setText( "" );
+        textfield.setText("");
     }
 }

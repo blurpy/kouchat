@@ -50,9 +50,9 @@ public class ConsoleMediator implements UserInterface
     public ConsoleMediator()
     {
         final ConsoleChatWindow chat = new ConsoleChatWindow();
-        msgController = new MessageController( chat, this );
-        controller = new Controller( this );
-        final ConsoleInput ci = new ConsoleInput( controller, this );
+        msgController = new MessageController(chat, this);
+        controller = new Controller(this);
+        final ConsoleInput ci = new ConsoleInput(controller, this);
         ci.start();
     }
 
@@ -70,9 +70,9 @@ public class ConsoleMediator implements UserInterface
      * {@inheritDoc}
      */
     @Override
-    public boolean askFileSave( final String user, final String fileName, final String size )
+    public boolean askFileSave(final String user, final String fileName, final String size)
     {
-        msgController.showSystemMessage( "/receive or /reject the file" );
+        msgController.showSystemMessage("/receive or /reject the file");
         return true;
     }
 
@@ -82,7 +82,7 @@ public class ConsoleMediator implements UserInterface
      * {@inheritDoc}
      */
     @Override
-    public void changeAway( final boolean away )
+    public void changeAway(final boolean away)
     {
 
     }
@@ -95,7 +95,7 @@ public class ConsoleMediator implements UserInterface
     @Override
     public void clearChat()
     {
-        msgController.showSystemMessage( "Clear chat is not supported in console mode" );
+        msgController.showSystemMessage("Clear chat is not supported in console mode");
     }
 
     /**
@@ -104,11 +104,11 @@ public class ConsoleMediator implements UserInterface
      * {@inheritDoc}
      */
     @Override
-    public void showFileSave( final FileReceiver fileReceiver )
+    public void showFileSave(final FileReceiver fileReceiver)
     {
-        while ( !fileReceiver.isAccepted() && !fileReceiver.isRejected() && !fileReceiver.isCanceled() )
+        while (!fileReceiver.isAccepted() && !fileReceiver.isRejected() && !fileReceiver.isCanceled())
         {
-            Tools.sleep( 500 );
+            Tools.sleep(500);
         }
     }
 
@@ -129,9 +129,9 @@ public class ConsoleMediator implements UserInterface
      * {@inheritDoc}
      */
     @Override
-    public void showTransfer( final FileReceiver fileRes )
+    public void showTransfer(final FileReceiver fileRes)
     {
-        new TransferHandler( fileRes, msgController );
+        new TransferHandler(fileRes, msgController);
     }
 
     /**
@@ -140,9 +140,9 @@ public class ConsoleMediator implements UserInterface
      * {@inheritDoc}
      */
     @Override
-    public void showTransfer( final FileSender fileSend )
+    public void showTransfer(final FileSender fileSend)
     {
-        new TransferHandler( fileSend, msgController );
+        new TransferHandler(fileSend, msgController);
     }
 
     /**
@@ -151,7 +151,7 @@ public class ConsoleMediator implements UserInterface
      * {@inheritDoc}
      */
     @Override
-    public void notifyMessageArrived( final User user )
+    public void notifyMessageArrived(final User user)
     {
 
     }
@@ -162,7 +162,7 @@ public class ConsoleMediator implements UserInterface
      * {@inheritDoc}
      */
     @Override
-    public void notifyPrivateMessageArrived( final User user )
+    public void notifyPrivateMessageArrived(final User user)
     {
 
     }
@@ -174,10 +174,10 @@ public class ConsoleMediator implements UserInterface
      * {@inheritDoc}
      */
     @Override
-    public void createPrivChat( final User user )
+    public void createPrivChat(final User user)
     {
-        if ( user.getPrivchat() == null )
-            user.setPrivchat( new PrivateChatConsole( user ) );
+        if (user.getPrivchat() == null)
+            user.setPrivchat(new PrivateChatConsole(user));
     }
 
     /**
@@ -219,6 +219,6 @@ public class ConsoleMediator implements UserInterface
     @Override
     public void quit()
     {
-        System.exit( 0 );
+        System.exit(0);
     }
 }

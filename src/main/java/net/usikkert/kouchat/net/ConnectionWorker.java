@@ -42,7 +42,7 @@ import net.usikkert.kouchat.event.NetworkConnectionListener;
 public class ConnectionWorker implements Runnable
 {
     /** The logger. */
-    private static final Logger LOG = Logger.getLogger( ConnectionWorker.class.getName() );
+    private static final Logger LOG = Logger.getLogger(ConnectionWorker.class.getName());
 
     /** Period of time to sleep if network is up. 60 sec. */
     private static final int SLEEP_UP = 1000 * 60;
@@ -83,31 +83,31 @@ public class ConnectionWorker implements Runnable
     @Override
     public void run()
     {
-        LOG.log( Level.FINE, "Network is starting" );
+        LOG.log(Level.FINE, "Network is starting");
 
-        while ( run )
+        while (run)
         {
             boolean networkUp = updateNetwork();
 
             try
             {
-                if ( networkUp )
-                    Thread.sleep( SLEEP_UP );
+                if (networkUp)
+                    Thread.sleep(SLEEP_UP);
                 else
-                    Thread.sleep( SLEEP_DOWN );
+                    Thread.sleep(SLEEP_DOWN);
             }
 
             // Sleep interrupted - probably from stop() or checkNetwork()
-            catch ( final InterruptedException e )
+            catch (final InterruptedException e)
             {
-                LOG.log( Level.FINE, e.toString() );
+                LOG.log(Level.FINE, e.toString());
             }
         }
 
-        LOG.log( Level.FINE, "Network is stopping" );
+        LOG.log(Level.FINE, "Network is stopping");
 
-        if ( networkUp )
-            notifyNetworkDown( false );
+        if (networkUp)
+            notifyNetworkDown(false);
 
         networkInterface = null;
     }
@@ -117,7 +117,7 @@ public class ConnectionWorker implements Runnable
      */
     public void checkNetwork()
     {
-        if ( worker != null )
+        if (worker != null)
             worker.interrupt();
     }
 
@@ -132,39 +132,39 @@ public class ConnectionWorker implements Runnable
         NetworkInterface netif = selectNetworkInterface();
 
         // No network interface to connect with
-        if ( !NetworkUtils.isUsable( netif ) )
+        if (!NetworkUtils.isUsable(netif))
         {
-            LOG.log( Level.FINE, "Network is down" );
+            LOG.log(Level.FINE, "Network is down");
 
-            if ( networkUp )
-                notifyNetworkDown( false );
+            if (networkUp)
+                notifyNetworkDown(false);
 
             return false;
         }
 
         // Switching network interface, like going from cable to wireless
-        else if ( isNewNetworkInterface( netif ) )
+        else if (isNewNetworkInterface(netif))
         {
             String origNetwork = networkInterface == null ? "[null]" : networkInterface.getName();
-            LOG.log( Level.FINE, "Changing network from " + origNetwork + " to " + netif.getName() );
+            LOG.log(Level.FINE, "Changing network from " + origNetwork + " to " + netif.getName());
             networkInterface = netif;
 
-            if ( networkUp )
+            if (networkUp)
             {
-                notifyNetworkDown( true );
-                notifyNetworkUp( true );
+                notifyNetworkDown(true);
+                notifyNetworkUp(true);
             }
 
             else
-                notifyNetworkUp( false );
+                notifyNetworkUp(false);
         }
 
         // If the connection was lost, like unplugging cable, and plugging back in
-        else if ( !networkUp )
+        else if (!networkUp)
         {
-            LOG.log( Level.FINE, "Network " + netif.getName() + " is up again" );
+            LOG.log(Level.FINE, "Network " + netif.getName() + " is up again");
             networkInterface = netif;
-            notifyNetworkUp( false );
+            notifyNetworkUp(false);
         }
 
         // Else, the old connection is still up
@@ -178,9 +178,9 @@ public class ConnectionWorker implements Runnable
      * @param netif The new network interface to compare against the original.
      * @return True if netif is new.
      */
-    private boolean isNewNetworkInterface( final NetworkInterface netif )
+    private boolean isNewNetworkInterface(final NetworkInterface netif)
     {
-        return !NetworkUtils.sameNetworkInterface( netif, networkInterface );
+        return !NetworkUtils.sameNetworkInterface(netif, networkInterface);
     }
 
     /**
@@ -188,13 +188,13 @@ public class ConnectionWorker implements Runnable
      *
      * @param silent Don't give any messages to the user about the change.
      */
-    private synchronized void notifyNetworkUp( final boolean silent )
+    private synchronized void notifyNetworkUp(final boolean silent)
     {
         networkUp = true;
 
-        for ( NetworkConnectionListener listener : listeners )
+        for (NetworkConnectionListener listener : listeners)
         {
-            listener.networkCameUp( silent );
+            listener.networkCameUp(silent);
         }
     }
 
@@ -203,13 +203,13 @@ public class ConnectionWorker implements Runnable
      *
      * @param silent Don't give any messages to the user about the change.
      */
-    private synchronized void notifyNetworkDown( final boolean silent )
+    private synchronized void notifyNetworkDown(final boolean silent)
     {
         networkUp = false;
 
-        for ( NetworkConnectionListener listener : listeners )
+        for (NetworkConnectionListener listener : listeners)
         {
-            listener.networkWentDown( silent );
+            listener.networkWentDown(silent);
         }
     }
 
@@ -218,9 +218,9 @@ public class ConnectionWorker implements Runnable
      *
      * @param listener The listener to register.
      */
-    public void registerNetworkConnectionListener( final NetworkConnectionListener listener )
+    public void registerNetworkConnectionListener(final NetworkConnectionListener listener)
     {
-        listeners.add( listener );
+        listeners.add(listener);
     }
 
     /**
@@ -228,10 +228,10 @@ public class ConnectionWorker implements Runnable
      */
     public synchronized void start()
     {
-        if ( !run && !isAlive() )
+        if (!run && !isAlive())
         {
             run = true;
-            worker = new Thread( this, "ConnectionWorker" );
+            worker = new Thread(this, "ConnectionWorker");
             worker.start();
         }
     }
@@ -243,7 +243,7 @@ public class ConnectionWorker implements Runnable
     {
         run = false;
 
-        if ( worker != null )
+        if (worker != null)
             worker.interrupt();
     }
 
@@ -264,21 +264,21 @@ public class ConnectionWorker implements Runnable
     {
         NetworkInterface firstUsableNetIf = NetworkUtils.findFirstUsableNetworkInterface();
 
-        if ( firstUsableNetIf == null )
+        if (firstUsableNetIf == null)
         {
-            LOG.log( Level.FINER, "No usable network interface detected." );
+            LOG.log(Level.FINER, "No usable network interface detected.");
             return null;
         }
 
         NetworkInterface osNetIf = osNetworkInfo.getOperatingSystemNetworkInterface();
 
-        if ( NetworkUtils.isUsable( osNetIf ) )
+        if (NetworkUtils.isUsable(osNetIf))
         {
-            LOG.log( Level.FINER, "Using operating system's choice of network interface." );
+            LOG.log(Level.FINER, "Using operating system's choice of network interface.");
             return osNetIf;
         }
 
-        LOG.log( Level.FINER, "Overriding operating system's choice of network interface." );
+        LOG.log(Level.FINER, "Overriding operating system's choice of network interface.");
         return firstUsableNetIf;
     }
 
@@ -290,9 +290,9 @@ public class ConnectionWorker implements Runnable
     public NetworkInterface getCurrentNetworkInterface()
     {
         NetworkInterface updatedNetworkInterface =
-            NetworkUtils.getUpdatedNetworkInterface( networkInterface );
+            NetworkUtils.getUpdatedNetworkInterface(networkInterface);
 
-        if ( updatedNetworkInterface != null )
+        if (updatedNetworkInterface != null)
             return updatedNetworkInterface;
 
         return networkInterface;
@@ -315,7 +315,7 @@ public class ConnectionWorker implements Runnable
      */
     public boolean isAlive()
     {
-        if ( worker == null )
+        if (worker == null)
             return false;
         else
             return worker.isAlive();

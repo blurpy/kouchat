@@ -47,7 +47,7 @@ import net.usikkert.kouchat.util.ByteCounter;
 public class FileSender implements FileTransfer
 {
     /** The logger. */
-    private static final Logger LOG = Logger.getLogger( FileSender.class.getName() );
+    private static final Logger LOG = Logger.getLogger(FileSender.class.getName());
 
     /** The user to send a file to. */
     private final User user;
@@ -91,7 +91,7 @@ public class FileSender implements FileTransfer
      * @param user The user to send the file to.
      * @param file The file to send.
      */
-    public FileSender( final User user, final File file )
+    public FileSender(final User user, final File file)
     {
         this.user = user;
         this.file = file;
@@ -107,9 +107,9 @@ public class FileSender implements FileTransfer
      * @param port The port to use when connecting to the user.
      * @return If the file transfer was successful.
      */
-    public boolean transfer( final int port )
+    public boolean transfer(final int port)
     {
-        if ( !cancel )
+        if (!cancel)
         {
             listener.statusConnecting();
 
@@ -120,40 +120,40 @@ public class FileSender implements FileTransfer
             {
                 int counter = 0;
 
-                while ( sock == null && counter < 10 )
+                while (sock == null && counter < 10)
                 {
                     counter++;
 
                     try
                     {
-                        sock = new Socket( InetAddress.getByName( user.getIpAddress() ), port );
+                        sock = new Socket(InetAddress.getByName(user.getIpAddress()), port);
                     }
 
-                    catch ( final UnknownHostException e )
+                    catch (final UnknownHostException e)
                     {
-                        LOG.log( Level.SEVERE, e.toString(), e );
+                        LOG.log(Level.SEVERE, e.toString(), e);
                     }
 
-                    catch ( final IOException e )
+                    catch (final IOException e)
                     {
-                        LOG.log( Level.SEVERE, e.toString(), e );
+                        LOG.log(Level.SEVERE, e.toString(), e);
                     }
 
                     try
                     {
-                        Thread.sleep( 100 );
+                        Thread.sleep(100);
                     }
 
-                    catch ( final InterruptedException e )
+                    catch (final InterruptedException e)
                     {
-                        LOG.log( Level.SEVERE, e.toString(), e );
+                        LOG.log(Level.SEVERE, e.toString(), e);
                     }
                 }
 
-                if ( sock != null && !cancel )
+                if (sock != null && !cancel)
                 {
                     listener.statusTransferring();
-                    fis = new FileInputStream( file );
+                    fis = new FileInputStream(file);
                     os = sock.getOutputStream();
 
                     byte[] b = new byte[1024];
@@ -164,15 +164,15 @@ public class FileSender implements FileTransfer
                     int transCounter = 0;
                     bCounter.prepare();
 
-                    while ( !cancel && ( tmpTransferred = fis.read( b ) ) != -1 )
+                    while (!cancel && (tmpTransferred = fis.read(b)) != -1)
                     {
-                        os.write( b, 0, tmpTransferred );
+                        os.write(b, 0, tmpTransferred);
                         transferred += tmpTransferred;
-                        percent = (int) ( ( transferred * 100 ) / file.length() );
-                        bCounter.addBytes( tmpTransferred );
+                        percent = (int) ((transferred * 100) / file.length());
+                        bCounter.addBytes(tmpTransferred);
                         transCounter++;
 
-                        if ( percent > tmpPercent || transCounter >= 250 )
+                        if (percent > tmpPercent || transCounter >= 250)
                         {
                             transCounter = 0;
                             tmpPercent = percent;
@@ -180,7 +180,7 @@ public class FileSender implements FileTransfer
                         }
                     }
 
-                    if ( !cancel && transferred == file.length() )
+                    if (!cancel && transferred == file.length())
                     {
                         sent = true;
                         listener.statusCompleted();
@@ -198,15 +198,15 @@ public class FileSender implements FileTransfer
                 }
             }
 
-            catch ( final UnknownHostException e )
+            catch (final UnknownHostException e)
             {
-                LOG.log( Level.SEVERE, e.toString(), e );
+                LOG.log(Level.SEVERE, e.toString(), e);
                 listener.statusFailed();
             }
 
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                LOG.log( Level.SEVERE, e.toString() );
+                LOG.log(Level.SEVERE, e.toString());
                 listener.statusFailed();
             }
 
@@ -237,46 +237,46 @@ public class FileSender implements FileTransfer
     {
         try
         {
-            if ( fis != null )
+            if (fis != null)
                 fis.close();
         }
 
-        catch ( final IOException e )
+        catch (final IOException e)
         {
-            LOG.log( Level.SEVERE, e.toString(), e );
+            LOG.log(Level.SEVERE, e.toString(), e);
         }
 
         try
         {
-            if ( os != null )
+            if (os != null)
                 os.flush();
         }
 
-        catch ( final IOException e )
+        catch (final IOException e)
         {
-            LOG.log( Level.SEVERE, e.toString(), e );
+            LOG.log(Level.SEVERE, e.toString(), e);
         }
 
         try
         {
-            if ( os != null )
+            if (os != null)
                 os.close();
         }
 
-        catch ( final IOException e )
+        catch (final IOException e)
         {
-            LOG.log( Level.SEVERE, e.toString(), e );
+            LOG.log(Level.SEVERE, e.toString(), e);
         }
 
         try
         {
-            if ( sock != null )
+            if (sock != null)
                 sock.close();
         }
 
-        catch ( final IOException e )
+        catch (final IOException e)
         {
-            LOG.log( Level.SEVERE, e.toString(), e );
+            LOG.log(Level.SEVERE, e.toString(), e);
         }
     }
 
@@ -407,7 +407,7 @@ public class FileSender implements FileTransfer
      * @param listener The listener to register.
      */
     @Override
-    public void registerListener( final FileTransferListener listener )
+    public void registerListener(final FileTransferListener listener)
     {
         this.listener = listener;
         listener.statusWaiting();

@@ -51,9 +51,9 @@ public class StatusIcons
      *
      * @param imageLoader The image loader.
      */
-    public StatusIcons( final ImageLoader imageLoader )
+    public StatusIcons(final ImageLoader imageLoader)
     {
-        Validate.notNull( imageLoader, "Image loader can not be null" );
+        Validate.notNull(imageLoader, "Image loader can not be null");
 
         normalIcon = imageLoader.getKouNormalIcon().getImage();
         normalActivityIcon = imageLoader.getKouNormalActivityIcon().getImage();

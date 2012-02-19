@@ -40,7 +40,7 @@ public class PrivateChatConsole implements PrivateChatWindow
      *
      * @param user The user in this chat session.
      */
-    public PrivateChatConsole( final User user )
+    public PrivateChatConsole(final User user)
     {
         this.user = user;
     }
@@ -53,9 +53,9 @@ public class PrivateChatConsole implements PrivateChatWindow
      * @param color The color of the message - not implemented.
      */
     @Override
-    public void appendToPrivateChat( final String message, final int color )
+    public void appendToPrivateChat(final String message, final int color)
     {
-        System.out.println( "(privmsg) " + message );
+        System.out.println("(privmsg) " + message);
     }
 
     /**
@@ -117,7 +117,7 @@ public class PrivateChatConsole implements PrivateChatWindow
      * {@inheritDoc}
      */
     @Override
-    public void setAway( final boolean away )
+    public void setAway(final boolean away)
     {
 
     }
@@ -139,7 +139,7 @@ public class PrivateChatConsole implements PrivateChatWindow
      * {@inheritDoc}
      */
     @Override
-    public void setVisible( final boolean visible )
+    public void setVisible(final boolean visible)
     {
 
     }

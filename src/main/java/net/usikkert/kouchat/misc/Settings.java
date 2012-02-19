@@ -60,7 +60,7 @@ import net.usikkert.kouchat.util.Tools;
 public final class Settings
 {
     /** The logger. */
-    private static final Logger LOG = Logger.getLogger( Settings.class.getName() );
+    private static final Logger LOG = Logger.getLogger(Settings.class.getName());
 
     /** The path to the file storing the settings. */
     private static final String FILENAME = Constants.APP_FOLDER + "kouchat.ini";
@@ -110,15 +110,15 @@ public final class Settings
      */
     private Settings()
     {
-        int code = 10000000 + (int) ( Math.random() * 9999999 );
+        int code = 10000000 + (int) (Math.random() * 9999999);
 
-        me = new User( createNickName( code ), code );
-        me.setMe( true );
-        me.setLastIdle( System.currentTimeMillis() );
-        me.setLogonTime( System.currentTimeMillis() );
-        me.setOperatingSystem( System.getProperty( "os.name" ) );
-        me.setClient( Constants.APP_NAME + " v" + Constants.APP_VERSION
-                + " " + System.getProperty( Constants.PROPERTY_CLIENT_UI ) );
+        me = new User(createNickName(code), code);
+        me.setMe(true);
+        me.setLastIdle(System.currentTimeMillis());
+        me.setLogonTime(System.currentTimeMillis());
+        me.setOperatingSystem(System.getProperty("os.name"));
+        me.setClient(Constants.APP_NAME + " v" + Constants.APP_VERSION
+                + " " + System.getProperty(Constants.PROPERTY_CLIENT_UI));
 
         listeners = new ArrayList<SettingsListener>();
         errorHandler = ErrorHandler.getErrorHandler();
@@ -142,20 +142,20 @@ public final class Settings
      * @param code The user code.
      * @return The created nick name.
      */
-    private String createNickName( final int code )
+    private String createNickName(final int code)
     {
-        String userName = System.getProperty( "user.name" );
+        String userName = System.getProperty("user.name");
 
-        if ( userName == null )
-            return Integer.toString( code );
+        if (userName == null)
+            return Integer.toString(code);
 
-        String[] splitUserName = userName.split( " " );
-        String defaultNick = Tools.capitalizeFirstLetter( Tools.shorten( splitUserName[0].trim(), 10 ) );
+        String[] splitUserName = userName.split(" ");
+        String defaultNick = Tools.capitalizeFirstLetter(Tools.shorten(splitUserName[0].trim(), 10));
 
-        if ( Tools.isValidNick( defaultNick ) )
+        if (Tools.isValidNick(defaultNick))
             return defaultNick;
 
-        return Integer.toString( code );
+        return Integer.toString(code);
     }
 
     /**
@@ -177,85 +177,85 @@ public final class Settings
         FileWriter fileWriter = null;
         BufferedWriter buffWriter = null;
 
-        File appFolder = new File( Constants.APP_FOLDER );
+        File appFolder = new File(Constants.APP_FOLDER);
 
-        if ( !appFolder.exists() )
+        if (!appFolder.exists())
             appFolder.mkdir();
 
         try
         {
-            fileWriter = new FileWriter( FILENAME );
-            buffWriter = new BufferedWriter( fileWriter );
+            fileWriter = new FileWriter(FILENAME);
+            buffWriter = new BufferedWriter(fileWriter);
 
-            buffWriter.write( "nick=" + me.getNick() );
+            buffWriter.write("nick=" + me.getNick());
             buffWriter.newLine();
-            buffWriter.write( "owncolor=" + ownColor );
+            buffWriter.write("owncolor=" + ownColor);
             buffWriter.newLine();
-            buffWriter.write( "syscolor=" + sysColor );
+            buffWriter.write("syscolor=" + sysColor);
             buffWriter.newLine();
-            buffWriter.write( "logging=" + logging );
+            buffWriter.write("logging=" + logging);
             buffWriter.newLine();
-            buffWriter.write( "sound=" + sound );
+            buffWriter.write("sound=" + sound);
             buffWriter.newLine();
             // Properties does not support loading back slash, so replace with forward slash
-            buffWriter.write( "browser=" + browser.replaceAll( "\\\\", "/" ) );
+            buffWriter.write("browser=" + browser.replaceAll("\\\\", "/"));
             buffWriter.newLine();
-            buffWriter.write( "smileys=" + smileys );
+            buffWriter.write("smileys=" + smileys);
             buffWriter.newLine();
-            buffWriter.write( "lookAndFeel=" + lookAndFeel );
+            buffWriter.write("lookAndFeel=" + lookAndFeel);
             buffWriter.newLine();
         }
 
-        catch ( final IOException e )
+        catch (final IOException e)
         {
-            LOG.log( Level.SEVERE, e.toString() );
-            errorHandler.showError( "Settings could not be saved:\n " + e );
+            LOG.log(Level.SEVERE, e.toString());
+            errorHandler.showError("Settings could not be saved:\n " + e);
         }
 
         finally
         {
             try
             {
-                if ( buffWriter != null )
+                if (buffWriter != null)
                     buffWriter.flush();
             }
 
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                LOG.log( Level.SEVERE, e.toString(), e );
+                LOG.log(Level.SEVERE, e.toString(), e);
             }
 
             try
             {
-                if ( fileWriter != null )
+                if (fileWriter != null)
                     fileWriter.flush();
             }
 
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                LOG.log( Level.SEVERE, e.toString(), e );
+                LOG.log(Level.SEVERE, e.toString(), e);
             }
 
             try
             {
-                if ( buffWriter != null )
+                if (buffWriter != null)
                     buffWriter.close();
             }
 
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                LOG.log( Level.SEVERE, e.toString(), e );
+                LOG.log(Level.SEVERE, e.toString(), e);
             }
 
             try
             {
-                if ( fileWriter != null )
+                if (fileWriter != null)
                     fileWriter.close();
             }
 
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                LOG.log( Level.SEVERE, e.toString(), e );
+                LOG.log(Level.SEVERE, e.toString(), e);
             }
         }
     }
@@ -271,68 +271,68 @@ public final class Settings
         try
         {
             Properties fileContents = new Properties();
-            fileStream = new FileInputStream( FILENAME );
-            fileContents.load( fileStream );
+            fileStream = new FileInputStream(FILENAME);
+            fileContents.load(fileStream);
 
-            String tmpNick = fileContents.getProperty( "nick" );
+            String tmpNick = fileContents.getProperty("nick");
 
-            if ( tmpNick != null && Tools.isValidNick( tmpNick ) )
+            if (tmpNick != null && Tools.isValidNick(tmpNick))
             {
-                me.setNick( tmpNick.trim() );
+                me.setNick(tmpNick.trim());
             }
 
             try
             {
-                ownColor = Integer.parseInt( fileContents.getProperty( "owncolor" ) );
+                ownColor = Integer.parseInt(fileContents.getProperty("owncolor"));
             }
 
-            catch ( final NumberFormatException e )
+            catch (final NumberFormatException e)
             {
-                LOG.log( Level.WARNING, "Could not read setting for owncolor.." );
+                LOG.log(Level.WARNING, "Could not read setting for owncolor..");
             }
 
             try
             {
-                sysColor = Integer.parseInt( fileContents.getProperty( "syscolor" ) );
+                sysColor = Integer.parseInt(fileContents.getProperty("syscolor"));
             }
 
-            catch ( final NumberFormatException e )
+            catch (final NumberFormatException e)
             {
-                LOG.log( Level.WARNING, "Could not read setting for syscolor.." );
+                LOG.log(Level.WARNING, "Could not read setting for syscolor..");
             }
 
-            logging = Boolean.valueOf( fileContents.getProperty( "logging" ) );
-            browser = fileContents.getProperty( "browser" );
-            lookAndFeel = fileContents.getProperty( "lookAndFeel" );
+            logging = Boolean.valueOf(fileContents.getProperty("logging"));
+            browser = fileContents.getProperty("browser");
+            lookAndFeel = fileContents.getProperty("lookAndFeel");
 
-            if ( fileContents.getProperty( "sound" ) != null ) // Defaults to true
-                sound = Boolean.valueOf( fileContents.getProperty( "sound" ) );
+            if (fileContents.getProperty("sound") != null) // Defaults to true
+                sound = Boolean.valueOf(fileContents.getProperty("sound"));
 
-            if ( fileContents.getProperty( "smileys" ) != null ) // Defaults to true
-                smileys = Boolean.valueOf( fileContents.getProperty( "smileys" ) );
+            if (fileContents.getProperty("smileys") != null) // Defaults to true
+                smileys = Boolean.valueOf(fileContents.getProperty("smileys"));
         }
 
-        catch ( final FileNotFoundException e )
+        catch (final FileNotFoundException e)
         {
-            LOG.log( Level.WARNING, "Could not find " + FILENAME + ", using default settings." );
+            LOG.log(Level.WARNING, "Could not find " + FILENAME + ", using default settings.");
         }
 
-        catch ( final IOException e )
+        catch (final IOException e)
         {
-            LOG.log( Level.SEVERE, e.toString(), e );
+            LOG.log(Level.SEVERE, e.toString(), e);
         }
 
         finally
         {
             try
             {
-                if ( fileStream != null )
+                if (fileStream != null)
                     fileStream.close();
             }
 
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                LOG.log( Level.SEVERE, e.toString(), e );
+                LOG.log(Level.SEVERE, e.toString(), e);
             }
         }
     }
@@ -363,12 +363,12 @@ public final class Settings
      *
      * @param ownColor The color for own messages.
      */
-    public void setOwnColor( final int ownColor )
+    public void setOwnColor(final int ownColor)
     {
-        if ( this.ownColor != ownColor )
+        if (this.ownColor != ownColor)
         {
             this.ownColor = ownColor;
-            fireSettingChanged( "ownColor" );
+            fireSettingChanged("ownColor");
         }
     }
 
@@ -388,12 +388,12 @@ public final class Settings
      *
      * @param sysColor The color for system messages.
      */
-    public void setSysColor( final int sysColor )
+    public void setSysColor(final int sysColor)
     {
-        if ( this.sysColor != sysColor )
+        if (this.sysColor != sysColor)
         {
             this.sysColor = sysColor;
-            fireSettingChanged( "sysColor" );
+            fireSettingChanged("sysColor");
         }
     }
 
@@ -413,12 +413,12 @@ public final class Settings
      *
      * @param sound If sound is enabled.
      */
-    public void setSound( final boolean sound )
+    public void setSound(final boolean sound)
     {
-        if ( this.sound != sound )
+        if (this.sound != sound)
         {
             this.sound = sound;
-            fireSettingChanged( "sound" );
+            fireSettingChanged("sound");
         }
     }
 
@@ -438,12 +438,12 @@ public final class Settings
      *
      * @param logging If logging is enabled.
      */
-    public void setLogging( final boolean logging )
+    public void setLogging(final boolean logging)
     {
-        if ( this.logging != logging )
+        if (this.logging != logging)
         {
             this.logging = logging;
-            fireSettingChanged( "logging" );
+            fireSettingChanged("logging");
         }
     }
 
@@ -462,7 +462,7 @@ public final class Settings
      *
      * @param browser The chosen browser.
      */
-    public void setBrowser( final String browser )
+    public void setBrowser(final String browser)
     {
         this.browser = browser;
     }
@@ -482,7 +482,7 @@ public final class Settings
      *
      * @param smileys If smileys are enabled.
      */
-    public void setSmileys( final boolean smileys )
+    public void setSmileys(final boolean smileys)
     {
         this.smileys = smileys;
     }
@@ -502,7 +502,7 @@ public final class Settings
      *
      * @param lookAndFeel The chosen look and feel.
      */
-    public void setLookAndFeel( final String lookAndFeel )
+    public void setLookAndFeel(final String lookAndFeel)
     {
         this.lookAndFeel = lookAndFeel;
     }
@@ -512,11 +512,11 @@ public final class Settings
      *
      * @param setting The setting that has changed.
      */
-    private void fireSettingChanged( final String setting )
+    private void fireSettingChanged(final String setting)
     {
-        for ( SettingsListener listener : listeners )
+        for (SettingsListener listener : listeners)
         {
-            listener.settingChanged( setting );
+            listener.settingChanged(setting);
         }
     }
 
@@ -525,9 +525,9 @@ public final class Settings
      *
      * @param listener The listener to add.
      */
-    public void addSettingsListener( final SettingsListener listener )
+    public void addSettingsListener(final SettingsListener listener)
     {
-        listeners.add( listener );
+        listeners.add(listener);
     }
 
     /**
@@ -535,8 +535,8 @@ public final class Settings
      *
      * @param listener The listener to remove.
      */
-    public void removeSettingsListener( final SettingsListener listener )
+    public void removeSettingsListener(final SettingsListener listener)
     {
-        listeners.remove( listener );
+        listeners.remove(listener);
     }
 }

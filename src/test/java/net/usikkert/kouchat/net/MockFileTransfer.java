@@ -51,13 +51,13 @@ public class MockFileTransfer implements FileTransfer
      *
      * @param direction If this mock should send or receive the file.
      */
-    public MockFileTransfer( final Direction direction )
+    public MockFileTransfer(final Direction direction)
     {
         this.direction = direction;
-        user = new User( "TestUser", 1234 );
-        user.setIpAddress( "192.168.1.1" );
-        file = new File( "test/this_is_a_fake_test_file_with_a_very_very_long_file_name.txt" );
-        Settings.getSettings().getMe().setIpAddress( "192.168.1.2" );
+        user = new User("TestUser", 1234);
+        user.setIpAddress("192.168.1.1");
+        file = new File("test/this_is_a_fake_test_file_with_a_very_very_long_file_name.txt");
+        Settings.getSettings().getMe().setIpAddress("192.168.1.2");
     }
 
     /**
@@ -164,7 +164,7 @@ public class MockFileTransfer implements FileTransfer
      * @param listener The listener to register.
      */
     @Override
-    public void registerListener( final FileTransferListener listener )
+    public void registerListener(final FileTransferListener listener)
     {
         this.listener = listener;
         new MockTransferThread().start();
@@ -185,29 +185,29 @@ public class MockFileTransfer implements FileTransfer
         {
             try
             {
-                sleep( 500 );
+                sleep(500);
                 listener.statusWaiting();
-                sleep( 500 );
+                sleep(500);
                 listener.statusConnecting();
-                sleep( 1000 );
+                sleep(1000);
                 listener.statusTransferring();
-                sleep( 500 );
+                sleep(500);
 
-                while ( !cancel && transferred < getFileSize() )
+                while (!cancel && transferred < getFileSize())
                 {
                     transferred += 10000;
                     percent += 2;
-                    sleep( 50 );
+                    sleep(50);
                     listener.transferUpdate();
                 }
 
-                if ( cancel )
+                if (cancel)
                     listener.statusFailed();
                 else
                     listener.statusCompleted();
             }
 
-            catch ( final InterruptedException e )
+            catch (final InterruptedException e)
             {
                 e.printStackTrace();
             }

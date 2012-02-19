@@ -37,5 +37,5 @@ public interface ChatWindow
      * @param message The text to add to the chat.
      * @param color The color to show the text in.
      */
-    void appendToChat( String message, int color );
+    void appendToChat(String message, int color);
 }

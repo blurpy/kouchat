@@ -51,7 +51,7 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer
     private static final long serialVersionUID = 1L;
 
     /** The logger to use for this class. */
-    private static final Logger LOG = Logger.getLogger( UserListCellRenderer.class.getName() );
+    private static final Logger LOG = Logger.getLogger(UserListCellRenderer.class.getName());
 
     /** Max size of the horizontal insets in the list element border. */
     private static final int MAX_HORI_SIZE = 4;
@@ -76,33 +76,33 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer
      *
      * @param imageLoader The image loader.
      */
-    public UserListCellRenderer( final ImageLoader imageLoader )
+    public UserListCellRenderer(final ImageLoader imageLoader)
     {
-        Validate.notNull( imageLoader, "Image loader can not be null" );
+        Validate.notNull(imageLoader, "Image loader can not be null");
 
         envelope = imageLoader.getEnvelopeIcon();
         dot = imageLoader.getDotIcon();
 
-        Border noFocusBorder = UIManager.getBorder( "List.cellNoFocusBorder" );
-        Border highlightBorder = UIManager.getBorder( "List.focusCellHighlightBorder" );
+        Border noFocusBorder = UIManager.getBorder("List.cellNoFocusBorder");
+        Border highlightBorder = UIManager.getBorder("List.focusCellHighlightBorder");
 
-        Insets highlightBorderInsets = highlightBorder.getBorderInsets( this );
-        int vertical = Math.max( 0, MAX_VERT_SIZE - highlightBorderInsets.top );
-        int horizontal = Math.max( 0, MAX_HORI_SIZE - highlightBorderInsets.left );
+        Insets highlightBorderInsets = highlightBorder.getBorderInsets(this);
+        int vertical = Math.max(0, MAX_VERT_SIZE - highlightBorderInsets.top);
+        int horizontal = Math.max(0, MAX_HORI_SIZE - highlightBorderInsets.left);
 
         // If noFocusBorder does not exist, the normalBorder will be 1px smaller
-        int padding = ( noFocusBorder == null ? 1 : 0 );
+        int padding = (noFocusBorder == null ? 1 : 0);
 
         normalBorder = BorderFactory.createCompoundBorder(
                 noFocusBorder,
-                BorderFactory.createEmptyBorder( vertical + padding, horizontal + padding,
-                                                 vertical + padding, horizontal + padding ) );
+                BorderFactory.createEmptyBorder(vertical + padding, horizontal + padding,
+                                                 vertical + padding, horizontal + padding));
 
         selectedBorder = BorderFactory.createCompoundBorder(
                 highlightBorder,
-                BorderFactory.createEmptyBorder( vertical, horizontal, vertical, horizontal ) );
+                BorderFactory.createEmptyBorder(vertical, horizontal, vertical, horizontal));
 
-        setOpaque( true );
+        setOpaque(true);
     }
 
     /**
@@ -116,62 +116,62 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer
      * {@inheritDoc}
      */
     @Override
-    public Component getListCellRendererComponent( final JList list, final Object value,
-            final int index, final boolean isSelected, final boolean cellHasFocus )
+    public Component getListCellRendererComponent(final JList list, final Object value,
+            final int index, final boolean isSelected, final boolean cellHasFocus)
     {
-        if ( isSelected )
+        if (isSelected)
         {
-            setBackground( list.getSelectionBackground() );
-            setForeground( list.getSelectionForeground() );
-            setBorder( selectedBorder );
+            setBackground(list.getSelectionBackground());
+            setForeground(list.getSelectionForeground());
+            setBorder(selectedBorder);
         }
 
         else
         {
-            setBackground( list.getBackground() );
-            setForeground( list.getForeground() );
-            setBorder( normalBorder );
+            setBackground(list.getBackground());
+            setForeground(list.getForeground());
+            setBorder(normalBorder);
         }
 
         User user = (User) value;
 
-        if ( user != null )
+        if (user != null)
         {
-            if ( user.isMe() )
-                setFont( list.getFont().deriveFont( Font.BOLD ) );
+            if (user.isMe())
+                setFont(list.getFont().deriveFont(Font.BOLD));
             else
-                setFont( list.getFont().deriveFont( Font.PLAIN ) );
+                setFont(list.getFont().deriveFont(Font.PLAIN));
 
-            if ( user.isAway() )
-                setForeground( Color.GRAY );
+            if (user.isAway())
+                setForeground(Color.GRAY);
 
-            if ( user.isNewPrivMsg() )
-                setIcon( envelope );
+            if (user.isNewPrivMsg())
+                setIcon(envelope);
             else
-                setIcon( dot );
+                setIcon(dot);
 
-            if ( user.isWriting() )
+            if (user.isWriting())
             {
-                setText( user.getNick() + " *" );
-                setToolTipText( user.getNick() + " is writing" );
+                setText(user.getNick() + " *");
+                setToolTipText(user.getNick() + " is writing");
             }
 
             else
             {
-                setText( user.getNick() );
+                setText(user.getNick());
 
-                if ( user.isAway() )
-                    setToolTipText( user.getNick() + " is away" );
+                if (user.isAway())
+                    setToolTipText(user.getNick() + " is away");
                 else
-                    setToolTipText( user.getNick() );
+                    setToolTipText(user.getNick());
             }
         }
 
         else
-            LOG.log( Level.WARNING, "Got a null list element." );
+            LOG.log(Level.WARNING, "Got a null list element.");
 
-        setEnabled( list.isEnabled() );
-        setComponentOrientation( list.getComponentOrientation() );
+        setEnabled(list.isEnabled());
+        setComponentOrientation(list.getComponentOrientation());
 
         return this;
     }
@@ -188,7 +188,7 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer
         Color background = getBackground();
         Component parent = getParent();
 
-        if ( parent != null )
+        if (parent != null)
         {
             parent = parent.getParent();
         }
@@ -196,7 +196,7 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer
         // Parent should now be the JList.
         boolean colorMatch = background != null
                           && parent != null
-                          && background.equals( parent.getBackground() )
+                          && background.equals(parent.getBackground())
                           && parent.isOpaque();
 
         return !colorMatch && super.isOpaque();

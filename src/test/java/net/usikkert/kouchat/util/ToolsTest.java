@@ -40,15 +40,15 @@ public class ToolsTest
     @Test
     public void testCapitalizeFirstLetter()
     {
-        assertNull( Tools.capitalizeFirstLetter( null ) );
-        assertEquals( "Monkey", Tools.capitalizeFirstLetter( "monkey" ) );
-        assertEquals( "Kou", Tools.capitalizeFirstLetter( "kou" ) );
-        assertEquals( "Up", Tools.capitalizeFirstLetter( "up" ) );
-        assertEquals( "O", Tools.capitalizeFirstLetter( "o" ) );
-        assertEquals( "-", Tools.capitalizeFirstLetter( "-" ) );
-        assertEquals( "", Tools.capitalizeFirstLetter( "" ) );
-        assertEquals( "CAKE", Tools.capitalizeFirstLetter( "CAKE" ) );
-        assertEquals( "123", Tools.capitalizeFirstLetter( "123" ) );
+        assertNull(Tools.capitalizeFirstLetter(null));
+        assertEquals("Monkey", Tools.capitalizeFirstLetter("monkey"));
+        assertEquals("Kou", Tools.capitalizeFirstLetter("kou"));
+        assertEquals("Up", Tools.capitalizeFirstLetter("up"));
+        assertEquals("O", Tools.capitalizeFirstLetter("o"));
+        assertEquals("-", Tools.capitalizeFirstLetter("-"));
+        assertEquals("", Tools.capitalizeFirstLetter(""));
+        assertEquals("CAKE", Tools.capitalizeFirstLetter("CAKE"));
+        assertEquals("123", Tools.capitalizeFirstLetter("123"));
     }
 
     /**
@@ -57,13 +57,13 @@ public class ToolsTest
     @Test
     public void testShorten()
     {
-        assertNull( Tools.shorten( null, 5 ) );
-        assertEquals( "Monkey", Tools.shorten( "Monkey", 12 ) );
-        assertEquals( "Monkey", Tools.shorten( "Monkey", 6 ) );
-        assertEquals( "Monke", Tools.shorten( "Monkey", 5 ) );
-        assertEquals( "M", Tools.shorten( "Monkey", 1 ) );
-        assertEquals( "", Tools.shorten( "Monkey", 0 ) );
-        assertEquals( "", Tools.shorten( "Monkey", -5 ) );
+        assertNull(Tools.shorten(null, 5));
+        assertEquals("Monkey", Tools.shorten("Monkey", 12));
+        assertEquals("Monkey", Tools.shorten("Monkey", 6));
+        assertEquals("Monke", Tools.shorten("Monkey", 5));
+        assertEquals("M", Tools.shorten("Monkey", 1));
+        assertEquals("", Tools.shorten("Monkey", 0));
+        assertEquals("", Tools.shorten("Monkey", -5));
     }
 
     /**
@@ -72,12 +72,12 @@ public class ToolsTest
     @Test
     public void testGetFileExtension()
     {
-        assertNull( Tools.getFileExtension( null ) );
-        assertEquals( "", Tools.getFileExtension( "file" ) );
-        assertEquals( ".txt", Tools.getFileExtension( "file.txt" ) );
-        assertEquals( ".", Tools.getFileExtension( "file." ) );
-        assertEquals( ".txt", Tools.getFileExtension( ".txt" ) );
-        assertEquals( ".jpg", Tools.getFileExtension( "image.txt.jpg" ) );
+        assertNull(Tools.getFileExtension(null));
+        assertEquals("", Tools.getFileExtension("file"));
+        assertEquals(".txt", Tools.getFileExtension("file.txt"));
+        assertEquals(".", Tools.getFileExtension("file."));
+        assertEquals(".txt", Tools.getFileExtension(".txt"));
+        assertEquals(".jpg", Tools.getFileExtension("image.txt.jpg"));
     }
 
     /**
@@ -86,12 +86,12 @@ public class ToolsTest
     @Test
     public void testGetFileBaseName()
     {
-        assertNull( Tools.getFileBaseName( null ) );
-        assertEquals( "file", Tools.getFileBaseName( "file" ) );
-        assertEquals( "file", Tools.getFileBaseName( "file.txt" ) );
-        assertEquals( "file", Tools.getFileBaseName( "file." ) );
-        assertEquals( "", Tools.getFileBaseName( ".txt" ) );
-        assertEquals( "image.txt", Tools.getFileBaseName( "image.txt.jpg" ) );
+        assertNull(Tools.getFileBaseName(null));
+        assertEquals("file", Tools.getFileBaseName("file"));
+        assertEquals("file", Tools.getFileBaseName("file.txt"));
+        assertEquals("file", Tools.getFileBaseName("file."));
+        assertEquals("", Tools.getFileBaseName(".txt"));
+        assertEquals("image.txt", Tools.getFileBaseName("image.txt.jpg"));
     }
 
     /**
@@ -100,11 +100,11 @@ public class ToolsTest
     @Test
     public void testPercent()
     {
-        assertEquals( 0.08, Tools.percent( 1, 1250 ), 10 );
-        assertEquals( 25, Tools.percent( 50, 200 ), 10 );
-        assertEquals( 50, Tools.percent( 5, 10 ),  10 );
-        assertEquals( 100, Tools.percent( 10, 10 ), 10 );
-        assertEquals( 200, Tools.percent( 60, 30 ), 10 );
+        assertEquals(0.08, Tools.percent(1, 1250), 10);
+        assertEquals(25, Tools.percent(50, 200), 10);
+        assertEquals(50, Tools.percent(5, 10),  10);
+        assertEquals(100, Tools.percent(10, 10), 10);
+        assertEquals(200, Tools.percent(60, 30), 10);
     }
 
     /**
@@ -113,10 +113,10 @@ public class ToolsTest
     @Test
     public void testPercentOf()
     {
-        assertEquals( 1, Tools.percentOf( 0.08, 1250 ), 10 );
-        assertEquals( 50, Tools.percentOf( 25, 200 ),  10 );
-        assertEquals( 5, Tools.percentOf( 50, 10 ), 10 );
-        assertEquals( 10, Tools.percentOf( 100, 10 ), 10 );
-        assertEquals( 60, Tools.percentOf( 200, 30 ), 10 );
+        assertEquals(1, Tools.percentOf(0.08, 1250), 10);
+        assertEquals(50, Tools.percentOf(25, 200),  10);
+        assertEquals(5, Tools.percentOf(50, 10), 10);
+        assertEquals(10, Tools.percentOf(100, 10), 10);
+        assertEquals(60, Tools.percentOf(200, 30), 10);
     }
 }

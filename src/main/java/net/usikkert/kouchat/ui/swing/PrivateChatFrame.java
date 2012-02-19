@@ -78,7 +78,7 @@ import net.usikkert.kouchat.util.Validate;
 public class PrivateChatFrame extends JFrame implements ActionListener, KeyListener,
         PrivateChatWindow, FileDropSource, WindowListener, FocusListener
 {
-    private static final Logger LOG = Logger.getLogger( PrivateChatFrame.class.getName() );
+    private static final Logger LOG = Logger.getLogger(PrivateChatFrame.class.getName());
     private static final long serialVersionUID = 1L;
 
     private final JTextPane chatTP;
@@ -102,95 +102,95 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * @param user The user in the private chat.
      * @param imageLoader The image loader.
      */
-    public PrivateChatFrame( final Mediator mediator, final User user, final ImageLoader imageLoader )
+    public PrivateChatFrame(final Mediator mediator, final User user, final ImageLoader imageLoader)
     {
-        Validate.notNull( mediator, "Mediator can not be null" );
-        Validate.notNull( user, "User can not be null" );
-        Validate.notNull( imageLoader, "Image loader can not be null" );
+        Validate.notNull(mediator, "Mediator can not be null");
+        Validate.notNull(user, "User can not be null");
+        Validate.notNull(imageLoader, "Image loader can not be null");
 
         this.mediator = mediator;
         this.user = user;
 
-        statusIcons = new StatusIcons( imageLoader );
+        statusIcons = new StatusIcons(imageLoader);
         me = Settings.getSettings().getMe();
-        user.setPrivchat( this );
+        user.setPrivchat(this);
 
-        setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
-        setSize( 460, 340 );
-        setMinimumSize( new Dimension( 300, 250 ) );
-        setIconImage( imageLoader.getAppIcon().getImage() );
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        setSize(460, 340);
+        setMinimumSize(new Dimension(300, 250));
+        setIconImage(imageLoader.getAppIcon().getImage());
         updateUserInformation();
 
-        fileTransferHandler = new FileTransferHandler( this );
-        fileTransferHandler.setMediator( mediator );
+        fileTransferHandler = new FileTransferHandler(this);
+        fileTransferHandler.setMediator(mediator);
 
         chatAttr = new SimpleAttributeSet();
         chatTP = new JTextPane();
-        chatTP.setEditable( false );
-        chatTP.setBorder( BorderFactory.createEmptyBorder( 4, 6, 4, 6 ) );
-        chatTP.setEditorKit( new MiddleAlignedIconViewEditorKit() );
-        chatTP.setTransferHandler( fileTransferHandler );
-        chatTP.setBackground( UIManager.getColor( "TextPane.background" ) );
+        chatTP.setEditable(false);
+        chatTP.setBorder(BorderFactory.createEmptyBorder(4, 6, 4, 6));
+        chatTP.setEditorKit(new MiddleAlignedIconViewEditorKit());
+        chatTP.setTransferHandler(fileTransferHandler);
+        chatTP.setBackground(UIManager.getColor("TextPane.background"));
         chatDoc = chatTP.getStyledDocument();
-        JScrollPane chatScroll = new JScrollPane( chatTP );
+        JScrollPane chatScroll = new JScrollPane(chatTP);
 
-        URLMouseListener urlML = new URLMouseListener( chatTP );
-        chatTP.addMouseListener( urlML );
-        chatTP.addMouseMotionListener( urlML );
+        URLMouseListener urlML = new URLMouseListener(chatTP);
+        chatTP.addMouseListener(urlML);
+        chatTP.addMouseMotionListener(urlML);
 
         DocumentFilterList documentFilterList = new DocumentFilterList();
-        documentFilterList.addDocumentFilter( new URLDocumentFilter( false ) );
-        documentFilterList.addDocumentFilter( new SmileyDocumentFilter( false, imageLoader ) );
+        documentFilterList.addDocumentFilter(new URLDocumentFilter(false));
+        documentFilterList.addDocumentFilter(new SmileyDocumentFilter(false, imageLoader));
         AbstractDocument doc = (AbstractDocument) chatDoc;
-        doc.setDocumentFilter( documentFilterList );
+        doc.setDocumentFilter(documentFilterList);
 
         msgTF = new JTextField();
-        msgTF.addActionListener( this );
-        msgTF.addKeyListener( this );
+        msgTF.addActionListener(this);
+        msgTF.addKeyListener(this);
 
         AbstractDocument msgDoc = (AbstractDocument) msgTF.getDocument();
-        msgDoc.setDocumentFilter( new SizeDocumentFilter( Constants.MESSAGE_MAX_BYTES ) );
+        msgDoc.setDocumentFilter(new SizeDocumentFilter(Constants.MESSAGE_MAX_BYTES));
 
         JPanel backP = new JPanel();
-        backP.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
-        backP.setLayout( new BorderLayout( 2, 2 ) );
-        backP.add( chatScroll, BorderLayout.CENTER );
-        backP.add( msgTF, BorderLayout.PAGE_END );
+        backP.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        backP.setLayout(new BorderLayout(2, 2));
+        backP.add(chatScroll, BorderLayout.CENTER);
+        backP.add(msgTF, BorderLayout.PAGE_END);
 
-        getContentPane().add( backP, BorderLayout.CENTER );
+        getContentPane().add(backP, BorderLayout.CENTER);
 
         closeMI = new JMenuItem();
-        closeMI.setMnemonic( 'C' );
-        closeMI.setText( "Close" );
-        closeMI.addActionListener( this );
+        closeMI.setMnemonic('C');
+        closeMI.setText("Close");
+        closeMI.addActionListener(this);
 
         fileMenu = new JMenu();
-        fileMenu.setMnemonic( 'F' );
-        fileMenu.setText( "File" );
-        fileMenu.add( closeMI );
+        fileMenu.setMnemonic('F');
+        fileMenu.setText("File");
+        fileMenu.add(closeMI);
 
         clearMI = new JMenuItem();
-        clearMI.setMnemonic( 'C' );
-        clearMI.setText( "Clear chat" );
-        clearMI.addActionListener( this );
+        clearMI.setMnemonic('C');
+        clearMI.setText("Clear chat");
+        clearMI.addActionListener(this);
 
         toolsMenu = new JMenu();
-        toolsMenu.setMnemonic( 'T' );
-        toolsMenu.setText( "Tools" );
-        toolsMenu.add( clearMI );
+        toolsMenu.setMnemonic('T');
+        toolsMenu.setText("Tools");
+        toolsMenu.add(clearMI);
 
         JMenuBar menuBar = new JMenuBar();
-        menuBar.add( fileMenu );
-        menuBar.add( toolsMenu );
-        setJMenuBar( menuBar );
+        menuBar.add(fileMenu);
+        menuBar.add(toolsMenu);
+        setJMenuBar(menuBar);
 
-        new CopyPastePopup( msgTF );
-        new CopyPopup( chatTP );
+        new CopyPastePopup(msgTF);
+        new CopyPopup(chatTP);
 
-        getRootPane().addFocusListener( this );
-        addWindowListener( this );
+        getRootPane().addFocusListener(this);
+        addWindowListener(this);
         fixTextFieldFocus();
-        hideWithEscape( backP );
+        hideWithEscape(backP);
 
         cmdHistory = new CommandHistory();
     }
@@ -201,13 +201,13 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      */
     private void fixTextFieldFocus()
     {
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher( new KeyEventDispatcher()
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher()
         {
-            public boolean dispatchKeyEvent( final KeyEvent e )
+            public boolean dispatchKeyEvent(final KeyEvent e)
             {
-                if ( e.getID() == KeyEvent.KEY_TYPED && isFocused() && e.getSource() == chatTP )
+                if (e.getID() == KeyEvent.KEY_TYPED && isFocused() && e.getSource() == chatTP)
                 {
-                    KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent( msgTF, e );
+                    KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(msgTF, e);
                     msgTF.requestFocusInWindow();
 
                     return true;
@@ -216,7 +216,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
                 else
                     return false;
             }
-        } );
+        });
     }
 
     /**
@@ -224,23 +224,23 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      *
      * @param panel The panel to add the shortcut to.
      */
-    private void hideWithEscape( final JPanel panel )
+    private void hideWithEscape(final JPanel panel)
     {
-        KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0, false );
+        KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
 
         Action escapeAction = new AbstractAction()
         {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void actionPerformed( final ActionEvent e )
+            public void actionPerformed(final ActionEvent e)
             {
                 close();
             }
         };
 
-        panel.getInputMap( JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT ).put( escapeKeyStroke, "ESCAPE" );
-        panel.getActionMap().put( "ESCAPE", escapeAction );
+        panel.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(escapeKeyStroke, "ESCAPE");
+        panel.getActionMap().put("ESCAPE", escapeAction);
     }
 
     /**
@@ -250,18 +250,18 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * @param color The color that the text should have.
      */
     @Override
-    public void appendToPrivateChat( final String message, final int color )
+    public void appendToPrivateChat(final String message, final int color)
     {
         try
         {
-            StyleConstants.setForeground( chatAttr, new Color( color ) );
-            chatDoc.insertString( chatDoc.getLength(), message + "\n", chatAttr );
-            chatTP.setCaretPosition( chatDoc.getLength() );
+            StyleConstants.setForeground(chatAttr, new Color(color));
+            chatDoc.insertString(chatDoc.getLength(), message + "\n", chatAttr);
+            chatTP.setCaretPosition(chatDoc.getLength());
         }
 
-        catch ( final BadLocationException e )
+        catch (final BadLocationException e)
         {
-            LOG.log( Level.SEVERE, e.toString(), e );
+            LOG.log(Level.SEVERE, e.toString(), e);
         }
     }
 
@@ -282,22 +282,22 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void setVisible( final boolean visible )
+    public void setVisible(final boolean visible)
     {
-        if ( visible )
+        if (visible)
         {
             // Stop the window from jumping around the screen if it's already visible
-            if ( !isVisible() )
-                setLocationRelativeTo( getParent() );
+            if (!isVisible())
+                setLocationRelativeTo(getParent());
 
-            if ( !user.isOnline() || user.isAway() || me.isAway() )
-                msgTF.setEnabled( false );
+            if (!user.isOnline() || user.isAway() || me.isAway())
+                msgTF.setEnabled(false);
 
-            if ( isVisible() && UITools.isMinimized( this ) )
-                UITools.restore( this );
+            if (isVisible() && UITools.isMinimized(this))
+                UITools.restore(this);
         }
 
-        super.setVisible( visible );
+        super.setVisible(visible);
     }
 
     /**
@@ -306,30 +306,30 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed( final ActionEvent e )
+    public void actionPerformed(final ActionEvent e)
     {
         // Sends a message when the user presses the enter key.
-        if ( e.getSource() == msgTF )
+        if (e.getSource() == msgTF)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    cmdHistory.add( msgTF.getText() );
-                    mediator.writePrivate( user.getPrivchat() );
+                    cmdHistory.add(msgTF.getText());
+                    mediator.writePrivate(user.getPrivchat());
                 }
-            } );
+            });
         }
 
-        else if ( e.getSource() == closeMI )
+        else if (e.getSource() == closeMI)
         {
             close();
         }
 
-        else if ( e.getSource() == clearMI )
+        else if (e.getSource() == clearMI)
         {
-            chatTP.setText( "" );
+            chatTP.setText("");
         }
     }
 
@@ -338,10 +338,10 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      */
     private void close()
     {
-        if ( !user.isOnline() )
+        if (!user.isOnline())
             dispose();
         else
-            setVisible( false );
+            setVisible(false);
     }
 
     /**
@@ -350,7 +350,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void keyPressed( final KeyEvent e )
+    public void keyPressed(final KeyEvent e)
     {
 
     }
@@ -361,7 +361,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void keyTyped( final KeyEvent e )
+    public void keyTyped(final KeyEvent e)
     {
 
     }
@@ -373,30 +373,30 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void keyReleased( final KeyEvent ke )
+    public void keyReleased(final KeyEvent ke)
     {
-        SwingUtilities.invokeLater( new Runnable()
+        SwingUtilities.invokeLater(new Runnable()
         {
             @Override
             public void run()
             {
-                if ( ke.getKeyCode() == KeyEvent.VK_UP )
+                if (ke.getKeyCode() == KeyEvent.VK_UP)
                 {
                     String up = cmdHistory.goUp();
 
-                    if ( !msgTF.getText().equals( up ) )
-                        msgTF.setText( up );
+                    if (!msgTF.getText().equals(up))
+                        msgTF.setText(up);
                 }
 
-                else if ( ke.getKeyCode() == KeyEvent.VK_DOWN )
+                else if (ke.getKeyCode() == KeyEvent.VK_DOWN)
                 {
                     String down = cmdHistory.goDown();
 
-                    if ( !msgTF.getText().equals( down ) )
-                        msgTF.setText( down );
+                    if (!msgTF.getText().equals(down))
+                        msgTF.setText(down);
                 }
             }
-        } );
+        });
     }
 
     /**
@@ -405,7 +405,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
     @Override
     public void clearChatText()
     {
-        msgTF.setText( "" );
+        msgTF.setText("");
     }
 
     /**
@@ -425,9 +425,9 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * @param away If away or not.
      */
     @Override
-    public void setAway( final boolean away )
+    public void setAway(final boolean away)
     {
-        msgTF.setEnabled( !away );
+        msgTF.setEnabled(!away);
         updateUserInformation();
     }
 
@@ -439,17 +439,17 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
     @Override
     public void setLoggedOff()
     {
-        msgTF.setEnabled( false );
+        msgTF.setEnabled(false);
 
-        if ( !isVisible() && user.isNewPrivMsg() )
+        if (!isVisible() && user.isNewPrivMsg())
         {
-            setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
-            setExtendedState( ICONIFIED );
-            setVisible( true );
+            setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            setExtendedState(ICONIFIED);
+            setVisible(true);
             updateWindowIcon();
         }
 
-        else if ( !isVisible() )
+        else if (!isVisible())
         {
             dispose();
         }
@@ -464,10 +464,10 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
     {
         String title = user.getNick();
 
-        if ( user.isAway() )
+        if (user.isAway())
             title += " (Away)";
 
-        setTitle( UITools.createTitle( title ) );
+        setTitle(UITools.createTitle(title));
         updateWindowIcon();
     }
 
@@ -477,7 +477,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void focusGained( final FocusEvent e )
+    public void focusGained(final FocusEvent e)
     {
 
     }
@@ -488,9 +488,9 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void focusLost( final FocusEvent e )
+    public void focusLost(final FocusEvent e)
     {
-        if ( fileMenu.isPopupMenuVisible() || toolsMenu.isPopupMenuVisible() )
+        if (fileMenu.isPopupMenuVisible() || toolsMenu.isPopupMenuVisible())
             getRootPane().requestFocusInWindow();
     }
 
@@ -500,13 +500,13 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void windowActivated( final WindowEvent e )
+    public void windowActivated(final WindowEvent e)
     {
         chatTP.repaint();
-        mediator.activatedPrivChat( user );
+        mediator.activatedPrivChat(user);
         updateUserInformation();
 
-        if ( msgTF.isEnabled() )
+        if (msgTF.isEnabled())
             msgTF.requestFocusInWindow();
     }
 
@@ -516,7 +516,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void windowClosed( final WindowEvent e )
+    public void windowClosed(final WindowEvent e)
     {
 
     }
@@ -527,7 +527,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void windowClosing( final WindowEvent e )
+    public void windowClosing(final WindowEvent e)
     {
 
     }
@@ -538,7 +538,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void windowDeactivated( final WindowEvent e )
+    public void windowDeactivated(final WindowEvent e)
     {
 
     }
@@ -557,9 +557,9 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void windowDeiconified( final WindowEvent e )
+    public void windowDeiconified(final WindowEvent e)
     {
-        FocusWindowThread focusWindowThread = new FocusWindowThread( this );
+        FocusWindowThread focusWindowThread = new FocusWindowThread(this);
         focusWindowThread.start();
     }
 
@@ -569,7 +569,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void windowIconified( final WindowEvent e )
+    public void windowIconified(final WindowEvent e)
     {
 
     }
@@ -580,7 +580,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void windowOpened( final WindowEvent e )
+    public void windowOpened(final WindowEvent e)
     {
 
     }
@@ -591,20 +591,20 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      */
     public void updateWindowIcon()
     {
-        if ( user.isNewPrivMsg() )
+        if (user.isNewPrivMsg())
         {
-            if ( me.isAway() || user.isAway() )
-                setWindowIcon( statusIcons.getAwayActivityIcon() );
+            if (me.isAway() || user.isAway())
+                setWindowIcon(statusIcons.getAwayActivityIcon());
             else
-                setWindowIcon( statusIcons.getNormalActivityIcon() );
+                setWindowIcon(statusIcons.getNormalActivityIcon());
         }
 
         else
         {
-            if ( me.isAway() || user.isAway() )
-                setWindowIcon( statusIcons.getAwayIcon() );
+            if (me.isAway() || user.isAway())
+                setWindowIcon(statusIcons.getAwayIcon());
             else
-                setWindowIcon( statusIcons.getNormalIcon() );
+                setWindowIcon(statusIcons.getNormalIcon());
         }
     }
 
@@ -613,10 +613,10 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      *
      * @param icon The window icon to use.
      */
-    public void setWindowIcon( final Image icon )
+    public void setWindowIcon(final Image icon)
     {
-        if ( getIconImage() != icon )
-            setIconImage( icon );
+        if (getIconImage() != icon)
+            setIconImage(icon);
     }
 
     /**
@@ -625,7 +625,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      */
     private void setSuperVisible()
     {
-        super.setVisible( true );
+        super.setVisible(true);
     }
 
     /**
@@ -641,10 +641,10 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
          *
          * @param window This window object.
          */
-        public FocusWindowThread( final PrivateChatFrame window )
+        public FocusWindowThread(final PrivateChatFrame window)
         {
             this.window = window;
-            setName( "FocusWindowThread" );
+            setName("FocusWindowThread");
         }
 
         /**
@@ -653,7 +653,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
         @Override
         public void run()
         {
-            Tools.sleep( 10 );
+            Tools.sleep(10);
             window.setSuperVisible();
         }
     }

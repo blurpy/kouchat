@@ -46,9 +46,9 @@ public class UIException extends Exception
      * @param message The exception message to use.
      * @param cause The cause of the exception.
      */
-    public UIException( final String message, final Throwable cause )
+    public UIException(final String message, final Throwable cause)
     {
-        super( message, cause );
+        super(message, cause);
     }
 
     /**
@@ -56,9 +56,9 @@ public class UIException extends Exception
      *
      * @param message The exception message to use.
      */
-    public UIException( final String message )
+    public UIException(final String message)
     {
-        super( message );
+        super(message);
     }
 
     /**
@@ -66,8 +66,8 @@ public class UIException extends Exception
      *
      * @param cause The cause of the exception.
      */
-    public UIException( final Throwable cause )
+    public UIException(final Throwable cause)
     {
-        super( cause );
+        super(cause);
     }
 }

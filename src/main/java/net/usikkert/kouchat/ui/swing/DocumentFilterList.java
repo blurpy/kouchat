@@ -60,14 +60,14 @@ public class DocumentFilterList extends DocumentFilter
      * {@inheritDoc}
      */
     @Override
-    public synchronized void insertString( final FilterBypass fb, final int offset, final String text,
-            final AttributeSet attr ) throws BadLocationException
+    public synchronized void insertString(final FilterBypass fb, final int offset, final String text,
+            final AttributeSet attr) throws BadLocationException
     {
-        super.insertString( fb, offset, text, attr );
+        super.insertString(fb, offset, text, attr);
 
-        for ( DocumentFilter filter : filters )
+        for (DocumentFilter filter : filters)
         {
-            filter.insertString( fb, offset, text, attr );
+            filter.insertString(fb, offset, text, attr);
         }
     }
 
@@ -76,10 +76,10 @@ public class DocumentFilterList extends DocumentFilter
      *
      * @param filter The document filter to add.
      */
-    public synchronized void addDocumentFilter( final DocumentFilter filter )
+    public synchronized void addDocumentFilter(final DocumentFilter filter)
     {
-        Validate.notNull( filter, "Document filter can not be null" );
-        filters.add( filter );
+        Validate.notNull(filter, "Document filter can not be null");
+        filters.add(filter);
     }
 
     /**
@@ -87,9 +87,9 @@ public class DocumentFilterList extends DocumentFilter
      *
      * @param filter The document filter to remove.
      */
-    public synchronized void removeDocumentFilter( final DocumentFilter filter )
+    public synchronized void removeDocumentFilter(final DocumentFilter filter)
     {
-        Validate.notNull( filter, "Document filter can not be null" );
-        filters.remove( filter );
+        Validate.notNull(filter, "Document filter can not be null");
+        filters.remove(filter);
     }
 }

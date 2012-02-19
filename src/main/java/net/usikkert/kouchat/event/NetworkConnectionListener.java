@@ -36,12 +36,12 @@ public interface NetworkConnectionListener
      *
      * @param silent Don't give any messages to the user about the change.
      */
-    void networkWentDown( boolean silent );
+    void networkWentDown(boolean silent);
 
     /**
      * The connection to the network came up and is ready for use.
      *
      * @param silent Don't give any messages to the user about the change.
      */
-    void networkCameUp( boolean silent );
+    void networkCameUp(boolean silent);
 }

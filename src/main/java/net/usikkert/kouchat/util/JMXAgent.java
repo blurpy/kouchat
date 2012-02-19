@@ -66,50 +66,50 @@ public class JMXAgent
      * @param controller The controller.
      * @param connectionWorker The connection worker.
      */
-    public JMXAgent( final Controller controller, final ConnectionWorker connectionWorker )
+    public JMXAgent(final Controller controller, final ConnectionWorker connectionWorker)
     {
-        Logger log = Logger.getLogger( JMXAgent.class.getName() );
+        Logger log = Logger.getLogger(JMXAgent.class.getName());
         MBeanServer platformMBeanServer = ManagementFactory.getPlatformMBeanServer();
 
         try
         {
             // NetworkInformation MBean
             ObjectName networkInfoName = new ObjectName(
-                    Constants.APP_NAME + ":name=" + NetworkInformationMBean.NAME );
+                    Constants.APP_NAME + ":name=" + NetworkInformationMBean.NAME);
             platformMBeanServer.registerMBean(
-                    new NetworkInformation( connectionWorker ), networkInfoName );
+                    new NetworkInformation(connectionWorker), networkInfoName);
 
             // ControllerInformation MBean
             ObjectName controllerInfoName = new ObjectName(
-                    Constants.APP_NAME + ":name=" + ControllerInformationMBean.NAME );
+                    Constants.APP_NAME + ":name=" + ControllerInformationMBean.NAME);
             platformMBeanServer.registerMBean(
-                    new ControllerInformation( controller ), controllerInfoName );
+                    new ControllerInformation(controller), controllerInfoName);
 
             // GeneralInformation MBean
             ObjectName generalInfoName = new ObjectName(
-                    Constants.APP_NAME + ":name=" + GeneralInformationMBean.NAME );
+                    Constants.APP_NAME + ":name=" + GeneralInformationMBean.NAME);
             platformMBeanServer.registerMBean(
-                    new GeneralInformation(), generalInfoName );
+                    new GeneralInformation(), generalInfoName);
         }
 
-        catch ( final MalformedObjectNameException e )
+        catch (final MalformedObjectNameException e)
         {
-            log.log( Level.SEVERE, e.toString(), e );
+            log.log(Level.SEVERE, e.toString(), e);
         }
 
-        catch ( final InstanceAlreadyExistsException e )
+        catch (final InstanceAlreadyExistsException e)
         {
-            log.log( Level.SEVERE, e.toString(), e );
+            log.log(Level.SEVERE, e.toString(), e);
         }
 
-        catch ( final MBeanRegistrationException e )
+        catch (final MBeanRegistrationException e)
         {
-            log.log( Level.SEVERE, e.toString(), e );
+            log.log(Level.SEVERE, e.toString(), e);
         }
 
-        catch ( final NotCompliantMBeanException e )
+        catch (final NotCompliantMBeanException e)
         {
-            log.log( Level.SEVERE, e.toString(), e );
+            log.log(Level.SEVERE, e.toString(), e);
         }
     }
 }

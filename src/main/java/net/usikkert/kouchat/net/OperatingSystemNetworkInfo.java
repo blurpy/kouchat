@@ -42,7 +42,7 @@ import net.usikkert.kouchat.util.Tools;
 public class OperatingSystemNetworkInfo
 {
     /** The logger. */
-    private static final Logger LOG = Logger.getLogger( OperatingSystemNetworkInfo.class.getName() );
+    private static final Logger LOG = Logger.getLogger(OperatingSystemNetworkInfo.class.getName());
 
     /** The message receiver. */
     private final MessageReceiver receiver;
@@ -55,8 +55,8 @@ public class OperatingSystemNetworkInfo
      */
     public OperatingSystemNetworkInfo()
     {
-        receiver = new MessageReceiver( Constants.NETWORK_TEMP_IP, Constants.NETWORK_TEMP_PORT );
-        sender = new MessageSender( Constants.NETWORK_TEMP_IP, Constants.NETWORK_TEMP_PORT );
+        receiver = new MessageReceiver(Constants.NETWORK_TEMP_IP, Constants.NETWORK_TEMP_PORT);
+        sender = new MessageSender(Constants.NETWORK_TEMP_IP, Constants.NETWORK_TEMP_PORT);
     }
 
     /**
@@ -71,12 +71,12 @@ public class OperatingSystemNetworkInfo
     public NetworkInterface getOperatingSystemNetworkInterface()
     {
         String message = createMessageToSend();
-        SimpleReceiverListener listener = new SimpleReceiverListener( message );
-        connect( listener );
-        sender.send( message );
-        waitForMessage( listener );
+        SimpleReceiverListener listener = new SimpleReceiverListener(message);
+        connect(listener);
+        sender.send(message);
+        waitForMessage(listener);
         disconnect();
-        return findNetworkInterface( listener );
+        return findNetworkInterface(listener);
     }
 
     /**
@@ -85,11 +85,11 @@ public class OperatingSystemNetworkInfo
      *
      * @param listener The message listener.
      */
-    private void connect( final SimpleReceiverListener listener )
+    private void connect(final SimpleReceiverListener listener)
     {
-        receiver.registerReceiverListener( listener );
-        receiver.startReceiver( null );
-        sender.startSender( null );
+        receiver.registerReceiverListener(listener);
+        receiver.startReceiver(null);
+        sender.startSender(null);
     }
 
     /**
@@ -106,12 +106,12 @@ public class OperatingSystemNetworkInfo
      *
      * @param listener The message listener.
      */
-    private void waitForMessage( final SimpleReceiverListener listener )
+    private void waitForMessage(final SimpleReceiverListener listener)
     {
-        for ( int i = 0; i < 40; i++ )
+        for (int i = 0; i < 40; i++)
         {
-            if ( listener.getIpAddress() == null )
-                Tools.sleep( 50 );
+            if (listener.getIpAddress() == null)
+                Tools.sleep(50);
             else
                 break;
         }
@@ -127,25 +127,25 @@ public class OperatingSystemNetworkInfo
      * @param listener The message listener.
      * @return The found network interface, or <code>null</code>.
      */
-    private NetworkInterface findNetworkInterface( final SimpleReceiverListener listener )
+    private NetworkInterface findNetworkInterface(final SimpleReceiverListener listener)
     {
-        if ( listener.getIpAddress() == null )
+        if (listener.getIpAddress() == null)
             return null;
 
         try
         {
-            InetAddress osAddress = InetAddress.getByName( listener.getIpAddress() );
-            return NetworkInterface.getByInetAddress( osAddress );
+            InetAddress osAddress = InetAddress.getByName(listener.getIpAddress());
+            return NetworkInterface.getByInetAddress(osAddress);
         }
 
-        catch ( final UnknownHostException e )
+        catch (final UnknownHostException e)
         {
-            LOG.log( Level.SEVERE, e.toString(), e );
+            LOG.log(Level.SEVERE, e.toString(), e);
         }
 
-        catch ( final SocketException e )
+        catch (final SocketException e)
         {
-            LOG.log( Level.SEVERE, e.toString(), e );
+            LOG.log(Level.SEVERE, e.toString(), e);
         }
 
         return null;

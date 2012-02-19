@@ -55,13 +55,13 @@ public class JTextPaneWithoutWrap extends JTextPane
      * {@inheritDoc}
      */
     @Override
-    public void setSize( final Dimension d )
+    public void setSize(final Dimension d)
     {
         // Parent is the viewport
-        if ( d.width < getParent().getSize().width )
+        if (d.width < getParent().getSize().width)
             d.width = getParent().getSize().width;
 
-        super.setSize( d );
+        super.setSize(d);
     }
 
     /**

@@ -39,7 +39,7 @@ import java.util.logging.Logger;
 public class UncaughtExceptionLogger implements Thread.UncaughtExceptionHandler
 {
     /** The logger. */
-    private static final Logger LOG = Logger.getLogger( UncaughtExceptionLogger.class.getName() );
+    private static final Logger LOG = Logger.getLogger(UncaughtExceptionLogger.class.getName());
 
     /** The listeners being notified of uncaught exceptions. */
     private final Collection<UncaughtExceptionListener> listeners;
@@ -50,7 +50,7 @@ public class UncaughtExceptionLogger implements Thread.UncaughtExceptionHandler
      */
     public UncaughtExceptionLogger()
     {
-        Thread.setDefaultUncaughtExceptionHandler( this );
+        Thread.setDefaultUncaughtExceptionHandler(this);
         listeners = new ArrayList<UncaughtExceptionListener>();
     }
 
@@ -62,14 +62,14 @@ public class UncaughtExceptionLogger implements Thread.UncaughtExceptionHandler
      * @param throwable The exception the thread got.
      */
     @Override
-    public void uncaughtException( final Thread thread, final Throwable throwable )
+    public void uncaughtException(final Thread thread, final Throwable throwable)
     {
-        LOG.log( Level.SEVERE, "UncaughtException in thread: " + thread.getName()
-                + " (id " + thread.getId() + ", priority " + thread.getPriority() + ")", throwable );
+        LOG.log(Level.SEVERE, "UncaughtException in thread: " + thread.getName()
+                + " (id " + thread.getId() + ", priority " + thread.getPriority() + ")", throwable);
 
-        for ( UncaughtExceptionListener listener : listeners )
+        for (UncaughtExceptionListener listener : listeners)
         {
-            listener.uncaughtException( thread, throwable );
+            listener.uncaughtException(thread, throwable);
         }
     }
 
@@ -78,8 +78,8 @@ public class UncaughtExceptionLogger implements Thread.UncaughtExceptionHandler
      *
      * @param listener The listener to register.
      */
-    public void registerUncaughtExceptionListener( final UncaughtExceptionListener listener )
+    public void registerUncaughtExceptionListener(final UncaughtExceptionListener listener)
     {
-        listeners.add( listener );
+        listeners.add(listener);
     }
 }

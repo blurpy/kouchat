@@ -59,10 +59,10 @@ public class MessagesTest
     {
         settings = Settings.getSettings();
         me = settings.getMe();
-        service = mock( NetworkService.class );
-        when( service.sendMulticastMsg( anyString() ) ).thenReturn( true );
-        when( service.sendUDPMsg( anyString(), anyString(), anyInt() ) ).thenReturn( true );
-        messages = new Messages( service );
+        service = mock(NetworkService.class);
+        when(service.sendMulticastMsg(anyString())).thenReturn(true);
+        when(service.sendUDPMsg(anyString(), anyString(), anyInt())).thenReturn(true);
+        messages = new Messages(service);
     }
 
     /**
@@ -74,8 +74,8 @@ public class MessagesTest
     public void testSendAwayMessage()
     {
         String awayMsg = "I am away";
-        messages.sendAwayMessage( awayMsg );
-        verify( service ).sendMulticastMsg( createMessage( "AWAY" ) + awayMsg );
+        messages.sendAwayMessage(awayMsg);
+        verify(service).sendMulticastMsg(createMessage("AWAY") + awayMsg);
     }
 
     /**
@@ -87,7 +87,7 @@ public class MessagesTest
     public void testSendBackMessage()
     {
         messages.sendBackMessage();
-        verify( service ).sendMulticastMsg( createMessage( "BACK" ) );
+        verify(service).sendMulticastMsg(createMessage("BACK"));
     }
 
     /**
@@ -101,8 +101,8 @@ public class MessagesTest
     public void testSendChatMessage() throws CommandException
     {
         String msg = "Some chat message";
-        messages.sendChatMessage( msg );
-        verify( service ).sendMulticastMsg( createMessage( "MSG" ) + "[" + settings.getOwnColor() + "]" + msg );
+        messages.sendChatMessage(msg);
+        verify(service).sendMulticastMsg(createMessage("MSG") + "[" + settings.getOwnColor() + "]" + msg);
     }
 
     /**
@@ -114,14 +114,14 @@ public class MessagesTest
     public void testSendClientMessage()
     {
         String startsWith = "(" + me.getClient() + ")[";
-        String middle = ".+\\)\\[\\d+\\]\\{.+"; // like: )[134[{
+        String middle = ".+\\)\\[\\d+\\]\\{.+"; // like:)[134[{
         String endsWidth = "]{" + me.getOperatingSystem() + "}<" + me.getPrivateChatPort() + ">";
 
         messages.sendClient();
 
-        verify( service ).sendMulticastMsg( startsWith( createMessage( "CLIENT" ) + startsWith ) );
-        verify( service ).sendMulticastMsg( matches( middle ) );
-        verify( service ).sendMulticastMsg( endsWith( endsWidth ) );
+        verify(service).sendMulticastMsg(startsWith(createMessage("CLIENT") + startsWith));
+        verify(service).sendMulticastMsg(matches(middle));
+        verify(service).sendMulticastMsg(endsWith(endsWidth));
     }
 
     /**
@@ -133,7 +133,7 @@ public class MessagesTest
     public void testSendExposeMessage()
     {
         messages.sendExposeMessage();
-        verify( service ).sendMulticastMsg( createMessage( "EXPOSE" ) );
+        verify(service).sendMulticastMsg(createMessage("EXPOSE"));
     }
 
     /**
@@ -145,7 +145,7 @@ public class MessagesTest
     public void testSendExposingMessage()
     {
         messages.sendExposingMessage();
-        verify( service ).sendMulticastMsg( createMessage( "EXPOSING" ) );
+        verify(service).sendMulticastMsg(createMessage("EXPOSING"));
     }
 
     /**
@@ -162,9 +162,9 @@ public class MessagesTest
         long fileLength = 80800L;
         String fileName = "a_file.txt";
 
-        File file = mock( File.class );
-        when( file.getName() ).thenReturn( fileName );
-        when( file.length() ).thenReturn( fileLength );
+        File file = mock(File.class);
+        when(file.getName()).thenReturn(fileName);
+        when(file.length()).thenReturn(fileLength);
         int fileHash = file.hashCode(); // Cannot be mocked it seems
 
         String info = "(" + userCode + ")"
@@ -172,10 +172,10 @@ public class MessagesTest
             + "{" + fileHash + "}"
             + fileName;
 
-        User user = new User( "TestUser", userCode );
+        User user = new User("TestUser", userCode);
 
-        messages.sendFile( user, file );
-        verify( service ).sendMulticastMsg( createMessage( "SENDFILE" ) + info );
+        messages.sendFile(user, file);
+        verify(service).sendMulticastMsg(createMessage("SENDFILE") + info);
     }
 
     /**
@@ -194,10 +194,10 @@ public class MessagesTest
             + "{" + fileHash + "}"
             + fileName;
 
-        User user = new User( "TestUser", userCode );
+        User user = new User("TestUser", userCode);
 
-        messages.sendFileAbort( user, fileHash, fileName );
-        verify( service ).sendMulticastMsg( createMessage( "SENDFILEABORT" ) + info );
+        messages.sendFileAbort(user, fileHash, fileName);
+        verify(service).sendMulticastMsg(createMessage("SENDFILEABORT") + info);
     }
 
     /**
@@ -220,10 +220,10 @@ public class MessagesTest
             + "{" + fileHash + "}"
             + fileName;
 
-        User user = new User( "TestUser", userCode );
+        User user = new User("TestUser", userCode);
 
-        messages.sendFileAccept( user, port, fileHash, fileName );
-        verify( service ).sendMulticastMsg( createMessage( "SENDFILEACCEPT" ) + info );
+        messages.sendFileAccept(user, port, fileHash, fileName);
+        verify(service).sendMulticastMsg(createMessage("SENDFILEACCEPT") + info);
     }
 
     /**
@@ -235,7 +235,7 @@ public class MessagesTest
     public void testSendGetTopicMessage()
     {
         messages.sendGetTopicMessage();
-        verify( service ).sendMulticastMsg( createMessage( "GETTOPIC" ) );
+        verify(service).sendMulticastMsg(createMessage("GETTOPIC"));
     }
 
     /**
@@ -247,7 +247,7 @@ public class MessagesTest
     public void testSendIdleMessage()
     {
         messages.sendIdleMessage();
-        verify( service ).sendMulticastMsg( createMessage( "IDLE" ) );
+        verify(service).sendMulticastMsg(createMessage("IDLE"));
     }
 
     /**
@@ -259,7 +259,7 @@ public class MessagesTest
     public void testSendLogoffMessage()
     {
         messages.sendLogoffMessage();
-        verify( service ).sendMulticastMsg( createMessage( "LOGOFF" ) );
+        verify(service).sendMulticastMsg(createMessage("LOGOFF"));
     }
 
     /**
@@ -271,7 +271,7 @@ public class MessagesTest
     public void testSendLogonMessage()
     {
         messages.sendLogonMessage();
-        verify( service ).sendMulticastMsg( createMessage( "LOGON" ) );
+        verify(service).sendMulticastMsg(createMessage("LOGON"));
     }
 
     /**
@@ -283,8 +283,8 @@ public class MessagesTest
     public void testSendNickCrashMessage()
     {
         String nick = "niles";
-        messages.sendNickCrashMessage( nick );
-        verify( service ).sendMulticastMsg( createMessage( "NICKCRASH" ) + nick );
+        messages.sendNickCrashMessage(nick);
+        verify(service).sendMulticastMsg(createMessage("NICKCRASH") + nick);
     }
 
     /**
@@ -296,8 +296,8 @@ public class MessagesTest
     public void testSendNickMessage()
     {
         final String newNick = "Cookie";
-        messages.sendNickMessage( newNick );
-        verify( service ).sendMulticastMsg( createMessage( "NICK", newNick ) );
+        messages.sendNickMessage(newNick);
+        verify(service).sendMulticastMsg(createMessage("NICK", newNick));
     }
 
     /**
@@ -319,12 +319,12 @@ public class MessagesTest
             + "[" + settings.getOwnColor() + "]"
             + privmsg;
 
-        User user = new User( "TestUser", userCode );
-        user.setPrivateChatPort( userPort );
-        user.setIpAddress( userIP );
+        User user = new User("TestUser", userCode);
+        user.setPrivateChatPort(userPort);
+        user.setIpAddress(userIP);
 
-        messages.sendPrivateMessage( privmsg, user );
-        verify( service ).sendUDPMsg( createMessage( "PRIVMSG" ) + message, userIP, userPort );
+        messages.sendPrivateMessage(privmsg, user);
+        verify(service).sendUDPMsg(createMessage("PRIVMSG") + message, userIP, userPort);
     }
 
     /**
@@ -336,7 +336,7 @@ public class MessagesTest
     public void testSendStoppedWritingMessage()
     {
         messages.sendStoppedWritingMessage();
-        verify( service ).sendMulticastMsg( createMessage( "STOPPEDWRITING" ) );
+        verify(service).sendMulticastMsg(createMessage("STOPPEDWRITING"));
     }
 
     /**
@@ -347,13 +347,13 @@ public class MessagesTest
     @Test
     public void testSendTopicChangeMessage()
     {
-        Topic topic = new Topic( "Interesting changed topic", "Snoopy", 2132321323L );
+        Topic topic = new Topic("Interesting changed topic", "Snoopy", 2132321323L);
         String message = "(" + topic.getNick() + ")"
             + "[" + topic.getTime() + "]"
             + topic.getTopic();
 
-        messages.sendTopicChangeMessage( topic );
-        verify( service ).sendMulticastMsg( createMessage( "TOPIC" ) + message );
+        messages.sendTopicChangeMessage(topic);
+        verify(service).sendMulticastMsg(createMessage("TOPIC") + message);
     }
 
     /**
@@ -364,13 +364,13 @@ public class MessagesTest
     @Test
     public void testSendTopicRequestedMessage()
     {
-        Topic topic = new Topic( "Interesting requested topic", "Snoopy", 66532345L );
+        Topic topic = new Topic("Interesting requested topic", "Snoopy", 66532345L);
         String message = "(" + topic.getNick() + ")"
             + "[" + topic.getTime() + "]"
             + topic.getTopic();
 
-        messages.sendTopicRequestedMessage( topic );
-        verify( service ).sendMulticastMsg( createMessage( "TOPIC" ) + message );
+        messages.sendTopicRequestedMessage(topic);
+        verify(service).sendMulticastMsg(createMessage("TOPIC") + message);
     }
 
     /**
@@ -382,7 +382,7 @@ public class MessagesTest
     public void testSendWritingMessage()
     {
         messages.sendWritingMessage();
-        verify( service ).sendMulticastMsg( createMessage( "WRITING" ) );
+        verify(service).sendMulticastMsg(createMessage("WRITING"));
     }
 
     /**
@@ -391,7 +391,7 @@ public class MessagesTest
      * @param type The message type.
      * @return A message.
      */
-    private String createMessage( final String type )
+    private String createMessage(final String type)
     {
         return me.getCode() + "!" + type + "#" + me.getNick() + ":";
     }
@@ -403,7 +403,7 @@ public class MessagesTest
      * @param nick Nick name to use in the message instead of the default.
      * @return A message.
      */
-    private String createMessage( final String type, final String nick )
+    private String createMessage(final String type, final String nick)
     {
         return me.getCode() + "!" + type + "#" + nick + ":";
     }

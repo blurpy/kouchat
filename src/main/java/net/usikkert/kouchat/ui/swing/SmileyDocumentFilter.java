@@ -61,12 +61,12 @@ public class SmileyDocumentFilter extends DocumentFilter
      * @param standAlone If this is the only document filter used.
      * @param imageLoader The image loader.
      */
-    public SmileyDocumentFilter( final boolean standAlone, final ImageLoader imageLoader )
+    public SmileyDocumentFilter(final boolean standAlone, final ImageLoader imageLoader)
     {
-        Validate.notNull( imageLoader, "Image loader can not be null" );
+        Validate.notNull(imageLoader, "Image loader can not be null");
 
         this.standAlone = standAlone;
-        smileyMap = new SmileyMap( imageLoader );
+        smileyMap = new SmileyMap(imageLoader);
         settings = Settings.getSettings();
     }
 
@@ -77,37 +77,37 @@ public class SmileyDocumentFilter extends DocumentFilter
      * {@inheritDoc}
      */
     @Override
-    public void insertString( final FilterBypass fb, final int offset, final String text,
-            final AttributeSet attr ) throws BadLocationException
+    public void insertString(final FilterBypass fb, final int offset, final String text,
+            final AttributeSet attr) throws BadLocationException
     {
-        if ( standAlone )
-            super.insertString( fb, offset, text, attr );
+        if (standAlone)
+            super.insertString(fb, offset, text, attr);
 
-        if ( !settings.isSmileys() )
+        if (!settings.isSmileys())
             return;
 
         // Make a copy now, or else it could change if another message comes
         final MutableAttributeSet smileyAttr = (MutableAttributeSet) attr.copyAttributes();
 
         // Do this in the background so the text wont lag
-        SwingUtilities.invokeLater( new Runnable()
+        SwingUtilities.invokeLater(new Runnable()
         {
             @Override
             public void run()
             {
-                Smiley smiley = findSmiley( text, 0 );
+                Smiley smiley = findSmiley(text, 0);
                 StyledDocument doc = (StyledDocument) fb.getDocument();
 
-                while ( smiley != null )
+                while (smiley != null)
                 {
-                    if ( !smileyIconRegistered( smileyAttr, smiley ) )
-                        registerSmileyIcon( smileyAttr, smiley );
+                    if (!smileyIconRegistered(smileyAttr, smiley))
+                        registerSmileyIcon(smileyAttr, smiley);
 
-                    registerSmileyLocation( doc, smiley, offset, smileyAttr );
-                    smiley = findSmiley( text, smiley.getStopPosition() );
+                    registerSmileyLocation(doc, smiley, offset, smileyAttr);
+                    smiley = findSmiley(text, smiley.getStopPosition());
                 }
             }
-        } );
+        });
     }
 
     /**
@@ -121,9 +121,9 @@ public class SmileyDocumentFilter extends DocumentFilter
      * @param smiley The smiley containing the icon to check.
      * @return If the icon was found.
      */
-    private boolean smileyIconRegistered( final MutableAttributeSet smileyAttr, final Smiley smiley )
+    private boolean smileyIconRegistered(final MutableAttributeSet smileyAttr, final Smiley smiley)
     {
-        return smileyAttr.containsAttribute( StyleConstants.IconAttribute, smiley.getIcon() );
+        return smileyAttr.containsAttribute(StyleConstants.IconAttribute, smiley.getIcon());
     }
 
     /**
@@ -132,9 +132,9 @@ public class SmileyDocumentFilter extends DocumentFilter
      * @param smileyAttr The attribute set for the inserted string.
      * @param smiley The smiley containing the icon to set.
      */
-    private void registerSmileyIcon( final MutableAttributeSet smileyAttr, final Smiley smiley )
+    private void registerSmileyIcon(final MutableAttributeSet smileyAttr, final Smiley smiley)
     {
-        StyleConstants.setIcon( smileyAttr, smiley.getIcon() );
+        StyleConstants.setIcon(smileyAttr, smiley.getIcon());
     }
 
     /**
@@ -146,12 +146,12 @@ public class SmileyDocumentFilter extends DocumentFilter
      * @param offset Offset to start position.
      * @param smileyAttr The attribute set for the inserted string.
      */
-    private void registerSmileyLocation( final StyledDocument doc, final Smiley smiley,
-            final int offset, final MutableAttributeSet smileyAttr )
+    private void registerSmileyLocation(final StyledDocument doc, final Smiley smiley,
+            final int offset, final MutableAttributeSet smileyAttr)
     {
         int stopPos = smiley.getStopPosition();
         int startPos = smiley.getStartPosition();
-        doc.setCharacterAttributes( offset + startPos, stopPos - startPos, smileyAttr, false );
+        doc.setCharacterAttributes(offset + startPos, stopPos - startPos, smileyAttr, false);
     }
 
     /**
@@ -162,12 +162,12 @@ public class SmileyDocumentFilter extends DocumentFilter
      * @return The first matching smiley in the text, or <code>null</code> if
      *         none were found.
      */
-    protected Smiley findSmiley( final String text, final int offset )
+    protected Smiley findSmiley(final String text, final int offset)
     {
         int firstMatch = -1;
         Smiley smiley = null;
 
-        for ( String smileyText : smileyMap.getTextSmileys() )
+        for (String smileyText : smileyMap.getTextSmileys())
         {
             int smileyPos = 0;
             int loopOffset = offset;
@@ -177,14 +177,14 @@ public class SmileyDocumentFilter extends DocumentFilter
             // This makes sure :):) :) :):) only finds the smiley in the center.
             do
             {
-                smileyPos = text.indexOf( smileyText, loopOffset );
+                smileyPos = text.indexOf(smileyText, loopOffset);
 
-                if ( newSmileyFound( smileyPos, firstMatch ) )
+                if (newSmileyFound(smileyPos, firstMatch))
                 {
                     Smiley tmpSmiley =
-                        new Smiley( smileyPos, smileyMap.getSmiley( smileyText ), smileyText );
+                        new Smiley(smileyPos, smileyMap.getSmiley(smileyText), smileyText);
 
-                    if ( smileyHasWhitespace( tmpSmiley, text ) )
+                    if (smileyHasWhitespace(tmpSmiley, text))
                     {
                         smiley = tmpSmiley;
                         firstMatch = smileyPos;
@@ -194,7 +194,7 @@ public class SmileyDocumentFilter extends DocumentFilter
                 loopOffset = smileyPos + 1;
             }
 
-            while ( smileyPos != -1 );
+            while (smileyPos != -1);
         }
 
         return smiley;
@@ -214,9 +214,9 @@ public class SmileyDocumentFilter extends DocumentFilter
      * @param firstMatch The position of the previously found smiley in the text.
      * @return If a new smiley has been found.
      */
-    private boolean newSmileyFound( final int smileyPos, final int firstMatch )
+    private boolean newSmileyFound(final int smileyPos, final int firstMatch)
     {
-        return smileyPos != -1 && ( smileyPos < firstMatch || firstMatch == -1 );
+        return smileyPos != -1 && (smileyPos < firstMatch || firstMatch == -1);
     }
 
     /**
@@ -228,26 +228,26 @@ public class SmileyDocumentFilter extends DocumentFilter
      * @param text The text where the smiley is taken from.
      * @return If the smiley is surrounded by whitespace.
      */
-    protected boolean smileyHasWhitespace( final Smiley smiley, final String text )
+    protected boolean smileyHasWhitespace(final Smiley smiley, final String text)
     {
         int leftIndex = smiley.getStartPosition() - 1;
         boolean leftOk = false;
 
-        if ( leftIndex <= 0 )
+        if (leftIndex <= 0)
             leftOk = true;
         else
-            leftOk = Character.isWhitespace( text.charAt( leftIndex ) );
+            leftOk = Character.isWhitespace(text.charAt(leftIndex));
 
-        if ( !leftOk )
+        if (!leftOk)
             return false;
 
         int rightIndex = smiley.getStopPosition();
         boolean rightOk = false;
 
-        if ( rightIndex >= text.length() )
+        if (rightIndex >= text.length())
             rightOk = true;
         else
-            rightOk = Character.isWhitespace( text.charAt( rightIndex ) );
+            rightOk = Character.isWhitespace(text.charAt(rightIndex));
 
         return rightOk;
     }

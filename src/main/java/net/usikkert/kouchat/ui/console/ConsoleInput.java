@@ -42,7 +42,7 @@ import net.usikkert.kouchat.ui.UserInterface;
 public class ConsoleInput extends Thread
 {
     /** The logger. */
-    private static final Logger LOG = Logger.getLogger( ConsoleInput.class.getName() );
+    private static final Logger LOG = Logger.getLogger(ConsoleInput.class.getName());
 
     /** For reading keyboard input from the command line. */
     private final BufferedReader stdin;
@@ -62,23 +62,23 @@ public class ConsoleInput extends Thread
      * @param controller The controller to use.
      * @param ui The user interface to send messages to.
      */
-    public ConsoleInput( final Controller controller, final UserInterface ui )
+    public ConsoleInput(final Controller controller, final UserInterface ui)
     {
         this.controller = controller;
 
-        setName( "ConsoleInputThread" );
+        setName("ConsoleInputThread");
         msgController = ui.getMessageController();
-        stdin = new BufferedReader( new InputStreamReader( System.in ) );
-        cmdParser = new CommandParser( controller, ui );
+        stdin = new BufferedReader(new InputStreamReader(System.in));
+        cmdParser = new CommandParser(controller, ui);
 
-        Runtime.getRuntime().addShutdownHook( new Thread( "ConsoleInputShutdownHook" )
+        Runtime.getRuntime().addShutdownHook(new Thread("ConsoleInputShutdownHook")
         {
             @Override
             public void run()
             {
-                System.out.println( "Quitting - good bye!" );
+                System.out.println("Quitting - good bye!");
             }
-        } );
+        });
     }
 
     /**
@@ -90,42 +90,42 @@ public class ConsoleInput extends Thread
     {
         String input = "";
 
-        while ( input != null )
+        while (input != null)
         {
             try
             {
                 input = stdin.readLine();
 
-                if ( input != null && input.trim().length() > 0 )
+                if (input != null && input.trim().length() > 0)
                 {
-                    if ( input.startsWith( "/" ) )
+                    if (input.startsWith("/"))
                     {
-                        cmdParser.parse( input );
+                        cmdParser.parse(input);
                     }
 
                     else
                     {
                         try
                         {
-                            controller.sendChatMessage( input );
-                            msgController.showOwnMessage( input );
+                            controller.sendChatMessage(input);
+                            msgController.showOwnMessage(input);
                         }
 
-                        catch ( final CommandException e )
+                        catch (final CommandException e)
                         {
-                            msgController.showSystemMessage( e.getMessage() );
+                            msgController.showSystemMessage(e.getMessage());
                         }
                     }
                 }
             }
 
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                LOG.log( Level.SEVERE, e.toString(), e );
+                LOG.log(Level.SEVERE, e.toString(), e);
                 input = null;
             }
         }
 
-        System.exit( 1 );
+        System.exit(1);
     }
 }

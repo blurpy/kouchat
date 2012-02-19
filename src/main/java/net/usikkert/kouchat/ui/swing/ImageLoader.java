@@ -42,7 +42,7 @@ import net.usikkert.kouchat.util.ResourceValidator;
 public class ImageLoader
 {
     /** The logger. */
-    private static final Logger LOG = Logger.getLogger( ImageLoader.class.getName() );
+    private static final Logger LOG = Logger.getLogger(ImageLoader.class.getName());
 
     /** The smile image icon. */
     private final ImageIcon smileIcon;
@@ -106,44 +106,44 @@ public class ImageLoader
         ResourceValidator resourceValidator = new ResourceValidator();
 
         // Load resources from jar or local file system
-        URL smileURL = loadImage( resourceValidator, Images.SMILEY_SMILE );
-        URL sadURL = loadImage( resourceValidator, Images.SMILEY_SAD );
-        URL tongueURL = loadImage( resourceValidator, Images.SMILEY_TONGUE );
-        URL teethURL = loadImage( resourceValidator, Images.SMILEY_TEETH );
-        URL winkURL = loadImage( resourceValidator, Images.SMILEY_WINK );
-        URL omgURL = loadImage( resourceValidator, Images.SMILEY_OMG );
-        URL angryURL = loadImage( resourceValidator, Images.SMILEY_ANGRY );
-        URL confusedURL = loadImage( resourceValidator, Images.SMILEY_CONFUSED );
-        URL cryURL = loadImage( resourceValidator, Images.SMILEY_CRY );
-        URL embarrassedURL = loadImage( resourceValidator, Images.SMILEY_EMBARRASSED );
-        URL shadeURL = loadImage( resourceValidator, Images.SMILEY_SHADE );
-        URL kouNormURL = loadImage( resourceValidator, Images.ICON_KOU_NORMAL );
-        URL kouNormActURL = loadImage( resourceValidator, Images.ICON_KOU_NORMAL_ACT );
-        URL kouAwayURL = loadImage( resourceValidator, Images.ICON_KOU_AWAY );
-        URL kouAwayActURL = loadImage( resourceValidator, Images.ICON_KOU_AWAY_ACT );
-        URL envelopeURL = loadImage( resourceValidator, Images.ICON_ENVELOPE );
-        URL dotURL = loadImage( resourceValidator, Images.ICON_DOT );
+        URL smileURL = loadImage(resourceValidator, Images.SMILEY_SMILE);
+        URL sadURL = loadImage(resourceValidator, Images.SMILEY_SAD);
+        URL tongueURL = loadImage(resourceValidator, Images.SMILEY_TONGUE);
+        URL teethURL = loadImage(resourceValidator, Images.SMILEY_TEETH);
+        URL winkURL = loadImage(resourceValidator, Images.SMILEY_WINK);
+        URL omgURL = loadImage(resourceValidator, Images.SMILEY_OMG);
+        URL angryURL = loadImage(resourceValidator, Images.SMILEY_ANGRY);
+        URL confusedURL = loadImage(resourceValidator, Images.SMILEY_CONFUSED);
+        URL cryURL = loadImage(resourceValidator, Images.SMILEY_CRY);
+        URL embarrassedURL = loadImage(resourceValidator, Images.SMILEY_EMBARRASSED);
+        URL shadeURL = loadImage(resourceValidator, Images.SMILEY_SHADE);
+        URL kouNormURL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL);
+        URL kouNormActURL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_ACT);
+        URL kouAwayURL = loadImage(resourceValidator, Images.ICON_KOU_AWAY);
+        URL kouAwayActURL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_ACT);
+        URL envelopeURL = loadImage(resourceValidator, Images.ICON_ENVELOPE);
+        URL dotURL = loadImage(resourceValidator, Images.ICON_DOT);
 
-        validate( resourceValidator );
+        validate(resourceValidator);
 
         // Create icons from the resources
-        smileIcon = new ImageIcon( smileURL );
-        sadIcon = new ImageIcon( sadURL );
-        tongueIcon = new ImageIcon( tongueURL );
-        teethIcon = new ImageIcon( teethURL );
-        winkIcon = new ImageIcon( winkURL );
-        omgIcon = new ImageIcon( omgURL );
-        angryIcon = new ImageIcon( angryURL );
-        confusedIcon = new ImageIcon( confusedURL );
-        cryIcon = new ImageIcon( cryURL );
-        embarrassedIcon = new ImageIcon( embarrassedURL );
-        shadeIcon = new ImageIcon( shadeURL );
-        kouNormalIcon = new ImageIcon( kouNormURL );
-        kouNormalActivityIcon = new ImageIcon( kouNormActURL );
-        kouAwayIcon = new ImageIcon( kouAwayURL );
-        kouAwayActivityIcon = new ImageIcon( kouAwayActURL );
-        envelopeIcon = new ImageIcon( envelopeURL );
-        dotIcon = new ImageIcon( dotURL );
+        smileIcon = new ImageIcon(smileURL);
+        sadIcon = new ImageIcon(sadURL);
+        tongueIcon = new ImageIcon(tongueURL);
+        teethIcon = new ImageIcon(teethURL);
+        winkIcon = new ImageIcon(winkURL);
+        omgIcon = new ImageIcon(omgURL);
+        angryIcon = new ImageIcon(angryURL);
+        confusedIcon = new ImageIcon(confusedURL);
+        cryIcon = new ImageIcon(cryURL);
+        embarrassedIcon = new ImageIcon(embarrassedURL);
+        shadeIcon = new ImageIcon(shadeURL);
+        kouNormalIcon = new ImageIcon(kouNormURL);
+        kouNormalActivityIcon = new ImageIcon(kouNormActURL);
+        kouAwayIcon = new ImageIcon(kouAwayURL);
+        kouAwayActivityIcon = new ImageIcon(kouAwayActURL);
+        envelopeIcon = new ImageIcon(envelopeURL);
+        dotIcon = new ImageIcon(dotURL);
         appIcon = kouNormalIcon;
     }
 
@@ -155,10 +155,10 @@ public class ImageLoader
      * @param image The image to load, with path.
      * @return The URL to the image, or <code>null</code> if the image wasn't loaded.
      */
-    private URL loadImage( final ResourceValidator resourceValidator, final String image )
+    private URL loadImage(final ResourceValidator resourceValidator, final String image)
     {
-        URL url = getClass().getResource( image );
-        resourceValidator.addResource( url, image );
+        URL url = getClass().getResource(image);
+        resourceValidator.addResource(url, image);
         return url;
     }
 
@@ -169,18 +169,18 @@ public class ImageLoader
      *
      * @param resourceValidator The validator.
      */
-    private void validate( final ResourceValidator resourceValidator )
+    private void validate(final ResourceValidator resourceValidator)
     {
         String missing = resourceValidator.validate();
 
-        if ( missing.length() > 0 )
+        if (missing.length() > 0)
         {
             String error = "These images were expected, but not found:\n\n" + missing + "\n\n"
                     + Constants.APP_NAME + " will now shutdown.";
 
-            LOG.log( Level.SEVERE, error );
-            ErrorHandler.getErrorHandler().showCriticalError( error );
-            System.exit( 1 );
+            LOG.log(Level.SEVERE, error);
+            ErrorHandler.getErrorHandler().showCriticalError(error);
+            System.exit(1);
         }
     }
 

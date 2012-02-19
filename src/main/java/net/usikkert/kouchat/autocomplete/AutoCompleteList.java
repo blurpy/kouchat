@@ -53,5 +53,5 @@ public interface AutoCompleteList
      * @return True if this autocompleter can give suggestions for that
      * type of word.
      */
-    boolean acceptsWord( String word );
+    boolean acceptsWord(String word);
 }

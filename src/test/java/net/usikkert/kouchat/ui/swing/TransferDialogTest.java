@@ -47,14 +47,14 @@ public class TransferDialogTest
     public void testReceiveDialog() throws InterruptedException
     {
         MockMediator mediator = new MockMediator();
-        MockFileTransfer fileTransfer = new MockFileTransfer( Direction.RECEIVE );
+        MockFileTransfer fileTransfer = new MockFileTransfer(Direction.RECEIVE);
 
-        new TransferDialog( mediator, fileTransfer, imageLoader );
+        new TransferDialog(mediator, fileTransfer, imageLoader);
 
         // Returns true when the close button is clicked
-        while ( !mediator.isClose() )
+        while (!mediator.isClose())
         {
-            Thread.sleep( 100 );
+            Thread.sleep(100);
         }
     }
 
@@ -68,14 +68,14 @@ public class TransferDialogTest
     public void testSendDialog() throws InterruptedException
     {
         MockMediator mediator = new MockMediator();
-        MockFileTransfer fileTransfer = new MockFileTransfer( Direction.SEND );
+        MockFileTransfer fileTransfer = new MockFileTransfer(Direction.SEND);
 
-        new TransferDialog( mediator, fileTransfer, imageLoader );
+        new TransferDialog(mediator, fileTransfer, imageLoader);
 
         // Returns true when the close button is clicked
-        while ( !mediator.isClose() )
+        while (!mediator.isClose())
         {
-            Thread.sleep( 100 );
+            Thread.sleep(100);
         }
     }
 }

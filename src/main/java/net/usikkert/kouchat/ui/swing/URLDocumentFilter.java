@@ -76,13 +76,13 @@ public class URLDocumentFilter extends DocumentFilter
      *
      * @param standAlone If this is the only document filter used.
      */
-    public URLDocumentFilter( final boolean standAlone )
+    public URLDocumentFilter(final boolean standAlone)
     {
         this.standAlone = standAlone;
 
-        protPattern = Pattern.compile( "\\w{2,}://\\w+\\S+.+" );
-        wwwPattern = Pattern.compile( "www\\.\\w+\\S+\\.\\S+.+" );
-        ftpPattern = Pattern.compile( "ftp\\.\\w+\\S+\\.\\S+.+" );
+        protPattern = Pattern.compile("\\w{2,}://\\w+\\S+.+");
+        wwwPattern = Pattern.compile("www\\.\\w+\\S+\\.\\S+.+");
+        ftpPattern = Pattern.compile("ftp\\.\\w+\\S+\\.\\S+.+");
     }
 
     /**
@@ -92,41 +92,41 @@ public class URLDocumentFilter extends DocumentFilter
      * {@inheritDoc}
      */
     @Override
-    public void insertString( final FilterBypass fb, final int offset, final String text, final AttributeSet attr )
+    public void insertString(final FilterBypass fb, final int offset, final String text, final AttributeSet attr)
             throws BadLocationException
     {
-        if ( standAlone )
-            super.insertString( fb, offset, text, attr );
+        if (standAlone)
+            super.insertString(fb, offset, text, attr);
 
         // Make a copy now, or else it could change if another message comes
         final MutableAttributeSet urlAttr = (MutableAttributeSet) attr.copyAttributes();
 
-        SwingUtilities.invokeLater( new Runnable()
+        SwingUtilities.invokeLater(new Runnable()
         {
             @Override
             public void run()
             {
-                int startPos = findURLPos( text, 0 );
+                int startPos = findURLPos(text, 0);
 
-                if ( startPos != -1 )
+                if (startPos != -1)
                 {
-                    StyleConstants.setUnderline( urlAttr, true );
+                    StyleConstants.setUnderline(urlAttr, true);
                     StyledDocument doc = (StyledDocument) fb.getDocument();
 
-                    while ( startPos != -1 )
+                    while (startPos != -1)
                     {
-                        int stopPos = text.indexOf( " ", startPos );
+                        int stopPos = text.indexOf(" ", startPos);
 
-                        if ( stopPos == -1 )
-                            stopPos = text.indexOf( "\n", startPos );
+                        if (stopPos == -1)
+                            stopPos = text.indexOf("\n", startPos);
 
-                        urlAttr.addAttribute( URL_ATTRIBUTE, text.substring( startPos, stopPos ) );
-                        doc.setCharacterAttributes( offset + startPos, stopPos - startPos, urlAttr, false );
-                        startPos = findURLPos( text, stopPos );
+                        urlAttr.addAttribute(URL_ATTRIBUTE, text.substring(startPos, stopPos));
+                        doc.setCharacterAttributes(offset + startPos, stopPos - startPos, urlAttr, false);
+                        startPos = findURLPos(text, stopPos);
                     }
                 }
             }
-        } );
+        });
     }
 
     /**
@@ -138,11 +138,11 @@ public class URLDocumentFilter extends DocumentFilter
      * @return The position of the first character in the url, or -1
      * if no url was found.
      */
-    private int findURLPos( final String text, final int offset )
+    private int findURLPos(final String text, final int offset)
     {
-        int prot = text.indexOf( "://", offset );
-        int www = text.indexOf( " www", offset );
-        int ftp = text.indexOf( " ftp", offset );
+        int prot = text.indexOf("://", offset);
+        int www = text.indexOf(" www", offset);
+        int ftp = text.indexOf(" ftp", offset);
 
         int firstMatch = -1;
         boolean retry = true;
@@ -150,55 +150,55 @@ public class URLDocumentFilter extends DocumentFilter
         // Needs to loop because the text can get through the first test above,
         // but fail the regex match. If another url exists after the failed regex
         // match, it will not be found.
-        while ( retry )
+        while (retry)
         {
             retry = false;
 
-            if ( prot != -1 && ( prot < firstMatch || firstMatch == -1 ) )
+            if (prot != -1 && (prot < firstMatch || firstMatch == -1))
             {
-                int protStart = text.lastIndexOf( ' ', prot ) + 1;
-                String t = text.substring( protStart, text.length() - 1 );
+                int protStart = text.lastIndexOf(' ', prot) + 1;
+                String t = text.substring(protStart, text.length() - 1);
 
-                if ( protPattern.matcher( t ).matches() )
+                if (protPattern.matcher(t).matches())
                     firstMatch = protStart;
 
                 else
                 {
-                    prot = text.indexOf( "://", prot + 1 );
+                    prot = text.indexOf("://", prot + 1);
 
-                    if ( prot != -1 && ( prot < firstMatch || firstMatch == -1 ) )
+                    if (prot != -1 && (prot < firstMatch || firstMatch == -1))
                         retry = true;
                 }
             }
 
-            if ( www != -1 && ( www < firstMatch || firstMatch == -1 ) )
+            if (www != -1 && (www < firstMatch || firstMatch == -1))
             {
-                String t = text.substring( www + 1, text.length() - 1 );
+                String t = text.substring(www + 1, text.length() - 1);
 
-                if ( wwwPattern.matcher( t ).matches() )
+                if (wwwPattern.matcher(t).matches())
                     firstMatch = www + 1;
 
                 else
                 {
-                    www = text.indexOf( " www", www + 1 );
+                    www = text.indexOf(" www", www + 1);
 
-                    if ( www != -1 && ( www < firstMatch || firstMatch == -1 ) )
+                    if (www != -1 && (www < firstMatch || firstMatch == -1))
                         retry = true;
                 }
             }
 
-            if ( ftp != -1 && ( ftp < firstMatch || firstMatch == -1 ) )
+            if (ftp != -1 && (ftp < firstMatch || firstMatch == -1))
             {
-                String t = text.substring( ftp + 1, text.length() - 1 );
+                String t = text.substring(ftp + 1, text.length() - 1);
 
-                if ( ftpPattern.matcher( t ).matches() )
+                if (ftpPattern.matcher(t).matches())
                     firstMatch = ftp + 1;
 
                 else
                 {
-                    ftp = text.indexOf( " ftp", ftp + 1 );
+                    ftp = text.indexOf(" ftp", ftp + 1);
 
-                    if ( ftp != -1 && ( ftp < firstMatch || firstMatch == -1 ) )
+                    if (ftp != -1 && (ftp < firstMatch || firstMatch == -1))
                         retry = true;
                 }
             }

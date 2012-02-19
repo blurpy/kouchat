@@ -45,21 +45,21 @@ public class UIFactory
      * @throws UIException If a ui has already been loaded, or if an
      * unknown ui type was requested, or if no graphical environment was detected.
      */
-    public void loadUI( final UIChoice choice ) throws UIException
+    public void loadUI(final UIChoice choice) throws UIException
     {
-        if ( done )
+        if (done)
         {
-            throw new UIException( "A User Interface has already been loaded." );
+            throw new UIException("A User Interface has already been loaded.");
         }
 
         else
         {
-            if ( choice == UIChoice.SWING )
+            if (choice == UIChoice.SWING)
             {
-                if ( GraphicsEnvironment.isHeadless() )
+                if (GraphicsEnvironment.isHeadless())
                 {
-                    throw new UIException( "The Swing User Interface could not be loaded"
-                            + " because a graphical environment could not be detected." );
+                    throw new UIException("The Swing User Interface could not be loaded"
+                            + " because a graphical environment could not be detected.");
                 }
 
                 else
@@ -69,7 +69,7 @@ public class UIFactory
                 }
             }
 
-            else if ( choice == UIChoice.CONSOLE )
+            else if (choice == UIChoice.CONSOLE)
             {
                 new KouChatConsole();
                 done = true;
@@ -77,7 +77,7 @@ public class UIFactory
 
             else
             {
-                throw new UIException( "Unknown User Interface requested." );
+                throw new UIException("Unknown User Interface requested.");
             }
         }
     }

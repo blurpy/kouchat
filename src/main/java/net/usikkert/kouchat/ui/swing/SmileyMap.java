@@ -45,23 +45,23 @@ public class SmileyMap
      *
      * @param imageLoader The image loader.
      */
-    public SmileyMap( final ImageLoader imageLoader )
+    public SmileyMap(final ImageLoader imageLoader)
     {
-        Validate.notNull( imageLoader, "Image loader can not be null" );
+        Validate.notNull(imageLoader, "Image loader can not be null");
 
         // Map smiley codes to icons
         smileyMap = new HashMap<String, ImageIcon>();
-        smileyMap.put( ":)", imageLoader.getSmileIcon() );
-        smileyMap.put( ":(", imageLoader.getSadIcon() );
-        smileyMap.put( ":p", imageLoader.getTongueIcon() );
-        smileyMap.put( ":D", imageLoader.getTeethIcon() );
-        smileyMap.put( ";)", imageLoader.getWinkIcon() );
-        smileyMap.put( ":O", imageLoader.getOmgIcon() );
-        smileyMap.put( ":@", imageLoader.getAngryIcon() );
-        smileyMap.put( ":S", imageLoader.getConfusedIcon() );
-        smileyMap.put( ";(", imageLoader.getCryIcon() );
-        smileyMap.put( ":$", imageLoader.getEmbarrassedIcon() );
-        smileyMap.put( "8)", imageLoader.getShadeIcon() );
+        smileyMap.put(":)", imageLoader.getSmileIcon());
+        smileyMap.put(":(", imageLoader.getSadIcon());
+        smileyMap.put(":p", imageLoader.getTongueIcon());
+        smileyMap.put(":D", imageLoader.getTeethIcon());
+        smileyMap.put(";)", imageLoader.getWinkIcon());
+        smileyMap.put(":O", imageLoader.getOmgIcon());
+        smileyMap.put(":@", imageLoader.getAngryIcon());
+        smileyMap.put(":S", imageLoader.getConfusedIcon());
+        smileyMap.put(";(", imageLoader.getCryIcon());
+        smileyMap.put(":$", imageLoader.getEmbarrassedIcon());
+        smileyMap.put("8)", imageLoader.getShadeIcon());
     }
 
     /**
@@ -70,9 +70,9 @@ public class SmileyMap
      * @param key The key for the smiley to get.
      * @return The smiley with the specified key.
      */
-    public ImageIcon getSmiley( final String key )
+    public ImageIcon getSmiley(final String key)
     {
-        return smileyMap.get( key );
+        return smileyMap.get(key);
     }
 
     /**

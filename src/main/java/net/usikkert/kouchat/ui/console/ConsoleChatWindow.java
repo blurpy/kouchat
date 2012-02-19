@@ -38,8 +38,8 @@ public class ConsoleChatWindow implements ChatWindow
      * @param color The color of the message - not implemented.
      */
     @Override
-    public void appendToChat( final String message, final int color )
+    public void appendToChat(final String message, final int color)
     {
-        System.out.println( message );
+        System.out.println(message);
     }
 }

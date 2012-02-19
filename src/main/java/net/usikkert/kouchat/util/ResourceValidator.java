@@ -59,9 +59,9 @@ public class ResourceValidator
      * @param resource The resource to check.
      * @param location The location of the resource.
      */
-    public void addResource( final URL resource, final String location )
+    public void addResource(final URL resource, final String location)
     {
-        resourceMap.put( location, resource );
+        resourceMap.put(location, resource);
     }
 
     /**
@@ -75,14 +75,14 @@ public class ResourceValidator
     {
         StringBuilder missingResourceList = new StringBuilder();
 
-        for ( String location : resourceMap.keySet() )
+        for (String location : resourceMap.keySet())
         {
-            if ( resourceMap.get( location ) == null )
+            if (resourceMap.get(location) == null)
             {
-                if ( missingResourceList.length() != 0 )
-                    missingResourceList.append( "\n" );
+                if (missingResourceList.length() != 0)
+                    missingResourceList.append("\n");
 
-                missingResourceList.append( location );
+                missingResourceList.append(location);
             }
         }
 

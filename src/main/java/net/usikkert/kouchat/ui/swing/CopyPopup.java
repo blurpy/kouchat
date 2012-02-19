@@ -58,24 +58,24 @@ public class CopyPopup extends JPopupMenu implements MouseListener, ActionListen
      *
      * @param textpane The text pane to use the popup on.
      */
-    public CopyPopup( final JTextPane textpane )
+    public CopyPopup(final JTextPane textpane)
     {
         this.textpane = textpane;
 
-        copyMI = new JMenuItem( new DefaultEditorKit.CopyAction() );
-        copyMI.setText( "Copy" );
-        copyMI.setMnemonic( 'C' );
-        copyMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_C, KeyEvent.CTRL_MASK ) );
+        copyMI = new JMenuItem(new DefaultEditorKit.CopyAction());
+        copyMI.setText("Copy");
+        copyMI.setMnemonic('C');
+        copyMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK));
 
-        selectAllMI = new JMenuItem( "Select All" );
-        selectAllMI.setMnemonic( 'A' );
-        selectAllMI.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_A, KeyEvent.CTRL_MASK ) );
+        selectAllMI = new JMenuItem("Select All");
+        selectAllMI.setMnemonic('A');
+        selectAllMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_MASK));
 
-        add( copyMI );
-        add( selectAllMI );
+        add(copyMI);
+        add(selectAllMI);
 
-        textpane.addMouseListener( this );
-        selectAllMI.addActionListener( this );
+        textpane.addMouseListener(this);
+        selectAllMI.addActionListener(this);
     }
 
     /**
@@ -84,7 +84,7 @@ public class CopyPopup extends JPopupMenu implements MouseListener, ActionListen
      * {@inheritDoc}
      */
     @Override
-    public void mouseClicked( final MouseEvent e )
+    public void mouseClicked(final MouseEvent e)
     {
 
     }
@@ -95,7 +95,7 @@ public class CopyPopup extends JPopupMenu implements MouseListener, ActionListen
      * {@inheritDoc}
      */
     @Override
-    public void mouseEntered( final MouseEvent e )
+    public void mouseEntered(final MouseEvent e)
     {
 
     }
@@ -106,7 +106,7 @@ public class CopyPopup extends JPopupMenu implements MouseListener, ActionListen
      * {@inheritDoc}
      */
     @Override
-    public void mouseExited( final MouseEvent e )
+    public void mouseExited(final MouseEvent e)
     {
 
     }
@@ -117,7 +117,7 @@ public class CopyPopup extends JPopupMenu implements MouseListener, ActionListen
      * {@inheritDoc}
      */
     @Override
-    public void mousePressed( final MouseEvent e )
+    public void mousePressed(final MouseEvent e)
     {
 
     }
@@ -128,21 +128,21 @@ public class CopyPopup extends JPopupMenu implements MouseListener, ActionListen
      * {@inheritDoc}
      */
     @Override
-    public void mouseReleased( final MouseEvent e )
+    public void mouseReleased(final MouseEvent e)
     {
-        if ( isPopupTrigger( e ) )
+        if (isPopupTrigger(e))
         {
-            if ( textpane.getSelectedText() == null )
-                copyMI.setEnabled( false );
+            if (textpane.getSelectedText() == null)
+                copyMI.setEnabled(false);
             else
-                copyMI.setEnabled( true );
+                copyMI.setEnabled(true);
 
-            if ( textpane.getText().length() == 0 )
-                selectAllMI.setEnabled( false );
+            if (textpane.getText().length() == 0)
+                selectAllMI.setEnabled(false);
             else
-                selectAllMI.setEnabled( true );
+                selectAllMI.setEnabled(true);
 
-            show( textpane, e.getX(), e.getY() );
+            show(textpane, e.getX(), e.getY());
         }
     }
 
@@ -152,7 +152,7 @@ public class CopyPopup extends JPopupMenu implements MouseListener, ActionListen
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed( final ActionEvent e )
+    public void actionPerformed(final ActionEvent e)
     {
         textpane.requestFocusInWindow();
         textpane.selectAll();

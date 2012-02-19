@@ -69,7 +69,7 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class SettingsDialog extends JDialog implements ActionListener
 {
-    private static final Logger LOG = Logger.getLogger( SettingsDialog.class.getName() );
+    private static final Logger LOG = Logger.getLogger(SettingsDialog.class.getName());
     private static final long serialVersionUID = 1L;
 
     private final JButton saveB, cancelB, chooseOwnColorB, chooseSysColorB, testBrowserB, chooseBrowserB;
@@ -86,143 +86,143 @@ public class SettingsDialog extends JDialog implements ActionListener
      *
      * @param imageLoader The image loader.
      */
-    public SettingsDialog( final ImageLoader imageLoader )
+    public SettingsDialog(final ImageLoader imageLoader)
     {
-        Validate.notNull( imageLoader, "Image loader can not be null" );
+        Validate.notNull(imageLoader, "Image loader can not be null");
 
-        nickL = new JLabel( "Nick:" );
-        nickTF = new JTextField( 10 );
-        new CopyPastePopup( nickTF );
+        nickL = new JLabel("Nick:");
+        nickTF = new JTextField(10);
+        new CopyPastePopup(nickTF);
 
-        JPanel nickP = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
-        nickP.add( nickL );
-        nickP.add( nickTF );
-        nickP.setBorder( BorderFactory.createTitledBorder( "Choose nick" ) );
+        JPanel nickP = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        nickP.add(nickL);
+        nickP.add(nickTF);
+        nickP.setBorder(BorderFactory.createTitledBorder("Choose nick"));
 
-        ownColorL = new JLabel( "Own text color looks like this" );
-        ownColorL.setToolTipText( "<html>You and other users will see"
-                + "<br>the messages you write in this color.</html>" );
+        ownColorL = new JLabel("Own text color looks like this");
+        ownColorL.setToolTipText("<html>You and other users will see"
+                + "<br>the messages you write in this color.</html>");
 
-        sysColorL = new JLabel( "System text color looks like this" );
-        sysColorL.setToolTipText( "<html>Information messages from the application"
-                + "<br>will be shown in this color.</html>" );
+        sysColorL = new JLabel("System text color looks like this");
+        sysColorL.setToolTipText("<html>Information messages from the application"
+                + "<br>will be shown in this color.</html>");
 
-        chooseOwnColorB = new JButton( "Change" );
-        chooseOwnColorB.addActionListener( this );
-        chooseSysColorB = new JButton( "Change" );
-        chooseSysColorB.addActionListener( this );
+        chooseOwnColorB = new JButton("Change");
+        chooseOwnColorB.addActionListener(this);
+        chooseSysColorB = new JButton("Change");
+        chooseSysColorB.addActionListener(this);
 
         JPanel ownColorP = new JPanel();
-        ownColorP.setLayout( new BoxLayout( ownColorP, BoxLayout.LINE_AXIS ) );
-        ownColorP.add( ownColorL );
-        ownColorP.add( Box.createHorizontalGlue() );
-        ownColorP.add( chooseOwnColorB );
+        ownColorP.setLayout(new BoxLayout(ownColorP, BoxLayout.LINE_AXIS));
+        ownColorP.add(ownColorL);
+        ownColorP.add(Box.createHorizontalGlue());
+        ownColorP.add(chooseOwnColorB);
 
         JPanel sysColorP = new JPanel();
-        sysColorP.setLayout( new BoxLayout( sysColorP, BoxLayout.LINE_AXIS ) );
-        sysColorP.add( sysColorL );
-        sysColorP.add( Box.createHorizontalGlue() );
-        sysColorP.add( chooseSysColorB );
+        sysColorP.setLayout(new BoxLayout(sysColorP, BoxLayout.LINE_AXIS));
+        sysColorP.add(sysColorL);
+        sysColorP.add(Box.createHorizontalGlue());
+        sysColorP.add(chooseSysColorB);
 
-        lookAndFeelL = new JLabel( "Look and feel" );
-        lookAndFeelL.setToolTipText( "<html>Gives a choice of all the different looks that are available."
+        lookAndFeelL = new JLabel("Look and feel");
+        lookAndFeelL.setToolTipText("<html>Gives a choice of all the different looks that are available."
                 + "<br />Note that " + Constants.APP_NAME + " needs to be restarted for the"
-                + "<br />changes to take effect.</html>" );
-        lookAndFeelCB = new JComboBox( UITools.getLookAndFeels() );
+                + "<br />changes to take effect.</html>");
+        lookAndFeelCB = new JComboBox(UITools.getLookAndFeels());
 
         JPanel lookAndFeelP = new JPanel();
-        lookAndFeelP.setLayout( new BoxLayout( lookAndFeelP, BoxLayout.LINE_AXIS ) );
-        lookAndFeelP.add( lookAndFeelL );
-        lookAndFeelP.add( Box.createHorizontalGlue() );
-        lookAndFeelP.add( lookAndFeelCB );
+        lookAndFeelP.setLayout(new BoxLayout(lookAndFeelP, BoxLayout.LINE_AXIS));
+        lookAndFeelP.add(lookAndFeelL);
+        lookAndFeelP.add(Box.createHorizontalGlue());
+        lookAndFeelP.add(lookAndFeelCB);
 
-        JPanel lookP = new JPanel( new GridLayout( 3, 1, 1, 4 ) );
-        lookP.add( ownColorP );
-        lookP.add( sysColorP );
-        lookP.add( lookAndFeelP );
-        lookP.setBorder( BorderFactory.createCompoundBorder( BorderFactory.createTitledBorder( "Choose look" ),
-                BorderFactory.createEmptyBorder( 0, 5, 0, 5 ) ) );
+        JPanel lookP = new JPanel(new GridLayout(3, 1, 1, 4));
+        lookP.add(ownColorP);
+        lookP.add(sysColorP);
+        lookP.add(lookAndFeelP);
+        lookP.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Choose look"),
+                BorderFactory.createEmptyBorder(0, 5, 0, 5)));
 
-        soundCB = new JCheckBox( "Enable sound" );
-        soundCB.setToolTipText( "<html>Will give a short sound notification when"
+        soundCB = new JCheckBox("Enable sound");
+        soundCB.setToolTipText("<html>Will give a short sound notification when"
                 + "<br>a new message is received if " + Constants.APP_NAME
                 + "<br>is minimized to the system tray, and"
-                + "<br>when asked to receive a file.</html>" );
+                + "<br>when asked to receive a file.</html>");
 
-        loggingCB = new JCheckBox( "Enable logging" );
-        loggingCB.setToolTipText( "<html>Stores the conversation in the main chat to a log file in"
+        loggingCB = new JCheckBox("Enable logging");
+        loggingCB.setToolTipText("<html>Stores the conversation in the main chat to a log file in"
                 + "<br>" + Constants.APP_LOG_FOLDER
-                + "<br>Only text written after this option was enabled will be stored.</html>" );
+                + "<br>Only text written after this option was enabled will be stored.</html>");
 
-        smileysCB = new JCheckBox( "Enable smileys" );
-        smileysCB.setToolTipText( "<html>Replaces text smileys in the chat with smiley images."
-                + "<br />See the FAQ for a list of available smileys.</html>" );
+        smileysCB = new JCheckBox("Enable smileys");
+        smileysCB.setToolTipText("<html>Replaces text smileys in the chat with smiley images."
+                + "<br />See the FAQ for a list of available smileys.</html>");
 
-        JPanel miscP = new JPanel( new GridLayout( 2, 2 ) );
-        miscP.add( soundCB );
-        miscP.add( loggingCB );
-        miscP.add( smileysCB );
-        miscP.setBorder( BorderFactory.createTitledBorder( "Misc" ) );
+        JPanel miscP = new JPanel(new GridLayout(2, 2));
+        miscP.add(soundCB);
+        miscP.add(loggingCB);
+        miscP.add(smileysCB);
+        miscP.setBorder(BorderFactory.createTitledBorder("Misc"));
 
-        browserL = new JLabel( "Browser: " );
-        browserTF = new JTextField( 22 );
-        browserTF.setToolTipText( "<html>When you click on a link in the chat it will open"
+        browserL = new JLabel("Browser: ");
+        browserTF = new JTextField(22);
+        browserTF.setToolTipText("<html>When you click on a link in the chat it will open"
                 + "<br>in the browser defined here. If this field"
                 + "<br>is empty the default browser on your system"
-                + "<br>will be used, if possible.</html>" );
-        new CopyPastePopup( browserTF );
+                + "<br>will be used, if possible.</html>");
+        new CopyPastePopup(browserTF);
 
-        JPanel browserTopP = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
-        browserTopP.add( browserL );
-        browserTopP.add( browserTF );
+        JPanel browserTopP = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        browserTopP.add(browserL);
+        browserTopP.add(browserTF);
 
-        chooseBrowserB = new JButton( "Choose" );
-        chooseBrowserB.addActionListener( this );
-        testBrowserB = new JButton( "Test" );
-        testBrowserB.addActionListener( this );
+        chooseBrowserB = new JButton("Choose");
+        chooseBrowserB.addActionListener(this);
+        testBrowserB = new JButton("Test");
+        testBrowserB.addActionListener(this);
 
-        JPanel browserBottomP = new JPanel( new FlowLayout( FlowLayout.RIGHT ) );
-        browserBottomP.add( chooseBrowserB );
-        browserBottomP.add( testBrowserB );
+        JPanel browserBottomP = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        browserBottomP.add(chooseBrowserB);
+        browserBottomP.add(testBrowserB);
 
-        JPanel browserP = new JPanel( new BorderLayout() );
-        browserP.add( browserTopP, BorderLayout.NORTH );
-        browserP.add( browserBottomP, BorderLayout.SOUTH );
-        browserP.setBorder( BorderFactory.createTitledBorder( "Choose browser" ) );
+        JPanel browserP = new JPanel(new BorderLayout());
+        browserP.add(browserTopP, BorderLayout.NORTH);
+        browserP.add(browserBottomP, BorderLayout.SOUTH);
+        browserP.setBorder(BorderFactory.createTitledBorder("Choose browser"));
 
-        JPanel centerP = new JPanel( new BorderLayout() );
-        centerP.add( lookP, BorderLayout.CENTER );
-        centerP.add( miscP, BorderLayout.SOUTH );
-        centerP.add( browserP, BorderLayout.NORTH );
+        JPanel centerP = new JPanel(new BorderLayout());
+        centerP.add(lookP, BorderLayout.CENTER);
+        centerP.add(miscP, BorderLayout.SOUTH);
+        centerP.add(browserP, BorderLayout.NORTH);
 
-        saveB = new JButton( "OK" );
-        saveB.addActionListener( this );
-        cancelB = new JButton( "Cancel" );
-        cancelB.addActionListener( this );
-        saveB.setPreferredSize( cancelB.getPreferredSize() );
+        saveB = new JButton("OK");
+        saveB.addActionListener(this);
+        cancelB = new JButton("Cancel");
+        cancelB.addActionListener(this);
+        saveB.setPreferredSize(cancelB.getPreferredSize());
 
-        JPanel buttonP = new JPanel( new FlowLayout( FlowLayout.RIGHT ) );
-        buttonP.add( saveB );
-        buttonP.add( cancelB );
+        JPanel buttonP = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonP.add(saveB);
+        buttonP.add(cancelB);
 
-        JPanel panel = new JPanel( new BorderLayout() );
-        panel.add( nickP, BorderLayout.NORTH );
-        panel.add( centerP, BorderLayout.CENTER );
-        panel.add( buttonP, BorderLayout.SOUTH );
-        panel.setBorder( BorderFactory.createEmptyBorder( 10, 10, 5, 10 ) );
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(nickP, BorderLayout.NORTH);
+        panel.add(centerP, BorderLayout.CENTER);
+        panel.add(buttonP, BorderLayout.SOUTH);
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 5, 10));
 
-        getContentPane().add( panel );
+        getContentPane().add(panel);
 
         pack();
-        setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
-        setIconImage( imageLoader.getAppIcon().getImage() );
-        setTitle( UITools.createTitle( "Settings" ) );
-        setResizable( false );
-        setModal( true );
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        setIconImage(imageLoader.getAppIcon().getImage());
+        setTitle(UITools.createTitle("Settings"));
+        setResizable(false);
+        setModal(true);
         hideWithEscape();
 
         // So the save button activates using Enter
-        getRootPane().setDefaultButton( saveB );
+        getRootPane().setDefaultButton(saveB);
 
         settings = Settings.getSettings();
         errorHandler = ErrorHandler.getErrorHandler();
@@ -233,21 +233,21 @@ public class SettingsDialog extends JDialog implements ActionListener
      */
     private void hideWithEscape()
     {
-        KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0, false );
+        KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
 
         Action escapeAction = new AbstractAction()
         {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void actionPerformed( final ActionEvent e )
+            public void actionPerformed(final ActionEvent e)
             {
-                setVisible( false );
+                setVisible(false);
             }
         };
 
-        getRootPane().getInputMap( JComponent.WHEN_IN_FOCUSED_WINDOW ).put( escapeKeyStroke, "ESCAPE" );
-        getRootPane().getActionMap().put( "ESCAPE", escapeAction );
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "ESCAPE");
+        getRootPane().getActionMap().put("ESCAPE", escapeAction);
     }
 
     /**
@@ -255,7 +255,7 @@ public class SettingsDialog extends JDialog implements ActionListener
      *
      * @param mediator The mediator to use.
      */
-    public void setMediator( final Mediator mediator )
+    public void setMediator(final Mediator mediator)
     {
         this.mediator = mediator;
     }
@@ -266,141 +266,141 @@ public class SettingsDialog extends JDialog implements ActionListener
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed( final ActionEvent e )
+    public void actionPerformed(final ActionEvent e)
     {
-        if ( e.getSource() == saveB )
+        if (e.getSource() == saveB)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    if ( mediator.changeNick( nickTF.getText() ) )
+                    if (mediator.changeNick(nickTF.getText()))
                     {
-                        settings.setSysColor( sysColorL.getForeground().getRGB() );
-                        settings.setOwnColor( ownColorL.getForeground().getRGB() );
-                        settings.setSound( soundCB.isSelected() );
-                        settings.setLogging( loggingCB.isSelected() );
-                        settings.setBrowser( browserTF.getText() );
-                        settings.setSmileys( smileysCB.isSelected() );
+                        settings.setSysColor(sysColorL.getForeground().getRGB());
+                        settings.setOwnColor(ownColorL.getForeground().getRGB());
+                        settings.setSound(soundCB.isSelected());
+                        settings.setLogging(loggingCB.isSelected());
+                        settings.setBrowser(browserTF.getText());
+                        settings.setSmileys(smileysCB.isSelected());
                         LookAndFeelWrapper lnfw = (LookAndFeelWrapper) lookAndFeelCB.getSelectedItem();
-                        settings.setLookAndFeel( lnfw.getLookAndFeelInfo().getName() );
+                        settings.setLookAndFeel(lnfw.getLookAndFeelInfo().getName());
                         settings.saveSettings();
-                        setVisible( false );
-                        notifyLookAndFeelChange( lnfw );
+                        setVisible(false);
+                        notifyLookAndFeelChange(lnfw);
                     }
                 }
-            } );
+            });
         }
 
-        else if ( e.getSource() == cancelB )
+        else if (e.getSource() == cancelB)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    setVisible( false );
+                    setVisible(false);
                 }
-            } );
+            });
         }
 
-        else if ( e.getSource() == chooseOwnColorB )
+        else if (e.getSource() == chooseOwnColorB)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    Color newColor = UITools.showColorChooser( "Choose color for own messages",
-                            new Color( settings.getOwnColor() ) );
+                    Color newColor = UITools.showColorChooser("Choose color for own messages",
+                            new Color(settings.getOwnColor()));
 
-                    if ( newColor != null )
+                    if (newColor != null)
                     {
-                        ownColorL.setForeground( newColor );
+                        ownColorL.setForeground(newColor);
                     }
                 }
-            } );
+            });
         }
 
-        else if ( e.getSource() == chooseSysColorB )
+        else if (e.getSource() == chooseSysColorB)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    Color newColor = UITools.showColorChooser( "Choose color for system messages",
-                            new Color( settings.getSysColor() ) );
+                    Color newColor = UITools.showColorChooser("Choose color for system messages",
+                            new Color(settings.getSysColor()));
 
-                    if ( newColor != null )
+                    if (newColor != null)
                     {
-                        sysColorL.setForeground( newColor );
+                        sysColorL.setForeground(newColor);
                     }
                 }
-            } );
+            });
         }
 
-        else if ( e.getSource() == testBrowserB )
+        else if (e.getSource() == testBrowserB)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
                     String browser = browserTF.getText();
 
-                    if ( browser.trim().length() > 0 )
+                    if (browser.trim().length() > 0)
                     {
                         try
                         {
-                            Runtime.getRuntime().exec( browser + " " + Constants.APP_WEB );
+                            Runtime.getRuntime().exec(browser + " " + Constants.APP_WEB);
                         }
 
-                        catch ( final IOException e )
+                        catch (final IOException e)
                         {
-                            errorHandler.showError( "Could not open the browser '" + browser
-                                    + "'. Try using the full path." );
+                            errorHandler.showError("Could not open the browser '" + browser
+                                    + "'. Try using the full path.");
                         }
                     }
 
-                    else if ( UITools.isDesktopActionSupported( Desktop.Action.BROWSE ) )
+                    else if (UITools.isDesktopActionSupported(Desktop.Action.BROWSE))
                     {
                         try
                         {
-                            Desktop.getDesktop().browse( new URI( Constants.APP_WEB ) );
+                            Desktop.getDesktop().browse(new URI(Constants.APP_WEB));
                         }
 
-                        catch ( final IOException e )
+                        catch (final IOException e)
                         {
-                            errorHandler.showError( "Could not open the default browser." );
+                            errorHandler.showError("Could not open the default browser.");
                         }
 
-                        catch ( final URISyntaxException e )
+                        catch (final URISyntaxException e)
                         {
-                            LOG.log( Level.WARNING, e.toString() );
-                            errorHandler.showError( "That's strange, could not open " + Constants.APP_WEB );
+                            LOG.log(Level.WARNING, e.toString());
+                            errorHandler.showError("That's strange, could not open " + Constants.APP_WEB);
                         }
                     }
 
                     else
                     {
-                        errorHandler.showError( "Your system does not support a default browser."
-                                + " Please choose a browser manually." );
+                        errorHandler.showError("Your system does not support a default browser."
+                                + " Please choose a browser manually.");
                     }
                 }
-            } );
+            });
         }
 
-        else if ( e.getSource() == chooseBrowserB )
+        else if (e.getSource() == chooseBrowserB)
         {
-            JFileChooser chooser = UITools.createFileChooser( "Open" );
-            int returnVal = chooser.showOpenDialog( null );
+            JFileChooser chooser = UITools.createFileChooser("Open");
+            int returnVal = chooser.showOpenDialog(null);
 
-            if ( returnVal == JFileChooser.APPROVE_OPTION )
+            if (returnVal == JFileChooser.APPROVE_OPTION)
             {
                 File file = chooser.getSelectedFile().getAbsoluteFile();
-                browserTF.setText( file.getAbsolutePath() );
+                browserTF.setText(file.getAbsolutePath());
             }
         }
     }
@@ -411,16 +411,16 @@ public class SettingsDialog extends JDialog implements ActionListener
      *
      * @param lnfw Information about the chosen look and feel.
      */
-    private void notifyLookAndFeelChange( final LookAndFeelWrapper lnfw )
+    private void notifyLookAndFeelChange(final LookAndFeelWrapper lnfw)
     {
         String newLookAndFeel = lnfw.getLookAndFeelInfo().getName();
         LookAndFeelInfo currentLookAndFeel = UITools.getCurrentLookAndFeel();
 
-        if ( currentLookAndFeel == null || !newLookAndFeel.equals( currentLookAndFeel.getName() ) )
+        if (currentLookAndFeel == null || !newLookAndFeel.equals(currentLookAndFeel.getName()))
         {
-            UITools.showInfoMessage( "The new look and feel will be used the next time "
+            UITools.showInfoMessage("The new look and feel will be used the next time "
                     + Constants.APP_NAME + " is started.",
-                    "Changed look and feel" );
+                    "Changed look and feel");
         }
     }
 
@@ -429,16 +429,16 @@ public class SettingsDialog extends JDialog implements ActionListener
      */
     public void showSettings()
     {
-        nickTF.setText( settings.getMe().getNick() );
-        sysColorL.setForeground( new Color( settings.getSysColor() ) );
-        ownColorL.setForeground( new Color( settings.getOwnColor() ) );
-        soundCB.setSelected( settings.isSound() );
-        loggingCB.setSelected( settings.isLogging() );
-        browserTF.setText( settings.getBrowser() );
-        smileysCB.setSelected( settings.isSmileys() );
+        nickTF.setText(settings.getMe().getNick());
+        sysColorL.setForeground(new Color(settings.getSysColor()));
+        ownColorL.setForeground(new Color(settings.getOwnColor()));
+        soundCB.setSelected(settings.isSound());
+        loggingCB.setSelected(settings.isLogging());
+        browserTF.setText(settings.getBrowser());
+        smileysCB.setSelected(settings.isSmileys());
         selectLookAndFeel();
 
-        setVisible( true );
+        setVisible(true);
         nickTF.requestFocusInWindow();
     }
 
@@ -450,21 +450,21 @@ public class SettingsDialog extends JDialog implements ActionListener
      */
     private void selectLookAndFeel()
     {
-        LookAndFeelInfo lookAndFeel = UITools.getLookAndFeel( settings.getLookAndFeel() );
+        LookAndFeelInfo lookAndFeel = UITools.getLookAndFeel(settings.getLookAndFeel());
         String lnfClass = "";
 
-        if ( lookAndFeel == null )
+        if (lookAndFeel == null)
             lnfClass = UIManager.getLookAndFeel().getClass().getName();
         else
             lnfClass = lookAndFeel.getClassName();
 
-        for ( int i = 0; i < lookAndFeelCB.getItemCount(); i++ )
+        for (int i = 0; i < lookAndFeelCB.getItemCount(); i++)
         {
-            LookAndFeelWrapper lafw = (LookAndFeelWrapper) lookAndFeelCB.getItemAt( i );
+            LookAndFeelWrapper lafw = (LookAndFeelWrapper) lookAndFeelCB.getItemAt(i);
 
-            if ( lafw.getLookAndFeelInfo().getClassName().equals( lnfClass ) )
+            if (lafw.getLookAndFeelInfo().getClassName().equals(lnfClass))
             {
-                lookAndFeelCB.setSelectedIndex( i );
+                lookAndFeelCB.setSelectedIndex(i);
                 break;
             }
         }

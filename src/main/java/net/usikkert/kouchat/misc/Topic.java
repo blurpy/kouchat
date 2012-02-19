@@ -57,7 +57,7 @@ public class Topic
      * @param nick The user which set the topic.
      * @param time The time when the topic was set.
      */
-    public Topic( final String topic, final String nick, final long time )
+    public Topic(final String topic, final String nick, final long time)
     {
         this.topic = topic;
         this.nick = nick;
@@ -73,7 +73,7 @@ public class Topic
      * @param nick The user which set the topic.
      * @param time The time when the topic was set.
      */
-    public void changeTopic( final String topic, final String nick, final long time )
+    public void changeTopic(final String topic, final String nick, final long time)
     {
         this.topic = topic;
         this.nick = nick;
@@ -85,7 +85,7 @@ public class Topic
      *
      * @param topic The topic to set.
      */
-    public void changeTopic( final Topic topic )
+    public void changeTopic(final Topic topic)
     {
         this.topic = topic.getTopic();
         this.nick = topic.getNick();

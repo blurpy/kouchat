@@ -38,9 +38,9 @@ public class MiddleAlignedIconView extends IconView
      *
      * @param elem The icon.
      */
-    public MiddleAlignedIconView( final Element elem )
+    public MiddleAlignedIconView(final Element elem)
     {
-        super( elem );
+        super(elem);
     }
 
     /**
@@ -58,7 +58,7 @@ public class MiddleAlignedIconView extends IconView
      * {@inheritDoc}
      */
     @Override
-    public float getAlignment( final int axis )
+    public float getAlignment(final int axis)
     {
         return 0.75f;
     }

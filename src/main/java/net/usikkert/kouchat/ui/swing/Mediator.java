@@ -100,7 +100,7 @@ public interface Mediator
      *                     that file already selected, or <code>null</code> if the
      *                     file chooser should start fresh.
      */
-    void sendFile( User user, File selectedFile );
+    void sendFile(User user, File selectedFile);
 
     /**
      * Gets the text written in the input field and either sends it to
@@ -114,7 +114,7 @@ public interface Mediator
      *
      * @param privchat The private chat.
      */
-    void writePrivate( PrivateChatWindow privchat );
+    void writePrivate(PrivateChatWindow privchat);
 
     /**
      * Checks if the user is currently writing, and updates the status.
@@ -127,7 +127,7 @@ public interface Mediator
      * @param nick The new nick name to change to.
      * @return If the nick name was changed successfully.
      */
-    boolean changeNick( String nick );
+    boolean changeNick(String nick);
 
     /**
      * Runs when the user presses the cancel/close button in the
@@ -137,7 +137,7 @@ public interface Mediator
      *
      * @param transferDialog The transfer dialog.
      */
-    void transferCancelled( TransferDialog transferDialog );
+    void transferCancelled(TransferDialog transferDialog);
 
     /**
      * Shows a list of the supported commands and their syntax.
@@ -149,12 +149,12 @@ public interface Mediator
      *
      * @param user The user to show the private chat for.
      */
-    void showPrivChat( User user );
+    void showPrivChat(User user);
 
     /**
      * Resets the new private message field of the user.
      *
      * @param user The user to reset the field for.
      */
-    void activatedPrivChat( User user );
+    void activatedPrivChat(User user);
 }

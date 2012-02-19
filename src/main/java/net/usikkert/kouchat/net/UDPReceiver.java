@@ -42,7 +42,7 @@ import net.usikkert.kouchat.misc.Settings;
 public class UDPReceiver implements Runnable
 {
     /** The logger. */
-    private static final Logger LOG = Logger.getLogger( UDPReceiver.class.getName() );
+    private static final Logger LOG = Logger.getLogger(UDPReceiver.class.getName());
 
     /** The datagram socket used for receiving messages. */
     private DatagramSocket udpSocket;
@@ -73,29 +73,29 @@ public class UDPReceiver implements Runnable
      */
     public void run()
     {
-        while ( connected )
+        while (connected)
         {
             try
             {
                 DatagramPacket packet = new DatagramPacket(
-                        new byte[Constants.NETWORK_PACKET_SIZE], Constants.NETWORK_PACKET_SIZE );
+                        new byte[Constants.NETWORK_PACKET_SIZE], Constants.NETWORK_PACKET_SIZE);
 
-                udpSocket.receive( packet );
+                udpSocket.receive(packet);
                 String ip = packet.getAddress().getHostAddress();
-                String message = new String( packet.getData(), Constants.MESSAGE_CHARSET ).trim();
-                LOG.log( Level.FINE, "Message arrived from " + ip + ": " + message );
+                String message = new String(packet.getData(), Constants.MESSAGE_CHARSET).trim();
+                LOG.log(Level.FINE, "Message arrived from " + ip + ": " + message);
 
-                if ( listener != null )
-                    listener.messageArrived( message, ip );
+                if (listener != null)
+                    listener.messageArrived(message, ip);
             }
 
             // Happens when socket is closed, or network is down
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                if ( connected )
-                    LOG.log( Level.WARNING, e.toString() );
+                if (connected)
+                    LOG.log(Level.WARNING, e.toString());
                 else
-                    LOG.log( Level.FINE, e.toString() );
+                    LOG.log(Level.FINE, e.toString());
             }
         }
     }
@@ -107,11 +107,11 @@ public class UDPReceiver implements Runnable
      */
     public void startReceiver()
     {
-        LOG.log( Level.FINE, "Connecting..." );
+        LOG.log(Level.FINE, "Connecting...");
 
-        if ( connected )
+        if (connected)
         {
-            LOG.log( Level.FINE, "Already connected." );
+            LOG.log(Level.FINE, "Already connected.");
         }
 
         else
@@ -119,37 +119,37 @@ public class UDPReceiver implements Runnable
             int port = Constants.NETWORK_PRIVCHAT_PORT;
             int counter = 0;
 
-            while ( counter < 10 && !connected )
+            while (counter < 10 && !connected)
             {
                 try
                 {
-                    udpSocket = new DatagramSocket( port );
+                    udpSocket = new DatagramSocket(port);
                     connected = true;
-                    worker = new Thread( this, "UDPReceiverWorker" );
+                    worker = new Thread(this, "UDPReceiverWorker");
                     worker.start();
-                    Settings.getSettings().getMe().setPrivateChatPort( port );
-                    LOG.log( Level.FINE, "Connected." );
+                    Settings.getSettings().getMe().setPrivateChatPort(port);
+                    LOG.log(Level.FINE, "Connected.");
                 }
 
-                catch ( final IOException e )
+                catch (final IOException e)
                 {
-                    LOG.log( Level.SEVERE, e.toString() + " " + port );
+                    LOG.log(Level.SEVERE, e.toString() + " " + port);
 
                     counter++;
                     port++;
-                    Settings.getSettings().getMe().setPrivateChatPort( 0 );
+                    Settings.getSettings().getMe().setPrivateChatPort(0);
                 }
             }
 
-            if ( !connected )
+            if (!connected)
             {
                 String error = "Failed to initialize udp network:"
                     + "\nNo available listening port between " + Constants.NETWORK_PRIVCHAT_PORT
-                    + " and " + ( port - 1 ) + "."
+                    + " and " + (port - 1) + "."
                     + "\n\nYou will not be able to receive private messages!";
 
-                LOG.log( Level.SEVERE, error );
-                errorHandler.showError( error );
+                LOG.log(Level.SEVERE, error);
+                errorHandler.showError(error);
             }
         }
     }
@@ -159,23 +159,23 @@ public class UDPReceiver implements Runnable
      */
     public void stopReceiver()
     {
-        LOG.log( Level.FINE, "Disconnecting..." );
+        LOG.log(Level.FINE, "Disconnecting...");
 
-        if ( !connected )
+        if (!connected)
         {
-            LOG.log( Level.FINE, "Not connected." );
+            LOG.log(Level.FINE, "Not connected.");
         }
 
         else
         {
             connected = false;
 
-            if ( udpSocket != null && !udpSocket.isClosed() )
+            if (udpSocket != null && !udpSocket.isClosed())
             {
                 udpSocket.close();
             }
 
-            LOG.log( Level.FINE, "Disconnected." );
+            LOG.log(Level.FINE, "Disconnected.");
         }
     }
 
@@ -185,7 +185,7 @@ public class UDPReceiver implements Runnable
      *
      * @param listener The object to register as a listener.
      */
-    public void registerReceiverListener( final ReceiverListener listener )
+    public void registerReceiverListener(final ReceiverListener listener)
     {
         this.listener = listener;
     }

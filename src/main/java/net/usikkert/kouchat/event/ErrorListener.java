@@ -36,12 +36,12 @@ public interface ErrorListener
      *
      * @param errorMsg The message to show.
      */
-    void errorReported( String errorMsg );
+    void errorReported(String errorMsg);
 
     /**
      * This method is called when a critical error occurs.
      *
      * @param criticalErrorMsg The message to show.
      */
-    void criticalErrorReported( String criticalErrorMsg );
+    void criticalErrorReported(String criticalErrorMsg);
 }

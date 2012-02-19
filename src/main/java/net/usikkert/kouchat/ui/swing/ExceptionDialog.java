@@ -69,63 +69,63 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
      * @param modal If this dialog should be modal or not.
      * @param imageLoader The image loader.
      */
-    public ExceptionDialog( final Frame parent, final boolean modal, final ImageLoader imageLoader )
+    public ExceptionDialog(final Frame parent, final boolean modal, final ImageLoader imageLoader)
     {
-        super( parent, modal );
-        Validate.notNull( imageLoader, "Image loader can not be null" );
+        super(parent, modal);
+        Validate.notNull(imageLoader, "Image loader can not be null");
 
         JLabel titleL = new JLabel();
-        titleL.setIcon( UIManager.getIcon( "OptionPane.errorIcon" ) );
-        titleL.setText( " An unhandled error has occured" );
-        titleL.setFont( new Font( "Dialog", Font.PLAIN, 20 ) );
+        titleL.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
+        titleL.setText(" An unhandled error has occured");
+        titleL.setFont(new Font("Dialog", Font.PLAIN, 20));
 
         JLabel detailL = new JLabel();
-        detailL.setText( "<html>" + Constants.APP_NAME + " has experienced an unhandled error, "
+        detailL.setText("<html>" + Constants.APP_NAME + " has experienced an unhandled error, "
                 + "and may be in an inconsistent state. It's advised to restart the application "
                 + "to make sure everything works as expected. Bugs can be reported at "
                 + "http://kouchat.googlecode.com/. Please describe what you did when "
-                + "this error happened, and add the stack trace below to the report.</html>" );
+                + "this error happened, and add the stack trace below to the report.</html>");
 
         exceptionTP = new JTextPaneWithoutWrap();
-        exceptionTP.setEditable( false );
-        JScrollPane exceptionScroll = new JScrollPane( exceptionTP );
-        new CopyPopup( exceptionTP );
+        exceptionTP.setEditable(false);
+        JScrollPane exceptionScroll = new JScrollPane(exceptionTP);
+        new CopyPopup(exceptionTP);
 
         JButton closeB = new JButton();
-        closeB.setText( "Close" );
-        closeB.addActionListener( new ActionListener()
+        closeB.setText("Close");
+        closeB.addActionListener(new ActionListener()
         {
             @Override
-            public void actionPerformed( final ActionEvent e )
+            public void actionPerformed(final ActionEvent e)
             {
                 dispose();
             }
-        } );
+        });
 
         JPanel titleP = new JPanel();
-        titleP.setLayout( new FlowLayout( FlowLayout.LEFT, 12, 12 ) );
-        titleP.add( titleL );
-        titleP.setBackground( Color.WHITE );
-        titleP.setBorder( BorderFactory.createMatteBorder( 0, 0, 1, 0, Color.BLACK ) );
+        titleP.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 12));
+        titleP.add(titleL);
+        titleP.setBackground(Color.WHITE);
+        titleP.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
 
         JPanel buttonP = new JPanel();
-        buttonP.setLayout( new FlowLayout( FlowLayout.RIGHT ) );
-        buttonP.add( closeB );
+        buttonP.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        buttonP.add(closeB);
 
         JPanel infoP = new JPanel();
-        infoP.setLayout( new BorderLayout( 5, 10 ) );
-        infoP.add( detailL, BorderLayout.PAGE_START );
-        infoP.add( exceptionScroll, BorderLayout.CENTER );
-        infoP.setBorder( BorderFactory.createEmptyBorder( 8, 4, 2, 4 ) );
+        infoP.setLayout(new BorderLayout(5, 10));
+        infoP.add(detailL, BorderLayout.PAGE_START);
+        infoP.add(exceptionScroll, BorderLayout.CENTER);
+        infoP.setBorder(BorderFactory.createEmptyBorder(8, 4, 2, 4));
 
-        getContentPane().add( titleP, BorderLayout.PAGE_START );
-        getContentPane().add( buttonP, BorderLayout.PAGE_END );
-        getContentPane().add( infoP, BorderLayout.CENTER );
+        getContentPane().add(titleP, BorderLayout.PAGE_START);
+        getContentPane().add(buttonP, BorderLayout.PAGE_END);
+        getContentPane().add(infoP, BorderLayout.CENTER);
 
-        setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
-        setTitle( UITools.createTitle( "Unhandled error" ) );
-        setIconImage( imageLoader.getAppIcon().getImage() );
-        setSize( 630, 450 );
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle(UITools.createTitle("Unhandled error"));
+        setIconImage(imageLoader.getAppIcon().getImage());
+        setSize(630, 450);
     }
 
     /**
@@ -134,10 +134,10 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
      * {@inheritDoc}
      */
     @Override
-    public void setVisible( final boolean visible )
+    public void setVisible(final boolean visible)
     {
-        setLocationRelativeTo( getParent() );
-        super.setVisible( visible );
+        setLocationRelativeTo(getParent());
+        super.setVisible(visible);
     }
 
     /**
@@ -147,30 +147,30 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
      * {@inheritDoc}
      */
     @Override
-    public void uncaughtException( final Thread thread, final Throwable throwable )
+    public void uncaughtException(final Thread thread, final Throwable throwable)
     {
-        SwingUtilities.invokeLater( new Runnable()
+        SwingUtilities.invokeLater(new Runnable()
         {
             @Override
             public void run()
             {
                 StringWriter stringWriter = new StringWriter();
 
-                stringWriter.append( Tools.dateToString( new Date(), "dd.MMM.yyyy HH:mm:ss" )
+                stringWriter.append(Tools.dateToString(new Date(), "dd.MMM.yyyy HH:mm:ss")
                         + " UncaughtException in thread: " + thread.getName()
-                        + " (id " + thread.getId() + ", priority " + thread.getPriority() + ")\n" );
+                        + " (id " + thread.getId() + ", priority " + thread.getPriority() + ")\n");
 
-                PrintWriter printWriter = new PrintWriter( stringWriter );
-                throwable.printStackTrace( printWriter );
+                PrintWriter printWriter = new PrintWriter(stringWriter);
+                throwable.printStackTrace(printWriter);
                 printWriter.close();
 
-                if ( exceptionTP.getText().length() > 0 )
-                    stringWriter.append( "\n" + exceptionTP.getText() );
+                if (exceptionTP.getText().length() > 0)
+                    stringWriter.append("\n" + exceptionTP.getText());
 
-                exceptionTP.setText( stringWriter.toString() );
-                exceptionTP.setCaretPosition( 0 );
-                setVisible( true );
+                exceptionTP.setText(stringWriter.toString());
+                exceptionTP.setCaretPosition(0);
+                setVisible(true);
             }
-        } );
+        });
     }
 }

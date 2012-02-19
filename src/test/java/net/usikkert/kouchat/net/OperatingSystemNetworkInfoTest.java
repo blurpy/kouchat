@@ -50,37 +50,37 @@ public class OperatingSystemNetworkInfoTest
         OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo();
         NetworkInterface osInterface = osNicInfo.getOperatingSystemNetworkInterface();
 
-        if ( networkInterfaces == null )
+        if (networkInterfaces == null)
         {
-            System.err.println( "No network interfaces found." );
-            assertNull( osInterface );
+            System.err.println("No network interfaces found.");
+            assertNull(osInterface);
             return;
         }
 
         boolean validNetworkAvailable = false;
 
-        while ( networkInterfaces.hasMoreElements() )
+        while (networkInterfaces.hasMoreElements())
         {
             NetworkInterface networkInterface = networkInterfaces.nextElement();
 
-            if ( NetworkUtils.isUsable( networkInterface ) )
+            if (NetworkUtils.isUsable(networkInterface))
             {
                 validNetworkAvailable = true;
                 break;
             }
         }
 
-        if ( !validNetworkAvailable )
+        if (!validNetworkAvailable)
         {
-            System.err.println( "No usable network interfaces found." );
-            assertNull( osInterface );
+            System.err.println("No usable network interfaces found.");
+            assertNull(osInterface);
             return;
         }
 
-        assertNotNull( osInterface );
+        assertNotNull(osInterface);
 
         // This is known to sometimes fail in Vista. It is unknown why Vista
         // prefers unusable network interfaces.
-        assertTrue( NetworkUtils.isUsable( osInterface ) );
+        assertTrue(NetworkUtils.isUsable(osInterface));
     }
 }

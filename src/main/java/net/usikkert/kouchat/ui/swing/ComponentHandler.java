@@ -68,9 +68,9 @@ public class ComponentHandler
      *
      * @param sidePanel The side panel.
      */
-    public void setSidePanel( final SidePanel sidePanel )
+    public void setSidePanel(final SidePanel sidePanel)
     {
-        Validate.notNull( sidePanel, "Side panel can not be null" );
+        Validate.notNull(sidePanel, "Side panel can not be null");
         this.sidePanel = sidePanel;
     }
 
@@ -89,9 +89,9 @@ public class ComponentHandler
      *
      * @param settingsDialog The settings dialog.
      */
-    public void setSettingsDialog( final SettingsDialog settingsDialog )
+    public void setSettingsDialog(final SettingsDialog settingsDialog)
     {
-        Validate.notNull( settingsDialog, "Settings dialog can not be null" );
+        Validate.notNull(settingsDialog, "Settings dialog can not be null");
         this.settingsDialog = settingsDialog;
     }
 
@@ -110,9 +110,9 @@ public class ComponentHandler
      *
      * @param sysTray The system tray.
      */
-    public void setSysTray( final SysTray sysTray )
+    public void setSysTray(final SysTray sysTray)
     {
-        Validate.notNull( sysTray, "System tray can not be null" );
+        Validate.notNull(sysTray, "System tray can not be null");
         this.sysTray = sysTray;
     }
 
@@ -131,9 +131,9 @@ public class ComponentHandler
      *
      * @param menuBar The menu bar.
      */
-    public void setMenuBar( final MenuBar menuBar )
+    public void setMenuBar(final MenuBar menuBar)
     {
-        Validate.notNull( menuBar, "Menu bar can not be null" );
+        Validate.notNull(menuBar, "Menu bar can not be null");
         this.menuBar = menuBar;
     }
 
@@ -152,9 +152,9 @@ public class ComponentHandler
      *
      * @param buttonPanel The button panel.
      */
-    public void setButtonPanel( final ButtonPanel buttonPanel )
+    public void setButtonPanel(final ButtonPanel buttonPanel)
     {
-        Validate.notNull( buttonPanel, "Button panel can not be null" );
+        Validate.notNull(buttonPanel, "Button panel can not be null");
         this.buttonPanel = buttonPanel;
     }
 
@@ -173,9 +173,9 @@ public class ComponentHandler
      *
      * @param gui The kouchat frame.
      */
-    public void setGui( final KouChatFrame gui )
+    public void setGui(final KouChatFrame gui)
     {
-        Validate.notNull( gui, "Kouchat frame can not be null" );
+        Validate.notNull(gui, "Kouchat frame can not be null");
         this.gui = gui;
     }
 
@@ -194,9 +194,9 @@ public class ComponentHandler
      *
      * @param mainPanel The main panel.
      */
-    public void setMainPanel( final MainPanel mainPanel )
+    public void setMainPanel(final MainPanel mainPanel)
     {
-        Validate.notNull( mainPanel, "Main panel can not be null" );
+        Validate.notNull(mainPanel, "Main panel can not be null");
         this.mainPanel = mainPanel;
     }
 
@@ -206,12 +206,12 @@ public class ComponentHandler
      */
     public void validate()
     {
-        Validate.notNull( sidePanel, "Side panel can not be null" );
-        Validate.notNull( settingsDialog, "Settings dialog can not be null" );
-        Validate.notNull( sysTray, "System tray can not be null" );
-        Validate.notNull( menuBar, "Menu bar can not be null" );
-        Validate.notNull( buttonPanel, "Button panel can not be null" );
-        Validate.notNull( gui, "GUI can not be null" );
-        Validate.notNull( mainPanel, "Main panel can not be null" );
+        Validate.notNull(sidePanel, "Side panel can not be null");
+        Validate.notNull(settingsDialog, "Settings dialog can not be null");
+        Validate.notNull(sysTray, "System tray can not be null");
+        Validate.notNull(menuBar, "Menu bar can not be null");
+        Validate.notNull(buttonPanel, "Button panel can not be null");
+        Validate.notNull(gui, "GUI can not be null");
+        Validate.notNull(mainPanel, "Main panel can not be null");
     }
 }

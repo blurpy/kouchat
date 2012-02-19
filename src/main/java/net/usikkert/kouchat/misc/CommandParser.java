@@ -56,7 +56,7 @@ public class CommandParser
      * @param controller The controller.
      * @param ui The user interface.
      */
-    public CommandParser( final Controller controller, final UserInterface ui )
+    public CommandParser(final Controller controller, final UserInterface ui)
     {
         this.controller = controller;
         this.ui = ui;
@@ -73,21 +73,21 @@ public class CommandParser
      *
      * @param args Nothing, or the new topic.
      */
-    private void cmdTopic( final String args )
+    private void cmdTopic(final String args)
     {
-        if ( args.length() == 0 )
+        if (args.length() == 0)
         {
             Topic topic = controller.getTopic();
 
-            if ( topic.getTopic().equals( "" ) )
+            if (topic.getTopic().equals(""))
             {
-                msgController.showSystemMessage( "No topic set" );
+                msgController.showSystemMessage("No topic set");
             }
 
             else
             {
-                String date = Tools.dateToString( new Date( topic.getTime() ), "HH:mm:ss, dd. MMM. yy" );
-                msgController.showSystemMessage( "Topic is: " + topic.getTopic() + " (set by " + topic.getNick() + " at " + date + ")" );
+                String date = Tools.dateToString(new Date(topic.getTime()), "HH:mm:ss, dd. MMM. yy");
+                msgController.showSystemMessage("Topic is: " + topic.getTopic() + " (set by " + topic.getNick() + " at " + date + ")");
             }
         }
 
@@ -95,12 +95,12 @@ public class CommandParser
         {
             try
             {
-                fixTopic( args );
+                fixTopic(args);
             }
 
-            catch ( final CommandException e )
+            catch (final CommandException e)
             {
-                msgController.showSystemMessage( e.getMessage() );
+                msgController.showSystemMessage(e.getMessage());
             }
         }
     }
@@ -111,32 +111,32 @@ public class CommandParser
      *
      * @param args The away message.
      */
-    private void cmdAway( final String args )
+    private void cmdAway(final String args)
     {
-        if ( me.isAway() )
+        if (me.isAway())
         {
-            msgController.showSystemMessage( "/away - you are already away: '" + me.getAwayMsg() + "'" );
+            msgController.showSystemMessage("/away - you are already away: '" + me.getAwayMsg() + "'");
         }
 
         else
         {
-            if ( args.trim().length() == 0 )
+            if (args.trim().length() == 0)
             {
-                msgController.showSystemMessage( "/away - missing argument <away message>" );
+                msgController.showSystemMessage("/away - missing argument <away message>");
             }
 
             else
             {
                 try
                 {
-                    controller.changeAwayStatus( me.getCode(), true, args.trim() );
-                    ui.changeAway( true );
-                    msgController.showSystemMessage( "You went away: " + me.getAwayMsg() );
+                    controller.changeAwayStatus(me.getCode(), true, args.trim());
+                    ui.changeAway(true);
+                    msgController.showSystemMessage("You went away: " + me.getAwayMsg());
                 }
 
-                catch ( final CommandException e )
+                catch (final CommandException e)
                 {
-                    msgController.showSystemMessage( e.getMessage() );
+                    msgController.showSystemMessage(e.getMessage());
                 }
             }
         }
@@ -148,24 +148,24 @@ public class CommandParser
      */
     private void cmdBack()
     {
-        if ( me.isAway() )
+        if (me.isAway())
         {
             try
             {
-                controller.changeAwayStatus( me.getCode(), false, "" );
-                ui.changeAway( false );
-                msgController.showSystemMessage( "You came back" );
+                controller.changeAwayStatus(me.getCode(), false, "");
+                ui.changeAway(false);
+                msgController.showSystemMessage("You came back");
             }
 
-            catch ( final CommandException e )
+            catch (final CommandException e)
             {
-                msgController.showSystemMessage( e.getMessage() );
+                msgController.showSystemMessage(e.getMessage());
             }
         }
 
         else
         {
-            msgController.showSystemMessage( "/back - you are not away" );
+            msgController.showSystemMessage("/back - you are not away");
         }
     }
 
@@ -184,9 +184,9 @@ public class CommandParser
      */
     private void cmdAbout()
     {
-        msgController.showSystemMessage( "This is " + Constants.APP_NAME + " v" + Constants.APP_VERSION
+        msgController.showSystemMessage("This is " + Constants.APP_NAME + " v" + Constants.APP_VERSION
                 + ", by " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL
-                + " - " + Constants.APP_WEB );
+                + " - " + Constants.APP_WEB);
     }
 
     /**
@@ -204,45 +204,45 @@ public class CommandParser
      *
      * @param args The user to show information about.
      */
-    private void cmdWhois( final String args )
+    private void cmdWhois(final String args)
     {
-        if ( args.trim().length() == 0 )
+        if (args.trim().length() == 0)
         {
-            msgController.showSystemMessage( "/whois - missing argument <nick>" );
+            msgController.showSystemMessage("/whois - missing argument <nick>");
         }
 
         else
         {
-            String[] argsArray = args.split( "\\s" );
+            String[] argsArray = args.split("\\s");
             String nick = argsArray[1].trim();
 
-            User user = controller.getUser( nick );
+            User user = controller.getUser(nick);
 
-            if ( user == null )
+            if (user == null)
             {
-                msgController.showSystemMessage( "/whois - no such user '" + nick + "'" );
+                msgController.showSystemMessage("/whois - no such user '" + nick + "'");
             }
 
             else
             {
                 String info = "/whois - " + user.getNick();
 
-                if ( user.isAway() )
+                if (user.isAway())
                     info += " (Away)";
 
                 info += ":\nIP address: " + user.getIpAddress();
 
-                if ( user.getHostName() != null )
+                if (user.getHostName() != null)
                     info +=  "\nHost name: " + user.getHostName();
 
                 info += "\nClient: " + user.getClient()
                         + "\nOperating System: " + user.getOperatingSystem()
-                        + "\nOnline: " + Tools.howLongFromNow( user.getLogonTime() );
+                        + "\nOnline: " + Tools.howLongFromNow(user.getLogonTime());
 
-                if ( user.isAway() )
+                if (user.isAway())
                     info += "\nAway message: " + user.getAwayMsg();
 
-                msgController.showSystemMessage( info );
+                msgController.showSystemMessage(info);
             }
         }
     }
@@ -254,62 +254,62 @@ public class CommandParser
      * @param args First argument is the user to send to, and the second is
      * the file to send to the user.
      */
-    private void cmdSend( final String args )
+    private void cmdSend(final String args)
     {
-        String[] argsArray = args.split( "\\s" );
+        String[] argsArray = args.split("\\s");
 
-        if ( argsArray.length <= 2 )
+        if (argsArray.length <= 2)
         {
-            msgController.showSystemMessage( "/send - missing arguments <nick> <file>" );
+            msgController.showSystemMessage("/send - missing arguments <nick> <file>");
         }
 
         else
         {
             String nick = argsArray[1];
-            User user = controller.getUser( nick );
+            User user = controller.getUser(nick);
 
-            if ( user != me )
+            if (user != me)
             {
-                if ( user == null )
+                if (user == null)
                 {
-                    msgController.showSystemMessage( "/send - no such user '" + nick + "'" );
+                    msgController.showSystemMessage("/send - no such user '" + nick + "'");
                 }
 
                 else
                 {
                     String file = "";
 
-                    for ( int i = 2; i < argsArray.length; i++ )
+                    for (int i = 2; i < argsArray.length; i++)
                     {
                         file += argsArray[i] + " ";
                     }
 
                     file = file.trim();
-                    File sendFile = new File( file );
+                    File sendFile = new File(file);
 
-                    if ( sendFile.exists() && sendFile.isFile() )
+                    if (sendFile.exists() && sendFile.isFile())
                     {
                         try
                         {
-                            sendFile( user, sendFile );
+                            sendFile(user, sendFile);
                         }
 
-                        catch ( final CommandException e )
+                        catch (final CommandException e)
                         {
-                            msgController.showSystemMessage( e.getMessage() );
+                            msgController.showSystemMessage(e.getMessage());
                         }
                     }
 
                     else
                     {
-                        msgController.showSystemMessage( "/send - no such file '" + file + "'" );
+                        msgController.showSystemMessage("/send - no such file '" + file + "'");
                     }
                 }
             }
 
             else
             {
-                msgController.showSystemMessage( "/send - no point in doing that!" );
+                msgController.showSystemMessage("/send - no point in doing that!");
             }
         }
     }
@@ -321,56 +321,56 @@ public class CommandParser
      * @param args First argument is the other user in the file transfer,
      * and the second is the file being transferred.
      */
-    private void cmdReceive( final String args )
+    private void cmdReceive(final String args)
     {
-        String[] argsArray = args.split( "\\s" );
+        String[] argsArray = args.split("\\s");
 
-        if ( argsArray.length <= 2 )
+        if (argsArray.length <= 2)
         {
-            msgController.showSystemMessage( "/receive - missing arguments <nick> <file>" );
+            msgController.showSystemMessage("/receive - missing arguments <nick> <file>");
             return;
         }
 
         String nick = argsArray[1];
-        User user = controller.getUser( nick );
+        User user = controller.getUser(nick);
 
-        if ( user == null )
+        if (user == null)
         {
-            msgController.showSystemMessage( "/receive - no such user '" + nick + "'" );
+            msgController.showSystemMessage("/receive - no such user '" + nick + "'");
             return;
         }
 
-        if ( user == me )
+        if (user == me)
         {
-            msgController.showSystemMessage( "/receive - no point in doing that!" );
+            msgController.showSystemMessage("/receive - no point in doing that!");
             return;
         }
 
         String filename = "";
 
-        for ( int i = 2; i < argsArray.length; i++ )
+        for (int i = 2; i < argsArray.length; i++)
         {
             filename += argsArray[i] + " ";
         }
 
         filename = filename.trim();
-        FileReceiver fileReceiver = tList.getFileReceiver( user, filename );
+        FileReceiver fileReceiver = tList.getFileReceiver(user, filename);
 
-        if ( fileReceiver == null )
+        if (fileReceiver == null)
         {
-            msgController.showSystemMessage( "/receive - no such file '" + filename + "' offered by " + nick );
+            msgController.showSystemMessage("/receive - no such file '" + filename + "' offered by " + nick);
             return;
         }
 
-        if ( fileReceiver.isAccepted() )
+        if (fileReceiver.isAccepted())
         {
-            msgController.showSystemMessage( "/receive - already receiving '" + filename + "' from " + nick );
+            msgController.showSystemMessage("/receive - already receiving '" + filename + "' from " + nick);
             return;
         }
 
         File file = fileReceiver.getFile();
 
-        if ( file.exists() )
+        if (file.exists())
         {
             int counter = 1;
             File newFile = null;
@@ -378,13 +378,13 @@ public class CommandParser
             do
             {
                 String newName = file.getParent() + File.separator + filename + "." + counter;
-                newFile = new File( newName );
+                newFile = new File(newName);
                 counter++;
             }
-            while ( newFile.exists() );
+            while (newFile.exists());
 
-            msgController.showSystemMessage( "/receive - file '" + filename + "' already exists - renaming to '" + newFile.getName() + "'" );
-            fileReceiver.setFile( newFile );
+            msgController.showSystemMessage("/receive - file '" + filename + "' already exists - renaming to '" + newFile.getName() + "'");
+            fileReceiver.setFile(newFile);
         }
 
         fileReceiver.accept();
@@ -397,50 +397,50 @@ public class CommandParser
      * @param args First argument is the other user in the file transfer,
      * and the second is the file being transferred.
      */
-    private void cmdReject( final String args )
+    private void cmdReject(final String args)
     {
-        String[] argsArray = args.split( "\\s" );
+        String[] argsArray = args.split("\\s");
 
-        if ( argsArray.length <= 2 )
+        if (argsArray.length <= 2)
         {
-            msgController.showSystemMessage( "/reject - missing arguments <nick> <file>" );
+            msgController.showSystemMessage("/reject - missing arguments <nick> <file>");
             return;
         }
 
         String nick = argsArray[1];
-        User user = controller.getUser( nick );
+        User user = controller.getUser(nick);
 
-        if ( user == null )
+        if (user == null)
         {
-            msgController.showSystemMessage( "/reject - no such user '" + nick + "'" );
+            msgController.showSystemMessage("/reject - no such user '" + nick + "'");
             return;
         }
 
-        if ( user == me )
+        if (user == me)
         {
-            msgController.showSystemMessage( "/reject - no point in doing that!" );
+            msgController.showSystemMessage("/reject - no point in doing that!");
             return;
         }
 
         String file = "";
 
-        for ( int i = 2; i < argsArray.length; i++ )
+        for (int i = 2; i < argsArray.length; i++)
         {
             file += argsArray[i] + " ";
         }
 
         file = file.trim();
-        FileReceiver fileReceiver = tList.getFileReceiver( user, file );
+        FileReceiver fileReceiver = tList.getFileReceiver(user, file);
 
-        if ( fileReceiver == null )
+        if (fileReceiver == null)
         {
-            msgController.showSystemMessage( "/reject - no such file '" + file + "' offered by " + nick );
+            msgController.showSystemMessage("/reject - no such file '" + file + "' offered by " + nick);
             return;
         }
 
-        if ( fileReceiver.isAccepted() )
+        if (fileReceiver.isAccepted())
         {
-            msgController.showSystemMessage( "/reject - already receiving '" + file + "' from " + nick );
+            msgController.showSystemMessage("/reject - already receiving '" + file + "' from " + nick);
             return;
         }
 
@@ -454,59 +454,59 @@ public class CommandParser
      * @param args First argument is the other user in the file transfer,
      * and the second is the file being transferred.
      */
-    private void cmdCancel( final String args )
+    private void cmdCancel(final String args)
     {
-        String[] argsArray = args.split( "\\s" );
+        String[] argsArray = args.split("\\s");
 
-        if ( argsArray.length <= 2 )
+        if (argsArray.length <= 2)
         {
-            msgController.showSystemMessage( "/cancel - missing arguments <nick> <file>" );
+            msgController.showSystemMessage("/cancel - missing arguments <nick> <file>");
             return;
         }
 
         String nick = argsArray[1];
-        User user = controller.getUser( nick );
+        User user = controller.getUser(nick);
 
-        if ( user == null )
+        if (user == null)
         {
-            msgController.showSystemMessage( "/cancel - no such user '" + nick + "'" );
+            msgController.showSystemMessage("/cancel - no such user '" + nick + "'");
             return;
         }
 
-        if ( user == me )
+        if (user == me)
         {
-            msgController.showSystemMessage( "/cancel - no point in doing that!" );
+            msgController.showSystemMessage("/cancel - no point in doing that!");
             return;
         }
 
         String file = "";
 
-        for ( int i = 2; i < argsArray.length; i++ )
+        for (int i = 2; i < argsArray.length; i++)
         {
             file += argsArray[i] + " ";
         }
 
         file = file.trim();
-        FileTransfer fileTransfer = tList.getFileTransfer( user, file );
+        FileTransfer fileTransfer = tList.getFileTransfer(user, file);
 
-        if ( fileTransfer == null )
+        if (fileTransfer == null)
         {
-            msgController.showSystemMessage( "/cancel - no such file transfer of '" + file + "' with " + nick );
+            msgController.showSystemMessage("/cancel - no such file transfer of '" + file + "' with " + nick);
             return;
         }
 
-        if ( fileTransfer instanceof FileReceiver )
+        if (fileTransfer instanceof FileReceiver)
         {
             FileReceiver fileReceiver = (FileReceiver) fileTransfer;
 
-            if ( !fileReceiver.isAccepted() && !fileReceiver.isRejected() )
+            if (!fileReceiver.isAccepted() && !fileReceiver.isRejected())
             {
-                msgController.showSystemMessage( "/cancel - transfer of '" + file + "' from " + nick + " has not started yet" );
+                msgController.showSystemMessage("/cancel - transfer of '" + file + "' from " + nick + " has not started yet");
                 return;
             }
         }
 
-        cancelFileTransfer( fileTransfer );
+        cancelFileTransfer(fileTransfer);
     }
 
     /**
@@ -516,40 +516,40 @@ public class CommandParser
      * @param args The first argument is the user to send to, and the
      * second is the private message to the user.
      */
-    private void cmdMsg( final String args )
+    private void cmdMsg(final String args)
     {
-        String[] argsArray = args.split( "\\s" );
+        String[] argsArray = args.split("\\s");
 
-        if ( argsArray.length <= 2 )
+        if (argsArray.length <= 2)
         {
-            msgController.showSystemMessage( "/msg - missing arguments <nick> <msg>" );
+            msgController.showSystemMessage("/msg - missing arguments <nick> <msg>");
         }
 
         else
         {
             String nick = argsArray[1];
-            User user = controller.getUser( nick );
+            User user = controller.getUser(nick);
 
-            if ( user == null )
+            if (user == null)
             {
-                msgController.showSystemMessage( "/msg - no such user '" + nick + "'" );
+                msgController.showSystemMessage("/msg - no such user '" + nick + "'");
             }
 
-            else if ( user == me )
+            else if (user == me)
             {
-                msgController.showSystemMessage( "/msg - no point in doing that!" );
+                msgController.showSystemMessage("/msg - no point in doing that!");
             }
 
-            else if ( user.getPrivateChatPort() == 0 )
+            else if (user.getPrivateChatPort() == 0)
             {
-                msgController.showSystemMessage( "/msg - " + user.getNick() + " can't receive private chat messages" );
+                msgController.showSystemMessage("/msg - " + user.getNick() + " can't receive private chat messages");
             }
 
             else
             {
                 String privmsg = "";
 
-                for ( int i = 2; i < argsArray.length; i++ )
+                for (int i = 2; i < argsArray.length; i++)
                 {
                     privmsg += argsArray[i] + " ";
                 }
@@ -558,13 +558,13 @@ public class CommandParser
 
                 try
                 {
-                    controller.sendPrivateMessage( privmsg, user );
-                    msgController.showPrivateOwnMessage( user, privmsg );
+                    controller.sendPrivateMessage(privmsg, user);
+                    msgController.showPrivateOwnMessage(user, privmsg);
                 }
 
-                catch ( final CommandException e )
+                catch (final CommandException e)
                 {
-                    msgController.showSystemMessage( e.getMessage() );
+                    msgController.showSystemMessage(e.getMessage());
                 }
             }
         }
@@ -576,49 +576,49 @@ public class CommandParser
      *
      * @param args The nick to change to.
      */
-    private void cmdNick( final String args )
+    private void cmdNick(final String args)
     {
-        if ( args.trim().length() == 0 )
+        if (args.trim().length() == 0)
         {
-            msgController.showSystemMessage( "/nick - missing argument <nick>" );
+            msgController.showSystemMessage("/nick - missing argument <nick>");
         }
 
         else
         {
-            String[] argsArray = args.split( "\\s" );
+            String[] argsArray = args.split("\\s");
             String nick = argsArray[1].trim();
 
-            if ( !nick.equals( me.getNick() ) )
+            if (!nick.equals(me.getNick()))
             {
-                if ( controller.isNickInUse( nick ) )
+                if (controller.isNickInUse(nick))
                 {
-                    msgController.showSystemMessage( "/nick - '" + nick + "' is in use by someone else" );
+                    msgController.showSystemMessage("/nick - '" + nick + "' is in use by someone else");
                 }
 
-                else if ( !Tools.isValidNick( nick ) )
+                else if (!Tools.isValidNick(nick))
                 {
-                    msgController.showSystemMessage( "/nick - '" + nick + "' is not a valid nick name. (1-10 letters)" );
+                    msgController.showSystemMessage("/nick - '" + nick + "' is not a valid nick name. (1-10 letters)");
                 }
 
                 else
                 {
                     try
                     {
-                        controller.changeMyNick( nick );
-                        msgController.showSystemMessage( "You changed nick to " + me.getNick() );
+                        controller.changeMyNick(nick);
+                        msgController.showSystemMessage("You changed nick to " + me.getNick());
                         ui.showTopic();
                     }
 
-                    catch ( final CommandException e )
+                    catch (final CommandException e)
                     {
-                        msgController.showSystemMessage( e.getMessage() );
+                        msgController.showSystemMessage(e.getMessage());
                     }
                 }
             }
 
             else
             {
-                msgController.showSystemMessage( "/nick - you are already called '" + nick + "'" );
+                msgController.showSystemMessage("/nick - you are already called '" + nick + "'");
             }
         }
     }
@@ -632,16 +632,16 @@ public class CommandParser
         UserList list = controller.getUserList();
         String userList = "";
 
-        for ( int i = 0; i < list.size(); i++ )
+        for (int i = 0; i < list.size(); i++)
         {
-            User user = list.get( i );
+            User user = list.get(i);
             userList += user.getNick();
 
-            if ( i < list.size() - 1 )
+            if (i < list.size() - 1)
                 userList += ", ";
         }
 
-        msgController.showSystemMessage( "Users: " + userList );
+        msgController.showSystemMessage("Users: " + userList);
     }
 
     /**
@@ -655,30 +655,30 @@ public class CommandParser
 
         StringBuilder transferInfo = new StringBuilder();
 
-        if ( fsList.size() > 0 )
+        if (fsList.size() > 0)
         {
-            transferInfo.append( "\n- Sending:" );
+            transferInfo.append("\n- Sending:");
 
-            for ( FileSender fs : fsList )
+            for (FileSender fs : fsList)
             {
-                appendTransferInfo( fs, transferInfo, "to" );
+                appendTransferInfo(fs, transferInfo, "to");
             }
         }
 
-        if ( frList.size() > 0 )
+        if (frList.size() > 0)
         {
-            transferInfo.append( "\n- Receiving:" );
+            transferInfo.append("\n- Receiving:");
 
-            for ( FileReceiver fr : frList )
+            for (FileReceiver fr : frList)
             {
-                appendTransferInfo( fr, transferInfo, "from" );
+                appendTransferInfo(fr, transferInfo, "from");
             }
         }
 
-        if ( transferInfo.length() == 0 )
-            transferInfo.append( " no active file transfers" );
+        if (transferInfo.length() == 0)
+            transferInfo.append(" no active file transfers");
 
-        msgController.showSystemMessage( "File transfers:" + transferInfo.toString() );
+        msgController.showSystemMessage("File transfers:" + transferInfo.toString());
     }
 
     /**
@@ -697,15 +697,15 @@ public class CommandParser
      * @param transferInfo The string builder to add the info to.
      * @param direction To or from.
      */
-    private void appendTransferInfo( final FileTransfer fileTransfer, final StringBuilder transferInfo, final String direction )
+    private void appendTransferInfo(final FileTransfer fileTransfer, final StringBuilder transferInfo, final String direction)
     {
-        transferInfo.append( "\n  " );
-        transferInfo.append( fileTransfer.getFile().getName() );
-        transferInfo.append( " [" + Tools.byteToString( fileTransfer.getFileSize() ) + "]" );
-        transferInfo.append( " (" + fileTransfer.getPercent() + "%, " );
-        transferInfo.append( Tools.byteToString( fileTransfer.getSpeed() ) + "/s)" );
-        transferInfo.append( " " + direction + " " );
-        transferInfo.append( fileTransfer.getUser().getNick() );
+        transferInfo.append("\n  ");
+        transferInfo.append(fileTransfer.getFile().getName());
+        transferInfo.append(" [" + Tools.byteToString(fileTransfer.getFileSize()) + "]");
+        transferInfo.append(" (" + fileTransfer.getPercent() + "%, ");
+        transferInfo.append(Tools.byteToString(fileTransfer.getSpeed()) + "/s)");
+        transferInfo.append(" " + direction + " ");
+        transferInfo.append(fileTransfer.getUser().getNick());
     }
 
     /**
@@ -714,19 +714,19 @@ public class CommandParser
      *
      * @param line The text starting with a slash.
      */
-    private void cmdSlash( final String line )
+    private void cmdSlash(final String line)
     {
-        String message = line.replaceFirst( "/", "" );
+        String message = line.replaceFirst("/", "");
 
         try
         {
-            controller.sendChatMessage( message );
-            msgController.showOwnMessage( message );
+            controller.sendChatMessage(message);
+            msgController.showOwnMessage(message);
         }
 
-        catch ( final CommandException e )
+        catch (final CommandException e)
         {
-            msgController.showSystemMessage( e.getMessage() );
+            msgController.showSystemMessage(e.getMessage());
         }
     }
 
@@ -736,9 +736,9 @@ public class CommandParser
      *
      * @param command The unknown command.
      */
-    private void cmdUnknown( final String command )
+    private void cmdUnknown(final String command)
     {
-        msgController.showSystemMessage( "Unknown command '" + command + "'. Type /help for a list of commands" );
+        msgController.showSystemMessage("Unknown command '" + command + "'. Type /help for a list of commands");
     }
 
     /**
@@ -747,19 +747,19 @@ public class CommandParser
      * @param newTopic The new topic to use.
      * @throws CommandException If there was a problem changing the topic.
      */
-    public void fixTopic( final String newTopic ) throws CommandException
+    public void fixTopic(final String newTopic) throws CommandException
     {
         Topic topic = controller.getTopic();
         String trimTopic = newTopic.trim();
 
-        if ( !trimTopic.equals( topic.getTopic().trim() ) )
+        if (!trimTopic.equals(topic.getTopic().trim()))
         {
-            controller.changeTopic( trimTopic );
+            controller.changeTopic(trimTopic);
 
-            if ( trimTopic.length() > 0 )
-                msgController.showSystemMessage( "You changed the topic to: " + trimTopic );
+            if (trimTopic.length() > 0)
+                msgController.showSystemMessage("You changed the topic to: " + trimTopic);
             else
-                msgController.showSystemMessage( "You removed the topic" );
+                msgController.showSystemMessage("You removed the topic");
 
             ui.showTopic();
         }
@@ -772,15 +772,15 @@ public class CommandParser
      * @param file The file to send to the user.
      * @throws CommandException If there was a problem sending the file.
      */
-    public void sendFile( final User user, final File file ) throws CommandException
+    public void sendFile(final User user, final File file) throws CommandException
     {
-        controller.sendFile( user, file );
-        FileSender fileSend = new FileSender( user, file );
-        ui.showTransfer( fileSend );
-        tList.addFileSender( fileSend );
-        String size = Tools.byteToString( file.length() );
-        msgController.showSystemMessage( "Trying to send the file "
-                + file.getName() + " [" + size + "] to " + user.getNick() );
+        controller.sendFile(user, file);
+        FileSender fileSend = new FileSender(user, file);
+        ui.showTransfer(fileSend);
+        tList.addFileSender(fileSend);
+        String size = Tools.byteToString(file.length());
+        msgController.showSystemMessage("Trying to send the file "
+                + file.getName() + " [" + size + "] to " + user.getNick());
     }
 
     /**
@@ -789,24 +789,24 @@ public class CommandParser
      *
      * @param fileTransfer The file transfer to cancel.
      */
-    public void cancelFileTransfer( final FileTransfer fileTransfer )
+    public void cancelFileTransfer(final FileTransfer fileTransfer)
     {
         fileTransfer.cancel();
 
-        if ( fileTransfer instanceof FileSender )
+        if (fileTransfer instanceof FileSender)
         {
             FileSender fs = (FileSender) fileTransfer;
 
             // This means that the other user has not answered yet
-            if ( fs.isWaiting() )
+            if (fs.isWaiting())
             {
                 File file = fs.getFile();
                 User user = fs.getUser();
 
-                msgController.showSystemMessage( "You cancelled sending of "
-                        + file.getName() + " to " + user.getNick() );
-                tList.removeFileSender( fs );
-                controller.sendFileAbort( user, file.hashCode(), file.getName() );
+                msgController.showSystemMessage("You cancelled sending of "
+                        + file.getName() + " to " + user.getNick());
+                tList.removeFileSender(fs);
+                controller.sendFileAbort(user, file.hashCode(), file.getName());
             }
         }
     }
@@ -816,7 +816,7 @@ public class CommandParser
      */
     public void showCommands()
     {
-        msgController.showSystemMessage( Constants.APP_NAME + " commands:\n"
+        msgController.showSystemMessage(Constants.APP_NAME + " commands:\n"
                 + "/about - information about " + Constants.APP_NAME + "\n"
                 + "/away <away message> - set status to away\n"
                 + "/back - set status to not away\n"
@@ -833,7 +833,7 @@ public class CommandParser
                 + "/transfers - shows a list of all file transfers and their status\n"
                 + "/users - show the user list\n"
                 + "/whois <nick> - show information about a user\n"
-                + "//<text> - send the text as a normal message, with a single slash" );
+                + "//<text> - send the text as a normal message, with a single slash");
     }
 
     /**
@@ -843,58 +843,58 @@ public class CommandParser
      *
      * @param line The command in its raw form.
      */
-    public void parse( final String line )
+    public void parse(final String line)
     {
         String command = "";
 
-        if ( line.contains( " " ) )
-            command = line.substring( 1, line.indexOf( ' ' ) );
+        if (line.contains(" "))
+            command = line.substring(1, line.indexOf(' '));
         else
-            command = line.substring( 1, line.length() );
+            command = line.substring(1, line.length());
 
-        if ( command.length() > 0 )
+        if (command.length() > 0)
         {
-            String args = line.replaceFirst( "/" + Pattern.quote( command ), "" );
+            String args = line.replaceFirst("/" + Pattern.quote(command), "");
 
-            if ( command.equals( "topic" ) )
-                cmdTopic( args );
-            else if ( command.equals( "away" ) )
-                cmdAway( args );
-            else if ( command.equals( "back" ) )
+            if (command.equals("topic"))
+                cmdTopic(args);
+            else if (command.equals("away"))
+                cmdAway(args);
+            else if (command.equals("back"))
                 cmdBack();
-            else if ( command.equals( "clear" ) )
+            else if (command.equals("clear"))
                 cmdClear();
-            else if ( command.equals( "about" ) )
+            else if (command.equals("about"))
                 cmdAbout();
-            else if ( command.equals( "help" ) )
+            else if (command.equals("help"))
                 cmdHelp();
-            else if ( command.equals( "whois" ) )
-                cmdWhois( args );
-            else if ( command.equals( "send" ) )
-                cmdSend( args );
-            else if ( command.equals( "receive" ) )
-                cmdReceive( args );
-            else if ( command.equals( "reject" ) )
-                cmdReject( args );
-            else if ( command.equals( "cancel" ) )
-                cmdCancel( args );
-            else if ( command.equals( "msg" ) )
-                cmdMsg( args );
-            else if ( command.equals( "nick" ) )
-                cmdNick( args );
-            else if ( command.equals( "users" ) )
+            else if (command.equals("whois"))
+                cmdWhois(args);
+            else if (command.equals("send"))
+                cmdSend(args);
+            else if (command.equals("receive"))
+                cmdReceive(args);
+            else if (command.equals("reject"))
+                cmdReject(args);
+            else if (command.equals("cancel"))
+                cmdCancel(args);
+            else if (command.equals("msg"))
+                cmdMsg(args);
+            else if (command.equals("nick"))
+                cmdNick(args);
+            else if (command.equals("users"))
                 cmdUsers();
-            else if ( command.equals( "transfers" ) )
+            else if (command.equals("transfers"))
                 cmdTransfers();
-            else if ( command.equals( "quit" ) )
+            else if (command.equals("quit"))
                 cmdQuit();
-            else if ( command.startsWith( "/" ) )
-                cmdSlash( line );
+            else if (command.startsWith("/"))
+                cmdSlash(line);
             else
-                cmdUnknown( command );
+                cmdUnknown(command);
         }
 
         else
-            cmdUnknown( command );
+            cmdUnknown(command);
     }
 }

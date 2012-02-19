@@ -60,9 +60,9 @@ public class CommandAutoCompleteList implements AutoCompleteList
      * @return If the word is a command.
      */
     @Override
-    public boolean acceptsWord( final String word )
+    public boolean acceptsWord(final String word)
     {
-        return word.startsWith( "/" );
+        return word.startsWith("/");
     }
 
     /**

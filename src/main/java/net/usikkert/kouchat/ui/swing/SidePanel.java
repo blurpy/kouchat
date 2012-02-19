@@ -90,40 +90,40 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      * @param buttonP The button panel.
      * @param imageLoader The image loader.
      */
-    public SidePanel( final ButtonPanel buttonP, final ImageLoader imageLoader )
+    public SidePanel(final ButtonPanel buttonP, final ImageLoader imageLoader)
     {
-        Validate.notNull( buttonP, "Button panel can not be null" );
-        Validate.notNull( imageLoader, "Image loader can not be null" );
+        Validate.notNull(buttonP, "Button panel can not be null");
+        Validate.notNull(imageLoader, "Image loader can not be null");
 
-        setLayout( new BorderLayout( 2, 2 ) );
+        setLayout(new BorderLayout(2, 2));
 
-        fileTransferHandler = new FileTransferHandler( this );
+        fileTransferHandler = new FileTransferHandler(this);
         userL = new JList();
-        userL.setCellRenderer( new UserListCellRenderer( imageLoader ) );
-        userL.addMouseListener( this );
-        userL.setTransferHandler( fileTransferHandler );
-        userL.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-        JScrollPane userSP = new JScrollPane( userL );
+        userL.setCellRenderer(new UserListCellRenderer(imageLoader));
+        userL.addMouseListener(this);
+        userL.setTransferHandler(fileTransferHandler);
+        userL.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        JScrollPane userSP = new JScrollPane(userL);
 
-        add( userSP, BorderLayout.CENTER );
-        add( buttonP, BorderLayout.SOUTH );
+        add(userSP, BorderLayout.CENTER);
+        add(buttonP, BorderLayout.SOUTH);
 
         userMenu = new JPopupMenu();
-        infoMI = new JMenuItem( "Information" );
-        infoMI.setMnemonic( 'I' );
-        infoMI.addActionListener( this );
-        sendfileMI = new JMenuItem( "Send file" );
-        sendfileMI.setMnemonic( 'S' );
-        sendfileMI.addActionListener( this );
-        privchatMI = new JMenuItem( "Private chat" );
-        privchatMI.setMnemonic( 'P' );
-        privchatMI.addActionListener( this );
-        privchatMI.setFont( privchatMI.getFont().deriveFont( Font.BOLD ) ); // default menu item
-        userMenu.add( infoMI );
-        userMenu.add( sendfileMI );
-        userMenu.add( privchatMI );
+        infoMI = new JMenuItem("Information");
+        infoMI.setMnemonic('I');
+        infoMI.addActionListener(this);
+        sendfileMI = new JMenuItem("Send file");
+        sendfileMI.setMnemonic('S');
+        sendfileMI.addActionListener(this);
+        privchatMI = new JMenuItem("Private chat");
+        privchatMI.setMnemonic('P');
+        privchatMI.addActionListener(this);
+        privchatMI.setFont(privchatMI.getFont().deriveFont(Font.BOLD)); // default menu item
+        userMenu.add(infoMI);
+        userMenu.add(sendfileMI);
+        userMenu.add(privchatMI);
 
-        setPreferredSize( new Dimension( 114, 0 ) );
+        setPreferredSize(new Dimension(114, 0));
         me = Settings.getSettings().getMe();
     }
 
@@ -132,12 +132,12 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      *
      * @param mediator The mediator to set.
      */
-    public void setMediator( final Mediator mediator )
+    public void setMediator(final Mediator mediator)
     {
-        Validate.notNull( mediator, "Mediator can not be null" );
+        Validate.notNull(mediator, "Mediator can not be null");
 
         this.mediator = mediator;
-        fileTransferHandler.setMediator( mediator );
+        fileTransferHandler.setMediator(mediator);
     }
 
     /**
@@ -145,12 +145,12 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      *
      * @param userList The user list to set.
      */
-    public void setUserList( final UserList userList )
+    public void setUserList(final UserList userList)
     {
-        Validate.notNull( userList, "User list can not be null" );
+        Validate.notNull(userList, "User list can not be null");
 
-        userListModel = new UserListModel( userList );
-        userL.setModel( userListModel );
+        userListModel = new UserListModel(userList);
+        userL.setModel(userListModel);
     }
 
     /**
@@ -187,61 +187,61 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed( final ActionEvent e )
+    public void actionPerformed(final ActionEvent e)
     {
-        if ( e.getSource() == infoMI )
+        if (e.getSource() == infoMI)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    User user = userListModel.getElementAt( userL.getSelectedIndex() );
+                    User user = userListModel.getElementAt(userL.getSelectedIndex());
                     String info = "Information about " + user.getNick();
 
-                    if ( user.isAway() )
+                    if (user.isAway())
                         info += " (Away)";
 
                     info += ".\n\nIP address: " + user.getIpAddress();
 
-                    if ( user.getHostName() != null )
+                    if (user.getHostName() != null)
                         info +=  "\nHost name: " + user.getHostName();
 
                     info += "\nClient: " + user.getClient()
                             + "\nOperating System: " + user.getOperatingSystem()
-                            + "\n\nOnline: " + Tools.howLongFromNow( user.getLogonTime() );
+                            + "\n\nOnline: " + Tools.howLongFromNow(user.getLogonTime());
 
-                    if ( user.isAway() )
+                    if (user.isAway())
                         info += "\nAway message: " + user.getAwayMsg();
 
-                    UITools.showInfoMessage( info, "Info" );
+                    UITools.showInfoMessage(info, "Info");
                 }
-            } );
+            });
         }
 
-        else if ( e.getSource() == sendfileMI )
+        else if (e.getSource() == sendfileMI)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    mediator.sendFile( getUser(), null );
+                    mediator.sendFile(getUser(), null);
                 }
-            } );
+            });
         }
 
-        else if ( e.getSource() == privchatMI )
+        else if (e.getSource() == privchatMI)
         {
-            SwingUtilities.invokeLater( new Runnable()
+            SwingUtilities.invokeLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    User user = userListModel.getElementAt( userL.getSelectedIndex() );
-                    mediator.showPrivChat( user );
+                    User user = userListModel.getElementAt(userL.getSelectedIndex());
+                    mediator.showPrivChat(user);
                 }
-            } );
+            });
         }
     }
 
@@ -251,7 +251,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      * {@inheritDoc}
      */
     @Override
-    public void mouseClicked( final MouseEvent e )
+    public void mouseClicked(final MouseEvent e)
     {
 
     }
@@ -262,7 +262,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      * {@inheritDoc}
      */
     @Override
-    public void mouseEntered( final MouseEvent e )
+    public void mouseEntered(final MouseEvent e)
     {
 
     }
@@ -273,7 +273,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      * {@inheritDoc}
      */
     @Override
-    public void mouseExited( final MouseEvent e )
+    public void mouseExited(final MouseEvent e)
     {
 
     }
@@ -287,20 +287,20 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      * {@inheritDoc}
      */
     @Override
-    public void mousePressed( final MouseEvent e )
+    public void mousePressed(final MouseEvent e)
     {
-        if ( e.getSource() == userL )
+        if (e.getSource() == userL)
         {
             Point p = e.getPoint();
-            int index = userL.locationToIndex( p );
+            int index = userL.locationToIndex(p);
 
-            if ( index != -1 )
+            if (index != -1)
             {
-                Rectangle r = userL.getCellBounds( index, index );
+                Rectangle r = userL.getCellBounds(index, index);
 
-                if ( r.x <= p.x && p.x <= r.x + r.width && r.y <= p.y && p.y <= r.y + r.height )
+                if (r.x <= p.x && p.x <= r.x + r.width && r.y <= p.y && p.y <= r.y + r.height)
                 {
-                    userL.setSelectedIndex( index );
+                    userL.setSelectedIndex(index);
                 }
 
                 else
@@ -320,55 +320,55 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      * {@inheritDoc}
      */
     @Override
-    public void mouseReleased( final MouseEvent e )
+    public void mouseReleased(final MouseEvent e)
     {
-        if ( e.getSource() == userL )
+        if (e.getSource() == userL)
         {
             // Right click
-            if ( userMenu.isPopupTrigger( e ) && userL.getSelectedIndex() != -1 )
+            if (userMenu.isPopupTrigger(e) && userL.getSelectedIndex() != -1)
             {
-                User temp = userListModel.getElementAt( userL.getSelectedIndex() );
+                User temp = userListModel.getElementAt(userL.getSelectedIndex());
 
-                if ( temp.isMe() )
+                if (temp.isMe())
                 {
-                    sendfileMI.setVisible( false );
-                    privchatMI.setVisible( false );
+                    sendfileMI.setVisible(false);
+                    privchatMI.setVisible(false);
                 }
 
-                else if ( temp.isAway() || me.isAway() )
+                else if (temp.isAway() || me.isAway())
                 {
-                    sendfileMI.setVisible( true );
-                    sendfileMI.setEnabled( false );
-                    privchatMI.setVisible( true );
+                    sendfileMI.setVisible(true);
+                    sendfileMI.setEnabled(false);
+                    privchatMI.setVisible(true);
 
-                    if ( temp.getPrivateChatPort() == 0 )
-                        privchatMI.setEnabled( false );
+                    if (temp.getPrivateChatPort() == 0)
+                        privchatMI.setEnabled(false);
                     else
-                        privchatMI.setEnabled( true );
+                        privchatMI.setEnabled(true);
                 }
 
                 else
                 {
-                    sendfileMI.setVisible( true );
-                    sendfileMI.setEnabled( true );
-                    privchatMI.setVisible( true );
+                    sendfileMI.setVisible(true);
+                    sendfileMI.setEnabled(true);
+                    privchatMI.setVisible(true);
 
-                    if ( temp.getPrivateChatPort() == 0 )
-                        privchatMI.setEnabled( false );
+                    if (temp.getPrivateChatPort() == 0)
+                        privchatMI.setEnabled(false);
                     else
-                        privchatMI.setEnabled( true );
+                        privchatMI.setEnabled(true);
                 }
 
-                userMenu.show( userL, e.getX(), e.getY() );
+                userMenu.show(userL, e.getX(), e.getY());
             }
 
             // Double left click
-            else if ( e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2 && userL.getSelectedIndex() != -1 )
+            else if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2 && userL.getSelectedIndex() != -1)
             {
-                User user = userListModel.getElementAt( userL.getSelectedIndex() );
+                User user = userListModel.getElementAt(userL.getSelectedIndex());
 
-                if ( user != me && user.getPrivateChatPort() != 0 )
-                    mediator.showPrivChat( user );
+                if (user != me && user.getPrivateChatPort() != 0)
+                    mediator.showPrivChat(user);
             }
         }
     }

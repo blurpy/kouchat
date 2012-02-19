@@ -46,7 +46,7 @@ public class SimpleReceiverListener implements ReceiverListener
      *
      * @param expectedMessage An expected message, or <code>null</code>.
      */
-    public SimpleReceiverListener( final String expectedMessage )
+    public SimpleReceiverListener(final String expectedMessage)
     {
         this.expectedMessage = expectedMessage;
     }
@@ -60,9 +60,9 @@ public class SimpleReceiverListener implements ReceiverListener
      * {@inheritDoc}
      */
     @Override
-    public void messageArrived( final String message, final String ipAddress )
+    public void messageArrived(final String message, final String ipAddress)
     {
-        if ( expectedMessage == null || expectedMessage.equals( message ) )
+        if (expectedMessage == null || expectedMessage.equals(message))
         {
             this.message = message;
             this.ipAddress = ipAddress;

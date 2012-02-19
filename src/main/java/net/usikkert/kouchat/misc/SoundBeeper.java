@@ -43,7 +43,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class SoundBeeper
 {
     /** The logger. */
-    private static final Logger LOG = Logger.getLogger( SoundBeeper.class.getName() );
+    private static final Logger LOG = Logger.getLogger(SoundBeeper.class.getName());
 
     /**
      * The file to play when beep() is run.
@@ -78,29 +78,29 @@ public class SoundBeeper
      */
     public synchronized void beep()
     {
-        if ( settings.isSound() )
+        if (settings.isSound())
         {
-            if ( audioClip == null || !audioClip.isActive() )
+            if (audioClip == null || !audioClip.isActive())
             {
-                if ( audioClip == null )
+                if (audioClip == null)
                     open();
                 else
-                    audioClip.setFramePosition( 0 );
+                    audioClip.setFramePosition(0);
 
-                if ( audioClip != null )
+                if (audioClip != null)
                 {
                     audioClip.start();
                     closeTime = System.currentTimeMillis() + WAIT_PERIOD;
 
-                    if ( closeTimer == null )
+                    if (closeTimer == null)
                     {
-                        closeTimer = new Thread( new CloseTimer(), "SoundBeeperCloseTimer" );
+                        closeTimer = new Thread(new CloseTimer(), "SoundBeeperCloseTimer");
                         closeTimer.start();
                     }
                 }
 
                 else
-                    LOG.log( Level.SEVERE, "Audio clip missing." );
+                    LOG.log(Level.SEVERE, "Audio clip missing.");
             }
         }
     }
@@ -110,71 +110,71 @@ public class SoundBeeper
      */
     public void open()
     {
-        InputStream resourceStream = getClass().getResourceAsStream( BEEP_FILE );
+        InputStream resourceStream = getClass().getResourceAsStream(BEEP_FILE);
 
-        if ( resourceStream != null )
+        if (resourceStream != null)
         {
             AudioInputStream audioStream = null;
 
             try
             {
-                audioStream = AudioSystem.getAudioInputStream( resourceStream );
+                audioStream = AudioSystem.getAudioInputStream(resourceStream);
                 AudioFormat format = audioStream.getFormat();
-                DataLine.Info info = new DataLine.Info( Clip.class, format );
+                DataLine.Info info = new DataLine.Info(Clip.class, format);
 
-                if ( AudioSystem.isLineSupported( info ) )
+                if (AudioSystem.isLineSupported(info))
                 {
-                    audioClip = (Clip) AudioSystem.getLine( info );
-                    audioClip.open( audioStream );
+                    audioClip = (Clip) AudioSystem.getLine(info);
+                    audioClip.open(audioStream);
                 }
             }
 
-            catch ( final UnsupportedAudioFileException e )
+            catch (final UnsupportedAudioFileException e)
             {
-                LOG.log( Level.SEVERE, e.toString() );
-                settings.setSound( false );
-                errorHandler.showError( "Could not initialize the sound."
-                        + "\nUnsupported file format: " + BEEP_FILE );
+                LOG.log(Level.SEVERE, e.toString());
+                settings.setSound(false);
+                errorHandler.showError("Could not initialize the sound."
+                        + "\nUnsupported file format: " + BEEP_FILE);
             }
 
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                LOG.log( Level.SEVERE, e.toString() );
-                settings.setSound( false );
-                errorHandler.showError( "Could not initialize the sound."
-                        + "\nAudio file could not be opened: " + BEEP_FILE );
+                LOG.log(Level.SEVERE, e.toString());
+                settings.setSound(false);
+                errorHandler.showError("Could not initialize the sound."
+                        + "\nAudio file could not be opened: " + BEEP_FILE);
             }
 
-            catch ( final LineUnavailableException e )
+            catch (final LineUnavailableException e)
             {
-                LOG.log( Level.WARNING, e.toString() );
+                LOG.log(Level.WARNING, e.toString());
             }
 
             finally
             {
-                if ( resourceStream != null )
+                if (resourceStream != null)
                 {
                     try
                     {
                         resourceStream.close();
                     }
 
-                    catch ( final IOException e )
+                    catch (final IOException e)
                     {
-                        LOG.log( Level.WARNING, e.toString() );
+                        LOG.log(Level.WARNING, e.toString());
                     }
                 }
 
-                if ( audioStream != null )
+                if (audioStream != null)
                 {
                     try
                     {
                         audioStream.close();
                     }
 
-                    catch ( final IOException e )
+                    catch (final IOException e)
                     {
-                        LOG.log( Level.WARNING, e.toString() );
+                        LOG.log(Level.WARNING, e.toString());
                     }
                 }
             }
@@ -182,10 +182,10 @@ public class SoundBeeper
 
         else
         {
-            LOG.log( Level.SEVERE, "Audio file not found: " + BEEP_FILE );
-            settings.setSound( false );
-            errorHandler.showError( "Could not initialize the sound."
-                    + "\nAudio file not found: " + BEEP_FILE );
+            LOG.log(Level.SEVERE, "Audio file not found: " + BEEP_FILE);
+            settings.setSound(false);
+            errorHandler.showError("Could not initialize the sound."
+                    + "\nAudio file not found: " + BEEP_FILE);
         }
     }
 
@@ -194,7 +194,7 @@ public class SoundBeeper
      */
     public void close()
     {
-        if ( audioClip != null )
+        if (audioClip != null)
         {
             audioClip.flush();
             audioClip.close();
@@ -213,16 +213,16 @@ public class SoundBeeper
         @Override
         public void run()
         {
-            while ( System.currentTimeMillis() < closeTime )
+            while (System.currentTimeMillis() < closeTime)
             {
                 try
                 {
-                    Thread.sleep( 1000 );
+                    Thread.sleep(1000);
                 }
 
-                catch ( final InterruptedException e )
+                catch (final InterruptedException e)
                 {
-                    LOG.log( Level.WARNING, e.toString() );
+                    LOG.log(Level.WARNING, e.toString());
                 }
             }
 

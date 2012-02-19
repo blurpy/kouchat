@@ -46,9 +46,9 @@ public class CommandException extends Exception
      * @param message The exception message to use.
      * @param cause The cause of the exception.
      */
-    public CommandException( final String message, final Throwable cause )
+    public CommandException(final String message, final Throwable cause)
     {
-        super( message, cause );
+        super(message, cause);
     }
 
     /**
@@ -56,9 +56,9 @@ public class CommandException extends Exception
      *
      * @param message The exception message to use.
      */
-    public CommandException( final String message )
+    public CommandException(final String message)
     {
-        super( message );
+        super(message);
     }
 
     /**
@@ -66,8 +66,8 @@ public class CommandException extends Exception
      *
      * @param cause The cause of the exception.
      */
-    public CommandException( final Throwable cause )
+    public CommandException(final Throwable cause)
     {
-        super( cause );
+        super(cause);
     }
 }

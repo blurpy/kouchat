@@ -88,7 +88,7 @@ public class User implements Comparable<User>
      * @param nick The nick name of the user.
      * @param code A unique code identifying the user.
      */
-    public User( final String nick, final int code )
+    public User(final String nick, final int code)
     {
         this.nick = nick;
         this.code = code;
@@ -141,7 +141,7 @@ public class User implements Comparable<User>
      *
      * @param me If this user is me.
      */
-    public void setMe( final boolean me )
+    public void setMe(final boolean me)
     {
         this.me = me;
     }
@@ -171,7 +171,7 @@ public class User implements Comparable<User>
      *
      * @param nick The user's unique nick name.
      */
-    public void setNick( final String nick )
+    public void setNick(final String nick)
     {
         this.nick = nick;
     }
@@ -191,7 +191,7 @@ public class User implements Comparable<User>
      *
      * @param lastIdle The time of the last idle message.
      */
-    public void setLastIdle( final long lastIdle )
+    public void setLastIdle(final long lastIdle)
     {
         this.lastIdle = lastIdle;
     }
@@ -211,7 +211,7 @@ public class User implements Comparable<User>
      *
      * @param away If the user is away.
      */
-    public void setAway( final boolean away )
+    public void setAway(final boolean away)
     {
         this.away = away;
     }
@@ -231,7 +231,7 @@ public class User implements Comparable<User>
      *
      * @param awayMsg The user's away message.
      */
-    public void setAwayMsg( final String awayMsg )
+    public void setAwayMsg(final String awayMsg)
     {
         this.awayMsg = awayMsg;
     }
@@ -251,7 +251,7 @@ public class User implements Comparable<User>
      *
      * @param writing If the user is writing.
      */
-    public void setWriting( final boolean writing )
+    public void setWriting(final boolean writing)
     {
         this.writing = writing;
     }
@@ -271,7 +271,7 @@ public class User implements Comparable<User>
      *
      * @param ipAddress The user's ip address.
      */
-    public void setIpAddress( final String ipAddress )
+    public void setIpAddress(final String ipAddress)
     {
         this.ipAddress = ipAddress;
     }
@@ -291,7 +291,7 @@ public class User implements Comparable<User>
      *
      * @param operatingSystem The user's operating system.
      */
-    public void setOperatingSystem( final String operatingSystem )
+    public void setOperatingSystem(final String operatingSystem)
     {
         this.operatingSystem = operatingSystem;
     }
@@ -311,7 +311,7 @@ public class User implements Comparable<User>
      *
      * @param logonTime The time when the user logged on.
      */
-    public void setLogonTime( final long logonTime )
+    public void setLogonTime(final long logonTime)
     {
         this.logonTime = logonTime;
     }
@@ -331,7 +331,7 @@ public class User implements Comparable<User>
      *
      * @param client The client the user is using.
      */
-    public void setClient( final String client )
+    public void setClient(final String client)
     {
         this.client = client;
     }
@@ -351,7 +351,7 @@ public class User implements Comparable<User>
      *
      * @param privchat The user's private chat window.
      */
-    public void setPrivchat( final PrivateChatWindow privchat )
+    public void setPrivchat(final PrivateChatWindow privchat)
     {
         this.privchat = privchat;
     }
@@ -371,7 +371,7 @@ public class User implements Comparable<User>
      *
      * @param newMsg If a new message has arrived.
      */
-    public void setNewMsg( final boolean newMsg )
+    public void setNewMsg(final boolean newMsg)
     {
         this.newMsg = newMsg;
     }
@@ -391,7 +391,7 @@ public class User implements Comparable<User>
      *
      * @param privateChatPort The port to use for private chat with the user.
      */
-    public void setPrivateChatPort( final int privateChatPort )
+    public void setPrivateChatPort(final int privateChatPort)
     {
         this.privateChatPort = privateChatPort;
     }
@@ -411,7 +411,7 @@ public class User implements Comparable<User>
      *
      * @param online If the user is online.
      */
-    public void setOnline( final boolean online )
+    public void setOnline(final boolean online)
     {
         this.online = online;
     }
@@ -431,7 +431,7 @@ public class User implements Comparable<User>
      *
      * @param newPrivMsg If a new private message has arrived.
      */
-    public void setNewPrivMsg( final boolean newPrivMsg )
+    public void setNewPrivMsg(final boolean newPrivMsg)
     {
         this.newPrivMsg = newPrivMsg;
     }
@@ -451,7 +451,7 @@ public class User implements Comparable<User>
      *
      * @param hostName The host name.
      */
-    public void setHostName( final String hostName )
+    public void setHostName(final String hostName)
     {
         this.hostName = hostName;
     }
@@ -473,8 +473,8 @@ public class User implements Comparable<User>
      * {@inheritDoc}
      */
     @Override
-    public int compareTo( final User compNick )
+    public int compareTo(final User compNick)
     {
-        return nick.compareToIgnoreCase( compNick.getNick() );
+        return nick.compareToIgnoreCase(compNick.getNick());
     }
 }

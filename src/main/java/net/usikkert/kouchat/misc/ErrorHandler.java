@@ -64,11 +64,11 @@ public final class ErrorHandler
      *
      * @param errorMsg The message to deliver to the listeners.
      */
-    public void showError( final String errorMsg )
+    public void showError(final String errorMsg)
     {
-        for ( ErrorListener listener : listeners )
+        for (ErrorListener listener : listeners)
         {
-            listener.errorReported( errorMsg );
+            listener.errorReported(errorMsg);
         }
     }
 
@@ -77,11 +77,11 @@ public final class ErrorHandler
      *
      * @param criticalErrorMsg The message to deliver to the listeners.
      */
-    public void showCriticalError( final String criticalErrorMsg )
+    public void showCriticalError(final String criticalErrorMsg)
     {
-        for ( ErrorListener listener : listeners )
+        for (ErrorListener listener : listeners)
         {
-            listener.criticalErrorReported( criticalErrorMsg );
+            listener.criticalErrorReported(criticalErrorMsg);
         }
     }
 
@@ -90,9 +90,9 @@ public final class ErrorHandler
      *
      * @param listener The class to add as a listener.
      */
-    public void addErrorListener( final ErrorListener listener )
+    public void addErrorListener(final ErrorListener listener)
     {
-        listeners.add( listener );
+        listeners.add(listener);
     }
 
     /**
@@ -100,8 +100,8 @@ public final class ErrorHandler
      *
      * @param listener The class to remove as a listener.
      */
-    public void removeErrorListener( final ErrorListener listener )
+    public void removeErrorListener(final ErrorListener listener)
     {
-        listeners.remove( listener );
+        listeners.remove(listener);
     }
 }

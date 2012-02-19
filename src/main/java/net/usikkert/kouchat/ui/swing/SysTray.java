@@ -53,7 +53,7 @@ import net.usikkert.kouchat.util.Validate;
 public class SysTray implements ActionListener, MouseListener, PropertyChangeListener
 {
     /** The logger. */
-    private static final Logger LOG = Logger.getLogger( SysTray.class.getName() );
+    private static final Logger LOG = Logger.getLogger(SysTray.class.getName());
 
     /** The icon in the system tray. */
     private TrayIcon trayIcon;
@@ -75,42 +75,42 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      *
      * @param imageLoader The image loader.
      */
-    public SysTray( final ImageLoader imageLoader )
+    public SysTray(final ImageLoader imageLoader)
     {
-        Validate.notNull( imageLoader, "Image loader can not be null" );
+        Validate.notNull(imageLoader, "Image loader can not be null");
 
-        if ( SystemTray.isSupported() )
+        if (SystemTray.isSupported())
         {
-            statusIcons = new StatusIcons( imageLoader );
+            statusIcons = new StatusIcons(imageLoader);
             final PopupMenu menu = new PopupMenu();
-            quitMI = new MenuItem( "Quit" );
-            quitMI.addActionListener( this );
-            menu.add( quitMI );
+            quitMI = new MenuItem("Quit");
+            quitMI.addActionListener(this);
+            menu.add(quitMI);
 
             final SystemTray sysTray = SystemTray.getSystemTray();
-            trayIcon = new TrayIcon( statusIcons.getNormalIcon(), "", menu );
-            trayIcon.setImageAutoSize( true );
-            trayIcon.addMouseListener( this );
-            trayIcon.setToolTip( Constants.APP_NAME );
+            trayIcon = new TrayIcon(statusIcons.getNormalIcon(), "", menu);
+            trayIcon.setImageAutoSize(true);
+            trayIcon.addMouseListener(this);
+            trayIcon.setToolTip(Constants.APP_NAME);
 
             try
             {
-                sysTray.add( trayIcon );
-                sysTray.addPropertyChangeListener( "trayIcons", this );
+                sysTray.add(trayIcon);
+                sysTray.addPropertyChangeListener("trayIcons", this);
                 systemTraySupported = true;
             }
 
-            catch ( final AWTException e )
+            catch (final AWTException e)
             {
                 // This may happen if the System Tray is hidden on a system
                 // that actually supports a System Tray.
-                LOG.log( Level.SEVERE, e.toString() );
+                LOG.log(Level.SEVERE, e.toString());
             }
         }
 
         else
         {
-            LOG.log( Level.SEVERE, "System Tray is not supported. Deactivating System Tray support." );
+            LOG.log(Level.SEVERE, "System Tray is not supported. Deactivating System Tray support.");
         }
     }
 
@@ -129,7 +129,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      *
      * @param mediator The mediator.
      */
-    public void setMediator( final Mediator mediator )
+    public void setMediator(final Mediator mediator)
     {
         this.mediator = mediator;
     }
@@ -139,9 +139,9 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      */
     public void setAwayState()
     {
-        if ( trayIcon != null )
+        if (trayIcon != null)
         {
-            setTrayIcon( statusIcons.getAwayIcon() );
+            setTrayIcon(statusIcons.getAwayIcon());
         }
     }
 
@@ -150,9 +150,9 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      */
     public void setAwayActivityState()
     {
-        if ( trayIcon != null )
+        if (trayIcon != null)
         {
-            setTrayIcon( statusIcons.getAwayActivityIcon() );
+            setTrayIcon(statusIcons.getAwayActivityIcon());
         }
     }
 
@@ -161,9 +161,9 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      */
     public void setNormalState()
     {
-        if ( trayIcon != null )
+        if (trayIcon != null)
         {
-            setTrayIcon( statusIcons.getNormalIcon() );
+            setTrayIcon(statusIcons.getNormalIcon());
         }
     }
 
@@ -172,9 +172,9 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      */
     public void setNormalActivityState()
     {
-        if ( trayIcon != null )
+        if (trayIcon != null)
         {
-            setTrayIcon( statusIcons.getNormalActivityIcon() );
+            setTrayIcon(statusIcons.getNormalActivityIcon());
         }
     }
 
@@ -183,10 +183,10 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      *
      * @param toolTip The tooltip to set.
      */
-    public void setToolTip( final String toolTip )
+    public void setToolTip(final String toolTip)
     {
-        if ( trayIcon != null )
-            trayIcon.setToolTip( toolTip );
+        if (trayIcon != null)
+            trayIcon.setToolTip(toolTip);
     }
 
     /**
@@ -195,9 +195,9 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed( final ActionEvent e )
+    public void actionPerformed(final ActionEvent e)
     {
-        if ( e.getSource() == quitMI )
+        if (e.getSource() == quitMI)
         {
             mediator.quit();
         }
@@ -212,15 +212,15 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      * {@inheritDoc}
      */
     @Override
-    public void mouseClicked( final MouseEvent e )
+    public void mouseClicked(final MouseEvent e)
     {
-        if ( e.getSource() == trayIcon && e.getButton() == MouseEvent.BUTTON1 )
+        if (e.getSource() == trayIcon && e.getButton() == MouseEvent.BUTTON1)
         {
-            if ( trayIcon.getImage() == statusIcons.getNormalActivityIcon() )
-                trayIcon.setImage( statusIcons.getNormalIcon() );
+            if (trayIcon.getImage() == statusIcons.getNormalActivityIcon())
+                trayIcon.setImage(statusIcons.getNormalIcon());
 
-            else if ( trayIcon.getImage() == statusIcons.getAwayActivityIcon() )
-                trayIcon.setImage( statusIcons.getAwayIcon() );
+            else if (trayIcon.getImage() == statusIcons.getAwayActivityIcon())
+                trayIcon.setImage(statusIcons.getAwayIcon());
 
             mediator.showOrHideWindow();
         }
@@ -232,7 +232,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      * {@inheritDoc}
      */
     @Override
-    public void mouseEntered( final MouseEvent e )
+    public void mouseEntered(final MouseEvent e)
     {
 
     }
@@ -243,7 +243,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      * {@inheritDoc}
      */
     @Override
-    public void mouseExited( final MouseEvent e )
+    public void mouseExited(final MouseEvent e)
     {
 
     }
@@ -254,7 +254,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      * {@inheritDoc}
      */
     @Override
-    public void mousePressed( final MouseEvent e )
+    public void mousePressed(final MouseEvent e)
     {
 
     }
@@ -265,7 +265,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      * {@inheritDoc}
      */
     @Override
-    public void mouseReleased( final MouseEvent e )
+    public void mouseReleased(final MouseEvent e)
     {
 
     }
@@ -275,10 +275,10 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      *
      * @param icon The tray icon to use.
      */
-    public void setTrayIcon( final Image icon )
+    public void setTrayIcon(final Image icon)
     {
-        if ( trayIcon.getImage() != icon )
-            trayIcon.setImage( icon );
+        if (trayIcon.getImage() != icon)
+            trayIcon.setImage(icon);
     }
 
     /**
@@ -295,13 +295,13 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      * @param e A trayicon change event.
      */
     @Override
-    public void propertyChange( final PropertyChangeEvent e )
+    public void propertyChange(final PropertyChangeEvent e)
     {
         final TrayIcon[] icons = (TrayIcon[]) e.getNewValue();
 
-        if ( icons.length == 0 )
+        if (icons.length == 0)
         {
-            LOG.log( Level.SEVERE, "System Tray removed. Deactivating System Tray support." );
+            LOG.log(Level.SEVERE, "System Tray removed. Deactivating System Tray support.");
             systemTraySupported = false;
             mediator.minimizeWindowIfHidden();
         }
@@ -315,9 +315,9 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      * @param title The title of the message.
      * @param message The message to show in the popup.
      */
-    public void showBalloonMessage( final String title, final String message )
+    public void showBalloonMessage(final String title, final String message)
     {
-        if ( trayIcon != null )
-            trayIcon.displayMessage( title, message, MessageType.NONE );
+        if (trayIcon != null)
+            trayIcon.displayMessage(title, message, MessageType.NONE);
     }
 }

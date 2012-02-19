@@ -39,7 +39,7 @@ import net.usikkert.kouchat.ui.UserInterface;
 public class DefaultPrivateMessageResponder implements PrivateMessageResponder
 {
     /** The logger. */
-    private static final Logger LOG = Logger.getLogger( DefaultPrivateMessageResponder.class.getName() );
+    private static final Logger LOG = Logger.getLogger(DefaultPrivateMessageResponder.class.getName());
 
     /** The controller for lower layers. */
     private final Controller controller;
@@ -59,7 +59,7 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder
      * @param controller The controller.
      * @param ui The user interface.
      */
-    public DefaultPrivateMessageResponder( final Controller controller, final UserInterface ui )
+    public DefaultPrivateMessageResponder(final Controller controller, final UserInterface ui)
     {
         this.controller = controller;
         this.ui = ui;
@@ -78,36 +78,36 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder
      * @param color The color the message has.
      */
     @Override
-    public void messageArrived( final int userCode, final String msg, final int color )
+    public void messageArrived(final int userCode, final String msg, final int color)
     {
-        if ( !controller.isNewUser( userCode ) )
+        if (!controller.isNewUser(userCode))
         {
-            User user = controller.getUser( userCode );
+            User user = controller.getUser(userCode);
 
-            if ( me.isAway() )
-                LOG.log( Level.WARNING, "Got message from " + user.getNick() + " while away: " + msg );
+            if (me.isAway())
+                LOG.log(Level.WARNING, "Got message from " + user.getNick() + " while away: " + msg);
 
-            else if ( user.isAway() )
-                LOG.log( Level.WARNING, "Got message from " + user.getNick() + " which is away: " + msg );
+            else if (user.isAway())
+                LOG.log(Level.WARNING, "Got message from " + user.getNick() + " which is away: " + msg);
 
-            else if ( user.getPrivateChatPort() == 0 )
-                LOG.log( Level.WARNING, "Got message from " + user.getNick() + " which has no reply port: " + msg );
+            else if (user.getPrivateChatPort() == 0)
+                LOG.log(Level.WARNING, "Got message from " + user.getNick() + " which has no reply port: " + msg);
 
             else
             {
-                msgController.showPrivateUserMessage( user, msg, color );
+                msgController.showPrivateUserMessage(user, msg, color);
 
                 // Not visible, or not in front
-                if ( !user.getPrivchat().isVisible() || !user.getPrivchat().isFocused() )
-                    controller.changeNewMessage( user.getCode(), true );
+                if (!user.getPrivchat().isVisible() || !user.getPrivchat().isFocused())
+                    controller.changeNewMessage(user.getCode(), true);
 
-                ui.notifyPrivateMessageArrived( user );
+                ui.notifyPrivateMessageArrived(user);
             }
         }
 
         else
         {
-            LOG.log( Level.SEVERE, "Could not find user: " + userCode );
+            LOG.log(Level.SEVERE, "Could not find user: " + userCode);
         }
     }
 }
