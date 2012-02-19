@@ -86,8 +86,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      * @param sideP The panel on the right, containing the user list and the buttons.
      * @param imageLoader The image loader.
      */
-    public MainPanel(final SidePanel sideP, final ImageLoader imageLoader)
-    {
+    public MainPanel(final SidePanel sideP, final ImageLoader imageLoader) {
         Validate.notNull(sideP, "Side panel can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
 
@@ -142,8 +141,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      *
      * @param mediator The mediator to use.
      */
-    public void setMediator(final Mediator mediator)
-    {
+    public void setMediator(final Mediator mediator) {
         this.mediator = mediator;
     }
 
@@ -152,8 +150,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      *
      * @param autoCompleter The autocompleter to use.
      */
-    public void setAutoCompleter(final AutoCompleter autoCompleter)
-    {
+    public void setAutoCompleter(final AutoCompleter autoCompleter) {
         this.autoCompleter = autoCompleter;
     }
 
@@ -164,8 +161,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      * @param color The color to use for the message.
      */
     @Override
-    public void appendToChat(final String message, final int color)
-    {
+    public void appendToChat(final String message, final int color) {
         try
         {
             StyleConstants.setForeground(chatAttr, new Color(color));
@@ -184,8 +180,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      *
      * @return The chat area.
      */
-    public JTextPane getChatTP()
-    {
+    public JTextPane getChatTP() {
         return chatTP;
     }
 
@@ -194,16 +189,14 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      *
      * @return The chat area's scrollpane.
      */
-    public JScrollPane getChatSP()
-    {
+    public JScrollPane getChatSP() {
         return chatSP;
     }
 
     /**
      * Clears all the text from the chat area.
      */
-    public void clearChat()
-    {
+    public void clearChat() {
         chatTP.setText("");
     }
 
@@ -212,8 +205,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      *
      * @return The input field.
      */
-    public JTextField getMsgTF()
-    {
+    public JTextField getMsgTF() {
         return msgTF;
     }
 
@@ -223,8 +215,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      * {@inheritDoc}
      */
     @Override
-    public void caretUpdate(final CaretEvent e)
-    {
+    public void caretUpdate(final CaretEvent e) {
         SwingUtilities.invokeLater(new Runnable()
         {
             @Override
@@ -242,8 +233,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent e)
-    {
+    public void actionPerformed(final ActionEvent e) {
         // The input field
         if (e.getSource() == msgTF)
         {
@@ -266,8 +256,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      * {@inheritDoc}
      */
     @Override
-    public void keyPressed(final KeyEvent ke)
-    {
+    public void keyPressed(final KeyEvent ke) {
         SwingUtilities.invokeLater(new Runnable()
         {
             @Override
@@ -299,8 +288,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      * {@inheritDoc}
      */
     @Override
-    public void keyTyped(final KeyEvent ke)
-    {
+    public void keyTyped(final KeyEvent ke) {
 
     }
 
@@ -312,8 +300,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      * {@inheritDoc}
      */
     @Override
-    public void keyReleased(final KeyEvent ke)
-    {
+    public void keyReleased(final KeyEvent ke) {
         SwingUtilities.invokeLater(new Runnable()
         {
             @Override

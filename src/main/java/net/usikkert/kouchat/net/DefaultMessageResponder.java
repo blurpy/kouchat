@@ -61,8 +61,7 @@ public class DefaultMessageResponder implements MessageResponder
      * @param controller The controller to use for communication.
      * @param ui The user interface to update.
      */
-    public DefaultMessageResponder(final Controller controller, final UserInterface ui)
-    {
+    public DefaultMessageResponder(final Controller controller, final UserInterface ui) {
         this.controller = controller;
         this.ui = ui;
 
@@ -83,8 +82,7 @@ public class DefaultMessageResponder implements MessageResponder
      * @param color The color the message has.
      */
     @Override
-    public void messageArrived(final int userCode, final String msg, final int color)
-    {
+    public void messageArrived(final int userCode, final String msg, final int color) {
         // A little hack to stop messages from showing before the user is logged on
         final Thread t = new Thread("DefaultMessageResponderMessageArrived")
         {
@@ -145,8 +143,7 @@ public class DefaultMessageResponder implements MessageResponder
      * @param userCode The unique code of the user who logged off.
      */
     @Override
-    public void userLogOff(final int userCode)
-    {
+    public void userLogOff(final int userCode) {
         final User user = controller.getUser(userCode);
 
         if (user != null)
@@ -172,8 +169,7 @@ public class DefaultMessageResponder implements MessageResponder
      * @param newUser The user logging on to the chat.
      */
     @Override
-    public void userLogOn(final User newUser)
-    {
+    public void userLogOn(final User newUser) {
         if (me.getNick().trim().equalsIgnoreCase(newUser.getNick()))
         {
             controller.sendNickCrashMessage(newUser.getNick());
@@ -201,8 +197,7 @@ public class DefaultMessageResponder implements MessageResponder
      *
      * @param newUser The unknown user.
      */
-    private void userShowedUp(final User newUser)
-    {
+    private void userShowedUp(final User newUser) {
         if (me.getNick().trim().equalsIgnoreCase(newUser.getNick()))
         {
             controller.sendNickCrashMessage(newUser.getNick());
@@ -232,8 +227,7 @@ public class DefaultMessageResponder implements MessageResponder
      * @param time The time when the topic was set.
      */
     @Override
-    public void topicChanged(final int userCode, final String newTopic, final String nick, final long time)
-    {
+    public void topicChanged(final int userCode, final String newTopic, final String nick, final long time) {
         if (controller.isNewUser(userCode))
         {
             wList.addWaitingUser(userCode);
@@ -288,8 +282,7 @@ public class DefaultMessageResponder implements MessageResponder
      * @param user The unknown user who was exposed.
      */
     @Override
-    public void userExposing(final User user)
-    {
+    public void userExposing(final User user) {
         if (controller.isNewUser(user.getCode()))
         {
             // Usually this happens when someone returns from a timeout
@@ -332,8 +325,7 @@ public class DefaultMessageResponder implements MessageResponder
      * @param ipAddress The IP address of the application user.
      */
     @Override
-    public void meLogOn(final String ipAddress)
-    {
+    public void meLogOn(final String ipAddress) {
         chatState.setLoggedOn(true);
         me.setIpAddress(ipAddress);
         me.setHostName(NetworkUtils.getLocalHostName());
@@ -348,8 +340,7 @@ public class DefaultMessageResponder implements MessageResponder
      * @param user The user to get host info from.
      * @return A string with host info.
      */
-    private String createHostInfo(final User user)
-    {
+    private String createHostInfo(final User user) {
         if (user.getHostName() != null)
             return user.getHostName() + " (" + user.getIpAddress() + ")";
         else
@@ -363,8 +354,7 @@ public class DefaultMessageResponder implements MessageResponder
      * @param writing If the user is writing or not.
      */
     @Override
-    public void writingChanged(final int userCode, final boolean writing)
-    {
+    public void writingChanged(final int userCode, final boolean writing) {
         controller.changeWriting(userCode, writing);
     }
 
@@ -377,8 +367,7 @@ public class DefaultMessageResponder implements MessageResponder
      * @param awayMsg The away message if the user is away, or an empty string.
      */
     @Override
-    public void awayChanged(final int userCode, final boolean away, final String awayMsg)
-    {
+    public void awayChanged(final int userCode, final boolean away, final String awayMsg) {
         if (controller.isNewUser(userCode))
         {
             wList.addWaitingUser(userCode);
@@ -423,8 +412,7 @@ public class DefaultMessageResponder implements MessageResponder
      * @param ipAddress The IP address of the application user.
      */
     @Override
-    public void meIdle(final String ipAddress)
-    {
+    public void meIdle(final String ipAddress) {
         me.setLastIdle(System.currentTimeMillis());
 
         if (!me.getIpAddress().equals(ipAddress) && chatState.isLoggedOn())
@@ -442,8 +430,7 @@ public class DefaultMessageResponder implements MessageResponder
      * @param ipAddress The IP address of that user.
      */
     @Override
-    public void userIdle(final int userCode, final String ipAddress)
-    {
+    public void userIdle(final int userCode, final String ipAddress) {
         if (controller.isNewUser(userCode))
         {
             wList.addWaitingUser(userCode);
@@ -468,8 +455,7 @@ public class DefaultMessageResponder implements MessageResponder
      * Sends the current topic.
      */
     @Override
-    public void topicRequested()
-    {
+    public void topicRequested() {
         controller.sendTopicRequestedMessage();
     }
 
@@ -478,8 +464,7 @@ public class DefaultMessageResponder implements MessageResponder
      * in use, so the nick is reset.
      */
     @Override
-    public void nickCrash()
-    {
+    public void nickCrash() {
         controller.changeNick(me.getCode(), "" + me.getCode());
         msgController.showSystemMessage("Nick crash, resetting nick to " + me.getNick());
         ui.showTopic();
@@ -489,8 +474,7 @@ public class DefaultMessageResponder implements MessageResponder
      * Sends information about this client to the other clients.
      */
     @Override
-    public void exposeRequested()
-    {
+    public void exposeRequested() {
         controller.sendExposingMessage();
         controller.sendClientInfo();
     }
@@ -502,8 +486,7 @@ public class DefaultMessageResponder implements MessageResponder
      * @param newNick The new nick name.
      */
     @Override
-    public void nickChanged(final int userCode, final String newNick)
-    {
+    public void nickChanged(final int userCode, final String newNick) {
         if (controller.isNewUser(userCode))
         {
             wList.addWaitingUser(userCode);
@@ -549,8 +532,7 @@ public class DefaultMessageResponder implements MessageResponder
      * @param fileHash The hash code of the file.
      */
     @Override
-    public void fileSend(final int userCode, final long byteSize, final String fileName, final String user, final int fileHash)
-    {
+    public void fileSend(final int userCode, final long byteSize, final String fileName, final String user, final int fileHash) {
         if (controller.isNewUser(userCode))
         {
             wList.addWaitingUser(userCode);
@@ -660,8 +642,7 @@ public class DefaultMessageResponder implements MessageResponder
      * @param fileHash The hash code of the file.
      */
     @Override
-    public void fileSendAborted(final int userCode, final String fileName, final int fileHash)
-    {
+    public void fileSendAborted(final int userCode, final String fileName, final int fileHash) {
         final User user = controller.getUser(userCode);
         final FileSender fileSender = tList.getFileSender(user, fileName, fileHash);
 
@@ -691,8 +672,7 @@ public class DefaultMessageResponder implements MessageResponder
      * @param port The port to use for connecting to the other user.
      */
     @Override
-    public void fileSendAccepted(final int userCode, final String fileName, final int fileHash, final int port)
-    {
+    public void fileSendAccepted(final int userCode, final String fileName, final int fileHash, final int port) {
         new Thread("DefaultMessageResponderFileSendAccepted")
         {
             @Override
@@ -734,8 +714,7 @@ public class DefaultMessageResponder implements MessageResponder
      * @param privateChatPort The port to use for sending private chat messages to this user.
      */
     @Override
-    public void clientInfo(final int userCode, final String client, final long timeSinceLogon, final String operatingSystem, final int privateChatPort)
-    {
+    public void clientInfo(final int userCode, final String client, final long timeSinceLogon, final String operatingSystem, final int privateChatPort) {
         final User user = controller.getUser(userCode);
 
         if (user != null)

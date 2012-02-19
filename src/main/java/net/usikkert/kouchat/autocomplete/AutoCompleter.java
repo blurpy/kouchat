@@ -68,8 +68,7 @@ public class AutoCompleter
     /**
      * Constructor. Initializes variables.
      */
-    public AutoCompleter()
-    {
+    public AutoCompleter() {
         lastCompletedLine = "";
         lastCompletedWord = "";
         lastWord = "";
@@ -90,8 +89,7 @@ public class AutoCompleter
      *         the suggested autocompleted word.
      *         Use {@link #getNewCaretPosition()} to get the new caret position.
      */
-    public String completeWord(final String line, final int caretPosition)
-    {
+    public String completeWord(final String line, final int caretPosition) {
         String completedLine = "";
 
         if (autoCompleteLists.size() > 0)
@@ -149,8 +147,7 @@ public class AutoCompleter
      * @return The position in the list where the next suggestion can be found.
      */
     private int findNextSuggestionPosition(final boolean continueLastSearch,
-            final List<String> suggestions, final String word)
-    {
+            final List<String> suggestions, final String word) {
         int nextSuggestionPosition = -1;
 
         if (continueLastSearch)
@@ -193,8 +190,7 @@ public class AutoCompleter
      * @param line The line to compare against the previous autocompleted line.
      * @return True if the search should be continued instead of restarted.
      */
-    private boolean continueLastSearch(final String word, final String line)
-    {
+    private boolean continueLastSearch(final String word, final String line) {
         return lastCompletedWord.equals(word) && lastCompletedLine.equals(line);
     }
 
@@ -205,8 +201,7 @@ public class AutoCompleter
      * @param caretPosition The position in the line where the word is.
      * @return The position where the word ends.
      */
-    private int findStopPosition(final String line, final int caretPosition)
-    {
+    private int findStopPosition(final String line, final int caretPosition) {
         int stop = line.indexOf(' ', caretPosition);
 
         if (stop == -1)
@@ -222,8 +217,7 @@ public class AutoCompleter
      * @param caretPosition The position in the line where the word is.
      * @return The position where the word starts.
      */
-    private int findStartPosition(final String line, final int caretPosition)
-    {
+    private int findStartPosition(final String line, final int caretPosition) {
         int start = line.lastIndexOf(' ', caretPosition - 1);
 
         if (start == -1)
@@ -242,8 +236,7 @@ public class AutoCompleter
      * @return The first {@link AutoCompleteList} to support that word,
      *         or <em>null</em> if none.
      */
-    private AutoCompleteList getAutoCompleteList(final String word)
-    {
+    private AutoCompleteList getAutoCompleteList(final String word) {
         for (AutoCompleteList acl : autoCompleteLists)
         {
             if (acl.acceptsWord(word))
@@ -263,8 +256,7 @@ public class AutoCompleter
      * @param word The word to get suggestions for.
      * @return A list of suggestions.
      */
-    private List<String> getAutoCompleteSuggestions(final String[] wordList, final String word)
-    {
+    private List<String> getAutoCompleteSuggestions(final String[] wordList, final String word) {
         List<String> suggestions = new ArrayList<String>();
 
         for (int i = 0; i < wordList.length; i++)
@@ -283,8 +275,7 @@ public class AutoCompleter
      *
      * @return The new caret position.
      */
-    public int getNewCaretPosition()
-    {
+    public int getNewCaretPosition() {
         return newCaretPosition;
     }
 
@@ -293,8 +284,7 @@ public class AutoCompleter
      *
      * @param acl The list to add.
      */
-    public void addAutoCompleteList(final AutoCompleteList acl)
-    {
+    public void addAutoCompleteList(final AutoCompleteList acl) {
         autoCompleteLists.add(acl);
     }
 }

@@ -90,8 +90,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      * @param buttonP The button panel.
      * @param imageLoader The image loader.
      */
-    public SidePanel(final ButtonPanel buttonP, final ImageLoader imageLoader)
-    {
+    public SidePanel(final ButtonPanel buttonP, final ImageLoader imageLoader) {
         Validate.notNull(buttonP, "Button panel can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
 
@@ -132,8 +131,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      *
      * @param mediator The mediator to set.
      */
-    public void setMediator(final Mediator mediator)
-    {
+    public void setMediator(final Mediator mediator) {
         Validate.notNull(mediator, "Mediator can not be null");
 
         this.mediator = mediator;
@@ -145,8 +143,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      *
      * @param userList The user list to set.
      */
-    public void setUserList(final UserList userList)
-    {
+    public void setUserList(final UserList userList) {
         Validate.notNull(userList, "User list can not be null");
 
         userListModel = new UserListModel(userList);
@@ -159,8 +156,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      * {@inheritDoc}
      */
     @Override
-    public User getUser()
-    {
+    public User getUser() {
         return (User) userL.getSelectedValue();
     }
 
@@ -169,8 +165,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      *
      * @return The user list.
      */
-    public JList getUserList()
-    {
+    public JList getUserList() {
         return userL;
     }
 
@@ -187,8 +182,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent e)
-    {
+    public void actionPerformed(final ActionEvent e) {
         if (e.getSource() == infoMI)
         {
             SwingUtilities.invokeLater(new Runnable()
@@ -251,8 +245,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      * {@inheritDoc}
      */
     @Override
-    public void mouseClicked(final MouseEvent e)
-    {
+    public void mouseClicked(final MouseEvent e) {
 
     }
 
@@ -262,8 +255,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      * {@inheritDoc}
      */
     @Override
-    public void mouseEntered(final MouseEvent e)
-    {
+    public void mouseEntered(final MouseEvent e) {
 
     }
 
@@ -273,8 +265,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      * {@inheritDoc}
      */
     @Override
-    public void mouseExited(final MouseEvent e)
-    {
+    public void mouseExited(final MouseEvent e) {
 
     }
 
@@ -287,8 +278,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      * {@inheritDoc}
      */
     @Override
-    public void mousePressed(final MouseEvent e)
-    {
+    public void mousePressed(final MouseEvent e) {
         if (e.getSource() == userL)
         {
             Point p = e.getPoint();
@@ -320,8 +310,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      * {@inheritDoc}
      */
     @Override
-    public void mouseReleased(final MouseEvent e)
-    {
+    public void mouseReleased(final MouseEvent e) {
         if (e.getSource() == userL)
         {
             // Right click

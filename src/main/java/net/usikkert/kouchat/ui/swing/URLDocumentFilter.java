@@ -76,8 +76,7 @@ public class URLDocumentFilter extends DocumentFilter
      *
      * @param standAlone If this is the only document filter used.
      */
-    public URLDocumentFilter(final boolean standAlone)
-    {
+    public URLDocumentFilter(final boolean standAlone) {
         this.standAlone = standAlone;
 
         protPattern = Pattern.compile("\\w{2,}://\\w+\\S+.+");
@@ -93,8 +92,7 @@ public class URLDocumentFilter extends DocumentFilter
      */
     @Override
     public void insertString(final FilterBypass fb, final int offset, final String text, final AttributeSet attr)
-            throws BadLocationException
-    {
+            throws BadLocationException {
         if (standAlone)
             super.insertString(fb, offset, text, attr);
 
@@ -138,8 +136,7 @@ public class URLDocumentFilter extends DocumentFilter
      * @return The position of the first character in the url, or -1
      * if no url was found.
      */
-    private int findURLPos(final String text, final int offset)
-    {
+    private int findURLPos(final String text, final int offset) {
         int prot = text.indexOf("://", offset);
         int www = text.indexOf(" www", offset);
         int ftp = text.indexOf(" ftp", offset);

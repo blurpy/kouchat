@@ -53,8 +53,7 @@ public class Smiley
      * @param icon The icon replacing the text smiley code.
      * @param code The text smiley code.
      */
-    public Smiley(final int startPosition, final ImageIcon icon, final String code)
-    {
+    public Smiley(final int startPosition, final ImageIcon icon, final String code) {
         Validate.notNull(icon, "Icon can not be null");
         Validate.notEmpty(code, "Code can not be empty");
 
@@ -70,8 +69,7 @@ public class Smiley
      *
      * @return The position of the first character in the smiley.
      */
-    public int getStartPosition()
-    {
+    public int getStartPosition() {
         return startPosition;
     }
 
@@ -80,8 +78,7 @@ public class Smiley
      *
      * @return The position of the last character in the smiley.
      */
-    public int getStopPosition()
-    {
+    public int getStopPosition() {
         return stopPosition;
     }
 
@@ -90,8 +87,7 @@ public class Smiley
      *
      * @return The icon replacing the text smiley.
      */
-    public ImageIcon getIcon()
-    {
+    public ImageIcon getIcon() {
         return icon;
     }
 
@@ -100,8 +96,7 @@ public class Smiley
      *
      * @return The text smiley code.
      */
-    public String getCode()
-    {
+    public String getCode() {
         return code;
     }
 
@@ -111,8 +106,7 @@ public class Smiley
      * {@inheritDoc}
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return code + " [" + startPosition + "," + stopPosition + "]";
     }
 }

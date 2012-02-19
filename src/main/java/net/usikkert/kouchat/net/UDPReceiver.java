@@ -62,8 +62,7 @@ public class UDPReceiver implements Runnable
     /**
      * Default constructor.
      */
-    public UDPReceiver()
-    {
+    public UDPReceiver() {
         errorHandler = ErrorHandler.getErrorHandler();
     }
 
@@ -71,8 +70,7 @@ public class UDPReceiver implements Runnable
      * The run() method of this thread. Checks for new packets,
      * extracts the message and IP address, and notifies the listener.
      */
-    public void run()
-    {
+    public void run() {
         while (connected)
         {
             try
@@ -105,8 +103,7 @@ public class UDPReceiver implements Runnable
      * on the UDP port. If the UDP port is in use, a new port will be
      * tried instead.
      */
-    public void startReceiver()
-    {
+    public void startReceiver() {
         LOG.log(Level.FINE, "Connecting...");
 
         if (connected)
@@ -157,8 +154,7 @@ public class UDPReceiver implements Runnable
     /**
      * Closes the UDP socket, and stops the thread.
      */
-    public void stopReceiver()
-    {
+    public void stopReceiver() {
         LOG.log(Level.FINE, "Disconnecting...");
 
         if (!connected)
@@ -185,8 +181,7 @@ public class UDPReceiver implements Runnable
      *
      * @param listener The object to register as a listener.
      */
-    public void registerReceiverListener(final ReceiverListener listener)
-    {
+    public void registerReceiverListener(final ReceiverListener listener) {
         this.listener = listener;
     }
 }

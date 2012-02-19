@@ -48,8 +48,7 @@ public class MiddleAlignedIconViewFactory implements ViewFactory
      * {@inheritDoc}
      */
     @Override
-    public View create(final Element elem)
-    {
+    public View create(final Element elem) {
         String kind = elem.getName();
 
         if (kind != null)

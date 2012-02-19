@@ -108,8 +108,7 @@ public final class Settings
      *
      * Initializes default settings, and creates <code>me</code>.
      */
-    private Settings()
-    {
+    private Settings() {
         int code = 10000000 + (int) (Math.random() * 9999999);
 
         me = new User(createNickName(code), code);
@@ -142,8 +141,7 @@ public final class Settings
      * @param code The user code.
      * @return The created nick name.
      */
-    private String createNickName(final int code)
-    {
+    private String createNickName(final int code) {
         String userName = System.getProperty("user.name");
 
         if (userName == null)
@@ -163,8 +161,7 @@ public final class Settings
      *
      * @return The settings instance.
      */
-    public static Settings getSettings()
-    {
+    public static Settings getSettings() {
         return SETTINGS;
     }
 
@@ -172,8 +169,7 @@ public final class Settings
      * Saves the current settings to file. Creates any missing folders
      * or files.
      */
-    public void saveSettings()
-    {
+    public void saveSettings() {
         FileWriter fileWriter = null;
         BufferedWriter buffWriter = null;
 
@@ -264,8 +260,7 @@ public final class Settings
      * Loads the settings from file.
      * If some values are not found in the settings, the default is used instead.
      */
-    private void loadSettings()
-    {
+    private void loadSettings() {
         FileInputStream fileStream = null;
 
         try
@@ -342,8 +337,7 @@ public final class Settings
      *
      * @return The application user.
      */
-    public User getMe()
-    {
+    public User getMe() {
         return me;
     }
 
@@ -352,8 +346,7 @@ public final class Settings
      *
      * @return The color for own messages.
      */
-    public int getOwnColor()
-    {
+    public int getOwnColor() {
         return ownColor;
     }
 
@@ -363,8 +356,7 @@ public final class Settings
      *
      * @param ownColor The color for own messages.
      */
-    public void setOwnColor(final int ownColor)
-    {
+    public void setOwnColor(final int ownColor) {
         if (this.ownColor != ownColor)
         {
             this.ownColor = ownColor;
@@ -377,8 +369,7 @@ public final class Settings
      *
      * @return The color for system messages.
      */
-    public int getSysColor()
-    {
+    public int getSysColor() {
         return sysColor;
     }
 
@@ -388,8 +379,7 @@ public final class Settings
      *
      * @param sysColor The color for system messages.
      */
-    public void setSysColor(final int sysColor)
-    {
+    public void setSysColor(final int sysColor) {
         if (this.sysColor != sysColor)
         {
             this.sysColor = sysColor;
@@ -402,8 +392,7 @@ public final class Settings
      *
      * @return If sound is enabled.
      */
-    public boolean isSound()
-    {
+    public boolean isSound() {
         return sound;
     }
 
@@ -413,8 +402,7 @@ public final class Settings
      *
      * @param sound If sound is enabled.
      */
-    public void setSound(final boolean sound)
-    {
+    public void setSound(final boolean sound) {
         if (this.sound != sound)
         {
             this.sound = sound;
@@ -427,8 +415,7 @@ public final class Settings
      *
      * @return If logging is enabled.
      */
-    public boolean isLogging()
-    {
+    public boolean isLogging() {
         return logging;
     }
 
@@ -438,8 +425,7 @@ public final class Settings
      *
      * @param logging If logging is enabled.
      */
-    public void setLogging(final boolean logging)
-    {
+    public void setLogging(final boolean logging) {
         if (this.logging != logging)
         {
             this.logging = logging;
@@ -452,8 +438,7 @@ public final class Settings
      *
      * @return The chosen browser.
      */
-    public String getBrowser()
-    {
+    public String getBrowser() {
         return browser;
     }
 
@@ -462,8 +447,7 @@ public final class Settings
      *
      * @param browser The chosen browser.
      */
-    public void setBrowser(final String browser)
-    {
+    public void setBrowser(final String browser) {
         this.browser = browser;
     }
 
@@ -472,8 +456,7 @@ public final class Settings
      *
      * @return If smileys are enabled.
      */
-    public boolean isSmileys()
-    {
+    public boolean isSmileys() {
         return smileys;
     }
 
@@ -482,8 +465,7 @@ public final class Settings
      *
      * @param smileys If smileys are enabled.
      */
-    public void setSmileys(final boolean smileys)
-    {
+    public void setSmileys(final boolean smileys) {
         this.smileys = smileys;
     }
 
@@ -492,8 +474,7 @@ public final class Settings
      *
      * @return The chosen look and feel.
      */
-    public String getLookAndFeel()
-    {
+    public String getLookAndFeel() {
         return lookAndFeel;
     }
 
@@ -502,8 +483,7 @@ public final class Settings
      *
      * @param lookAndFeel The chosen look and feel.
      */
-    public void setLookAndFeel(final String lookAndFeel)
-    {
+    public void setLookAndFeel(final String lookAndFeel) {
         this.lookAndFeel = lookAndFeel;
     }
 
@@ -512,8 +492,7 @@ public final class Settings
      *
      * @param setting The setting that has changed.
      */
-    private void fireSettingChanged(final String setting)
-    {
+    private void fireSettingChanged(final String setting) {
         for (SettingsListener listener : listeners)
         {
             listener.settingChanged(setting);
@@ -525,8 +504,7 @@ public final class Settings
      *
      * @param listener The listener to add.
      */
-    public void addSettingsListener(final SettingsListener listener)
-    {
+    public void addSettingsListener(final SettingsListener listener) {
         listeners.add(listener);
     }
 
@@ -535,8 +513,7 @@ public final class Settings
      *
      * @param listener The listener to remove.
      */
-    public void removeSettingsListener(final SettingsListener listener)
-    {
+    public void removeSettingsListener(final SettingsListener listener) {
         listeners.remove(listener);
     }
 }

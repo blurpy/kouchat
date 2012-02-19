@@ -74,8 +74,7 @@ public class MessageReceiver implements Runnable
      * @see Constants#NETWORK_IP
      * @see Constants#NETWORK_CHAT_PORT
      */
-    public MessageReceiver()
-    {
+    public MessageReceiver() {
         this(Constants.NETWORK_IP, Constants.NETWORK_CHAT_PORT);
     }
 
@@ -87,8 +86,7 @@ public class MessageReceiver implements Runnable
      * @param ipAddress Multicast ip address to connect to.
      * @param port Port to connect to.
      */
-    public MessageReceiver(final String ipAddress, final int port)
-    {
+    public MessageReceiver(final String ipAddress, final int port) {
         this.port = port;
         errorHandler = ErrorHandler.getErrorHandler();
 
@@ -109,8 +107,7 @@ public class MessageReceiver implements Runnable
     /**
      * Waits for incoming packets, and notifies the listener when they arrive.
      */
-    public void run()
-    {
+    public void run() {
         while (connected)
         {
             try
@@ -144,8 +141,7 @@ public class MessageReceiver implements Runnable
     /**
      * Starts the thread that listens for messages.
      */
-    private void startThread()
-    {
+    private void startThread() {
         LOG.log(Level.FINE, "Starting.");
         worker = new Thread(this, "MessageReceiverWorker");
         worker.start();
@@ -161,8 +157,7 @@ public class MessageReceiver implements Runnable
      * @param networkInterface The network interface to use, or <code>null</code>.
      * @return If connected to the network or not.
      */
-    public synchronized boolean startReceiver(final NetworkInterface networkInterface)
-    {
+    public synchronized boolean startReceiver(final NetworkInterface networkInterface) {
         LOG.log(Level.FINE, "Connecting...");
 
         try
@@ -210,8 +205,7 @@ public class MessageReceiver implements Runnable
     /**
      * Disconnects from the network and closes the multicast socket.
      */
-    public synchronized void stopReceiver()
-    {
+    public synchronized void stopReceiver() {
         LOG.log(Level.FINE, "Disconnecting...");
 
         if (!connected)
@@ -252,8 +246,7 @@ public class MessageReceiver implements Runnable
      *
      * @param listener The listener to register.
      */
-    public void registerReceiverListener(final ReceiverListener listener)
-    {
+    public void registerReceiverListener(final ReceiverListener listener) {
         this.listener = listener;
     }
 }

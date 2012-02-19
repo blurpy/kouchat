@@ -65,8 +65,7 @@ public class SoundBeeper
     /**
      * Default constructor.
      */
-    public SoundBeeper()
-    {
+    public SoundBeeper() {
         settings = Settings.getSettings();
         errorHandler = ErrorHandler.getErrorHandler();
     }
@@ -76,8 +75,7 @@ public class SoundBeeper
      * it's not already playing. If nothing has been played for
      * 5 seconds the sound resource is released.
      */
-    public synchronized void beep()
-    {
+    public synchronized void beep() {
         if (settings.isSound())
         {
             if (audioClip == null || !audioClip.isActive())
@@ -108,8 +106,7 @@ public class SoundBeeper
     /**
      * Opens an audio file, and reserves the resources needed for playback.
      */
-    public void open()
-    {
+    public void open() {
         InputStream resourceStream = getClass().getResourceAsStream(BEEP_FILE);
 
         if (resourceStream != null)
@@ -192,8 +189,7 @@ public class SoundBeeper
     /**
      * Closes the audio file and frees the resources used.
      */
-    public void close()
-    {
+    public void close() {
         if (audioClip != null)
         {
             audioClip.flush();
@@ -207,8 +203,7 @@ public class SoundBeeper
      *
      * @author Christian Ihle
      */
-    private class CloseTimer implements Runnable
-    {
+    private class CloseTimer implements Runnable {
         /** The method that runs when the thread starts. */
         @Override
         public void run()

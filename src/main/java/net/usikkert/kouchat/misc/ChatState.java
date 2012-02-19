@@ -44,8 +44,7 @@ public class ChatState
     /**
      * Constructor.
      */
-    public ChatState()
-    {
+    public ChatState() {
         topic = new Topic();
         wrote = false;
         loggedOn = false;
@@ -57,8 +56,7 @@ public class ChatState
      *
      * @return True if the application user wrote the last time this was updated.
      */
-    public boolean isWrote()
-    {
+    public boolean isWrote() {
         return wrote;
     }
 
@@ -67,8 +65,7 @@ public class ChatState
      *
      * @param wrote True if the application user is writing at this moment.
      */
-    public void setWrote(final boolean wrote)
-    {
+    public void setWrote(final boolean wrote) {
         this.wrote = wrote;
     }
 
@@ -77,8 +74,7 @@ public class ChatState
      *
      * @return The current topic.
      */
-    public Topic getTopic()
-    {
+    public Topic getTopic() {
         return topic;
     }
 
@@ -87,8 +83,7 @@ public class ChatState
      *
      * @return If the user has logged on.
      */
-    public boolean isLoggedOn()
-    {
+    public boolean isLoggedOn() {
         return loggedOn;
     }
 
@@ -97,8 +92,7 @@ public class ChatState
      *
      * @param loggedOn If the user has logged on.
      */
-    public void setLoggedOn(final boolean loggedOn)
-    {
+    public void setLoggedOn(final boolean loggedOn) {
         this.loggedOn = loggedOn;
     }
 
@@ -107,8 +101,7 @@ public class ChatState
      *
      * @return If the logon is complete.
      */
-    public boolean isLogonCompleted()
-    {
+    public boolean isLogonCompleted() {
         return logonCompleted;
     }
 
@@ -117,8 +110,7 @@ public class ChatState
      *
      * @param logonCompleted If the logon is complete.
      */
-    public void setLogonCompleted(final boolean logonCompleted)
-    {
+    public void setLogonCompleted(final boolean logonCompleted) {
         this.logonCompleted = logonCompleted;
     }
 }

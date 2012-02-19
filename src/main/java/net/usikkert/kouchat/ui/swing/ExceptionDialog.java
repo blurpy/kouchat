@@ -69,8 +69,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
      * @param modal If this dialog should be modal or not.
      * @param imageLoader The image loader.
      */
-    public ExceptionDialog(final Frame parent, final boolean modal, final ImageLoader imageLoader)
-    {
+    public ExceptionDialog(final Frame parent, final boolean modal, final ImageLoader imageLoader) {
         super(parent, modal);
         Validate.notNull(imageLoader, "Image loader can not be null");
 
@@ -134,8 +133,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
      * {@inheritDoc}
      */
     @Override
-    public void setVisible(final boolean visible)
-    {
+    public void setVisible(final boolean visible) {
         setLocationRelativeTo(getParent());
         super.setVisible(visible);
     }
@@ -147,8 +145,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
      * {@inheritDoc}
      */
     @Override
-    public void uncaughtException(final Thread thread, final Throwable throwable)
-    {
+    public void uncaughtException(final Thread thread, final Throwable throwable) {
         SwingUtilities.invokeLater(new Runnable()
         {
             @Override

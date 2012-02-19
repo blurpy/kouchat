@@ -55,8 +55,7 @@ public class MessagesTest
     /**
      * Constructor.
      */
-    public MessagesTest()
-    {
+    public MessagesTest() {
         settings = Settings.getSettings();
         me = settings.getMe();
         service = mock(NetworkService.class);
@@ -71,8 +70,7 @@ public class MessagesTest
      * Expects: 11515687!AWAY#Christian:I am away
      */
     @Test
-    public void testSendAwayMessage()
-    {
+    public void testSendAwayMessage() {
         String awayMsg = "I am away";
         messages.sendAwayMessage(awayMsg);
         verify(service).sendMulticastMsg(createMessage("AWAY") + awayMsg);
@@ -84,8 +82,7 @@ public class MessagesTest
      * Expects: 12485102!BACK#Christian:
      */
     @Test
-    public void testSendBackMessage()
-    {
+    public void testSendBackMessage() {
         messages.sendBackMessage();
         verify(service).sendMulticastMsg(createMessage("BACK"));
     }
@@ -98,8 +95,7 @@ public class MessagesTest
      * @throws CommandException In case the message could not be sent.
      */
     @Test
-    public void testSendChatMessage() throws CommandException
-    {
+    public void testSendChatMessage() throws CommandException {
         String msg = "Some chat message";
         messages.sendChatMessage(msg);
         verify(service).sendMulticastMsg(createMessage("MSG") + "[" + settings.getOwnColor() + "]" + msg);
@@ -111,8 +107,7 @@ public class MessagesTest
      * Expects: 13132531!CLIENT#Christian:(KouChat v0.9.9-dev null)[134]{Linux}<0>
      */
     @Test
-    public void testSendClientMessage()
-    {
+    public void testSendClientMessage() {
         String startsWith = "(" + me.getClient() + ")[";
         String middle = ".+\\)\\[\\d+\\]\\{.+"; // like:)[134[{
         String endsWidth = "]{" + me.getOperatingSystem() + "}<" + me.getPrivateChatPort() + ">";
@@ -130,8 +125,7 @@ public class MessagesTest
      * Expects: 16424378!EXPOSE#Christian:
      */
     @Test
-    public void testSendExposeMessage()
-    {
+    public void testSendExposeMessage() {
         messages.sendExposeMessage();
         verify(service).sendMulticastMsg(createMessage("EXPOSE"));
     }
@@ -142,8 +136,7 @@ public class MessagesTest
      * Expects: 17871777!EXPOSING#Christian:
      */
     @Test
-    public void testSendExposingMessage()
-    {
+    public void testSendExposingMessage() {
         messages.sendExposingMessage();
         verify(service).sendMulticastMsg(createMessage("EXPOSING"));
     }
@@ -156,8 +149,7 @@ public class MessagesTest
      * @throws CommandException In case the message could not be sent.
      */
     @Test
-    public void testSendFileMessage() throws CommandException
-    {
+    public void testSendFileMessage() throws CommandException {
         int userCode = 1234;
         long fileLength = 80800L;
         String fileName = "a_file.txt";
@@ -184,8 +176,7 @@ public class MessagesTest
      * Expects: 15234876!SENDFILEABORT#Christian:(4321){8578765}another_file.txt
      */
     @Test
-    public void testSendFileAbortMessage()
-    {
+    public void testSendFileAbortMessage() {
         int userCode = 4321;
         int fileHash = 8578765;
         String fileName = "another_file.txt";
@@ -208,8 +199,7 @@ public class MessagesTest
      * @throws CommandException In case the message could not be sent.
      */
     @Test
-    public void testSendFileAcceptMessage() throws CommandException
-    {
+    public void testSendFileAcceptMessage() throws CommandException {
         int userCode = 4321;
         int port = 20103;
         int fileHash = 8578765;
@@ -232,8 +222,7 @@ public class MessagesTest
      * Expects: 19909338!GETTOPIC#Christian:
      */
     @Test
-    public void testSendGetTopicMessage()
-    {
+    public void testSendGetTopicMessage() {
         messages.sendGetTopicMessage();
         verify(service).sendMulticastMsg(createMessage("GETTOPIC"));
     }
@@ -244,8 +233,7 @@ public class MessagesTest
      * Expects: 10223997!IDLE#Christian:
      */
     @Test
-    public void testSendIdleMessage()
-    {
+    public void testSendIdleMessage() {
         messages.sendIdleMessage();
         verify(service).sendMulticastMsg(createMessage("IDLE"));
     }
@@ -256,8 +244,7 @@ public class MessagesTest
      * Expects: 18265486!LOGOFF#Christian:
      */
     @Test
-    public void testSendLogoffMessage()
-    {
+    public void testSendLogoffMessage() {
         messages.sendLogoffMessage();
         verify(service).sendMulticastMsg(createMessage("LOGOFF"));
     }
@@ -268,8 +255,7 @@ public class MessagesTest
      * Expects: 10794786!LOGON#Christian:
      */
     @Test
-    public void testSendLogonMessage()
-    {
+    public void testSendLogonMessage() {
         messages.sendLogonMessage();
         verify(service).sendMulticastMsg(createMessage("LOGON"));
     }
@@ -280,8 +266,7 @@ public class MessagesTest
      * Expects: 16321536!NICKCRASH#Christian:niles
      */
     @Test
-    public void testSendNickCrashMessage()
-    {
+    public void testSendNickCrashMessage() {
         String nick = "niles";
         messages.sendNickCrashMessage(nick);
         verify(service).sendMulticastMsg(createMessage("NICKCRASH") + nick);
@@ -293,8 +278,7 @@ public class MessagesTest
      * Expects: 14795611!NICK#Christian:
      */
     @Test
-    public void testSendNickMessage()
-    {
+    public void testSendNickMessage() {
         final String newNick = "Cookie";
         messages.sendNickMessage(newNick);
         verify(service).sendMulticastMsg(createMessage("NICK", newNick));
@@ -308,8 +292,7 @@ public class MessagesTest
      * @throws CommandException In case the message could not be sent.
      */
     @Test
-    public void testSendPrivateMessage() throws CommandException
-    {
+    public void testSendPrivateMessage() throws CommandException {
         String privmsg = "this is a private message";
         String userIP = "192.168.5.155";
         int userPort = 12345;
@@ -333,8 +316,7 @@ public class MessagesTest
      * Expects: 15140738!STOPPEDWRITING#Christian:
      */
     @Test
-    public void testSendStoppedWritingMessage()
-    {
+    public void testSendStoppedWritingMessage() {
         messages.sendStoppedWritingMessage();
         verify(service).sendMulticastMsg(createMessage("STOPPEDWRITING"));
     }
@@ -345,8 +327,7 @@ public class MessagesTest
      * Expects: 18102542!TOPIC#Christian:(Snoopy)[2132321323]Interesting changed topic
      */
     @Test
-    public void testSendTopicChangeMessage()
-    {
+    public void testSendTopicChangeMessage() {
         Topic topic = new Topic("Interesting changed topic", "Snoopy", 2132321323L);
         String message = "(" + topic.getNick() + ")"
             + "[" + topic.getTime() + "]"
@@ -362,8 +343,7 @@ public class MessagesTest
      * Expects: 18102542!TOPIC#Christian:(Snoopy)[66532345]Interesting requested topic
      */
     @Test
-    public void testSendTopicRequestedMessage()
-    {
+    public void testSendTopicRequestedMessage() {
         Topic topic = new Topic("Interesting requested topic", "Snoopy", 66532345L);
         String message = "(" + topic.getNick() + ")"
             + "[" + topic.getTime() + "]"
@@ -379,8 +359,7 @@ public class MessagesTest
      * Expects: 19610068!WRITING#Christian:
      */
     @Test
-    public void testSendWritingMessage()
-    {
+    public void testSendWritingMessage() {
         messages.sendWritingMessage();
         verify(service).sendMulticastMsg(createMessage("WRITING"));
     }
@@ -391,8 +370,7 @@ public class MessagesTest
      * @param type The message type.
      * @return A message.
      */
-    private String createMessage(final String type)
-    {
+    private String createMessage(final String type) {
         return me.getCode() + "!" + type + "#" + me.getNick() + ":";
     }
 
@@ -403,8 +381,7 @@ public class MessagesTest
      * @param nick Nick name to use in the message instead of the default.
      * @return A message.
      */
-    private String createMessage(final String type, final String nick)
-    {
+    private String createMessage(final String type, final String nick) {
         return me.getCode() + "!" + type + "#" + nick + ":";
     }
 }

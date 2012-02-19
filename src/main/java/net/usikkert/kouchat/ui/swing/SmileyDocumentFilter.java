@@ -61,8 +61,7 @@ public class SmileyDocumentFilter extends DocumentFilter
      * @param standAlone If this is the only document filter used.
      * @param imageLoader The image loader.
      */
-    public SmileyDocumentFilter(final boolean standAlone, final ImageLoader imageLoader)
-    {
+    public SmileyDocumentFilter(final boolean standAlone, final ImageLoader imageLoader) {
         Validate.notNull(imageLoader, "Image loader can not be null");
 
         this.standAlone = standAlone;
@@ -78,8 +77,7 @@ public class SmileyDocumentFilter extends DocumentFilter
      */
     @Override
     public void insertString(final FilterBypass fb, final int offset, final String text,
-            final AttributeSet attr) throws BadLocationException
-    {
+            final AttributeSet attr) throws BadLocationException {
         if (standAlone)
             super.insertString(fb, offset, text, attr);
 
@@ -121,8 +119,7 @@ public class SmileyDocumentFilter extends DocumentFilter
      * @param smiley The smiley containing the icon to check.
      * @return If the icon was found.
      */
-    private boolean smileyIconRegistered(final MutableAttributeSet smileyAttr, final Smiley smiley)
-    {
+    private boolean smileyIconRegistered(final MutableAttributeSet smileyAttr, final Smiley smiley) {
         return smileyAttr.containsAttribute(StyleConstants.IconAttribute, smiley.getIcon());
     }
 
@@ -132,8 +129,7 @@ public class SmileyDocumentFilter extends DocumentFilter
      * @param smileyAttr The attribute set for the inserted string.
      * @param smiley The smiley containing the icon to set.
      */
-    private void registerSmileyIcon(final MutableAttributeSet smileyAttr, final Smiley smiley)
-    {
+    private void registerSmileyIcon(final MutableAttributeSet smileyAttr, final Smiley smiley) {
         StyleConstants.setIcon(smileyAttr, smiley.getIcon());
     }
 
@@ -147,8 +143,7 @@ public class SmileyDocumentFilter extends DocumentFilter
      * @param smileyAttr The attribute set for the inserted string.
      */
     private void registerSmileyLocation(final StyledDocument doc, final Smiley smiley,
-            final int offset, final MutableAttributeSet smileyAttr)
-    {
+            final int offset, final MutableAttributeSet smileyAttr) {
         int stopPos = smiley.getStopPosition();
         int startPos = smiley.getStartPosition();
         doc.setCharacterAttributes(offset + startPos, stopPos - startPos, smileyAttr, false);
@@ -162,8 +157,7 @@ public class SmileyDocumentFilter extends DocumentFilter
      * @return The first matching smiley in the text, or <code>null</code> if
      *         none were found.
      */
-    protected Smiley findSmiley(final String text, final int offset)
-    {
+    protected Smiley findSmiley(final String text, final int offset) {
         int firstMatch = -1;
         Smiley smiley = null;
 
@@ -214,8 +208,7 @@ public class SmileyDocumentFilter extends DocumentFilter
      * @param firstMatch The position of the previously found smiley in the text.
      * @return If a new smiley has been found.
      */
-    private boolean newSmileyFound(final int smileyPos, final int firstMatch)
-    {
+    private boolean newSmileyFound(final int smileyPos, final int firstMatch) {
         return smileyPos != -1 && (smileyPos < firstMatch || firstMatch == -1);
     }
 
@@ -228,8 +221,7 @@ public class SmileyDocumentFilter extends DocumentFilter
      * @param text The text where the smiley is taken from.
      * @return If the smiley is surrounded by whitespace.
      */
-    protected boolean smileyHasWhitespace(final Smiley smiley, final String text)
-    {
+    protected boolean smileyHasWhitespace(final Smiley smiley, final String text) {
         int leftIndex = smiley.getStartPosition() - 1;
         boolean leftOk = false;
 

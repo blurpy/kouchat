@@ -49,8 +49,7 @@ public final class Tools
     /**
      * Private constructor. Only static methods here.
      */
-    private Tools()
-    {
+    private Tools() {
 
     }
 
@@ -59,8 +58,7 @@ public final class Tools
      *
      * @return The current time.
      */
-    public static String getTime()
-    {
+    public static String getTime() {
         int h = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         int m = Calendar.getInstance().get(Calendar.MINUTE);
         int s = Calendar.getInstance().get(Calendar.SECOND);
@@ -75,8 +73,7 @@ public final class Tools
      * @param number The number to check.
      * @return A string representation of the number.
      */
-    public static String getDoubleDigit(final int number)
-    {
+    public static String getDoubleDigit(final int number) {
         if (number < 10)
             return "0" + number;
         else
@@ -91,8 +88,7 @@ public final class Tools
      * @return A converted date.
      * @see SimpleDateFormat
      */
-    public static String dateToString(final Date d, final String format)
-    {
+    public static String dateToString(final Date d, final String format) {
         String date = "";
         SimpleDateFormat formatter = new SimpleDateFormat(format, Locale.ENGLISH);
 
@@ -112,8 +108,7 @@ public final class Tools
      * @return The string as a date.
      * @see SimpleDateFormat
      */
-    public static Date stringToDate(final String s, final String format)
-    {
+    public static Date stringToDate(final String s, final String format) {
         Date date = null;
         SimpleDateFormat formatter = new SimpleDateFormat(format);
 
@@ -138,8 +133,7 @@ public final class Tools
      * @return The formatted number.
      * @see DecimalFormat
      */
-    public static String decimalFormat(final String format, final double number)
-    {
+    public static String decimalFormat(final String format, final double number) {
         DecimalFormat formatter = new DecimalFormat(format);
         return formatter.format(number);
     }
@@ -151,8 +145,7 @@ public final class Tools
      * @param nick The nick to check.
      * @return If the nick is valid.
      */
-    public static boolean isValidNick(final String nick)
-    {
+    public static boolean isValidNick(final String nick) {
         if (nick == null)
             return false;
 
@@ -167,8 +160,7 @@ public final class Tools
      * @param bytes The number of bytes to convert.
      * @return A string representation of the bytes.
      */
-    public static String byteToString(final long bytes)
-    {
+    public static String byteToString(final long bytes) {
         String size = "";
         double kbSize = bytes / 1024.0;
 
@@ -192,8 +184,7 @@ public final class Tools
      * @param then An earlier time.
      * @return How long it's been since 'then'.
      */
-    public static String howLongFromNow(final long then)
-    {
+    public static String howLongFromNow(final long then) {
         if (then != 0)
         {
             long diff = System.currentTimeMillis() - then;
@@ -224,8 +215,7 @@ public final class Tools
      * @param text The text to count the bytes in.
      * @return Number of bytes found in the text.
      */
-    public static int getBytes(final String text)
-    {
+    public static int getBytes(final String text) {
         try
         {
             return text.getBytes(Constants.MESSAGE_CHARSET).length;
@@ -243,8 +233,7 @@ public final class Tools
      *
      * @param millis Number of milliseconds to sleep.
      */
-    public static void sleep(final long millis)
-    {
+    public static void sleep(final long millis) {
         try
         {
             Thread.sleep(millis);
@@ -262,8 +251,7 @@ public final class Tools
      * @param word The word to capitalize the first letter of.
      * @return The modified word.
      */
-    public static String capitalizeFirstLetter(final String word)
-    {
+    public static String capitalizeFirstLetter(final String word) {
         if (word == null)
             return null;
 
@@ -280,8 +268,7 @@ public final class Tools
      * @param length The max number of characters for the word.
      * @return The modified word.
      */
-    public static String shorten(final String word, final int length)
-    {
+    public static String shorten(final String word, final int length) {
         if (word == null)
             return null;
 
@@ -300,8 +287,7 @@ public final class Tools
      * @param filename The file name to get the extension from.
      * @return The file extension, or <code>null</code> if file name is <code>null</code>.
      */
-    public static String getFileExtension(final String filename)
-    {
+    public static String getFileExtension(final String filename) {
         if (filename == null)
             return null;
 
@@ -320,8 +306,7 @@ public final class Tools
      * @param filename The file name to get the base name from.
      * @return The base name, or <code>null</code> if file name is <code>null</code>.
      */
-    public static String getFileBaseName(final String filename)
-    {
+    public static String getFileBaseName(final String filename) {
         if (filename == null)
             return null;
 
@@ -342,8 +327,7 @@ public final class Tools
      * @param total The total.
      * @return How many percent the fraction is of the total.
      */
-    public static double percent(final double fraction, final double total)
-    {
+    public static double percent(final double fraction, final double total) {
         return (100.0 / total) * fraction;
     }
 
@@ -356,8 +340,7 @@ public final class Tools
      * @param total The total.
      * @return The fraction as percent of the total.
      */
-    public static double percentOf(final double percent, final double total)
-    {
+    public static double percentOf(final double percent, final double total) {
         return (percent / 100.0) * total;
     }
 }

@@ -64,8 +64,7 @@ public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionL
      *
      * @param textfield The text field to use the popup on.
      */
-    public CopyPastePopup(final JTextField textfield)
-    {
+    public CopyPastePopup(final JTextField textfield) {
         this.textfield = textfield;
 
         copyMI = new JMenuItem(new DefaultEditorKit.CopyAction());
@@ -102,8 +101,7 @@ public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionL
      * {@inheritDoc}
      */
     @Override
-    public void mouseClicked(final MouseEvent e)
-    {
+    public void mouseClicked(final MouseEvent e) {
 
     }
 
@@ -113,8 +111,7 @@ public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionL
      * {@inheritDoc}
      */
     @Override
-    public void mouseEntered(final MouseEvent e)
-    {
+    public void mouseEntered(final MouseEvent e) {
 
     }
 
@@ -124,8 +121,7 @@ public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionL
      * {@inheritDoc}
      */
     @Override
-    public void mouseExited(final MouseEvent e)
-    {
+    public void mouseExited(final MouseEvent e) {
 
     }
 
@@ -135,8 +131,7 @@ public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionL
      * {@inheritDoc}
      */
     @Override
-    public void mousePressed(final MouseEvent e)
-    {
+    public void mousePressed(final MouseEvent e) {
 
     }
 
@@ -146,8 +141,7 @@ public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionL
      * {@inheritDoc}
      */
     @Override
-    public void mouseReleased(final MouseEvent e)
-    {
+    public void mouseReleased(final MouseEvent e) {
         if (isPopupTrigger(e) && textfield.isEnabled())
         {
             textfield.requestFocusInWindow();
@@ -179,8 +173,7 @@ public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionL
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent e)
-    {
+    public void actionPerformed(final ActionEvent e) {
         textfield.setText("");
     }
 }

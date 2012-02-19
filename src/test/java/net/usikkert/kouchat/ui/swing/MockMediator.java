@@ -44,8 +44,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public void activatedPrivChat(final User user)
-    {
+    public void activatedPrivChat(final User user) {
 
     }
 
@@ -55,8 +54,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public boolean changeNick(final String nick)
-    {
+    public boolean changeNick(final String nick) {
         return false;
     }
 
@@ -66,8 +64,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public void clearChat()
-    {
+    public void clearChat() {
 
     }
 
@@ -77,8 +74,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public void minimize()
-    {
+    public void minimize() {
 
     }
 
@@ -88,8 +84,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public void quit()
-    {
+    public void quit() {
 
     }
 
@@ -99,8 +94,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public void sendFile(final User user, final File selectedFile)
-    {
+    public void sendFile(final User user, final File selectedFile) {
 
     }
 
@@ -110,8 +104,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public void setAway()
-    {
+    public void setAway() {
 
     }
 
@@ -121,8 +114,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public void setTopic()
-    {
+    public void setTopic() {
 
     }
 
@@ -132,8 +124,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public void showCommands()
-    {
+    public void showCommands() {
 
     }
 
@@ -143,8 +134,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public void showPrivChat(final User user)
-    {
+    public void showPrivChat(final User user) {
 
     }
 
@@ -154,8 +144,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public void showSettings()
-    {
+    public void showSettings() {
 
     }
 
@@ -165,8 +154,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public void showOrHideWindow()
-    {
+    public void showOrHideWindow() {
 
     }
 
@@ -176,8 +164,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public void minimizeWindowIfHidden()
-    {
+    public void minimizeWindowIfHidden() {
 
     }
 
@@ -187,8 +174,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public void start()
-    {
+    public void start() {
 
     }
 
@@ -198,8 +184,7 @@ public class MockMediator implements Mediator
      * @param transferDialog The file transfer dialog.
      */
     @Override
-    public void transferCancelled(final TransferDialog transferDialog)
-    {
+    public void transferCancelled(final TransferDialog transferDialog) {
         if (transferDialog.getCancelButtonText().equals("Close"))
             close = true;
 
@@ -217,8 +202,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public void updateTitleAndTray()
-    {
+    public void updateTitleAndTray() {
 
     }
 
@@ -228,8 +212,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public void updateWriting()
-    {
+    public void updateWriting() {
 
     }
 
@@ -239,8 +222,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public void write()
-    {
+    public void write() {
 
     }
 
@@ -250,8 +232,7 @@ public class MockMediator implements Mediator
      * {@inheritDoc}
      */
     @Override
-    public void writePrivate(final PrivateChatWindow privchat)
-    {
+    public void writePrivate(final PrivateChatWindow privchat) {
 
     }
 
@@ -260,8 +241,7 @@ public class MockMediator implements Mediator
      *
      * @return if the file transfer dialog is closed.
      */
-    public boolean isClose()
-    {
+    public boolean isClose() {
         return close;
     }
 }

@@ -49,8 +49,7 @@ public class UserListModel extends AbstractListModel implements UserListListener
      *
      * @param userList The list where the real users are.
      */
-    public UserListModel(final UserList userList)
-    {
+    public UserListModel(final UserList userList) {
         this.userList = userList;
         userList.addUserListListener(this);
     }
@@ -61,8 +60,7 @@ public class UserListModel extends AbstractListModel implements UserListListener
      * {@inheritDoc}
      */
     @Override
-    public User getElementAt(final int index)
-    {
+    public User getElementAt(final int index) {
         return userList.get(index);
     }
 
@@ -72,8 +70,7 @@ public class UserListModel extends AbstractListModel implements UserListListener
      * {@inheritDoc}
      */
     @Override
-    public int getSize()
-    {
+    public int getSize() {
         return userList.size();
     }
 
@@ -83,8 +80,7 @@ public class UserListModel extends AbstractListModel implements UserListListener
      * {@inheritDoc}
      */
     @Override
-    public void userAdded(final int pos)
-    {
+    public void userAdded(final int pos) {
         SwingUtilities.invokeLater(new Runnable()
         {
             @Override
@@ -101,8 +97,7 @@ public class UserListModel extends AbstractListModel implements UserListListener
      * {@inheritDoc}
      */
     @Override
-    public void userChanged(final int pos)
-    {
+    public void userChanged(final int pos) {
         SwingUtilities.invokeLater(new Runnable()
         {
             @Override
@@ -119,8 +114,7 @@ public class UserListModel extends AbstractListModel implements UserListListener
      * {@inheritDoc}
      */
     @Override
-    public void userRemoved(final int pos)
-    {
+    public void userRemoved(final int pos) {
         SwingUtilities.invokeLater(new Runnable()
         {
             @Override

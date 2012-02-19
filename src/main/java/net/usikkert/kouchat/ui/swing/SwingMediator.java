@@ -77,8 +77,7 @@ public class SwingMediator implements Mediator, UserInterface
      * @param compHandler An object with references to all the gui components this mediator works with.
      * @param imageLoader The image loader.
      */
-    public SwingMediator(final ComponentHandler compHandler, final ImageLoader imageLoader)
-    {
+    public SwingMediator(final ComponentHandler compHandler, final ImageLoader imageLoader) {
         Validate.notNull(compHandler, "Component handler can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
         compHandler.validate();
@@ -108,8 +107,7 @@ public class SwingMediator implements Mediator, UserInterface
      * Or just minimizes the window to the taskbar.
      */
     @Override
-    public void minimize()
-    {
+    public void minimize() {
         if (sysTray.isSystemTraySupport())
             gui.setVisible(false);
         else
@@ -120,8 +118,7 @@ public class SwingMediator implements Mediator, UserInterface
      * Clears all the text from the main chat area.
      */
     @Override
-    public void clearChat()
-    {
+    public void clearChat() {
         mainP.clearChat();
         mainP.getMsgTF().requestFocusInWindow();
     }
@@ -133,8 +130,7 @@ public class SwingMediator implements Mediator, UserInterface
      * If user is away, asks if the user wants to come back.
      */
     @Override
-    public void setAway()
-    {
+    public void setAway() {
         if (me.isAway())
         {
             final int choice = UITools.showOptionDialog("Back from '" + me.getAwayMsg() + "'?", "Away");
@@ -188,8 +184,7 @@ public class SwingMediator implements Mediator, UserInterface
      * Asks for the new topic, and changes it.
      */
     @Override
-    public void setTopic()
-    {
+    public void setTopic() {
         final Topic topic = controller.getTopic();
         final String newTopic = UITools.showInputDialog("Change topic?", "Topic", topic.getTopic());
 
@@ -213,8 +208,7 @@ public class SwingMediator implements Mediator, UserInterface
      * Logs on to the network.
      */
     @Override
-    public void start()
-    {
+    public void start() {
         controller.logOn();
         updateTitleAndTray();
     }
@@ -223,8 +217,7 @@ public class SwingMediator implements Mediator, UserInterface
      * Asks if the user wants to quit.
      */
     @Override
-    public void quit()
-    {
+    public void quit() {
         final int choice = UITools.showOptionDialog("Are you sure you want to quit?", "Quit");
 
         if (choice == JOptionPane.YES_OPTION)
@@ -238,8 +231,7 @@ public class SwingMediator implements Mediator, UserInterface
      * current information about the application and the user.
      */
     @Override
-    public void updateTitleAndTray()
-    {
+    public void updateTitleAndTray() {
         if (me != null)
         {
             String title = me.getNick();
@@ -283,8 +275,7 @@ public class SwingMediator implements Mediator, UserInterface
      * The window will always be brought to front when shown.
      */
     @Override
-    public void showOrHideWindow()
-    {
+    public void showOrHideWindow() {
         if (gui.isVisible())
             minimize();
 
@@ -303,8 +294,7 @@ public class SwingMediator implements Mediator, UserInterface
      * but only as minimized in the taskbar.
      */
     @Override
-    public void minimizeWindowIfHidden()
-    {
+    public void minimizeWindowIfHidden() {
         if (!gui.isVisible())
         {
             UITools.minimize(gui);
@@ -316,8 +306,7 @@ public class SwingMediator implements Mediator, UserInterface
      * Opens the settings dialog window.
      */
     @Override
-    public void showSettings()
-    {
+    public void showSettings() {
         settingsDialog.showSettings();
     }
 
@@ -331,8 +320,7 @@ public class SwingMediator implements Mediator, UserInterface
      *                     file chooser should start fresh.
      */
     @Override
-    public void sendFile(final User user, final File selectedFile)
-    {
+    public void sendFile(final User user, final File selectedFile) {
         if (user == null)
             return;
 
@@ -394,8 +382,7 @@ public class SwingMediator implements Mediator, UserInterface
      * the command parser or sends it as a message.
      */
     @Override
-    public void write()
-    {
+    public void write() {
         final String line = mainP.getMsgTF().getText();
 
         if (line.trim().length() > 0)
@@ -430,8 +417,7 @@ public class SwingMediator implements Mediator, UserInterface
      * @param privchat The private chat.
      */
     @Override
-    public void writePrivate(final PrivateChatWindow privchat)
-    {
+    public void writePrivate(final PrivateChatWindow privchat) {
         final String line = privchat.getChatText();
         final User user = privchat.getUser();
 
@@ -456,8 +442,7 @@ public class SwingMediator implements Mediator, UserInterface
      * Shows a list of the supported commands and their syntax.
      */
     @Override
-    public void showCommands()
-    {
+    public void showCommands() {
         cmdParser.showCommands();
     }
 
@@ -465,8 +450,7 @@ public class SwingMediator implements Mediator, UserInterface
      * Checks if the user is currently writing, and updates the status.
      */
     @Override
-    public void updateWriting()
-    {
+    public void updateWriting() {
         if (mainP.getMsgTF().getText().length() > 0)
         {
             if (!controller.isWrote())
@@ -491,8 +475,7 @@ public class SwingMediator implements Mediator, UserInterface
      * @return If the nick name was changed successfully.
      */
     @Override
-    public boolean changeNick(final String nick)
-    {
+    public boolean changeNick(final String nick) {
         final String trimNick = nick.trim();
 
         if (!trimNick.equals(me.getNick()))
@@ -544,8 +527,7 @@ public class SwingMediator implements Mediator, UserInterface
      * @param transferDialog The transfer dialog.
      */
     @Override
-    public void transferCancelled(final TransferDialog transferDialog)
-    {
+    public void transferCancelled(final TransferDialog transferDialog) {
         if (transferDialog.getCancelButtonText().equals("Close"))
             transferDialog.dispose();
 
@@ -568,8 +550,7 @@ public class SwingMediator implements Mediator, UserInterface
      * </ul>
      */
     @Override
-    public void notifyMessageArrived(final User user)
-    {
+    public void notifyMessageArrived(final User user) {
         // Main chat hidden - beep, update systray, show balloon
         if (!gui.isVisible())
         {
@@ -631,8 +612,7 @@ public class SwingMediator implements Mediator, UserInterface
      * @param user The user that sent the private message.
      */
     @Override
-    public void notifyPrivateMessageArrived(final User user)
-    {
+    public void notifyPrivateMessageArrived(final User user) {
         final PrivateChatWindow privchat = user.getPrivchat();
 
         // Main chat hidden
@@ -693,8 +673,7 @@ public class SwingMediator implements Mediator, UserInterface
      * @return If the file was accepted or not.
      */
     @Override
-    public boolean askFileSave(final String user, final String fileName, final String size)
-    {
+    public boolean askFileSave(final String user, final String fileName, final String size) {
         beeper.beep();
         final String message = user + " wants to send you the file " + fileName + " (" + size + ")\nAccept?";
         final int choice = UITools.showOptionDialog(message, "File send");
@@ -710,8 +689,7 @@ public class SwingMediator implements Mediator, UserInterface
      * @param fileReceiver Information about the file to save.
      */
     @Override
-    public void showFileSave(final FileReceiver fileReceiver)
-    {
+    public void showFileSave(final FileReceiver fileReceiver) {
         final JFileChooser chooser = UITools.createFileChooser("Save");
         chooser.setSelectedFile(fileReceiver.getFile());
         boolean done = false;
@@ -754,8 +732,7 @@ public class SwingMediator implements Mediator, UserInterface
      * Updates the titlebar and tray tooltip with current information.
      */
     @Override
-    public void showTopic()
-    {
+    public void showTopic() {
         updateTitleAndTray();
     }
 
@@ -765,8 +742,7 @@ public class SwingMediator implements Mediator, UserInterface
      * @param fileRes The file receiver to create a transfer dialog for.
      */
     @Override
-    public void showTransfer(final FileReceiver fileRes)
-    {
+    public void showTransfer(final FileReceiver fileRes) {
         new TransferDialog(this, fileRes, imageLoader);
     }
 
@@ -776,8 +752,7 @@ public class SwingMediator implements Mediator, UserInterface
      * @param fileSend The file sender to create a transfer dialog for.
      */
     @Override
-    public void showTransfer(final FileSender fileSend)
-    {
+    public void showTransfer(final FileSender fileSend) {
         new TransferDialog(this, fileSend, imageLoader);
     }
 
@@ -787,8 +762,7 @@ public class SwingMediator implements Mediator, UserInterface
      * @param away If away or not.
      */
     @Override
-    public void changeAway(final boolean away)
-    {
+    public void changeAway(final boolean away) {
         if (away)
         {
             sysTray.setAwayState();
@@ -814,8 +788,7 @@ public class SwingMediator implements Mediator, UserInterface
      *
      * @param away If the user is away.
      */
-    private void updateAwayInPrivChats(final boolean away)
-    {
+    private void updateAwayInPrivChats(final boolean away) {
         final UserList list = controller.getUserList();
 
         for (int i = 0; i < list.size(); i++)
@@ -849,8 +822,7 @@ public class SwingMediator implements Mediator, UserInterface
      * @param user The user to create a new private chat for.
      */
     @Override
-    public void createPrivChat(final User user)
-    {
+    public void createPrivChat(final User user) {
         if (user.getPrivchat() == null)
             user.setPrivchat(new PrivateChatFrame(this, user, imageLoader));
     }
@@ -861,8 +833,7 @@ public class SwingMediator implements Mediator, UserInterface
      * @param user The user to show the private chat for.
      */
     @Override
-    public void showPrivChat(final User user)
-    {
+    public void showPrivChat(final User user) {
         createPrivChat(user);
         user.getPrivchat().setVisible(true);
     }
@@ -873,8 +844,7 @@ public class SwingMediator implements Mediator, UserInterface
      * @param user The user to reset the field for.
      */
     @Override
-    public void activatedPrivChat(final User user)
-    {
+    public void activatedPrivChat(final User user) {
         if (user.isNewPrivMsg())
         {
             user.setNewPrivMsg(false); // In case the user has logged off
@@ -888,8 +858,7 @@ public class SwingMediator implements Mediator, UserInterface
      * @return The message controller.
      */
     @Override
-    public MessageController getMessageController()
-    {
+    public MessageController getMessageController() {
         return msgController;
     }
 
@@ -899,8 +868,7 @@ public class SwingMediator implements Mediator, UserInterface
      * @return If the main chat is in focus.
      */
     @Override
-    public boolean isFocused()
-    {
+    public boolean isFocused() {
         return gui.isFocused();
     }
 
@@ -910,8 +878,7 @@ public class SwingMediator implements Mediator, UserInterface
      * @return If the main chat is visible.
      */
     @Override
-    public boolean isVisible()
-    {
+    public boolean isVisible() {
         return gui.isVisible();
     }
 }

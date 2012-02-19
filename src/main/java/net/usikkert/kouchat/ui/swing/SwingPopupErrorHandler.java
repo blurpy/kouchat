@@ -39,8 +39,7 @@ public class SwingPopupErrorHandler implements ErrorListener
      * Default constructor. Registers the class as a listener
      * in the error handler.
      */
-    public SwingPopupErrorHandler()
-    {
+    public SwingPopupErrorHandler() {
         ErrorHandler.getErrorHandler().addErrorListener(this);
     }
 
@@ -50,8 +49,7 @@ public class SwingPopupErrorHandler implements ErrorListener
      * @param errorMsg The message to show.
      */
     @Override
-    public void errorReported(final String errorMsg)
-    {
+    public void errorReported(final String errorMsg) {
         SwingUtilities.invokeLater(new Runnable()
         {
             @Override
@@ -68,8 +66,7 @@ public class SwingPopupErrorHandler implements ErrorListener
      * @param criticalErrorMsg The message to show.
      */
     @Override
-    public void criticalErrorReported(final String criticalErrorMsg)
-    {
+    public void criticalErrorReported(final String criticalErrorMsg) {
         UITools.showErrorMessage(criticalErrorMsg, "Critical Error");
     }
 }

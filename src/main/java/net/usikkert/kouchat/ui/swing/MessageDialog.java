@@ -64,8 +64,7 @@ public class MessageDialog extends JDialog
      * @param modal If the dialog should block or not.
      * @param imageLoader The image loader.
      */
-    public MessageDialog(final Frame parent, final boolean modal, final ImageLoader imageLoader)
-    {
+    public MessageDialog(final Frame parent, final boolean modal, final ImageLoader imageLoader) {
         super(parent, modal);
         Validate.notNull(imageLoader, "Image loader can not be null");
 
@@ -147,8 +146,7 @@ public class MessageDialog extends JDialog
      *
      * @param text The text to show.
      */
-    public void setTopText(final String text)
-    {
+    public void setTopText(final String text) {
         appNameL.setText(" " + text);
     }
 
@@ -157,8 +155,7 @@ public class MessageDialog extends JDialog
      *
      * @param info The text to add.
      */
-    public void setContent(final String info)
-    {
+    public void setContent(final String info) {
         contentL.setText(info);
     }
 
@@ -168,8 +165,7 @@ public class MessageDialog extends JDialog
      * {@inheritDoc}
      */
     @Override
-    public void setVisible(final boolean visible)
-    {
+    public void setVisible(final boolean visible) {
         pack();
         setLocationRelativeTo(getParent());
         super.setVisible(visible);

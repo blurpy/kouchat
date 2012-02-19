@@ -91,8 +91,7 @@ public class FileSender implements FileTransfer
      * @param user The user to send the file to.
      * @param file The file to send.
      */
-    public FileSender(final User user, final File file)
-    {
+    public FileSender(final User user, final File file) {
         this.user = user;
         this.file = file;
 
@@ -107,8 +106,7 @@ public class FileSender implements FileTransfer
      * @param port The port to use when connecting to the user.
      * @return If the file transfer was successful.
      */
-    public boolean transfer(final int port)
-    {
+    public boolean transfer(final int port) {
         if (!cancel)
         {
             listener.statusConnecting();
@@ -223,8 +221,7 @@ public class FileSender implements FileTransfer
     /**
      * Sets all connections to null.
      */
-    private void cleanupConnections()
-    {
+    private void cleanupConnections() {
         fis = null;
         os = null;
         sock = null;
@@ -233,8 +230,7 @@ public class FileSender implements FileTransfer
     /**
      * Closes the connection to the user.
      */
-    private void stopSender()
-    {
+    private void stopSender() {
         try
         {
             if (fis != null)
@@ -286,8 +282,7 @@ public class FileSender implements FileTransfer
      * @return If the file transfer has been canceled.
      */
     @Override
-    public boolean isCanceled()
-    {
+    public boolean isCanceled() {
         return cancel;
     }
 
@@ -295,8 +290,7 @@ public class FileSender implements FileTransfer
      * Cancels the file transfer.
      */
     @Override
-    public void cancel()
-    {
+    public void cancel() {
         cancel = true;
         stopSender();
         listener.statusFailed();
@@ -308,8 +302,7 @@ public class FileSender implements FileTransfer
      * @return If the file transfer is complete.
      */
     @Override
-    public boolean isTransferred()
-    {
+    public boolean isTransferred() {
         return sent;
     }
 
@@ -319,8 +312,7 @@ public class FileSender implements FileTransfer
      * @return Percent completed.
      */
     @Override
-    public int getPercent()
-    {
+    public int getPercent() {
         return percent;
     }
 
@@ -330,8 +322,7 @@ public class FileSender implements FileTransfer
      * @return The other user.
      */
     @Override
-    public User getUser()
-    {
+    public User getUser() {
         return user;
     }
 
@@ -341,8 +332,7 @@ public class FileSender implements FileTransfer
      * @return Bytes transferred.
      */
     @Override
-    public long getTransferred()
-    {
+    public long getTransferred() {
         return transferred;
     }
 
@@ -352,8 +342,7 @@ public class FileSender implements FileTransfer
      * @return The file size.
      */
     @Override
-    public long getFileSize()
-    {
+    public long getFileSize() {
         return file.length();
     }
 
@@ -363,8 +352,7 @@ public class FileSender implements FileTransfer
      * @return Send, the direction of the file transfer.
      */
     @Override
-    public Direction getDirection()
-    {
+    public Direction getDirection() {
         return Direction.SEND;
     }
 
@@ -374,8 +362,7 @@ public class FileSender implements FileTransfer
      * @return The speed in bytes per second.
      */
     @Override
-    public long getSpeed()
-    {
+    public long getSpeed() {
         return bCounter.getBytesPerSec();
     }
 
@@ -385,8 +372,7 @@ public class FileSender implements FileTransfer
      * @return The file.
      */
     @Override
-    public File getFile()
-    {
+    public File getFile() {
         return file;
     }
 
@@ -395,8 +381,7 @@ public class FileSender implements FileTransfer
      *
      * @return If waiting or not.
      */
-    public boolean isWaiting()
-    {
+    public boolean isWaiting() {
         return waiting;
     }
 
@@ -407,8 +392,7 @@ public class FileSender implements FileTransfer
      * @param listener The listener to register.
      */
     @Override
-    public void registerListener(final FileTransferListener listener)
-    {
+    public void registerListener(final FileTransferListener listener) {
         this.listener = listener;
         listener.statusWaiting();
     }

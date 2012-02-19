@@ -40,8 +40,7 @@ public class WaitingList
     /**
      * Constructor.
      */
-    public WaitingList()
-    {
+    public WaitingList() {
         users = new ArrayList<Integer>();
     }
 
@@ -50,8 +49,7 @@ public class WaitingList
      *
      * @param userCode The unique code of the user to add.
      */
-    public void addWaitingUser(final int userCode)
-    {
+    public void addWaitingUser(final int userCode) {
         users.add(userCode);
     }
 
@@ -61,8 +59,7 @@ public class WaitingList
      * @param userCode The unique code of the user to check for.
      * @return If the user is on the waiting list.
      */
-    public boolean isWaitingUser(final int userCode)
-    {
+    public boolean isWaitingUser(final int userCode) {
         return users.contains(userCode);
     }
 
@@ -71,8 +68,7 @@ public class WaitingList
      *
      * @param userCode The unique code of the user to remove.
      */
-    public void removeWaitingUser(final int userCode)
-    {
+    public void removeWaitingUser(final int userCode) {
         users.remove(new Integer(userCode));
     }
 }

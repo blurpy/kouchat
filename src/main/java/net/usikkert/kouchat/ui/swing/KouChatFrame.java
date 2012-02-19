@@ -85,8 +85,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      *
      * Initializes all components, shows the window, and starts the network.
      */
-    public KouChatFrame()
-    {
+    public KouChatFrame() {
         System.setProperty(Constants.PROPERTY_CLIENT_UI, "Swing");
         settings = Settings.getSettings();
         me = settings.getMe();
@@ -155,8 +154,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      *
      * @param imageLoader The image loader.
      */
-    private void registerUncaughtExceptionListener(final ImageLoader imageLoader)
-    {
+    private void registerUncaughtExceptionListener(final ImageLoader imageLoader) {
         UncaughtExceptionLogger uncaughtExceptionLogger =
             (UncaughtExceptionLogger) Thread.getDefaultUncaughtExceptionHandler();
         uncaughtExceptionLogger.registerUncaughtExceptionListener(
@@ -170,8 +168,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * or the system look and feel if one exists. If none of those are
      * available, then no look and feel is set.</p>
      */
-    private void setLookAndFeel()
-    {
+    private void setLookAndFeel() {
         LookAndFeelInfo lookAndFeel = UITools.getLookAndFeel(settings.getLookAndFeel());
 
         if (lookAndFeel == null)
@@ -191,8 +188,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
     /**
      * Adds a shortcut to hide the window when escape is pressed.
      */
-    private void hideWithEscape()
-    {
+    private void hideWithEscape() {
         KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
 
         Action escapeAction = new AbstractAction()
@@ -214,8 +210,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * If this window is focused, the text field will get the keyboard events
      * if the chat area or the user list was focused when typing was started.
      */
-    private void fixTextFieldFocus()
-    {
+    private void fixTextFieldFocus() {
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher()
         {
             @Override
@@ -241,8 +236,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * {@inheritDoc}
      */
     @Override
-    public void focusGained(final FocusEvent e)
-    {
+    public void focusGained(final FocusEvent e) {
 
     }
 
@@ -252,8 +246,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * {@inheritDoc}
      */
     @Override
-    public void focusLost(final FocusEvent e)
-    {
+    public void focusLost(final FocusEvent e) {
         if (menuBar.isPopupMenuVisible())
             getRootPane().requestFocusInWindow();
     }
@@ -264,8 +257,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * {@inheritDoc}
      */
     @Override
-    public void windowClosing(final WindowEvent e)
-    {
+    public void windowClosing(final WindowEvent e) {
         SwingUtilities.invokeLater(new Runnable()
         {
             @Override
@@ -282,8 +274,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * {@inheritDoc}
      */
     @Override
-    public void windowActivated(final WindowEvent e)
-    {
+    public void windowActivated(final WindowEvent e) {
         mainP.getChatSP().repaint();
         sideP.getUserList().repaint();
         mainP.getMsgTF().requestFocusInWindow();
@@ -301,8 +292,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * {@inheritDoc}
      */
     @Override
-    public void windowClosed(final WindowEvent e)
-    {
+    public void windowClosed(final WindowEvent e) {
 
     }
 
@@ -312,8 +302,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * {@inheritDoc}
      */
     @Override
-    public void windowDeactivated(final WindowEvent e)
-    {
+    public void windowDeactivated(final WindowEvent e) {
 
     }
 
@@ -323,8 +312,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * {@inheritDoc}
      */
     @Override
-    public void windowDeiconified(final WindowEvent e)
-    {
+    public void windowDeiconified(final WindowEvent e) {
 
     }
 
@@ -334,8 +322,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * {@inheritDoc}
      */
     @Override
-    public void windowIconified(final WindowEvent e)
-    {
+    public void windowIconified(final WindowEvent e) {
 
     }
 
@@ -345,16 +332,14 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * {@inheritDoc}
      */
     @Override
-    public void windowOpened(final WindowEvent e)
-    {
+    public void windowOpened(final WindowEvent e) {
 
     }
 
     /**
      * Changes the window icon depending on away status and if a new message has arrived.
      */
-    public void updateWindowIcon()
-    {
+    public void updateWindowIcon() {
         if (me.isNewMsg())
         {
             if (me.isAway())
@@ -377,8 +362,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      *
      * @param icon The window icon to use.
      */
-    public void setWindowIcon(final Image icon)
-    {
+    public void setWindowIcon(final Image icon) {
         if (getIconImage() != icon)
             setIconImage(icon);
     }

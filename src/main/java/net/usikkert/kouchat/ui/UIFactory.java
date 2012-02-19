@@ -45,8 +45,7 @@ public class UIFactory
      * @throws UIException If a ui has already been loaded, or if an
      * unknown ui type was requested, or if no graphical environment was detected.
      */
-    public void loadUI(final UIChoice choice) throws UIException
-    {
+    public void loadUI(final UIChoice choice) throws UIException {
         if (done)
         {
             throw new UIException("A User Interface has already been loaded.");

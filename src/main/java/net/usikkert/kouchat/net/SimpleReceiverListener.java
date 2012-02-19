@@ -46,8 +46,7 @@ public class SimpleReceiverListener implements ReceiverListener
      *
      * @param expectedMessage An expected message, or <code>null</code>.
      */
-    public SimpleReceiverListener(final String expectedMessage)
-    {
+    public SimpleReceiverListener(final String expectedMessage) {
         this.expectedMessage = expectedMessage;
     }
 
@@ -60,8 +59,7 @@ public class SimpleReceiverListener implements ReceiverListener
      * {@inheritDoc}
      */
     @Override
-    public void messageArrived(final String message, final String ipAddress)
-    {
+    public void messageArrived(final String message, final String ipAddress) {
         if (expectedMessage == null || expectedMessage.equals(message))
         {
             this.message = message;
@@ -74,8 +72,7 @@ public class SimpleReceiverListener implements ReceiverListener
      *
      * @return The message.
      */
-    public String getMessage()
-    {
+    public String getMessage() {
         return message;
     }
 
@@ -84,16 +81,14 @@ public class SimpleReceiverListener implements ReceiverListener
      *
      * @return The ip address.
      */
-    public String getIpAddress()
-    {
+    public String getIpAddress() {
         return ipAddress;
     }
 
     /**
      * Resets the message and ip address to <code>null</code>.
      */
-    public void reset()
-    {
+    public void reset() {
         message = null;
         ipAddress = null;
     }

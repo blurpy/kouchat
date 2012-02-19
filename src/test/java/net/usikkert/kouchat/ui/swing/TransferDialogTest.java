@@ -44,8 +44,7 @@ public class TransferDialogTest
      * @throws InterruptedException In case of sleep issues.
      */
     @Test
-    public void testReceiveDialog() throws InterruptedException
-    {
+    public void testReceiveDialog() throws InterruptedException {
         MockMediator mediator = new MockMediator();
         MockFileTransfer fileTransfer = new MockFileTransfer(Direction.RECEIVE);
 
@@ -65,8 +64,7 @@ public class TransferDialogTest
      * @throws InterruptedException In case of sleep issues.
      */
     @Test
-    public void testSendDialog() throws InterruptedException
-    {
+    public void testSendDialog() throws InterruptedException {
         MockMediator mediator = new MockMediator();
         MockFileTransfer fileTransfer = new MockFileTransfer(Direction.SEND);
 

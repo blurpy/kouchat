@@ -52,8 +52,7 @@ public class NetworkService implements NetworkConnectionListener
     /**
      * Constructor.
      */
-    public NetworkService()
-    {
+    public NetworkService() {
         messageReceiver = new MessageReceiver();
         messageSender = new MessageSender();
         connectionWorker = new ConnectionWorker();
@@ -65,16 +64,14 @@ public class NetworkService implements NetworkConnectionListener
     /**
      * Starts the thread responsible for connecting to the network.
      */
-    public void connect()
-    {
+    public void connect() {
         connectionWorker.start();
     }
 
     /**
      * Stops the thread responsible for connecting to the network.
      */
-    public void disconnect()
-    {
+    public void disconnect() {
         connectionWorker.stop();
     }
 
@@ -83,8 +80,7 @@ public class NetworkService implements NetworkConnectionListener
      *
      * @return The connection worker.
      */
-    public ConnectionWorker getConnectionWorker()
-    {
+    public ConnectionWorker getConnectionWorker() {
         return connectionWorker;
     }
 
@@ -93,8 +89,7 @@ public class NetworkService implements NetworkConnectionListener
      *
      * @return If the connection thread is alive.
      */
-    public boolean isConnectionWorkerAlive()
-    {
+    public boolean isConnectionWorkerAlive() {
         return connectionWorker.isAlive();
     }
 
@@ -103,8 +98,7 @@ public class NetworkService implements NetworkConnectionListener
      *
      * @return If the network is up.
      */
-    public boolean isNetworkUp()
-    {
+    public boolean isNetworkUp() {
         return connectionWorker.isNetworkUp();
     }
 
@@ -113,8 +107,7 @@ public class NetworkService implements NetworkConnectionListener
      *
      * @param listener The listener to register.
      */
-    public void registerNetworkConnectionListener(final NetworkConnectionListener listener)
-    {
+    public void registerNetworkConnectionListener(final NetworkConnectionListener listener) {
         connectionWorker.registerNetworkConnectionListener(listener);
     }
 
@@ -123,8 +116,7 @@ public class NetworkService implements NetworkConnectionListener
      *
      * @param listener The listener to register.
      */
-    public void registerMessageReceiverListener(final ReceiverListener listener)
-    {
+    public void registerMessageReceiverListener(final ReceiverListener listener) {
         messageReceiver.registerReceiverListener(listener);
     }
 
@@ -133,8 +125,7 @@ public class NetworkService implements NetworkConnectionListener
      *
      * @param listener The listener to register.
      */
-    public void registerUDPReceiverListener(final ReceiverListener listener)
-    {
+    public void registerUDPReceiverListener(final ReceiverListener listener) {
         udpReceiver.registerReceiverListener(listener);
     }
 
@@ -144,8 +135,7 @@ public class NetworkService implements NetworkConnectionListener
      * @param message The message to send.
      * @return If the message was sent or not.
      */
-    public boolean sendMulticastMsg(final String message)
-    {
+    public boolean sendMulticastMsg(final String message) {
         return messageSender.send(message);
     }
 
@@ -157,8 +147,7 @@ public class NetworkService implements NetworkConnectionListener
      * @param port The port to send the message to.
      * @return If the message was sent or not.
      */
-    public boolean sendUDPMsg(final String message, final String ip, final int port)
-    {
+    public boolean sendUDPMsg(final String message, final String ip, final int port) {
         return udpSender.send(message, ip, port);
     }
 
@@ -166,8 +155,7 @@ public class NetworkService implements NetworkConnectionListener
      * Checks the state of the network, and tries to keep the best possible
      * network connection up.
      */
-    public void checkNetwork()
-    {
+    public void checkNetwork() {
         connectionWorker.checkNetwork();
     }
 
@@ -177,8 +165,7 @@ public class NetworkService implements NetworkConnectionListener
      * {@inheritDoc}
      */
     @Override
-    public void networkWentDown(final boolean silent)
-    {
+    public void networkWentDown(final boolean silent) {
         udpSender.stopSender();
         udpReceiver.stopReceiver();
         messageSender.stopSender();
@@ -191,8 +178,7 @@ public class NetworkService implements NetworkConnectionListener
      * {@inheritDoc}
      */
     @Override
-    public void networkCameUp(final boolean silent)
-    {
+    public void networkCameUp(final boolean silent) {
         udpSender.startSender();
         udpReceiver.startReceiver();
         NetworkInterface currentNetworkInterface = connectionWorker.getCurrentNetworkInterface();

@@ -56,8 +56,7 @@ public class CommandParser
      * @param controller The controller.
      * @param ui The user interface.
      */
-    public CommandParser(final Controller controller, final UserInterface ui)
-    {
+    public CommandParser(final Controller controller, final UserInterface ui) {
         this.controller = controller;
         this.ui = ui;
 
@@ -73,8 +72,7 @@ public class CommandParser
      *
      * @param args Nothing, or the new topic.
      */
-    private void cmdTopic(final String args)
-    {
+    private void cmdTopic(final String args) {
         if (args.length() == 0)
         {
             Topic topic = controller.getTopic();
@@ -111,8 +109,7 @@ public class CommandParser
      *
      * @param args The away message.
      */
-    private void cmdAway(final String args)
-    {
+    private void cmdAway(final String args) {
         if (me.isAway())
         {
             msgController.showSystemMessage("/away - you are already away: '" + me.getAwayMsg() + "'");
@@ -146,8 +143,7 @@ public class CommandParser
      * Command: <em>/back</em>.
      * Set status to not away.
      */
-    private void cmdBack()
-    {
+    private void cmdBack() {
         if (me.isAway())
         {
             try
@@ -173,8 +169,7 @@ public class CommandParser
      * Command: <em>/clear</em>.
      * Clear all the text from the chat.
      */
-    private void cmdClear()
-    {
+    private void cmdClear() {
         ui.clearChat();
     }
 
@@ -182,8 +177,7 @@ public class CommandParser
      * Command: <em>/about</em>.
      * Show information about the application.
      */
-    private void cmdAbout()
-    {
+    private void cmdAbout() {
         msgController.showSystemMessage("This is " + Constants.APP_NAME + " v" + Constants.APP_VERSION
                 + ", by " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL
                 + " - " + Constants.APP_WEB);
@@ -193,8 +187,7 @@ public class CommandParser
      * Command: <em>/help</em>.
      * Shows a list of commands.
      */
-    private void cmdHelp()
-    {
+    private void cmdHelp() {
         showCommands();
     }
 
@@ -204,8 +197,7 @@ public class CommandParser
      *
      * @param args The user to show information about.
      */
-    private void cmdWhois(final String args)
-    {
+    private void cmdWhois(final String args) {
         if (args.trim().length() == 0)
         {
             msgController.showSystemMessage("/whois - missing argument <nick>");
@@ -254,8 +246,7 @@ public class CommandParser
      * @param args First argument is the user to send to, and the second is
      * the file to send to the user.
      */
-    private void cmdSend(final String args)
-    {
+    private void cmdSend(final String args) {
         String[] argsArray = args.split("\\s");
 
         if (argsArray.length <= 2)
@@ -321,8 +312,7 @@ public class CommandParser
      * @param args First argument is the other user in the file transfer,
      * and the second is the file being transferred.
      */
-    private void cmdReceive(final String args)
-    {
+    private void cmdReceive(final String args) {
         String[] argsArray = args.split("\\s");
 
         if (argsArray.length <= 2)
@@ -397,8 +387,7 @@ public class CommandParser
      * @param args First argument is the other user in the file transfer,
      * and the second is the file being transferred.
      */
-    private void cmdReject(final String args)
-    {
+    private void cmdReject(final String args) {
         String[] argsArray = args.split("\\s");
 
         if (argsArray.length <= 2)
@@ -454,8 +443,7 @@ public class CommandParser
      * @param args First argument is the other user in the file transfer,
      * and the second is the file being transferred.
      */
-    private void cmdCancel(final String args)
-    {
+    private void cmdCancel(final String args) {
         String[] argsArray = args.split("\\s");
 
         if (argsArray.length <= 2)
@@ -516,8 +504,7 @@ public class CommandParser
      * @param args The first argument is the user to send to, and the
      * second is the private message to the user.
      */
-    private void cmdMsg(final String args)
-    {
+    private void cmdMsg(final String args) {
         String[] argsArray = args.split("\\s");
 
         if (argsArray.length <= 2)
@@ -576,8 +563,7 @@ public class CommandParser
      *
      * @param args The nick to change to.
      */
-    private void cmdNick(final String args)
-    {
+    private void cmdNick(final String args) {
         if (args.trim().length() == 0)
         {
             msgController.showSystemMessage("/nick - missing argument <nick>");
@@ -627,8 +613,7 @@ public class CommandParser
      * Command: <em>/users</em>.
      * Shows a list of connected users.
      */
-    private void cmdUsers()
-    {
+    private void cmdUsers() {
         UserList list = controller.getUserList();
         String userList = "";
 
@@ -648,8 +633,7 @@ public class CommandParser
      * Command: <em>/transfers</em>.
      * Shows a list of all transfers and their status.
      */
-    private void cmdTransfers()
-    {
+    private void cmdTransfers() {
         List<FileSender> fsList = tList.getFileSenders();
         List<FileReceiver> frList = tList.getFileReceivers();
 
@@ -685,8 +669,7 @@ public class CommandParser
      * Command: <em>/quit</em>.
      * Quits the application.
      */
-    private void cmdQuit()
-    {
+    private void cmdQuit() {
         ui.quit();
     }
 
@@ -697,8 +680,7 @@ public class CommandParser
      * @param transferInfo The string builder to add the info to.
      * @param direction To or from.
      */
-    private void appendTransferInfo(final FileTransfer fileTransfer, final StringBuilder transferInfo, final String direction)
-    {
+    private void appendTransferInfo(final FileTransfer fileTransfer, final StringBuilder transferInfo, final String direction) {
         transferInfo.append("\n  ");
         transferInfo.append(fileTransfer.getFile().getName());
         transferInfo.append(" [" + Tools.byteToString(fileTransfer.getFileSize()) + "]");
@@ -714,8 +696,7 @@ public class CommandParser
      *
      * @param line The text starting with a slash.
      */
-    private void cmdSlash(final String line)
-    {
+    private void cmdSlash(final String line) {
         String message = line.replaceFirst("/", "");
 
         try
@@ -736,8 +717,7 @@ public class CommandParser
      *
      * @param command The unknown command.
      */
-    private void cmdUnknown(final String command)
-    {
+    private void cmdUnknown(final String command) {
         msgController.showSystemMessage("Unknown command '" + command + "'. Type /help for a list of commands");
     }
 
@@ -747,8 +727,7 @@ public class CommandParser
      * @param newTopic The new topic to use.
      * @throws CommandException If there was a problem changing the topic.
      */
-    public void fixTopic(final String newTopic) throws CommandException
-    {
+    public void fixTopic(final String newTopic) throws CommandException {
         Topic topic = controller.getTopic();
         String trimTopic = newTopic.trim();
 
@@ -772,8 +751,7 @@ public class CommandParser
      * @param file The file to send to the user.
      * @throws CommandException If there was a problem sending the file.
      */
-    public void sendFile(final User user, final File file) throws CommandException
-    {
+    public void sendFile(final User user, final File file) throws CommandException {
         controller.sendFile(user, file);
         FileSender fileSend = new FileSender(user, file);
         ui.showTransfer(fileSend);
@@ -789,8 +767,7 @@ public class CommandParser
      *
      * @param fileTransfer The file transfer to cancel.
      */
-    public void cancelFileTransfer(final FileTransfer fileTransfer)
-    {
+    public void cancelFileTransfer(final FileTransfer fileTransfer) {
         fileTransfer.cancel();
 
         if (fileTransfer instanceof FileSender)
@@ -814,8 +791,7 @@ public class CommandParser
     /**
      * Shows a list of all the supported commands, with a short description.
      */
-    public void showCommands()
-    {
+    public void showCommands() {
         msgController.showSystemMessage(Constants.APP_NAME + " commands:\n"
                 + "/about - information about " + Constants.APP_NAME + "\n"
                 + "/away <away message> - set status to away\n"
@@ -843,8 +819,7 @@ public class CommandParser
      *
      * @param line The command in its raw form.
      */
-    public void parse(final String line)
-    {
+    public void parse(final String line) {
         String command = "";
 
         if (line.contains(" "))

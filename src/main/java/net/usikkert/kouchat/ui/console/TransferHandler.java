@@ -50,8 +50,7 @@ public class TransferHandler implements FileTransferListener
      * @param fileTransfer The file transfer to handle.
      * @param msgController The message controller.
      */
-    public TransferHandler(final FileTransfer fileTransfer, final MessageController msgController)
-    {
+    public TransferHandler(final FileTransfer fileTransfer, final MessageController msgController) {
         Validate.notNull(fileTransfer, "File transfer can not be null");
         Validate.notNull(msgController, "Message controller can not be null");
 
@@ -65,8 +64,7 @@ public class TransferHandler implements FileTransferListener
      * Not implemented.
      */
     @Override
-    public void statusCompleted()
-    {
+    public void statusCompleted() {
 
     }
 
@@ -74,8 +72,7 @@ public class TransferHandler implements FileTransferListener
      * Not implemented.
      */
     @Override
-    public void statusConnecting()
-    {
+    public void statusConnecting() {
 
     }
 
@@ -83,8 +80,7 @@ public class TransferHandler implements FileTransferListener
      * Not implemented.
      */
     @Override
-    public void statusFailed()
-    {
+    public void statusFailed() {
 
     }
 
@@ -94,8 +90,7 @@ public class TransferHandler implements FileTransferListener
      * as that is taken care of elsewhere.
      */
     @Override
-    public void statusTransferring()
-    {
+    public void statusTransferring() {
         if (fileTransfer.getDirection() == Direction.RECEIVE)
         {
             msgController.showSystemMessage("Receiving " + fileTransfer.getFile().getName()
@@ -107,8 +102,7 @@ public class TransferHandler implements FileTransferListener
      * Not implemented.
      */
     @Override
-    public void statusWaiting()
-    {
+    public void statusWaiting() {
 
     }
 
@@ -116,8 +110,7 @@ public class TransferHandler implements FileTransferListener
      * Not implemented.
      */
     @Override
-    public void transferUpdate()
-    {
+    public void transferUpdate() {
 
     }
 }

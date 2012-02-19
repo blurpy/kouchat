@@ -45,8 +45,7 @@ public class MiddleAlignedIconViewEditorKit extends StyledEditorKit
     /**
      * Constructor. Initializes the view factory.
      */
-    public MiddleAlignedIconViewEditorKit()
-    {
+    public MiddleAlignedIconViewEditorKit() {
         viewFactory = new MiddleAlignedIconViewFactory();
     }
 
@@ -56,8 +55,7 @@ public class MiddleAlignedIconViewEditorKit extends StyledEditorKit
      * {@inheritDoc}
      */
     @Override
-    public ViewFactory getViewFactory()
-    {
+    public ViewFactory getViewFactory() {
         return viewFactory;
     }
 }

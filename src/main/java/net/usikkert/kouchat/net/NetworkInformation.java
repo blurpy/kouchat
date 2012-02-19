@@ -44,16 +44,14 @@ public class NetworkInformation implements NetworkInformationMBean
      *
      * @param connectionWorker To get information about the network, and control the network.
      */
-    public NetworkInformation(final ConnectionWorker connectionWorker)
-    {
+    public NetworkInformation(final ConnectionWorker connectionWorker) {
         Validate.notNull(connectionWorker, "Connection worker can not be null");
         this.connectionWorker = connectionWorker;
     }
 
     /** {@inheritDoc} */
     @Override
-    public String showCurrentNetwork()
-    {
+    public String showCurrentNetwork() {
         NetworkInterface networkInterface = connectionWorker.getCurrentNetworkInterface();
 
         if (networkInterface == null)
@@ -64,8 +62,7 @@ public class NetworkInformation implements NetworkInformationMBean
 
     /** {@inheritDoc} */
     @Override
-    public String showOperatingSystemNetwork()
-    {
+    public String showOperatingSystemNetwork() {
         OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo();
         NetworkInterface osInterface = osNicInfo.getOperatingSystemNetworkInterface();
 
@@ -77,8 +74,7 @@ public class NetworkInformation implements NetworkInformationMBean
 
     /** {@inheritDoc} */
     @Override
-    public String[] showUsableNetworks()
-    {
+    public String[] showUsableNetworks() {
         List<String> list = new ArrayList<String>();
 
         Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
@@ -102,8 +98,7 @@ public class NetworkInformation implements NetworkInformationMBean
 
     /** {@inheritDoc} */
     @Override
-    public String[] showAllNetworks()
-    {
+    public String[] showAllNetworks() {
         List<String> list = new ArrayList<String>();
 
         Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
@@ -122,15 +117,13 @@ public class NetworkInformation implements NetworkInformationMBean
 
     /** {@inheritDoc} */
     @Override
-    public void disconnect()
-    {
+    public void disconnect() {
         connectionWorker.stop();
     }
 
     /** {@inheritDoc} */
     @Override
-    public void connect()
-    {
+    public void connect() {
         connectionWorker.start();
     }
 }

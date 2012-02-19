@@ -53,8 +53,7 @@ public class OperatingSystemNetworkInfo
     /**
      * Default constructor.
      */
-    public OperatingSystemNetworkInfo()
-    {
+    public OperatingSystemNetworkInfo() {
         receiver = new MessageReceiver(Constants.NETWORK_TEMP_IP, Constants.NETWORK_TEMP_PORT);
         sender = new MessageSender(Constants.NETWORK_TEMP_IP, Constants.NETWORK_TEMP_PORT);
     }
@@ -68,8 +67,7 @@ public class OperatingSystemNetworkInfo
      *
      * @return The network interface, or <code>null</code>.
      */
-    public NetworkInterface getOperatingSystemNetworkInterface()
-    {
+    public NetworkInterface getOperatingSystemNetworkInterface() {
         String message = createMessageToSend();
         SimpleReceiverListener listener = new SimpleReceiverListener(message);
         connect(listener);
@@ -85,8 +83,7 @@ public class OperatingSystemNetworkInfo
      *
      * @param listener The message listener.
      */
-    private void connect(final SimpleReceiverListener listener)
-    {
+    private void connect(final SimpleReceiverListener listener) {
         receiver.registerReceiverListener(listener);
         receiver.startReceiver(null);
         sender.startSender(null);
@@ -95,8 +92,7 @@ public class OperatingSystemNetworkInfo
     /**
      * Disconnects the sender and receiver from the network.
      */
-    private void disconnect()
-    {
+    private void disconnect() {
         sender.stopSender();
         receiver.stopReceiver();
     }
@@ -106,8 +102,7 @@ public class OperatingSystemNetworkInfo
      *
      * @param listener The message listener.
      */
-    private void waitForMessage(final SimpleReceiverListener listener)
-    {
+    private void waitForMessage(final SimpleReceiverListener listener) {
         for (int i = 0; i < 40; i++)
         {
             if (listener.getIpAddress() == null)
@@ -127,8 +122,7 @@ public class OperatingSystemNetworkInfo
      * @param listener The message listener.
      * @return The found network interface, or <code>null</code>.
      */
-    private NetworkInterface findNetworkInterface(final SimpleReceiverListener listener)
-    {
+    private NetworkInterface findNetworkInterface(final SimpleReceiverListener listener) {
         if (listener.getIpAddress() == null)
             return null;
 
@@ -157,8 +151,7 @@ public class OperatingSystemNetworkInfo
      *
      * @return A message.
      */
-    private String createMessageToSend()
-    {
+    private String createMessageToSend() {
         int code = Settings.getSettings().getMe().getCode();
         return "getOperatingSystemNetworkInterface(" + code + ")";
     }

@@ -59,8 +59,7 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder
      * @param controller The controller.
      * @param ui The user interface.
      */
-    public DefaultPrivateMessageResponder(final Controller controller, final UserInterface ui)
-    {
+    public DefaultPrivateMessageResponder(final Controller controller, final UserInterface ui) {
         this.controller = controller;
         this.ui = ui;
         me = Settings.getSettings().getMe();
@@ -78,8 +77,7 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder
      * @param color The color the message has.
      */
     @Override
-    public void messageArrived(final int userCode, final String msg, final int color)
-    {
+    public void messageArrived(final int userCode, final String msg, final int color) {
         if (!controller.isNewUser(userCode))
         {
             User user = controller.getUser(userCode);

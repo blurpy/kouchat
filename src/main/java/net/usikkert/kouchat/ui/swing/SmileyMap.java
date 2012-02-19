@@ -45,8 +45,7 @@ public class SmileyMap
      *
      * @param imageLoader The image loader.
      */
-    public SmileyMap(final ImageLoader imageLoader)
-    {
+    public SmileyMap(final ImageLoader imageLoader) {
         Validate.notNull(imageLoader, "Image loader can not be null");
 
         // Map smiley codes to icons
@@ -70,8 +69,7 @@ public class SmileyMap
      * @param key The key for the smiley to get.
      * @return The smiley with the specified key.
      */
-    public ImageIcon getSmiley(final String key)
-    {
+    public ImageIcon getSmiley(final String key) {
         return smileyMap.get(key);
     }
 
@@ -80,8 +78,7 @@ public class SmileyMap
      *
      * @return A set of all the smiley codes.
      */
-    public Set<String> getTextSmileys()
-    {
+    public Set<String> getTextSmileys() {
         return smileyMap.keySet();
     }
 }

@@ -48,8 +48,7 @@ public class SmileyDocumentFilterTest
     /**
      * Constructor.
      */
-    public SmileyDocumentFilterTest()
-    {
+    public SmileyDocumentFilterTest() {
         imageLoader = new ImageLoader();
         filter = new SmileyDocumentFilter(true, imageLoader);
     }
@@ -58,8 +57,7 @@ public class SmileyDocumentFilterTest
      * Tests that a smiley is detected when the smiley has no text before or after.
      */
     @Test
-    public void testSmileyHasWhitespace1()
-    {
+    public void testSmileyHasWhitespace1() {
         Smiley smiley = new Smiley(0, new ImageIcon(""), ":)");
         assertTrue(filter.smileyHasWhitespace(smiley, ":)"));
     }
@@ -68,8 +66,7 @@ public class SmileyDocumentFilterTest
      * Tests that a smiley is detected when the smiley has no text before.
      */
     @Test
-    public void testSmileyHasWhitespace2()
-    {
+    public void testSmileyHasWhitespace2() {
         Smiley smiley = new Smiley(1, new ImageIcon(""), ":)");
         assertTrue(filter.smileyHasWhitespace(smiley, " :)"));
     }
@@ -78,8 +75,7 @@ public class SmileyDocumentFilterTest
      * Tests that a smiley is detected when the smiley has no text after.
      */
     @Test
-    public void testSmileyHasWhitespace3()
-    {
+    public void testSmileyHasWhitespace3() {
         Smiley smiley = new Smiley(0, new ImageIcon(""), ":)");
         assertTrue(filter.smileyHasWhitespace(smiley, ":) "));
     }
@@ -88,8 +84,7 @@ public class SmileyDocumentFilterTest
      * Tests that a smiley is detected when the smiley has whitespace before and after.
      */
     @Test
-    public void testSmileyHasWhitespace4()
-    {
+    public void testSmileyHasWhitespace4() {
         Smiley smiley = new Smiley(1, new ImageIcon(""), ":)");
         assertTrue(filter.smileyHasWhitespace(smiley, " :) "));
     }
@@ -98,8 +93,7 @@ public class SmileyDocumentFilterTest
      * Tests that a smiley is not detected when the smiley has non-whitespace text around.
      */
     @Test
-    public void testSmileyHasNoWhitespace()
-    {
+    public void testSmileyHasNoWhitespace() {
         Smiley smiley = new Smiley(0, new ImageIcon(""), ":)");
         assertFalse(filter.smileyHasWhitespace(smiley, ":):)"));
     }
@@ -109,8 +103,7 @@ public class SmileyDocumentFilterTest
      * but only one with whitespace.
      */
     @Test
-    public void testFindSmiley()
-    {
+    public void testFindSmiley() {
         Smiley smiley = filter.findSmiley("Test :):) :) :):) Test", 0);
 
         assertNotNull(smiley);
@@ -124,8 +117,7 @@ public class SmileyDocumentFilterTest
      * Tests that all the correct smileys are found when there are several valid.
      */
     @Test
-    public void testFindAllSmileys()
-    {
+    public void testFindAllSmileys() {
         final String text = ":$ Test :p :S :) 8) :) ;);) ;) Test";
 
         Smiley smiley1 = filter.findSmiley(text, 0);
@@ -177,8 +169,7 @@ public class SmileyDocumentFilterTest
      * Tests that all the different smileys are found.
      */
     @Test
-    public void testAllSmileys()
-    {
+    public void testAllSmileys() {
         final Smiley smile = filter.findSmiley(":)", 0);
         assertNotNull(smile);
         assertEquals(":)", smile.getCode());
@@ -239,8 +230,7 @@ public class SmileyDocumentFilterTest
      * Test that nothing is returned for unregistered smileys.
      */
     @Test
-    public void testUnknownSmileys()
-    {
+    public void testUnknownSmileys() {
         assertNull(filter.findSmiley(":/", 0));
         assertNull(filter.findSmiley("#)", 0));
         assertNull(filter.findSmiley(":", 0));

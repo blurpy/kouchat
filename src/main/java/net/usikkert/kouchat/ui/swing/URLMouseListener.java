@@ -51,8 +51,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
      *
      * @param textPane The text pane this listener is registered to.
      */
-    public URLMouseListener(final JTextPane textPane)
-    {
+    public URLMouseListener(final JTextPane textPane) {
         this.textPane = textPane;
 
         doc = textPane.getStyledDocument();
@@ -65,8 +64,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
      * {@inheritDoc}
      */
     @Override
-    public void mouseDragged(final MouseEvent e)
-    {
+    public void mouseDragged(final MouseEvent e) {
 
     }
 
@@ -76,8 +74,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
      * {@inheritDoc}
      */
     @Override
-    public void mouseMoved(final MouseEvent e)
-    {
+    public void mouseMoved(final MouseEvent e) {
         int mousePos = textPane.viewToModel(e.getPoint());
 
         AttributeSet attr = doc.getCharacterElement(mousePos).getAttributes();
@@ -101,8 +98,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
      * {@inheritDoc}
      */
     @Override
-    public void mouseClicked(final MouseEvent e)
-    {
+    public void mouseClicked(final MouseEvent e) {
 
     }
 
@@ -112,8 +108,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
      * {@inheritDoc}
      */
     @Override
-    public void mouseEntered(final MouseEvent e)
-    {
+    public void mouseEntered(final MouseEvent e) {
 
     }
 
@@ -123,8 +118,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
      * {@inheritDoc}
      */
     @Override
-    public void mouseExited(final MouseEvent e)
-    {
+    public void mouseExited(final MouseEvent e) {
 
     }
 
@@ -134,8 +128,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
      * {@inheritDoc}
      */
     @Override
-    public void mousePressed(final MouseEvent e)
-    {
+    public void mousePressed(final MouseEvent e) {
 
     }
 
@@ -145,8 +138,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener
      * {@inheritDoc}
      */
     @Override
-    public void mouseReleased(final MouseEvent e)
-    {
+    public void mouseReleased(final MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1)
         {
             int clickPos = textPane.viewToModel(e.getPoint());

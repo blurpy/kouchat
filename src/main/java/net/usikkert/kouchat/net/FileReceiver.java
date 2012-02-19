@@ -101,8 +101,7 @@ public class FileReceiver implements FileTransfer
      * @param file The file the user is sending.
      * @param size The size of the file, in bytes.
      */
-    public FileReceiver(final User user, final File file, final long size)
-    {
+    public FileReceiver(final User user, final File file, final long size) {
         this.user = user;
         this.file = file;
         this.size = size;
@@ -117,8 +116,7 @@ public class FileReceiver implements FileTransfer
      * @return The port which the sender can connect to.
      * @throws ServerException If the server could not be started.
      */
-    public int startServer() throws ServerException
-    {
+    public int startServer() throws ServerException {
         int port = Constants.NETWORK_FILE_TRANSFER_PORT;
         boolean done = false;
         int counter = 0;
@@ -157,8 +155,7 @@ public class FileReceiver implements FileTransfer
      *
      * @return If the file transfer was successful.
      */
-    public boolean transfer()
-    {
+    public boolean transfer() {
         listener.statusConnecting();
 
         received = false;
@@ -228,8 +225,7 @@ public class FileReceiver implements FileTransfer
     /**
      * Sets all connections to null.
      */
-    private void cleanupConnections()
-    {
+    private void cleanupConnections() {
         is = null;
         fos = null;
         sock = null;
@@ -239,8 +235,7 @@ public class FileReceiver implements FileTransfer
     /**
      * Closes the connection to the user.
      */
-    private void stopReceiver()
-    {
+    private void stopReceiver() {
         try
         {
             if (is != null)
@@ -303,8 +298,7 @@ public class FileReceiver implements FileTransfer
      * @return If the file transfer has been canceled.
      */
     @Override
-    public boolean isCanceled()
-    {
+    public boolean isCanceled() {
         return cancel;
     }
 
@@ -312,8 +306,7 @@ public class FileReceiver implements FileTransfer
      * Cancels the file transfer.
      */
     @Override
-    public void cancel()
-    {
+    public void cancel() {
         cancel = true;
         stopReceiver();
 
@@ -327,8 +320,7 @@ public class FileReceiver implements FileTransfer
      * @return Percent completed.
      */
     @Override
-    public int getPercent()
-    {
+    public int getPercent() {
         return percent;
     }
 
@@ -338,8 +330,7 @@ public class FileReceiver implements FileTransfer
      * @return If the file transfer is complete.
      */
     @Override
-    public boolean isTransferred()
-    {
+    public boolean isTransferred() {
         return received;
     }
 
@@ -349,8 +340,7 @@ public class FileReceiver implements FileTransfer
      * @return The file.
      */
     @Override
-    public File getFile()
-    {
+    public File getFile() {
         return file;
     }
 
@@ -359,8 +349,7 @@ public class FileReceiver implements FileTransfer
      *
      * @param file The new file to save to.
      */
-    public void setFile( final File file)
-    {
+    public void setFile( final File file) {
         this.file = file;
     }
 
@@ -370,8 +359,7 @@ public class FileReceiver implements FileTransfer
      * @return The other user.
      */
     @Override
-    public User getUser()
-    {
+    public User getUser() {
         return user;
     }
 
@@ -381,8 +369,7 @@ public class FileReceiver implements FileTransfer
      * @return Bytes transferred.
      */
     @Override
-    public long getTransferred()
-    {
+    public long getTransferred() {
         return transferred;
     }
 
@@ -392,8 +379,7 @@ public class FileReceiver implements FileTransfer
      * @return The file size.
      */
     @Override
-    public long getFileSize()
-    {
+    public long getFileSize() {
         return size;
     }
 
@@ -403,8 +389,7 @@ public class FileReceiver implements FileTransfer
      * @return Receive, the direction of the file transfer.
      */
     @Override
-    public Direction getDirection()
-    {
+    public Direction getDirection() {
         return Direction.RECEIVE;
     }
 
@@ -414,8 +399,7 @@ public class FileReceiver implements FileTransfer
      * @return The speed in bytes per second.
      */
     @Override
-    public long getSpeed()
-    {
+    public long getSpeed() {
         return bCounter.getBytesPerSec();
     }
 
@@ -426,8 +410,7 @@ public class FileReceiver implements FileTransfer
      * @param listener The listener to register.
      */
     @Override
-    public void registerListener(final FileTransferListener listener)
-    {
+    public void registerListener(final FileTransferListener listener) {
         this.listener = listener;
         listener.statusWaiting();
     }
@@ -437,16 +420,14 @@ public class FileReceiver implements FileTransfer
      *
      * @return If the file is accepted.
      */
-    public boolean isAccepted()
-    {
+    public boolean isAccepted() {
         return accepted;
     }
 
     /**
      * Accept the file transfer.
      */
-    public void accept()
-    {
+    public void accept() {
         accepted = true;
     }
 
@@ -455,16 +436,14 @@ public class FileReceiver implements FileTransfer
      *
      * @return If the file is rejected.
      */
-    public boolean isRejected()
-    {
+    public boolean isRejected() {
         return rejected;
     }
 
     /**
      * Reject the file transfer.
      */
-    public void reject()
-    {
+    public void reject() {
         rejected = true;
     }
 
@@ -477,8 +456,7 @@ public class FileReceiver implements FileTransfer
      * decided, and waits for an automated response from the sender.
      * If nothing has happened to the sender, the response should be very quick.</p>
      */
-    private class TimeoutThread extends Thread
-    {
+    private class TimeoutThread extends Thread {
         /**
          * Constructor. Sets the name of the thread.
          */

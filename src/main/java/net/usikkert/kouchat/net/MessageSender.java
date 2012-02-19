@@ -66,8 +66,7 @@ public class MessageSender
      * @see Constants#NETWORK_IP
      * @see Constants#NETWORK_CHAT_PORT
      */
-    public MessageSender()
-    {
+    public MessageSender() {
         this(Constants.NETWORK_IP, Constants.NETWORK_CHAT_PORT);
     }
 
@@ -79,8 +78,7 @@ public class MessageSender
      * @param ipAddress Multicast ip address to connect to.
      * @param port Port to connect to.
      */
-    public MessageSender(final String ipAddress, final int port)
-    {
+    public MessageSender(final String ipAddress, final int port) {
         this.port = port;
         errorHandler = ErrorHandler.getErrorHandler();
 
@@ -106,8 +104,7 @@ public class MessageSender
      * @see Constants#MESSAGE_CHARSET
      * @see Constants#NETWORK_PACKET_SIZE
      */
-    public synchronized boolean send(final String message)
-    {
+    public synchronized boolean send(final String message) {
         if (connected)
         {
             try
@@ -140,8 +137,7 @@ public class MessageSender
     /**
      * Disconnects from the network and closes the multicast socket.
      */
-    public synchronized void stopSender()
-    {
+    public synchronized void stopSender() {
         LOG.log(Level.FINE, "Disconnecting...");
 
         if (!connected)
@@ -184,8 +180,7 @@ public class MessageSender
      * @param networkInterface The network interface to use, or <code>null</code>.
      * @return If connected to the network or not.
      */
-    public synchronized boolean startSender(final NetworkInterface networkInterface)
-    {
+    public synchronized boolean startSender(final NetworkInterface networkInterface) {
         LOG.log(Level.FINE, "Connecting...");
 
         try

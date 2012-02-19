@@ -32,8 +32,7 @@ public final class Validate
     /**
      * Private constructor. Only static methods in this class.
      */
-    private Validate()
-    {
+    private Validate() {
 
     }
 
@@ -44,8 +43,7 @@ public final class Validate
      * @param obj The object to check.
      * @param errorMsg The error message to use in the exception.
      */
-    public static void notNull(final Object obj, final String errorMsg)
-    {
+    public static void notNull(final Object obj, final String errorMsg) {
         if (obj == null)
             throw new IllegalArgumentException(errorMsg);
     }
@@ -57,8 +55,7 @@ public final class Validate
      * @param text The string to check.
      * @param errorMsg The error message to use in the exception.
      */
-    public static void notEmpty(final String text, final String errorMsg)
-    {
+    public static void notEmpty(final String text, final String errorMsg) {
         if (text == null || text.trim().length() == 0)
             throw new IllegalArgumentException(errorMsg);
     }

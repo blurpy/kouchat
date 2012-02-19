@@ -86,8 +86,7 @@ public class SettingsDialog extends JDialog implements ActionListener
      *
      * @param imageLoader The image loader.
      */
-    public SettingsDialog(final ImageLoader imageLoader)
-    {
+    public SettingsDialog(final ImageLoader imageLoader) {
         Validate.notNull(imageLoader, "Image loader can not be null");
 
         nickL = new JLabel("Nick:");
@@ -231,8 +230,7 @@ public class SettingsDialog extends JDialog implements ActionListener
     /**
      * Adds a shortcut to hide the window when escape is pressed.
      */
-    private void hideWithEscape()
-    {
+    private void hideWithEscape() {
         KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
 
         Action escapeAction = new AbstractAction()
@@ -255,8 +253,7 @@ public class SettingsDialog extends JDialog implements ActionListener
      *
      * @param mediator The mediator to use.
      */
-    public void setMediator(final Mediator mediator)
-    {
+    public void setMediator(final Mediator mediator) {
         this.mediator = mediator;
     }
 
@@ -266,8 +263,7 @@ public class SettingsDialog extends JDialog implements ActionListener
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent e)
-    {
+    public void actionPerformed(final ActionEvent e) {
         if (e.getSource() == saveB)
         {
             SwingUtilities.invokeLater(new Runnable()
@@ -411,8 +407,7 @@ public class SettingsDialog extends JDialog implements ActionListener
      *
      * @param lnfw Information about the chosen look and feel.
      */
-    private void notifyLookAndFeelChange(final LookAndFeelWrapper lnfw)
-    {
+    private void notifyLookAndFeelChange(final LookAndFeelWrapper lnfw) {
         String newLookAndFeel = lnfw.getLookAndFeelInfo().getName();
         LookAndFeelInfo currentLookAndFeel = UITools.getCurrentLookAndFeel();
 
@@ -427,8 +422,7 @@ public class SettingsDialog extends JDialog implements ActionListener
     /**
      * Loads the current settings, and shows the window.
      */
-    public void showSettings()
-    {
+    public void showSettings() {
         nickTF.setText(settings.getMe().getNick());
         sysColorL.setForeground(new Color(settings.getSysColor()));
         ownColorL.setForeground(new Color(settings.getOwnColor()));
@@ -448,8 +442,7 @@ public class SettingsDialog extends JDialog implements ActionListener
      * <p>The correct item is either the saved look and feel,
      * or the current look and feel if none is saved yet.</p>
      */
-    private void selectLookAndFeel()
-    {
+    private void selectLookAndFeel() {
         LookAndFeelInfo lookAndFeel = UITools.getLookAndFeel(settings.getLookAndFeel());
         String lnfClass = "";
 

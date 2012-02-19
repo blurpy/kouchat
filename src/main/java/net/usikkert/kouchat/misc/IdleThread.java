@@ -70,8 +70,7 @@ public class IdleThread extends Thread
      * @param controller The controller.
      * @param ui The user interface.
      */
-    public IdleThread(final Controller controller, final UserInterface ui)
-    {
+    public IdleThread(final Controller controller, final UserInterface ui) {
         Validate.notNull(controller, "Controller can not be null");
         Validate.notNull(ui, "User interface can not be null");
         this.controller = controller;
@@ -92,8 +91,7 @@ public class IdleThread extends Thread
      * <li>Removes timed out clients
      */
     @Override
-    public void run()
-    {
+    public void run() {
         // In case of any error messages during startup
         me.setLastIdle(System.currentTimeMillis());
 
@@ -138,8 +136,7 @@ public class IdleThread extends Thread
      *
      * @param user The user which timed out.
      */
-    private void userTimedOut(final User user)
-    {
+    private void userTimedOut(final User user) {
         controller.cancelFileTransfers(user);
         user.setOnline(false);
         msgController.showSystemMessage(user.getNick() + " timed out");
@@ -154,8 +151,7 @@ public class IdleThread extends Thread
     /**
      * Shuts down the thread in a controlled manner.
      */
-    public void stopThread()
-    {
+    public void stopThread() {
         run = false;
         interrupt();
     }

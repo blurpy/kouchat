@@ -49,8 +49,7 @@ public class NetworkUtilsTest
      * So this test will only work when there are at least 2 network interfaces available.</p>
      */
     @Test
-    public void testSameNetworkInterface()
-    {
+    public void testSameNetworkInterface() {
         assertFalse(NetworkUtils.sameNetworkInterface(null, null));
 
         Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
@@ -84,8 +83,7 @@ public class NetworkUtilsTest
      * Tests that the hostname returned is the correct name of the localhost.
      */
     @Test
-    public void testGetLocalHostName()
-    {
+    public void testGetLocalHostName() {
         try
         {
             InetAddress localHostAddress = InetAddress.getLocalHost(); // Could throw exception

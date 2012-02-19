@@ -55,8 +55,7 @@ public class JTextPaneWithoutWrap extends JTextPane
      * {@inheritDoc}
      */
     @Override
-    public void setSize(final Dimension d)
-    {
+    public void setSize(final Dimension d) {
         // Parent is the viewport
         if (d.width < getParent().getSize().width)
             d.width = getParent().getSize().width;
@@ -76,8 +75,7 @@ public class JTextPaneWithoutWrap extends JTextPane
      * {@inheritDoc}
      */
     @Override
-    public boolean getScrollableTracksViewportWidth()
-    {
+    public boolean getScrollableTracksViewportWidth() {
         return false;
     }
 }

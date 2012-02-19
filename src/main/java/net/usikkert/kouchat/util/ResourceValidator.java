@@ -40,16 +40,14 @@ public class ResourceValidator
     /**
      * Constructor.
      */
-    public ResourceValidator()
-    {
+    public ResourceValidator() {
         resourceMap = new HashMap<String, URL>();
     }
 
     /**
      * Clears all the added resources from the validation list.
      */
-    public void clearResources()
-    {
+    public void clearResources() {
         resourceMap.clear();
     }
 
@@ -59,8 +57,7 @@ public class ResourceValidator
      * @param resource The resource to check.
      * @param location The location of the resource.
      */
-    public void addResource(final URL resource, final String location)
-    {
+    public void addResource(final URL resource, final String location) {
         resourceMap.put(location, resource);
     }
 
@@ -71,8 +68,7 @@ public class ResourceValidator
      *
      * @return A list of the resources that has not been loaded.
      */
-    public String validate()
-    {
+    public String validate() {
         StringBuilder missingResourceList = new StringBuilder();
 
         for (String location : resourceMap.keySet())

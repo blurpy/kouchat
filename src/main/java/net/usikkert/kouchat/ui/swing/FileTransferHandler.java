@@ -67,8 +67,7 @@ public class FileTransferHandler extends TransferHandler
      *
      * @param fileDropSource The source to find which user the file was dropped on.
      */
-    public FileTransferHandler(final FileDropSource fileDropSource)
-    {
+    public FileTransferHandler(final FileDropSource fileDropSource) {
         this.fileDropSource = fileDropSource;
 
         try
@@ -87,8 +86,7 @@ public class FileTransferHandler extends TransferHandler
      *
      * @param mediator The mediator to use.
      */
-    public void setMediator(final Mediator mediator)
-    {
+    public void setMediator(final Mediator mediator) {
         this.mediator = mediator;
     }
 
@@ -99,8 +97,7 @@ public class FileTransferHandler extends TransferHandler
      * {@inheritDoc}
      */
     @Override
-    public boolean canImport(final TransferSupport support)
-    {
+    public boolean canImport(final TransferSupport support) {
         return support.isDataFlavorSupported(DataFlavor.javaFileListFlavor) || support.isDataFlavorSupported(uriListFlavor);
     }
 
@@ -112,8 +109,7 @@ public class FileTransferHandler extends TransferHandler
      * {@inheritDoc}
      */
     @Override
-    public boolean importData(final TransferSupport support)
-    {
+    public boolean importData(final TransferSupport support) {
         if (canImport(support))
         {
             try
@@ -198,8 +194,7 @@ public class FileTransferHandler extends TransferHandler
      * {@inheritDoc}
      */
     @Override
-    protected Transferable createTransferable(final JComponent c)
-    {
+    protected Transferable createTransferable(final JComponent c) {
         if (c instanceof JTextComponent)
         {
             String data = ((JTextComponent) c).getSelectedText();
@@ -222,8 +217,7 @@ public class FileTransferHandler extends TransferHandler
      * {@inheritDoc}
      */
     @Override
-    public int getSourceActions(final JComponent c)
-    {
+    public int getSourceActions(final JComponent c) {
         return COPY;
     }
 }

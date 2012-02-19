@@ -52,8 +52,7 @@ public class Messages
      *
      * @param networkService The network service used for sending the actual messages.
      */
-    public Messages(final NetworkService networkService)
-    {
+    public Messages(final NetworkService networkService) {
         Validate.notNull(networkService, "Network service can not be null");
         this.networkService = networkService;
         settings = Settings.getSettings();
@@ -65,8 +64,7 @@ public class Messages
      *
      * <p>Note: the network will be checked if this fails!</p>
      */
-    public void sendIdleMessage()
-    {
+    public void sendIdleMessage() {
         String msg = createMessage("IDLE");
         boolean sent = networkService.sendMulticastMsg(msg);
 
@@ -81,8 +79,7 @@ public class Messages
      *
      * @param topic The new topic to send.
      */
-    public void sendTopicChangeMessage(final Topic topic)
-    {
+    public void sendTopicChangeMessage(final Topic topic) {
         String msg = createTopicMessage(topic);
         boolean sent = networkService.sendMulticastMsg(msg);
 
@@ -95,8 +92,7 @@ public class Messages
      *
      * @param topic The current topic to send.
      */
-    public void sendTopicRequestedMessage(final Topic topic)
-    {
+    public void sendTopicRequestedMessage(final Topic topic) {
         String msg = createTopicMessage(topic);
         networkService.sendMulticastMsg(msg);
     }
@@ -108,8 +104,7 @@ public class Messages
      *
      * @param awayMsg The away message to set.
      */
-    public void sendAwayMessage(final String awayMsg)
-    {
+    public void sendAwayMessage(final String awayMsg) {
         String msg = createMessage("AWAY") + awayMsg;
         boolean sent = networkService.sendMulticastMsg(msg);
 
@@ -122,8 +117,7 @@ public class Messages
      *
      * <p>Note: the network will be checked if this fails!</p>
      */
-    public void sendBackMessage()
-    {
+    public void sendBackMessage() {
         String msg = createMessage("BACK");
         boolean sent = networkService.sendMulticastMsg(msg);
 
@@ -139,8 +133,7 @@ public class Messages
      * @param chatMsg The message for the main chat.
      * @throws CommandException If the message was not sent successfully.
      */
-    public void sendChatMessage(final String chatMsg) throws CommandException
-    {
+    public void sendChatMessage(final String chatMsg) throws CommandException {
         String msg = createMessage("MSG")
                 + "[" + settings.getOwnColor() + "]"
                 + chatMsg;
@@ -157,8 +150,7 @@ public class Messages
     /**
      * Sends a message to log this client on the network.
      */
-    public void sendLogonMessage()
-    {
+    public void sendLogonMessage() {
         String msg = createMessage("LOGON");
         networkService.sendMulticastMsg(msg);
     }
@@ -166,8 +158,7 @@ public class Messages
     /**
      * Sends a message to log this client off the network.
      */
-    public void sendLogoffMessage()
-    {
+    public void sendLogoffMessage() {
         String msg = createMessage("LOGOFF");
         networkService.sendMulticastMsg(msg);
     }
@@ -175,8 +166,7 @@ public class Messages
     /**
      * Sends a message asking the other clients to identify themselves.
      */
-    public void sendExposeMessage()
-    {
+    public void sendExposeMessage() {
         String msg = createMessage("EXPOSE");
         networkService.sendMulticastMsg(msg);
     }
@@ -184,8 +174,7 @@ public class Messages
     /**
      * Sends a message to identify this client.
      */
-    public void sendExposingMessage()
-    {
+    public void sendExposingMessage() {
         String msg = createMessage("EXPOSING") + me.getAwayMsg();
         networkService.sendMulticastMsg(msg);
     }
@@ -193,8 +182,7 @@ public class Messages
     /**
      * Sends a message to ask for the current topic.
      */
-    public void sendGetTopicMessage()
-    {
+    public void sendGetTopicMessage() {
         String msg = createMessage("GETTOPIC");
         networkService.sendMulticastMsg(msg);
     }
@@ -202,8 +190,7 @@ public class Messages
     /**
      * Sends a message to notify that the user is writing.
      */
-    public void sendWritingMessage()
-    {
+    public void sendWritingMessage() {
         String msg = createMessage("WRITING");
         networkService.sendMulticastMsg(msg);
     }
@@ -211,8 +198,7 @@ public class Messages
     /**
      * Sends a message to notify that the user has stopped writing.
      */
-    public void sendStoppedWritingMessage()
-    {
+    public void sendStoppedWritingMessage() {
         String msg = createMessage("STOPPEDWRITING");
         networkService.sendMulticastMsg(msg);
     }
@@ -224,8 +210,7 @@ public class Messages
      *
      * @param newNick The new nick to send.
      */
-    public void sendNickMessage(final String newNick)
-    {
+    public void sendNickMessage(final String newNick) {
         String msg = createMessage("NICK", newNick);
         boolean sent = networkService.sendMulticastMsg(msg);
 
@@ -239,8 +224,7 @@ public class Messages
      *
      * @param crashNick The nick name that is already in use by the user.
      */
-    public void sendNickCrashMessage(final String crashNick)
-    {
+    public void sendNickCrashMessage(final String crashNick) {
         String msg = createMessage("NICKCRASH") + crashNick;
         networkService.sendMulticastMsg(msg);
     }
@@ -252,8 +236,7 @@ public class Messages
      * @param fileHash The unique hash code of the file.
      * @param fileName The name of the file.
      */
-    public void sendFileAbort(final User user, final int fileHash, final String fileName)
-    {
+    public void sendFileAbort(final User user, final int fileHash, final String fileName) {
         String msg = createMessage("SENDFILEABORT")
                 + "(" + user.getCode() + ")"
                 + "{" + fileHash + "}"
@@ -279,8 +262,7 @@ public class Messages
      * @throws CommandException If the message was not sent successfully.
      */
     public void sendFileAccept(final User user, final int port,
-            final int fileHash, final String fileName) throws CommandException
-    {
+            final int fileHash, final String fileName) throws CommandException {
         String msg = createMessage("SENDFILEACCEPT")
                 + "(" + user.getCode() + ")"
                 + "[" + port + "]"
@@ -305,8 +287,7 @@ public class Messages
      * @param file The file to send.
      * @throws CommandException If the message was not sent successfully.
      */
-    public void sendFile(final User user, final File file) throws CommandException
-    {
+    public void sendFile(final User user, final File file) throws CommandException {
         String msg = createMessage("SENDFILE")
                 + "(" + user.getCode() + ")"
                 + "[" + file.length() + "]"
@@ -332,8 +313,7 @@ public class Messages
      *   <li>Port to connect to for private chat.</li>
      * </ul>
      */
-    public void sendClient()
-    {
+    public void sendClient() {
         String msg = createMessage("CLIENT")
                 + "(" + me.getClient() + ")"
                 + "[" + (System.currentTimeMillis() - me.getLogonTime()) + "]"
@@ -352,8 +332,7 @@ public class Messages
      * @param user The user to send the message to.
      * @throws CommandException If the message was not sent successfully.
      */
-    public void sendPrivateMessage(final String privMsg, final User user) throws CommandException
-    {
+    public void sendPrivateMessage(final String privMsg, final User user) throws CommandException {
         String msg = createMessage("PRIVMSG")
                 + "(" + user.getCode() + ")"
                 + "[" + settings.getOwnColor() + "]"
@@ -375,8 +354,7 @@ public class Messages
      * @param type The message type.
      * @return The standard part of the message.
      */
-    private String createMessage(final String type)
-    {
+    private String createMessage(final String type) {
         return createMessage(type, me.getNick());
     }
 
@@ -388,8 +366,7 @@ public class Messages
      * @param nick The nick name to use in the message.
      * @return The standard part of the message.
      */
-    private String createMessage(final String type, final String nick)
-    {
+    private String createMessage(final String type, final String nick) {
         return me.getCode() + "!" + type + "#" + nick + ":";
     }
 
@@ -399,8 +376,7 @@ public class Messages
      * @param topic The topic to use in the message.
      * @return The new message.
      */
-    private String createTopicMessage(final Topic topic)
-    {
+    private String createTopicMessage(final Topic topic) {
         return createMessage("TOPIC")
                 + "(" + topic.getNick() + ")"
                 + "[" + topic.getTime() + "]"
@@ -413,16 +389,14 @@ public class Messages
      * @param infoMsg The message to give the user.
      * @throws CommandException The exception returned with the message.
      */
-    private void notifyUser(final String infoMsg) throws CommandException
-    {
+    private void notifyUser(final String infoMsg) throws CommandException {
         throw new CommandException(infoMsg);
     }
 
     /**
      * Asks the network service to check the network status.
      */
-    private void checkNetwork()
-    {
+    private void checkNetwork() {
         networkService.checkNetwork();
     }
 }

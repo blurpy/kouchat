@@ -39,8 +39,7 @@ public class SimpleReceiverListenerTest
      * expected message is set.
      */
     @Test
-    public void testListenerWithNoExpectedMessage()
-    {
+    public void testListenerWithNoExpectedMessage() {
         SimpleReceiverListener listener = new SimpleReceiverListener(null);
         listener.messageArrived("A message", "An ip address");
 
@@ -53,8 +52,7 @@ public class SimpleReceiverListenerTest
      * message is set, but another message is received.
      */
     @Test
-    public void testListenerWithWrongMessage()
-    {
+    public void testListenerWithWrongMessage() {
         SimpleReceiverListener listener = new SimpleReceiverListener("Some message :)");
         listener.messageArrived("A message", "An ip address");
 
@@ -67,8 +65,7 @@ public class SimpleReceiverListenerTest
      * message is set, and received.
      */
     @Test
-    public void testListenerWithCorrectMessage()
-    {
+    public void testListenerWithCorrectMessage() {
         SimpleReceiverListener listener = new SimpleReceiverListener("Another message :)");
         listener.messageArrived("Another message :)", "An ip address");
 

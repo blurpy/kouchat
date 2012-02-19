@@ -76,8 +76,7 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer
      *
      * @param imageLoader The image loader.
      */
-    public UserListCellRenderer(final ImageLoader imageLoader)
-    {
+    public UserListCellRenderer(final ImageLoader imageLoader) {
         Validate.notNull(imageLoader, "Image loader can not be null");
 
         envelope = imageLoader.getEnvelopeIcon();
@@ -117,8 +116,7 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer
      */
     @Override
     public Component getListCellRendererComponent(final JList list, final Object value,
-            final int index, final boolean isSelected, final boolean cellHasFocus)
-    {
+            final int index, final boolean isSelected, final boolean cellHasFocus) {
         if (isSelected)
         {
             setBackground(list.getSelectionBackground());
@@ -183,8 +181,7 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer
      * {@inheritDoc}
      */
     @Override
-    public boolean isOpaque()
-    {
+    public boolean isOpaque() {
         Color background = getBackground();
         Component parent = getParent();
 

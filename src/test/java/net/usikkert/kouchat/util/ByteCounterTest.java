@@ -41,8 +41,7 @@ public class ByteCounterTest
      * Creates a new byte counter before each test.
      */
     @Before
-    public void createByteCounter()
-    {
+    public void createByteCounter() {
         counter = new ByteCounter();
     }
 
@@ -51,8 +50,7 @@ public class ByteCounterTest
      * a full second has passed.
      */
     @Test
-    public void testNoCalculationBeforeSecond()
-    {
+    public void testNoCalculationBeforeSecond() {
         long bytesAdded = 1024;
         long currentTime = 999;
         long timeSpent = counter.updateTimeSpent(currentTime);
@@ -69,8 +67,7 @@ public class ByteCounterTest
      * are reset since no time is left.
      */
     @Test
-    public void testCalculationAfterOneSecond()
-    {
+    public void testCalculationAfterOneSecond() {
         long bytesAdded = 1024;
         long currentTime = 1000;
         long timeSpent = counter.updateTimeSpent(currentTime);
@@ -86,8 +83,7 @@ public class ByteCounterTest
      * updates are needed to fill a whole second.
      */
     @Test
-    public void testWith3Updates()
-    {
+    public void testWith3Updates() {
         long bytesAdded = 1024;
 
         long currentTime1 = 300;
@@ -120,8 +116,7 @@ public class ByteCounterTest
      * second the counters are reset and the speed is calculated.
      */
     @Test
-    public void testCountersResetBetweenCalculations()
-    {
+    public void testCountersResetBetweenCalculations() {
         long bytesAdded = 1024;
 
         long currentTime1 = 500;
@@ -166,8 +161,7 @@ public class ByteCounterTest
      * the rest is saved for the next update.</p>
      */
     @Test
-    public void testHandlingOfTimeLeft()
-    {
+    public void testHandlingOfTimeLeft() {
         long bytesAdded = 1024;
 
         long currentTime1 = 300;
@@ -209,8 +203,7 @@ public class ByteCounterTest
      * between the first and the second calculation.
      */
     @Test
-    public void testHandlingOfTimeLeftWithLargerUpdate()
-    {
+    public void testHandlingOfTimeLeftWithLargerUpdate() {
         long bytesAdded = 1024;
 
         long currentTime1 = 500;
@@ -246,8 +239,7 @@ public class ByteCounterTest
      * <p>In this case 1024 bytes added in 2.3 seconds gives 445 KB/s.</p>
      */
     @Test
-    public void testLongPauseInUpdates()
-    {
+    public void testLongPauseInUpdates() {
         long bytesAdded = 1024;
 
         long currentTime1 = 200;
@@ -272,8 +264,7 @@ public class ByteCounterTest
      * update and just a little bit too long.
      */
     @Test
-    public void testJustALittleBitTooLong()
-    {
+    public void testJustALittleBitTooLong() {
         long bytesAdded = 1024;
         long currentTime = 1100;
         long timeSpent = counter.updateTimeSpent(currentTime);
@@ -288,8 +279,7 @@ public class ByteCounterTest
      * Another test of long pause, but with nice logical round numbers. :)
      */
     @Test
-    public void testTwoSecondUpdate()
-    {
+    public void testTwoSecondUpdate() {
         long bytesAdded = 1024;
         long currentTime = 2000;
         long timeSpent = counter.updateTimeSpent(currentTime);
@@ -305,8 +295,7 @@ public class ByteCounterTest
      * for exactly one second. Which gives a speed of 250 KB/s.
      */
     @Test
-    public void testVerySlowTransfer()
-    {
+    public void testVerySlowTransfer() {
         long bytesAdded = 1024;
 
         for (int i = 1; i <= 250; i++)
@@ -332,8 +321,7 @@ public class ByteCounterTest
      * for exactly one second. Which gives a speed of 1.000 KB/s.
      */
     @Test
-    public void testSlowTransfer()
-    {
+    public void testSlowTransfer() {
         long bytesAdded = 1024;
 
         for (int i = 1; i <= 1000; i++)
@@ -359,8 +347,7 @@ public class ByteCounterTest
      * for exactly one second. Which gives a speed of 10.000 KB/s (9,77 MB/s).
      */
     @Test
-    public void testFastTransfer()
-    {
+    public void testFastTransfer() {
         long bytesAdded = 1024;
         int time = 0;
 
@@ -397,8 +384,7 @@ public class ByteCounterTest
      * for exactly one second. Which gives a speed of 50.000 KB/s (48,83 MB/s).
      */
     @Test
-    public void testVeryFastTransfer()
-    {
+    public void testVeryFastTransfer() {
         long bytesAdded = 1024;
         int time = 0;
 
@@ -439,8 +425,7 @@ public class ByteCounterTest
      * about one second.</p>
      */
     @Test
-    public void testOfficialAPIWorks()
-    {
+    public void testOfficialAPIWorks() {
         long bytesAdded = 1024;
         counter.prepare();
 

@@ -70,8 +70,7 @@ public class ButtonPanel extends JPanel implements ActionListener
     /**
      * Constructor.
      */
-    public ButtonPanel()
-    {
+    public ButtonPanel() {
         setLayout(new GridLayout(4, 1));
 
         clearB = new JButton("Clear");
@@ -102,8 +101,7 @@ public class ButtonPanel extends JPanel implements ActionListener
      *
      * @param mediator The mediator to set.
      */
-    public void setMediator(final Mediator mediator)
-    {
+    public void setMediator(final Mediator mediator) {
         Validate.notNull(mediator, "Mediator can not be null");
         this.mediator = mediator;
     }
@@ -113,8 +111,7 @@ public class ButtonPanel extends JPanel implements ActionListener
      *
      * @param away If away, the button is disabled. Else enabled.
      */
-    public void setAwayState(final boolean away)
-    {
+    public void setAwayState(final boolean away) {
         topicB.setEnabled(!away);
     }
 
@@ -124,8 +121,7 @@ public class ButtonPanel extends JPanel implements ActionListener
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent e)
-    {
+    public void actionPerformed(final ActionEvent e) {
         if (e.getSource() == minimizeB)
         {
             SwingUtilities.invokeLater(new Runnable()

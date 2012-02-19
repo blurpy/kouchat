@@ -101,8 +101,7 @@ public class ImageLoader
     /**
      * Constructor. Loads and validates the images.
      */
-    public ImageLoader()
-    {
+    public ImageLoader() {
         ResourceValidator resourceValidator = new ResourceValidator();
 
         // Load resources from jar or local file system
@@ -155,8 +154,7 @@ public class ImageLoader
      * @param image The image to load, with path.
      * @return The URL to the image, or <code>null</code> if the image wasn't loaded.
      */
-    private URL loadImage(final ResourceValidator resourceValidator, final String image)
-    {
+    private URL loadImage(final ResourceValidator resourceValidator, final String image) {
         URL url = getClass().getResource(image);
         resourceValidator.addResource(url, image);
         return url;
@@ -169,8 +167,7 @@ public class ImageLoader
      *
      * @param resourceValidator The validator.
      */
-    private void validate(final ResourceValidator resourceValidator)
-    {
+    private void validate(final ResourceValidator resourceValidator) {
         String missing = resourceValidator.validate();
 
         if (missing.length() > 0)
@@ -189,8 +186,7 @@ public class ImageLoader
      *
      * @return The smileIcon.
      */
-    public ImageIcon getSmileIcon()
-    {
+    public ImageIcon getSmileIcon() {
         return smileIcon;
     }
 
@@ -199,8 +195,7 @@ public class ImageLoader
      *
      * @return The sadIcon.
      */
-    public ImageIcon getSadIcon()
-    {
+    public ImageIcon getSadIcon() {
         return sadIcon;
     }
 
@@ -209,8 +204,7 @@ public class ImageLoader
      *
      * @return The tongueIcon.
      */
-    public ImageIcon getTongueIcon()
-    {
+    public ImageIcon getTongueIcon() {
         return tongueIcon;
     }
 
@@ -219,8 +213,7 @@ public class ImageLoader
      *
      * @return The teethIcon.
      */
-    public ImageIcon getTeethIcon()
-    {
+    public ImageIcon getTeethIcon() {
         return teethIcon;
     }
 
@@ -229,8 +222,7 @@ public class ImageLoader
      *
      * @return The winkIcon.
      */
-    public ImageIcon getWinkIcon()
-    {
+    public ImageIcon getWinkIcon() {
         return winkIcon;
     }
 
@@ -239,8 +231,7 @@ public class ImageLoader
      *
      * @return The omgIcon.
      */
-    public ImageIcon getOmgIcon()
-    {
+    public ImageIcon getOmgIcon() {
         return omgIcon;
     }
 
@@ -249,8 +240,7 @@ public class ImageLoader
      *
      * @return The angryIcon.
      */
-    public ImageIcon getAngryIcon()
-    {
+    public ImageIcon getAngryIcon() {
         return angryIcon;
     }
 
@@ -259,8 +249,7 @@ public class ImageLoader
      *
      * @return The confusedIcon.
      */
-    public ImageIcon getConfusedIcon()
-    {
+    public ImageIcon getConfusedIcon() {
         return confusedIcon;
     }
 
@@ -269,8 +258,7 @@ public class ImageLoader
      *
      * @return The cryIcon.
      */
-    public ImageIcon getCryIcon()
-    {
+    public ImageIcon getCryIcon() {
         return cryIcon;
     }
 
@@ -279,8 +267,7 @@ public class ImageLoader
      *
      * @return The embarrassedIcon.
      */
-    public ImageIcon getEmbarrassedIcon()
-    {
+    public ImageIcon getEmbarrassedIcon() {
         return embarrassedIcon;
     }
 
@@ -289,8 +276,7 @@ public class ImageLoader
      *
      * @return The shadeIcon.
      */
-    public ImageIcon getShadeIcon()
-    {
+    public ImageIcon getShadeIcon() {
         return shadeIcon;
     }
 
@@ -299,8 +285,7 @@ public class ImageLoader
      *
      * @return The kouNormalIcon.
      */
-    public ImageIcon getKouNormalIcon()
-    {
+    public ImageIcon getKouNormalIcon() {
         return kouNormalIcon;
     }
 
@@ -309,8 +294,7 @@ public class ImageLoader
      *
      * @return The kouNormalActivityIcon.
      */
-    public ImageIcon getKouNormalActivityIcon()
-    {
+    public ImageIcon getKouNormalActivityIcon() {
         return kouNormalActivityIcon;
     }
 
@@ -319,8 +303,7 @@ public class ImageLoader
      *
      * @return The kouAwayIcon.
      */
-    public ImageIcon getKouAwayIcon()
-    {
+    public ImageIcon getKouAwayIcon() {
         return kouAwayIcon;
     }
 
@@ -329,8 +312,7 @@ public class ImageLoader
      *
      * @return The kouAwayActivityIcon.
      */
-    public ImageIcon getKouAwayActivityIcon()
-    {
+    public ImageIcon getKouAwayActivityIcon() {
         return kouAwayActivityIcon;
     }
 
@@ -339,8 +321,7 @@ public class ImageLoader
      *
      * @return The envelopeIcon.
      */
-    public ImageIcon getEnvelopeIcon()
-    {
+    public ImageIcon getEnvelopeIcon() {
         return envelopeIcon;
     }
 
@@ -349,8 +330,7 @@ public class ImageLoader
      *
      * @return The dotIcon.
      */
-    public ImageIcon getDotIcon()
-    {
+    public ImageIcon getDotIcon() {
         return dotIcon;
     }
 
@@ -359,8 +339,7 @@ public class ImageLoader
      *
      * @return The appIcon.
      */
-    public ImageIcon getAppIcon()
-    {
+    public ImageIcon getAppIcon() {
         return appIcon;
     }
 }

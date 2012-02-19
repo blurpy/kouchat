@@ -31,8 +31,7 @@ package net.usikkert.kouchat.autocomplete;
 public class CommandAutoCompleteList implements AutoCompleteList
 {
     /** The commands. */
-    private static final String[] COMMANDS =
-    {
+    private static final String[] COMMANDS = {
         "/about",
         "/away",
         "/back",
@@ -60,8 +59,7 @@ public class CommandAutoCompleteList implements AutoCompleteList
      * @return If the word is a command.
      */
     @Override
-    public boolean acceptsWord(final String word)
-    {
+    public boolean acceptsWord(final String word) {
         return word.startsWith("/");
     }
 
@@ -70,8 +68,7 @@ public class CommandAutoCompleteList implements AutoCompleteList
      * @return The list of commands.
      */
     @Override
-    public String[] getWordList()
-    {
+    public String[] getWordList() {
         return COMMANDS;
     }
 }

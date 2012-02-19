@@ -66,8 +66,7 @@ public class JMXAgent
      * @param controller The controller.
      * @param connectionWorker The connection worker.
      */
-    public JMXAgent(final Controller controller, final ConnectionWorker connectionWorker)
-    {
+    public JMXAgent(final Controller controller, final ConnectionWorker connectionWorker) {
         Logger log = Logger.getLogger(JMXAgent.class.getName());
         MBeanServer platformMBeanServer = ManagementFactory.getPlatformMBeanServer();
 

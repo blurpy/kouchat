@@ -49,8 +49,7 @@ public class DocumentFilterList extends DocumentFilter
     /**
      * Constructor.
      */
-    public DocumentFilterList()
-    {
+    public DocumentFilterList() {
         filters = new ArrayList<DocumentFilter>();
     }
 
@@ -61,8 +60,7 @@ public class DocumentFilterList extends DocumentFilter
      */
     @Override
     public synchronized void insertString(final FilterBypass fb, final int offset, final String text,
-            final AttributeSet attr) throws BadLocationException
-    {
+            final AttributeSet attr) throws BadLocationException {
         super.insertString(fb, offset, text, attr);
 
         for (DocumentFilter filter : filters)
@@ -76,8 +74,7 @@ public class DocumentFilterList extends DocumentFilter
      *
      * @param filter The document filter to add.
      */
-    public synchronized void addDocumentFilter(final DocumentFilter filter)
-    {
+    public synchronized void addDocumentFilter(final DocumentFilter filter) {
         Validate.notNull(filter, "Document filter can not be null");
         filters.add(filter);
     }
@@ -87,8 +84,7 @@ public class DocumentFilterList extends DocumentFilter
      *
      * @param filter The document filter to remove.
      */
-    public synchronized void removeDocumentFilter(final DocumentFilter filter)
-    {
+    public synchronized void removeDocumentFilter(final DocumentFilter filter) {
         Validate.notNull(filter, "Document filter can not be null");
         filters.remove(filter);
     }

@@ -45,8 +45,7 @@ public final class LogInitializer
      *
      * @param debug If verbose debug logging should be enabled.
      */
-    public LogInitializer(final boolean debug)
-    {
+    public LogInitializer(final boolean debug) {
         initHandlers();
         initParentLoggers();
 
@@ -58,8 +57,7 @@ public final class LogInitializer
      * Creates loggers for important packages, to make
      * it easier to change settings for a group of loggers.
      */
-    public void initParentLoggers()
-    {
+    public void initParentLoggers() {
         Logger.getLogger(MAIN_PACKAGE);
         Logger.getLogger(MAIN_PACKAGE + ".misc");
         Logger.getLogger(MAIN_PACKAGE + ".net");
@@ -79,8 +77,7 @@ public final class LogInitializer
      * logger level. So changing the logger level with the JMX MBean has no effect
      * without this change.
      */
-    public void initHandlers()
-    {
+    public void initHandlers() {
         Handler[] handlers = Logger.getLogger("").getHandlers();
 
         for (Handler handler : handlers)
@@ -96,8 +93,7 @@ public final class LogInitializer
     /**
      * Activates logging of all messages in all the loggers.
      */
-    public void activateDebug()
-    {
+    public void activateDebug() {
         Logger mainLogger = Logger.getLogger(MAIN_PACKAGE);
         mainLogger.setLevel(Level.ALL);
     }

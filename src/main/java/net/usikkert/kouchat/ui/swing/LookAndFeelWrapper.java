@@ -41,8 +41,7 @@ public class LookAndFeelWrapper
      *
      * @param lookAndFeelInfo The LookAndFeelInfo to wrap.
      */
-    public LookAndFeelWrapper(final LookAndFeelInfo lookAndFeelInfo)
-    {
+    public LookAndFeelWrapper(final LookAndFeelInfo lookAndFeelInfo) {
         this.lookAndFeelInfo = lookAndFeelInfo;
     }
 
@@ -51,8 +50,7 @@ public class LookAndFeelWrapper
      *
      * @return The wrapped LookAndFeelInfo.
      */
-    public LookAndFeelInfo getLookAndFeelInfo()
-    {
+    public LookAndFeelInfo getLookAndFeelInfo() {
         return lookAndFeelInfo;
     }
 
@@ -62,8 +60,7 @@ public class LookAndFeelWrapper
      * {@inheritDoc}
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return lookAndFeelInfo.getName();
     }
 }

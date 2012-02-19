@@ -59,8 +59,7 @@ public class ChatLogger implements SettingsListener
      * Default constructor. Adds a shutdown hook to make sure the log file
      * is closed on shutdown.
      */
-    public ChatLogger()
-    {
+    public ChatLogger() {
         settings = Settings.getSettings();
         settings.addSettingsListener(this);
 
@@ -85,8 +84,7 @@ public class ChatLogger implements SettingsListener
      * Opens the log file for writing.
      * Will append if the log file already exists.
      */
-    public void open()
-    {
+    public void open() {
         close();
 
         try
@@ -111,8 +109,7 @@ public class ChatLogger implements SettingsListener
     /**
      * Flushed and closes the current open log file.
      */
-    public void close()
-    {
+    public void close() {
         if (open)
         {
             try
@@ -138,8 +135,7 @@ public class ChatLogger implements SettingsListener
      *
      * @param line The line of text to add to the log.
      */
-    public void append(final String line)
-    {
+    public void append(final String line) {
         if (open)
         {
             try
@@ -162,8 +158,7 @@ public class ChatLogger implements SettingsListener
      *
      * @return True if a log file is open.
      */
-    public boolean isOpen()
-    {
+    public boolean isOpen() {
         return open;
     }
 
@@ -173,8 +168,7 @@ public class ChatLogger implements SettingsListener
      * @param setting The setting that was changed.
      */
     @Override
-    public void settingChanged(final String setting)
-    {
+    public void settingChanged(final String setting) {
         if (setting.equals("logging"))
         {
             if (settings.isLogging())

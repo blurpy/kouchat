@@ -44,8 +44,7 @@ public class UserAutoCompleteList implements AutoCompleteList, UserListListener
      *
      * @param userList The list of online users.
      */
-    public UserAutoCompleteList(final UserList userList)
-    {
+    public UserAutoCompleteList(final UserList userList) {
         this.userList = userList;
         userList.addUserListListener(this);
         updateWords();
@@ -57,8 +56,7 @@ public class UserAutoCompleteList implements AutoCompleteList, UserListListener
      * {@inheritDoc}
      */
     @Override
-    public void userAdded(final int pos)
-    {
+    public void userAdded(final int pos) {
         updateWords();
     }
 
@@ -68,8 +66,7 @@ public class UserAutoCompleteList implements AutoCompleteList, UserListListener
      * {@inheritDoc}
      */
     @Override
-    public void userChanged(final int pos)
-    {
+    public void userChanged(final int pos) {
         updateWords();
     }
 
@@ -79,8 +76,7 @@ public class UserAutoCompleteList implements AutoCompleteList, UserListListener
      * {@inheritDoc}
      */
     @Override
-    public void userRemoved(final int pos)
-    {
+    public void userRemoved(final int pos) {
         updateWords();
     }
 
@@ -88,8 +84,7 @@ public class UserAutoCompleteList implements AutoCompleteList, UserListListener
      * Iterates through the user list, and adds all the nick names to the
      * list of words.
      */
-    private void updateWords()
-    {
+    private void updateWords() {
         users = new String[userList.size()];
 
         for (int i = 0; i < userList.size(); i++)
@@ -104,8 +99,7 @@ public class UserAutoCompleteList implements AutoCompleteList, UserListListener
      * {@inheritDoc}
      */
     @Override
-    public boolean acceptsWord(final String word)
-    {
+    public boolean acceptsWord(final String word) {
         return Tools.isValidNick(word);
     }
 
@@ -115,8 +109,7 @@ public class UserAutoCompleteList implements AutoCompleteList, UserListListener
      * {@inheritDoc}
      */
     @Override
-    public String[] getWordList()
-    {
+    public String[] getWordList() {
         return users;
     }
 }

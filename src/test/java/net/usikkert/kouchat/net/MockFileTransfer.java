@@ -51,8 +51,7 @@ public class MockFileTransfer implements FileTransfer
      *
      * @param direction If this mock should send or receive the file.
      */
-    public MockFileTransfer(final Direction direction)
-    {
+    public MockFileTransfer(final Direction direction) {
         this.direction = direction;
         user = new User("TestUser", 1234);
         user.setIpAddress("192.168.1.1");
@@ -66,8 +65,7 @@ public class MockFileTransfer implements FileTransfer
      * {@inheritDoc}
      */
     @Override
-    public void cancel()
-    {
+    public void cancel() {
         cancel = true;
     }
 
@@ -75,8 +73,7 @@ public class MockFileTransfer implements FileTransfer
      * {@inheritDoc}
      */
     @Override
-    public Direction getDirection()
-    {
+    public Direction getDirection() {
         return direction;
     }
 
@@ -84,8 +81,7 @@ public class MockFileTransfer implements FileTransfer
      * {@inheritDoc}
      */
     @Override
-    public File getFile()
-    {
+    public File getFile() {
         return file;
     }
 
@@ -95,8 +91,7 @@ public class MockFileTransfer implements FileTransfer
      * @return 500000.
      */
     @Override
-    public long getFileSize()
-    {
+    public long getFileSize() {
         return 500000;
     }
 
@@ -104,8 +99,7 @@ public class MockFileTransfer implements FileTransfer
      * {@inheritDoc}
      */
     @Override
-    public User getUser()
-    {
+    public User getUser() {
         return user;
     }
 
@@ -113,8 +107,7 @@ public class MockFileTransfer implements FileTransfer
      * {@inheritDoc}
      */
     @Override
-    public int getPercent()
-    {
+    public int getPercent() {
         return percent;
     }
 
@@ -124,8 +117,7 @@ public class MockFileTransfer implements FileTransfer
      * @return 100000;
      */
     @Override
-    public long getSpeed()
-    {
+    public long getSpeed() {
         return 100000;
     }
 
@@ -133,8 +125,7 @@ public class MockFileTransfer implements FileTransfer
      * {@inheritDoc}
      */
     @Override
-    public long getTransferred()
-    {
+    public long getTransferred() {
         return transferred;
     }
 
@@ -142,8 +133,7 @@ public class MockFileTransfer implements FileTransfer
      * {@inheritDoc}
      */
     @Override
-    public boolean isCanceled()
-    {
+    public boolean isCanceled() {
         return cancel;
     }
 
@@ -153,8 +143,7 @@ public class MockFileTransfer implements FileTransfer
      * @return false.
      */
     @Override
-    public boolean isTransferred()
-    {
+    public boolean isTransferred() {
         return false;
     }
 
@@ -164,8 +153,7 @@ public class MockFileTransfer implements FileTransfer
      * @param listener The listener to register.
      */
     @Override
-    public void registerListener(final FileTransferListener listener)
-    {
+    public void registerListener(final FileTransferListener listener) {
         this.listener = listener;
         new MockTransferThread().start();
     }
@@ -175,8 +163,7 @@ public class MockFileTransfer implements FileTransfer
      *
      * @author Christian Ihle
      */
-    private class MockTransferThread extends Thread
-    {
+    private class MockTransferThread extends Thread {
         /**
          * {@inheritDoc}
          */

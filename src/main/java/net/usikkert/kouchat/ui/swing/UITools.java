@@ -63,8 +63,7 @@ public final class UITools
     /**
      * Private constructor. Only static methods here.
      */
-    private UITools()
-    {
+    private UITools() {
 
     }
 
@@ -75,8 +74,7 @@ public final class UITools
      *
      * @param url The url to open in the browser.
      */
-    public static void browse(final String url)
-    {
+    public static void browse(final String url) {
         String browser = SETTINGS.getBrowser();
 
         // The default is to use the browser in the settings.
@@ -130,8 +128,7 @@ public final class UITools
      *
      * @param file A file or directory to open.
      */
-    public static void open(final File file)
-    {
+    public static void open(final File file) {
         boolean desktopOpenSuccess = false;
 
         if (isDesktopActionSupported(Action.OPEN))
@@ -166,8 +163,7 @@ public final class UITools
      * @param action The action to check.
      * @return If the system supports this action or not.
      */
-    public static boolean isDesktopActionSupported(final Action action)
-    {
+    public static boolean isDesktopActionSupported(final Action action) {
         if (Desktop.isDesktopSupported())
         {
             if (Desktop.getDesktop().isSupported(action))
@@ -183,8 +179,7 @@ public final class UITools
      * Changes to the system Look And Feel.
      * Ignores any exceptions, as this is not critical.
      */
-    public static void setSystemLookAndFeel()
-    {
+    public static void setSystemLookAndFeel() {
         if (isSystemLookAndFeelSupported())
         {
             try
@@ -219,8 +214,7 @@ public final class UITools
      *
      * @param lnfName Name of the look and feel to change to.
      */
-    public static void setLookAndFeel(final String lnfName)
-    {
+    public static void setLookAndFeel(final String lnfName) {
         try
         {
             LookAndFeelInfo lookAndFeel = getLookAndFeel(lnfName);
@@ -258,8 +252,7 @@ public final class UITools
      * @return True if the system look and feel is different
      * from the cross platform look and feel.
      */
-    public static boolean isSystemLookAndFeelSupported()
-    {
+    public static boolean isSystemLookAndFeelSupported() {
         return !UIManager.getSystemLookAndFeelClassName().equals(UIManager.getCrossPlatformLookAndFeelClassName());
     }
 
@@ -268,8 +261,7 @@ public final class UITools
      *
      * @return All the available look and feels.
      */
-    public static LookAndFeelWrapper[] getLookAndFeels()
-    {
+    public static LookAndFeelWrapper[] getLookAndFeels() {
         LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
         LookAndFeelWrapper[] lookAndFeelWrappers = new LookAndFeelWrapper[lookAndFeels.length];
 
@@ -288,8 +280,7 @@ public final class UITools
      * @param lnfName The name of the look and feel to look for.
      * @return The LookAndFeelInfo for that name.
      */
-    public static LookAndFeelInfo getLookAndFeel(final String lnfName)
-    {
+    public static LookAndFeelInfo getLookAndFeel(final String lnfName) {
         LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
 
         for (LookAndFeelInfo lookAndFeelInfo : lookAndFeels)
@@ -308,8 +299,7 @@ public final class UITools
      *
      * @return The current look and feel, or <code>null</code> if none is set.
      */
-    public static LookAndFeelInfo getCurrentLookAndFeel()
-    {
+    public static LookAndFeelInfo getCurrentLookAndFeel() {
         LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
 
         if (lookAndFeel == null)
@@ -336,8 +326,7 @@ public final class UITools
      * @param font The font the text uses.
      * @return The text width, in pixels.
      */
-    public static double getTextWidth(final String text, final Graphics graphics, final Font font)
-    {
+    public static double getTextWidth(final String text, final Graphics graphics, final Font font) {
         FontMetrics fm = graphics.getFontMetrics(font);
         return fm.getStringBounds(text, graphics).getWidth();
     }
@@ -348,8 +337,7 @@ public final class UITools
      * @param message The message to show.
      * @param title The title of the dialog box.
      */
-    public static void showInfoMessage(final String message, final String title)
-    {
+    public static void showInfoMessage(final String message, final String title) {
         showMessageDialog(message, title, JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -359,8 +347,7 @@ public final class UITools
      * @param message The message to show.
      * @param title The title of the dialog box.
      */
-    public static void showWarningMessage(final String message, final String title)
-    {
+    public static void showWarningMessage(final String message, final String title) {
         showMessageDialog(message, title, JOptionPane.WARNING_MESSAGE);
     }
 
@@ -370,8 +357,7 @@ public final class UITools
      * @param message The message to show.
      * @param title The title of the dialog box.
      */
-    public static void showErrorMessage(final String message, final String title)
-    {
+    public static void showErrorMessage(final String message, final String title) {
         showMessageDialog(message, title, JOptionPane.ERROR_MESSAGE);
     }
 
@@ -382,8 +368,7 @@ public final class UITools
      * @param title The title of the dialog box.
      * @param messageType The type of message. See {@link JOptionPane} for types.
      */
-    public static void showMessageDialog(final String message, final String title, final int messageType)
-    {
+    public static void showMessageDialog(final String message, final String title, final int messageType) {
         JOptionPane.showMessageDialog(null, message, createTitle(title), messageType);
     }
 
@@ -396,8 +381,7 @@ public final class UITools
      * @param initialValue The initial value, or <code>null</code> if the field should be empty.
      * @return The input from the user, or <code>null</code> if cancel was selected.
      */
-    public static String showInputDialog(final String message, final String title, final String initialValue)
-    {
+    public static String showInputDialog(final String message, final String title, final String initialValue) {
         return (String) JOptionPane.showInputDialog(null, message, createTitle(title),
                 JOptionPane.QUESTION_MESSAGE, null, null, initialValue);
     }
@@ -410,8 +394,7 @@ public final class UITools
      * @param title The title of the dialog box.
      * @return Which button the user pressed. See {@link JOptionPane} for options.
      */
-    public static int showOptionDialog(final String message, final String title)
-    {
+    public static int showOptionDialog(final String message, final String title) {
         Object[] options = { "Yes", "Cancel" };
         return JOptionPane.showOptionDialog(null, message, createTitle(title),
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
@@ -425,8 +408,7 @@ public final class UITools
      * @param title The original title.
      * @return The new title.
      */
-    public static String createTitle(final String title)
-    {
+    public static String createTitle(final String title) {
         return title + " - " + Constants.APP_NAME;
     }
 
@@ -436,8 +418,7 @@ public final class UITools
      * @param title The title of the file chooser.
      * @return A new file chooser.
      */
-    public static JFileChooser createFileChooser(final String title)
-    {
+    public static JFileChooser createFileChooser(final String title) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle(createTitle(title));
         return fileChooser;
@@ -450,8 +431,7 @@ public final class UITools
      * @param initialColor The initial color to use in the color chooser.
      * @return The selected color.
      */
-    public static Color showColorChooser(final String title, final Color initialColor)
-    {
+    public static Color showColorChooser(final String title, final Color initialColor) {
         return JColorChooser.showDialog(null, createTitle(title), initialColor);
     }
 
@@ -461,8 +441,7 @@ public final class UITools
      * @param frame The window to check.
      * @return If the window is minimized.
      */
-    public static boolean isMinimized(final JFrame frame)
-    {
+    public static boolean isMinimized(final JFrame frame) {
         return (frame.getExtendedState() & JFrame.ICONIFIED) != 0;
     }
 
@@ -471,8 +450,7 @@ public final class UITools
      *
      * @param frame The window to restore.
      */
-    public static void restore(final JFrame frame)
-    {
+    public static void restore(final JFrame frame) {
         if (isMinimized(frame))
             frame.setExtendedState(frame.getExtendedState() & ~JFrame.ICONIFIED);
     }
@@ -482,8 +460,7 @@ public final class UITools
      *
      * @param frame The window to minimize.
      */
-    public static void minimize(final JFrame frame)
-    {
+    public static void minimize(final JFrame frame) {
         if (!isMinimized(frame))
             frame.setExtendedState(frame.getExtendedState() | JFrame.ICONIFIED);
     }

@@ -51,8 +51,7 @@ public class StatusIcons
      *
      * @param imageLoader The image loader.
      */
-    public StatusIcons(final ImageLoader imageLoader)
-    {
+    public StatusIcons(final ImageLoader imageLoader) {
         Validate.notNull(imageLoader, "Image loader can not be null");
 
         normalIcon = imageLoader.getKouNormalIcon().getImage();
@@ -66,8 +65,7 @@ public class StatusIcons
      *
      * @return The normal icon.
      */
-    public Image getNormalIcon()
-    {
+    public Image getNormalIcon() {
         return normalIcon;
     }
 
@@ -76,8 +74,7 @@ public class StatusIcons
      *
      * @return The normal activity icon.
      */
-    public Image getNormalActivityIcon()
-    {
+    public Image getNormalActivityIcon() {
         return normalActivityIcon;
     }
 
@@ -86,8 +83,7 @@ public class StatusIcons
      *
      * @return The away icon.
      */
-    public Image getAwayIcon()
-    {
+    public Image getAwayIcon() {
         return awayIcon;
     }
 
@@ -96,8 +92,7 @@ public class StatusIcons
      *
      * @return The away activity icon.
      */
-    public Image getAwayActivityIcon()
-    {
+    public Image getAwayActivityIcon() {
         return awayActivityIcon;
     }
 }

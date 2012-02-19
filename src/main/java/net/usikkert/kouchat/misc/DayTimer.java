@@ -61,8 +61,7 @@ public class DayTimer extends TimerTask
      *
      * @param ui The user interface.
      */
-    public DayTimer(final UserInterface ui)
-    {
+    public DayTimer(final UserInterface ui) {
         msgController = ui.getMessageController();
         Calendar cal = Calendar.getInstance();
         int currentHour = cal.get(Calendar.HOUR_OF_DAY);
@@ -86,8 +85,7 @@ public class DayTimer extends TimerTask
      * the day changes.
      */
     @Override
-    public void run()
-    {
+    public void run() {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
         // Needs an extra check, so the message only shows once a day.

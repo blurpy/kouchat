@@ -58,8 +58,7 @@ public class MenuBar extends JMenuBar implements ActionListener
      *
      * @param imageLoader The image loader.
      */
-    public MenuBar(final ImageLoader imageLoader)
-    {
+    public MenuBar(final ImageLoader imageLoader) {
         Validate.notNull(imageLoader, "Image loader can not be null");
         this.imageLoader = imageLoader;
 
@@ -137,8 +136,7 @@ public class MenuBar extends JMenuBar implements ActionListener
      *
      * @param mediator The mediator to set.
      */
-    public void setMediator(final Mediator mediator)
-    {
+    public void setMediator(final Mediator mediator) {
         this.mediator = mediator;
     }
 
@@ -147,8 +145,7 @@ public class MenuBar extends JMenuBar implements ActionListener
      *
      * @param away If away or not.
      */
-    public void setAwayState(final boolean away)
-    {
+    public void setAwayState(final boolean away) {
         settingsMI.setEnabled(!away);
         topicMI.setEnabled(!away);
     }
@@ -158,8 +155,7 @@ public class MenuBar extends JMenuBar implements ActionListener
      *
      * @return True if at least one menu is visible.
      */
-    public boolean isPopupMenuVisible()
-    {
+    public boolean isPopupMenuVisible() {
         return fileMenu.isPopupMenuVisible() || toolsMenu.isPopupMenuVisible() || helpMenu.isPopupMenuVisible();
     }
 
@@ -169,8 +165,7 @@ public class MenuBar extends JMenuBar implements ActionListener
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent e)
-    {
+    public void actionPerformed(final ActionEvent e) {
         // File/Quit
         if (e.getSource() == quitMI)
         {

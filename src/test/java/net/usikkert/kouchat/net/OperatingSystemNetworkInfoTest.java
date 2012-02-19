@@ -44,8 +44,7 @@ public class OperatingSystemNetworkInfoTest
      * <p>But only if there are usable network interfaces available.</p>
      */
     @Test
-    public void testFindingTheOSNetworkInterface()
-    {
+    public void testFindingTheOSNetworkInterface() {
         Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
         OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo();
         NetworkInterface osInterface = osNicInfo.getOperatingSystemNetworkInterface();

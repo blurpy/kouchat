@@ -58,8 +58,7 @@ public class CopyPopup extends JPopupMenu implements MouseListener, ActionListen
      *
      * @param textpane The text pane to use the popup on.
      */
-    public CopyPopup(final JTextPane textpane)
-    {
+    public CopyPopup(final JTextPane textpane) {
         this.textpane = textpane;
 
         copyMI = new JMenuItem(new DefaultEditorKit.CopyAction());
@@ -84,8 +83,7 @@ public class CopyPopup extends JPopupMenu implements MouseListener, ActionListen
      * {@inheritDoc}
      */
     @Override
-    public void mouseClicked(final MouseEvent e)
-    {
+    public void mouseClicked(final MouseEvent e) {
 
     }
 
@@ -95,8 +93,7 @@ public class CopyPopup extends JPopupMenu implements MouseListener, ActionListen
      * {@inheritDoc}
      */
     @Override
-    public void mouseEntered(final MouseEvent e)
-    {
+    public void mouseEntered(final MouseEvent e) {
 
     }
 
@@ -106,8 +103,7 @@ public class CopyPopup extends JPopupMenu implements MouseListener, ActionListen
      * {@inheritDoc}
      */
     @Override
-    public void mouseExited(final MouseEvent e)
-    {
+    public void mouseExited(final MouseEvent e) {
 
     }
 
@@ -117,8 +113,7 @@ public class CopyPopup extends JPopupMenu implements MouseListener, ActionListen
      * {@inheritDoc}
      */
     @Override
-    public void mousePressed(final MouseEvent e)
-    {
+    public void mousePressed(final MouseEvent e) {
 
     }
 
@@ -128,8 +123,7 @@ public class CopyPopup extends JPopupMenu implements MouseListener, ActionListen
      * {@inheritDoc}
      */
     @Override
-    public void mouseReleased(final MouseEvent e)
-    {
+    public void mouseReleased(final MouseEvent e) {
         if (isPopupTrigger(e))
         {
             if (textpane.getSelectedText() == null)
@@ -152,8 +146,7 @@ public class CopyPopup extends JPopupMenu implements MouseListener, ActionListen
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent e)
-    {
+    public void actionPerformed(final ActionEvent e) {
         textpane.requestFocusInWindow();
         textpane.selectAll();
     }

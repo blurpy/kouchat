@@ -54,8 +54,7 @@ public class PrivateMessageParser implements ReceiverListener
      *
      * @param privmsgResponder The private message responder.
      */
-    public PrivateMessageParser(final PrivateMessageResponder privmsgResponder)
-    {
+    public PrivateMessageParser(final PrivateMessageResponder privmsgResponder) {
         this.privmsgResponder = privmsgResponder;
         settings = Settings.getSettings();
     }
@@ -67,8 +66,7 @@ public class PrivateMessageParser implements ReceiverListener
      * {@inheritDoc}
      */
     @Override
-    public void messageArrived(final String message, final String ipAddress)
-    {
+    public void messageArrived(final String message, final String ipAddress) {
         try
         {
             int exclamation = message.indexOf("!");

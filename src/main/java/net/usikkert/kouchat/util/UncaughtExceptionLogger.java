@@ -48,8 +48,7 @@ public class UncaughtExceptionLogger implements Thread.UncaughtExceptionHandler
      * Default constructor. Registers this class as the
      * default uncaught exception handler.
      */
-    public UncaughtExceptionLogger()
-    {
+    public UncaughtExceptionLogger() {
         Thread.setDefaultUncaughtExceptionHandler(this);
         listeners = new ArrayList<UncaughtExceptionListener>();
     }
@@ -62,8 +61,7 @@ public class UncaughtExceptionLogger implements Thread.UncaughtExceptionHandler
      * @param throwable The exception the thread got.
      */
     @Override
-    public void uncaughtException(final Thread thread, final Throwable throwable)
-    {
+    public void uncaughtException(final Thread thread, final Throwable throwable) {
         LOG.log(Level.SEVERE, "UncaughtException in thread: " + thread.getName()
                 + " (id " + thread.getId() + ", priority " + thread.getPriority() + ")", throwable);
 
@@ -78,8 +76,7 @@ public class UncaughtExceptionLogger implements Thread.UncaughtExceptionHandler
      *
      * @param listener The listener to register.
      */
-    public void registerUncaughtExceptionListener(final UncaughtExceptionListener listener)
-    {
+    public void registerUncaughtExceptionListener(final UncaughtExceptionListener listener) {
         listeners.add(listener);
     }
 }

@@ -71,8 +71,7 @@ public class ConnectionWorker implements Runnable
     /**
      * Constructor.
      */
-    public ConnectionWorker()
-    {
+    public ConnectionWorker() {
         listeners = new ArrayList<NetworkConnectionListener>();
         osNetworkInfo = new OperatingSystemNetworkInfo();
     }
@@ -81,8 +80,7 @@ public class ConnectionWorker implements Runnable
      * The thread. See {@link #updateNetwork()} for details.
      */
     @Override
-    public void run()
-    {
+    public void run() {
         LOG.log(Level.FINE, "Network is starting");
 
         while (run)
@@ -115,8 +113,7 @@ public class ConnectionWorker implements Runnable
     /**
      * Asks the thread to check the network now to detect loss of network connectivity.
      */
-    public void checkNetwork()
-    {
+    public void checkNetwork() {
         if (worker != null)
             worker.interrupt();
     }
@@ -127,8 +124,7 @@ public class ConnectionWorker implements Runnable
      *
      * @return If the network is up or not after this update is done.
      */
-    private synchronized boolean updateNetwork()
-    {
+    private synchronized boolean updateNetwork() {
         NetworkInterface netif = selectNetworkInterface();
 
         // No network interface to connect with
@@ -178,8 +174,7 @@ public class ConnectionWorker implements Runnable
      * @param netif The new network interface to compare against the original.
      * @return True if netif is new.
      */
-    private boolean isNewNetworkInterface(final NetworkInterface netif)
-    {
+    private boolean isNewNetworkInterface(final NetworkInterface netif) {
         return !NetworkUtils.sameNetworkInterface(netif, networkInterface);
     }
 
@@ -188,8 +183,7 @@ public class ConnectionWorker implements Runnable
      *
      * @param silent Don't give any messages to the user about the change.
      */
-    private synchronized void notifyNetworkUp(final boolean silent)
-    {
+    private synchronized void notifyNetworkUp(final boolean silent) {
         networkUp = true;
 
         for (NetworkConnectionListener listener : listeners)
@@ -203,8 +197,7 @@ public class ConnectionWorker implements Runnable
      *
      * @param silent Don't give any messages to the user about the change.
      */
-    private synchronized void notifyNetworkDown(final boolean silent)
-    {
+    private synchronized void notifyNetworkDown(final boolean silent) {
         networkUp = false;
 
         for (NetworkConnectionListener listener : listeners)
@@ -218,16 +211,14 @@ public class ConnectionWorker implements Runnable
      *
      * @param listener The listener to register.
      */
-    public void registerNetworkConnectionListener(final NetworkConnectionListener listener)
-    {
+    public void registerNetworkConnectionListener(final NetworkConnectionListener listener) {
         listeners.add(listener);
     }
 
     /**
      * Starts a new thread if no thread is already running.
      */
-    public synchronized void start()
-    {
+    public synchronized void start() {
         if (!run && !isAlive())
         {
             run = true;
@@ -239,8 +230,7 @@ public class ConnectionWorker implements Runnable
     /**
      * Stops the thread.
      */
-    public void stop()
-    {
+    public void stop() {
         run = false;
 
         if (worker != null)
@@ -260,8 +250,7 @@ public class ConnectionWorker implements Runnable
      * @return The network interface found, or <code>null</code>.
      * @see NetworkUtils#isUsable(NetworkInterface)
      */
-    private NetworkInterface selectNetworkInterface()
-    {
+    private NetworkInterface selectNetworkInterface() {
         NetworkInterface firstUsableNetIf = NetworkUtils.findFirstUsableNetworkInterface();
 
         if (firstUsableNetIf == null)
@@ -287,8 +276,7 @@ public class ConnectionWorker implements Runnable
      *
      * @return The current network interface.
      */
-    public NetworkInterface getCurrentNetworkInterface()
-    {
+    public NetworkInterface getCurrentNetworkInterface() {
         NetworkInterface updatedNetworkInterface =
             NetworkUtils.getUpdatedNetworkInterface(networkInterface);
 
@@ -303,8 +291,7 @@ public class ConnectionWorker implements Runnable
      *
      * @return If the network is up.
      */
-    public boolean isNetworkUp()
-    {
+    public boolean isNetworkUp() {
         return networkUp;
     }
 
@@ -313,8 +300,7 @@ public class ConnectionWorker implements Runnable
      *
      * @return If the thread is alive.
      */
-    public boolean isAlive()
-    {
+    public boolean isAlive() {
         if (worker == null)
             return false;
         else

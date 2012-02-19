@@ -31,8 +31,7 @@ public class GeneralInformation implements GeneralInformationMBean
 {
     /** {@inheritDoc} */
     @Override
-    public String about()
-    {
+    public String about() {
         User me = Settings.getSettings().getMe();
         StringBuilder sb = new StringBuilder();
 

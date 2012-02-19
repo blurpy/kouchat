@@ -55,8 +55,7 @@ public class UDPSender
     /**
      * Default constructor.
      */
-    public UDPSender()
-    {
+    public UDPSender() {
         errorHandler = ErrorHandler.getErrorHandler();
     }
 
@@ -68,8 +67,7 @@ public class UDPSender
      * @param port The port to send the message to.
      * @return If the message was sent or not.
      */
-    public boolean send(final String message, final String ip, final int port)
-    {
+    public boolean send(final String message, final String ip, final int port) {
         if (connected)
         {
             try
@@ -103,8 +101,7 @@ public class UDPSender
     /**
      * Closes the UDP socket.
      */
-    public void stopSender()
-    {
+    public void stopSender() {
         LOG.log(Level.FINE, "Disconnecting...");
 
         if (!connected)
@@ -128,8 +125,7 @@ public class UDPSender
     /**
      * Creates a new UDP socket.
      */
-    public void startSender()
-    {
+    public void startSender() {
         LOG.log(Level.FINE, "Connecting...");
 
         if (connected)

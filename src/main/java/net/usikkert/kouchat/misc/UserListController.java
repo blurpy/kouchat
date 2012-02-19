@@ -46,8 +46,7 @@ public class UserListController
      *
      * Initializes the user list and puts <code>me</code> in the list.
      */
-    public UserListController()
-    {
+    public UserListController() {
         settings = Settings.getSettings();
         userList = new SortedUserList();
         me = settings.getMe();
@@ -60,8 +59,7 @@ public class UserListController
      * @param code The unique code of the user to get.
      * @return The user, or <code>null</code> if the user was not found.
      */
-    public User getUser(final int code)
-    {
+    public User getUser(final int code) {
         User user = null;
 
         for (int i = 0; i < userList.size(); i++)
@@ -84,8 +82,7 @@ public class UserListController
      * @param nickname The unique nick name of the user to get.
      * @return The user, or <code>null</code> if the user was not found.
      */
-    public User getUser(final String nickname)
-    {
+    public User getUser(final String nickname) {
         User user = null;
 
         for (int i = 0; i < userList.size(); i++)
@@ -108,8 +105,7 @@ public class UserListController
      * @param code The unique code of the user to change the nick name of.
      * @param nickname The new nick name of the user.
      */
-    public void changeNickName(final int code, final String nickname)
-    {
+    public void changeNickName(final int code, final String nickname) {
         for (int i = 0; i < userList.size(); i++)
         {
             User temp = userList.get(i);
@@ -130,8 +126,7 @@ public class UserListController
      * @param away If the user is away.
      * @param awaymsg The new away message.
      */
-    public void changeAwayStatus(final int code, final boolean away, final String awaymsg)
-    {
+    public void changeAwayStatus(final int code, final boolean away, final String awaymsg) {
         for (int i = 0; i < userList.size(); i++)
         {
             User temp = userList.get(i);
@@ -152,8 +147,7 @@ public class UserListController
      * @param code The unique code of the user.
      * @param writing If the user is writing.
      */
-    public void changeWriting(final int code, final boolean writing)
-    {
+    public void changeWriting(final int code, final boolean writing) {
         for (int i = 0; i < userList.size(); i++)
         {
             User temp = userList.get(i);
@@ -173,8 +167,7 @@ public class UserListController
      * @param code The unique code of the user.
      * @param newMsg If the user has new private messages.
      */
-    public void changeNewMessage(final int code, final boolean newMsg)
-    {
+    public void changeNewMessage(final int code, final boolean newMsg) {
         for (int i = 0; i < userList.size(); i++)
         {
             User temp = userList.get(i);
@@ -194,8 +187,7 @@ public class UserListController
      * @param nickname The nick name to check.
      * @return If the nick name is in use.
      */
-    public boolean isNickNameInUse(final String nickname)
-    {
+    public boolean isNickNameInUse(final String nickname) {
         boolean inUse = false;
 
         for (int i = 0; i < userList.size(); i++)
@@ -218,8 +210,7 @@ public class UserListController
      * @param code The unique code of the user.
      * @return If the user is new, which means it is not in the user list.
      */
-    public boolean isNewUser(final int code)
-    {
+    public boolean isNewUser(final int code) {
         boolean newUser = true;
 
         for (int i = 0; i < userList.size(); i++)
@@ -246,8 +237,7 @@ public class UserListController
      *
      * @return If there are any timeout users.
      */
-    public boolean isTimeoutUsers()
-    {
+    public boolean isTimeoutUsers() {
         for (int i = 0; i < userList.size(); i++)
         {
             User temp = userList.get(i);
@@ -264,8 +254,7 @@ public class UserListController
      *
      * @return The user list.
      */
-    public UserList getUserList()
-    {
+    public UserList getUserList() {
         return userList;
     }
 }

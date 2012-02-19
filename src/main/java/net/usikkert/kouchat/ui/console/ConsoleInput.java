@@ -62,8 +62,7 @@ public class ConsoleInput extends Thread
      * @param controller The controller to use.
      * @param ui The user interface to send messages to.
      */
-    public ConsoleInput(final Controller controller, final UserInterface ui)
-    {
+    public ConsoleInput(final Controller controller, final UserInterface ui) {
         this.controller = controller;
 
         setName("ConsoleInputThread");
@@ -86,8 +85,7 @@ public class ConsoleInput extends Thread
      * To stop the loop and exit the application, write /quit.
      */
     @Override
-    public void run()
-    {
+    public void run() {
         String input = "";
 
         while (input != null)

@@ -46,8 +46,7 @@ public class SizeDocumentFilter extends DocumentFilter
      * @param maxBytes The maximum number of bytes the
      * Document can contain.
      */
-    public SizeDocumentFilter(final int maxBytes)
-    {
+    public SizeDocumentFilter(final int maxBytes) {
         this.maxBytes = maxBytes;
     }
 
@@ -62,8 +61,7 @@ public class SizeDocumentFilter extends DocumentFilter
      */
     @Override
     public void replace(final FilterBypass fb, final int offset, final int length,
-            final String text, final AttributeSet attrs) throws BadLocationException
-    {
+            final String text, final AttributeSet attrs) throws BadLocationException {
         if (text != null && text.length() > 0)
         {
             String newText = text;

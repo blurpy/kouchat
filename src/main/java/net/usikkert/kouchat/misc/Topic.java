@@ -43,8 +43,7 @@ public class Topic
      *
      * Sets all fields to blank or 0.
      */
-    public Topic()
-    {
+    public Topic() {
         resetTopic();
     }
 
@@ -57,8 +56,7 @@ public class Topic
      * @param nick The user which set the topic.
      * @param time The time when the topic was set.
      */
-    public Topic(final String topic, final String nick, final long time)
-    {
+    public Topic(final String topic, final String nick, final long time) {
         this.topic = topic;
         this.nick = nick;
         this.time = time;
@@ -73,8 +71,7 @@ public class Topic
      * @param nick The user which set the topic.
      * @param time The time when the topic was set.
      */
-    public void changeTopic(final String topic, final String nick, final long time)
-    {
+    public void changeTopic(final String topic, final String nick, final long time) {
         this.topic = topic;
         this.nick = nick;
         this.time = time;
@@ -85,8 +82,7 @@ public class Topic
      *
      * @param topic The topic to set.
      */
-    public void changeTopic(final Topic topic)
-    {
+    public void changeTopic(final Topic topic) {
         this.topic = topic.getTopic();
         this.nick = topic.getNick();
         this.time = topic.getTime();
@@ -95,8 +91,7 @@ public class Topic
     /**
      * Resets all the fields to blank and 0 values.
      */
-    public void resetTopic()
-    {
+    public void resetTopic() {
         topic = "";
         nick = "";
         time = 0;
@@ -107,8 +102,7 @@ public class Topic
      *
      * @return The nick name of the user that last changed the topic.
      */
-    public String getNick()
-    {
+    public String getNick() {
         return nick;
     }
 
@@ -117,8 +111,7 @@ public class Topic
      *
      * @return The time when the topic was last changed.
      */
-    public long getTime()
-    {
+    public long getTime() {
         return time;
     }
 
@@ -127,8 +120,7 @@ public class Topic
      *
      * @return The current topic.
      */
-    public String getTopic()
-    {
+    public String getTopic() {
         return topic;
     }
 
@@ -138,8 +130,7 @@ public class Topic
      * {@inheritDoc}
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return topic + " (" + nick + ")";
     }
 }

@@ -102,8 +102,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * @param user The user in the private chat.
      * @param imageLoader The image loader.
      */
-    public PrivateChatFrame(final Mediator mediator, final User user, final ImageLoader imageLoader)
-    {
+    public PrivateChatFrame(final Mediator mediator, final User user, final ImageLoader imageLoader) {
         Validate.notNull(mediator, "Mediator can not be null");
         Validate.notNull(user, "User can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
@@ -199,8 +198,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * If this window is focused, the text field will get the keyboard events
      * if the chat area was focused when typing was started.
      */
-    private void fixTextFieldFocus()
-    {
+    private void fixTextFieldFocus() {
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher()
         {
             public boolean dispatchKeyEvent(final KeyEvent e)
@@ -224,8 +222,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      *
      * @param panel The panel to add the shortcut to.
      */
-    private void hideWithEscape(final JPanel panel)
-    {
+    private void hideWithEscape(final JPanel panel) {
         KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
 
         Action escapeAction = new AbstractAction()
@@ -250,8 +247,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * @param color The color that the text should have.
      */
     @Override
-    public void appendToPrivateChat(final String message, final int color)
-    {
+    public void appendToPrivateChat(final String message, final int color) {
         try
         {
             StyleConstants.setForeground(chatAttr, new Color(color));
@@ -271,8 +267,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * @return Private chat user.
      */
     @Override
-    public User getUser()
-    {
+    public User getUser() {
         return user;
     }
 
@@ -282,8 +277,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void setVisible(final boolean visible)
-    {
+    public void setVisible(final boolean visible) {
         if (visible)
         {
             // Stop the window from jumping around the screen if it's already visible
@@ -306,8 +300,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent e)
-    {
+    public void actionPerformed(final ActionEvent e) {
         // Sends a message when the user presses the enter key.
         if (e.getSource() == msgTF)
         {
@@ -336,8 +329,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
     /**
      * Closes or disposes the window depending on if the user is logged off or not.
      */
-    private void close()
-    {
+    private void close() {
         if (!user.isOnline())
             dispose();
         else
@@ -350,8 +342,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void keyPressed(final KeyEvent e)
-    {
+    public void keyPressed(final KeyEvent e) {
 
     }
 
@@ -361,8 +352,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void keyTyped(final KeyEvent e)
-    {
+    public void keyTyped(final KeyEvent e) {
 
     }
 
@@ -373,8 +363,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void keyReleased(final KeyEvent ke)
-    {
+    public void keyReleased(final KeyEvent ke) {
         SwingUtilities.invokeLater(new Runnable()
         {
             @Override
@@ -403,8 +392,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * Clears the text in the write area.
      */
     @Override
-    public void clearChatText()
-    {
+    public void clearChatText() {
         msgTF.setText("");
     }
 
@@ -414,8 +402,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * @return Write area content.
      */
     @Override
-    public String getChatText()
-    {
+    public String getChatText() {
         return msgTF.getText();
     }
 
@@ -425,8 +412,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * @param away If away or not.
      */
     @Override
-    public void setAway(final boolean away)
-    {
+    public void setAway(final boolean away) {
         msgTF.setEnabled(!away);
         updateUserInformation();
     }
@@ -437,8 +423,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * If not, the window is disposed.
      */
     @Override
-    public void setLoggedOff()
-    {
+    public void setLoggedOff() {
         msgTF.setEnabled(false);
 
         if (!isVisible() && user.isNewPrivMsg())
@@ -460,8 +445,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * Activity from the other user will result in the window icon changing.
      */
     @Override
-    public void updateUserInformation()
-    {
+    public void updateUserInformation() {
         String title = user.getNick();
 
         if (user.isAway())
@@ -477,8 +461,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void focusGained(final FocusEvent e)
-    {
+    public void focusGained(final FocusEvent e) {
 
     }
 
@@ -488,8 +471,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void focusLost(final FocusEvent e)
-    {
+    public void focusLost(final FocusEvent e) {
         if (fileMenu.isPopupMenuVisible() || toolsMenu.isPopupMenuVisible())
             getRootPane().requestFocusInWindow();
     }
@@ -500,8 +482,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void windowActivated(final WindowEvent e)
-    {
+    public void windowActivated(final WindowEvent e) {
         chatTP.repaint();
         mediator.activatedPrivChat(user);
         updateUserInformation();
@@ -516,8 +497,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void windowClosed(final WindowEvent e)
-    {
+    public void windowClosed(final WindowEvent e) {
 
     }
 
@@ -527,8 +507,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void windowClosing(final WindowEvent e)
-    {
+    public void windowClosing(final WindowEvent e) {
 
     }
 
@@ -538,8 +517,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void windowDeactivated(final WindowEvent e)
-    {
+    public void windowDeactivated(final WindowEvent e) {
 
     }
 
@@ -557,8 +535,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void windowDeiconified(final WindowEvent e)
-    {
+    public void windowDeiconified(final WindowEvent e) {
         FocusWindowThread focusWindowThread = new FocusWindowThread(this);
         focusWindowThread.start();
     }
@@ -569,8 +546,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void windowIconified(final WindowEvent e)
-    {
+    public void windowIconified(final WindowEvent e) {
 
     }
 
@@ -580,8 +556,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * {@inheritDoc}
      */
     @Override
-    public void windowOpened(final WindowEvent e)
-    {
+    public void windowOpened(final WindowEvent e) {
 
     }
 
@@ -589,8 +564,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * Changes the window icon depending on away status and if
      * a new private message has arrived.
      */
-    public void updateWindowIcon()
-    {
+    public void updateWindowIcon() {
         if (user.isNewPrivMsg())
         {
             if (me.isAway() || user.isAway())
@@ -613,8 +587,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      *
      * @param icon The window icon to use.
      */
-    public void setWindowIcon(final Image icon)
-    {
+    public void setWindowIcon(final Image icon) {
         if (getIconImage() != icon)
             setIconImage(icon);
     }
@@ -623,16 +596,14 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * Sets the window visible without using the overridden method
      * in this class.
      */
-    private void setSuperVisible()
-    {
+    private void setSuperVisible() {
         super.setVisible(true);
     }
 
     /**
      * Thread for giving focus to this window.
      */
-    private class FocusWindowThread extends Thread
-    {
+    private class FocusWindowThread extends Thread {
         /** This window object. */
         private final PrivateChatFrame window;
 

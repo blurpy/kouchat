@@ -78,8 +78,7 @@ public class TextViewerDialog extends JDialog
      * @param links True to enabled support for opening urls by clicking on them.
      * @param imageLoader The image loader.
      */
-    public TextViewerDialog(final String textFile, final String title, final boolean links, final ImageLoader imageLoader)
-    {
+    public TextViewerDialog(final String textFile, final String title, final boolean links, final ImageLoader imageLoader) {
         Validate.notNull(textFile, "Text file can not be null");
         Validate.notNull(title, "Title can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
@@ -133,8 +132,7 @@ public class TextViewerDialog extends JDialog
      * {@inheritDoc}
      */
     @Override
-    public void setVisible(final boolean visible)
-    {
+    public void setVisible(final boolean visible) {
         if (fileOpened)
         {
             if (visible)
@@ -163,8 +161,7 @@ public class TextViewerDialog extends JDialog
     /**
      * Reads the text file, and adds the contents to the text area.
      */
-    private void readFile()
-    {
+    private void readFile() {
         URL fileURL = getClass().getResource("/" + textFile);
 
         if (fileURL != null)

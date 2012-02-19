@@ -94,8 +94,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      * @param fileTransfer The file transfer object this dialog is showing the state of.
      * @param imageLoader The image loader.
      */
-    public TransferDialog(final Mediator mediator, final FileTransfer fileTransfer, final ImageLoader imageLoader)
-    {
+    public TransferDialog(final Mediator mediator, final FileTransfer fileTransfer, final ImageLoader imageLoader) {
         Validate.notNull(mediator, "Mediator can not be null");
         Validate.notNull(fileTransfer, "File transfer can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
@@ -215,8 +214,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      *
      * @param text The new text on the button.
      */
-    public void setCancelButtonText(final String text)
-    {
+    public void setCancelButtonText(final String text) {
         cancelB.setText(text);
     }
 
@@ -225,8 +223,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      *
      * @return The button text.
      */
-    public String getCancelButtonText()
-    {
+    public String getCancelButtonText() {
         return cancelB.getText();
     }
 
@@ -235,8 +232,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      *
      * @return The file transfer object.
      */
-    public FileTransfer getFileTransfer()
-    {
+    public FileTransfer getFileTransfer() {
         return fileTransfer;
     }
 
@@ -253,8 +249,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent event)
-    {
+    public void actionPerformed(final ActionEvent event) {
         if (event.getSource() == cancelB)
             mediator.transferCancelled(this);
 
@@ -270,8 +265,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      * the file transfer was completed successfully.
      */
     @Override
-    public void statusCompleted()
-    {
+    public void statusCompleted() {
         statusL.setForeground(new Color(0, 176, 0));
 
         if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE)
@@ -291,8 +285,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      * it is ready to connect.
      */
     @Override
-    public void statusConnecting()
-    {
+    public void statusConnecting() {
         statusL.setText("Connecting...");
     }
 
@@ -301,8 +294,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      * a file transfer was canceled or failed somehow.
      */
     @Override
-    public void statusFailed()
-    {
+    public void statusFailed() {
         statusL.setForeground(Color.RED);
 
         if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE)
@@ -318,8 +310,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      * the connection was successful and the transfer is in progress.
      */
     @Override
-    public void statusTransferring()
-    {
+    public void statusTransferring() {
         if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE)
             statusL.setText("Receiving...");
         else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND)
@@ -333,8 +324,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      * initialize the dialog fields are ready.
      */
     @Override
-    public void statusWaiting()
-    {
+    public void statusWaiting() {
         User me = Settings.getSettings().getMe();
         User other = fileTransfer.getUser();
 
@@ -374,8 +364,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      * in progress.
      */
     @Override
-    public void transferUpdate()
-    {
+    public void transferUpdate() {
         transferredL.setText(Tools.byteToString(fileTransfer.getTransferred()) + " of "
                 + Tools.byteToString(fileTransfer.getFileSize()) + " at "
                 + Tools.byteToString(fileTransfer.getSpeed()) + "/s");
@@ -388,8 +377,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      *
      * @param percent The percentage of the file transferred.
      */
-    private void updateTitle(final int percent)
-    {
+    private void updateTitle(final int percent) {
         setTitle(UITools.createTitle(percent + "% - File transfer"));
     }
 }

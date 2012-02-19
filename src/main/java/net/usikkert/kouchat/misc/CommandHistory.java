@@ -44,8 +44,7 @@ public class CommandHistory
      * moved in the command history. This is used to correctly
      * synchronize the cursor with the history list.
      */
-    private enum Direction
-    {
+    private enum Direction {
         UP,
         MIDDLE,
         DOWN
@@ -63,8 +62,7 @@ public class CommandHistory
     /**
      * Default constructor.
      */
-    public CommandHistory()
-    {
+    public CommandHistory() {
         history = new ArrayList<String>();
         direction = Direction.MIDDLE;
     }
@@ -76,8 +74,7 @@ public class CommandHistory
      *
      * @param command The command to add to the list.
      */
-    public void add(final String command)
-    {
+    public void add(final String command) {
         boolean add = true;
 
         if (command.trim().length() == 0)
@@ -105,8 +102,7 @@ public class CommandHistory
      *
      * @return The previous command.
      */
-    public String goUp()
-    {
+    public String goUp() {
         String up = "";
 
         if (history.size() > 0)
@@ -127,8 +123,7 @@ public class CommandHistory
      *
      * @return The next command.
      */
-    public String goDown()
-    {
+    public String goDown() {
         String down = "";
 
         if (history.size() > 0)

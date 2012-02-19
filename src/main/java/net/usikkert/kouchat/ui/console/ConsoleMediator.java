@@ -47,8 +47,7 @@ public class ConsoleMediator implements UserInterface
      * Constructor.
      * Initializes the lower layers, and starts the input loop thread.
      */
-    public ConsoleMediator()
-    {
+    public ConsoleMediator() {
         final ConsoleChatWindow chat = new ConsoleChatWindow();
         msgController = new MessageController(chat, this);
         controller = new Controller(this);
@@ -59,8 +58,7 @@ public class ConsoleMediator implements UserInterface
     /**
      * Will log on to the network.
      */
-    public void start()
-    {
+    public void start() {
         controller.logOn();
     }
 
@@ -70,8 +68,7 @@ public class ConsoleMediator implements UserInterface
      * {@inheritDoc}
      */
     @Override
-    public boolean askFileSave(final String user, final String fileName, final String size)
-    {
+    public boolean askFileSave(final String user, final String fileName, final String size) {
         msgController.showSystemMessage("/receive or /reject the file");
         return true;
     }
@@ -82,8 +79,7 @@ public class ConsoleMediator implements UserInterface
      * {@inheritDoc}
      */
     @Override
-    public void changeAway(final boolean away)
-    {
+    public void changeAway(final boolean away) {
 
     }
 
@@ -93,8 +89,7 @@ public class ConsoleMediator implements UserInterface
      * {@inheritDoc}
      */
     @Override
-    public void clearChat()
-    {
+    public void clearChat() {
         msgController.showSystemMessage("Clear chat is not supported in console mode");
     }
 
@@ -104,8 +99,7 @@ public class ConsoleMediator implements UserInterface
      * {@inheritDoc}
      */
     @Override
-    public void showFileSave(final FileReceiver fileReceiver)
-    {
+    public void showFileSave(final FileReceiver fileReceiver) {
         while (!fileReceiver.isAccepted() && !fileReceiver.isRejected() && !fileReceiver.isCanceled())
         {
             Tools.sleep(500);
@@ -118,8 +112,7 @@ public class ConsoleMediator implements UserInterface
      * {@inheritDoc}
      */
     @Override
-    public void showTopic()
-    {
+    public void showTopic() {
 
     }
 
@@ -129,8 +122,7 @@ public class ConsoleMediator implements UserInterface
      * {@inheritDoc}
      */
     @Override
-    public void showTransfer(final FileReceiver fileRes)
-    {
+    public void showTransfer(final FileReceiver fileRes) {
         new TransferHandler(fileRes, msgController);
     }
 
@@ -140,8 +132,7 @@ public class ConsoleMediator implements UserInterface
      * {@inheritDoc}
      */
     @Override
-    public void showTransfer(final FileSender fileSend)
-    {
+    public void showTransfer(final FileSender fileSend) {
         new TransferHandler(fileSend, msgController);
     }
 
@@ -151,8 +142,7 @@ public class ConsoleMediator implements UserInterface
      * {@inheritDoc}
      */
     @Override
-    public void notifyMessageArrived(final User user)
-    {
+    public void notifyMessageArrived(final User user) {
 
     }
 
@@ -162,8 +152,7 @@ public class ConsoleMediator implements UserInterface
      * {@inheritDoc}
      */
     @Override
-    public void notifyPrivateMessageArrived(final User user)
-    {
+    public void notifyPrivateMessageArrived(final User user) {
 
     }
 
@@ -174,8 +163,7 @@ public class ConsoleMediator implements UserInterface
      * {@inheritDoc}
      */
     @Override
-    public void createPrivChat(final User user)
-    {
+    public void createPrivChat(final User user) {
         if (user.getPrivchat() == null)
             user.setPrivchat(new PrivateChatConsole(user));
     }
@@ -186,8 +174,7 @@ public class ConsoleMediator implements UserInterface
      * {@inheritDoc}
      */
     @Override
-    public MessageController getMessageController()
-    {
+    public MessageController getMessageController() {
         return msgController;
     }
 
@@ -197,8 +184,7 @@ public class ConsoleMediator implements UserInterface
      * {@inheritDoc}
      */
     @Override
-    public boolean isFocused()
-    {
+    public boolean isFocused() {
         return true;
     }
 
@@ -208,8 +194,7 @@ public class ConsoleMediator implements UserInterface
      * {@inheritDoc}
      */
     @Override
-    public boolean isVisible()
-    {
+    public boolean isVisible() {
         return true;
     }
 
@@ -217,8 +202,7 @@ public class ConsoleMediator implements UserInterface
      * Quits the application.
      */
     @Override
-    public void quit()
-    {
+    public void quit() {
         System.exit(0);
     }
 }

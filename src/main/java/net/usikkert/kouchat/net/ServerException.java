@@ -35,8 +35,7 @@ public class ServerException extends Exception
     /**
      * Creates a ServerException with no message or cause.
      */
-    public ServerException()
-    {
+    public ServerException() {
         super();
     }
 
@@ -46,8 +45,7 @@ public class ServerException extends Exception
      * @param message The exception message to use.
      * @param cause The cause of the exception.
      */
-    public ServerException(final String message, final Throwable cause)
-    {
+    public ServerException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
@@ -56,8 +54,7 @@ public class ServerException extends Exception
      *
      * @param message The exception message to use.
      */
-    public ServerException(final String message)
-    {
+    public ServerException(final String message) {
         super(message);
     }
 
@@ -66,8 +63,7 @@ public class ServerException extends Exception
      *
      * @param cause The cause of the exception.
      */
-    public ServerException(final Throwable cause)
-    {
+    public ServerException(final Throwable cause) {
         super(cause);
     }
 }

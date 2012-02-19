@@ -77,8 +77,7 @@ public class MessageParser implements ReceiverListener
      *
      * @param responder To handle the different kind of messages parsed here.
      */
-    public MessageParser(final MessageResponder responder)
-    {
+    public MessageParser(final MessageResponder responder) {
         this.responder = responder;
         settings = Settings.getSettings();
     }
@@ -92,8 +91,7 @@ public class MessageParser implements ReceiverListener
      * @param ipAddress The IP address of the user who sent the message.
      */
     @Override
-    public void messageArrived(final String message, final String ipAddress)
-    {
+    public void messageArrived(final String message, final String ipAddress) {
         try
         {
             int exclamation = message.indexOf("!");
