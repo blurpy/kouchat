@@ -80,6 +80,21 @@ public class ArgumentParserTest {
     }
 
     @Test
+    public void shouldParseNoPrivateChatArgument() {
+        assertOneArgument(new ArgumentParser(new String[]{"--no-private-chat"}), "--no-private-chat", Argument.NO_PRIVATE_CHAT);
+    }
+
+    @Test
+    public void shouldParseAlwaysLogArgument() {
+        assertOneArgument(new ArgumentParser(new String[]{"--always-log"}), "--always-log", Argument.ALWAYS_LOG);
+    }
+
+    @Test
+    public void shouldParseLogLocationArgument() {
+        assertOneArgument(new ArgumentParser(new String[]{"--log-location"}), "--log-location", Argument.LOG_LOCATION);
+    }
+
+    @Test
     public void shouldHandleUnknownArguments() {
         assertOneArgument(new ArgumentParser(new String[]{"-z"}), "-z", Argument.UNKNOWN);
         assertOneArgument(new ArgumentParser(new String[]{"--zzzz"}), "--zzzz", Argument.UNKNOWN);
