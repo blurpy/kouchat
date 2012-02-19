@@ -182,13 +182,11 @@ public class TextViewerDialog extends JDialog {
 
             finally {
                 if (reader != null) {
-                    try
-                    {
+                    try {
                         reader.close();
                     }
 
-                    catch (final IOException e)
-                    {
+                    catch (final IOException e) {
                         LOG.log(Level.WARNING, "Problems closing: " + textFile);
                     }
                 }

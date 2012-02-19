@@ -119,28 +119,23 @@ public class FileSender implements FileTransfer {
                 while (sock == null && counter < 10) {
                     counter++;
 
-                    try
-                    {
+                    try {
                         sock = new Socket(InetAddress.getByName(user.getIpAddress()), port);
                     }
 
-                    catch (final UnknownHostException e)
-                    {
+                    catch (final UnknownHostException e) {
                         LOG.log(Level.SEVERE, e.toString(), e);
                     }
 
-                    catch (final IOException e)
-                    {
+                    catch (final IOException e) {
                         LOG.log(Level.SEVERE, e.toString(), e);
                     }
 
-                    try
-                    {
+                    try {
                         Thread.sleep(100);
                     }
 
-                    catch (final InterruptedException e)
-                    {
+                    catch (final InterruptedException e) {
                         LOG.log(Level.SEVERE, e.toString(), e);
                     }
                 }
@@ -158,8 +153,7 @@ public class FileSender implements FileTransfer {
                     int transCounter = 0;
                     bCounter.prepare();
 
-                    while (!cancel && (tmpTransferred = fis.read(b)) != -1)
-                    {
+                    while (!cancel && (tmpTransferred = fis.read(b)) != -1) {
                         os.write(b, 0, tmpTransferred);
                         transferred += tmpTransferred;
                         percent = (int) ((transferred * 100) / file.length());
@@ -174,14 +168,12 @@ public class FileSender implements FileTransfer {
                         }
                     }
 
-                    if (!cancel && transferred == file.length())
-                    {
+                    if (!cancel && transferred == file.length()) {
                         sent = true;
                         listener.statusCompleted();
                     }
 
-                    else
-                    {
+                    else {
                         listener.statusFailed();
                     }
                 }

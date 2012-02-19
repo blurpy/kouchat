@@ -172,8 +172,7 @@ public class SmileyDocumentFilter extends DocumentFilter {
                     Smiley tmpSmiley =
                         new Smiley(smileyPos, smileyMap.getSmiley(smileyText), smileyText);
 
-                    if (smileyHasWhitespace(tmpSmiley, text))
-                    {
+                    if (smileyHasWhitespace(tmpSmiley, text)) {
                         smiley = tmpSmiley;
                         firstMatch = smileyPos;
                     }

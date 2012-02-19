@@ -87,8 +87,7 @@ public class SoundBeeper {
                     audioClip.start();
                     closeTime = System.currentTimeMillis() + WAIT_PERIOD;
 
-                    if (closeTimer == null)
-                    {
+                    if (closeTimer == null) {
                         closeTimer = new Thread(new CloseTimer(), "SoundBeeperCloseTimer");
                         closeTimer.start();
                     }
@@ -140,25 +139,21 @@ public class SoundBeeper {
 
             finally {
                 if (resourceStream != null) {
-                    try
-                    {
+                    try {
                         resourceStream.close();
                     }
 
-                    catch (final IOException e)
-                    {
+                    catch (final IOException e) {
                         LOG.log(Level.WARNING, e.toString());
                     }
                 }
 
                 if (audioStream != null) {
-                    try
-                    {
+                    try {
                         audioStream.close();
                     }
 
-                    catch (final IOException e)
-                    {
+                    catch (final IOException e) {
                         LOG.log(Level.WARNING, e.toString());
                     }
                 }

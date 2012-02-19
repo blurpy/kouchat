@@ -123,8 +123,7 @@ public class FileTransferHandler extends TransferHandler {
                 else if (support.isDataFlavorSupported(uriListFlavor)) {
                     Object data = support.getTransferable().getTransferData(uriListFlavor);
 
-                    if (data != null)
-                    {
+                    if (data != null) {
                         String[] uriList = data.toString().split("\r\n");
                         String fileURI = "";
 

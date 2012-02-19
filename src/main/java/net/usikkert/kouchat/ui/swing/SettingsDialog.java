@@ -266,8 +266,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    if (mediator.changeNick(nickTF.getText()))
-                    {
+                    if (mediator.changeNick(nickTF.getText())) {
                         settings.setSysColor(sysColorL.getForeground().getRGB());
                         settings.setOwnColor(ownColorL.getForeground().getRGB());
                         settings.setSound(soundCB.isSelected());
@@ -300,8 +299,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
                     Color newColor = UITools.showColorChooser("Choose color for own messages",
                             new Color(settings.getOwnColor()));
 
-                    if (newColor != null)
-                    {
+                    if (newColor != null) {
                         ownColorL.setForeground(newColor);
                     }
                 }
@@ -315,8 +313,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
                     Color newColor = UITools.showColorChooser("Choose color for system messages",
                             new Color(settings.getSysColor()));
 
-                    if (newColor != null)
-                    {
+                    if (newColor != null) {
                         sysColorL.setForeground(newColor);
                     }
                 }
@@ -329,8 +326,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
                 public void run() {
                     String browser = browserTF.getText();
 
-                    if (browser.trim().length() > 0)
-                    {
+                    if (browser.trim().length() > 0) {
                         try
                         {
                             Runtime.getRuntime().exec(browser + " " + Constants.APP_WEB);
@@ -343,8 +339,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
                         }
                     }
 
-                    else if (UITools.isDesktopActionSupported(Desktop.Action.BROWSE))
-                    {
+                    else if (UITools.isDesktopActionSupported(Desktop.Action.BROWSE)) {
                         try
                         {
                             Desktop.getDesktop().browse(new URI(Constants.APP_WEB));
@@ -362,8 +357,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
                         }
                     }
 
-                    else
-                    {
+                    else {
                         errorHandler.showError("Your system does not support a default browser."
                                 + " Please choose a browser manually.");
                     }

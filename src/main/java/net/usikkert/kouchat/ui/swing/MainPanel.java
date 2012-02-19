@@ -255,8 +255,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
             public void run() {
                 // Tab-completion
                 if (ke.getKeyCode() == KeyEvent.VK_TAB && ke.getModifiers() == 0) {
-                    if (autoCompleter != null)
-                    {
+                    if (autoCompleter != null) {
                         int caretPos = msgTF.getCaretPosition();
                         String orgText = msgTF.getText();
                         String newText = autoCompleter.completeWord(orgText, caretPos);

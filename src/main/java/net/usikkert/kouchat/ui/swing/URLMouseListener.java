@@ -148,8 +148,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
                 if (obj != null) {
                     final String url = obj.toString();
 
-                    SwingUtilities.invokeLater(new Runnable()
-                    {
+                    SwingUtilities.invokeLater(new Runnable() {
                         @Override
                         public void run()
                         {

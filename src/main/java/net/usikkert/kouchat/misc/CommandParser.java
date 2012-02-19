@@ -245,16 +245,14 @@ public class CommandParser {
                 else {
                     String file = "";
 
-                    for (int i = 2; i < argsArray.length; i++)
-                    {
+                    for (int i = 2; i < argsArray.length; i++) {
                         file += argsArray[i] + " ";
                     }
 
                     file = file.trim();
                     File sendFile = new File(file);
 
-                    if (sendFile.exists() && sendFile.isFile())
-                    {
+                    if (sendFile.exists() && sendFile.isFile()) {
                         try
                         {
                             sendFile(user, sendFile);
@@ -266,8 +264,7 @@ public class CommandParser {
                         }
                     }
 
-                    else
-                    {
+                    else {
                         msgController.showSystemMessage("/send - no such file '" + file + "'");
                     }
                 }
@@ -526,15 +523,13 @@ public class CommandParser {
                 }
 
                 else {
-                    try
-                    {
+                    try {
                         controller.changeMyNick(nick);
                         msgController.showSystemMessage("You changed nick to " + me.getNick());
                         ui.showTopic();
                     }
 
-                    catch (final CommandException e)
-                    {
+                    catch (final CommandException e) {
                         msgController.showSystemMessage(e.getMessage());
                     }
                 }

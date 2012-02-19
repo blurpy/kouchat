@@ -335,13 +335,11 @@ public class SwingMediator implements Mediator, UserInterface {
                 final File file = chooser.getSelectedFile().getAbsoluteFile();
 
                 if (file.exists() && file.isFile()) {
-                    try
-                    {
+                    try {
                         cmdParser.sendFile(user, file);
                     }
 
-                    catch (final CommandException e)
-                    {
+                    catch (final CommandException e) {
                         UITools.showWarningMessage(e.getMessage(), "Send file");
                     }
                 }
@@ -647,8 +645,7 @@ public class SwingMediator implements Mediator, UserInterface {
                     final String message = file.getName() + " already exists.\nOverwrite?";
                     final int overwrite = UITools.showOptionDialog(message, "File exists");
 
-                    if (overwrite != JOptionPane.YES_OPTION)
-                    {
+                    if (overwrite != JOptionPane.YES_OPTION) {
                         done = false;
                     }
                 }

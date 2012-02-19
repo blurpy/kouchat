@@ -90,8 +90,7 @@ public class DefaultMessageResponder implements MessageResponder {
                 if (isAlive()) {
                     int counter = 0;
 
-                    while (wList.isWaitingUser(userCode) && counter < 40)
-                    {
+                    while (wList.isWaitingUser(userCode) && counter < 40) {
                         counter++;
                         Tools.sleep(50);
                     }
@@ -100,8 +99,7 @@ public class DefaultMessageResponder implements MessageResponder {
                 if (!controller.isNewUser(userCode)) {
                     final User user = controller.getUser(userCode);
 
-                    if (!user.isAway())
-                    {
+                    if (!user.isAway()) {
                         msgController.showUserMessage(user.getNick(), msg, color);
 
                         // Visible but not in front
@@ -225,8 +223,7 @@ public class DefaultMessageResponder implements MessageResponder {
                 final Topic topic = controller.getTopic();
 
                 if (newTopic != null) {
-                    if (!newTopic.equals(topic.getTopic()) && time > topic.getTime())
-                    {
+                    if (!newTopic.equals(topic.getTopic()) && time > topic.getTime()) {
                         if (chatState.isLogonCompleted())
                         {
                             msgController.showSystemMessage(nick + " changed the topic to: " + newTopic);
@@ -245,8 +242,7 @@ public class DefaultMessageResponder implements MessageResponder {
                 }
 
                 else {
-                    if (!topic.getTopic().equals(newTopic) && time > topic.getTime() && chatState.isLogonCompleted())
-                    {
+                    if (!topic.getTopic().equals(newTopic) && time > topic.getTime() && chatState.isLogonCompleted()) {
                         msgController.showSystemMessage(nick + " removed the topic");
                         topic.changeTopic("", "", time);
                         ui.showTopic();
@@ -520,8 +516,7 @@ public class DefaultMessageResponder implements MessageResponder {
                     final FileReceiver fileRes = new FileReceiver(tmpUser, defaultFile, byteSize);
                     tList.addFileReceiver(fileRes);
 
-                    if (ui.askFileSave(user, fileName, size))
-                    {
+                    if (ui.askFileSave(user, fileName, size)) {
                         ui.showFileSave(fileRes);
 
                         if (fileRes.isAccepted() && !fileRes.isCanceled())
@@ -571,8 +566,7 @@ public class DefaultMessageResponder implements MessageResponder {
 
                     }
 
-                    else if (!fileRes.isCanceled())
-                    {
+                    else if (!fileRes.isCanceled()) {
                         msgController.showSystemMessage("You declined to receive " + fileName + " from " + user);
                         controller.sendFileAbort(tmpUser, fileHash, fileName);
                     }
@@ -638,13 +632,11 @@ public class DefaultMessageResponder implements MessageResponder {
                     // Give the server some time to set up the connection first
                     Tools.sleep(200);
 
-                    if (fileSend.transfer(port))
-                    {
+                    if (fileSend.transfer(port)) {
                         msgController.showSystemMessage(fileName + " successfully sent to " + user.getNick());
                     }
 
-                    else
-                    {
+                    else {
                         msgController.showSystemMessage("Failed to send " + fileName + " to " + user.getNick());
                     }
 

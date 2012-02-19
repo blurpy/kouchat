@@ -231,8 +231,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    if (faqViewer == null)
-                    {
+                    if (faqViewer == null) {
                         faqViewer = new TextViewerDialog(Constants.FILE_FAQ,
                                 "Frequently Asked Questions", true, imageLoader);
                     }
@@ -247,8 +246,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    if (tipsViewer == null)
-                    {
+                    if (tipsViewer == null) {
                         tipsViewer = new TextViewerDialog(Constants.FILE_TIPS,
                                 "Tips & tricks", false, imageLoader);
                     }
@@ -263,8 +261,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    if (licenseViewer == null)
-                    {
+                    if (licenseViewer == null) {
                         licenseViewer = new TextViewerDialog(Constants.FILE_LICENSE,
                                 Constants.APP_LICENSE_NAME, false, imageLoader);
                     }

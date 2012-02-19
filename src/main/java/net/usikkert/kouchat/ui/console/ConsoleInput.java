@@ -91,13 +91,11 @@ public class ConsoleInput extends Thread {
                 input = stdin.readLine();
 
                 if (input != null && input.trim().length() > 0) {
-                    if (input.startsWith("/"))
-                    {
+                    if (input.startsWith("/")) {
                         cmdParser.parse(input);
                     }
 
-                    else
-                    {
+                    else {
                         try
                         {
                             controller.sendChatMessage(input);

@@ -112,8 +112,7 @@ public class AutoCompleter {
                     List<String> suggestions = getAutoCompleteSuggestions(
                             autoCompleteList.getWordList(), checkword);
 
-                    if (suggestions.size() > 0)
-                    {
+                    if (suggestions.size() > 0) {
                         int nextSuggestionPosition = findNextSuggestionPosition(
                                 continueLastSearch, suggestions, word);
                         String newWord = suggestions.get(nextSuggestionPosition);

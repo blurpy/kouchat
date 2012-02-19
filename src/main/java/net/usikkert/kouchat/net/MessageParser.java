@@ -153,8 +153,7 @@ public class MessageParser implements ReceiverListener {
                 }
 
                 else if (type.equals("NICKCRASH")) {
-                    if (tempme.getNick().equals(msg))
-                    {
+                    if (tempme.getNick().equals(msg)) {
                         responder.nickCrash();
                     }
                 }
@@ -177,8 +176,7 @@ public class MessageParser implements ReceiverListener {
                     int leftPara = msg.indexOf("(");
                     int rightPara = msg.indexOf(")");
 
-                    if (rightBracket != -1 && leftBracket != -1)
-                    {
+                    if (rightBracket != -1 && leftBracket != -1) {
                         String theNick = msg.substring(leftPara + 1, rightPara);
                         long theTime = Long.parseLong(msg.substring(leftBracket + 1, rightBracket));
                         String theTopic = null;
@@ -205,8 +203,7 @@ public class MessageParser implements ReceiverListener {
                     int rightPara = msg.indexOf(")");
                     int fileCode = Integer.parseInt(msg.substring(leftPara + 1, rightPara));
 
-                    if (fileCode == tempme.getCode())
-                    {
+                    if (fileCode == tempme.getCode()) {
                         int leftCurly = msg.indexOf("{");
                         int rightCurly = msg.indexOf("}");
                         int leftBracket = msg.indexOf("[");
@@ -224,8 +221,7 @@ public class MessageParser implements ReceiverListener {
                     int rightPara = msg.indexOf(")");
                     int fileCode = Integer.parseInt(msg.substring(leftPara + 1, rightPara));
 
-                    if (fileCode == tempme.getCode())
-                    {
+                    if (fileCode == tempme.getCode()) {
                         int leftCurly = msg.indexOf("{");
                         int rightCurly = msg.indexOf("}");
                         String fileName = msg.substring(rightCurly + 1, msg.length());
@@ -240,8 +236,7 @@ public class MessageParser implements ReceiverListener {
                     int rightPara = msg.indexOf(")");
                     int fileCode = Integer.parseInt(msg.substring(leftPara + 1, rightPara));
 
-                    if (fileCode == tempme.getCode())
-                    {
+                    if (fileCode == tempme.getCode()) {
                         int leftCurly = msg.indexOf("{");
                         int rightCurly = msg.indexOf("}");
                         int leftBracket = msg.indexOf("[");
@@ -270,13 +265,11 @@ public class MessageParser implements ReceiverListener {
 
                     int privateChatPort = 0;
 
-                    try
-                    {
+                    try {
                         privateChatPort = Integer.parseInt(msg.substring(lessThan + 1, greaterThan));
                     }
 
-                    catch (final NumberFormatException e)
-                    {
+                    catch (final NumberFormatException e) {
                         LOG.log(Level.WARNING, e.toString());
                     }
 

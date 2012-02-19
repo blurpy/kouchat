@@ -108,8 +108,7 @@ public class URLDocumentFilter extends DocumentFilter {
                     StyleConstants.setUnderline(urlAttr, true);
                     StyledDocument doc = (StyledDocument) fb.getDocument();
 
-                    while (startPos != -1)
-                    {
+                    while (startPos != -1) {
                         int stopPos = text.indexOf(" ", startPos);
 
                         if (stopPos == -1)
