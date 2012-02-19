@@ -59,9 +59,9 @@ public final class Tools {
      * @return The current time.
      */
     public static String getTime() {
-        int h = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        int m = Calendar.getInstance().get(Calendar.MINUTE);
-        int s = Calendar.getInstance().get(Calendar.SECOND);
+        final int h = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        final int m = Calendar.getInstance().get(Calendar.MINUTE);
+        final int s = Calendar.getInstance().get(Calendar.SECOND);
 
         return "[" + getDoubleDigit(h) + ":" + getDoubleDigit(m) + ":" + getDoubleDigit(s) + "]";
     }
@@ -74,10 +74,13 @@ public final class Tools {
      * @return A string representation of the number.
      */
     public static String getDoubleDigit(final int number) {
-        if (number < 10)
+        if (number < 10) {
             return "0" + number;
-        else
+        }
+
+        else {
             return "" + number;
+        }
     }
 
     /**
@@ -90,12 +93,15 @@ public final class Tools {
      */
     public static String dateToString(final Date d, final String format) {
         String date = "";
-        SimpleDateFormat formatter = new SimpleDateFormat(format, Locale.ENGLISH);
+        final SimpleDateFormat formatter = new SimpleDateFormat(format, Locale.ENGLISH);
 
-        if (d == null)
+        if (d == null) {
             date = formatter.format(new Date());
-        else
+        }
+
+        else {
             date = formatter.format(d);
+        }
 
         return date;
     }
@@ -110,7 +116,7 @@ public final class Tools {
      */
     public static Date stringToDate(final String s, final String format) {
         Date date = null;
-        SimpleDateFormat formatter = new SimpleDateFormat(format);
+        final SimpleDateFormat formatter = new SimpleDateFormat(format);
 
         try {
             date = formatter.parse(s);
@@ -132,7 +138,7 @@ public final class Tools {
      * @see DecimalFormat
      */
     public static String decimalFormat(final String format, final double number) {
-        DecimalFormat formatter = new DecimalFormat(format);
+        final DecimalFormat formatter = new DecimalFormat(format);
         return formatter.format(number);
     }
 
@@ -144,10 +150,11 @@ public final class Tools {
      * @return If the nick is valid.
      */
     public static boolean isValidNick(final String nick) {
-        if (nick == null)
+        if (nick == null) {
             return false;
+        }
 
-        Matcher m = VALID_NICK.matcher(nick);
+        final Matcher m = VALID_NICK.matcher(nick);
         return m.matches();
     }
 
@@ -182,20 +189,20 @@ public final class Tools {
      */
     public static String howLongFromNow(final long then) {
         if (then != 0) {
-            long diff = System.currentTimeMillis() - then;
-            long totSec = diff / 1000;
+            final long diff = System.currentTimeMillis() - then;
+            final long totSec = diff / 1000;
 
-            int oneday = 86400;
-            int onehour = 3600;
-            int onemin = 60;
+            final int oneday = 86400;
+            final int onehour = 3600;
+            final int onemin = 60;
 
-            int days = Math.round(totSec / oneday);
-            int hours = Math.round(totSec - days * oneday) / onehour;
-            int minutes = Math.round(totSec - days * oneday - hours * onehour) / onemin;
-            int seconds = Math.round(totSec - days * oneday - hours * onehour - minutes * onemin);
+            final int days = Math.round(totSec / oneday);
+            final int hours = Math.round(totSec - days * oneday) / onehour;
+            final int minutes = Math.round(totSec - days * oneday - hours * onehour) / onemin;
+            final int seconds = Math.round(totSec - days * oneday - hours * onehour - minutes * onemin);
 
-            return days + " days, " + getDoubleDigit(hours) + ":" + getDoubleDigit(minutes)
-                    + ":" + getDoubleDigit(seconds);
+            return days + " days, " + getDoubleDigit(hours) + ":" + getDoubleDigit(minutes) +
+                    ":" + getDoubleDigit(seconds);
         }
 
         else {
@@ -242,11 +249,13 @@ public final class Tools {
      * @return The modified word.
      */
     public static String capitalizeFirstLetter(final String word) {
-        if (word == null)
+        if (word == null) {
             return null;
+        }
 
-        if (word.length() == 0)
+        if (word.length() == 0) {
             return word;
+        }
 
         return word.substring(0, 1).toUpperCase() + word.substring(1);
     }
@@ -259,14 +268,17 @@ public final class Tools {
      * @return The modified word.
      */
     public static String shorten(final String word, final int length) {
-        if (word == null)
+        if (word == null) {
             return null;
+        }
 
-        if (length < 0)
+        if (length < 0) {
             return "";
+        }
 
-        if (word.length() <= length)
+        if (word.length() <= length) {
             return word;
+        }
 
         return word.substring(0, length);
     }
@@ -278,13 +290,15 @@ public final class Tools {
      * @return The file extension, or <code>null</code> if file name is <code>null</code>.
      */
     public static String getFileExtension(final String filename) {
-        if (filename == null)
+        if (filename == null) {
             return null;
+        }
 
-        int dotIndex = filename.lastIndexOf(".");
+        final int dotIndex = filename.lastIndexOf(".");
 
-        if (dotIndex == -1)
+        if (dotIndex == -1) {
             return "";
+        }
 
         return filename.substring(dotIndex);
     }
@@ -297,13 +311,15 @@ public final class Tools {
      * @return The base name, or <code>null</code> if file name is <code>null</code>.
      */
     public static String getFileBaseName(final String filename) {
-        if (filename == null)
+        if (filename == null) {
             return null;
+        }
 
-        int dotIndex = filename.lastIndexOf(".");
+        final int dotIndex = filename.lastIndexOf(".");
 
-        if (dotIndex == -1)
+        if (dotIndex == -1) {
             return filename;
+        }
 
         return filename.substring(0, dotIndex);
     }
