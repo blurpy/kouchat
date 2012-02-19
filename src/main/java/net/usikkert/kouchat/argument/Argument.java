@@ -25,6 +25,7 @@ package net.usikkert.kouchat.argument;
 import java.util.Arrays;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -34,10 +35,13 @@ import net.usikkert.kouchat.util.Validate;
  */
 public enum Argument {
 
-    CONSOLE("-c", "--console", "starts " + Constants.APP_NAME + " in console mode"),
-    DEBUG("-d", "--debug", "starts " + Constants.APP_NAME + " with verbose debug output enabled"),
-    HELP("-h", "--help", "shows this help message"),
-    VERSION("-v", "--version", "shows version information"),
+    CONSOLE("-c", "--console", "Starts " + Constants.APP_NAME + " in console mode"),
+    DEBUG("-d", "--debug", "Starts " + Constants.APP_NAME + " with verbose debug output enabled"),
+    HELP("-h", "--help", "Shows this help message"),
+    VERSION("-v", "--version", "Shows version information"),
+    NO_PRIVATE_CHAT(null, "--no-private-chat", "Disables private chat"),
+    ALWAYS_LOG(null, "--always-log", "Enables logging, without option to disable"),
+    LOG_LOCATION(null, "--log-location", "Location to store log files"),
     UNKNOWN(null, null, null);
 
     private final String shortArgumentName;
@@ -62,6 +66,21 @@ public enum Argument {
         return argument.equals(shortArgumentName) || argument.equals(fullArgumentName);
     }
 
+    @Override
+    public String toString() {
+        return fullArgumentName;
+    }
+
+    String getArgumentName() {
+        if (shortArgumentName != null) {
+            return fullArgumentName + " (" + shortArgumentName + ")";
+        }
+
+        else {
+            return fullArgumentName;
+        }
+    }
+
     /**
      * Returns a formatted list of all the arguments with short name, full name and description.
      * One argument on each line.
@@ -73,12 +92,9 @@ public enum Argument {
         final StringBuilder builder = new StringBuilder();
 
         for (final Argument argument : arguments) {
-            builder.append("\n ")
-                   .append(argument.shortArgumentName)
-                   .append(", ")
-                   .append(argument.fullArgumentName)
-                   .append(" \t ")
-                   .append(argument.description);
+            builder.append("\n ");
+            builder.append(Tools.postPadString(argument.getArgumentName(), 19));
+            builder.append(argument.description);
         }
 
         return builder.toString().replaceFirst("\n", "");

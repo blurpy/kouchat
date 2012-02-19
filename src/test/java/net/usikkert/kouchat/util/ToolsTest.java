@@ -113,4 +113,13 @@ public class ToolsTest {
         assertEquals(10, Tools.percentOf(100, 10), 10);
         assertEquals(60, Tools.percentOf(200, 30), 10);
     }
+
+    @Test
+    public void postPadString() {
+        assertEquals("Hello", Tools.postPadString("Hello", 0));
+        assertEquals("Hello", Tools.postPadString("Hello", 5));
+        assertEquals("Hello ", Tools.postPadString("Hello", 6));
+        assertEquals("Hello  ", Tools.postPadString("Hello", 7));
+        assertEquals("Hello       ", Tools.postPadString("Hello", 12));
+    }
 }

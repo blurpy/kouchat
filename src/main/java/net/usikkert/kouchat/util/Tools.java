@@ -349,4 +349,22 @@ public final class Tools {
     public static double percentOf(final double percent, final double total) {
         return (percent / 100.0) * total;
     }
+
+    /**
+     * Add padding at the end of the stringToPad, until it reaches stringLength.
+     *
+     * @param stringToPad The string to add padding to.
+     * @param paddedLength The length of the string, after padding.
+     * @return The padded string.
+     */
+    public static String postPadString(final String stringToPad, final int paddedLength) {
+        final int missingPadding = paddedLength - stringToPad.length();
+        final StringBuilder paddedString = new StringBuilder(stringToPad);
+
+        for (int i = 0; i < missingPadding; i++) {
+             paddedString.append(" ");
+        }
+
+        return paddedString.toString();
+    }
 }

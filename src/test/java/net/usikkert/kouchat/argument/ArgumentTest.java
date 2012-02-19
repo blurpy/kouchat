@@ -37,12 +37,15 @@ public class ArgumentTest {
     public void getValidArgumentsShouldReturnAllArgumentsExceptUnknown() {
         final Argument[] validArguments = Argument.getValidArguments();
 
-        assertEquals(4, validArguments.length);
+        assertEquals(7, validArguments.length);
 
         assertEquals(Argument.CONSOLE, validArguments[0]);
         assertEquals(Argument.DEBUG, validArguments[1]);
         assertEquals(Argument.HELP, validArguments[2]);
         assertEquals(Argument.VERSION, validArguments[3]);
+        assertEquals(Argument.NO_PRIVATE_CHAT, validArguments[4]);
+        assertEquals(Argument.ALWAYS_LOG, validArguments[5]);
+        assertEquals(Argument.LOG_LOCATION, validArguments[6]);
     }
 
     @Test
@@ -50,10 +53,13 @@ public class ArgumentTest {
         final String argumentsAsString = Argument.getArgumentsAsString();
 
         final String expected =
-                " -c, --console \t starts KouChat in console mode\n" +
-                " -d, --debug \t starts KouChat with verbose debug output enabled\n" +
-                " -h, --help \t shows this help message\n" +
-                " -v, --version \t shows version information";
+                " --console (-c)     Starts KouChat in console mode\n" +
+                " --debug (-d)       Starts KouChat with verbose debug output enabled\n" +
+                " --help (-h)        Shows this help message\n" +
+                " --version (-v)     Shows version information\n" +
+                " --no-private-chat  Disables private chat\n" +
+                " --always-log       Enables logging, without option to disable\n" +
+                " --log-location     Location to store log files"; // TODO =<arg>
 
         assertEquals(expected, argumentsAsString);
     }

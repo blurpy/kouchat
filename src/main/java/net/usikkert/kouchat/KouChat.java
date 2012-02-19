@@ -66,12 +66,12 @@ public final class KouChat {
         final ArgumentParser argumentParser = new ArgumentParser(arguments);
 
         if (argumentParser.getNumberOfArguments() == 0) {
-            System.out.println("Use --help for more information");
+            System.out.println("Use " + Argument.HELP + " for more information");
         }
 
         if (argumentParser.getNumberOfUnknownArguments() > 0) {
             System.out.println("\nUnknown arguments: " + argumentParser.getUnknownArguments() +
-                    ". Use --help for more information");
+                    ". Use " + Argument.HELP + " for more information");
             return;
         }
 
