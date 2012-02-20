@@ -24,6 +24,8 @@ package net.usikkert.kouchat.argument;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.usikkert.kouchat.util.Validate;
 
@@ -35,6 +37,9 @@ import net.usikkert.kouchat.util.Validate;
  * @author Christian Ihle
  */
 public class ArgumentParser {
+
+    /** Looks for a pattern of type <code>argument=value</code>. */
+    private static final Pattern VALUE_REGEX = Pattern.compile(".+=(.+)");
 
     private final String[] originalArguments;
     private final List<ParsedArgument> parsedArguments;
@@ -136,7 +141,8 @@ public class ArgumentParser {
     }
 
     private void parsedArgument(final String originalArgument) {
-        parsedArguments.add(new ParsedArgument(originalArgument, getArgument(originalArgument)));
+        parsedArguments.add(
+                new ParsedArgument(originalArgument, getArgument(originalArgument), getValue(originalArgument)));
     }
 
     private Argument getArgument(final String originalArgument) {
@@ -147,5 +153,17 @@ public class ArgumentParser {
         }
 
         return Argument.UNKNOWN;
+    }
+
+    private String getValue(final String originalArgument) {
+        final Matcher valueMatcher = VALUE_REGEX.matcher(originalArgument);
+
+        if (valueMatcher.matches()) {
+            return valueMatcher.group(1);
+        }
+
+        else {
+            return null;
+        }
     }
 }

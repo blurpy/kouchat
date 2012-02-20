@@ -47,14 +47,14 @@ public enum Argument {
     private final String shortArgumentName;
     private final String fullArgumentName;
     private final String description;
-    private final boolean requiresArgument;
+    private final boolean requiresValue;
 
     Argument(final String shortArgumentName, final String fullArgumentName, final String description,
-             final boolean requiresArgument) {
+             final boolean requiresValue) {
         this.shortArgumentName = shortArgumentName;
         this.fullArgumentName = fullArgumentName;
         this.description = description;
-        this.requiresArgument = requiresArgument;
+        this.requiresValue = requiresValue;
     }
 
     /**
@@ -66,7 +66,11 @@ public enum Argument {
     public boolean isEqualTo(final String argument) {
         Validate.notNull(argument, "Argument can not be null");
 
-        return argument.equals(shortArgumentName) || argument.equals(fullArgumentName);
+        if (argument.equals(shortArgumentName) || argument.equals(fullArgumentName)) {
+            return true;
+        }
+
+        return requiresValue && argument.startsWith(fullArgumentName + "=");
     }
 
     @Override
@@ -74,13 +78,13 @@ public enum Argument {
         return fullArgumentName;
     }
 
-    String getArgumentName() {
+    String getArgument() {
         if (shortArgumentName != null) {
             return fullArgumentName + " (" + shortArgumentName + ")";
         }
 
-        if (requiresArgument) {
-            return fullArgumentName + "=<arg>";
+        if (requiresValue) {
+            return fullArgumentName + "=<value>";
         }
 
         return fullArgumentName;
@@ -98,7 +102,7 @@ public enum Argument {
 
         for (final Argument argument : arguments) {
             builder.append("\n ");
-            builder.append(Tools.postPadString(argument.getArgumentName(), 22));
+            builder.append(Tools.postPadString(argument.getArgument(), 24));
             builder.append(argument.description);
         }
 

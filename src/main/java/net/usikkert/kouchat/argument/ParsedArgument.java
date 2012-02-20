@@ -33,19 +33,22 @@ public class ParsedArgument {
 
     private final String originalArgument;
     private final Argument argument;
+    private final String value;
 
     /**
      * Creates a new instance of a parsed argument.
      *
      * @param originalArgument The unmodified string argument that was parsed.
      * @param argument The result of the parsed argument.
+     * @param value The value used in the argument.
      */
-    public ParsedArgument(final String originalArgument, final Argument argument) {
+    public ParsedArgument(final String originalArgument, final Argument argument, final String value) {
         Validate.notEmpty(originalArgument, "Original argument can not be empty");
         Validate.notNull(argument, "Argument can not be null");
 
         this.originalArgument = originalArgument;
         this.argument = argument;
+        this.value = value;
     }
 
     /**
@@ -64,6 +67,16 @@ public class ParsedArgument {
      */
     public Argument getArgument() {
         return argument;
+    }
+
+    /**
+     * Gets the value, if any, used in the argument. The value is the part after the equal sign.
+     * <code>argument=value</code>
+     *
+     * @return The value, or <code>null</code>.
+     */
+    public String getValue() {
+        return value;
     }
 
     /**

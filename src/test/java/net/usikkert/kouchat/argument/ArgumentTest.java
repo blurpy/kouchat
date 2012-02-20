@@ -53,13 +53,13 @@ public class ArgumentTest {
         final String argumentsAsString = Argument.getArgumentsAsString();
 
         final String expected =
-                " --console (-c)        Starts KouChat in console mode\n" +
-                " --debug (-d)          Starts KouChat with verbose debug output enabled\n" +
-                " --help (-h)           Shows this help message\n" +
-                " --version (-v)        Shows version information\n" +
-                " --no-private-chat     Disables private chat\n" +
-                " --always-log          Enables logging, without option to disable\n" +
-                " --log-location=<arg>  Location to store log files";
+                " --console (-c)          Starts KouChat in console mode\n" +
+                " --debug (-d)            Starts KouChat with verbose debug output enabled\n" +
+                " --help (-h)             Shows this help message\n" +
+                " --version (-v)          Shows version information\n" +
+                " --no-private-chat       Disables private chat\n" +
+                " --always-log            Enables logging, without option to disable\n" +
+                " --log-location=<value>  Location to store log files";
 
         assertEquals(expected, argumentsAsString);
     }

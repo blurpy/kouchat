@@ -57,52 +57,71 @@ public class ArgumentParserTest {
 
     @Test
     public void shouldParseHelpArguments() {
-        assertOneArgument(new ArgumentParser(new String[]{"-h"}), "-h", Argument.HELP);
-        assertOneArgument(new ArgumentParser(new String[]{"--help"}), "--help", Argument.HELP);
+        assertOneArgument(new ArgumentParser(new String[] {"-h"}), "-h", Argument.HELP);
+        assertOneArgument(new ArgumentParser(new String[] {"--help"}), "--help", Argument.HELP);
     }
 
     @Test
     public void shouldParseVersionArguments() {
-        assertOneArgument(new ArgumentParser(new String[]{"-v"}), "-v", Argument.VERSION);
-        assertOneArgument(new ArgumentParser(new String[]{"--version"}), "--version", Argument.VERSION);
+        assertOneArgument(new ArgumentParser(new String[] {"-v"}), "-v", Argument.VERSION);
+        assertOneArgument(new ArgumentParser(new String[] {"--version"}), "--version", Argument.VERSION);
     }
 
     @Test
     public void shouldParseDebugArguments() {
-        assertOneArgument(new ArgumentParser(new String[]{"-d"}), "-d", Argument.DEBUG);
-        assertOneArgument(new ArgumentParser(new String[]{"--debug"}), "--debug", Argument.DEBUG);
+        assertOneArgument(new ArgumentParser(new String[] {"-d"}), "-d", Argument.DEBUG);
+        assertOneArgument(new ArgumentParser(new String[] {"--debug"}), "--debug", Argument.DEBUG);
     }
 
     @Test
     public void shouldParseConsoleArguments() {
-        assertOneArgument(new ArgumentParser(new String[]{"-c"}), "-c", Argument.CONSOLE);
-        assertOneArgument(new ArgumentParser(new String[]{"--console"}), "--console", Argument.CONSOLE);
+        assertOneArgument(new ArgumentParser(new String[] {"-c"}), "-c", Argument.CONSOLE);
+        assertOneArgument(new ArgumentParser(new String[] {"--console"}), "--console", Argument.CONSOLE);
     }
 
     @Test
     public void shouldParseNoPrivateChatArgument() {
-        assertOneArgument(new ArgumentParser(new String[]{"--no-private-chat"}), "--no-private-chat", Argument.NO_PRIVATE_CHAT);
+        assertOneArgument(new ArgumentParser(new String[] {"--no-private-chat"}), "--no-private-chat", Argument.NO_PRIVATE_CHAT);
     }
 
     @Test
     public void shouldParseAlwaysLogArgument() {
-        assertOneArgument(new ArgumentParser(new String[]{"--always-log"}), "--always-log", Argument.ALWAYS_LOG);
+        assertOneArgument(new ArgumentParser(new String[] {"--always-log"}), "--always-log", Argument.ALWAYS_LOG);
     }
 
     @Test
-    public void shouldParseLogLocationArgument() {
-        assertOneArgument(new ArgumentParser(new String[]{"--log-location"}), "--log-location", Argument.LOG_LOCATION);
+    public void shouldParseLogLocationArgumentWithoutValue() {
+        assertOneArgument(new ArgumentParser(new String[] {"--log-location"}), "--log-location", Argument.LOG_LOCATION);
+    }
+
+    @Test
+    public void shouldParseLogLocationArgumentWithEmptyValue() {
+        assertOneArgument(new ArgumentParser(new String[] {"--log-location="}), "--log-location=", Argument.LOG_LOCATION);
+    }
+
+    @Test
+    public void shouldParseLogLocationArgumentWithValue() {
+        final String argument = "--log-location=/var/log/";
+        assertOneArgument(new ArgumentParser(new String[] {argument}), argument, Argument.LOG_LOCATION, "/var/log/");
+    }
+
+    @Test
+    public void shouldParseLogLocationArgumentWithValueHavingSpace() {
+        final String argument = "--log-location=C:\\Documents and settings\\log\\";
+        assertOneArgument(new ArgumentParser(new String[] {argument}), argument, Argument.LOG_LOCATION, "C:\\Documents and settings\\log\\");
     }
 
     @Test
     public void shouldHandleUnknownArguments() {
-        assertOneArgument(new ArgumentParser(new String[]{"-z"}), "-z", Argument.UNKNOWN);
-        assertOneArgument(new ArgumentParser(new String[]{"--zzzz"}), "--zzzz", Argument.UNKNOWN);
+        assertOneArgument(new ArgumentParser(new String[] {"-z"}), "-z", Argument.UNKNOWN);
+        assertOneArgument(new ArgumentParser(new String[] {"--zzzz"}), "--zzzz", Argument.UNKNOWN);
+        assertOneArgument(new ArgumentParser(new String[] {"-c=value"}), "-c=value", Argument.UNKNOWN, "value");
+        assertOneArgument(new ArgumentParser(new String[] {"--debug=value"}), "--debug=value", Argument.UNKNOWN, "value");
     }
 
     @Test
     public void shouldParseSeveralShortArguments() {
-        final ArgumentParser parser = new ArgumentParser(new String[]{"-h", "-d", "-c", "-v"});
+        final ArgumentParser parser = new ArgumentParser(new String[] {"-h", "-d", "-c", "-v"});
 
         assertEquals(4, parser.getNumberOfArguments());
 
@@ -114,7 +133,7 @@ public class ArgumentParserTest {
 
     @Test
     public void shouldParseSeveralFullArguments() {
-        final ArgumentParser parser = new ArgumentParser(new String[]{"--help", "--debug", "--console", "--version"});
+        final ArgumentParser parser = new ArgumentParser(new String[] {"--help", "--debug", "--console", "--version"});
 
         assertEquals(4, parser.getNumberOfArguments());
 
@@ -126,7 +145,7 @@ public class ArgumentParserTest {
 
     @Test
     public void shouldParseMixOfShortAndFullArguments() {
-        final ArgumentParser parser = new ArgumentParser(new String[]{"--help", "-d", "--console", "-v"});
+        final ArgumentParser parser = new ArgumentParser(new String[] {"--help", "-d", "--console", "-v"});
 
         assertEquals(4, parser.getNumberOfArguments());
 
@@ -137,8 +156,19 @@ public class ArgumentParserTest {
     }
 
     @Test
+    public void shouldParseMixOfArgumentsWithAndWithoutValue() {
+        final ArgumentParser parser = new ArgumentParser(new String[] {"--help", "--log-location=a b c", "--version"});
+
+        assertEquals(3, parser.getNumberOfArguments());
+
+        assertContainsArgument(parser, "--help", Argument.HELP);
+        assertContainsArgument(parser, "--log-location=a b c", Argument.LOG_LOCATION, "a b c");
+        assertContainsArgument(parser, "--version", Argument.VERSION);
+    }
+
+    @Test
     public void getUnknownArgumentsShouldReturnAllUnknownArguments() {
-        final ArgumentParser parser = new ArgumentParser(new String[]{"--help", "-x", "--yyyy", "-z"});
+        final ArgumentParser parser = new ArgumentParser(new String[] {"--help", "-x", "--yyyy", "-z"});
 
         assertEquals(4, parser.getNumberOfArguments());
         assertEquals(3, parser.getNumberOfUnknownArguments());
@@ -161,7 +191,7 @@ public class ArgumentParserTest {
 
     @Test
     public void getUnknownArgumentsShouldEmptyListWhenNoUnknownArguments() {
-        final ArgumentParser parser = new ArgumentParser(new String[]{"--help"});
+        final ArgumentParser parser = new ArgumentParser(new String[] {"--help"});
 
         assertEquals(1, parser.getNumberOfArguments());
         assertEquals(0, parser.getNumberOfUnknownArguments());
@@ -175,27 +205,37 @@ public class ArgumentParserTest {
 
     private void assertContainsArgument(final ArgumentParser parser, final String stringArgument,
                                         final Argument enumArgument) {
+        assertContainsArgument(parser, stringArgument, enumArgument, null);
+    }
+
+    private void assertContainsArgument(final ArgumentParser parser, final String stringArgument,
+                                        final Argument enumArgument, final String value) {
         final ParsedArgument detectedArgument = parser.getArgument(enumArgument);
 
         if (detectedArgument == null) {
             fail("Did not find parsed argument for: " + enumArgument);
         }
 
-        assertArgument(parser, stringArgument, enumArgument, detectedArgument);
+        assertArgument(parser, stringArgument, enumArgument, detectedArgument, value);
     }
 
     private void assertOneArgument(final ArgumentParser parser, final String stringArgument,
                                    final Argument enumArgument) {
+        assertOneArgument(parser, stringArgument, enumArgument, null);
+    }
+
+    private void assertOneArgument(final ArgumentParser parser, final String stringArgument,
+                                   final Argument enumArgument, final String value) {
         assertEquals(1, parser.getNumberOfArguments());
         final List<ParsedArgument> arguments = parser.getArguments();
         assertEquals(1, arguments.size());
 
         final ParsedArgument argument = arguments.get(0);
-        assertArgument(parser, stringArgument, enumArgument, argument);
+        assertArgument(parser, stringArgument, enumArgument, argument, value);
     }
 
     private void assertArgument(final ArgumentParser parser, final String stringArgument, final Argument enumArgument,
-                                final ParsedArgument argument) {
+                                final ParsedArgument argument, final String value) {
         assertNotNull(argument);
         assertEquals(stringArgument, argument.getOriginalArgument());
         assertEquals(enumArgument, argument.getArgument());
@@ -205,5 +245,6 @@ public class ArgumentParserTest {
         assertNotNull(parsedArgument);
         assertEquals(stringArgument, parsedArgument.getOriginalArgument());
         assertEquals(enumArgument, parsedArgument.getArgument());
+        assertEquals(value, parsedArgument.getValue());
     }
 }
