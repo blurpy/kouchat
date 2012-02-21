@@ -89,6 +89,10 @@ public final class KouChat {
         // Initialize as early as possible to catch all exceptions
         new UncaughtExceptionLogger();
 
+        loadUserInterface(argumentParser);
+    }
+
+    private static void loadUserInterface(final ArgumentParser argumentParser) {
         try {
             if (!argumentParser.hasArgument(Argument.CONSOLE)) {
                 System.out.println("\nLoading Swing User Interface\n");
