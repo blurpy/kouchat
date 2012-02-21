@@ -24,6 +24,7 @@ package net.usikkert.kouchat;
 
 import net.usikkert.kouchat.argument.Argument;
 import net.usikkert.kouchat.argument.ArgumentParser;
+import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.ui.UIChoice;
 import net.usikkert.kouchat.ui.UIException;
 import net.usikkert.kouchat.ui.UIFactory;
@@ -89,7 +90,24 @@ public final class KouChat {
         // Initialize as early as possible to catch all exceptions
         new UncaughtExceptionLogger();
 
+        setSettingsFromArguments(argumentParser);
         loadUserInterface(argumentParser);
+    }
+
+    private static void setSettingsFromArguments(final ArgumentParser argumentParser) {
+        final Settings settings = Settings.getSettings();
+
+        if (argumentParser.hasArgument(Argument.ALWAYS_LOG)) {
+            settings.setAlwaysLog(Boolean.parseBoolean(argumentParser.getArgument(Argument.ALWAYS_LOG).getValue()));
+        }
+
+        if (argumentParser.hasArgument(Argument.NO_PRIVATE_CHAT)) {
+            settings.setNoPrivateChat(Boolean.parseBoolean(argumentParser.getArgument(Argument.NO_PRIVATE_CHAT).getValue()));
+        }
+
+        if (argumentParser.hasArgument(Argument.LOG_LOCATION)) {
+            settings.setLogLocation(argumentParser.getArgument(Argument.LOG_LOCATION).getValue());
+        }
     }
 
     private static void loadUserInterface(final ArgumentParser argumentParser) {

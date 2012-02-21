@@ -103,6 +103,17 @@ public final class Settings {
     /** Name of the chosen look and feel. */
     private String lookAndFeel;
 
+    // Settings from startup arguments
+
+    /** If private chat is disabled. */
+    private boolean noPrivateChat;
+
+    /** If logging is always enabled. */
+    private boolean alwaysLog;
+
+    /** The location to store logs. */
+    private String logLocation;
+
     /**
      * Private constructor.
      *
@@ -488,5 +499,58 @@ public final class Settings {
      */
     public void removeSettingsListener(final SettingsListener listener) {
         listeners.remove(listener);
+    }
+
+    /**
+     * If private chat is disabled.
+     *
+     * @return If private chat is disabled.
+     */
+    public boolean isNoPrivateChat() {
+        return noPrivateChat;
+    }
+
+    /**
+     * Sets if private chat should be disabled.
+     *
+     * @param noPrivateChat If private chat should be disabled.
+     */
+    public void setNoPrivateChat(final boolean noPrivateChat) {
+        this.noPrivateChat = noPrivateChat;
+    }
+
+    /**
+     * If logging is always enabled.
+     *
+     * @return If logging is always enabled.
+     */
+    public boolean isAlwaysLog() {
+        return alwaysLog;
+    }
+
+    /**
+     * Sets if logging should always be enabled.
+     *
+     * @param alwaysLog If logging should always be enabled.
+     */
+    public void setAlwaysLog(final boolean alwaysLog) {
+        this.alwaysLog = alwaysLog;
+    }
+
+    /**
+     * The location to store logs.
+     *
+     * @return The location to store logs.
+     */
+    public String getLogLocation() {
+        return logLocation;
+    }
+
+    /**
+     * Sets the location to store logs.
+     * @param logLocation The location to store logs.
+     */
+    public void setLogLocation(final String logLocation) {
+        this.logLocation = logLocation;
     }
 }
