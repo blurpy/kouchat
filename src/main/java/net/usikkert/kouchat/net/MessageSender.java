@@ -88,8 +88,8 @@ public class MessageSender {
 
         catch (final IOException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
-            errorHandler.showCriticalError("Failed to initialize the network:\n" + e + "\n"
-                    + Constants.APP_NAME + " will now shutdown.");
+            errorHandler.showCriticalError("Failed to initialize the network:\n" + e + "\n" +
+                    Constants.APP_NAME + " will now shutdown.");
             System.exit(1);
         }
     }
@@ -105,15 +105,15 @@ public class MessageSender {
     public synchronized boolean send(final String message) {
         if (connected) {
             try {
-                byte[] encodedMsg = message.getBytes(Constants.MESSAGE_CHARSET);
-                int size = encodedMsg.length;
+                final byte[] encodedMsg = message.getBytes(Constants.MESSAGE_CHARSET);
+                final int size = encodedMsg.length;
 
                 if (size > Constants.NETWORK_PACKET_SIZE) {
-                    LOG.log(Level.WARNING, "Message was " + size + " bytes, which is too large.\n"
-                            + " The receiver might not get the complete message.\n'" + message + "'");
+                    LOG.log(Level.WARNING, "Message was " + size + " bytes, which is too large.\n" +
+                            " The receiver might not get the complete message.\n'" + message + "'");
                 }
 
-                DatagramPacket packet = new DatagramPacket(encodedMsg, size, address, port);
+                final DatagramPacket packet = new DatagramPacket(encodedMsg, size, address, port);
                 mcSocket.send(packet);
                 LOG.log(Level.FINE, "Sent message: " + message);
 
@@ -177,11 +177,13 @@ public class MessageSender {
             }
 
             else {
-                if (mcSocket == null)
+                if (mcSocket == null) {
                     mcSocket = new MulticastSocket(port);
+                }
 
-                if (networkInterface != null)
+                if (networkInterface != null) {
                     mcSocket.setNetworkInterface(networkInterface);
+                }
 
                 mcSocket.joinGroup(address);
                 mcSocket.setTimeToLive(64);
@@ -194,8 +196,9 @@ public class MessageSender {
             LOG.log(Level.SEVERE, "Could not start sender: " + e.toString());
 
             if (mcSocket != null) {
-                if (!mcSocket.isClosed())
+                if (!mcSocket.isClosed()) {
                     mcSocket.close();
+                }
 
                 mcSocket = null;
             }

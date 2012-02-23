@@ -70,16 +70,16 @@ public class UDPSender {
     public boolean send(final String message, final String ip, final int port) {
         if (connected) {
             try {
-                InetAddress address = InetAddress.getByName(ip);
-                byte[] encodedMsg = message.getBytes(Constants.MESSAGE_CHARSET);
-                int size = encodedMsg.length;
+                final InetAddress address = InetAddress.getByName(ip);
+                final byte[] encodedMsg = message.getBytes(Constants.MESSAGE_CHARSET);
+                final int size = encodedMsg.length;
 
                 if (size > Constants.NETWORK_PACKET_SIZE) {
-                    LOG.log(Level.WARNING, "Message was " + size + " bytes, which is too large.\n"
-                            + " The receiver might not get the complete message.\n'" + message + "'");
+                    LOG.log(Level.WARNING, "Message was " + size + " bytes, which is too large.\n" +
+                            " The receiver might not get the complete message.\n'" + message + "'");
                 }
 
-                DatagramPacket packet = new DatagramPacket(encodedMsg, size, address, port);
+                final DatagramPacket packet = new DatagramPacket(encodedMsg, size, address, port);
                 udpSocket.send(packet);
                 LOG.log(Level.FINE, "Sent message: " + message);
 
@@ -134,8 +134,8 @@ public class UDPSender {
 
             catch (final IOException e) {
                 LOG.log(Level.SEVERE, e.toString(), e);
-                errorHandler.showError("Failed to initialize network:\n" + e
-                        + "\n\nYou will not be able to send private messages!");
+                errorHandler.showError("Failed to initialize network:\n" + e +
+                        "\n\nYou will not be able to send private messages!");
             }
         }
     }

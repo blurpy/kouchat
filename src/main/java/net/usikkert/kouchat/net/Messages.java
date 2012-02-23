@@ -65,11 +65,12 @@ public class Messages {
      * <p>Note: the network will be checked if this fails!</p>
      */
     public void sendIdleMessage() {
-        String msg = createMessage("IDLE");
-        boolean sent = networkService.sendMulticastMsg(msg);
+        final String msg = createMessage("IDLE");
+        final boolean sent = networkService.sendMulticastMsg(msg);
 
-        if (!sent)
+        if (!sent) {
             checkNetwork();
+        }
     }
 
     /**
@@ -80,11 +81,12 @@ public class Messages {
      * @param topic The new topic to send.
      */
     public void sendTopicChangeMessage(final Topic topic) {
-        String msg = createTopicMessage(topic);
-        boolean sent = networkService.sendMulticastMsg(msg);
+        final String msg = createTopicMessage(topic);
+        final boolean sent = networkService.sendMulticastMsg(msg);
 
-        if (!sent)
+        if (!sent) {
             checkNetwork();
+        }
     }
 
     /**
@@ -93,7 +95,7 @@ public class Messages {
      * @param topic The current topic to send.
      */
     public void sendTopicRequestedMessage(final Topic topic) {
-        String msg = createTopicMessage(topic);
+        final String msg = createTopicMessage(topic);
         networkService.sendMulticastMsg(msg);
     }
 
@@ -105,11 +107,12 @@ public class Messages {
      * @param awayMsg The away message to set.
      */
     public void sendAwayMessage(final String awayMsg) {
-        String msg = createMessage("AWAY") + awayMsg;
-        boolean sent = networkService.sendMulticastMsg(msg);
+        final String msg = createMessage("AWAY") + awayMsg;
+        final boolean sent = networkService.sendMulticastMsg(msg);
 
-        if (!sent)
+        if (!sent) {
             checkNetwork();
+        }
     }
 
     /**
@@ -118,11 +121,12 @@ public class Messages {
      * <p>Note: the network will be checked if this fails!</p>
      */
     public void sendBackMessage() {
-        String msg = createMessage("BACK");
-        boolean sent = networkService.sendMulticastMsg(msg);
+        final String msg = createMessage("BACK");
+        final boolean sent = networkService.sendMulticastMsg(msg);
 
-        if (!sent)
+        if (!sent) {
             checkNetwork();
+        }
     }
 
     /**
@@ -134,11 +138,11 @@ public class Messages {
      * @throws CommandException If the message was not sent successfully.
      */
     public void sendChatMessage(final String chatMsg) throws CommandException {
-        String msg = createMessage("MSG")
-                + "[" + settings.getOwnColor() + "]"
-                + chatMsg;
+        final String msg = createMessage("MSG") +
+                "[" + settings.getOwnColor() + "]" +
+                chatMsg;
 
-        boolean sent = networkService.sendMulticastMsg(msg);
+        final boolean sent = networkService.sendMulticastMsg(msg);
 
         if (!sent) {
             checkNetwork();
@@ -150,7 +154,7 @@ public class Messages {
      * Sends a message to log this client on the network.
      */
     public void sendLogonMessage() {
-        String msg = createMessage("LOGON");
+        final String msg = createMessage("LOGON");
         networkService.sendMulticastMsg(msg);
     }
 
@@ -158,7 +162,7 @@ public class Messages {
      * Sends a message to log this client off the network.
      */
     public void sendLogoffMessage() {
-        String msg = createMessage("LOGOFF");
+        final String msg = createMessage("LOGOFF");
         networkService.sendMulticastMsg(msg);
     }
 
@@ -166,7 +170,7 @@ public class Messages {
      * Sends a message asking the other clients to identify themselves.
      */
     public void sendExposeMessage() {
-        String msg = createMessage("EXPOSE");
+        final String msg = createMessage("EXPOSE");
         networkService.sendMulticastMsg(msg);
     }
 
@@ -174,7 +178,7 @@ public class Messages {
      * Sends a message to identify this client.
      */
     public void sendExposingMessage() {
-        String msg = createMessage("EXPOSING") + me.getAwayMsg();
+        final String msg = createMessage("EXPOSING") + me.getAwayMsg();
         networkService.sendMulticastMsg(msg);
     }
 
@@ -182,7 +186,7 @@ public class Messages {
      * Sends a message to ask for the current topic.
      */
     public void sendGetTopicMessage() {
-        String msg = createMessage("GETTOPIC");
+        final String msg = createMessage("GETTOPIC");
         networkService.sendMulticastMsg(msg);
     }
 
@@ -190,7 +194,7 @@ public class Messages {
      * Sends a message to notify that the user is writing.
      */
     public void sendWritingMessage() {
-        String msg = createMessage("WRITING");
+        final String msg = createMessage("WRITING");
         networkService.sendMulticastMsg(msg);
     }
 
@@ -198,7 +202,7 @@ public class Messages {
      * Sends a message to notify that the user has stopped writing.
      */
     public void sendStoppedWritingMessage() {
-        String msg = createMessage("STOPPEDWRITING");
+        final String msg = createMessage("STOPPEDWRITING");
         networkService.sendMulticastMsg(msg);
     }
 
@@ -210,11 +214,12 @@ public class Messages {
      * @param newNick The new nick to send.
      */
     public void sendNickMessage(final String newNick) {
-        String msg = createMessage("NICK", newNick);
-        boolean sent = networkService.sendMulticastMsg(msg);
+        final String msg = createMessage("NICK", newNick);
+        final boolean sent = networkService.sendMulticastMsg(msg);
 
-        if (!sent)
+        if (!sent) {
             checkNetwork();
+        }
     }
 
     /**
@@ -224,7 +229,7 @@ public class Messages {
      * @param crashNick The nick name that is already in use by the user.
      */
     public void sendNickCrashMessage(final String crashNick) {
-        String msg = createMessage("NICKCRASH") + crashNick;
+        final String msg = createMessage("NICKCRASH") + crashNick;
         networkService.sendMulticastMsg(msg);
     }
 
@@ -236,15 +241,16 @@ public class Messages {
      * @param fileName The name of the file.
      */
     public void sendFileAbort(final User user, final int fileHash, final String fileName) {
-        String msg = createMessage("SENDFILEABORT")
-                + "(" + user.getCode() + ")"
-                + "{" + fileHash + "}"
-                + fileName;
+        final String msg = createMessage("SENDFILEABORT") +
+                "(" + user.getCode() + ")" +
+                "{" + fileHash + "}" +
+                fileName;
 
-        boolean sent = networkService.sendMulticastMsg(msg);
+        final boolean sent = networkService.sendMulticastMsg(msg);
 
-        if (!sent)
+        if (!sent) {
             checkNetwork();
+        }
     }
 
     /**
@@ -262,13 +268,13 @@ public class Messages {
      */
     public void sendFileAccept(final User user, final int port,
             final int fileHash, final String fileName) throws CommandException {
-        String msg = createMessage("SENDFILEACCEPT")
-                + "(" + user.getCode() + ")"
-                + "[" + port + "]"
-                + "{" + fileHash + "}"
-                + fileName;
+        final String msg = createMessage("SENDFILEACCEPT") +
+                "(" + user.getCode() + ")" +
+                "[" + port + "]" +
+                "{" + fileHash + "}" +
+                fileName;
 
-        boolean sent = networkService.sendMulticastMsg(msg);
+        final boolean sent = networkService.sendMulticastMsg(msg);
 
         if (!sent) {
             checkNetwork();
@@ -286,13 +292,13 @@ public class Messages {
      * @throws CommandException If the message was not sent successfully.
      */
     public void sendFile(final User user, final File file) throws CommandException {
-        String msg = createMessage("SENDFILE")
-                + "(" + user.getCode() + ")"
-                + "[" + file.length() + "]"
-                + "{" + file.hashCode() + "}"
-                + file.getName();
+        final String msg = createMessage("SENDFILE") +
+                "(" + user.getCode() + ")" +
+                "[" + file.length() + "]" +
+                "{" + file.hashCode() + "}" +
+                file.getName();
 
-        boolean sent = networkService.sendMulticastMsg(msg);
+        final boolean sent = networkService.sendMulticastMsg(msg);
 
         if (!sent) {
             checkNetwork();
@@ -311,11 +317,11 @@ public class Messages {
      * </ul>
      */
     public void sendClient() {
-        String msg = createMessage("CLIENT")
-                + "(" + me.getClient() + ")"
-                + "[" + (System.currentTimeMillis() - me.getLogonTime()) + "]"
-                + "{" + me.getOperatingSystem() + "}"
-                + "<" + me.getPrivateChatPort() + ">";
+        final String msg = createMessage("CLIENT") +
+                "(" + me.getClient() + ")" +
+                "[" + (System.currentTimeMillis() - me.getLogonTime()) + "]" +
+                "{" + me.getOperatingSystem() + "}" +
+                "<" + me.getPrivateChatPort() + ">";
 
         networkService.sendMulticastMsg(msg);
     }
@@ -330,12 +336,12 @@ public class Messages {
      * @throws CommandException If the message was not sent successfully.
      */
     public void sendPrivateMessage(final String privMsg, final User user) throws CommandException {
-        String msg = createMessage("PRIVMSG")
-                + "(" + user.getCode() + ")"
-                + "[" + settings.getOwnColor() + "]"
-                + privMsg;
+        final String msg = createMessage("PRIVMSG") +
+                "(" + user.getCode() + ")" +
+                "[" + settings.getOwnColor() + "]" +
+                privMsg;
 
-        boolean sent = networkService.sendUDPMsg(msg, user.getIpAddress(), user.getPrivateChatPort());
+        final boolean sent = networkService.sendUDPMsg(msg, user.getIpAddress(), user.getPrivateChatPort());
 
         if (!sent) {
             checkNetwork();
@@ -373,10 +379,10 @@ public class Messages {
      * @return The new message.
      */
     private String createTopicMessage(final Topic topic) {
-        return createMessage("TOPIC")
-                + "(" + topic.getNick() + ")"
-                + "[" + topic.getTime() + "]"
-                + topic.getTopic();
+        return createMessage("TOPIC") +
+                "(" + topic.getNick() + ")" +
+                "[" + topic.getTime() + "]" +
+                topic.getTopic();
     }
 
     /**

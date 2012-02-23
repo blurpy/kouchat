@@ -73,24 +73,28 @@ public class UDPReceiver implements Runnable {
     public void run() {
         while (connected) {
             try {
-                DatagramPacket packet = new DatagramPacket(
+                final DatagramPacket packet = new DatagramPacket(
                         new byte[Constants.NETWORK_PACKET_SIZE], Constants.NETWORK_PACKET_SIZE);
 
                 udpSocket.receive(packet);
-                String ip = packet.getAddress().getHostAddress();
-                String message = new String(packet.getData(), Constants.MESSAGE_CHARSET).trim();
+                final String ip = packet.getAddress().getHostAddress();
+                final String message = new String(packet.getData(), Constants.MESSAGE_CHARSET).trim();
                 LOG.log(Level.FINE, "Message arrived from " + ip + ": " + message);
 
-                if (listener != null)
+                if (listener != null) {
                     listener.messageArrived(message, ip);
+                }
             }
 
             // Happens when socket is closed, or network is down
             catch (final IOException e) {
-                if (connected)
+                if (connected) {
                     LOG.log(Level.WARNING, e.toString());
-                else
+                }
+
+                else {
                     LOG.log(Level.FINE, e.toString());
+                }
             }
         }
     }
@@ -131,10 +135,10 @@ public class UDPReceiver implements Runnable {
             }
 
             if (!connected) {
-                String error = "Failed to initialize udp network:"
-                    + "\nNo available listening port between " + Constants.NETWORK_PRIVCHAT_PORT
-                    + " and " + (port - 1) + "."
-                    + "\n\nYou will not be able to receive private messages!";
+                final String error = "Failed to initialize udp network:" +
+                        "\nNo available listening port between " + Constants.NETWORK_PRIVCHAT_PORT +
+                        " and " + (port - 1) + "." +
+                        "\n\nYou will not be able to receive private messages!";
 
                 LOG.log(Level.SEVERE, error);
                 errorHandler.showError(error);

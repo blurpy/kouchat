@@ -96,8 +96,8 @@ public class MessageReceiver implements Runnable {
 
         catch (final IOException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
-            errorHandler.showCriticalError("Failed to initialize the network:\n" + e + "\n"
-                    + Constants.APP_NAME + " will now shutdown.");
+            errorHandler.showCriticalError("Failed to initialize the network:\n" + e + "\n" +
+                    Constants.APP_NAME + " will now shutdown.");
             System.exit(1);
         }
     }
@@ -108,26 +108,30 @@ public class MessageReceiver implements Runnable {
     public void run() {
         while (connected) {
             try {
-                DatagramPacket packet = new DatagramPacket(
+                final DatagramPacket packet = new DatagramPacket(
                         new byte[Constants.NETWORK_PACKET_SIZE], Constants.NETWORK_PACKET_SIZE);
 
                 if (connected) {
                     mcSocket.receive(packet);
-                    String ip = packet.getAddress().getHostAddress();
-                    String message = new String(packet.getData(), Constants.MESSAGE_CHARSET).trim();
+                    final String ip = packet.getAddress().getHostAddress();
+                    final String message = new String(packet.getData(), Constants.MESSAGE_CHARSET).trim();
                     LOG.log(Level.FINE, "Message arrived from " + ip + ": " + message);
 
-                    if (listener != null)
+                    if (listener != null) {
                         listener.messageArrived(message, ip);
+                    }
                 }
             }
 
             // Happens when socket is closed, or network is down
             catch (final IOException e) {
-                if (connected)
+                if (connected) {
                     LOG.log(Level.WARNING, e.toString());
-                else
+                }
+
+                else {
                     LOG.log(Level.FINE, e.toString());
+                }
             }
         }
     }
@@ -160,11 +164,13 @@ public class MessageReceiver implements Runnable {
             }
 
             else {
-                if (mcSocket == null)
+                if (mcSocket == null) {
                     mcSocket = new MulticastSocket(port);
+                }
 
-                if (networkInterface != null)
+                if (networkInterface != null) {
                     mcSocket.setNetworkInterface(networkInterface);
+                }
 
                 mcSocket.joinGroup(address);
                 LOG.log(Level.FINE, "Connected to " + mcSocket.getNetworkInterface().getDisplayName() + ".");

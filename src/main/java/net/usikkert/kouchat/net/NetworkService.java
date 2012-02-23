@@ -181,7 +181,7 @@ public class NetworkService implements NetworkConnectionListener {
     public void networkCameUp(final boolean silent) {
         udpSender.startSender();
         udpReceiver.startReceiver();
-        NetworkInterface currentNetworkInterface = connectionWorker.getCurrentNetworkInterface();
+        final NetworkInterface currentNetworkInterface = connectionWorker.getCurrentNetworkInterface();
         messageSender.startSender(currentNetworkInterface);
         messageReceiver.startReceiver(currentNetworkInterface);
     }
