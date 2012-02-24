@@ -95,15 +95,11 @@ public final class KouChat {
     }
 
     private static void setSettingsFromArguments(final ArgumentParser argumentParser) {
+        // TODO dont use settings
         final Settings settings = Settings.getSettings();
 
-        if (argumentParser.hasArgument(Argument.ALWAYS_LOG)) {
-            settings.setAlwaysLog(Boolean.parseBoolean(argumentParser.getArgument(Argument.ALWAYS_LOG).getValue()));
-        }
-
-        if (argumentParser.hasArgument(Argument.NO_PRIVATE_CHAT)) {
-            settings.setNoPrivateChat(Boolean.parseBoolean(argumentParser.getArgument(Argument.NO_PRIVATE_CHAT).getValue()));
-        }
+        settings.setAlwaysLog(argumentParser.hasArgument(Argument.ALWAYS_LOG));
+        settings.setNoPrivateChat(argumentParser.hasArgument(Argument.NO_PRIVATE_CHAT));
 
         if (argumentParser.hasArgument(Argument.LOG_LOCATION)) {
             settings.setLogLocation(argumentParser.getArgument(Argument.LOG_LOCATION).getValue());
