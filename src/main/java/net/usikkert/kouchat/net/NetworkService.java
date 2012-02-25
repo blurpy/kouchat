@@ -23,9 +23,11 @@
 package net.usikkert.kouchat.net;
 
 import java.net.NetworkInterface;
+import java.util.logging.Logger;
 
 import net.usikkert.kouchat.event.NetworkConnectionListener;
 import net.usikkert.kouchat.event.ReceiverListener;
+import net.usikkert.kouchat.misc.Settings;
 
 /**
  * This class has services for connecting to the network.
@@ -33,6 +35,9 @@ import net.usikkert.kouchat.event.ReceiverListener;
  * @author Christian Ihle
  */
 public class NetworkService implements NetworkConnectionListener {
+
+    /** The logger. */
+    private static final Logger LOG = Logger.getLogger(NetworkService.class.getName());
 
     /** The thread responsible for keeping the network connection up. */
     private final ConnectionWorker connectionWorker;
@@ -49,15 +54,30 @@ public class NetworkService implements NetworkConnectionListener {
     /** The private message receiver. */
     private final UDPReceiver udpReceiver;
 
+    /** If private chat should be enabled. */
+    private final boolean privateChatEnabled;
+
     /**
      * Constructor.
      */
     public NetworkService() {
+        privateChatEnabled = !Settings.getSettings().isNoPrivateChat();
+
         messageReceiver = new MessageReceiver();
         messageSender = new MessageSender();
         connectionWorker = new ConnectionWorker();
-        udpReceiver = new UDPReceiver();
-        udpSender = new UDPSender();
+
+        if (privateChatEnabled) {
+            udpReceiver = new UDPReceiver();
+            udpSender = new UDPSender();
+        }
+
+        else {
+            LOG.fine("Private chat is disabled");
+            udpReceiver = null;
+            udpSender = null;
+        }
+
         connectionWorker.registerNetworkConnectionListener(this);
     }
 
@@ -126,7 +146,9 @@ public class NetworkService implements NetworkConnectionListener {
      * @param listener The listener to register.
      */
     public void registerUDPReceiverListener(final ReceiverListener listener) {
-        udpReceiver.registerReceiverListener(listener);
+        if (privateChatEnabled) {
+            udpReceiver.registerReceiverListener(listener);
+        }
     }
 
     /**
@@ -148,7 +170,13 @@ public class NetworkService implements NetworkConnectionListener {
      * @return If the message was sent or not.
      */
     public boolean sendUDPMsg(final String message, final String ip, final int port) {
-        return udpSender.send(message, ip, port);
+        if (privateChatEnabled) {
+            return udpSender.send(message, ip, port);
+        }
+
+        else {
+            return false;
+        }
     }
 
     /**
@@ -166,8 +194,11 @@ public class NetworkService implements NetworkConnectionListener {
      */
     @Override
     public void networkWentDown(final boolean silent) {
-        udpSender.stopSender();
-        udpReceiver.stopReceiver();
+        if (privateChatEnabled) {
+            udpSender.stopSender();
+            udpReceiver.stopReceiver();
+        }
+
         messageSender.stopSender();
         messageReceiver.stopReceiver();
     }
@@ -179,8 +210,11 @@ public class NetworkService implements NetworkConnectionListener {
      */
     @Override
     public void networkCameUp(final boolean silent) {
-        udpSender.startSender();
-        udpReceiver.startReceiver();
+        if (privateChatEnabled) {
+            udpSender.startSender();
+            udpReceiver.startReceiver();
+        }
+
         final NetworkInterface currentNetworkInterface = connectionWorker.getCurrentNetworkInterface();
         messageSender.startSender(currentNetworkInterface);
         messageReceiver.startReceiver(currentNetworkInterface);
