@@ -574,6 +574,8 @@ public class Controller implements NetworkConnectionListener {
             throw new CommandException("You can not send a private chat message to a user with no available port number");
         else if (user.isAway())
             throw new CommandException("You can not send a private chat message to a user that is away");
+        else if (Settings.getSettings().isNoPrivateChat())
+            throw new CommandException("You can not send a private chat message when private chat is disabled");
         else
             messages.sendPrivateMessage(privmsg, user);
     }
