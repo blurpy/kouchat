@@ -163,8 +163,9 @@ public class ConsoleMediator implements UserInterface {
      */
     @Override
     public void createPrivChat(final User user) {
-        if (user.getPrivchat() == null)
+        if (user.getPrivchat() == null) {
             user.setPrivchat(new PrivateChatConsole(user));
+        }
     }
 
     /**

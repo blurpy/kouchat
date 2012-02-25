@@ -198,8 +198,9 @@ public final class UITools {
         try {
             final LookAndFeelInfo lookAndFeel = getLookAndFeel(lnfName);
 
-            if (lookAndFeel != null)
+            if (lookAndFeel != null) {
                 UIManager.setLookAndFeel(lookAndFeel.getClassName());
+            }
 
         }
 
@@ -274,8 +275,9 @@ public final class UITools {
     public static LookAndFeelInfo getCurrentLookAndFeel() {
         final LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
 
-        if (lookAndFeel == null)
+        if (lookAndFeel == null) {
             return null;
+        }
 
         final LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
 
@@ -421,8 +423,9 @@ public final class UITools {
      * @param frame The window to restore.
      */
     public static void restore(final JFrame frame) {
-        if (isMinimized(frame))
+        if (isMinimized(frame)) {
             frame.setExtendedState(frame.getExtendedState() & ~JFrame.ICONIFIED);
+        }
     }
 
     /**
@@ -431,7 +434,8 @@ public final class UITools {
      * @param frame The window to minimize.
      */
     public static void minimize(final JFrame frame) {
-        if (!isMinimized(frame))
+        if (!isMinimized(frame)) {
             frame.setExtendedState(frame.getExtendedState() | JFrame.ICONIFIED);
+        }
     }
 }

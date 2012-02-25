@@ -68,8 +68,9 @@ public class DayTimer extends TimerTask {
 
         // To stop the timer from thinking that the day has changed if
         // the application is started between 00 and 01 o'clock.
-        if (currentHour == NOTIFY_HOUR)
+        if (currentHour == NOTIFY_HOUR) {
             done = true;
+        }
 
         cal.set(Calendar.HOUR_OF_DAY, NOTIFY_HOUR);
         cal.set(Calendar.MINUTE, 0);

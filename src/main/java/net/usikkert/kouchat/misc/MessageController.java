@@ -110,8 +110,9 @@ public class MessageController {
      * @param color The color the user chose for the message.
      */
     public void showPrivateUserMessage(final User user, final String privmsg, final int color) {
-        if (user.getPrivchat() == null)
+        if (user.getPrivchat() == null) {
             ui.createPrivChat(user);
+        }
 
         final String msg = Tools.getTime() + " <" + user + ">: " + privmsg;
         user.getPrivchat().appendToPrivateChat(msg, color);
@@ -127,8 +128,9 @@ public class MessageController {
      * @param privmsg The message written by the application user.
      */
     public void showPrivateOwnMessage(final User user, final String privmsg) {
-        if (user.getPrivchat() == null)
+        if (user.getPrivchat() == null) {
             ui.createPrivChat(user);
+        }
 
         final String msg = Tools.getTime() + " <" + me.getNick() + ">: " + privmsg;
         user.getPrivchat().appendToPrivateChat(msg, settings.getOwnColor());

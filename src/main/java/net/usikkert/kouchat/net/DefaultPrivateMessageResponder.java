@@ -81,21 +81,19 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder {
         if (!controller.isNewUser(userCode)) {
             final User user = controller.getUser(userCode);
 
-            if (me.isAway())
+            if (me.isAway()) {
                 LOG.log(Level.WARNING, "Got message from " + user.getNick() + " while away: " + msg);
-
-            else if (user.isAway())
+            } else if (user.isAway()) {
                 LOG.log(Level.WARNING, "Got message from " + user.getNick() + " which is away: " + msg);
-
-            else if (user.getPrivateChatPort() == 0)
+            } else if (user.getPrivateChatPort() == 0) {
                 LOG.log(Level.WARNING, "Got message from " + user.getNick() + " which has no reply port: " + msg);
-
-            else {
+            } else {
                 msgController.showPrivateUserMessage(user, msg, color);
 
                 // Not visible, or not in front
-                if (!user.getPrivchat().isVisible() || !user.getPrivchat().isFocused())
+                if (!user.getPrivchat().isVisible() || !user.getPrivchat().isFocused()) {
                     controller.changeNewMessage(user.getCode(), true);
+                }
 
                 ui.notifyPrivateMessageArrived(user);
             }

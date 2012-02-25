@@ -66,12 +66,14 @@ public class SizeDocumentFilter extends DocumentFilter {
             String newText = text;
 
             // Replace newlines with space
-            if (newText.contains("\n"))
+            if (newText.contains("\n")) {
                 newText = newText.replace('\n', ' ');
+            }
 
             // Replace tabs with space
-            if (newText.contains("\t"))
+            if (newText.contains("\t")) {
                 newText = newText.replace('\t', ' ');
+            }
 
             final String docText = fb.getDocument().getText(0, fb.getDocument().getLength());
             final int textLength = Tools.getBytes(newText);
@@ -100,12 +102,14 @@ public class SizeDocumentFilter extends DocumentFilter {
                             replaceTextSize += tmpCharSize;
                         }
 
-                        else
+                        else {
                             break;
+                        }
                     }
 
-                    else
+                    else {
                         break;
+                    }
                 }
 
                 super.replace(fb, offset, length, replaceText, attrs);

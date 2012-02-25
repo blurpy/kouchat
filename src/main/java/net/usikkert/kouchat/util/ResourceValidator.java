@@ -73,8 +73,9 @@ public class ResourceValidator {
 
         for (final String location : resourceMap.keySet()) {
             if (resourceMap.get(location) == null) {
-                if (missingResourceList.length() != 0)
+                if (missingResourceList.length() != 0) {
                     missingResourceList.append("\n");
+                }
 
                 missingResourceList.append(location);
             }

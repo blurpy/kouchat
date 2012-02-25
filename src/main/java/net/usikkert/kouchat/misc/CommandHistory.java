@@ -77,20 +77,23 @@ public class CommandHistory {
     public void add(final String command) {
         boolean add = true;
 
-        if (command.trim().length() == 0)
+        if (command.trim().length() == 0) {
             add = false;
-        else if (history.size() > 0 && command.equals(history.get(history.size() - 1)))
+        } else if (history.size() > 0 && command.equals(history.get(history.size() - 1))) {
             add = false;
+        }
 
         if (add) {
             history.add(command);
 
-            if (history.size() > MAX_COMMANDS)
+            if (history.size() > MAX_COMMANDS) {
                 history.remove(0);
+            }
         }
 
-        if (history.size() > 0)
+        if (history.size() > 0) {
             cursor = history.size() - 1;
+        }
 
         direction = Direction.MIDDLE;
     }
@@ -105,8 +108,9 @@ public class CommandHistory {
         String up = "";
 
         if (history.size() > 0) {
-            if (direction != Direction.MIDDLE && cursor > 0)
+            if (direction != Direction.MIDDLE && cursor > 0) {
                 cursor--;
+            }
 
             direction = Direction.UP;
             up = history.get(cursor);
@@ -131,8 +135,9 @@ public class CommandHistory {
                 down = history.get(cursor);
             }
 
-            else
+            else {
                 direction = Direction.MIDDLE;
+            }
         }
 
         return down;

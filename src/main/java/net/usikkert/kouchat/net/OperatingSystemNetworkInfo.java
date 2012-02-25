@@ -104,10 +104,11 @@ public class OperatingSystemNetworkInfo {
      */
     private void waitForMessage(final SimpleReceiverListener listener) {
         for (int i = 0; i < 40; i++) {
-            if (listener.getIpAddress() == null)
+            if (listener.getIpAddress() == null) {
                 Tools.sleep(50);
-            else
+            } else {
                 break;
+            }
         }
     }
 
@@ -122,8 +123,9 @@ public class OperatingSystemNetworkInfo {
      * @return The found network interface, or <code>null</code>.
      */
     private NetworkInterface findNetworkInterface(final SimpleReceiverListener listener) {
-        if (listener.getIpAddress() == null)
+        if (listener.getIpAddress() == null) {
             return null;
+        }
 
         try {
             final InetAddress osAddress = InetAddress.getByName(listener.getIpAddress());

@@ -93,8 +93,9 @@ public class URLDocumentFilter extends DocumentFilter {
     @Override
     public void insertString(final FilterBypass fb, final int offset, final String text, final AttributeSet attr)
             throws BadLocationException {
-        if (standAlone)
+        if (standAlone) {
             super.insertString(fb, offset, text, attr);
+        }
 
         // Make a copy now, or else it could change if another message comes
         final MutableAttributeSet urlAttr = (MutableAttributeSet) attr.copyAttributes();
@@ -111,8 +112,9 @@ public class URLDocumentFilter extends DocumentFilter {
                     while (startPos != -1) {
                         int stopPos = text.indexOf(" ", startPos);
 
-                        if (stopPos == -1)
+                        if (stopPos == -1) {
                             stopPos = text.indexOf("\n", startPos);
+                        }
 
                         urlAttr.addAttribute(URL_ATTRIBUTE, text.substring(startPos, stopPos));
                         doc.setCharacterAttributes(offset + startPos, stopPos - startPos, urlAttr, false);
@@ -150,42 +152,42 @@ public class URLDocumentFilter extends DocumentFilter {
                 final int protStart = text.lastIndexOf(' ', prot) + 1;
                 final String t = text.substring(protStart, text.length() - 1);
 
-                if (protPattern.matcher(t).matches())
+                if (protPattern.matcher(t).matches()) {
                     firstMatch = protStart;
-
-                else {
+                } else {
                     prot = text.indexOf("://", prot + 1);
 
-                    if (prot != -1 && (prot < firstMatch || firstMatch == -1))
+                    if (prot != -1 && (prot < firstMatch || firstMatch == -1)) {
                         retry = true;
+                    }
                 }
             }
 
             if (www != -1 && (www < firstMatch || firstMatch == -1)) {
                 final String t = text.substring(www + 1, text.length() - 1);
 
-                if (wwwPattern.matcher(t).matches())
+                if (wwwPattern.matcher(t).matches()) {
                     firstMatch = www + 1;
-
-                else {
+                } else {
                     www = text.indexOf(" www", www + 1);
 
-                    if (www != -1 && (www < firstMatch || firstMatch == -1))
+                    if (www != -1 && (www < firstMatch || firstMatch == -1)) {
                         retry = true;
+                    }
                 }
             }
 
             if (ftp != -1 && (ftp < firstMatch || firstMatch == -1)) {
                 final String t = text.substring(ftp + 1, text.length() - 1);
 
-                if (ftpPattern.matcher(t).matches())
+                if (ftpPattern.matcher(t).matches()) {
                     firstMatch = ftp + 1;
-
-                else {
+                } else {
                     ftp = text.indexOf(" ftp", ftp + 1);
 
-                    if (ftp != -1 && (ftp < firstMatch || firstMatch == -1))
+                    if (ftp != -1 && (ftp < firstMatch || firstMatch == -1)) {
                         retry = true;
+                    }
                 }
             }
         }

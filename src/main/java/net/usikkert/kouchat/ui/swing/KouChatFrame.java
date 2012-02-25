@@ -214,8 +214,9 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
                     return true;
                 }
 
-                else
+                else {
                     return false;
+                }
             }
         });
     }
@@ -237,8 +238,9 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      */
     @Override
     public void focusLost(final FocusEvent e) {
-        if (menuBar.isPopupMenuVisible())
+        if (menuBar.isPopupMenuVisible()) {
             getRootPane().requestFocusInWindow();
+        }
     }
 
     /**
@@ -328,17 +330,19 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      */
     public void updateWindowIcon() {
         if (me.isNewMsg()) {
-            if (me.isAway())
+            if (me.isAway()) {
                 setWindowIcon(statusIcons.getAwayActivityIcon());
-            else
+            } else {
                 setWindowIcon(statusIcons.getNormalActivityIcon());
+            }
         }
 
         else {
-            if (me.isAway())
+            if (me.isAway()) {
                 setWindowIcon(statusIcons.getAwayIcon());
-            else
+            } else {
                 setWindowIcon(statusIcons.getNormalIcon());
+            }
         }
     }
 
@@ -348,7 +352,8 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * @param icon The window icon to use.
      */
     public void setWindowIcon(final Image icon) {
-        if (getIconImage() != icon)
+        if (getIconImage() != icon) {
             setIconImage(icon);
+        }
     }
 }

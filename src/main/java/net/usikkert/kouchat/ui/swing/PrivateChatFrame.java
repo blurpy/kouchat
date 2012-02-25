@@ -208,8 +208,9 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
                     return true;
                 }
 
-                else
+                else {
                     return false;
+                }
             }
         });
     }
@@ -273,14 +274,17 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
     public void setVisible(final boolean visible) {
         if (visible) {
             // Stop the window from jumping around the screen if it's already visible
-            if (!isVisible())
+            if (!isVisible()) {
                 setLocationRelativeTo(getParent());
+            }
 
-            if (!user.isOnline() || user.isAway() || me.isAway())
+            if (!user.isOnline() || user.isAway() || me.isAway()) {
                 msgTF.setEnabled(false);
+            }
 
-            if (isVisible() && UITools.isMinimized(this))
+            if (isVisible() && UITools.isMinimized(this)) {
                 UITools.restore(this);
+            }
         }
 
         super.setVisible(visible);
@@ -317,10 +321,11 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * Closes or disposes the window depending on if the user is logged off or not.
      */
     private void close() {
-        if (!user.isOnline())
+        if (!user.isOnline()) {
             dispose();
-        else
+        } else {
             setVisible(false);
+        }
     }
 
     /**
@@ -357,15 +362,17 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
                 if (ke.getKeyCode() == KeyEvent.VK_UP) {
                     final String up = cmdHistory.goUp();
 
-                    if (!msgTF.getText().equals(up))
+                    if (!msgTF.getText().equals(up)) {
                         msgTF.setText(up);
+                    }
                 }
 
                 else if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
                     final String down = cmdHistory.goDown();
 
-                    if (!msgTF.getText().equals(down))
+                    if (!msgTF.getText().equals(down)) {
                         msgTF.setText(down);
+                    }
                 }
             }
         });
@@ -429,8 +436,9 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
     public void updateUserInformation() {
         String title = user.getNick();
 
-        if (user.isAway())
+        if (user.isAway()) {
             title += " (Away)";
+        }
 
         setTitle(UITools.createTitle(title));
         updateWindowIcon();
@@ -453,8 +461,9 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      */
     @Override
     public void focusLost(final FocusEvent e) {
-        if (fileMenu.isPopupMenuVisible() || toolsMenu.isPopupMenuVisible())
+        if (fileMenu.isPopupMenuVisible() || toolsMenu.isPopupMenuVisible()) {
             getRootPane().requestFocusInWindow();
+        }
     }
 
     /**
@@ -468,8 +477,9 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
         mediator.activatedPrivChat(user);
         updateUserInformation();
 
-        if (msgTF.isEnabled())
+        if (msgTF.isEnabled()) {
             msgTF.requestFocusInWindow();
+        }
     }
 
     /**
@@ -547,17 +557,19 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      */
     public void updateWindowIcon() {
         if (user.isNewPrivMsg()) {
-            if (me.isAway() || user.isAway())
+            if (me.isAway() || user.isAway()) {
                 setWindowIcon(statusIcons.getAwayActivityIcon());
-            else
+            } else {
                 setWindowIcon(statusIcons.getNormalActivityIcon());
+            }
         }
 
         else {
-            if (me.isAway() || user.isAway())
+            if (me.isAway() || user.isAway()) {
                 setWindowIcon(statusIcons.getAwayIcon());
-            else
+            } else {
                 setWindowIcon(statusIcons.getNormalIcon());
+            }
         }
     }
 
@@ -567,8 +579,9 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * @param icon The window icon to use.
      */
     public void setWindowIcon(final Image icon) {
-        if (getIconImage() != icon)
+        if (getIconImage() != icon) {
             setIconImage(icon);
+        }
     }
 
     /**

@@ -415,10 +415,11 @@ public class SettingsDialog extends JDialog implements ActionListener {
         final LookAndFeelInfo lookAndFeel = UITools.getLookAndFeel(settings.getLookAndFeel());
         String lnfClass = "";
 
-        if (lookAndFeel == null)
+        if (lookAndFeel == null) {
             lnfClass = UIManager.getLookAndFeel().getClass().getName();
-        else
+        } else {
             lnfClass = lookAndFeel.getClassName();
+        }
 
         for (int i = 0; i < lookAndFeelCB.getItemCount(); i++) {
             final LookAndFeelWrapper lafw = (LookAndFeelWrapper) lookAndFeelCB.getItemAt(i);

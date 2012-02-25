@@ -139,8 +139,9 @@ public class FileReceiver implements FileTransfer {
             }
         }
 
-        if (!done)
+        if (!done) {
             throw new ServerException("Could not start server");
+        }
 
         return port;
     }
@@ -225,8 +226,9 @@ public class FileReceiver implements FileTransfer {
      */
     private void stopReceiver() {
         try {
-            if (is != null)
+            if (is != null) {
                 is.close();
+            }
         }
 
         catch (final IOException e) {
@@ -234,8 +236,9 @@ public class FileReceiver implements FileTransfer {
         }
 
         try {
-            if (fos != null)
+            if (fos != null) {
                 fos.flush();
+            }
         }
 
         catch (final IOException e) {
@@ -243,8 +246,9 @@ public class FileReceiver implements FileTransfer {
         }
 
         try {
-            if (fos != null)
+            if (fos != null) {
                 fos.close();
+            }
         }
 
         catch (final IOException e) {
@@ -252,8 +256,9 @@ public class FileReceiver implements FileTransfer {
         }
 
         try {
-            if (sock != null)
+            if (sock != null) {
                 sock.close();
+            }
         }
 
         catch (final IOException e) {
@@ -261,8 +266,9 @@ public class FileReceiver implements FileTransfer {
         }
 
         try {
-            if (sSock != null)
+            if (sSock != null) {
                 sSock.close();
+            }
         }
 
         catch (final IOException e) {
@@ -288,8 +294,9 @@ public class FileReceiver implements FileTransfer {
         cancel = true;
         stopReceiver();
 
-        if (listener != null)
+        if (listener != null) {
             listener.statusFailed();
+        }
     }
 
     /**

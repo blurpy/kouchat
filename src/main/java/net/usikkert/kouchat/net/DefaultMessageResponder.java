@@ -103,8 +103,9 @@ public class DefaultMessageResponder implements MessageResponder {
                         msgController.showUserMessage(user.getNick(), msg, color);
 
                         // Visible but not in front
-                        if (ui.isVisible() && !ui.isFocused())
+                        if (ui.isVisible() && !ui.isFocused()) {
                             me.setNewMsg(true);
+                        }
 
                         ui.notifyMessageArrived(user);
                     }
@@ -124,8 +125,9 @@ public class DefaultMessageResponder implements MessageResponder {
             t.start();
         }
 
-        else
+        else {
             t.run();
+        }
     }
 
     /**
@@ -261,8 +263,9 @@ public class DefaultMessageResponder implements MessageResponder {
         if (controller.isNewUser(user.getCode())) {
             // Usually this happens when someone returns from a timeout
             if (chatState.isLogonCompleted()) {
-                if (wList.isWaitingUser(user.getCode()))
+                if (wList.isWaitingUser(user.getCode())) {
                     wList.removeWaitingUser(user.getCode());
+                }
 
                 userShowedUp(user);
             }
@@ -310,10 +313,11 @@ public class DefaultMessageResponder implements MessageResponder {
      * @return A string with host info.
      */
     private String createHostInfo(final User user) {
-        if (user.getHostName() != null)
+        if (user.getHostName() != null) {
             return user.getHostName() + " (" + user.getIpAddress() + ")";
-        else
+        } else {
             return user.getIpAddress();
+        }
     }
 
     /**
@@ -348,18 +352,20 @@ public class DefaultMessageResponder implements MessageResponder {
                 final User user = controller.getUser(userCode);
                 controller.changeAwayStatus(userCode, away, awayMsg);
 
-                if (away)
+                if (away) {
                     msgController.showSystemMessage(user.getNick() + " went away: " + awayMsg);
-                else
+                } else {
                     msgController.showSystemMessage(user.getNick() + " came back");
+                }
 
                 if (user.getPrivchat() != null) {
                     user.getPrivchat().setAway(away);
 
-                    if (away)
+                    if (away) {
                         msgController.showPrivateSystemMessage(user, user.getNick() + " went away: " + user.getAwayMsg());
-                    else
+                    } else {
                         msgController.showPrivateSystemMessage(user, user.getNick() + " came back");
+                    }
                 }
             }
 
@@ -662,7 +668,8 @@ public class DefaultMessageResponder implements MessageResponder {
             user.setPrivateChatPort(privateChatPort);
         }
 
-        else
+        else {
             LOG.log(Level.SEVERE, "Could not find user: " + userCode);
+        }
     }
 }

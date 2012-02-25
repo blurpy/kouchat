@@ -250,10 +250,9 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      */
     @Override
     public void actionPerformed(final ActionEvent event) {
-        if (event.getSource() == cancelB)
+        if (event.getSource() == cancelB) {
             mediator.transferCancelled(this);
-
-        else if (event.getSource() == openB) {
+        } else if (event.getSource() == openB) {
             final File folder = fileTransfer.getFile().getParentFile();
             UITools.open(folder);
         }
@@ -272,8 +271,9 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
             openB.setEnabled(true);
         }
 
-        else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND)
+        else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND) {
             statusL.setText("File successfully sent");
+        }
 
         cancelB.setText("Close");
     }
@@ -295,10 +295,11 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
     public void statusFailed() {
         statusL.setForeground(Color.RED);
 
-        if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE)
+        if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE) {
             statusL.setText("Failed to receive file");
-        else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND)
+        } else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND) {
             statusL.setText("Failed to send file");
+        }
 
         cancelB.setText("Close");
     }
@@ -309,10 +310,11 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      */
     @Override
     public void statusTransferring() {
-        if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE)
+        if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE) {
             statusL.setText("Receiving...");
-        else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND)
+        } else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND) {
             statusL.setText("Sending...");
+        }
     }
 
     /**
@@ -343,10 +345,11 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
         filenameL.setText(fileName);
         final double width = UITools.getTextWidth(fileName, getGraphics(), filenameL.getFont());
 
-        if (width > filenameL.getSize().width)
+        if (width > filenameL.getSize().width) {
             filenameL.setToolTipText(fileName);
-        else
+        } else {
             filenameL.setToolTipText(null);
+        }
 
         transferredL.setText("0KB of "
                 + Tools.byteToString(fileTransfer.getFileSize()) + " at 0KB/s");

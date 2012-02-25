@@ -169,8 +169,9 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      * @param toolTip The tooltip to set.
      */
     public void setToolTip(final String toolTip) {
-        if (trayIcon != null)
+        if (trayIcon != null) {
             trayIcon.setToolTip(toolTip);
+        }
     }
 
     /**
@@ -196,11 +197,11 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
     @Override
     public void mouseClicked(final MouseEvent e) {
         if (e.getSource() == trayIcon && e.getButton() == MouseEvent.BUTTON1) {
-            if (trayIcon.getImage() == statusIcons.getNormalActivityIcon())
+            if (trayIcon.getImage() == statusIcons.getNormalActivityIcon()) {
                 trayIcon.setImage(statusIcons.getNormalIcon());
-
-            else if (trayIcon.getImage() == statusIcons.getAwayActivityIcon())
+            } else if (trayIcon.getImage() == statusIcons.getAwayActivityIcon()) {
                 trayIcon.setImage(statusIcons.getAwayIcon());
+            }
 
             mediator.showOrHideWindow();
         }
@@ -252,8 +253,9 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      * @param icon The tray icon to use.
      */
     public void setTrayIcon(final Image icon) {
-        if (trayIcon.getImage() != icon)
+        if (trayIcon.getImage() != icon) {
             trayIcon.setImage(icon);
+        }
     }
 
     /**
@@ -289,7 +291,8 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      * @param message The message to show in the popup.
      */
     public void showBalloonMessage(final String title, final String message) {
-        if (trayIcon != null)
+        if (trayIcon != null) {
             trayIcon.displayMessage(title, message, MessageType.NONE);
+        }
     }
 }

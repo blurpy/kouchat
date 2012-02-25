@@ -215,8 +215,9 @@ public class FileSender implements FileTransfer {
      */
     private void stopSender() {
         try {
-            if (fis != null)
+            if (fis != null) {
                 fis.close();
+            }
         }
 
         catch (final IOException e) {
@@ -224,8 +225,9 @@ public class FileSender implements FileTransfer {
         }
 
         try {
-            if (os != null)
+            if (os != null) {
                 os.flush();
+            }
         }
 
         catch (final IOException e) {
@@ -233,8 +235,9 @@ public class FileSender implements FileTransfer {
         }
 
         try {
-            if (os != null)
+            if (os != null) {
                 os.close();
+            }
         }
 
         catch (final IOException e) {
@@ -242,8 +245,9 @@ public class FileSender implements FileTransfer {
         }
 
         try {
-            if (sock != null)
+            if (sock != null) {
                 sock.close();
+            }
         }
 
         catch (final IOException e) {

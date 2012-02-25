@@ -78,10 +78,11 @@ public class SoundBeeper {
     public synchronized void beep() {
         if (settings.isSound()) {
             if (audioClip == null || !audioClip.isActive()) {
-                if (audioClip == null)
+                if (audioClip == null) {
                     open();
-                else
+                } else {
                     audioClip.setFramePosition(0);
+                }
 
                 if (audioClip != null) {
                     audioClip.start();
@@ -93,8 +94,9 @@ public class SoundBeeper {
                     }
                 }
 
-                else
+                else {
                     LOG.log(Level.SEVERE, "Audio clip missing.");
+                }
             }
         }
     }

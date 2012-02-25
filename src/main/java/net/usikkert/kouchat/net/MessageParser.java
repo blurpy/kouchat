@@ -127,8 +127,9 @@ public class MessageParser implements ReceiverListener {
                     user.setIpAddress(ipAddress);
                     user.setAwayMsg(msg);
 
-                    if (msg.length() > 0)
+                    if (msg.length() > 0) {
                         user.setAway(true);
+                    }
 
                     user.setLastIdle(System.currentTimeMillis());
                     user.setLogonTime(System.currentTimeMillis());

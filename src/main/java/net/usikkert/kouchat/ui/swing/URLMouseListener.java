@@ -80,13 +80,15 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
         final AttributeSet attr = doc.getCharacterElement(mousePos).getAttributes();
 
         if (StyleConstants.isUnderline(attr)) {
-            if (textPane.getCursor() != handCursor)
+            if (textPane.getCursor() != handCursor) {
                 textPane.setCursor(handCursor);
+            }
         }
 
         else {
-            if (textPane.getCursor() == handCursor)
+            if (textPane.getCursor() == handCursor) {
                 textPane.setCursor(null);
+            }
         }
     }
 

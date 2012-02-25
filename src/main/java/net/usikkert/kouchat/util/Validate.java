@@ -44,8 +44,9 @@ public final class Validate {
      * @param errorMsg The error message to use in the exception.
      */
     public static void notNull(final Object obj, final String errorMsg) {
-        if (obj == null)
+        if (obj == null) {
             throw new IllegalArgumentException(errorMsg);
+        }
     }
 
     /**
@@ -56,7 +57,8 @@ public final class Validate {
      * @param errorMsg The error message to use in the exception.
      */
     public static void notEmpty(final String text, final String errorMsg) {
-        if (text == null || text.trim().length() == 0)
+        if (text == null || text.trim().length() == 0) {
             throw new IllegalArgumentException(errorMsg);
+        }
     }
 }

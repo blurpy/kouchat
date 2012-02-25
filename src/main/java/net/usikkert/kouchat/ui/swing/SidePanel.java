@@ -190,20 +190,23 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
                     final User user = userListModel.getElementAt(userL.getSelectedIndex());
                     String info = "Information about " + user.getNick();
 
-                    if (user.isAway())
+                    if (user.isAway()) {
                         info += " (Away)";
+                    }
 
                     info += ".\n\nIP address: " + user.getIpAddress();
 
-                    if (user.getHostName() != null)
-                        info +=  "\nHost name: " + user.getHostName();
+                    if (user.getHostName() != null) {
+                        info += "\nHost name: " + user.getHostName();
+                    }
 
                     info += "\nClient: " + user.getClient()
                             + "\nOperating System: " + user.getOperatingSystem()
                             + "\n\nOnline: " + Tools.howLongFromNow(user.getLogonTime());
 
-                    if (user.isAway())
+                    if (user.isAway()) {
                         info += "\nAway message: " + user.getAwayMsg();
+                    }
 
                     UITools.showInfoMessage(info, "Info");
                 }
@@ -313,10 +316,11 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
                     sendfileMI.setEnabled(false);
                     privchatMI.setVisible(true);
 
-                    if (temp.getPrivateChatPort() == 0)
+                    if (temp.getPrivateChatPort() == 0) {
                         privchatMI.setEnabled(false);
-                    else
+                    } else {
                         privchatMI.setEnabled(true);
+                    }
                 }
 
                 else {
@@ -324,10 +328,11 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
                     sendfileMI.setEnabled(true);
                     privchatMI.setVisible(true);
 
-                    if (temp.getPrivateChatPort() == 0)
+                    if (temp.getPrivateChatPort() == 0) {
                         privchatMI.setEnabled(false);
-                    else
+                    } else {
                         privchatMI.setEnabled(true);
+                    }
                 }
 
                 userMenu.show(userL, e.getX(), e.getY());
@@ -337,8 +342,9 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
             else if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2 && userL.getSelectedIndex() != -1) {
                 final User user = userListModel.getElementAt(userL.getSelectedIndex());
 
-                if (user != me && user.getPrivateChatPort() != 0)
+                if (user != me && user.getPrivateChatPort() != 0) {
                     mediator.showPrivChat(user);
+                }
             }
         }
     }

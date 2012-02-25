@@ -110,8 +110,9 @@ public class IdleThread extends Thread {
                 }
             }
 
-            if (timeout)
+            if (timeout) {
                 controller.updateAfterTimeout();
+            }
 
             try {
                 sleep(IDLE_TIME);

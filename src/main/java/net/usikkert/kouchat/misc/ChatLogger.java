@@ -87,8 +87,9 @@ public class ChatLogger implements SettingsListener {
         try {
             final File logdir = new File(Constants.APP_LOG_FOLDER);
 
-            if (!logdir.exists())
+            if (!logdir.exists()) {
                 logdir.mkdirs();
+            }
 
             writer = new BufferedWriter(new FileWriter(Constants.APP_LOG_FOLDER + LOG_FILE, true));
             open = true;

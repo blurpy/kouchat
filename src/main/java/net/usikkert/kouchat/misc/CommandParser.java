@@ -199,20 +199,23 @@ public class CommandParser {
             else {
                 String info = "/whois - " + user.getNick();
 
-                if (user.isAway())
+                if (user.isAway()) {
                     info += " (Away)";
+                }
 
                 info += ":\nIP address: " + user.getIpAddress();
 
-                if (user.getHostName() != null)
-                    info +=  "\nHost name: " + user.getHostName();
+                if (user.getHostName() != null) {
+                    info += "\nHost name: " + user.getHostName();
+                }
 
                 info += "\nClient: " + user.getClient()
                         + "\nOperating System: " + user.getOperatingSystem()
                         + "\nOnline: " + Tools.howLongFromNow(user.getLogonTime());
 
-                if (user.isAway())
+                if (user.isAway()) {
                     info += "\nAway message: " + user.getAwayMsg();
+                }
 
                 msgController.showSystemMessage(info);
             }
@@ -551,8 +554,9 @@ public class CommandParser {
             final User user = list.get(i);
             userList += user.getNick();
 
-            if (i < list.size() - 1)
+            if (i < list.size() - 1) {
                 userList += ", ";
+            }
         }
 
         msgController.showSystemMessage("Users: " + userList);
@@ -584,8 +588,9 @@ public class CommandParser {
             }
         }
 
-        if (transferInfo.length() == 0)
+        if (transferInfo.length() == 0) {
             transferInfo.append(" no active file transfers");
+        }
 
         msgController.showSystemMessage("File transfers:" + transferInfo.toString());
     }
@@ -657,10 +662,11 @@ public class CommandParser {
         if (!trimTopic.equals(topic.getTopic().trim())) {
             controller.changeTopic(trimTopic);
 
-            if (trimTopic.length() > 0)
+            if (trimTopic.length() > 0) {
                 msgController.showSystemMessage("You changed the topic to: " + trimTopic);
-            else
+            } else {
                 msgController.showSystemMessage("You removed the topic");
+            }
 
             ui.showTopic();
         }
@@ -742,53 +748,56 @@ public class CommandParser {
     public void parse(final String line) {
         String command = "";
 
-        if (line.contains(" "))
+        if (line.contains(" ")) {
             command = line.substring(1, line.indexOf(' '));
-        else
+        } else {
             command = line.substring(1, line.length());
+        }
 
         if (command.length() > 0) {
             final String args = line.replaceFirst("/" + Pattern.quote(command), "");
 
-            if (command.equals("topic"))
+            if (command.equals("topic")) {
                 cmdTopic(args);
-            else if (command.equals("away"))
+            } else if (command.equals("away")) {
                 cmdAway(args);
-            else if (command.equals("back"))
+            } else if (command.equals("back")) {
                 cmdBack();
-            else if (command.equals("clear"))
+            } else if (command.equals("clear")) {
                 cmdClear();
-            else if (command.equals("about"))
+            } else if (command.equals("about")) {
                 cmdAbout();
-            else if (command.equals("help"))
+            } else if (command.equals("help")) {
                 cmdHelp();
-            else if (command.equals("whois"))
+            } else if (command.equals("whois")) {
                 cmdWhois(args);
-            else if (command.equals("send"))
+            } else if (command.equals("send")) {
                 cmdSend(args);
-            else if (command.equals("receive"))
+            } else if (command.equals("receive")) {
                 cmdReceive(args);
-            else if (command.equals("reject"))
+            } else if (command.equals("reject")) {
                 cmdReject(args);
-            else if (command.equals("cancel"))
+            } else if (command.equals("cancel")) {
                 cmdCancel(args);
-            else if (command.equals("msg"))
+            } else if (command.equals("msg")) {
                 cmdMsg(args);
-            else if (command.equals("nick"))
+            } else if (command.equals("nick")) {
                 cmdNick(args);
-            else if (command.equals("users"))
+            } else if (command.equals("users")) {
                 cmdUsers();
-            else if (command.equals("transfers"))
+            } else if (command.equals("transfers")) {
                 cmdTransfers();
-            else if (command.equals("quit"))
+            } else if (command.equals("quit")) {
                 cmdQuit();
-            else if (command.startsWith("/"))
+            } else if (command.startsWith("/")) {
                 cmdSlash(line);
-            else
+            } else {
                 cmdUnknown(command);
+            }
         }
 
-        else
+        else {
             cmdUnknown(command);
+        }
     }
 }

@@ -157,8 +157,9 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
                 throwable.printStackTrace(printWriter);
                 printWriter.close();
 
-                if (exceptionTP.getText().length() > 0)
+                if (exceptionTP.getText().length() > 0) {
                     stringWriter.append("\n" + exceptionTP.getText());
+                }
 
                 exceptionTP.setText(stringWriter.toString());
                 exceptionTP.setCaretPosition(0);

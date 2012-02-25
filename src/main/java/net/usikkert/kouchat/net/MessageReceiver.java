@@ -182,8 +182,9 @@ public class MessageReceiver implements Runnable {
             LOG.log(Level.SEVERE, "Could not start receiver: " + e.toString());
 
             if (mcSocket != null) {
-                if (!mcSocket.isClosed())
+                if (!mcSocket.isClosed()) {
                     mcSocket.close();
+                }
 
                 mcSocket = null;
             }

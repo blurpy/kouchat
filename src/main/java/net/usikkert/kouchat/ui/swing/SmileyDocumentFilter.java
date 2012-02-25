@@ -78,11 +78,13 @@ public class SmileyDocumentFilter extends DocumentFilter {
     @Override
     public void insertString(final FilterBypass fb, final int offset, final String text,
             final AttributeSet attr) throws BadLocationException {
-        if (standAlone)
+        if (standAlone) {
             super.insertString(fb, offset, text, attr);
+        }
 
-        if (!settings.isSmileys())
+        if (!settings.isSmileys()) {
             return;
+        }
 
         // Make a copy now, or else it could change if another message comes
         final MutableAttributeSet smileyAttr = (MutableAttributeSet) attr.copyAttributes();
@@ -95,8 +97,9 @@ public class SmileyDocumentFilter extends DocumentFilter {
                 final StyledDocument doc = (StyledDocument) fb.getDocument();
 
                 while (smiley != null) {
-                    if (!smileyIconRegistered(smileyAttr, smiley))
+                    if (!smileyIconRegistered(smileyAttr, smiley)) {
                         registerSmileyIcon(smileyAttr, smiley);
+                    }
 
                     registerSmileyLocation(doc, smiley, offset, smileyAttr);
                     smiley = findSmiley(text, smiley.getStopPosition());
@@ -218,21 +221,24 @@ public class SmileyDocumentFilter extends DocumentFilter {
         final int leftIndex = smiley.getStartPosition() - 1;
         boolean leftOk = false;
 
-        if (leftIndex <= 0)
+        if (leftIndex <= 0) {
             leftOk = true;
-        else
+        } else {
             leftOk = Character.isWhitespace(text.charAt(leftIndex));
+        }
 
-        if (!leftOk)
+        if (!leftOk) {
             return false;
+        }
 
         final int rightIndex = smiley.getStopPosition();
         boolean rightOk = false;
 
-        if (rightIndex >= text.length())
+        if (rightIndex >= text.length()) {
             rightOk = true;
-        else
+        } else {
             rightOk = Character.isWhitespace(text.charAt(rightIndex));
+        }
 
         return rightOk;
     }

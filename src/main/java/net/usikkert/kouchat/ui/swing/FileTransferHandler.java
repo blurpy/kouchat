@@ -116,8 +116,9 @@ public class FileTransferHandler extends TransferHandler {
                     @SuppressWarnings("unchecked")
                     final List<File> fileList = (List<File>) support.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
 
-                    if (fileList.size() > 0)
+                    if (fileList.size() > 0) {
                         file = fileList.get(0);
+                    }
                 }
 
                 else if (support.isDataFlavorSupported(uriListFlavor)) {
@@ -138,8 +139,9 @@ public class FileTransferHandler extends TransferHandler {
                         try {
                             final URI uri = new URI(fileURI);
 
-                            if (uri != null)
+                            if (uri != null) {
                                 file = new File(uri);
+                            }
                         }
 
                         catch (final URISyntaxException e) {
@@ -157,8 +159,9 @@ public class FileTransferHandler extends TransferHandler {
                     return true;
                 }
 
-                else
+                else {
                     LOG.log(Level.WARNING, "No file dropped.");
+                }
             }
 
             catch (final UnsupportedFlavorException e) {
@@ -191,8 +194,9 @@ public class FileTransferHandler extends TransferHandler {
             return new StringSelection(data);
         }
 
-        else
+        else {
             return null;
+        }
     }
 
     /**

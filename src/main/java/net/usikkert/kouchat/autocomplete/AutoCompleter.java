@@ -101,10 +101,11 @@ public class AutoCompleter {
                 final boolean continueLastSearch = continueLastSearch(word, line);
                 String checkword = "";
 
-                if (continueLastSearch)
+                if (continueLastSearch) {
                     checkword = lastWord;
-                else
+                } else {
                     checkword = word;
+                }
 
                 final AutoCompleteList autoCompleteList = getAutoCompleteList(checkword);
 
@@ -122,8 +123,9 @@ public class AutoCompleter {
                         lastCompletedLine = completedLine;
                         lastCompletedWord = newWord;
 
-                        if (!continueLastSearch)
+                        if (!continueLastSearch) {
                             lastWord = word;
+                        }
                     }
                 }
             }
@@ -157,15 +159,17 @@ public class AutoCompleter {
 
             /* If more suggestions are available, increase position,
              * or else start from the beginning again. */
-            if (nextSuggestionPosition > -1 && nextSuggestionPosition < suggestions.size() - 1)
+            if (nextSuggestionPosition > -1 && nextSuggestionPosition < suggestions.size() - 1) {
                 nextSuggestionPosition++;
-            else
+            } else {
                 nextSuggestionPosition = 0;
+            }
         }
 
         // New search, start with first suggestion
-        if (nextSuggestionPosition == -1)
+        if (nextSuggestionPosition == -1) {
             nextSuggestionPosition = 0;
+        }
 
         return nextSuggestionPosition;
     }
@@ -197,8 +201,9 @@ public class AutoCompleter {
     private int findStopPosition(final String line, final int caretPosition) {
         int stop = line.indexOf(' ', caretPosition);
 
-        if (stop == -1)
+        if (stop == -1) {
             stop = line.length();
+        }
 
         return stop;
     }
@@ -213,10 +218,11 @@ public class AutoCompleter {
     private int findStartPosition(final String line, final int caretPosition) {
         int start = line.lastIndexOf(' ', caretPosition - 1);
 
-        if (start == -1)
+        if (start == -1) {
             start = 0;
-        else
+        } else {
             start++;
+        }
 
         return start;
     }

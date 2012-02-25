@@ -52,16 +52,17 @@ public class MiddleAlignedIconViewFactory implements ViewFactory {
         final String kind = elem.getName();
 
         if (kind != null) {
-            if (kind.equals(AbstractDocument.ContentElementName))
+            if (kind.equals(AbstractDocument.ContentElementName)) {
                 return new LabelView(elem);
-            else if (kind.equals(AbstractDocument.ParagraphElementName))
+            } else if (kind.equals(AbstractDocument.ParagraphElementName)) {
                 return new ParagraphView(elem);
-            else if (kind.equals(AbstractDocument.SectionElementName))
+            } else if (kind.equals(AbstractDocument.SectionElementName)) {
                 return new BoxView(elem, View.Y_AXIS);
-            else if (kind.equals(StyleConstants.ComponentElementName))
+            } else if (kind.equals(StyleConstants.ComponentElementName)) {
                 return new ComponentView(elem);
-            else if (kind.equals(StyleConstants.IconElementName))
+            } else if (kind.equals(StyleConstants.IconElementName)) {
                 return new MiddleAlignedIconView(elem); // Overridden icon view
+            }
         }
 
         // Default is text display

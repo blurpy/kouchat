@@ -67,8 +67,9 @@ public final class NetworkUtils {
      * @return True if the network interface is usable.
      */
     public static boolean isUsable(final NetworkInterface netif) {
-        if (netif == null)
+        if (netif == null) {
             return false;
+        }
 
         try {
             return netif.isUp() && !netif.isLoopback() && !netif.isPointToPoint()
@@ -91,15 +92,17 @@ public final class NetworkUtils {
      * @return If an IPv4-address was found or not.
      */
     public static boolean hasIPv4Address(final NetworkInterface netif) {
-        if (netif == null)
+        if (netif == null) {
             return false;
+        }
 
         final Enumeration<InetAddress> inetAddresses = netif.getInetAddresses();
 
         while (inetAddresses.hasMoreElements()) {
             final InetAddress inetAddress = inetAddresses.nextElement();
-            if (inetAddress instanceof Inet4Address)
+            if (inetAddress instanceof Inet4Address) {
                 return true;
+            }
         }
 
         return false;
@@ -112,8 +115,9 @@ public final class NetworkUtils {
      * @return A string with information.
      */
     public static String getNetworkInterfaceInfo(final NetworkInterface netif) {
-        if (netif == null)
+        if (netif == null) {
             return "Invalid network interface.";
+        }
 
         try {
             return "Interface name: " + netif.getDisplayName() + "\n"
@@ -140,16 +144,18 @@ public final class NetworkUtils {
      * @return All the IPv4-addresses on the network interface.
      */
     public static String getIPv4Addresses(final NetworkInterface netif) {
-        if (netif == null)
+        if (netif == null) {
             return "";
+        }
 
         String ipAddress = "";
         final Enumeration<InetAddress> inetAddresses = netif.getInetAddresses();
 
         while (inetAddresses.hasMoreElements()) {
             final InetAddress inetAddress = inetAddresses.nextElement();
-            if (inetAddress instanceof Inet4Address)
+            if (inetAddress instanceof Inet4Address) {
                 ipAddress += inetAddress.getHostAddress() + " ";
+            }
         }
 
         return ipAddress;
@@ -162,8 +168,9 @@ public final class NetworkUtils {
      * @return The MAC-address in hex, as a string.
      */
     public static String getMacAddress(final NetworkInterface netif) {
-        if (netif == null)
+        if (netif == null) {
             return "";
+        }
 
         String macAddress = "";
         byte[] address = null;
@@ -180,8 +187,9 @@ public final class NetworkUtils {
             // Convert byte array to hex format
             for (int i = 0; i < address.length; i++) {
                 macAddress += String.format("%02x", address[i]);
-                if (i != address.length - 1)
+                if (i != address.length - 1) {
                     macAddress += "-";
+                }
             }
         }
 
@@ -200,18 +208,21 @@ public final class NetworkUtils {
      *         or <code>null</code> if not found.
      */
     public static NetworkInterface getUpdatedNetworkInterface(final NetworkInterface origNetIf) {
-        if (origNetIf == null)
+        if (origNetIf == null) {
             return null;
+        }
 
         final Enumeration<NetworkInterface> networkInterfaces = getNetworkInterfaces();
 
-        if (networkInterfaces == null)
+        if (networkInterfaces == null) {
             return null;
+        }
 
         while (networkInterfaces.hasMoreElements()) {
             final NetworkInterface netif = networkInterfaces.nextElement();
-            if (sameNetworkInterface(origNetIf, netif))
+            if (sameNetworkInterface(origNetIf, netif)) {
                 return netif;
+            }
         }
 
         return null;
@@ -229,8 +240,9 @@ public final class NetworkUtils {
      * @return If they are the same or not.
      */
     public static boolean sameNetworkInterface(final NetworkInterface netIf1, final NetworkInterface netIf2) {
-        if (netIf1 == null || netIf2 == null)
+        if (netIf1 == null || netIf2 == null) {
             return false;
+        }
 
         return netIf1.getName().equals(netIf2.getName());
     }
@@ -246,13 +258,15 @@ public final class NetworkUtils {
     public static NetworkInterface findFirstUsableNetworkInterface() {
         final Enumeration<NetworkInterface> networkInterfaces = getNetworkInterfaces();
 
-        if (networkInterfaces == null)
+        if (networkInterfaces == null) {
             return null;
+        }
 
         while (networkInterfaces.hasMoreElements()) {
             final NetworkInterface netif = networkInterfaces.nextElement();
-            if (isUsable(netif))
+            if (isUsable(netif)) {
                 return netif;
+            }
         }
 
         return null;
@@ -306,8 +320,9 @@ public final class NetworkUtils {
             final InetAddress inetAddress = InetAddress.getByName(ipAddress);
             final String hostName = inetAddress.getHostName();
 
-            if (!hostName.equals(ipAddress))
+            if (!hostName.equals(ipAddress)) {
                 return hostName;
+            }
         }
 
         catch (final UnknownHostException e) {

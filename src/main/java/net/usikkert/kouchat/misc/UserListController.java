@@ -225,8 +225,9 @@ public class UserListController {
         for (int i = 0; i < userList.size(); i++) {
             final User temp = userList.get(i);
 
-            if (temp.getNick().equals("" + temp.getCode()))
+            if (temp.getNick().equals("" + temp.getCode())) {
                 return true;
+            }
         }
 
         return false;

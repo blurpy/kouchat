@@ -54,10 +54,11 @@ public class NetworkInformation implements NetworkInformationMBean {
     public String showCurrentNetwork() {
         final NetworkInterface networkInterface = connectionWorker.getCurrentNetworkInterface();
 
-        if (networkInterface == null)
+        if (networkInterface == null) {
             return "No current network interface.";
-        else
+        } else {
             return NetworkUtils.getNetworkInterfaceInfo(networkInterface);
+        }
     }
 
     /** {@inheritDoc} */
@@ -66,10 +67,11 @@ public class NetworkInformation implements NetworkInformationMBean {
         final OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo();
         final NetworkInterface osInterface = osNicInfo.getOperatingSystemNetworkInterface();
 
-        if (osInterface == null)
+        if (osInterface == null) {
             return "No network interface detected.";
-        else
+        } else {
             return NetworkUtils.getNetworkInterfaceInfo(osInterface);
+        }
     }
 
     /** {@inheritDoc} */
@@ -79,18 +81,21 @@ public class NetworkInformation implements NetworkInformationMBean {
 
         final Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
 
-        if (networkInterfaces == null)
-            return new String[] { "No network interfaces detected." };
+        if (networkInterfaces == null) {
+            return new String[]{"No network interfaces detected."};
+        }
 
         while (networkInterfaces.hasMoreElements()) {
             final NetworkInterface netif = networkInterfaces.nextElement();
 
-            if (NetworkUtils.isUsable(netif))
+            if (NetworkUtils.isUsable(netif)) {
                 list.add(NetworkUtils.getNetworkInterfaceInfo(netif));
+            }
         }
 
-        if (list.size() == 0)
-            return new String[] { "No usable network interfaces detected." };
+        if (list.size() == 0) {
+            return new String[]{"No usable network interfaces detected."};
+        }
 
         return list.toArray(new String[0]);
     }
@@ -102,8 +107,9 @@ public class NetworkInformation implements NetworkInformationMBean {
 
         final Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
 
-        if (networkInterfaces == null)
-            return new String[] { "No network interfaces detected." };
+        if (networkInterfaces == null) {
+            return new String[]{"No network interfaces detected."};
+        }
 
         while (networkInterfaces.hasMoreElements()) {
             final NetworkInterface netif = networkInterfaces.nextElement();

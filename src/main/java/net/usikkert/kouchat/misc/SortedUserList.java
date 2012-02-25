@@ -72,10 +72,11 @@ public class SortedUserList implements UserList {
     /** {@inheritDoc} */
     @Override
     public User get(final int pos) {
-        if (pos < userList.size())
+        if (pos < userList.size()) {
             return userList.get(pos);
-        else
+        } else {
             return null;
+        }
     }
 
     /** {@inheritDoc} */

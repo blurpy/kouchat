@@ -49,8 +49,9 @@ public final class LogInitializer {
         initHandlers();
         initParentLoggers();
 
-        if (debug)
+        if (debug) {
             activateDebug();
+        }
     }
 
     /**

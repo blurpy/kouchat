@@ -222,9 +222,10 @@ public class TransferList {
     public FileTransfer getFileTransfer(final User user, final String fileName) {
         final FileReceiver fileReceiver = getFileReceiver(user, fileName);
 
-        if (fileReceiver != null)
+        if (fileReceiver != null) {
             return fileReceiver;
-        else
+        } else {
             return getFileSender(user, fileName);
+        }
     }
 }

@@ -296,16 +296,18 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
                 if (ke.getKeyCode() == KeyEvent.VK_UP) {
                     final String up = cmdHistory.goUp();
 
-                    if (!msgTF.getText().equals(up))
+                    if (!msgTF.getText().equals(up)) {
                         msgTF.setText(up);
+                    }
                 }
 
                 // Command history down
                 else if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
                     final String down = cmdHistory.goDown();
 
-                    if (!msgTF.getText().equals(down))
+                    if (!msgTF.getText().equals(down)) {
                         msgTF.setText(down);
+                    }
                 }
             }
         });

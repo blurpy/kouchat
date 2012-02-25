@@ -108,10 +108,11 @@ public class SwingMediator implements Mediator, UserInterface {
      */
     @Override
     public void minimize() {
-        if (sysTray.isSystemTraySupport())
+        if (sysTray.isSystemTraySupport()) {
             gui.setVisible(false);
-        else
+        } else {
             UITools.minimize(gui);
+        }
     }
 
     /**
@@ -241,8 +242,9 @@ public class SwingMediator implements Mediator, UserInterface {
                     tooltip += " (Away)";
                 }
 
-                if (controller.getTopic().getTopic().length() > 0)
+                if (controller.getTopic().getTopic().length() > 0) {
                     title += " - Topic: " + controller.getTopic();
+                }
             }
 
             gui.setTitle(UITools.createTitle(title));
@@ -257,12 +259,12 @@ public class SwingMediator implements Mediator, UserInterface {
      */
     @Override
     public void showOrHideWindow() {
-        if (gui.isVisible())
+        if (gui.isVisible()) {
             minimize();
-
-        else {
-            if (UITools.isMinimized(gui))
+        } else {
+            if (UITools.isMinimized(gui)) {
                 UITools.restore(gui);
+            }
 
             gui.setVisible(true);
             gui.toFront();
@@ -300,10 +302,9 @@ public class SwingMediator implements Mediator, UserInterface {
      */
     @Override
     public void sendFile(final User user, final File selectedFile) {
-        if (user == null)
+        if (user == null) {
             return;
-
-        else if (user.isMe()) {
+        } else if (user.isMe()) {
             final String message = "You cannot send files to yourself.";
             UITools.showWarningMessage(message, "Warning");
         }
@@ -326,8 +327,9 @@ public class SwingMediator implements Mediator, UserInterface {
         else {
             final JFileChooser chooser = UITools.createFileChooser("Open");
 
-            if (selectedFile != null && selectedFile.exists())
+            if (selectedFile != null && selectedFile.exists()) {
                 chooser.setSelectedFile(selectedFile);
+            }
 
             final int returnVal = chooser.showOpenDialog(null);
 
@@ -479,10 +481,9 @@ public class SwingMediator implements Mediator, UserInterface {
      */
     @Override
     public void transferCancelled(final TransferDialog transferDialog) {
-        if (transferDialog.getCancelButtonText().equals("Close"))
+        if (transferDialog.getCancelButtonText().equals("Close")) {
             transferDialog.dispose();
-
-        else {
+        } else {
             transferDialog.setCancelButtonText("Close");
             final FileTransfer fileTransfer = transferDialog.getFileTransfer();
             cmdParser.cancelFileTransfer(fileTransfer);
@@ -503,10 +504,9 @@ public class SwingMediator implements Mediator, UserInterface {
     public void notifyMessageArrived(final User user) {
         // Main chat hidden - beep, update systray, show balloon
         if (!gui.isVisible()) {
-            if (me.isAway())
+            if (me.isAway()) {
                 sysTray.setAwayActivityState();
-
-            else {
+            } else {
                 sysTray.setNormalActivityState();
                 beeper.beep();
                 sysTray.showBalloonMessage(UITools.createTitle(me.getNick()),
@@ -518,8 +518,9 @@ public class SwingMediator implements Mediator, UserInterface {
         else if (!gui.isFocused()) {
             updateTitleAndTray();
 
-            if (!me.isAway())
+            if (!me.isAway()) {
                 beeper.beep();
+            }
         }
     }
 
@@ -598,8 +599,9 @@ public class SwingMediator implements Mediator, UserInterface {
         // Main chat in focus
         else if (gui.isFocused()) {
             // Private chat out of focus - update privchat icon
-            if (privchat.isVisible() && !privchat.isFocused())
+            if (privchat.isVisible() && !privchat.isFocused()) {
                 privchat.updateUserInformation();
+            }
         }
     }
 
@@ -750,8 +752,9 @@ public class SwingMediator implements Mediator, UserInterface {
      */
     @Override
     public void createPrivChat(final User user) {
-        if (user.getPrivchat() == null)
+        if (user.getPrivchat() == null) {
             user.setPrivchat(new PrivateChatFrame(this, user, imageLoader));
+        }
     }
 
     /**

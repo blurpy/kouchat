@@ -155,14 +155,16 @@ public final class Settings {
     private String createNickName(final int code) {
         final String userName = System.getProperty("user.name");
 
-        if (userName == null)
+        if (userName == null) {
             return Integer.toString(code);
+        }
 
         final String[] splitUserName = userName.split(" ");
         final String defaultNick = Tools.capitalizeFirstLetter(Tools.shorten(splitUserName[0].trim(), 10));
 
-        if (Tools.isValidNick(defaultNick))
+        if (Tools.isValidNick(defaultNick)) {
             return defaultNick;
+        }
 
         return Integer.toString(code);
     }
@@ -186,8 +188,9 @@ public final class Settings {
 
         final File appFolder = new File(Constants.APP_FOLDER);
 
-        if (!appFolder.exists())
+        if (!appFolder.exists()) {
             appFolder.mkdir();
+        }
 
         try {
             fileWriter = new FileWriter(FILENAME);
@@ -219,8 +222,9 @@ public final class Settings {
 
         finally {
             try {
-                if (buffWriter != null)
+                if (buffWriter != null) {
                     buffWriter.flush();
+                }
             }
 
             catch (final IOException e) {
@@ -228,8 +232,9 @@ public final class Settings {
             }
 
             try {
-                if (fileWriter != null)
+                if (fileWriter != null) {
                     fileWriter.flush();
+                }
             }
 
             catch (final IOException e) {
@@ -237,8 +242,9 @@ public final class Settings {
             }
 
             try {
-                if (buffWriter != null)
+                if (buffWriter != null) {
                     buffWriter.close();
+                }
             }
 
             catch (final IOException e) {
@@ -246,8 +252,9 @@ public final class Settings {
             }
 
             try {
-                if (fileWriter != null)
+                if (fileWriter != null) {
                     fileWriter.close();
+                }
             }
 
             catch (final IOException e) {
@@ -294,11 +301,15 @@ public final class Settings {
             browser = fileContents.getProperty("browser");
             lookAndFeel = fileContents.getProperty("lookAndFeel");
 
-            if (fileContents.getProperty("sound") != null) // Defaults to true
+            // Defaults to true
+            if (fileContents.getProperty("sound") != null) {
                 sound = Boolean.valueOf(fileContents.getProperty("sound"));
+            }
 
-            if (fileContents.getProperty("smileys") != null) // Defaults to true
+            // Defaults to true
+            if (fileContents.getProperty("smileys") != null) {
                 smileys = Boolean.valueOf(fileContents.getProperty("smileys"));
+            }
         }
 
         catch (final FileNotFoundException e) {
@@ -311,8 +322,9 @@ public final class Settings {
 
         finally {
             try {
-                if (fileStream != null)
+                if (fileStream != null) {
                     fileStream.close();
+                }
             }
 
             catch (final IOException e) {

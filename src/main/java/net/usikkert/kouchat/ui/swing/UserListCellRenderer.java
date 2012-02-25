@@ -132,18 +132,21 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer {
         final User user = (User) value;
 
         if (user != null) {
-            if (user.isMe())
+            if (user.isMe()) {
                 setFont(list.getFont().deriveFont(Font.BOLD));
-            else
+            } else {
                 setFont(list.getFont().deriveFont(Font.PLAIN));
+            }
 
-            if (user.isAway())
+            if (user.isAway()) {
                 setForeground(Color.GRAY);
+            }
 
-            if (user.isNewPrivMsg())
+            if (user.isNewPrivMsg()) {
                 setIcon(envelope);
-            else
+            } else {
                 setIcon(dot);
+            }
 
             if (user.isWriting()) {
                 setText(user.getNick() + " *");
@@ -153,15 +156,17 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer {
             else {
                 setText(user.getNick());
 
-                if (user.isAway())
+                if (user.isAway()) {
                     setToolTipText(user.getNick() + " is away");
-                else
+                } else {
                     setToolTipText(user.getNick());
+                }
             }
         }
 
-        else
+        else {
             LOG.log(Level.WARNING, "Got a null list element.");
+        }
 
         setEnabled(list.isEnabled());
         setComponentOrientation(list.getComponentOrientation());

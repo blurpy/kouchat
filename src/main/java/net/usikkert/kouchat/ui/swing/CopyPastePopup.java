@@ -155,10 +155,11 @@ public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionL
                 cutMI.setEnabled(true);
             }
 
-            if (textfield.getText().length() > 0)
+            if (textfield.getText().length() > 0) {
                 clearMI.setEnabled(true);
-            else
+            } else {
                 clearMI.setEnabled(false);
+            }
 
             show(textfield, e.getX(), e.getY());
         }

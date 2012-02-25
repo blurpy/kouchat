@@ -87,10 +87,11 @@ public class ConnectionWorker implements Runnable {
             final boolean networkUp = updateNetwork();
 
             try {
-                if (networkUp)
+                if (networkUp) {
                     Thread.sleep(SLEEP_UP);
-                else
+                } else {
                     Thread.sleep(SLEEP_DOWN);
+                }
             }
 
             // Sleep interrupted - probably from stop() or checkNetwork()
@@ -101,8 +102,9 @@ public class ConnectionWorker implements Runnable {
 
         LOG.log(Level.FINE, "Network is stopping");
 
-        if (networkUp)
+        if (networkUp) {
             notifyNetworkDown(false);
+        }
 
         networkInterface = null;
     }
@@ -111,8 +113,9 @@ public class ConnectionWorker implements Runnable {
      * Asks the thread to check the network now to detect loss of network connectivity.
      */
     public void checkNetwork() {
-        if (worker != null)
+        if (worker != null) {
             worker.interrupt();
+        }
     }
 
     /**
@@ -128,8 +131,9 @@ public class ConnectionWorker implements Runnable {
         if (!NetworkUtils.isUsable(netif)) {
             LOG.log(Level.FINE, "Network is down");
 
-            if (networkUp)
+            if (networkUp) {
                 notifyNetworkDown(false);
+            }
 
             return false;
         }
@@ -145,8 +149,9 @@ public class ConnectionWorker implements Runnable {
                 notifyNetworkUp(true);
             }
 
-            else
+            else {
                 notifyNetworkUp(false);
+            }
         }
 
         // If the connection was lost, like unplugging cable, and plugging back in
@@ -223,8 +228,9 @@ public class ConnectionWorker implements Runnable {
     public void stop() {
         run = false;
 
-        if (worker != null)
+        if (worker != null) {
             worker.interrupt();
+        }
     }
 
     /**
@@ -268,8 +274,9 @@ public class ConnectionWorker implements Runnable {
         final NetworkInterface updatedNetworkInterface =
             NetworkUtils.getUpdatedNetworkInterface(networkInterface);
 
-        if (updatedNetworkInterface != null)
+        if (updatedNetworkInterface != null) {
             return updatedNetworkInterface;
+        }
 
         return networkInterface;
     }
@@ -289,9 +296,10 @@ public class ConnectionWorker implements Runnable {
      * @return If the thread is alive.
      */
     public boolean isAlive() {
-        if (worker == null)
+        if (worker == null) {
             return false;
-        else
+        } else {
             return worker.isAlive();
+        }
     }
 }
