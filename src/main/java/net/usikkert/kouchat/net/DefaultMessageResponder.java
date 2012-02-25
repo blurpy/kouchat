@@ -526,27 +526,23 @@ public class DefaultMessageResponder implements MessageResponder {
                         if (fileRes.isAccepted() && !fileRes.isCanceled()) {
                             ui.showTransfer(fileRes);
 
-                            try
-                            {
+                            try {
                                 final int port = fileRes.startServer();
                                 controller.sendFileAccept(tmpUser, port, fileHash, fileName);
 
-                                if (fileRes.transfer())
-                                {
+                                if (fileRes.transfer()) {
                                     msgController.showSystemMessage("Successfully received " + fileName
                                             + " from " + user + ", and saved as " + fileRes.getFile().getName());
                                 }
 
-                                else
-                                {
+                                else {
                                     msgController.showSystemMessage("Failed to receive " + fileName + " from " + user);
                                     fileRes.cancel();
                                 }
                             }
 
                             // Failed to start the server
-                            catch (final ServerException e)
-                            {
+                            catch (final ServerException e) {
                                 LOG.log(Level.SEVERE, e.toString(), e);
                                 msgController.showSystemMessage("Failed to receive " + fileName + " from " + user);
                                 controller.sendFileAbort(tmpUser, fileHash, fileName);
@@ -554,8 +550,7 @@ public class DefaultMessageResponder implements MessageResponder {
                             }
 
                             // Failed to send the accept message
-                            catch (final CommandException e)
-                            {
+                            catch (final CommandException e) {
                                 msgController.showSystemMessage("Failed to receive " + fileName + " from " + user);
                                 fileRes.cancel();
                             }

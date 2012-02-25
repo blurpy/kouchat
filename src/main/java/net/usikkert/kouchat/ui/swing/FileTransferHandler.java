@@ -129,8 +129,7 @@ public class FileTransferHandler extends TransferHandler {
                         String fileURI = "";
 
                         for (int i = 0; i < uriList.length; i++) {
-                            if (uriList[i].startsWith("file:/"))
-                            {
+                            if (uriList[i].startsWith("file:/")) {
                                 fileURI = uriList[i];
                                 break;
                             }
