@@ -49,6 +49,7 @@ public class CommandParser {
     private final MessageController msgController;
     private final User me;
     private final TransferList tList;
+    private final Settings settings;
 
     /**
      * Constructor.
@@ -61,7 +62,8 @@ public class CommandParser {
         this.ui = ui;
 
         msgController = ui.getMessageController();
-        me = Settings.getSettings().getMe();
+        settings = Settings.getSettings();
+        me = settings.getMe();
         tList = controller.getTransferList();
     }
 
@@ -472,6 +474,10 @@ public class CommandParser {
 
             else if (user == me) {
                 msgController.showSystemMessage("/msg - no point in doing that!");
+            }
+
+            else if (settings.isNoPrivateChat()) {
+                msgController.showSystemMessage("/msg - can't send private chat message when private chat is disabled");
             }
 
             else if (user.getPrivateChatPort() == 0) {
