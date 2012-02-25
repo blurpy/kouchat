@@ -68,8 +68,8 @@ public class OperatingSystemNetworkInfo {
      * @return The network interface, or <code>null</code>.
      */
     public NetworkInterface getOperatingSystemNetworkInterface() {
-        String message = createMessageToSend();
-        SimpleReceiverListener listener = new SimpleReceiverListener(message);
+        final String message = createMessageToSend();
+        final SimpleReceiverListener listener = new SimpleReceiverListener(message);
         connect(listener);
         sender.send(message);
         waitForMessage(listener);
@@ -126,7 +126,7 @@ public class OperatingSystemNetworkInfo {
             return null;
 
         try {
-            InetAddress osAddress = InetAddress.getByName(listener.getIpAddress());
+            final InetAddress osAddress = InetAddress.getByName(listener.getIpAddress());
             return NetworkInterface.getByInetAddress(osAddress);
         }
 
@@ -148,7 +148,7 @@ public class OperatingSystemNetworkInfo {
      * @return A message.
      */
     private String createMessageToSend() {
-        int code = Settings.getSettings().getMe().getCode();
+        final int code = Settings.getSettings().getMe().getCode();
         return "getOperatingSystemNetworkInterface(" + code + ")";
     }
 }

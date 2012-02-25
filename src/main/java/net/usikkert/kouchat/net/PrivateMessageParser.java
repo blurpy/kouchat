@@ -68,27 +68,27 @@ public class PrivateMessageParser implements ReceiverListener {
     @Override
     public void messageArrived(final String message, final String ipAddress) {
         try {
-            int exclamation = message.indexOf("!");
-            int hash = message.indexOf("#");
-            int colon = message.indexOf(":");
+            final int exclamation = message.indexOf("!");
+            final int hash = message.indexOf("#");
+            final int colon = message.indexOf(":");
 
-            int fromCode = Integer.parseInt(message.substring(0, exclamation));
+            final int fromCode = Integer.parseInt(message.substring(0, exclamation));
 
-            String type = message.substring(exclamation + 1, hash);
-            String msg = message.substring(colon + 1, message.length());
+            final String type = message.substring(exclamation + 1, hash);
+            final String msg = message.substring(colon + 1, message.length());
 
-            int leftPara = msg.indexOf("(");
-            int rightPara = msg.indexOf(")");
-            int toCode = Integer.parseInt(msg.substring(leftPara + 1, rightPara));
+            final int leftPara = msg.indexOf("(");
+            final int rightPara = msg.indexOf(")");
+            final int toCode = Integer.parseInt(msg.substring(leftPara + 1, rightPara));
 
-            User tempme = settings.getMe();
+            final User tempme = settings.getMe();
 
             if (fromCode != tempme.getCode() && toCode == tempme.getCode()) {
                 if (type.equals("PRIVMSG")) {
-                    int leftBracket = msg.indexOf("[");
-                    int rightBracket = msg.indexOf("]");
-                    int rgb = Integer.parseInt(msg.substring(leftBracket + 1, rightBracket));
-                    String privmsg = msg.substring(rightBracket + 1, msg.length());
+                    final int leftBracket = msg.indexOf("[");
+                    final int rightBracket = msg.indexOf("]");
+                    final int rgb = Integer.parseInt(msg.substring(leftBracket + 1, rightBracket));
+                    final String privmsg = msg.substring(rightBracket + 1, msg.length());
 
                     privmsgResponder.messageArrived(fromCode, privmsg, rgb);
                 }

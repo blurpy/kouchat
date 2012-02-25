@@ -73,8 +73,8 @@ public class ByteCounter {
      * @param bytes Number of bytes transferred since last time.
      */
     public void addBytes(final long bytes) {
-        long currentTime = System.currentTimeMillis();
-        long timeSpent = updateTimeSpent(currentTime);
+        final long currentTime = System.currentTimeMillis();
+        final long timeSpent = updateTimeSpent(currentTime);
         updateCounters(bytes, timeSpent);
     }
 
@@ -86,7 +86,7 @@ public class ByteCounter {
      * @return Time spent since the last update.
      */
     protected long updateTimeSpent(final long currentTime) {
-        long timeSpent = currentTime - previousTime;
+        final long timeSpent = currentTime - previousTime;
         previousTime = currentTime;
         return timeSpent;
     }
@@ -143,10 +143,10 @@ public class ByteCounter {
      * @param timeSpent The time spent since last update.
      */
     private void calculateFirstSecond(final long bytesAdded, final long timeSpent) {
-        long originalTimeCount = timeCounted - timeSpent;
-        long originalByteCount = bytesCounted - bytesAdded;
-        long timeLeftInSecond = ONE_SECOND - originalTimeCount;
-        long bytesAddedInTimeLeft = getBytesAddedInTimeLeft(bytesAdded, timeSpent, timeLeftInSecond);
+        final long originalTimeCount = timeCounted - timeSpent;
+        final long originalByteCount = bytesCounted - bytesAdded;
+        final long timeLeftInSecond = ONE_SECOND - originalTimeCount;
+        final long bytesAddedInTimeLeft = getBytesAddedInTimeLeft(bytesAdded, timeSpent, timeLeftInSecond);
 
         bytesPerSec = originalByteCount + bytesAddedInTimeLeft;
         timeCounted %= ONE_SECOND;
@@ -164,7 +164,7 @@ public class ByteCounter {
      * @return The average number of bytes added in the remaining milliseconds of a second.
      */
     private long getBytesAddedInTimeLeft(final long bytesAdded, final long timeSpent, final long timeLeft) {
-        double percent = Tools.percent(timeLeft, timeSpent);
+        final double percent = Tools.percent(timeLeft, timeSpent);
         return (long) Tools.percentOf(percent, bytesAdded);
     }
 

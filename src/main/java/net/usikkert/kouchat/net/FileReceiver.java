@@ -124,7 +124,7 @@ public class FileReceiver implements FileTransfer {
         while (!done && counter < 10) {
             try {
                 sSock = new ServerSocket(port);
-                TimeoutThread tt = new TimeoutThread();
+                final TimeoutThread tt = new TimeoutThread();
                 tt.start();
                 done = true;
             }
@@ -164,7 +164,7 @@ public class FileReceiver implements FileTransfer {
                 fos = new FileOutputStream(file);
                 is = sock.getInputStream();
 
-                byte[] b = new byte[1024];
+                final byte[] b = new byte[1024];
                 transferred = 0;
                 percent = 0;
                 int tmpTransferred = 0;

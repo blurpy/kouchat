@@ -78,9 +78,9 @@ public final class LogInitializer {
      * without this change.
      */
     public void initHandlers() {
-        Handler[] handlers = Logger.getLogger("").getHandlers();
+        final Handler[] handlers = Logger.getLogger("").getHandlers();
 
-        for (Handler handler : handlers) {
+        for (final Handler handler : handlers) {
             if (handler instanceof ConsoleHandler) {
                 handler.setLevel(Level.ALL);
                 break;
@@ -92,7 +92,7 @@ public final class LogInitializer {
      * Activates logging of all messages in all the loggers.
      */
     public void activateDebug() {
-        Logger mainLogger = Logger.getLogger(MAIN_PACKAGE);
+        final Logger mainLogger = Logger.getLogger(MAIN_PACKAGE);
         mainLogger.setLevel(Level.ALL);
     }
 }

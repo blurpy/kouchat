@@ -94,10 +94,10 @@ public final class NetworkUtils {
         if (netif == null)
             return false;
 
-        Enumeration<InetAddress> inetAddresses = netif.getInetAddresses();
+        final Enumeration<InetAddress> inetAddresses = netif.getInetAddresses();
 
         while (inetAddresses.hasMoreElements()) {
-            InetAddress inetAddress = inetAddresses.nextElement();
+            final InetAddress inetAddress = inetAddresses.nextElement();
             if (inetAddress instanceof Inet4Address)
                 return true;
         }
@@ -144,10 +144,10 @@ public final class NetworkUtils {
             return "";
 
         String ipAddress = "";
-        Enumeration<InetAddress> inetAddresses = netif.getInetAddresses();
+        final Enumeration<InetAddress> inetAddresses = netif.getInetAddresses();
 
         while (inetAddresses.hasMoreElements()) {
-            InetAddress inetAddress = inetAddresses.nextElement();
+            final InetAddress inetAddress = inetAddresses.nextElement();
             if (inetAddress instanceof Inet4Address)
                 ipAddress += inetAddress.getHostAddress() + " ";
         }
@@ -203,13 +203,13 @@ public final class NetworkUtils {
         if (origNetIf == null)
             return null;
 
-        Enumeration<NetworkInterface> networkInterfaces = getNetworkInterfaces();
+        final Enumeration<NetworkInterface> networkInterfaces = getNetworkInterfaces();
 
         if (networkInterfaces == null)
             return null;
 
         while (networkInterfaces.hasMoreElements()) {
-            NetworkInterface netif = networkInterfaces.nextElement();
+            final NetworkInterface netif = networkInterfaces.nextElement();
             if (sameNetworkInterface(origNetIf, netif))
                 return netif;
         }
@@ -244,13 +244,13 @@ public final class NetworkUtils {
      * @see #isUsable(NetworkInterface)
      */
     public static NetworkInterface findFirstUsableNetworkInterface() {
-        Enumeration<NetworkInterface> networkInterfaces = getNetworkInterfaces();
+        final Enumeration<NetworkInterface> networkInterfaces = getNetworkInterfaces();
 
         if (networkInterfaces == null)
             return null;
 
         while (networkInterfaces.hasMoreElements()) {
-            NetworkInterface netif = networkInterfaces.nextElement();
+            final NetworkInterface netif = networkInterfaces.nextElement();
             if (isUsable(netif))
                 return netif;
         }
@@ -303,8 +303,8 @@ public final class NetworkUtils {
      */
     public static String getHostName(final String ipAddress) {
         try {
-            InetAddress inetAddress = InetAddress.getByName(ipAddress);
-            String hostName = inetAddress.getHostName();
+            final InetAddress inetAddress = InetAddress.getByName(ipAddress);
+            final String hostName = inetAddress.getHostName();
 
             if (!hostName.equals(ipAddress))
                 return hostName;

@@ -131,26 +131,26 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
         chatTP.setTransferHandler(fileTransferHandler);
         chatTP.setBackground(UIManager.getColor("TextPane.background"));
         chatDoc = chatTP.getStyledDocument();
-        JScrollPane chatScroll = new JScrollPane(chatTP);
+        final JScrollPane chatScroll = new JScrollPane(chatTP);
 
-        URLMouseListener urlML = new URLMouseListener(chatTP);
+        final URLMouseListener urlML = new URLMouseListener(chatTP);
         chatTP.addMouseListener(urlML);
         chatTP.addMouseMotionListener(urlML);
 
-        DocumentFilterList documentFilterList = new DocumentFilterList();
+        final DocumentFilterList documentFilterList = new DocumentFilterList();
         documentFilterList.addDocumentFilter(new URLDocumentFilter(false));
         documentFilterList.addDocumentFilter(new SmileyDocumentFilter(false, imageLoader));
-        AbstractDocument doc = (AbstractDocument) chatDoc;
+        final AbstractDocument doc = (AbstractDocument) chatDoc;
         doc.setDocumentFilter(documentFilterList);
 
         msgTF = new JTextField();
         msgTF.addActionListener(this);
         msgTF.addKeyListener(this);
 
-        AbstractDocument msgDoc = (AbstractDocument) msgTF.getDocument();
+        final AbstractDocument msgDoc = (AbstractDocument) msgTF.getDocument();
         msgDoc.setDocumentFilter(new SizeDocumentFilter(Constants.MESSAGE_MAX_BYTES));
 
-        JPanel backP = new JPanel();
+        final JPanel backP = new JPanel();
         backP.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         backP.setLayout(new BorderLayout(2, 2));
         backP.add(chatScroll, BorderLayout.CENTER);
@@ -178,7 +178,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
         toolsMenu.setText("Tools");
         toolsMenu.add(clearMI);
 
-        JMenuBar menuBar = new JMenuBar();
+        final JMenuBar menuBar = new JMenuBar();
         menuBar.add(fileMenu);
         menuBar.add(toolsMenu);
         setJMenuBar(menuBar);
@@ -220,9 +220,9 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * @param panel The panel to add the shortcut to.
      */
     private void hideWithEscape(final JPanel panel) {
-        KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
+        final KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
 
-        Action escapeAction = new AbstractAction() {
+        final Action escapeAction = new AbstractAction() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -355,14 +355,14 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
             @Override
             public void run() {
                 if (ke.getKeyCode() == KeyEvent.VK_UP) {
-                    String up = cmdHistory.goUp();
+                    final String up = cmdHistory.goUp();
 
                     if (!msgTF.getText().equals(up))
                         msgTF.setText(up);
                 }
 
                 else if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
-                    String down = cmdHistory.goDown();
+                    final String down = cmdHistory.goDown();
 
                     if (!msgTF.getText().equals(down))
                         msgTF.setText(down);
@@ -517,7 +517,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      */
     @Override
     public void windowDeiconified(final WindowEvent e) {
-        FocusWindowThread focusWindowThread = new FocusWindowThread(this);
+        final FocusWindowThread focusWindowThread = new FocusWindowThread(this);
         focusWindowThread.start();
     }
 

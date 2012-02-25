@@ -37,7 +37,7 @@ public class KouChatConsole {
      */
     public KouChatConsole() {
         System.setProperty(Constants.PROPERTY_CLIENT_UI, "Console");
-        ConsoleMediator mediator = new ConsoleMediator();
+        final ConsoleMediator mediator = new ConsoleMediator();
         mediator.start();
     }
 }

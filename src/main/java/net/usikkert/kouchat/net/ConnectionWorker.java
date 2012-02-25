@@ -84,7 +84,7 @@ public class ConnectionWorker implements Runnable {
         LOG.log(Level.FINE, "Network is starting");
 
         while (run) {
-            boolean networkUp = updateNetwork();
+            final boolean networkUp = updateNetwork();
 
             try {
                 if (networkUp)
@@ -122,7 +122,7 @@ public class ConnectionWorker implements Runnable {
      * @return If the network is up or not after this update is done.
      */
     private synchronized boolean updateNetwork() {
-        NetworkInterface netif = selectNetworkInterface();
+        final NetworkInterface netif = selectNetworkInterface();
 
         // No network interface to connect with
         if (!NetworkUtils.isUsable(netif)) {
@@ -136,7 +136,7 @@ public class ConnectionWorker implements Runnable {
 
         // Switching network interface, like going from cable to wireless
         else if (isNewNetworkInterface(netif)) {
-            String origNetwork = networkInterface == null ? "[null]" : networkInterface.getName();
+            final String origNetwork = networkInterface == null ? "[null]" : networkInterface.getName();
             LOG.log(Level.FINE, "Changing network from " + origNetwork + " to " + netif.getName());
             networkInterface = netif;
 
@@ -179,7 +179,7 @@ public class ConnectionWorker implements Runnable {
     private synchronized void notifyNetworkUp(final boolean silent) {
         networkUp = true;
 
-        for (NetworkConnectionListener listener : listeners) {
+        for (final NetworkConnectionListener listener : listeners) {
             listener.networkCameUp(silent);
         }
     }
@@ -192,7 +192,7 @@ public class ConnectionWorker implements Runnable {
     private synchronized void notifyNetworkDown(final boolean silent) {
         networkUp = false;
 
-        for (NetworkConnectionListener listener : listeners) {
+        for (final NetworkConnectionListener listener : listeners) {
             listener.networkWentDown(silent);
         }
     }
@@ -241,14 +241,14 @@ public class ConnectionWorker implements Runnable {
      * @see NetworkUtils#isUsable(NetworkInterface)
      */
     private NetworkInterface selectNetworkInterface() {
-        NetworkInterface firstUsableNetIf = NetworkUtils.findFirstUsableNetworkInterface();
+        final NetworkInterface firstUsableNetIf = NetworkUtils.findFirstUsableNetworkInterface();
 
         if (firstUsableNetIf == null) {
             LOG.log(Level.FINER, "No usable network interface detected.");
             return null;
         }
 
-        NetworkInterface osNetIf = osNetworkInfo.getOperatingSystemNetworkInterface();
+        final NetworkInterface osNetIf = osNetworkInfo.getOperatingSystemNetworkInterface();
 
         if (NetworkUtils.isUsable(osNetIf)) {
             LOG.log(Level.FINER, "Using operating system's choice of network interface.");
@@ -265,7 +265,7 @@ public class ConnectionWorker implements Runnable {
      * @return The current network interface.
      */
     public NetworkInterface getCurrentNetworkInterface() {
-        NetworkInterface updatedNetworkInterface =
+        final NetworkInterface updatedNetworkInterface =
             NetworkUtils.getUpdatedNetworkInterface(networkInterface);
 
         if (updatedNetworkInterface != null)

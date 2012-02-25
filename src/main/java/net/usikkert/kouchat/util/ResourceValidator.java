@@ -69,9 +69,9 @@ public class ResourceValidator {
      * @return A list of the resources that has not been loaded.
      */
     public String validate() {
-        StringBuilder missingResourceList = new StringBuilder();
+        final StringBuilder missingResourceList = new StringBuilder();
 
-        for (String location : resourceMap.keySet()) {
+        for (final String location : resourceMap.keySet()) {
             if (resourceMap.get(location) == null) {
                 if (missingResourceList.length() != 0)
                     missingResourceList.append("\n");

@@ -114,17 +114,17 @@ public class FileTransferHandler extends TransferHandler {
 
                 if (support.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
                     @SuppressWarnings("unchecked")
-                    List<File> fileList = (List<File>) support.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
+                    final List<File> fileList = (List<File>) support.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
 
                     if (fileList.size() > 0)
                         file = fileList.get(0);
                 }
 
                 else if (support.isDataFlavorSupported(uriListFlavor)) {
-                    Object data = support.getTransferable().getTransferData(uriListFlavor);
+                    final Object data = support.getTransferable().getTransferData(uriListFlavor);
 
                     if (data != null) {
-                        String[] uriList = data.toString().split("\r\n");
+                        final String[] uriList = data.toString().split("\r\n");
                         String fileURI = "";
 
                         for (int i = 0; i < uriList.length; i++) {
@@ -136,7 +136,7 @@ public class FileTransferHandler extends TransferHandler {
                         }
 
                         try {
-                            URI uri = new URI(fileURI);
+                            final URI uri = new URI(fileURI);
 
                             if (uri != null)
                                 file = new File(uri);
@@ -182,12 +182,12 @@ public class FileTransferHandler extends TransferHandler {
     @Override
     protected Transferable createTransferable(final JComponent c) {
         if (c instanceof JTextComponent) {
-            String data = ((JTextComponent) c).getSelectedText();
+            final String data = ((JTextComponent) c).getSelectedText();
             return new StringSelection(data);
         }
 
         else if (c instanceof JList) {
-            String data = ((JList) c).getSelectedValue().toString();
+            final String data = ((JList) c).getSelectedValue().toString();
             return new StringSelection(data);
         }
 

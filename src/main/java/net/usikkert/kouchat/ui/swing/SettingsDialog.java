@@ -93,7 +93,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         nickTF = new JTextField(10);
         new CopyPastePopup(nickTF);
 
-        JPanel nickP = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        final JPanel nickP = new JPanel(new FlowLayout(FlowLayout.LEFT));
         nickP.add(nickL);
         nickP.add(nickTF);
         nickP.setBorder(BorderFactory.createTitledBorder("Choose nick"));
@@ -111,13 +111,13 @@ public class SettingsDialog extends JDialog implements ActionListener {
         chooseSysColorB = new JButton("Change");
         chooseSysColorB.addActionListener(this);
 
-        JPanel ownColorP = new JPanel();
+        final JPanel ownColorP = new JPanel();
         ownColorP.setLayout(new BoxLayout(ownColorP, BoxLayout.LINE_AXIS));
         ownColorP.add(ownColorL);
         ownColorP.add(Box.createHorizontalGlue());
         ownColorP.add(chooseOwnColorB);
 
-        JPanel sysColorP = new JPanel();
+        final JPanel sysColorP = new JPanel();
         sysColorP.setLayout(new BoxLayout(sysColorP, BoxLayout.LINE_AXIS));
         sysColorP.add(sysColorL);
         sysColorP.add(Box.createHorizontalGlue());
@@ -129,13 +129,13 @@ public class SettingsDialog extends JDialog implements ActionListener {
                 + "<br />changes to take effect.</html>");
         lookAndFeelCB = new JComboBox(UITools.getLookAndFeels());
 
-        JPanel lookAndFeelP = new JPanel();
+        final JPanel lookAndFeelP = new JPanel();
         lookAndFeelP.setLayout(new BoxLayout(lookAndFeelP, BoxLayout.LINE_AXIS));
         lookAndFeelP.add(lookAndFeelL);
         lookAndFeelP.add(Box.createHorizontalGlue());
         lookAndFeelP.add(lookAndFeelCB);
 
-        JPanel lookP = new JPanel(new GridLayout(3, 1, 1, 4));
+        final JPanel lookP = new JPanel(new GridLayout(3, 1, 1, 4));
         lookP.add(ownColorP);
         lookP.add(sysColorP);
         lookP.add(lookAndFeelP);
@@ -157,7 +157,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         smileysCB.setToolTipText("<html>Replaces text smileys in the chat with smiley images."
                 + "<br />See the FAQ for a list of available smileys.</html>");
 
-        JPanel miscP = new JPanel(new GridLayout(2, 2));
+        final JPanel miscP = new JPanel(new GridLayout(2, 2));
         miscP.add(soundCB);
         miscP.add(loggingCB);
         miscP.add(smileysCB);
@@ -171,7 +171,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
                 + "<br>will be used, if possible.</html>");
         new CopyPastePopup(browserTF);
 
-        JPanel browserTopP = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        final JPanel browserTopP = new JPanel(new FlowLayout(FlowLayout.LEFT));
         browserTopP.add(browserL);
         browserTopP.add(browserTF);
 
@@ -180,16 +180,16 @@ public class SettingsDialog extends JDialog implements ActionListener {
         testBrowserB = new JButton("Test");
         testBrowserB.addActionListener(this);
 
-        JPanel browserBottomP = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        final JPanel browserBottomP = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         browserBottomP.add(chooseBrowserB);
         browserBottomP.add(testBrowserB);
 
-        JPanel browserP = new JPanel(new BorderLayout());
+        final JPanel browserP = new JPanel(new BorderLayout());
         browserP.add(browserTopP, BorderLayout.NORTH);
         browserP.add(browserBottomP, BorderLayout.SOUTH);
         browserP.setBorder(BorderFactory.createTitledBorder("Choose browser"));
 
-        JPanel centerP = new JPanel(new BorderLayout());
+        final JPanel centerP = new JPanel(new BorderLayout());
         centerP.add(lookP, BorderLayout.CENTER);
         centerP.add(miscP, BorderLayout.SOUTH);
         centerP.add(browserP, BorderLayout.NORTH);
@@ -200,11 +200,11 @@ public class SettingsDialog extends JDialog implements ActionListener {
         cancelB.addActionListener(this);
         saveB.setPreferredSize(cancelB.getPreferredSize());
 
-        JPanel buttonP = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        final JPanel buttonP = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         buttonP.add(saveB);
         buttonP.add(cancelB);
 
-        JPanel panel = new JPanel(new BorderLayout());
+        final JPanel panel = new JPanel(new BorderLayout());
         panel.add(nickP, BorderLayout.NORTH);
         panel.add(centerP, BorderLayout.CENTER);
         panel.add(buttonP, BorderLayout.SOUTH);
@@ -231,9 +231,9 @@ public class SettingsDialog extends JDialog implements ActionListener {
      * Adds a shortcut to hide the window when escape is pressed.
      */
     private void hideWithEscape() {
-        KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
+        final KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
 
-        Action escapeAction = new AbstractAction() {
+        final Action escapeAction = new AbstractAction() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -273,7 +273,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
                         settings.setLogging(loggingCB.isSelected());
                         settings.setBrowser(browserTF.getText());
                         settings.setSmileys(smileysCB.isSelected());
-                        LookAndFeelWrapper lnfw = (LookAndFeelWrapper) lookAndFeelCB.getSelectedItem();
+                        final LookAndFeelWrapper lnfw = (LookAndFeelWrapper) lookAndFeelCB.getSelectedItem();
                         settings.setLookAndFeel(lnfw.getLookAndFeelInfo().getName());
                         settings.saveSettings();
                         setVisible(false);
@@ -296,7 +296,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    Color newColor = UITools.showColorChooser("Choose color for own messages",
+                    final Color newColor = UITools.showColorChooser("Choose color for own messages",
                             new Color(settings.getOwnColor()));
 
                     if (newColor != null) {
@@ -310,7 +310,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    Color newColor = UITools.showColorChooser("Choose color for system messages",
+                    final Color newColor = UITools.showColorChooser("Choose color for system messages",
                             new Color(settings.getSysColor()));
 
                     if (newColor != null) {
@@ -324,7 +324,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    String browser = browserTF.getText();
+                    final String browser = browserTF.getText();
 
                     if (browser.trim().length() > 0) {
                         try {
@@ -361,11 +361,11 @@ public class SettingsDialog extends JDialog implements ActionListener {
         }
 
         else if (e.getSource() == chooseBrowserB) {
-            JFileChooser chooser = UITools.createFileChooser("Open");
-            int returnVal = chooser.showOpenDialog(null);
+            final JFileChooser chooser = UITools.createFileChooser("Open");
+            final int returnVal = chooser.showOpenDialog(null);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
-                File file = chooser.getSelectedFile().getAbsoluteFile();
+                final File file = chooser.getSelectedFile().getAbsoluteFile();
                 browserTF.setText(file.getAbsolutePath());
             }
         }
@@ -378,8 +378,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
      * @param lnfw Information about the chosen look and feel.
      */
     private void notifyLookAndFeelChange(final LookAndFeelWrapper lnfw) {
-        String newLookAndFeel = lnfw.getLookAndFeelInfo().getName();
-        LookAndFeelInfo currentLookAndFeel = UITools.getCurrentLookAndFeel();
+        final String newLookAndFeel = lnfw.getLookAndFeelInfo().getName();
+        final LookAndFeelInfo currentLookAndFeel = UITools.getCurrentLookAndFeel();
 
         if (currentLookAndFeel == null || !newLookAndFeel.equals(currentLookAndFeel.getName())) {
             UITools.showInfoMessage("The new look and feel will be used the next time "
@@ -412,7 +412,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
      * or the current look and feel if none is saved yet.</p>
      */
     private void selectLookAndFeel() {
-        LookAndFeelInfo lookAndFeel = UITools.getLookAndFeel(settings.getLookAndFeel());
+        final LookAndFeelInfo lookAndFeel = UITools.getLookAndFeel(settings.getLookAndFeel());
         String lnfClass = "";
 
         if (lookAndFeel == null)
@@ -421,7 +421,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
             lnfClass = lookAndFeel.getClassName();
 
         for (int i = 0; i < lookAndFeelCB.getItemCount(); i++) {
-            LookAndFeelWrapper lafw = (LookAndFeelWrapper) lookAndFeelCB.getItemAt(i);
+            final LookAndFeelWrapper lafw = (LookAndFeelWrapper) lookAndFeelCB.getItemAt(i);
 
             if (lafw.getLookAndFeelInfo().getClassName().equals(lnfClass)) {
                 lookAndFeelCB.setSelectedIndex(i);

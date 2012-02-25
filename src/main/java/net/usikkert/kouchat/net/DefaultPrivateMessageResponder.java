@@ -79,7 +79,7 @@ public class DefaultPrivateMessageResponder implements PrivateMessageResponder {
     @Override
     public void messageArrived(final int userCode, final String msg, final int color) {
         if (!controller.isNewUser(userCode)) {
-            User user = controller.getUser(userCode);
+            final User user = controller.getUser(userCode);
 
             if (me.isAway())
                 LOG.log(Level.WARNING, "Got message from " + user.getNick() + " while away: " + msg);

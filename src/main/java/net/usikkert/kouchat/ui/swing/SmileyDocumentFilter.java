@@ -92,7 +92,7 @@ public class SmileyDocumentFilter extends DocumentFilter {
             @Override
             public void run() {
                 Smiley smiley = findSmiley(text, 0);
-                StyledDocument doc = (StyledDocument) fb.getDocument();
+                final StyledDocument doc = (StyledDocument) fb.getDocument();
 
                 while (smiley != null) {
                     if (!smileyIconRegistered(smileyAttr, smiley))
@@ -141,8 +141,8 @@ public class SmileyDocumentFilter extends DocumentFilter {
      */
     private void registerSmileyLocation(final StyledDocument doc, final Smiley smiley,
             final int offset, final MutableAttributeSet smileyAttr) {
-        int stopPos = smiley.getStopPosition();
-        int startPos = smiley.getStartPosition();
+        final int stopPos = smiley.getStopPosition();
+        final int startPos = smiley.getStartPosition();
         doc.setCharacterAttributes(offset + startPos, stopPos - startPos, smileyAttr, false);
     }
 
@@ -158,7 +158,7 @@ public class SmileyDocumentFilter extends DocumentFilter {
         int firstMatch = -1;
         Smiley smiley = null;
 
-        for (String smileyText : smileyMap.getTextSmileys()) {
+        for (final String smileyText : smileyMap.getTextSmileys()) {
             int smileyPos = 0;
             int loopOffset = offset;
 
@@ -169,7 +169,7 @@ public class SmileyDocumentFilter extends DocumentFilter {
                 smileyPos = text.indexOf(smileyText, loopOffset);
 
                 if (newSmileyFound(smileyPos, firstMatch)) {
-                    Smiley tmpSmiley =
+                    final Smiley tmpSmiley =
                         new Smiley(smileyPos, smileyMap.getSmiley(smileyText), smileyText);
 
                     if (smileyHasWhitespace(tmpSmiley, text)) {
@@ -215,7 +215,7 @@ public class SmileyDocumentFilter extends DocumentFilter {
      * @return If the smiley is surrounded by whitespace.
      */
     protected boolean smileyHasWhitespace(final Smiley smiley, final String text) {
-        int leftIndex = smiley.getStartPosition() - 1;
+        final int leftIndex = smiley.getStartPosition() - 1;
         boolean leftOk = false;
 
         if (leftIndex <= 0)
@@ -226,7 +226,7 @@ public class SmileyDocumentFilter extends DocumentFilter {
         if (!leftOk)
             return false;
 
-        int rightIndex = smiley.getStopPosition();
+        final int rightIndex = smiley.getStopPosition();
         boolean rightOk = false;
 
         if (rightIndex >= text.length())

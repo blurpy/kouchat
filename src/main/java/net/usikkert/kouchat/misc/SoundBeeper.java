@@ -103,15 +103,15 @@ public class SoundBeeper {
      * Opens an audio file, and reserves the resources needed for playback.
      */
     public void open() {
-        InputStream resourceStream = getClass().getResourceAsStream(BEEP_FILE);
+        final InputStream resourceStream = getClass().getResourceAsStream(BEEP_FILE);
 
         if (resourceStream != null) {
             AudioInputStream audioStream = null;
 
             try {
                 audioStream = AudioSystem.getAudioInputStream(resourceStream);
-                AudioFormat format = audioStream.getFormat();
-                DataLine.Info info = new DataLine.Info(Clip.class, format);
+                final AudioFormat format = audioStream.getFormat();
+                final DataLine.Info info = new DataLine.Info(Clip.class, format);
 
                 if (AudioSystem.isLineSupported(info)) {
                     audioClip = (Clip) AudioSystem.getLine(info);

@@ -102,26 +102,26 @@ public class ImageLoader {
      * Constructor. Loads and validates the images.
      */
     public ImageLoader() {
-        ResourceValidator resourceValidator = new ResourceValidator();
+        final ResourceValidator resourceValidator = new ResourceValidator();
 
         // Load resources from jar or local file system
-        URL smileURL = loadImage(resourceValidator, Images.SMILEY_SMILE);
-        URL sadURL = loadImage(resourceValidator, Images.SMILEY_SAD);
-        URL tongueURL = loadImage(resourceValidator, Images.SMILEY_TONGUE);
-        URL teethURL = loadImage(resourceValidator, Images.SMILEY_TEETH);
-        URL winkURL = loadImage(resourceValidator, Images.SMILEY_WINK);
-        URL omgURL = loadImage(resourceValidator, Images.SMILEY_OMG);
-        URL angryURL = loadImage(resourceValidator, Images.SMILEY_ANGRY);
-        URL confusedURL = loadImage(resourceValidator, Images.SMILEY_CONFUSED);
-        URL cryURL = loadImage(resourceValidator, Images.SMILEY_CRY);
-        URL embarrassedURL = loadImage(resourceValidator, Images.SMILEY_EMBARRASSED);
-        URL shadeURL = loadImage(resourceValidator, Images.SMILEY_SHADE);
-        URL kouNormURL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL);
-        URL kouNormActURL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_ACT);
-        URL kouAwayURL = loadImage(resourceValidator, Images.ICON_KOU_AWAY);
-        URL kouAwayActURL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_ACT);
-        URL envelopeURL = loadImage(resourceValidator, Images.ICON_ENVELOPE);
-        URL dotURL = loadImage(resourceValidator, Images.ICON_DOT);
+        final URL smileURL = loadImage(resourceValidator, Images.SMILEY_SMILE);
+        final URL sadURL = loadImage(resourceValidator, Images.SMILEY_SAD);
+        final URL tongueURL = loadImage(resourceValidator, Images.SMILEY_TONGUE);
+        final URL teethURL = loadImage(resourceValidator, Images.SMILEY_TEETH);
+        final URL winkURL = loadImage(resourceValidator, Images.SMILEY_WINK);
+        final URL omgURL = loadImage(resourceValidator, Images.SMILEY_OMG);
+        final URL angryURL = loadImage(resourceValidator, Images.SMILEY_ANGRY);
+        final URL confusedURL = loadImage(resourceValidator, Images.SMILEY_CONFUSED);
+        final URL cryURL = loadImage(resourceValidator, Images.SMILEY_CRY);
+        final URL embarrassedURL = loadImage(resourceValidator, Images.SMILEY_EMBARRASSED);
+        final URL shadeURL = loadImage(resourceValidator, Images.SMILEY_SHADE);
+        final URL kouNormURL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL);
+        final URL kouNormActURL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_ACT);
+        final URL kouAwayURL = loadImage(resourceValidator, Images.ICON_KOU_AWAY);
+        final URL kouAwayActURL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_ACT);
+        final URL envelopeURL = loadImage(resourceValidator, Images.ICON_ENVELOPE);
+        final URL dotURL = loadImage(resourceValidator, Images.ICON_DOT);
 
         validate(resourceValidator);
 
@@ -155,7 +155,7 @@ public class ImageLoader {
      * @return The URL to the image, or <code>null</code> if the image wasn't loaded.
      */
     private URL loadImage(final ResourceValidator resourceValidator, final String image) {
-        URL url = getClass().getResource(image);
+        final URL url = getClass().getResource(image);
         resourceValidator.addResource(url, image);
         return url;
     }
@@ -168,10 +168,10 @@ public class ImageLoader {
      * @param resourceValidator The validator.
      */
     private void validate(final ResourceValidator resourceValidator) {
-        String missing = resourceValidator.validate();
+        final String missing = resourceValidator.validate();
 
         if (missing.length() > 0) {
-            String error = "These images were expected, but not found:\n\n" + missing + "\n\n"
+            final String error = "These images were expected, but not found:\n\n" + missing + "\n\n"
                     + Constants.APP_NAME + " will now shutdown.";
 
             LOG.log(Level.SEVERE, error);

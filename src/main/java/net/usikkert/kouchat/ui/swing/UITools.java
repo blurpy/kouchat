@@ -75,7 +75,7 @@ public final class UITools {
      * @param url The url to open in the browser.
      */
     public static void browse(final String url) {
-        String browser = SETTINGS.getBrowser();
+        final String browser = SETTINGS.getBrowser();
 
         // The default is to use the browser in the settings.
         if (browser != null && browser.trim().length() > 0 ) {
@@ -196,7 +196,7 @@ public final class UITools {
      */
     public static void setLookAndFeel(final String lnfName) {
         try {
-            LookAndFeelInfo lookAndFeel = getLookAndFeel(lnfName);
+            final LookAndFeelInfo lookAndFeel = getLookAndFeel(lnfName);
 
             if (lookAndFeel != null)
                 UIManager.setLookAndFeel(lookAndFeel.getClassName());
@@ -237,8 +237,8 @@ public final class UITools {
      * @return All the available look and feels.
      */
     public static LookAndFeelWrapper[] getLookAndFeels() {
-        LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
-        LookAndFeelWrapper[] lookAndFeelWrappers = new LookAndFeelWrapper[lookAndFeels.length];
+        final LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
+        final LookAndFeelWrapper[] lookAndFeelWrappers = new LookAndFeelWrapper[lookAndFeels.length];
 
         for (int i = 0; i < lookAndFeels.length; i++) {
             lookAndFeelWrappers[i] = new LookAndFeelWrapper(lookAndFeels[i]);
@@ -255,9 +255,9 @@ public final class UITools {
      * @return The LookAndFeelInfo for that name.
      */
     public static LookAndFeelInfo getLookAndFeel(final String lnfName) {
-        LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
+        final LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
 
-        for (LookAndFeelInfo lookAndFeelInfo : lookAndFeels) {
+        for (final LookAndFeelInfo lookAndFeelInfo : lookAndFeels) {
             if (lookAndFeelInfo.getName().equals(lnfName)) {
                 return lookAndFeelInfo;
             }
@@ -272,14 +272,14 @@ public final class UITools {
      * @return The current look and feel, or <code>null</code> if none is set.
      */
     public static LookAndFeelInfo getCurrentLookAndFeel() {
-        LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
+        final LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
 
         if (lookAndFeel == null)
             return null;
 
-        LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
+        final LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
 
-        for (LookAndFeelInfo lookAndFeelInfo : lookAndFeels) {
+        for (final LookAndFeelInfo lookAndFeelInfo : lookAndFeels) {
             if (lookAndFeelInfo.getClassName().equals(lookAndFeel.getClass().getName())) {
                 return lookAndFeelInfo;
             }
@@ -297,7 +297,7 @@ public final class UITools {
      * @return The text width, in pixels.
      */
     public static double getTextWidth(final String text, final Graphics graphics, final Font font) {
-        FontMetrics fm = graphics.getFontMetrics(font);
+        final FontMetrics fm = graphics.getFontMetrics(font);
         return fm.getStringBounds(text, graphics).getWidth();
     }
 
@@ -365,7 +365,7 @@ public final class UITools {
      * @return Which button the user pressed. See {@link JOptionPane} for options.
      */
     public static int showOptionDialog(final String message, final String title) {
-        Object[] options = { "Yes", "Cancel" };
+        final Object[] options = { "Yes", "Cancel" };
         return JOptionPane.showOptionDialog(null, message, createTitle(title),
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
                 null, options, options[0]);
@@ -389,7 +389,7 @@ public final class UITools {
      * @return A new file chooser.
      */
     public static JFileChooser createFileChooser(final String title) {
-        JFileChooser fileChooser = new JFileChooser();
+        final JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle(createTitle(title));
         return fileChooser;
     }

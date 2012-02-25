@@ -66,7 +66,7 @@ public class MessageController {
      * @param color The color the user chose for the message.
      */
     public void showUserMessage(final String user, final String message, final int color) {
-        String msg = Tools.getTime() + " <" + user + ">: " + message;
+        final String msg = Tools.getTime() + " <" + user + ">: " + message;
         chat.appendToChat(msg, color);
         cLog.append(msg);
     }
@@ -80,7 +80,7 @@ public class MessageController {
      * @param message The system message to show.
      */
     public void showSystemMessage(final String message) {
-        String msg = Tools.getTime() + " *** " + message;
+        final String msg = Tools.getTime() + " *** " + message;
         chat.appendToChat(msg, settings.getSysColor());
         cLog.append(msg);
     }
@@ -94,7 +94,7 @@ public class MessageController {
      * @param message The message written by the application user.
      */
     public void showOwnMessage(final String message) {
-        String msg = Tools.getTime() + " <" + me.getNick() + ">: " + message;
+        final String msg = Tools.getTime() + " <" + me.getNick() + ">: " + message;
         chat.appendToChat(msg, settings.getOwnColor());
         cLog.append(msg);
     }
@@ -113,7 +113,7 @@ public class MessageController {
         if (user.getPrivchat() == null)
             ui.createPrivChat(user);
 
-        String msg = Tools.getTime() + " <" + user + ">: " + privmsg;
+        final String msg = Tools.getTime() + " <" + user + ">: " + privmsg;
         user.getPrivchat().appendToPrivateChat(msg, color);
     }
 
@@ -130,7 +130,7 @@ public class MessageController {
         if (user.getPrivchat() == null)
             ui.createPrivChat(user);
 
-        String msg = Tools.getTime() + " <" + me.getNick() + ">: " + privmsg;
+        final String msg = Tools.getTime() + " <" + me.getNick() + ">: " + privmsg;
         user.getPrivchat().appendToPrivateChat(msg, settings.getOwnColor());
     }
 
@@ -144,7 +144,7 @@ public class MessageController {
      * @param privmsg The system message to show.
      */
     public void showPrivateSystemMessage(final User user, final String privmsg) {
-        String msg = Tools.getTime() + " *** " + privmsg;
+        final String msg = Tools.getTime() + " *** " + privmsg;
         user.getPrivchat().appendToPrivateChat(msg, settings.getSysColor());
     }
 }

@@ -93,10 +93,10 @@ public class TextViewerDialog extends JDialog {
 
         // Enables the url support
         if (links) {
-            URLMouseListener urlML = new URLMouseListener(viewerTP);
+            final URLMouseListener urlML = new URLMouseListener(viewerTP);
             viewerTP.addMouseListener(urlML);
             viewerTP.addMouseMotionListener(urlML);
-            AbstractDocument doc = (AbstractDocument) viewerDoc;
+            final AbstractDocument doc = (AbstractDocument) viewerDoc;
             doc.setDocumentFilter(new URLDocumentFilter(true));
         }
 
@@ -105,15 +105,15 @@ public class TextViewerDialog extends JDialog {
         viewerScroll = new JScrollPane(viewerTP);
         viewerScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        JPanel panel = new JPanel(new BorderLayout());
+        final JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(5, 4, 4, 4));
         panel.add(viewerScroll, BorderLayout.CENTER);
         add(panel, BorderLayout.CENTER);
 
         // To get 80 columns and 24 rows
-        FontMetrics fm = viewerTP.getFontMetrics(viewerTP.getFont());
-        int width = fm.charWidth('_') * 80;
-        int height = fm.getHeight() * 24;
+        final FontMetrics fm = viewerTP.getFontMetrics(viewerTP.getFont());
+        final int width = fm.charWidth('_') * 80;
+        final int height = fm.getHeight() * 24;
         viewerTP.setPreferredSize(new Dimension(width, height));
 
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
@@ -135,7 +135,7 @@ public class TextViewerDialog extends JDialog {
         if (fileOpened) {
             if (visible) {
                 try {
-                    Rectangle r = viewerTP.modelToView(0);
+                    final Rectangle r = viewerTP.modelToView(0);
                     viewerScroll.getViewport().setViewPosition(new Point(r.x, r.y));
                 }
 
@@ -156,7 +156,7 @@ public class TextViewerDialog extends JDialog {
      * Reads the text file, and adds the contents to the text area.
      */
     private void readFile() {
-        URL fileURL = getClass().getResource("/" + textFile);
+        final URL fileURL = getClass().getResource("/" + textFile);
 
         if (fileURL != null) {
             BufferedReader reader = null;

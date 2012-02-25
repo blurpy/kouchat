@@ -102,7 +102,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
         userL.addMouseListener(this);
         userL.setTransferHandler(fileTransferHandler);
         userL.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        JScrollPane userSP = new JScrollPane(userL);
+        final JScrollPane userSP = new JScrollPane(userL);
 
         add(userSP, BorderLayout.CENTER);
         add(buttonP, BorderLayout.SOUTH);
@@ -187,7 +187,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    User user = userListModel.getElementAt(userL.getSelectedIndex());
+                    final User user = userListModel.getElementAt(userL.getSelectedIndex());
                     String info = "Information about " + user.getNick();
 
                     if (user.isAway())
@@ -223,7 +223,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    User user = userListModel.getElementAt(userL.getSelectedIndex());
+                    final User user = userListModel.getElementAt(userL.getSelectedIndex());
                     mediator.showPrivChat(user);
                 }
             });
@@ -271,11 +271,11 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
     @Override
     public void mousePressed(final MouseEvent e) {
         if (e.getSource() == userL) {
-            Point p = e.getPoint();
-            int index = userL.locationToIndex(p);
+            final Point p = e.getPoint();
+            final int index = userL.locationToIndex(p);
 
             if (index != -1) {
-                Rectangle r = userL.getCellBounds(index, index);
+                final Rectangle r = userL.getCellBounds(index, index);
 
                 if (r.x <= p.x && p.x <= r.x + r.width && r.y <= p.y && p.y <= r.y + r.height) {
                     userL.setSelectedIndex(index);
@@ -301,7 +301,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
         if (e.getSource() == userL) {
             // Right click
             if (userMenu.isPopupTrigger(e) && userL.getSelectedIndex() != -1) {
-                User temp = userListModel.getElementAt(userL.getSelectedIndex());
+                final User temp = userListModel.getElementAt(userL.getSelectedIndex());
 
                 if (temp.isMe()) {
                     sendfileMI.setVisible(false);
@@ -335,7 +335,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 
             // Double left click
             else if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2 && userL.getSelectedIndex() != -1) {
-                User user = userListModel.getElementAt(userL.getSelectedIndex());
+                final User user = userListModel.getElementAt(userL.getSelectedIndex());
 
                 if (user != me && user.getPrivateChatPort() != 0)
                     mediator.showPrivChat(user);

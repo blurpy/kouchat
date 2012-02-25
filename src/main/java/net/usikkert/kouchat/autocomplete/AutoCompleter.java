@@ -106,16 +106,16 @@ public class AutoCompleter {
                 else
                     checkword = word;
 
-                AutoCompleteList autoCompleteList = getAutoCompleteList(checkword);
+                final AutoCompleteList autoCompleteList = getAutoCompleteList(checkword);
 
                 if (autoCompleteList != null) {
-                    List<String> suggestions = getAutoCompleteSuggestions(
+                    final List<String> suggestions = getAutoCompleteSuggestions(
                             autoCompleteList.getWordList(), checkword);
 
                     if (suggestions.size() > 0) {
-                        int nextSuggestionPosition = findNextSuggestionPosition(
+                        final int nextSuggestionPosition = findNextSuggestionPosition(
                                 continueLastSearch, suggestions, word);
-                        String newWord = suggestions.get(nextSuggestionPosition);
+                        final String newWord = suggestions.get(nextSuggestionPosition);
                         completedLine = line.substring(0, start) + newWord;
                         newCaretPosition = completedLine.length();
                         completedLine += line.substring(stop);
@@ -230,7 +230,7 @@ public class AutoCompleter {
      *         or <em>null</em> if none.
      */
     private AutoCompleteList getAutoCompleteList(final String word) {
-        for (AutoCompleteList acl : autoCompleteLists) {
+        for (final AutoCompleteList acl : autoCompleteLists) {
             if (acl.acceptsWord(word)) {
                 return acl;
             }
@@ -248,7 +248,7 @@ public class AutoCompleter {
      * @return A list of suggestions.
      */
     private List<String> getAutoCompleteSuggestions(final String[] wordList, final String word) {
-        List<String> suggestions = new ArrayList<String>();
+        final List<String> suggestions = new ArrayList<String>();
 
         for (int i = 0; i < wordList.length; i++) {
             if (wordList[i].toLowerCase().startsWith(word.toLowerCase())) {

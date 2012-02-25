@@ -103,14 +103,14 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
         chatAttr = new SimpleAttributeSet();
         chatDoc = chatTP.getStyledDocument();
 
-        URLMouseListener urlML = new URLMouseListener(chatTP);
+        final URLMouseListener urlML = new URLMouseListener(chatTP);
         chatTP.addMouseListener(urlML);
         chatTP.addMouseMotionListener(urlML);
 
-        DocumentFilterList documentFilterList = new DocumentFilterList();
+        final DocumentFilterList documentFilterList = new DocumentFilterList();
         documentFilterList.addDocumentFilter(new URLDocumentFilter(false));
         documentFilterList.addDocumentFilter(new SmileyDocumentFilter(false, imageLoader));
-        AbstractDocument doc = (AbstractDocument) chatDoc;
+        final AbstractDocument doc = (AbstractDocument) chatDoc;
         doc.setDocumentFilter(documentFilterList);
 
         msgTF = new JTextField();
@@ -122,7 +122,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
         msgTF.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
                 new HashSet<AWTKeyStroke>());
 
-        AbstractDocument msgDoc = (AbstractDocument) msgTF.getDocument();
+        final AbstractDocument msgDoc = (AbstractDocument) msgTF.getDocument();
         msgDoc.setDocumentFilter(new SizeDocumentFilter(Constants.MESSAGE_MAX_BYTES));
 
         add(chatSP, BorderLayout.CENTER);
@@ -256,9 +256,9 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
                 // Tab-completion
                 if (ke.getKeyCode() == KeyEvent.VK_TAB && ke.getModifiers() == 0) {
                     if (autoCompleter != null) {
-                        int caretPos = msgTF.getCaretPosition();
-                        String orgText = msgTF.getText();
-                        String newText = autoCompleter.completeWord(orgText, caretPos);
+                        final int caretPos = msgTF.getCaretPosition();
+                        final String orgText = msgTF.getText();
+                        final String newText = autoCompleter.completeWord(orgText, caretPos);
 
                         if (newText.length() > 0) {
                             msgTF.setText(newText);
@@ -294,7 +294,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
             public void run() {
                 // Command history up
                 if (ke.getKeyCode() == KeyEvent.VK_UP) {
-                    String up = cmdHistory.goUp();
+                    final String up = cmdHistory.goUp();
 
                     if (!msgTF.getText().equals(up))
                         msgTF.setText(up);
@@ -302,7 +302,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 
                 // Command history down
                 else if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
-                    String down = cmdHistory.goDown();
+                    final String down = cmdHistory.goDown();
 
                     if (!msgTF.getText().equals(down))
                         msgTF.setText(down);

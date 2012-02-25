@@ -73,10 +73,10 @@ public class SizeDocumentFilter extends DocumentFilter {
             if (newText.contains("\t"))
                 newText = newText.replace('\t', ' ');
 
-            String docText = fb.getDocument().getText(0, fb.getDocument().getLength());
-            int textLength = Tools.getBytes(newText);
-            int docLength = Tools.getBytes(docText);
-            int removedLength = Tools.getBytes(docText.substring(offset, offset + length));
+            final String docText = fb.getDocument().getText(0, fb.getDocument().getLength());
+            final int textLength = Tools.getBytes(newText);
+            final int docLength = Tools.getBytes(docText);
+            final int removedLength = Tools.getBytes(docText.substring(offset, offset + length));
 
             // Everything OK, insert the text as it is.
             if ((docLength + textLength - removedLength) <= maxBytes) {
@@ -88,12 +88,12 @@ public class SizeDocumentFilter extends DocumentFilter {
             else {
                 String replaceText = "";
                 int replaceTextSize = 0;
-                int allowedSize = maxBytes - docLength;
+                final int allowedSize = maxBytes - docLength;
 
                 for (int i = 0; i < newText.length(); i++) {
                     if (replaceTextSize < allowedSize) {
-                        String tmpChar = "" + newText.charAt(i);
-                        int tmpCharSize = Tools.getBytes(tmpChar);
+                        final String tmpChar = "" + newText.charAt(i);
+                        final int tmpCharSize = Tools.getBytes(tmpChar);
 
                         if (replaceTextSize + tmpCharSize <= allowedSize) {
                             replaceText += tmpChar;

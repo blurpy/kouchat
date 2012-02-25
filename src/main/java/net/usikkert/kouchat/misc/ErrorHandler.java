@@ -63,7 +63,7 @@ public final class ErrorHandler {
      * @param errorMsg The message to deliver to the listeners.
      */
     public void showError(final String errorMsg) {
-        for (ErrorListener listener : listeners) {
+        for (final ErrorListener listener : listeners) {
             listener.errorReported(errorMsg);
         }
     }
@@ -74,7 +74,7 @@ public final class ErrorHandler {
      * @param criticalErrorMsg The message to deliver to the listeners.
      */
     public void showCriticalError(final String criticalErrorMsg) {
-        for (ErrorListener listener : listeners) {
+        for (final ErrorListener listener : listeners) {
             listener.criticalErrorReported(criticalErrorMsg);
         }
     }

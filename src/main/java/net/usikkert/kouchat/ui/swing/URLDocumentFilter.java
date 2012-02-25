@@ -106,7 +106,7 @@ public class URLDocumentFilter extends DocumentFilter {
 
                 if (startPos != -1) {
                     StyleConstants.setUnderline(urlAttr, true);
-                    StyledDocument doc = (StyledDocument) fb.getDocument();
+                    final StyledDocument doc = (StyledDocument) fb.getDocument();
 
                     while (startPos != -1) {
                         int stopPos = text.indexOf(" ", startPos);
@@ -147,8 +147,8 @@ public class URLDocumentFilter extends DocumentFilter {
             retry = false;
 
             if (prot != -1 && (prot < firstMatch || firstMatch == -1)) {
-                int protStart = text.lastIndexOf(' ', prot) + 1;
-                String t = text.substring(protStart, text.length() - 1);
+                final int protStart = text.lastIndexOf(' ', prot) + 1;
+                final String t = text.substring(protStart, text.length() - 1);
 
                 if (protPattern.matcher(t).matches())
                     firstMatch = protStart;
@@ -162,7 +162,7 @@ public class URLDocumentFilter extends DocumentFilter {
             }
 
             if (www != -1 && (www < firstMatch || firstMatch == -1)) {
-                String t = text.substring(www + 1, text.length() - 1);
+                final String t = text.substring(www + 1, text.length() - 1);
 
                 if (wwwPattern.matcher(t).matches())
                     firstMatch = www + 1;
@@ -176,7 +176,7 @@ public class URLDocumentFilter extends DocumentFilter {
             }
 
             if (ftp != -1 && (ftp < firstMatch || firstMatch == -1)) {
-                String t = text.substring(ftp + 1, text.length() - 1);
+                final String t = text.substring(ftp + 1, text.length() - 1);
 
                 if (ftpPattern.matcher(t).matches())
                     firstMatch = ftp + 1;

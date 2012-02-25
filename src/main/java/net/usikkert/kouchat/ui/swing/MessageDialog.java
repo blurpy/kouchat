@@ -78,7 +78,7 @@ public class MessageDialog extends JDialog {
         appNameL.setIcon(imageLoader.getAppIcon());
         appNameL.setText(" No top text");
 
-        JPanel northP = new JPanel();
+        final JPanel northP = new JPanel();
         northP.setBackground(Color.WHITE);
         northP.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
         northP.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 12));
@@ -86,7 +86,7 @@ public class MessageDialog extends JDialog {
 
         getContentPane().add(northP, BorderLayout.PAGE_START);
 
-        JButton okB = new JButton();
+        final JButton okB = new JButton();
         okB.setText("OK");
         okB.addActionListener(new ActionListener() {
             @Override
@@ -97,16 +97,16 @@ public class MessageDialog extends JDialog {
 
         getRootPane().setDefaultButton(okB);
 
-        JPanel southP = new JPanel();
+        final JPanel southP = new JPanel();
         southP.setLayout(new FlowLayout(FlowLayout.CENTER, 12, 12));
         southP.add(okB);
 
         getContentPane().add(southP, BorderLayout.PAGE_END);
 
-        JLabel iconIconL = new JLabel();
+        final JLabel iconIconL = new JLabel();
         iconIconL.setIcon(UIManager.getDefaults().getIcon("OptionPane.informationIcon"));
 
-        JPanel leftP = new JPanel();
+        final JPanel leftP = new JPanel();
         leftP.setLayout(new FlowLayout(FlowLayout.CENTER, 12, 12));
         leftP.add(iconIconL);
 
@@ -114,7 +114,7 @@ public class MessageDialog extends JDialog {
 
         contentL = new JLabel("No content");
 
-        JPanel centerP = new JPanel();
+        final JPanel centerP = new JPanel();
         centerP.setBorder(BorderFactory.createEmptyBorder(12, 2, 0, 12));
         centerP.setLayout(new BorderLayout());
         centerP.add(contentL, BorderLayout.CENTER);
@@ -122,9 +122,9 @@ public class MessageDialog extends JDialog {
         getContentPane().add(centerP, BorderLayout.CENTER);
 
         // Close with Escape key
-        KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
+        final KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
 
-        Action escapeAction = new AbstractAction() {
+        final Action escapeAction = new AbstractAction() {
             private static final long serialVersionUID = 1L;
 
             @Override

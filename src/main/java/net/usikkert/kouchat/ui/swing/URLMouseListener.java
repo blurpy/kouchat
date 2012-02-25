@@ -75,9 +75,9 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
      */
     @Override
     public void mouseMoved(final MouseEvent e) {
-        int mousePos = textPane.viewToModel(e.getPoint());
+        final int mousePos = textPane.viewToModel(e.getPoint());
 
-        AttributeSet attr = doc.getCharacterElement(mousePos).getAttributes();
+        final AttributeSet attr = doc.getCharacterElement(mousePos).getAttributes();
 
         if (StyleConstants.isUnderline(attr)) {
             if (textPane.getCursor() != handCursor)
@@ -138,12 +138,12 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
     @Override
     public void mouseReleased(final MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
-            int clickPos = textPane.viewToModel(e.getPoint());
+            final int clickPos = textPane.viewToModel(e.getPoint());
 
-            AttributeSet attr = doc.getCharacterElement(clickPos).getAttributes();
+            final AttributeSet attr = doc.getCharacterElement(clickPos).getAttributes();
 
             if (StyleConstants.isUnderline(attr)) {
-                Object obj = attr.getAttribute(URLDocumentFilter.URL_ATTRIBUTE);
+                final Object obj = attr.getAttribute(URLDocumentFilter.URL_ATTRIBUTE);
 
                 if (obj != null) {
                     final String url = obj.toString();

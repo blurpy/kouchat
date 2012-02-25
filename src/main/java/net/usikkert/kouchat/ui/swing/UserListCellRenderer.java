@@ -82,15 +82,15 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer {
         envelope = imageLoader.getEnvelopeIcon();
         dot = imageLoader.getDotIcon();
 
-        Border noFocusBorder = UIManager.getBorder("List.cellNoFocusBorder");
-        Border highlightBorder = UIManager.getBorder("List.focusCellHighlightBorder");
+        final Border noFocusBorder = UIManager.getBorder("List.cellNoFocusBorder");
+        final Border highlightBorder = UIManager.getBorder("List.focusCellHighlightBorder");
 
-        Insets highlightBorderInsets = highlightBorder.getBorderInsets(this);
-        int vertical = Math.max(0, MAX_VERT_SIZE - highlightBorderInsets.top);
-        int horizontal = Math.max(0, MAX_HORI_SIZE - highlightBorderInsets.left);
+        final Insets highlightBorderInsets = highlightBorder.getBorderInsets(this);
+        final int vertical = Math.max(0, MAX_VERT_SIZE - highlightBorderInsets.top);
+        final int horizontal = Math.max(0, MAX_HORI_SIZE - highlightBorderInsets.left);
 
         // If noFocusBorder does not exist, the normalBorder will be 1px smaller
-        int padding = (noFocusBorder == null ? 1 : 0);
+        final int padding = (noFocusBorder == null ? 1 : 0);
 
         normalBorder = BorderFactory.createCompoundBorder(
                 noFocusBorder,
@@ -129,7 +129,7 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer {
             setBorder(normalBorder);
         }
 
-        User user = (User) value;
+        final User user = (User) value;
 
         if (user != null) {
             if (user.isMe())
@@ -177,7 +177,7 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer {
      */
     @Override
     public boolean isOpaque() {
-        Color background = getBackground();
+        final Color background = getBackground();
         Component parent = getParent();
 
         if (parent != null) {
@@ -185,7 +185,7 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer {
         }
 
         // Parent should now be the JList.
-        boolean colorMatch = background != null
+        final boolean colorMatch = background != null
                           && parent != null
                           && background.equals(parent.getBackground())
                           && parent.isOpaque();

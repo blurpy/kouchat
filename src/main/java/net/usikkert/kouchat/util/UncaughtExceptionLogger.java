@@ -65,7 +65,7 @@ public class UncaughtExceptionLogger implements Thread.UncaughtExceptionHandler 
         LOG.log(Level.SEVERE, "UncaughtException in thread: " + thread.getName()
                 + " (id " + thread.getId() + ", priority " + thread.getPriority() + ")", throwable);
 
-        for (UncaughtExceptionListener listener : listeners) {
+        for (final UncaughtExceptionListener listener : listeners) {
             listener.uncaughtException(thread, throwable);
         }
     }

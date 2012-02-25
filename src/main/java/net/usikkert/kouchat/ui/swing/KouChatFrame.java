@@ -91,18 +91,18 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
         me = settings.getMe();
         setLookAndFeel();
         new SwingPopupErrorHandler();
-        ImageLoader imageLoader = new ImageLoader();
+        final ImageLoader imageLoader = new ImageLoader();
         registerUncaughtExceptionListener(imageLoader);
         statusIcons = new StatusIcons(imageLoader);
 
-        ButtonPanel buttonP = new ButtonPanel();
+        final ButtonPanel buttonP = new ButtonPanel();
         sideP = new SidePanel(buttonP, imageLoader);
         mainP = new MainPanel(sideP, imageLoader);
-        SysTray sysTray = new SysTray(imageLoader);
-        SettingsDialog settingsDialog = new SettingsDialog(imageLoader);
+        final SysTray sysTray = new SysTray(imageLoader);
+        final SettingsDialog settingsDialog = new SettingsDialog(imageLoader);
         menuBar = new MenuBar(imageLoader);
 
-        ComponentHandler compHandler = new ComponentHandler();
+        final ComponentHandler compHandler = new ComponentHandler();
         compHandler.setGui(this);
         compHandler.setButtonPanel(buttonP);
         compHandler.setSidePanel(sideP);
@@ -153,7 +153,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * @param imageLoader The image loader.
      */
     private void registerUncaughtExceptionListener(final ImageLoader imageLoader) {
-        UncaughtExceptionLogger uncaughtExceptionLogger =
+        final UncaughtExceptionLogger uncaughtExceptionLogger =
             (UncaughtExceptionLogger) Thread.getDefaultUncaughtExceptionHandler();
         uncaughtExceptionLogger.registerUncaughtExceptionListener(
                 new ExceptionDialog(null, true, imageLoader));
@@ -167,7 +167,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * available, then no look and feel is set.</p>
      */
     private void setLookAndFeel() {
-        LookAndFeelInfo lookAndFeel = UITools.getLookAndFeel(settings.getLookAndFeel());
+        final LookAndFeelInfo lookAndFeel = UITools.getLookAndFeel(settings.getLookAndFeel());
 
         if (lookAndFeel == null) {
             if (UITools.isSystemLookAndFeelSupported()) {
@@ -184,9 +184,9 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * Adds a shortcut to hide the window when escape is pressed.
      */
     private void hideWithEscape() {
-        KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
+        final KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
 
-        Action escapeAction = new AbstractAction() {
+        final Action escapeAction = new AbstractAction() {
             private static final long serialVersionUID = 1L;
 
             @Override

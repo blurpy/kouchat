@@ -52,7 +52,7 @@ public class NetworkInformation implements NetworkInformationMBean {
     /** {@inheritDoc} */
     @Override
     public String showCurrentNetwork() {
-        NetworkInterface networkInterface = connectionWorker.getCurrentNetworkInterface();
+        final NetworkInterface networkInterface = connectionWorker.getCurrentNetworkInterface();
 
         if (networkInterface == null)
             return "No current network interface.";
@@ -63,8 +63,8 @@ public class NetworkInformation implements NetworkInformationMBean {
     /** {@inheritDoc} */
     @Override
     public String showOperatingSystemNetwork() {
-        OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo();
-        NetworkInterface osInterface = osNicInfo.getOperatingSystemNetworkInterface();
+        final OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo();
+        final NetworkInterface osInterface = osNicInfo.getOperatingSystemNetworkInterface();
 
         if (osInterface == null)
             return "No network interface detected.";
@@ -75,15 +75,15 @@ public class NetworkInformation implements NetworkInformationMBean {
     /** {@inheritDoc} */
     @Override
     public String[] showUsableNetworks() {
-        List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<String>();
 
-        Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
+        final Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
 
         if (networkInterfaces == null)
             return new String[] { "No network interfaces detected." };
 
         while (networkInterfaces.hasMoreElements()) {
-            NetworkInterface netif = networkInterfaces.nextElement();
+            final NetworkInterface netif = networkInterfaces.nextElement();
 
             if (NetworkUtils.isUsable(netif))
                 list.add(NetworkUtils.getNetworkInterfaceInfo(netif));
@@ -98,15 +98,15 @@ public class NetworkInformation implements NetworkInformationMBean {
     /** {@inheritDoc} */
     @Override
     public String[] showAllNetworks() {
-        List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<String>();
 
-        Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
+        final Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
 
         if (networkInterfaces == null)
             return new String[] { "No network interfaces detected." };
 
         while (networkInterfaces.hasMoreElements()) {
-            NetworkInterface netif = networkInterfaces.nextElement();
+            final NetworkInterface netif = networkInterfaces.nextElement();
             list.add(NetworkUtils.getNetworkInterfaceInfo(netif));
         }
 

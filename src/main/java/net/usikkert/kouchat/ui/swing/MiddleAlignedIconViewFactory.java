@@ -49,7 +49,7 @@ public class MiddleAlignedIconViewFactory implements ViewFactory {
      */
     @Override
     public View create(final Element elem) {
-        String kind = elem.getName();
+        final String kind = elem.getName();
 
         if (kind != null) {
             if (kind.equals(AbstractDocument.ContentElementName))

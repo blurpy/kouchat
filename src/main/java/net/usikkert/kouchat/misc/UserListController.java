@@ -63,7 +63,7 @@ public class UserListController {
         User user = null;
 
         for (int i = 0; i < userList.size(); i++) {
-            User temp = userList.get(i);
+            final User temp = userList.get(i);
 
             if (temp.getCode() == code) {
                 user = temp;
@@ -84,7 +84,7 @@ public class UserListController {
         User user = null;
 
         for (int i = 0; i < userList.size(); i++) {
-            User temp = userList.get(i);
+            final User temp = userList.get(i);
 
             if (temp.getNick().equalsIgnoreCase(nickname)) {
                 user = temp;
@@ -103,7 +103,7 @@ public class UserListController {
      */
     public void changeNickName(final int code, final String nickname) {
         for (int i = 0; i < userList.size(); i++) {
-            User temp = userList.get(i);
+            final User temp = userList.get(i);
 
             if (temp.getCode() == code) {
                 temp.setNick(nickname);
@@ -122,7 +122,7 @@ public class UserListController {
      */
     public void changeAwayStatus(final int code, final boolean away, final String awaymsg) {
         for (int i = 0; i < userList.size(); i++) {
-            User temp = userList.get(i);
+            final User temp = userList.get(i);
 
             if (temp.getCode() == code) {
                 temp.setAway(away);
@@ -141,7 +141,7 @@ public class UserListController {
      */
     public void changeWriting(final int code, final boolean writing) {
         for (int i = 0; i < userList.size(); i++) {
-            User temp = userList.get(i);
+            final User temp = userList.get(i);
 
             if (temp.getCode() == code) {
                 temp.setWriting(writing);
@@ -159,7 +159,7 @@ public class UserListController {
      */
     public void changeNewMessage(final int code, final boolean newMsg) {
         for (int i = 0; i < userList.size(); i++) {
-            User temp = userList.get(i);
+            final User temp = userList.get(i);
 
             if (temp.getCode() == code) {
                 temp.setNewPrivMsg(newMsg);
@@ -179,7 +179,7 @@ public class UserListController {
         boolean inUse = false;
 
         for (int i = 0; i < userList.size(); i++) {
-            User temp = userList.get(i);
+            final User temp = userList.get(i);
 
             if (temp.getNick().equalsIgnoreCase(nickname) && !temp.isMe()) {
                 inUse = true;
@@ -200,7 +200,7 @@ public class UserListController {
         boolean newUser = true;
 
         for (int i = 0; i < userList.size(); i++) {
-            User temp = userList.get(i);
+            final User temp = userList.get(i);
 
             if (temp.getCode() == code) {
                 newUser = false;
@@ -223,7 +223,7 @@ public class UserListController {
      */
     public boolean isTimeoutUsers() {
         for (int i = 0; i < userList.size(); i++) {
-            User temp = userList.get(i);
+            final User temp = userList.get(i);
 
             if (temp.getNick().equals("" + temp.getCode()))
                 return true;

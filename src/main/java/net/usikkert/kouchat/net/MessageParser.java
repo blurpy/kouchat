@@ -93,28 +93,28 @@ public class MessageParser implements ReceiverListener {
     @Override
     public void messageArrived(final String message, final String ipAddress) {
         try {
-            int exclamation = message.indexOf("!");
-            int hash = message.indexOf("#");
-            int colon = message.indexOf(":");
+            final int exclamation = message.indexOf("!");
+            final int hash = message.indexOf("#");
+            final int colon = message.indexOf(":");
 
-            int msgCode = Integer.parseInt(message.substring(0, exclamation));
-            String type = message.substring(exclamation + 1, hash);
-            String msgNick = message.substring(hash + 1, colon);
-            String msg = message.substring(colon + 1, message.length());
+            final int msgCode = Integer.parseInt(message.substring(0, exclamation));
+            final String type = message.substring(exclamation + 1, hash);
+            final String msgNick = message.substring(hash + 1, colon);
+            final String msg = message.substring(colon + 1, message.length());
 
-            User tempme = settings.getMe();
+            final User tempme = settings.getMe();
 
             if (msgCode != tempme.getCode() && loggedOn) {
                 if (type.equals("MSG")) {
-                    int leftBracket = msg.indexOf("[");
-                    int rightBracket = msg.indexOf("]");
-                    int rgb = Integer.parseInt(msg.substring(leftBracket + 1, rightBracket));
+                    final int leftBracket = msg.indexOf("[");
+                    final int rightBracket = msg.indexOf("]");
+                    final int rgb = Integer.parseInt(msg.substring(leftBracket + 1, rightBracket));
 
                     responder.messageArrived(msgCode, msg.substring(rightBracket + 1, msg.length()), rgb);
                 }
 
                 else if (type.equals("LOGON")) {
-                    User newUser = new User(msgNick, msgCode);
+                    final User newUser = new User(msgNick, msgCode);
                     newUser.setIpAddress(ipAddress);
                     newUser.setLastIdle(System.currentTimeMillis());
                     newUser.setLogonTime(System.currentTimeMillis());
@@ -123,7 +123,7 @@ public class MessageParser implements ReceiverListener {
                 }
 
                 else if (type.equals("EXPOSING")) {
-                    User user = new User(msgNick, msgCode);
+                    final User user = new User(msgNick, msgCode);
                     user.setIpAddress(ipAddress);
                     user.setAwayMsg(msg);
 
@@ -171,14 +171,14 @@ public class MessageParser implements ReceiverListener {
                 }
 
                 else if (type.equals("TOPIC")) {
-                    int leftBracket = msg.indexOf("[");
-                    int rightBracket = msg.indexOf("]");
-                    int leftPara = msg.indexOf("(");
-                    int rightPara = msg.indexOf(")");
+                    final int leftBracket = msg.indexOf("[");
+                    final int rightBracket = msg.indexOf("]");
+                    final int leftPara = msg.indexOf("(");
+                    final int rightPara = msg.indexOf(")");
 
                     if (rightBracket != -1 && leftBracket != -1) {
-                        String theNick = msg.substring(leftPara + 1, rightPara);
-                        long theTime = Long.parseLong(msg.substring(leftBracket + 1, rightBracket));
+                        final String theNick = msg.substring(leftPara + 1, rightPara);
+                        final long theTime = Long.parseLong(msg.substring(leftBracket + 1, rightBracket));
                         String theTopic = null;
 
                         if (msg.length() > rightBracket + 1) {
@@ -198,69 +198,69 @@ public class MessageParser implements ReceiverListener {
                 }
 
                 else if (type.equals("SENDFILEACCEPT")) {
-                    int leftPara = msg.indexOf("(");
-                    int rightPara = msg.indexOf(")");
-                    int fileCode = Integer.parseInt(msg.substring(leftPara + 1, rightPara));
+                    final int leftPara = msg.indexOf("(");
+                    final int rightPara = msg.indexOf(")");
+                    final int fileCode = Integer.parseInt(msg.substring(leftPara + 1, rightPara));
 
                     if (fileCode == tempme.getCode()) {
-                        int leftCurly = msg.indexOf("{");
-                        int rightCurly = msg.indexOf("}");
-                        int leftBracket = msg.indexOf("[");
-                        int rightBracket = msg.indexOf("]");
-                        int port = Integer.parseInt(msg.substring(leftBracket + 1, rightBracket));
-                        int fileHash = Integer.parseInt(msg.substring(leftCurly + 1, rightCurly));
-                        String fileName = msg.substring(rightCurly + 1, msg.length());
+                        final int leftCurly = msg.indexOf("{");
+                        final int rightCurly = msg.indexOf("}");
+                        final int leftBracket = msg.indexOf("[");
+                        final int rightBracket = msg.indexOf("]");
+                        final int port = Integer.parseInt(msg.substring(leftBracket + 1, rightBracket));
+                        final int fileHash = Integer.parseInt(msg.substring(leftCurly + 1, rightCurly));
+                        final String fileName = msg.substring(rightCurly + 1, msg.length());
 
                         responder.fileSendAccepted(msgCode, fileName, fileHash, port);
                     }
                 }
 
                 else if (type.equals("SENDFILEABORT")) {
-                    int leftPara = msg.indexOf("(");
-                    int rightPara = msg.indexOf(")");
-                    int fileCode = Integer.parseInt(msg.substring(leftPara + 1, rightPara));
+                    final int leftPara = msg.indexOf("(");
+                    final int rightPara = msg.indexOf(")");
+                    final int fileCode = Integer.parseInt(msg.substring(leftPara + 1, rightPara));
 
                     if (fileCode == tempme.getCode()) {
-                        int leftCurly = msg.indexOf("{");
-                        int rightCurly = msg.indexOf("}");
-                        String fileName = msg.substring(rightCurly + 1, msg.length());
-                        int fileHash = Integer.parseInt(msg.substring(leftCurly + 1, rightCurly));
+                        final int leftCurly = msg.indexOf("{");
+                        final int rightCurly = msg.indexOf("}");
+                        final String fileName = msg.substring(rightCurly + 1, msg.length());
+                        final int fileHash = Integer.parseInt(msg.substring(leftCurly + 1, rightCurly));
 
                         responder.fileSendAborted(msgCode, fileName, fileHash);
                     }
                 }
 
                 else if (type.equals("SENDFILE")) {
-                    int leftPara = msg.indexOf("(");
-                    int rightPara = msg.indexOf(")");
-                    int fileCode = Integer.parseInt(msg.substring(leftPara + 1, rightPara));
+                    final int leftPara = msg.indexOf("(");
+                    final int rightPara = msg.indexOf(")");
+                    final int fileCode = Integer.parseInt(msg.substring(leftPara + 1, rightPara));
 
                     if (fileCode == tempme.getCode()) {
-                        int leftCurly = msg.indexOf("{");
-                        int rightCurly = msg.indexOf("}");
-                        int leftBracket = msg.indexOf("[");
-                        int rightBracket = msg.indexOf("]");
-                        long byteSize = Long.parseLong(msg.substring(leftBracket + 1, rightBracket));
-                        String fileName = msg.substring(rightCurly + 1, msg.length());
-                        int fileHash = Integer.parseInt(msg.substring(leftCurly + 1, rightCurly));
+                        final int leftCurly = msg.indexOf("{");
+                        final int rightCurly = msg.indexOf("}");
+                        final int leftBracket = msg.indexOf("[");
+                        final int rightBracket = msg.indexOf("]");
+                        final long byteSize = Long.parseLong(msg.substring(leftBracket + 1, rightBracket));
+                        final String fileName = msg.substring(rightCurly + 1, msg.length());
+                        final int fileHash = Integer.parseInt(msg.substring(leftCurly + 1, rightCurly));
 
                         responder.fileSend(msgCode, byteSize, fileName, msgNick, fileHash);
                     }
                 }
 
                 else if (type.equals("CLIENT")) {
-                    int leftPara = msg.indexOf("(");
-                    int rightPara = msg.indexOf(")");
-                    int leftBracket = msg.indexOf("[");
-                    int rightBracket = msg.indexOf("]");
-                    int leftCurly = msg.indexOf("{");
-                    int rightCurly = msg.indexOf("}");
-                    int lessThan = msg.indexOf("<");
-                    int greaterThan = msg.indexOf(">");
+                    final int leftPara = msg.indexOf("(");
+                    final int rightPara = msg.indexOf(")");
+                    final int leftBracket = msg.indexOf("[");
+                    final int rightBracket = msg.indexOf("]");
+                    final int leftCurly = msg.indexOf("{");
+                    final int rightCurly = msg.indexOf("}");
+                    final int lessThan = msg.indexOf("<");
+                    final int greaterThan = msg.indexOf(">");
 
-                    String client = msg.substring(leftPara + 1, rightPara);
-                    long timeSinceLogon = Long.parseLong(msg.substring(leftBracket + 1, rightBracket));
-                    String operatingSystem = msg.substring(leftCurly + 1, rightCurly);
+                    final String client = msg.substring(leftPara + 1, rightPara);
+                    final long timeSinceLogon = Long.parseLong(msg.substring(leftBracket + 1, rightBracket));
+                    final String operatingSystem = msg.substring(leftCurly + 1, rightCurly);
 
                     int privateChatPort = 0;
 

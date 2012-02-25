@@ -120,7 +120,7 @@ public final class Settings {
      * Initializes default settings, and creates <code>me</code>.
      */
     private Settings() {
-        int code = 10000000 + (int) (Math.random() * 9999999);
+        final int code = 10000000 + (int) (Math.random() * 9999999);
 
         me = new User(createNickName(code), code);
         me.setMe(true);
@@ -153,13 +153,13 @@ public final class Settings {
      * @return The created nick name.
      */
     private String createNickName(final int code) {
-        String userName = System.getProperty("user.name");
+        final String userName = System.getProperty("user.name");
 
         if (userName == null)
             return Integer.toString(code);
 
-        String[] splitUserName = userName.split(" ");
-        String defaultNick = Tools.capitalizeFirstLetter(Tools.shorten(splitUserName[0].trim(), 10));
+        final String[] splitUserName = userName.split(" ");
+        final String defaultNick = Tools.capitalizeFirstLetter(Tools.shorten(splitUserName[0].trim(), 10));
 
         if (Tools.isValidNick(defaultNick))
             return defaultNick;
@@ -184,7 +184,7 @@ public final class Settings {
         FileWriter fileWriter = null;
         BufferedWriter buffWriter = null;
 
-        File appFolder = new File(Constants.APP_FOLDER);
+        final File appFolder = new File(Constants.APP_FOLDER);
 
         if (!appFolder.exists())
             appFolder.mkdir();
@@ -264,11 +264,11 @@ public final class Settings {
         FileInputStream fileStream = null;
 
         try {
-            Properties fileContents = new Properties();
+            final Properties fileContents = new Properties();
             fileStream = new FileInputStream(FILENAME);
             fileContents.load(fileStream);
 
-            String tmpNick = fileContents.getProperty("nick");
+            final String tmpNick = fileContents.getProperty("nick");
 
             if (tmpNick != null && Tools.isValidNick(tmpNick)) {
                 me.setNick(tmpNick.trim());
@@ -478,7 +478,7 @@ public final class Settings {
      * @param setting The setting that has changed.
      */
     private void fireSettingChanged(final String setting) {
-        for (SettingsListener listener : listeners) {
+        for (final SettingsListener listener : listeners) {
             listener.settingChanged(setting);
         }
     }

@@ -63,8 +63,8 @@ public class DayTimer extends TimerTask {
      */
     public DayTimer(final UserInterface ui) {
         msgController = ui.getMessageController();
-        Calendar cal = Calendar.getInstance();
-        int currentHour = cal.get(Calendar.HOUR_OF_DAY);
+        final Calendar cal = Calendar.getInstance();
+        final int currentHour = cal.get(Calendar.HOUR_OF_DAY);
 
         // To stop the timer from thinking that the day has changed if
         // the application is started between 00 and 01 o'clock.
@@ -75,7 +75,7 @@ public class DayTimer extends TimerTask {
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
 
-        Timer timer = new Timer("DayTimer");
+        final Timer timer = new Timer("DayTimer");
         timer.scheduleAtFixedRate(this, new Date(cal.getTimeInMillis()), TIMER_INTERVAL);
     }
 
@@ -86,11 +86,11 @@ public class DayTimer extends TimerTask {
      */
     @Override
     public void run() {
-        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        final int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
         // Needs an extra check, so the message only shows once a day.
         if (hour == NOTIFY_HOUR && !done) {
-            String date = Tools.dateToString(null, "EEEE, d MMMM yyyy");
+            final String date = Tools.dateToString(null, "EEEE, d MMMM yyyy");
             msgController.showSystemMessage("Day changed to " + date);
             done = true;
         }

@@ -67,24 +67,24 @@ public class JMXAgent {
      * @param connectionWorker The connection worker.
      */
     public JMXAgent(final Controller controller, final ConnectionWorker connectionWorker) {
-        Logger log = Logger.getLogger(JMXAgent.class.getName());
-        MBeanServer platformMBeanServer = ManagementFactory.getPlatformMBeanServer();
+        final Logger log = Logger.getLogger(JMXAgent.class.getName());
+        final MBeanServer platformMBeanServer = ManagementFactory.getPlatformMBeanServer();
 
         try {
             // NetworkInformation MBean
-            ObjectName networkInfoName = new ObjectName(
+            final ObjectName networkInfoName = new ObjectName(
                     Constants.APP_NAME + ":name=" + NetworkInformationMBean.NAME);
             platformMBeanServer.registerMBean(
                     new NetworkInformation(connectionWorker), networkInfoName);
 
             // ControllerInformation MBean
-            ObjectName controllerInfoName = new ObjectName(
+            final ObjectName controllerInfoName = new ObjectName(
                     Constants.APP_NAME + ":name=" + ControllerInformationMBean.NAME);
             platformMBeanServer.registerMBean(
                     new ControllerInformation(controller), controllerInfoName);
 
             // GeneralInformation MBean
-            ObjectName generalInfoName = new ObjectName(
+            final ObjectName generalInfoName = new ObjectName(
                     Constants.APP_NAME + ":name=" + GeneralInformationMBean.NAME);
             platformMBeanServer.registerMBean(
                     new GeneralInformation(), generalInfoName);

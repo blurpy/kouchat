@@ -73,12 +73,12 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
         super(parent, modal);
         Validate.notNull(imageLoader, "Image loader can not be null");
 
-        JLabel titleL = new JLabel();
+        final JLabel titleL = new JLabel();
         titleL.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
         titleL.setText(" An unhandled error has occured");
         titleL.setFont(new Font("Dialog", Font.PLAIN, 20));
 
-        JLabel detailL = new JLabel();
+        final JLabel detailL = new JLabel();
         detailL.setText("<html>" + Constants.APP_NAME + " has experienced an unhandled error, "
                 + "and may be in an inconsistent state. It's advised to restart the application "
                 + "to make sure everything works as expected. Bugs can be reported at "
@@ -87,10 +87,10 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
 
         exceptionTP = new JTextPaneWithoutWrap();
         exceptionTP.setEditable(false);
-        JScrollPane exceptionScroll = new JScrollPane(exceptionTP);
+        final JScrollPane exceptionScroll = new JScrollPane(exceptionTP);
         new CopyPopup(exceptionTP);
 
-        JButton closeB = new JButton();
+        final JButton closeB = new JButton();
         closeB.setText("Close");
         closeB.addActionListener(new ActionListener() {
             @Override
@@ -99,17 +99,17 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
             }
         });
 
-        JPanel titleP = new JPanel();
+        final JPanel titleP = new JPanel();
         titleP.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 12));
         titleP.add(titleL);
         titleP.setBackground(Color.WHITE);
         titleP.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
 
-        JPanel buttonP = new JPanel();
+        final JPanel buttonP = new JPanel();
         buttonP.setLayout(new FlowLayout(FlowLayout.RIGHT));
         buttonP.add(closeB);
 
-        JPanel infoP = new JPanel();
+        final JPanel infoP = new JPanel();
         infoP.setLayout(new BorderLayout(5, 10));
         infoP.add(detailL, BorderLayout.PAGE_START);
         infoP.add(exceptionScroll, BorderLayout.CENTER);
@@ -147,13 +147,13 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                StringWriter stringWriter = new StringWriter();
+                final StringWriter stringWriter = new StringWriter();
 
                 stringWriter.append(Tools.dateToString(new Date(), "dd.MMM.yyyy HH:mm:ss")
                         + " UncaughtException in thread: " + thread.getName()
                         + " (id " + thread.getId() + ", priority " + thread.getPriority() + ")\n");
 
-                PrintWriter printWriter = new PrintWriter(stringWriter);
+                final PrintWriter printWriter = new PrintWriter(stringWriter);
                 throwable.printStackTrace(printWriter);
                 printWriter.close();
 

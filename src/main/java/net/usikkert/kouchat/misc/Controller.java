@@ -122,7 +122,7 @@ public class Controller implements NetworkConnectionListener {
         idleThread.start();
 
         msgController.showSystemMessage("Welcome to " + Constants.APP_NAME + " v" + Constants.APP_VERSION + "!");
-        String date = Tools.dateToString(null, "EEEE, d MMMM yyyy");
+        final String date = Tools.dateToString(null, "EEEE, d MMMM yyyy");
         msgController.showSystemMessage("Today is " + date);
     }
 
@@ -284,7 +284,7 @@ public class Controller implements NetworkConnectionListener {
      * This should be run after a successful logon, to update the connection state.
      */
     private void runDelayedLogon() {
-        Timer delayedLogonTimer = new Timer("DelayedLogonTimer");
+        final Timer delayedLogonTimer = new Timer("DelayedLogonTimer");
         delayedLogonTimer.schedule(new DelayedLogonTask(), 0);
     }
 
@@ -323,10 +323,10 @@ public class Controller implements NetworkConnectionListener {
      * and removes them from the user list.
      */
     private void removeAllUsers() {
-        UserList userList = getUserList();
+        final UserList userList = getUserList();
 
         for (int i = 0; i < userList.size(); i++) {
-            User user = userList.get(i);
+            final User user = userList.get(i);
 
             if (!user.isMe()) {
                 user.setOnline(false);
@@ -349,14 +349,14 @@ public class Controller implements NetworkConnectionListener {
      * @param user The user to cancel for.
      */
     public void cancelFileTransfers(final User user) {
-        List<FileSender> fsList = tList.getFileSenders(user);
-        List<FileReceiver> frList = tList.getFileReceivers(user);
+        final List<FileSender> fsList = tList.getFileSenders(user);
+        final List<FileReceiver> frList = tList.getFileReceivers(user);
 
-        for (FileSender fs : fsList) {
+        for (final FileSender fs : fsList) {
             fs.cancel();
         }
 
-        for (FileReceiver fr : frList) {
+        for (final FileReceiver fr : frList) {
             fr.cancel();
         }
     }
@@ -445,10 +445,10 @@ public class Controller implements NetworkConnectionListener {
         else if (Tools.getBytes(newTopic) > Constants.MESSAGE_MAX_BYTES)
             throw new CommandException("You can not set a topic with more than " + Constants.MESSAGE_MAX_BYTES + " bytes");
 
-        long time = System.currentTimeMillis();
-        Topic newTopicObj = new Topic(newTopic, me.getNick(), time);
+        final long time = System.currentTimeMillis();
+        final Topic newTopicObj = new Topic(newTopic, me.getNick(), time);
         messages.sendTopicChangeMessage(newTopicObj);
-        Topic topic = getTopic();
+        final Topic topic = getTopic();
         topic.changeTopic(newTopicObj);
     }
 
@@ -645,7 +645,7 @@ public class Controller implements NetworkConnectionListener {
      * @return A new instance of a ready-to-use AutoCompleter.
      */
     public AutoCompleter getAutoCompleter() {
-        AutoCompleter autoCompleter = new AutoCompleter();
+        final AutoCompleter autoCompleter = new AutoCompleter();
         autoCompleter.addAutoCompleteList(new CommandAutoCompleteList());
         autoCompleter.addAutoCompleteList(new UserAutoCompleteList(getUserList()));
 
