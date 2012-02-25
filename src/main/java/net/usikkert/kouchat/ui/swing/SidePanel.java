@@ -75,6 +75,9 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
     /** The application user. */
     private final User me;
 
+    /** The application settings. */
+    private final Settings settings;
+
     /** Handles drag and drop of files on users. */
     private final FileTransferHandler fileTransferHandler;
 
@@ -123,7 +126,9 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
         userMenu.add(privchatMI);
 
         setPreferredSize(new Dimension(114, 0));
-        me = Settings.getSettings().getMe();
+
+        settings = Settings.getSettings();
+        me = settings.getMe();
     }
 
     /**
@@ -316,7 +321,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
                     sendfileMI.setEnabled(false);
                     privchatMI.setVisible(true);
 
-                    if (temp.getPrivateChatPort() == 0) {
+                    if (!canPrivateChatWithUser(temp)) {
                         privchatMI.setEnabled(false);
                     } else {
                         privchatMI.setEnabled(true);
@@ -328,7 +333,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
                     sendfileMI.setEnabled(true);
                     privchatMI.setVisible(true);
 
-                    if (temp.getPrivateChatPort() == 0) {
+                    if (!canPrivateChatWithUser(temp)) {
                         privchatMI.setEnabled(false);
                     } else {
                         privchatMI.setEnabled(true);
@@ -342,10 +347,15 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
             else if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2 && userL.getSelectedIndex() != -1) {
                 final User user = userListModel.getElementAt(userL.getSelectedIndex());
 
-                if (user != me && user.getPrivateChatPort() != 0) {
+                if (user != me && canPrivateChatWithUser(user)) {
                     mediator.showPrivChat(user);
                 }
             }
         }
+    }
+
+    private boolean canPrivateChatWithUser(final User user) {
+        final boolean privateChatEnabled = !settings.isNoPrivateChat();
+        return privateChatEnabled && user.getPrivateChatPort() != 0;
     }
 }
