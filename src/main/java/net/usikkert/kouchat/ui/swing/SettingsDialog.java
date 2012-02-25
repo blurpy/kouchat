@@ -99,12 +99,12 @@ public class SettingsDialog extends JDialog implements ActionListener {
         nickP.setBorder(BorderFactory.createTitledBorder("Choose nick"));
 
         ownColorL = new JLabel("Own text color looks like this");
-        ownColorL.setToolTipText("<html>You and other users will see"
-                + "<br>the messages you write in this color.</html>");
+        ownColorL.setToolTipText("<html>You and other users will see" +
+                "<br>the messages you write in this color.</html>");
 
         sysColorL = new JLabel("System text color looks like this");
-        sysColorL.setToolTipText("<html>Information messages from the application"
-                + "<br>will be shown in this color.</html>");
+        sysColorL.setToolTipText("<html>Information messages from the application" +
+                "<br>will be shown in this color.</html>");
 
         chooseOwnColorB = new JButton("Change");
         chooseOwnColorB.addActionListener(this);
@@ -124,9 +124,9 @@ public class SettingsDialog extends JDialog implements ActionListener {
         sysColorP.add(chooseSysColorB);
 
         lookAndFeelL = new JLabel("Look and feel");
-        lookAndFeelL.setToolTipText("<html>Gives a choice of all the different looks that are available."
-                + "<br />Note that " + Constants.APP_NAME + " needs to be restarted for the"
-                + "<br />changes to take effect.</html>");
+        lookAndFeelL.setToolTipText("<html>Gives a choice of all the different looks that are available." +
+                "<br />Note that " + Constants.APP_NAME + " needs to be restarted for the" +
+                "<br />changes to take effect.</html>");
         lookAndFeelCB = new JComboBox(UITools.getLookAndFeels());
 
         final JPanel lookAndFeelP = new JPanel();
@@ -143,19 +143,19 @@ public class SettingsDialog extends JDialog implements ActionListener {
                 BorderFactory.createEmptyBorder(0, 5, 0, 5)));
 
         soundCB = new JCheckBox("Enable sound");
-        soundCB.setToolTipText("<html>Will give a short sound notification when"
-                + "<br>a new message is received if " + Constants.APP_NAME
-                + "<br>is minimized to the system tray, and"
-                + "<br>when asked to receive a file.</html>");
+        soundCB.setToolTipText("<html>Will give a short sound notification when" +
+                "<br>a new message is received if " + Constants.APP_NAME +
+                "<br>is minimized to the system tray, and" +
+                "<br>when asked to receive a file.</html>");
 
         loggingCB = new JCheckBox("Enable logging");
-        loggingCB.setToolTipText("<html>Stores the conversation in the main chat to a log file in"
-                + "<br>" + Constants.APP_LOG_FOLDER
-                + "<br>Only text written after this option was enabled will be stored.</html>");
+        loggingCB.setToolTipText("<html>Stores the conversation in the main chat to a log file in" +
+                "<br>" + Constants.APP_LOG_FOLDER +
+                "<br>Only text written after this option was enabled will be stored.</html>");
 
         smileysCB = new JCheckBox("Enable smileys");
-        smileysCB.setToolTipText("<html>Replaces text smileys in the chat with smiley images."
-                + "<br />See the FAQ for a list of available smileys.</html>");
+        smileysCB.setToolTipText("<html>Replaces text smileys in the chat with smiley images." +
+                "<br />See the FAQ for a list of available smileys.</html>");
 
         final JPanel miscP = new JPanel(new GridLayout(2, 2));
         miscP.add(soundCB);
@@ -165,10 +165,10 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
         browserL = new JLabel("Browser: ");
         browserTF = new JTextField(22);
-        browserTF.setToolTipText("<html>When you click on a link in the chat it will open"
-                + "<br>in the browser defined here. If this field"
-                + "<br>is empty the default browser on your system"
-                + "<br>will be used, if possible.</html>");
+        browserTF.setToolTipText("<html>When you click on a link in the chat it will open" +
+                "<br>in the browser defined here. If this field" +
+                "<br>is empty the default browser on your system" +
+                "<br>will be used, if possible.</html>");
         new CopyPastePopup(browserTF);
 
         final JPanel browserTopP = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -332,8 +332,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
                         }
 
                         catch (final IOException e) {
-                            errorHandler.showError("Could not open the browser '" + browser
-                                    + "'. Try using the full path.");
+                            errorHandler.showError("Could not open the browser '" + browser +
+                                    "'. Try using the full path.");
                         }
                     }
 
@@ -353,8 +353,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
                     }
 
                     else {
-                        errorHandler.showError("Your system does not support a default browser."
-                                + " Please choose a browser manually.");
+                        errorHandler.showError("Your system does not support a default browser." +
+                                " Please choose a browser manually.");
                     }
                 }
             });
@@ -382,8 +382,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
         final LookAndFeelInfo currentLookAndFeel = UITools.getCurrentLookAndFeel();
 
         if (currentLookAndFeel == null || !newLookAndFeel.equals(currentLookAndFeel.getName())) {
-            UITools.showInfoMessage("The new look and feel will be used the next time "
-                    + Constants.APP_NAME + " is started.",
+            UITools.showInfoMessage("The new look and feel will be used the next time " +
+                    Constants.APP_NAME + " is started.",
                     "Changed look and feel");
         }
     }

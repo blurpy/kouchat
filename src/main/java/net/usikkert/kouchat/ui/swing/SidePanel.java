@@ -200,9 +200,9 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
                         info += "\nHost name: " + user.getHostName();
                     }
 
-                    info += "\nClient: " + user.getClient()
-                            + "\nOperating System: " + user.getOperatingSystem()
-                            + "\n\nOnline: " + Tools.howLongFromNow(user.getLogonTime());
+                    info += "\nClient: " + user.getClient() +
+                            "\nOperating System: " + user.getOperatingSystem() +
+                            "\n\nOnline: " + Tools.howLongFromNow(user.getLogonTime());
 
                     if (user.isAway()) {
                         info += "\nAway message: " + user.getAwayMsg();

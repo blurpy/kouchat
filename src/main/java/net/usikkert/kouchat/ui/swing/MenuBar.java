@@ -290,12 +290,12 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
                     aboutD.setTitle(UITools.createTitle("About"));
                     aboutD.setTopText(Constants.APP_NAME + " v" + Constants.APP_VERSION);
-                    aboutD.setContent("<html>Copyright " + Constants.APP_COPYRIGHT_YEARS + " by " + Constants.AUTHOR_NAME + "."
-                            + "<br>" + Constants.AUTHOR_MAIL
-                            + "<br>" + Constants.APP_WEB
-                            + "<br>"
-                            + "<br>Source available under the " + Constants.APP_LICENSE_NAME + "."
-                            + "<br>See the license for details.</html>");
+                    aboutD.setContent("<html>Copyright " + Constants.APP_COPYRIGHT_YEARS + " by " + Constants.AUTHOR_NAME + "." +
+                            "<br>" + Constants.AUTHOR_MAIL +
+                            "<br>" + Constants.APP_WEB +
+                            "<br>" +
+                            "<br>Source available under the " + Constants.APP_LICENSE_NAME + "." +
+                            "<br>See the license for details.</html>");
 
                     aboutD.setVisible(true);
                 }

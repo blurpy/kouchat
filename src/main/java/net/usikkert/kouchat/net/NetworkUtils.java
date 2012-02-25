@@ -120,15 +120,15 @@ public final class NetworkUtils {
         }
 
         try {
-            return "Interface name: " + netif.getDisplayName() + "\n"
-                    + "Device: " + netif.getName() + "\n"
-                    + "Is loopback: " + netif.isLoopback() + "\n"
-                    + "Is up: " + netif.isUp() + "\n"
-                    + "Is p2p: " + netif.isPointToPoint() + "\n"
-                    + "Is virtual: " + netif.isVirtual() + "\n"
-                    + "Supports multicast: " + netif.supportsMulticast() + "\n"
-                    + "MAC address: " + getMacAddress(netif) + "\n"
-                    + "IP addresses: " + getIPv4Addresses(netif);
+            return "Interface name: " + netif.getDisplayName() + "\n" +
+                    "Device: " + netif.getName() + "\n" +
+                    "Is loopback: " + netif.isLoopback() + "\n" +
+                    "Is up: " + netif.isUp() + "\n" +
+                    "Is p2p: " + netif.isPointToPoint() + "\n" +
+                    "Is virtual: " + netif.isVirtual() + "\n" +
+                    "Supports multicast: " + netif.supportsMulticast() + "\n" +
+                    "MAC address: " + getMacAddress(netif) + "\n" +
+                    "IP addresses: " + getIPv4Addresses(netif);
         }
 
         catch (final SocketException e) {

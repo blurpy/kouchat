@@ -79,11 +79,11 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
         titleL.setFont(new Font("Dialog", Font.PLAIN, 20));
 
         final JLabel detailL = new JLabel();
-        detailL.setText("<html>" + Constants.APP_NAME + " has experienced an unhandled error, "
-                + "and may be in an inconsistent state. It's advised to restart the application "
-                + "to make sure everything works as expected. Bugs can be reported at "
-                + "http://kouchat.googlecode.com/. Please describe what you did when "
-                + "this error happened, and add the stack trace below to the report.</html>");
+        detailL.setText("<html>" + Constants.APP_NAME + " has experienced an unhandled error, " +
+                "and may be in an inconsistent state. It's advised to restart the application " +
+                "to make sure everything works as expected. Bugs can be reported at " +
+                "http://kouchat.googlecode.com/. Please describe what you did when " +
+                "this error happened, and add the stack trace below to the report.</html>");
 
         exceptionTP = new JTextPaneWithoutWrap();
         exceptionTP.setEditable(false);
@@ -149,9 +149,9 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
             public void run() {
                 final StringWriter stringWriter = new StringWriter();
 
-                stringWriter.append(Tools.dateToString(new Date(), "dd.MMM.yyyy HH:mm:ss")
-                        + " UncaughtException in thread: " + thread.getName()
-                        + " (id " + thread.getId() + ", priority " + thread.getPriority() + ")\n");
+                stringWriter.append(Tools.dateToString(new Date(), "dd.MMM.yyyy HH:mm:ss") +
+                        " UncaughtException in thread: " + thread.getName() +
+                        " (id " + thread.getId() + ", priority " + thread.getPriority() + ")\n");
 
                 final PrintWriter printWriter = new PrintWriter(stringWriter);
                 throwable.printStackTrace(printWriter);

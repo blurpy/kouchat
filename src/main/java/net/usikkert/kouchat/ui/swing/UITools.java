@@ -85,8 +85,8 @@ public final class UITools {
 
             catch (final IOException e) {
                 LOG.log(Level.WARNING, e.toString());
-                ERRORHANDLER.showError("Could not open the browser '"
-                        + browser + "'. Please check the settings.");
+                ERRORHANDLER.showError("Could not open the browser '" +
+                        browser + "'. Please check the settings.");
             }
         }
 
@@ -98,8 +98,8 @@ public final class UITools {
 
             catch (final IOException e) {
                 LOG.log(Level.WARNING, e.toString());
-                ERRORHANDLER.showError("Could not open '" + url + "' with the default browser."
-                        + " Try setting a browser in the settings.");
+                ERRORHANDLER.showError("Could not open '" + url + "' with the default browser." +
+                        " Try setting a browser in the settings.");
             }
 
             catch (final URISyntaxException e) {
@@ -108,8 +108,8 @@ public final class UITools {
         }
 
         else {
-            ERRORHANDLER.showError("No browser detected."
-                    + " A browser can be chosen in the settings.");
+            ERRORHANDLER.showError("No browser detected." +
+                    " A browser can be chosen in the settings.");
         }
     }
 

@@ -159,10 +159,10 @@ public class MessagesTest {
         when(file.length()).thenReturn(fileLength);
         int fileHash = file.hashCode(); // Cannot be mocked it seems
 
-        String info = "(" + userCode + ")"
-            + "[" + fileLength + "]"
-            + "{" + fileHash + "}"
-            + fileName;
+        String info = "(" + userCode + ")" +
+                "[" + fileLength + "]" +
+                "{" + fileHash + "}" +
+                fileName;
 
         User user = new User("TestUser", userCode);
 
@@ -181,9 +181,9 @@ public class MessagesTest {
         int fileHash = 8578765;
         String fileName = "another_file.txt";
 
-        String info = "(" + userCode + ")"
-            + "{" + fileHash + "}"
-            + fileName;
+        String info = "(" + userCode + ")" +
+                "{" + fileHash + "}" +
+                fileName;
 
         User user = new User("TestUser", userCode);
 
@@ -205,10 +205,10 @@ public class MessagesTest {
         int fileHash = 8578765;
         String fileName = "some_file.txt";
 
-        String info = "(" + userCode + ")"
-            + "[" + port + "]"
-            + "{" + fileHash + "}"
-            + fileName;
+        String info = "(" + userCode + ")" +
+                "[" + port + "]" +
+                "{" + fileHash + "}" +
+                fileName;
 
         User user = new User("TestUser", userCode);
 
@@ -298,9 +298,9 @@ public class MessagesTest {
         int userPort = 12345;
         int userCode = 435435;
 
-        String message = "(" + userCode + ")"
-            + "[" + settings.getOwnColor() + "]"
-            + privmsg;
+        String message = "(" + userCode + ")" +
+                "[" + settings.getOwnColor() + "]" +
+                privmsg;
 
         User user = new User("TestUser", userCode);
         user.setPrivateChatPort(userPort);
@@ -329,9 +329,9 @@ public class MessagesTest {
     @Test
     public void testSendTopicChangeMessage() {
         Topic topic = new Topic("Interesting changed topic", "Snoopy", 2132321323L);
-        String message = "(" + topic.getNick() + ")"
-            + "[" + topic.getTime() + "]"
-            + topic.getTopic();
+        String message = "(" + topic.getNick() + ")" +
+                "[" + topic.getTime() + "]" +
+                topic.getTopic();
 
         messages.sendTopicChangeMessage(topic);
         verify(service).sendMulticastMsg(createMessage("TOPIC") + message);
@@ -345,9 +345,9 @@ public class MessagesTest {
     @Test
     public void testSendTopicRequestedMessage() {
         Topic topic = new Topic("Interesting requested topic", "Snoopy", 66532345L);
-        String message = "(" + topic.getNick() + ")"
-            + "[" + topic.getTime() + "]"
-            + topic.getTopic();
+        String message = "(" + topic.getNick() + ")" +
+                "[" + topic.getTime() + "]" +
+                topic.getTopic();
 
         messages.sendTopicRequestedMessage(topic);
         verify(service).sendMulticastMsg(createMessage("TOPIC") + message);

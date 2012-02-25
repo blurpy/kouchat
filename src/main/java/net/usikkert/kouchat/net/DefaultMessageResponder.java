@@ -514,9 +514,9 @@ public class DefaultMessageResponder implements MessageResponder {
                     final String size = Tools.byteToString(byteSize);
                     msgController.showSystemMessage(user + " is trying to send the file " + fileName + " [" + size + "]");
                     final User tmpUser = controller.getUser(userCode);
-                    final File defaultFile = new File(System.getProperty("user.home")
-                            + System.getProperty("file.separator")
-                            + fileName);
+                    final File defaultFile = new File(System.getProperty("user.home") +
+                            System.getProperty("file.separator") +
+                            fileName);
                     final FileReceiver fileRes = new FileReceiver(tmpUser, defaultFile, byteSize);
                     tList.addFileReceiver(fileRes);
 
@@ -531,8 +531,8 @@ public class DefaultMessageResponder implements MessageResponder {
                                 controller.sendFileAccept(tmpUser, port, fileHash, fileName);
 
                                 if (fileRes.transfer()) {
-                                    msgController.showSystemMessage("Successfully received " + fileName
-                                            + " from " + user + ", and saved as " + fileRes.getFile().getName());
+                                    msgController.showSystemMessage("Successfully received " + fileName +
+                                            " from " + user + ", and saved as " + fileRes.getFile().getName());
                                 }
 
                                 else {

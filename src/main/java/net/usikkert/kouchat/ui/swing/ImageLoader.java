@@ -171,8 +171,8 @@ public class ImageLoader {
         final String missing = resourceValidator.validate();
 
         if (missing.length() > 0) {
-            final String error = "These images were expected, but not found:\n\n" + missing + "\n\n"
-                    + Constants.APP_NAME + " will now shutdown.";
+            final String error = "These images were expected, but not found:\n\n" + missing + "\n\n" +
+                    Constants.APP_NAME + " will now shutdown.";
 
             LOG.log(Level.SEVERE, error);
             ErrorHandler.getErrorHandler().showCriticalError(error);

@@ -62,8 +62,8 @@ public class UncaughtExceptionLogger implements Thread.UncaughtExceptionHandler 
      */
     @Override
     public void uncaughtException(final Thread thread, final Throwable throwable) {
-        LOG.log(Level.SEVERE, "UncaughtException in thread: " + thread.getName()
-                + " (id " + thread.getId() + ", priority " + thread.getPriority() + ")", throwable);
+        LOG.log(Level.SEVERE, "UncaughtException in thread: " + thread.getName() +
+                " (id " + thread.getId() + ", priority " + thread.getPriority() + ")", throwable);
 
         for (final UncaughtExceptionListener listener : listeners) {
             listener.uncaughtException(thread, throwable);

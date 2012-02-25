@@ -351,8 +351,8 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
             filenameL.setToolTipText(null);
         }
 
-        transferredL.setText("0KB of "
-                + Tools.byteToString(fileTransfer.getFileSize()) + " at 0KB/s");
+        transferredL.setText("0KB of " +
+                Tools.byteToString(fileTransfer.getFileSize()) + " at 0KB/s");
         transferProgressPB.setValue(0);
     }
 
@@ -364,9 +364,9 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      */
     @Override
     public void transferUpdate() {
-        transferredL.setText(Tools.byteToString(fileTransfer.getTransferred()) + " of "
-                + Tools.byteToString(fileTransfer.getFileSize()) + " at "
-                + Tools.byteToString(fileTransfer.getSpeed()) + "/s");
+        transferredL.setText(Tools.byteToString(fileTransfer.getTransferred()) + " of " +
+                Tools.byteToString(fileTransfer.getFileSize()) + " at " +
+                Tools.byteToString(fileTransfer.getSpeed()) + "/s");
         transferProgressPB.setValue(fileTransfer.getPercent());
         updateTitle(fileTransfer.getPercent());
     }

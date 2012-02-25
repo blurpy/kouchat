@@ -128,9 +128,9 @@ public interface Constants {
     /**
      * The folder where the application can save files.
      */
-    String APP_FOLDER = System.getProperty("user.home")
-            + System.getProperty("file.separator") + "." + APP_NAME.toLowerCase()
-            + System.getProperty("file.separator");
+    String APP_FOLDER = System.getProperty("user.home") +
+            System.getProperty("file.separator") + "." + APP_NAME.toLowerCase() +
+            System.getProperty("file.separator");
 
     /**
      * The folder where log files are stored.

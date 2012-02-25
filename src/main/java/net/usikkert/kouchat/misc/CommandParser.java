@@ -162,9 +162,9 @@ public class CommandParser {
      * Show information about the application.
      */
     private void cmdAbout() {
-        msgController.showSystemMessage("This is " + Constants.APP_NAME + " v" + Constants.APP_VERSION
-                + ", by " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL
-                + " - " + Constants.APP_WEB);
+        msgController.showSystemMessage("This is " + Constants.APP_NAME + " v" + Constants.APP_VERSION +
+                ", by " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL +
+                " - " + Constants.APP_WEB);
     }
 
     /**
@@ -209,9 +209,9 @@ public class CommandParser {
                     info += "\nHost name: " + user.getHostName();
                 }
 
-                info += "\nClient: " + user.getClient()
-                        + "\nOperating System: " + user.getOperatingSystem()
-                        + "\nOnline: " + Tools.howLongFromNow(user.getLogonTime());
+                info += "\nClient: " + user.getClient() +
+                        "\nOperating System: " + user.getOperatingSystem() +
+                        "\nOnline: " + Tools.howLongFromNow(user.getLogonTime());
 
                 if (user.isAway()) {
                     info += "\nAway message: " + user.getAwayMsg();
@@ -685,8 +685,8 @@ public class CommandParser {
         ui.showTransfer(fileSend);
         tList.addFileSender(fileSend);
         final String size = Tools.byteToString(file.length());
-        msgController.showSystemMessage("Trying to send the file "
-                + file.getName() + " [" + size + "] to " + user.getNick());
+        msgController.showSystemMessage("Trying to send the file " +
+                file.getName() + " [" + size + "] to " + user.getNick());
     }
 
     /**
@@ -706,8 +706,8 @@ public class CommandParser {
                 final File file = fs.getFile();
                 final User user = fs.getUser();
 
-                msgController.showSystemMessage("You cancelled sending of "
-                        + file.getName() + " to " + user.getNick());
+                msgController.showSystemMessage("You cancelled sending of " +
+                        file.getName() + " to " + user.getNick());
                 tList.removeFileSender(fs);
                 controller.sendFileAbort(user, file.hashCode(), file.getName());
             }
@@ -718,24 +718,24 @@ public class CommandParser {
      * Shows a list of all the supported commands, with a short description.
      */
     public void showCommands() {
-        msgController.showSystemMessage(Constants.APP_NAME + " commands:\n"
-                + "/about - information about " + Constants.APP_NAME + "\n"
-                + "/away <away message> - set status to away\n"
-                + "/back - set status to not away\n"
-                + "/cancel <nick> <file> - cancel an ongoing file transfer with a user\n"
-                + "/clear - clear all the text from the chat\n"
-                + "/help - show this help message\n"
-                + "/msg <nick> <msg> - send a private message to a user\n"
-                + "/nick <new nick> - changes your nick name\n"
-                + "/quit - quit from the chat\n"
-                + "/receive <nick> <file> - accept a file transfer request from a user\n"
-                + "/reject <nick> <file> - reject a file transfer request from a user\n"
-                + "/send <nick> <file> - send a file to a user\n"
-                + "/topic <optional new topic> - prints the current topic, or changes the topic\n"
-                + "/transfers - shows a list of all file transfers and their status\n"
-                + "/users - show the user list\n"
-                + "/whois <nick> - show information about a user\n"
-                + "//<text> - send the text as a normal message, with a single slash");
+        msgController.showSystemMessage(Constants.APP_NAME + " commands:\n" +
+                "/about - information about " + Constants.APP_NAME + "\n" +
+                "/away <away message> - set status to away\n" +
+                "/back - set status to not away\n" +
+                "/cancel <nick> <file> - cancel an ongoing file transfer with a user\n" +
+                "/clear - clear all the text from the chat\n" +
+                "/help - show this help message\n" +
+                "/msg <nick> <msg> - send a private message to a user\n" +
+                "/nick <new nick> - changes your nick name\n" +
+                "/quit - quit from the chat\n" +
+                "/receive <nick> <file> - accept a file transfer request from a user\n" +
+                "/reject <nick> <file> - reject a file transfer request from a user\n" +
+                "/send <nick> <file> - send a file to a user\n" +
+                "/topic <optional new topic> - prints the current topic, or changes the topic\n" +
+                "/transfers - shows a list of all file transfers and their status\n" +
+                "/users - show the user list\n" +
+                "/whois <nick> - show information about a user\n" +
+                "//<text> - send the text as a normal message, with a single slash");
     }
 
     /**

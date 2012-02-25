@@ -444,9 +444,9 @@ public class SwingMediator implements Mediator, UserInterface {
             }
 
             else if (!Tools.isValidNick(trimNick)) {
-                final String message = "'" + trimNick + "' is not a valid nick name.\n\n"
-                        + "A nick name can have between 1 and 10 characters.\nLegal characters are 'a-z',"
-                        + " '0-9', '-' and '_'.";
+                final String message = "'" + trimNick + "' is not a valid nick name.\n\n" +
+                        "A nick name can have between 1 and 10 characters.\nLegal characters are 'a-z'," +
+                        " '0-9', '-' and '_'.";
                 UITools.showWarningMessage(message, "Change nick");
             }
 
