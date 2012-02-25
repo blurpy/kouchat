@@ -499,6 +499,8 @@ public class SwingMediator implements Mediator, UserInterface {
      *   <li><i>Main chat out of focus</i> - beep, update main chat icon</li>
      *   <li><i>Main chat hidden</i> - beep, update systray, show balloon</li>
      * </ul>
+     *
+     * @param user The user that sent the message.
      */
     @Override
     public void notifyMessageArrived(final User user) {

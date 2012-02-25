@@ -72,11 +72,11 @@ public final class NetworkUtils {
         }
 
         try {
-            return netif.isUp() && !netif.isLoopback() && !netif.isPointToPoint()
-                    && !netif.isVirtual() && netif.supportsMulticast()
-                    && !netif.getName().toLowerCase().contains("vmnet")
-                    && !netif.getDisplayName().toLowerCase().contains("vmnet")
-                    && hasIPv4Address(netif);
+            return netif.isUp() && !netif.isLoopback() && !netif.isPointToPoint() &&
+                    !netif.isVirtual() && netif.supportsMulticast() &&
+                    !netif.getName().toLowerCase().contains("vmnet") &&
+                    !netif.getDisplayName().toLowerCase().contains("vmnet") &&
+                    hasIPv4Address(netif);
         }
 
         catch (final SocketException e) {

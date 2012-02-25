@@ -78,7 +78,7 @@ public final class UITools {
         final String browser = SETTINGS.getBrowser();
 
         // The default is to use the browser in the settings.
-        if (browser != null && browser.trim().length() > 0 ) {
+        if (browser != null && browser.trim().length() > 0) {
             try {
                 Runtime.getRuntime().exec(browser + " " + url);
             }

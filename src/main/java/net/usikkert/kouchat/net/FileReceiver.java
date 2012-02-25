@@ -334,7 +334,7 @@ public class FileReceiver implements FileTransfer {
      *
      * @param file The new file to save to.
      */
-    public void setFile( final File file) {
+    public void setFile(final File file) {
         this.file = file;
     }
 

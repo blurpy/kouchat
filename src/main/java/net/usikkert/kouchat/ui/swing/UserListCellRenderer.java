@@ -175,7 +175,7 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer {
     }
 
     /**
-     * Copied from {@link DefaultListCellRenderer#isOpaque()}
+     * Copied from {@link javax.swing.DefaultListCellRenderer#isOpaque()}
      * to fix the gray background with some look and feels like GTK+ and Nimbus.
      *
      * {@inheritDoc}
@@ -190,10 +190,11 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer {
         }
 
         // Parent should now be the JList.
-        final boolean colorMatch = background != null
-                          && parent != null
-                          && background.equals(parent.getBackground())
-                          && parent.isOpaque();
+        final boolean colorMatch =
+                background != null &&
+                parent != null &&
+                background.equals(parent.getBackground()) &&
+                parent.isOpaque();
 
         return !colorMatch && super.isOpaque();
     }
