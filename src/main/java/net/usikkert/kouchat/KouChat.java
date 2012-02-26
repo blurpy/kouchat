@@ -24,7 +24,6 @@ package net.usikkert.kouchat;
 
 import net.usikkert.kouchat.argument.Argument;
 import net.usikkert.kouchat.argument.ArgumentParser;
-import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.ui.UIChoice;
 import net.usikkert.kouchat.ui.UIException;
 import net.usikkert.kouchat.ui.UIFactory;
@@ -95,14 +94,13 @@ public final class KouChat {
     }
 
     private static void setSettingsFromArguments(final ArgumentParser argumentParser) {
-        // TODO dont use settings
-        final Settings settings = Settings.getSettings();
-
-        settings.setAlwaysLog(argumentParser.hasArgument(Argument.ALWAYS_LOG));
-        settings.setNoPrivateChat(argumentParser.hasArgument(Argument.NO_PRIVATE_CHAT));
+        // Using system properties instead of using Settings directly to avoid loading the settings to early,
+        // so client property doesn't end up being null.
+        System.setProperty(Constants.SETTINGS_ALWAYS_LOG, Boolean.toString(argumentParser.hasArgument(Argument.ALWAYS_LOG)));
+        System.setProperty(Constants.SETTINGS_NO_PRIVATE_CHAT, Boolean.toString(argumentParser.hasArgument(Argument.NO_PRIVATE_CHAT)));
 
         if (argumentParser.hasArgument(Argument.LOG_LOCATION)) {
-            settings.setLogLocation(argumentParser.getArgument(Argument.LOG_LOCATION).getValue());
+            System.setProperty(Constants.SETTINGS_LOG_LOCATION, argumentParser.getArgument(Argument.LOG_LOCATION).getValue());
         }
     }
 

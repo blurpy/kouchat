@@ -139,6 +139,7 @@ public final class Settings {
         smileys = true;
         lookAndFeel = "";
 
+        loadArgumentSettings();
         loadSettings();
     }
 
@@ -176,6 +177,12 @@ public final class Settings {
      */
     public static Settings getSettings() {
         return SETTINGS;
+    }
+
+    private void loadArgumentSettings() {
+        noPrivateChat = Boolean.valueOf(System.getProperty(Constants.SETTINGS_NO_PRIVATE_CHAT));
+        alwaysLog = Boolean.valueOf(System.getProperty(Constants.SETTINGS_ALWAYS_LOG));
+        logLocation = System.getProperty(Constants.SETTINGS_LOG_LOCATION);
     }
 
     /**
