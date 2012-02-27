@@ -53,6 +53,38 @@ public final class TestUtils {
         return getValue(object, fieldClass, field);
     }
 
+    /**
+     * Set the value in the field with the specified name in the specified object.
+     *
+     * @param object The object to set the value in.
+     * @param fieldName The name of the field.
+     * @param value The value to set in the field.
+     */
+    public static void setFieldValue(final Object object, final String fieldName, final Object value) {
+        Validate.notNull(object, "The object to set the value in can not be null");
+        Validate.notEmpty(fieldName, "The name of the field can not be empty");
+
+        final Field field = getField(object, fieldName);
+        setValue(object, value, field);
+    }
+
+    private static void setValue(final Object object, final Object value, final Field field) {
+        final boolean originalAccessible = field.isAccessible();
+
+        try {
+            field.setAccessible(true);
+            field.set(object, value);
+        }
+
+        catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
+        finally {
+            field.setAccessible(originalAccessible);
+        }
+    }
+
     private static Field getField(final Object object, final String fieldName) {
         try {
             return object.getClass().getDeclaredField(fieldName);

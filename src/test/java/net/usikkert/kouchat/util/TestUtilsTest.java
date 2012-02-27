@@ -66,6 +66,33 @@ public class TestUtilsTest {
         TestUtils.getFieldValue(testClass, Integer.class, "privateField");
     }
 
+    @Test
+    public void setFieldValueShouldSupportPrivateAndPublicFields() {
+        final TestClass testClass = new TestClass("test", 1);
+        TestUtils.setFieldValue(testClass, "publicField", 50);
+        TestUtils.setFieldValue(testClass, "privateField", "something");
+
+        assertEquals(Integer.valueOf(50), testClass.publicField);
+        assertEquals("something", testClass.privateField);
+    }
+
+    @Test
+    public void setFieldValueShouldSupportSettingNull() {
+        final TestClass testClass = new TestClass("test", 1);
+        TestUtils.setFieldValue(testClass, "publicField", null);
+        TestUtils.setFieldValue(testClass, "privateField", null);
+
+        assertNull(testClass.publicField);
+        assertNull( testClass.privateField);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void setFieldValueShouldThrowExceptionIfInvalidFieldName() {
+        final TestClass testClass = new TestClass(null, null);
+
+        TestUtils.setFieldValue(testClass, "wrongField", null);
+    }
+
     class TestClass {
 
         private final String privateField;
