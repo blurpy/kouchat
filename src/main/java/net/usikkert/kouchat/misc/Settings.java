@@ -421,6 +421,10 @@ public final class Settings {
      * @return If logging is enabled.
      */
     public boolean isLogging() {
+        if (alwaysLog) {
+            return true;
+        }
+
         return logging;
     }
 

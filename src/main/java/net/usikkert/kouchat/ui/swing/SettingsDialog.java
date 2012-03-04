@@ -225,6 +225,17 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
         settings = Settings.getSettings();
         errorHandler = ErrorHandler.getErrorHandler();
+
+        disableLogSettingIfAlwaysLogIsEnabled();
+    }
+
+    /**
+     * Makes sure the log setting can't be changed when always log is enabled.
+     */
+    private void disableLogSettingIfAlwaysLogIsEnabled() {
+        if (settings.isAlwaysLog()) {
+            loggingCB.setEnabled(false);
+        }
     }
 
     /**
