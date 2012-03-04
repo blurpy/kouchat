@@ -32,6 +32,7 @@ import java.util.logging.Logger;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.SettingsListener;
 import net.usikkert.kouchat.util.Tools;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This is a simple logger. Creates a new unique log file for each time
@@ -45,21 +46,35 @@ public class ChatLogger implements SettingsListener {
      * The name of the log file. Uses date, time, and milliseconds to make sure
      * it is unique.
      */
-    private static final String LOG_FILE = "kouchat-" + Tools.dateToString(null, "yyyy.MM.dd-HH.mm.ss-SSS") + ".log";
+    private static final String LOG_FILE_POSTFIX = "-" + Tools.dateToString(null, "yyyy.MM.dd-HH.mm.ss-SSS") + ".log";
 
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(ChatLogger.class.getName());
 
     private final Settings settings;
     private final ErrorHandler errorHandler;
+    private final String logFilePrefix;
     private BufferedWriter writer;
     private boolean open;
 
     /**
-     * Default constructor. Adds a shutdown hook to make sure the log file
-     * is closed on shutdown.
-     */
+     * Default constructor. Sets the log file prefix to <code>kouchat</code>.
+     *
     public ChatLogger() {
+        this("kouchat");
+    }
+
+    /**
+     * Constructor for setting a custom log file prefix.
+     *
+     * Adds a shutdown hook to make sure the log file is closed on shutdown.
+     *
+     * @param logFilePrefix The prefix for the log file name.
+     */
+    public ChatLogger(final String logFilePrefix) {
+        Validate.notEmpty(logFilePrefix, "Log file prefix can not be empty");
+        this.logFilePrefix = logFilePrefix;
+
         settings = Settings.getSettings();
         settings.addSettingsListener(this);
 
@@ -91,7 +106,8 @@ public class ChatLogger implements SettingsListener {
                 logdir.mkdirs();
             }
 
-            writer = new BufferedWriter(new FileWriter(Constants.APP_LOG_FOLDER + LOG_FILE, true));
+            final String fileName = Constants.APP_LOG_FOLDER + logFilePrefix + LOG_FILE_POSTFIX;
+            writer = new BufferedWriter(new FileWriter(fileName, true));
             open = true;
         }
 
