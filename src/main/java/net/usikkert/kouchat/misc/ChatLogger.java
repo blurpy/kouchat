@@ -59,7 +59,7 @@ public class ChatLogger implements SettingsListener {
 
     /**
      * Default constructor. Sets the log file prefix to <code>kouchat</code>.
-     *
+     */
     public ChatLogger() {
         this("kouchat");
     }
