@@ -89,6 +89,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
     public SettingsDialog(final ImageLoader imageLoader) {
         Validate.notNull(imageLoader, "Image loader can not be null");
 
+        settings = Settings.getSettings();
+
         nickL = new JLabel("Nick:");
         nickTF = new JTextField(10);
         new CopyPastePopup(nickTF);
@@ -149,8 +151,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
                 "<br>when asked to receive a file.</html>");
 
         loggingCB = new JCheckBox("Enable logging");
-        loggingCB.setToolTipText("<html>Stores the conversation in the main chat to a log file in" +
-                "<br>" + Constants.APP_LOG_FOLDER +
+        loggingCB.setToolTipText("<html>Stores the conversations in the main chat and private chats to log files in" +
+                "<br><em>" + settings.getLogLocation() + "</em>." +
                 "<br>Only text written after this option was enabled will be stored.</html>");
 
         smileysCB = new JCheckBox("Enable smileys");
@@ -223,7 +225,6 @@ public class SettingsDialog extends JDialog implements ActionListener {
         // So the save button activates using Enter
         getRootPane().setDefaultButton(saveB);
 
-        settings = Settings.getSettings();
         errorHandler = ErrorHandler.getErrorHandler();
 
         disableLogSettingIfAlwaysLogIsEnabled();
