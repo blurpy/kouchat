@@ -19,6 +19,8 @@
     to disable private chat
   - Added support for the startup argument --always-log to force logging
     enabled and disable the option to deactivate again
+  - Added support for the startup argument --log-location to specify
+    a custom directory to store log files
 
 
 * version 1.0.0 (10.06.2009):
