@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.SettingsListener;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
@@ -100,13 +99,16 @@ public class ChatLogger implements SettingsListener {
         close();
 
         try {
-            final File logdir = new File(Constants.APP_LOG_FOLDER);
+            final String logLocation = settings.getLogLocation();
+            final File logdir = new File(logLocation);
 
             if (!logdir.exists()) {
-                logdir.mkdirs();
+                if (!logdir.mkdirs()) {
+                    throw new IOException("Unable to create path for logging: " + logdir);
+                }
             }
 
-            final String fileName = Constants.APP_LOG_FOLDER + logFilePrefix + LOG_FILE_POSTFIX;
+            final String fileName = logLocation + logFilePrefix + LOG_FILE_POSTFIX;
             writer = new BufferedWriter(new FileWriter(fileName, true));
             open = true;
         }
