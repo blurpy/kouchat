@@ -115,7 +115,7 @@ public class UDPReceiver implements Runnable {
             int port = Constants.NETWORK_PRIVCHAT_PORT;
             int counter = 0;
 
-            while (counter < 10 && !connected) {
+            while (counter < 50 && !connected) {
                 try {
                     udpSocket = new DatagramSocket(port);
                     connected = true;
