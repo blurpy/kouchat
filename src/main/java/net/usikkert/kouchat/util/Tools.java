@@ -378,4 +378,22 @@ public final class Tools {
     public static boolean isEmpty(final String string) {
         return string == null || string.trim().isEmpty();
     }
+
+    /**
+     * Appends the platform specific slash to the path, if missing.
+     *
+     * @param path The path to append the slash to.
+     * @return The path, including a slash on the end.
+     */
+    public static String appendSlash(final String path) {
+        final String fileSeparator = System.getProperty("file.separator");
+
+        if (path.endsWith(fileSeparator)) {
+            return path;
+        }
+
+        else {
+            return path + fileSeparator;
+        }
+    }
 }

@@ -132,4 +132,18 @@ public class ToolsTest {
         assertTrue(Tools.isEmpty(""));
         assertTrue(Tools.isEmpty(" "));
     }
+
+    @Test
+    public void appendSlashShouldWorkWithLinuxPaths() {
+        System.setProperty("file.separator", "/");
+        assertEquals("/var/log/", Tools.appendSlash("/var/log"));
+        assertEquals("/var/log/", Tools.appendSlash("/var/log/"));
+    }
+
+    @Test
+    public void appendSlashShouldWorkWithWindowsPaths() {
+        System.setProperty("file.separator", "\\");
+        assertEquals("C:\\some folder\\logs\\", Tools.appendSlash("C:\\some folder\\logs"));
+        assertEquals("C:\\some folder\\logs\\", Tools.appendSlash("C:\\some folder\\logs\\"));
+    }
 }

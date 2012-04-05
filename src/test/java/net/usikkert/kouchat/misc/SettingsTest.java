@@ -41,13 +41,21 @@ public class SettingsTest {
     @Before
     public void setUp() throws Exception {
         settings = Settings.getSettings();
+        System.setProperty("file.separator", "/");
     }
 
     @Test
     public void getLogLocationShouldReturnSetValue() {
+        settings.setLogLocation("/var/log/kouchat/");
+
+        assertEquals("/var/log/kouchat/", settings.getLogLocation());
+    }
+
+    @Test
+    public void getLogLocationShouldAlwaysEndWithSlash() {
         settings.setLogLocation("/var/log/kouchat");
 
-        assertEquals("/var/log/kouchat", settings.getLogLocation());
+        assertEquals("/var/log/kouchat/", settings.getLogLocation());
     }
 
     @Test

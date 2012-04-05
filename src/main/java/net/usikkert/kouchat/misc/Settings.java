@@ -567,7 +567,7 @@ public final class Settings {
      */
     public String getLogLocation() {
         if (!Tools.isEmpty(logLocation)) {
-            return logLocation;
+            return Tools.appendSlash(logLocation);
         }
 
         else {
