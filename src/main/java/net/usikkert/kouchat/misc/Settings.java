@@ -561,12 +561,18 @@ public final class Settings {
     }
 
     /**
-     * The location to store logs.
+     * The location to store logs. Returns value from startup argument if set, or the default location otherwise.
      *
      * @return The location to store logs.
      */
     public String getLogLocation() {
-        return logLocation;
+        if (!Tools.isEmpty(logLocation)) {
+            return logLocation;
+        }
+
+        else {
+            return Constants.APP_LOG_FOLDER;
+        }
     }
 
     /**
