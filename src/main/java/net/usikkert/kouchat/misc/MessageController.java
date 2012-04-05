@@ -116,6 +116,7 @@ public class MessageController {
 
         final String msg = Tools.getTime() + " <" + user + ">: " + privmsg;
         user.getPrivchat().appendToPrivateChat(msg, color);
+        user.getPrivateChatLogger().append(msg);
     }
 
     /**
@@ -134,6 +135,7 @@ public class MessageController {
 
         final String msg = Tools.getTime() + " <" + me.getNick() + ">: " + privmsg;
         user.getPrivchat().appendToPrivateChat(msg, settings.getOwnColor());
+        user.getPrivateChatLogger().append(msg);
     }
 
     /**
@@ -148,5 +150,6 @@ public class MessageController {
     public void showPrivateSystemMessage(final User user, final String privmsg) {
         final String msg = Tools.getTime() + " *** " + privmsg;
         user.getPrivchat().appendToPrivateChat(msg, settings.getSysColor());
+        user.getPrivateChatLogger().append(msg);
     }
 }

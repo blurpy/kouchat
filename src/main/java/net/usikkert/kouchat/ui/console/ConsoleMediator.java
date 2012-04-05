@@ -22,6 +22,7 @@
 
 package net.usikkert.kouchat.ui.console;
 
+import net.usikkert.kouchat.misc.ChatLogger;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.User;
@@ -156,15 +157,18 @@ public class ConsoleMediator implements UserInterface {
     }
 
     /**
-     * If the user does not have a private chat yet,
-     * a new {@link PrivateChatConsole} is created.
+     * Creates a new private chat window with the user, as well as configuring the logger.
      *
-     * {@inheritDoc}
+     * @param user The user to create a new private chat for.
      */
     @Override
     public void createPrivChat(final User user) {
         if (user.getPrivchat() == null) {
             user.setPrivchat(new PrivateChatConsole(user));
+        }
+
+        if (user.getPrivateChatLogger() == null) {
+            user.setPrivateChatLogger(new ChatLogger(user.getNick()));
         }
     }
 

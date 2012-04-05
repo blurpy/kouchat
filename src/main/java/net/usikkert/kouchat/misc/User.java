@@ -82,6 +82,9 @@ public class User implements Comparable<User> {
     /** The private chat window where the chat session with this user happens. */
     private PrivateChatWindow privchat;
 
+    /** The chat logger used for logging communication with this user. */
+    private ChatLogger privateChatLogger;
+
     /**
      * Constructor. Initializes variables.
      *
@@ -419,6 +422,24 @@ public class User implements Comparable<User> {
      */
     public void setHostName(final String hostName) {
         this.hostName = hostName;
+    }
+
+    /**
+     * Gets the chat logger for this user.
+     *
+     * @return The private chat logger for this user.
+     */
+    public ChatLogger getPrivateChatLogger() {
+        return privateChatLogger;
+    }
+
+    /**
+     * Sets the chat logger for this user.
+     *
+     * @param privateChatLogger The chat logger instance to use for logging messages with this user.
+     */
+    public void setPrivateChatLogger(final ChatLogger privateChatLogger) {
+        this.privateChatLogger = privateChatLogger;
     }
 
     /**

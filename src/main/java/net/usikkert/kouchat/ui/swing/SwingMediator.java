@@ -27,6 +27,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import net.usikkert.kouchat.misc.ChatLogger;
 import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.CommandParser;
 import net.usikkert.kouchat.misc.Controller;
@@ -747,8 +748,7 @@ public class SwingMediator implements Mediator, UserInterface {
     }
 
     /**
-     * If the user does not have a private chat window already,
-     * one is created.
+     * Creates a new private chat window with the user, as well as configuring the logger.
      *
      * @param user The user to create a new private chat for.
      */
@@ -756,6 +756,10 @@ public class SwingMediator implements Mediator, UserInterface {
     public void createPrivChat(final User user) {
         if (user.getPrivchat() == null) {
             user.setPrivchat(new PrivateChatFrame(this, user, imageLoader));
+        }
+
+        if (user.getPrivateChatLogger() == null) {
+            user.setPrivateChatLogger(new ChatLogger(user.getNick()));
         }
     }
 

@@ -113,12 +113,11 @@ public interface UserInterface {
     MessageController getMessageController();
 
     /**
-     * Creates a new {@link PrivateChatWindow}, of the
-     * correct type for this ui, if the user does not
-     * already have a window associated.
+     * Creates a new {@link PrivateChatWindow}, of the correct type for this ui,
+     * if the user does not already have a window associated. Also configures extra resources,
+     * such as logging.
      *
-     * @param user The user to update with a
-     * {@link PrivateChatWindow}
+     * @param user The user create a private chat with.
      */
     void createPrivChat(User user);
 
