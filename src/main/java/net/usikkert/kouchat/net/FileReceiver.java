@@ -121,7 +121,7 @@ public class FileReceiver implements FileTransfer {
         boolean done = false;
         int counter = 0;
 
-        while (!done && counter < 10) {
+        while (!done && counter < 50) {
             try {
                 sSock = new ServerSocket(port);
                 final TimeoutThread tt = new TimeoutThread();
