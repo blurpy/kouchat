@@ -9,11 +9,16 @@
   - If the system tray is missing, the minimize feature minimizes to the
     taskbar instead of being deactivated
   - Removed annoying error message if the system tray is missing
-  - Upgraded to Checkstyle 5
+  - Upgraded to Checkstyle 5, from KouInject
   - Moved to using the default maven project structure
   - Added balloon popup on new messages and new private messages
   - Changed license to LGPL v3
   - Updated headers to include copyright for 2012
+  - Added support for logging private chats
+  - Added support for the startup argument --no-private-chat
+    to disable private chat
+  - Added support for the startup argument --always-log to force logging
+    enabled and disable the option to deactivate again
 
 
 * version 1.0.0 (10.06.2009):
