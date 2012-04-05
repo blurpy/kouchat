@@ -21,6 +21,8 @@
     enabled and disable the option to deactivate again
   - Added support for the startup argument --log-location to specify
     a custom directory to store log files
+  - Increased the number of possible simultaneous KouChat instances
+    (with private chat) and file transfers from 10 to 50
 
 
 * version 1.0.0 (10.06.2009):
