@@ -22,8 +22,7 @@
 
 package net.usikkert.kouchat.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -121,5 +120,16 @@ public class ToolsTest {
         assertEquals("Hello ", Tools.postPadString("Hello", 6));
         assertEquals("Hello  ", Tools.postPadString("Hello", 7));
         assertEquals("Hello       ", Tools.postPadString("Hello", 12));
+    }
+
+    @Test
+    public void isEmpty() {
+        assertFalse(Tools.isEmpty("a"));
+        assertFalse(Tools.isEmpty(" a "));
+        assertFalse(Tools.isEmpty("hello you"));
+
+        assertTrue(Tools.isEmpty(null));
+        assertTrue(Tools.isEmpty(""));
+        assertTrue(Tools.isEmpty(" "));
     }
 }

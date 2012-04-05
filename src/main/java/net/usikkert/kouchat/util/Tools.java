@@ -367,4 +367,15 @@ public final class Tools {
 
         return paddedString.toString();
     }
+
+    /**
+     * Checks if the string is empty. It's considered empty if it's <code>null</code>,
+     * zero length, or contains only spaces.
+     *
+     * @param string The string to check.
+     * @return If the string is empty.
+     */
+    public static boolean isEmpty(final String string) {
+        return string == null || string.trim().isEmpty();
+    }
 }
