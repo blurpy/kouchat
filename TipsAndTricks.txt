@@ -54,9 +54,9 @@ that user.
 
 Add the startup argument --log-location="some path" to the shortcut or
 script that starts KouChat. Remember to use quotes if the path contains
-spaces, and use double backslash in Windows paths.
+spaces, and use double backslash at the end of Windows paths.
 
 Examples:
 
-* Windows: java -jar kouchat-x.x.x.jar --log-location="C:\\Users\\Your Username\\KouChat logs\\"
+* Windows: java -jar kouchat-x.x.x.jar --log-location="C:\Users\Your Username\KouChat logs\\"
 * Linux: java -jar kouchat-x.x.x.jar --log-location="/home/username/KouChat logs/"
