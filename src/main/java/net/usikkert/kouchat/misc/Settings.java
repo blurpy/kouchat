@@ -97,6 +97,9 @@ public final class Settings {
     /** If smileys are enabled. */
     private boolean smileys;
 
+    /** If balloon notifications are enabled. */
+    private boolean balloons;
+
     /** The choice of browser to open urls with. */
     private String browser;
 
@@ -220,6 +223,8 @@ public final class Settings {
             buffWriter.newLine();
             buffWriter.write("lookAndFeel=" + lookAndFeel);
             buffWriter.newLine();
+            buffWriter.write("balloons=" + balloons);
+            buffWriter.newLine();
         }
 
         catch (final IOException e) {
@@ -305,6 +310,7 @@ public final class Settings {
             }
 
             logging = Boolean.valueOf(fileContents.getProperty("logging"));
+            balloons = Boolean.valueOf(fileContents.getProperty("balloons"));
             browser = fileContents.getProperty("browser");
             lookAndFeel = fileContents.getProperty("lookAndFeel");
 
@@ -581,5 +587,23 @@ public final class Settings {
      */
     public void setLogLocation(final String logLocation) {
         this.logLocation = logLocation;
+    }
+
+    /**
+     * If balloon notifications are enabled.
+     *
+     * @return If balloon notifications are enabled.
+     */
+    public boolean isBalloons() {
+        return balloons;
+    }
+
+    /**
+     * Sets if balloon notifications should be enabled.
+     *
+     * @param balloons If balloon notifications should be enabled.
+     */
+    public void setBalloons(final boolean balloons) {
+        this.balloons = balloons;
     }
 }

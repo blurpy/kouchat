@@ -75,7 +75,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
     private final JButton saveB, cancelB, chooseOwnColorB, chooseSysColorB, testBrowserB, chooseBrowserB;
     private final JTextField nickTF, browserTF;
     private final JLabel nickL, ownColorL, sysColorL, browserL, lookAndFeelL;
-    private final JCheckBox soundCB, loggingCB, smileysCB;
+    private final JCheckBox soundCB, loggingCB, smileysCB, balloonCB;
     private final JComboBox lookAndFeelCB;
     private final Settings settings;
     private final ErrorHandler errorHandler;
@@ -157,12 +157,17 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
         smileysCB = new JCheckBox("Enable smileys");
         smileysCB.setToolTipText("<html>Replaces text smileys in the chat with smiley images." +
-                "<br />See the FAQ for a list of available smileys.</html>");
+                "<br>See the FAQ for a list of available smileys.</html>");
+
+        balloonCB = new JCheckBox("Enable balloons");
+        balloonCB.setToolTipText("<html>Shows balloon notifications in the system tray when new" +
+                "<br>messages are received while the application is hidden.</html>");
 
         final JPanel miscP = new JPanel(new GridLayout(2, 2));
         miscP.add(soundCB);
         miscP.add(loggingCB);
         miscP.add(smileysCB);
+        miscP.add(balloonCB);
         miscP.setBorder(BorderFactory.createTitledBorder("Misc"));
 
         browserL = new JLabel("Browser: ");
@@ -285,6 +290,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
                         settings.setLogging(loggingCB.isSelected());
                         settings.setBrowser(browserTF.getText());
                         settings.setSmileys(smileysCB.isSelected());
+                        settings.setBalloons(balloonCB.isSelected());
                         final LookAndFeelWrapper lnfw = (LookAndFeelWrapper) lookAndFeelCB.getSelectedItem();
                         settings.setLookAndFeel(lnfw.getLookAndFeelInfo().getName());
                         settings.saveSettings();
@@ -411,6 +417,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         loggingCB.setSelected(settings.isLogging());
         browserTF.setText(settings.getBrowser());
         smileysCB.setSelected(settings.isSmileys());
+        balloonCB.setSelected(settings.isBalloons());
         selectLookAndFeel();
 
         setVisible(true);
