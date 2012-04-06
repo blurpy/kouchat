@@ -39,6 +39,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -54,6 +55,9 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
 
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(SysTray.class.getName());
+
+    /** The settings. */
+    private final Settings settings;
 
     /** The icon in the system tray. */
     private TrayIcon trayIcon;
@@ -107,6 +111,8 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
         else {
             LOG.log(Level.SEVERE, "System Tray is not supported. Deactivating System Tray support.");
         }
+
+        settings = Settings.getSettings();
     }
 
     /**
@@ -287,11 +293,13 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      * will disappear by itself after a few seconds, or if the user clicks
      * on it.
      *
+     * <p>Can be enabled and disabled from the settings.</p>
+     *
      * @param title The title of the message.
      * @param message The message to show in the popup.
      */
     public void showBalloonMessage(final String title, final String message) {
-        if (trayIcon != null) {
+        if (settings.isBalloons() && trayIcon != null) {
             trayIcon.displayMessage(title, message, MessageType.NONE);
         }
     }

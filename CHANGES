@@ -11,7 +11,7 @@
   - Removed annoying error message if the system tray is missing
   - Upgraded to Checkstyle 5, from KouInject
   - Moved to using the default maven project structure
-  - Added balloon popup on new messages and new private messages
+  - Added optional balloon notification on new messages and new private messages
   - Changed license to LGPL v3
   - Updated headers to include copyright for 2012
   - Added support for logging private chats
