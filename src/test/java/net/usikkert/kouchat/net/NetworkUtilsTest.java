@@ -72,8 +72,9 @@ public class NetworkUtilsTest {
             }
         }
 
-        else
+        else {
             System.err.println("No network interfaces - aborting test");
+        }
     }
 
     /**

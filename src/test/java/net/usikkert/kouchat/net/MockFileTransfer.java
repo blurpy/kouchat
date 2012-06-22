@@ -185,10 +185,11 @@ public class MockFileTransfer implements FileTransfer {
                     listener.transferUpdate();
                 }
 
-                if (cancel)
+                if (cancel) {
                     listener.statusFailed();
-                else
+                } else {
                     listener.statusCompleted();
+                }
             }
 
             catch (final InterruptedException e) {

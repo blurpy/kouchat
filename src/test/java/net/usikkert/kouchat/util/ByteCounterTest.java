@@ -350,15 +350,17 @@ public class ByteCounterTest {
         for (int i = 1; time < 1000; i++) {
             final boolean addTime = (i % 10 == 0 ? true : false);
 
-            if (addTime)
+            if (addTime) {
                 time++;
+            }
 
             final long timeSpent = counter.updateTimeSpent(time);
 
-            if (addTime)
+            if (addTime) {
                 assertEquals(1, timeSpent);
-            else
+            } else {
                 assertEquals(0, timeSpent);
+            }
 
             counter.updateCounters(bytesAdded, timeSpent);
 
@@ -385,15 +387,17 @@ public class ByteCounterTest {
         for (int i = 1; time < 1000; i++) {
             final boolean addTime = (i % 50 == 0 ? true : false);
 
-            if (addTime)
+            if (addTime) {
                 time++;
+            }
 
             final long timeSpent = counter.updateTimeSpent(time);
 
-            if (addTime)
+            if (addTime) {
                 assertEquals(1, timeSpent);
-            else
+            } else {
                 assertEquals(0, timeSpent);
+            }
 
             counter.updateCounters(bytesAdded, timeSpent);
 
