@@ -367,7 +367,7 @@ public final class UITools {
      * @return Which button the user pressed. See {@link JOptionPane} for options.
      */
     public static int showOptionDialog(final String message, final String title) {
-        final Object[] options = { "Yes", "Cancel" };
+        final Object[] options = {"Yes", "Cancel"};
         return JOptionPane.showOptionDialog(null, message, createTitle(title),
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
                 null, options, options[0]);
