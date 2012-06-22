@@ -83,7 +83,7 @@ public class TestUtilsTest {
         TestUtils.setFieldValue(testClass, "privateField", null);
 
         assertNull(testClass.publicField);
-        assertNull( testClass.privateField);
+        assertNull(testClass.privateField);
     }
 
     @Test(expected = RuntimeException.class)
