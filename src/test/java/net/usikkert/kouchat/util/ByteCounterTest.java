@@ -51,9 +51,9 @@ public class ByteCounterTest {
      */
     @Test
     public void testNoCalculationBeforeSecond() {
-        long bytesAdded = 1024;
-        long currentTime = 999;
-        long timeSpent = counter.updateTimeSpent(currentTime);
+        final long bytesAdded = 1024;
+        final long currentTime = 999;
+        final long timeSpent = counter.updateTimeSpent(currentTime);
         assertEquals(999, timeSpent);
         counter.updateCounters(bytesAdded, timeSpent);
         assertEquals(0, counter.getBytesPerSec());
@@ -68,9 +68,9 @@ public class ByteCounterTest {
      */
     @Test
     public void testCalculationAfterOneSecond() {
-        long bytesAdded = 1024;
-        long currentTime = 1000;
-        long timeSpent = counter.updateTimeSpent(currentTime);
+        final long bytesAdded = 1024;
+        final long currentTime = 1000;
+        final long timeSpent = counter.updateTimeSpent(currentTime);
         assertEquals(1000, timeSpent);
         counter.updateCounters(bytesAdded, timeSpent);
         assertEquals(1024, counter.getBytesPerSec());
@@ -84,26 +84,26 @@ public class ByteCounterTest {
      */
     @Test
     public void testWith3Updates() {
-        long bytesAdded = 1024;
+        final long bytesAdded = 1024;
 
-        long currentTime1 = 300;
-        long timeSpent1 = counter.updateTimeSpent(currentTime1);
+        final long currentTime1 = 300;
+        final long timeSpent1 = counter.updateTimeSpent(currentTime1);
         assertEquals(300, timeSpent1);
         counter.updateCounters(bytesAdded, timeSpent1);
         assertEquals(0, counter.getBytesPerSec());
         assertEquals(1024, counter.getBytesCounted());
         assertEquals(300, counter.getTimeCounted());
 
-        long currentTime2 = 750;
-        long timeSpent2 = counter.updateTimeSpent(currentTime2);
+        final long currentTime2 = 750;
+        final long timeSpent2 = counter.updateTimeSpent(currentTime2);
         assertEquals(450, timeSpent2);
         counter.updateCounters(bytesAdded, timeSpent2);
         assertEquals(0, counter.getBytesPerSec());
         assertEquals(2048, counter.getBytesCounted());
         assertEquals(750, counter.getTimeCounted());
 
-        long currentTime3 = 1000;
-        long timeSpent3 = counter.updateTimeSpent(currentTime3);
+        final long currentTime3 = 1000;
+        final long timeSpent3 = counter.updateTimeSpent(currentTime3);
         assertEquals(250, timeSpent3);
         counter.updateCounters(bytesAdded, timeSpent3);
         assertEquals(3072, counter.getBytesPerSec());
@@ -117,34 +117,34 @@ public class ByteCounterTest {
      */
     @Test
     public void testCountersResetBetweenCalculations() {
-        long bytesAdded = 1024;
+        final long bytesAdded = 1024;
 
-        long currentTime1 = 500;
-        long timeSpent1 = counter.updateTimeSpent(currentTime1);
+        final long currentTime1 = 500;
+        final long timeSpent1 = counter.updateTimeSpent(currentTime1);
         assertEquals(500, timeSpent1);
         counter.updateCounters(bytesAdded, timeSpent1);
         assertEquals(0, counter.getBytesPerSec());
         assertEquals(1024, counter.getBytesCounted());
         assertEquals(500, counter.getTimeCounted());
 
-        long currentTime2 = 1000;
-        long timeSpent2 = counter.updateTimeSpent(currentTime2);
+        final long currentTime2 = 1000;
+        final long timeSpent2 = counter.updateTimeSpent(currentTime2);
         assertEquals(500, timeSpent2);
         counter.updateCounters(bytesAdded, timeSpent2);
         assertEquals(2048, counter.getBytesPerSec());
         assertEquals(0, counter.getBytesCounted());
         assertEquals(0, counter.getTimeCounted());
 
-        long currentTime3 = 1500;
-        long timeSpent3 = counter.updateTimeSpent(currentTime3);
+        final long currentTime3 = 1500;
+        final long timeSpent3 = counter.updateTimeSpent(currentTime3);
         assertEquals(500, timeSpent3);
         counter.updateCounters(bytesAdded, timeSpent3);
         assertEquals(2048, counter.getBytesPerSec());
         assertEquals(1024, counter.getBytesCounted());
         assertEquals(500, counter.getTimeCounted());
 
-        long currentTime4 = 2000;
-        long timeSpent4 = counter.updateTimeSpent(currentTime4);
+        final long currentTime4 = 2000;
+        final long timeSpent4 = counter.updateTimeSpent(currentTime4);
         assertEquals(500, timeSpent4);
         counter.updateCounters(bytesAdded, timeSpent4);
         assertEquals(2048, counter.getBytesPerSec());
@@ -162,34 +162,34 @@ public class ByteCounterTest {
      */
     @Test
     public void testHandlingOfTimeLeft() {
-        long bytesAdded = 1024;
+        final long bytesAdded = 1024;
 
-        long currentTime1 = 300;
-        long timeSpent1 = counter.updateTimeSpent(currentTime1);
+        final long currentTime1 = 300;
+        final long timeSpent1 = counter.updateTimeSpent(currentTime1);
         assertEquals(300, timeSpent1);
         counter.updateCounters(bytesAdded, timeSpent1);
         assertEquals(0, counter.getBytesPerSec());
         assertEquals(1024, counter.getBytesCounted());
         assertEquals(300, counter.getTimeCounted());
 
-        long currentTime2 = 900;
-        long timeSpent2 = counter.updateTimeSpent(currentTime2);
+        final long currentTime2 = 900;
+        final long timeSpent2 = counter.updateTimeSpent(currentTime2);
         assertEquals(600, timeSpent2);
         counter.updateCounters(bytesAdded, timeSpent2);
         assertEquals(0, counter.getBytesPerSec());
         assertEquals(2048, counter.getBytesCounted());
         assertEquals(900, counter.getTimeCounted());
 
-        long currentTime3 = 1300;
-        long timeSpent3 = counter.updateTimeSpent(currentTime3);
+        final long currentTime3 = 1300;
+        final long timeSpent3 = counter.updateTimeSpent(currentTime3);
         assertEquals(400, timeSpent3);
         counter.updateCounters(bytesAdded, timeSpent3);
         assertEquals(2304, counter.getBytesPerSec());
         assertEquals(768, counter.getBytesCounted());
         assertEquals(300, counter.getTimeCounted());
 
-        long currentTime4 = 2000;
-        long timeSpent4 = counter.updateTimeSpent(currentTime4);
+        final long currentTime4 = 2000;
+        final long timeSpent4 = counter.updateTimeSpent(currentTime4);
         assertEquals(700, timeSpent4);
         counter.updateCounters(bytesAdded, timeSpent4);
         assertEquals(1792, counter.getBytesPerSec());
@@ -204,26 +204,26 @@ public class ByteCounterTest {
      */
     @Test
     public void testHandlingOfTimeLeftWithLargerUpdate() {
-        long bytesAdded = 1024;
+        final long bytesAdded = 1024;
 
-        long currentTime1 = 500;
-        long timeSpent1 = counter.updateTimeSpent(currentTime1);
+        final long currentTime1 = 500;
+        final long timeSpent1 = counter.updateTimeSpent(currentTime1);
         assertEquals(500, timeSpent1);
         counter.updateCounters(bytesAdded, timeSpent1);
         assertEquals(0, counter.getBytesPerSec());
         assertEquals(1024, counter.getBytesCounted());
         assertEquals(500, counter.getTimeCounted());
 
-        long currentTime2 = 1500;
-        long timeSpent2 = counter.updateTimeSpent(currentTime2);
+        final long currentTime2 = 1500;
+        final long timeSpent2 = counter.updateTimeSpent(currentTime2);
         assertEquals(1000, timeSpent2);
         counter.updateCounters(bytesAdded, timeSpent2);
         assertEquals(1536, counter.getBytesPerSec());
         assertEquals(512, counter.getBytesCounted());
         assertEquals(500, counter.getTimeCounted());
 
-        long currentTime3 = 2000;
-        long timeSpent3 = counter.updateTimeSpent(currentTime3);
+        final long currentTime3 = 2000;
+        final long timeSpent3 = counter.updateTimeSpent(currentTime3);
         assertEquals(500, timeSpent3);
         counter.updateCounters(bytesAdded, timeSpent3);
         assertEquals(1536, counter.getBytesPerSec());
@@ -240,18 +240,18 @@ public class ByteCounterTest {
      */
     @Test
     public void testLongPauseInUpdates() {
-        long bytesAdded = 1024;
+        final long bytesAdded = 1024;
 
-        long currentTime1 = 200;
-        long timeSpent1 = counter.updateTimeSpent(currentTime1);
+        final long currentTime1 = 200;
+        final long timeSpent1 = counter.updateTimeSpent(currentTime1);
         assertEquals(200, timeSpent1);
         counter.updateCounters(bytesAdded, timeSpent1);
         assertEquals(0, counter.getBytesPerSec());
         assertEquals(1024, counter.getBytesCounted());
         assertEquals(200, counter.getTimeCounted());
 
-        long currentTime2 = 2500;
-        long timeSpent2 = counter.updateTimeSpent(currentTime2);
+        final long currentTime2 = 2500;
+        final long timeSpent2 = counter.updateTimeSpent(currentTime2);
         assertEquals(2300, timeSpent2);
         counter.updateCounters(bytesAdded, timeSpent2);
         assertEquals(445, counter.getBytesPerSec());
@@ -265,9 +265,9 @@ public class ByteCounterTest {
      */
     @Test
     public void testJustALittleBitTooLong() {
-        long bytesAdded = 1024;
-        long currentTime = 1100;
-        long timeSpent = counter.updateTimeSpent(currentTime);
+        final long bytesAdded = 1024;
+        final long currentTime = 1100;
+        final long timeSpent = counter.updateTimeSpent(currentTime);
         assertEquals(1100, timeSpent);
         counter.updateCounters(bytesAdded, timeSpent);
         assertEquals(930, counter.getBytesPerSec());
@@ -280,9 +280,9 @@ public class ByteCounterTest {
      */
     @Test
     public void testTwoSecondUpdate() {
-        long bytesAdded = 1024;
-        long currentTime = 2000;
-        long timeSpent = counter.updateTimeSpent(currentTime);
+        final long bytesAdded = 1024;
+        final long currentTime = 2000;
+        final long timeSpent = counter.updateTimeSpent(currentTime);
         assertEquals(2000, timeSpent);
         counter.updateCounters(bytesAdded, timeSpent);
         assertEquals(512, counter.getBytesPerSec());
@@ -296,10 +296,10 @@ public class ByteCounterTest {
      */
     @Test
     public void testVerySlowTransfer() {
-        long bytesAdded = 1024;
+        final long bytesAdded = 1024;
 
         for (int i = 1; i <= 250; i++) {
-            long timeSpent = counter.updateTimeSpent(i * 4);
+            final long timeSpent = counter.updateTimeSpent(i * 4);
             assertEquals(4, timeSpent);
             counter.updateCounters(bytesAdded, timeSpent);
 
@@ -320,10 +320,10 @@ public class ByteCounterTest {
      */
     @Test
     public void testSlowTransfer() {
-        long bytesAdded = 1024;
+        final long bytesAdded = 1024;
 
         for (int i = 1; i <= 1000; i++) {
-            long timeSpent = counter.updateTimeSpent(i);
+            final long timeSpent = counter.updateTimeSpent(i);
             assertEquals(1, timeSpent);
             counter.updateCounters(bytesAdded, timeSpent);
 
@@ -344,16 +344,16 @@ public class ByteCounterTest {
      */
     @Test
     public void testFastTransfer() {
-        long bytesAdded = 1024;
+        final long bytesAdded = 1024;
         int time = 0;
 
         for (int i = 1; time < 1000; i++) {
-            boolean addTime = (i % 10 == 0 ? true : false);
+            final boolean addTime = (i % 10 == 0 ? true : false);
 
             if (addTime)
                 time++;
 
-            long timeSpent = counter.updateTimeSpent(time);
+            final long timeSpent = counter.updateTimeSpent(time);
 
             if (addTime)
                 assertEquals(1, timeSpent);
@@ -379,16 +379,16 @@ public class ByteCounterTest {
      */
     @Test
     public void testVeryFastTransfer() {
-        long bytesAdded = 1024;
+        final long bytesAdded = 1024;
         int time = 0;
 
         for (int i = 1; time < 1000; i++) {
-            boolean addTime = (i % 50 == 0 ? true : false);
+            final boolean addTime = (i % 50 == 0 ? true : false);
 
             if (addTime)
                 time++;
 
-            long timeSpent = counter.updateTimeSpent(time);
+            final long timeSpent = counter.updateTimeSpent(time);
 
             if (addTime)
                 assertEquals(1, timeSpent);
@@ -418,7 +418,7 @@ public class ByteCounterTest {
      */
     @Test
     public void testOfficialAPIWorks() {
-        long bytesAdded = 1024;
+        final long bytesAdded = 1024;
         counter.prepare();
 
         while (counter.getBytesPerSec() == 0) {

@@ -45,8 +45,8 @@ public class TransferDialogTest {
      */
     @Test
     public void testReceiveDialog() throws InterruptedException {
-        MockMediator mediator = new MockMediator();
-        MockFileTransfer fileTransfer = new MockFileTransfer(Direction.RECEIVE);
+        final MockMediator mediator = new MockMediator();
+        final MockFileTransfer fileTransfer = new MockFileTransfer(Direction.RECEIVE);
 
         new TransferDialog(mediator, fileTransfer, imageLoader);
 
@@ -64,8 +64,8 @@ public class TransferDialogTest {
      */
     @Test
     public void testSendDialog() throws InterruptedException {
-        MockMediator mediator = new MockMediator();
-        MockFileTransfer fileTransfer = new MockFileTransfer(Direction.SEND);
+        final MockMediator mediator = new MockMediator();
+        final MockFileTransfer fileTransfer = new MockFileTransfer(Direction.SEND);
 
         new TransferDialog(mediator, fileTransfer, imageLoader);
 

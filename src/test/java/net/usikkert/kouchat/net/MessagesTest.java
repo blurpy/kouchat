@@ -71,7 +71,7 @@ public class MessagesTest {
      */
     @Test
     public void testSendAwayMessage() {
-        String awayMsg = "I am away";
+        final String awayMsg = "I am away";
         messages.sendAwayMessage(awayMsg);
         verify(service).sendMulticastMsg(createMessage("AWAY") + awayMsg);
     }
@@ -96,7 +96,7 @@ public class MessagesTest {
      */
     @Test
     public void testSendChatMessage() throws CommandException {
-        String msg = "Some chat message";
+        final String msg = "Some chat message";
         messages.sendChatMessage(msg);
         verify(service).sendMulticastMsg(createMessage("MSG") + "[" + settings.getOwnColor() + "]" + msg);
     }
@@ -108,9 +108,9 @@ public class MessagesTest {
      */
     @Test
     public void testSendClientMessage() {
-        String startsWith = "(" + me.getClient() + ")[";
-        String middle = ".+\\)\\[\\d+\\]\\{.+"; // like:)[134[{
-        String endsWidth = "]{" + me.getOperatingSystem() + "}<" + me.getPrivateChatPort() + ">";
+        final String startsWith = "(" + me.getClient() + ")[";
+        final String middle = ".+\\)\\[\\d+\\]\\{.+"; // like:)[134[{
+        final String endsWidth = "]{" + me.getOperatingSystem() + "}<" + me.getPrivateChatPort() + ">";
 
         messages.sendClient();
 
@@ -150,21 +150,21 @@ public class MessagesTest {
      */
     @Test
     public void testSendFileMessage() throws CommandException {
-        int userCode = 1234;
-        long fileLength = 80800L;
-        String fileName = "a_file.txt";
+        final int userCode = 1234;
+        final long fileLength = 80800L;
+        final String fileName = "a_file.txt";
 
-        File file = mock(File.class);
+        final File file = mock(File.class);
         when(file.getName()).thenReturn(fileName);
         when(file.length()).thenReturn(fileLength);
-        int fileHash = file.hashCode(); // Cannot be mocked it seems
+        final int fileHash = file.hashCode(); // Cannot be mocked it seems
 
-        String info = "(" + userCode + ")" +
+        final String info = "(" + userCode + ")" +
                 "[" + fileLength + "]" +
                 "{" + fileHash + "}" +
                 fileName;
 
-        User user = new User("TestUser", userCode);
+        final User user = new User("TestUser", userCode);
 
         messages.sendFile(user, file);
         verify(service).sendMulticastMsg(createMessage("SENDFILE") + info);
@@ -177,15 +177,15 @@ public class MessagesTest {
      */
     @Test
     public void testSendFileAbortMessage() {
-        int userCode = 4321;
-        int fileHash = 8578765;
-        String fileName = "another_file.txt";
+        final int userCode = 4321;
+        final int fileHash = 8578765;
+        final String fileName = "another_file.txt";
 
-        String info = "(" + userCode + ")" +
+        final String info = "(" + userCode + ")" +
                 "{" + fileHash + "}" +
                 fileName;
 
-        User user = new User("TestUser", userCode);
+        final User user = new User("TestUser", userCode);
 
         messages.sendFileAbort(user, fileHash, fileName);
         verify(service).sendMulticastMsg(createMessage("SENDFILEABORT") + info);
@@ -200,17 +200,17 @@ public class MessagesTest {
      */
     @Test
     public void testSendFileAcceptMessage() throws CommandException {
-        int userCode = 4321;
-        int port = 20103;
-        int fileHash = 8578765;
-        String fileName = "some_file.txt";
+        final int userCode = 4321;
+        final int port = 20103;
+        final int fileHash = 8578765;
+        final String fileName = "some_file.txt";
 
-        String info = "(" + userCode + ")" +
+        final String info = "(" + userCode + ")" +
                 "[" + port + "]" +
                 "{" + fileHash + "}" +
                 fileName;
 
-        User user = new User("TestUser", userCode);
+        final User user = new User("TestUser", userCode);
 
         messages.sendFileAccept(user, port, fileHash, fileName);
         verify(service).sendMulticastMsg(createMessage("SENDFILEACCEPT") + info);
@@ -267,7 +267,7 @@ public class MessagesTest {
      */
     @Test
     public void testSendNickCrashMessage() {
-        String nick = "niles";
+        final String nick = "niles";
         messages.sendNickCrashMessage(nick);
         verify(service).sendMulticastMsg(createMessage("NICKCRASH") + nick);
     }
@@ -293,16 +293,16 @@ public class MessagesTest {
      */
     @Test
     public void testSendPrivateMessage() throws CommandException {
-        String privmsg = "this is a private message";
-        String userIP = "192.168.5.155";
-        int userPort = 12345;
-        int userCode = 435435;
+        final String privmsg = "this is a private message";
+        final String userIP = "192.168.5.155";
+        final int userPort = 12345;
+        final int userCode = 435435;
 
-        String message = "(" + userCode + ")" +
+        final String message = "(" + userCode + ")" +
                 "[" + settings.getOwnColor() + "]" +
                 privmsg;
 
-        User user = new User("TestUser", userCode);
+        final User user = new User("TestUser", userCode);
         user.setPrivateChatPort(userPort);
         user.setIpAddress(userIP);
 
@@ -328,8 +328,8 @@ public class MessagesTest {
      */
     @Test
     public void testSendTopicChangeMessage() {
-        Topic topic = new Topic("Interesting changed topic", "Snoopy", 2132321323L);
-        String message = "(" + topic.getNick() + ")" +
+        final Topic topic = new Topic("Interesting changed topic", "Snoopy", 2132321323L);
+        final String message = "(" + topic.getNick() + ")" +
                 "[" + topic.getTime() + "]" +
                 topic.getTopic();
 
@@ -344,8 +344,8 @@ public class MessagesTest {
      */
     @Test
     public void testSendTopicRequestedMessage() {
-        Topic topic = new Topic("Interesting requested topic", "Snoopy", 66532345L);
-        String message = "(" + topic.getNick() + ")" +
+        final Topic topic = new Topic("Interesting requested topic", "Snoopy", 66532345L);
+        final String message = "(" + topic.getNick() + ")" +
                 "[" + topic.getTime() + "]" +
                 topic.getTopic();
 

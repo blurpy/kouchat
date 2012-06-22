@@ -190,7 +190,7 @@ public class MockMediator implements Mediator {
 
         else {
             transferDialog.setCancelButtonText("Close");
-            FileTransfer fileTransfer = transferDialog.getFileTransfer();
+            final FileTransfer fileTransfer = transferDialog.getFileTransfer();
             fileTransfer.cancel();
         }
     }

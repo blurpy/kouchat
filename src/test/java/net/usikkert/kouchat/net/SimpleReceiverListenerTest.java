@@ -40,7 +40,7 @@ public class SimpleReceiverListenerTest {
      */
     @Test
     public void testListenerWithNoExpectedMessage() {
-        SimpleReceiverListener listener = new SimpleReceiverListener(null);
+        final SimpleReceiverListener listener = new SimpleReceiverListener(null);
         listener.messageArrived("A message", "An ip address");
 
         assertEquals("A message", listener.getMessage());
@@ -53,7 +53,7 @@ public class SimpleReceiverListenerTest {
      */
     @Test
     public void testListenerWithWrongMessage() {
-        SimpleReceiverListener listener = new SimpleReceiverListener("Some message :)");
+        final SimpleReceiverListener listener = new SimpleReceiverListener("Some message :)");
         listener.messageArrived("A message", "An ip address");
 
         assertNull(listener.getMessage());
@@ -66,7 +66,7 @@ public class SimpleReceiverListenerTest {
      */
     @Test
     public void testListenerWithCorrectMessage() {
-        SimpleReceiverListener listener = new SimpleReceiverListener("Another message :)");
+        final SimpleReceiverListener listener = new SimpleReceiverListener("Another message :)");
         listener.messageArrived("Another message :)", "An ip address");
 
         assertEquals("Another message :)", listener.getMessage());

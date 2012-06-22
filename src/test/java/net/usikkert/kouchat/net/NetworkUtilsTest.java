@@ -52,12 +52,12 @@ public class NetworkUtilsTest {
     public void testSameNetworkInterface() {
         assertFalse(NetworkUtils.sameNetworkInterface(null, null));
 
-        Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
+        final Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
 
         if (networkInterfaces != null) {
             try {
-                NetworkInterface interface1 = networkInterfaces.nextElement();
-                NetworkInterface interface2 = networkInterfaces.nextElement();
+                final NetworkInterface interface1 = networkInterfaces.nextElement();
+                final NetworkInterface interface2 = networkInterfaces.nextElement();
 
                 assertTrue(NetworkUtils.sameNetworkInterface(interface1, interface1));
                 assertTrue(NetworkUtils.sameNetworkInterface(interface2, interface2));
@@ -82,11 +82,11 @@ public class NetworkUtilsTest {
     @Test
     public void testGetLocalHostName() {
         try {
-            InetAddress localHostAddress = InetAddress.getLocalHost(); // Could throw exception
+            final InetAddress localHostAddress = InetAddress.getLocalHost(); // Could throw exception
 
-            String localHostName = NetworkUtils.getLocalHostName();
+            final String localHostName = NetworkUtils.getLocalHostName();
             assertNotNull("Name of localhost should not be null", localHostName);
-            InetAddress addressByName = InetAddress.getByName(localHostName);
+            final InetAddress addressByName = InetAddress.getByName(localHostName);
             assertEquals("The addresses should be equal", localHostAddress, addressByName);
         }
 

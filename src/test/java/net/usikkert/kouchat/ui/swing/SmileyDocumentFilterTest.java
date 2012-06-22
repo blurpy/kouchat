@@ -58,7 +58,7 @@ public class SmileyDocumentFilterTest {
      */
     @Test
     public void testSmileyHasWhitespace1() {
-        Smiley smiley = new Smiley(0, new ImageIcon(""), ":)");
+        final Smiley smiley = new Smiley(0, new ImageIcon(""), ":)");
         assertTrue(filter.smileyHasWhitespace(smiley, ":)"));
     }
 
@@ -67,7 +67,7 @@ public class SmileyDocumentFilterTest {
      */
     @Test
     public void testSmileyHasWhitespace2() {
-        Smiley smiley = new Smiley(1, new ImageIcon(""), ":)");
+        final Smiley smiley = new Smiley(1, new ImageIcon(""), ":)");
         assertTrue(filter.smileyHasWhitespace(smiley, " :)"));
     }
 
@@ -76,7 +76,7 @@ public class SmileyDocumentFilterTest {
      */
     @Test
     public void testSmileyHasWhitespace3() {
-        Smiley smiley = new Smiley(0, new ImageIcon(""), ":)");
+        final Smiley smiley = new Smiley(0, new ImageIcon(""), ":)");
         assertTrue(filter.smileyHasWhitespace(smiley, ":) "));
     }
 
@@ -85,7 +85,7 @@ public class SmileyDocumentFilterTest {
      */
     @Test
     public void testSmileyHasWhitespace4() {
-        Smiley smiley = new Smiley(1, new ImageIcon(""), ":)");
+        final Smiley smiley = new Smiley(1, new ImageIcon(""), ":)");
         assertTrue(filter.smileyHasWhitespace(smiley, " :) "));
     }
 
@@ -94,7 +94,7 @@ public class SmileyDocumentFilterTest {
      */
     @Test
     public void testSmileyHasNoWhitespace() {
-        Smiley smiley = new Smiley(0, new ImageIcon(""), ":)");
+        final Smiley smiley = new Smiley(0, new ImageIcon(""), ":)");
         assertFalse(filter.smileyHasWhitespace(smiley, ":):)"));
     }
 
@@ -104,7 +104,7 @@ public class SmileyDocumentFilterTest {
      */
     @Test
     public void testFindSmiley() {
-        Smiley smiley = filter.findSmiley("Test :):) :) :):) Test", 0);
+        final Smiley smiley = filter.findSmiley("Test :):) :) :):) Test", 0);
 
         assertNotNull(smiley);
         assertEquals(10, smiley.getStartPosition());
@@ -120,43 +120,43 @@ public class SmileyDocumentFilterTest {
     public void testFindAllSmileys() {
         final String text = ":$ Test :p :S :) 8) :) ;);) ;) Test";
 
-        Smiley smiley1 = filter.findSmiley(text, 0);
+        final Smiley smiley1 = filter.findSmiley(text, 0);
         assertNotNull(smiley1);
         assertEquals(0, smiley1.getStartPosition());
         assertEquals(2, smiley1.getStopPosition());
         assertEquals(":$", smiley1.getCode());
 
-        Smiley smiley2 = filter.findSmiley(text, smiley1.getStopPosition());
+        final Smiley smiley2 = filter.findSmiley(text, smiley1.getStopPosition());
         assertNotNull(smiley2);
         assertEquals(8, smiley2.getStartPosition());
         assertEquals(10, smiley2.getStopPosition());
         assertEquals(":p", smiley2.getCode());
 
-        Smiley smiley3 = filter.findSmiley(text, smiley2.getStopPosition());
+        final Smiley smiley3 = filter.findSmiley(text, smiley2.getStopPosition());
         assertNotNull(smiley3);
         assertEquals(11, smiley3.getStartPosition());
         assertEquals(13, smiley3.getStopPosition());
         assertEquals(":S", smiley3.getCode());
 
-        Smiley smiley4 = filter.findSmiley(text, smiley3.getStopPosition());
+        final Smiley smiley4 = filter.findSmiley(text, smiley3.getStopPosition());
         assertNotNull(smiley4);
         assertEquals(14, smiley4.getStartPosition());
         assertEquals(16, smiley4.getStopPosition());
         assertEquals(":)", smiley4.getCode());
 
-        Smiley smiley5 = filter.findSmiley(text, smiley4.getStopPosition());
+        final Smiley smiley5 = filter.findSmiley(text, smiley4.getStopPosition());
         assertNotNull(smiley5);
         assertEquals(17, smiley5.getStartPosition());
         assertEquals(19, smiley5.getStopPosition());
         assertEquals("8)", smiley5.getCode());
 
-        Smiley smiley6 = filter.findSmiley(text, smiley5.getStopPosition());
+        final Smiley smiley6 = filter.findSmiley(text, smiley5.getStopPosition());
         assertNotNull(smiley6);
         assertEquals(20, smiley6.getStartPosition());
         assertEquals(22, smiley6.getStopPosition());
         assertEquals(":)", smiley6.getCode());
 
-        Smiley smiley7 = filter.findSmiley(text, smiley6.getStopPosition());
+        final Smiley smiley7 = filter.findSmiley(text, smiley6.getStopPosition());
         assertNotNull(smiley7);
         assertEquals(28, smiley7.getStartPosition());
         assertEquals(30, smiley7.getStopPosition());

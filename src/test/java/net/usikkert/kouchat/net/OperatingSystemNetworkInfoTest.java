@@ -45,9 +45,9 @@ public class OperatingSystemNetworkInfoTest {
      */
     @Test
     public void testFindingTheOSNetworkInterface() {
-        Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
-        OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo();
-        NetworkInterface osInterface = osNicInfo.getOperatingSystemNetworkInterface();
+        final Enumeration<NetworkInterface> networkInterfaces = NetworkUtils.getNetworkInterfaces();
+        final OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo();
+        final NetworkInterface osInterface = osNicInfo.getOperatingSystemNetworkInterface();
 
         if (networkInterfaces == null) {
             System.err.println("No network interfaces found.");
@@ -58,7 +58,7 @@ public class OperatingSystemNetworkInfoTest {
         boolean validNetworkAvailable = false;
 
         while (networkInterfaces.hasMoreElements()) {
-            NetworkInterface networkInterface = networkInterfaces.nextElement();
+            final NetworkInterface networkInterface = networkInterfaces.nextElement();
 
             if (NetworkUtils.isUsable(networkInterface)) {
                 validNetworkAvailable = true;
