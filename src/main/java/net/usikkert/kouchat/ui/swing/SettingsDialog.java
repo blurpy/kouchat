@@ -74,7 +74,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
     private final JButton saveB, cancelB, chooseOwnColorB, chooseSysColorB, testBrowserB, chooseBrowserB;
     private final JTextField nickTF, browserTF;
-    private final JLabel nickL, ownColorL, sysColorL, browserL, lookAndFeelL;
+    private final JLabel ownColorL, sysColorL;
     private final JCheckBox soundCB, loggingCB, smileysCB, balloonCB;
     private final JComboBox lookAndFeelCB;
     private final Settings settings;
@@ -91,7 +91,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
         settings = Settings.getSettings();
 
-        nickL = new JLabel("Nick:");
+        final JLabel nickL = new JLabel("Nick:");
         nickTF = new JTextField(10);
         new CopyPastePopup(nickTF);
 
@@ -125,7 +125,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         sysColorP.add(Box.createHorizontalGlue());
         sysColorP.add(chooseSysColorB);
 
-        lookAndFeelL = new JLabel("Look and feel");
+        final JLabel lookAndFeelL = new JLabel("Look and feel");
         lookAndFeelL.setToolTipText("<html>Gives a choice of all the different looks that are available." +
                 "<br />Note that " + Constants.APP_NAME + " needs to be restarted for the" +
                 "<br />changes to take effect.</html>");
@@ -170,7 +170,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         miscP.add(balloonCB);
         miscP.setBorder(BorderFactory.createTitledBorder("Misc"));
 
-        browserL = new JLabel("Browser: ");
+        final JLabel browserL = new JLabel("Browser: ");
         browserTF = new JTextField(22);
         browserTF.setToolTipText("<html>When you click on a link in the chat it will open" +
                 "<br>in the browser defined here. If this field" +
