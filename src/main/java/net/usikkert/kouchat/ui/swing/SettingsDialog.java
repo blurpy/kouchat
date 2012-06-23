@@ -76,7 +76,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
     private final JTextField nickTF, browserTF;
     private final JLabel ownColorL, sysColorL;
     private final JCheckBox soundCB, loggingCB, smileysCB, balloonCB;
-    private final JComboBox lookAndFeelCB;
+    private final JComboBox lookAndFeelCB, networkInterfaceCB;
     private final Settings settings;
     private final ErrorHandler errorHandler;
     private Mediator mediator;
@@ -163,12 +163,29 @@ public class SettingsDialog extends JDialog implements ActionListener {
         balloonCB.setToolTipText("<html>Shows balloon notifications in the system tray when new" +
                 "<br>messages are received while the application is hidden.</html>");
 
-        final JPanel miscP = new JPanel(new GridLayout(2, 2));
-        miscP.add(soundCB);
-        miscP.add(loggingCB);
-        miscP.add(smileysCB);
-        miscP.add(balloonCB);
-        miscP.setBorder(BorderFactory.createTitledBorder("Misc"));
+        final JPanel miscCheckBoxP = new JPanel(new GridLayout(2, 2));
+        miscCheckBoxP.add(soundCB);
+        miscCheckBoxP.add(loggingCB);
+        miscCheckBoxP.add(smileysCB);
+        miscCheckBoxP.add(balloonCB);
+
+        final JLabel networkInterfaceL = new JLabel("Network interface");
+        networkInterfaceL.setToolTipText("<html>Allows you to specify which network interface to use for " +
+                "<br>communication with other clients. Or use <em>Auto</em> to " +
+                "<br>let " + Constants.APP_NAME + " decide.</html>");
+        networkInterfaceCB = new JComboBox(new String[] {"Auto", "eth0 192.168.5.100", "eth1 192.168.5.101"});
+
+        final JPanel networkInterfaceP = new JPanel();
+        networkInterfaceP.setLayout(new BoxLayout(networkInterfaceP, BoxLayout.LINE_AXIS));
+        networkInterfaceP.add(networkInterfaceL);
+        networkInterfaceP.add(Box.createHorizontalGlue());
+        networkInterfaceP.add(networkInterfaceCB);
+
+        final JPanel miscP = new JPanel(new BorderLayout(0, 0));
+        miscP.add(miscCheckBoxP, BorderLayout.NORTH);
+        miscP.add(networkInterfaceP, BorderLayout.SOUTH);
+        miscP.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Misc"),
+                BorderFactory.createEmptyBorder(0, 5, 0, 5)));
 
         final JLabel browserL = new JLabel("Browser: ");
         browserTF = new JTextField(22);
