@@ -331,4 +331,22 @@ public final class NetworkUtils {
 
         return null;
     }
+
+    /**
+     * Gets the network interfaces with the requested name. Returns <code>null</code> if no
+     * interface is found with that name.
+     *
+     * @param name Name of the network interface to return.
+     * @return The requested network interface, or <code>null</code>.
+     */
+    public static NetworkInterface getNetworkInterfaceByName(final String name) {
+        try {
+            return NetworkInterface.getByName(name);
+        }
+
+        catch (SocketException e) {
+            LOG.log(Level.WARNING, e.toString());
+            return null;
+        }
+    }
 }

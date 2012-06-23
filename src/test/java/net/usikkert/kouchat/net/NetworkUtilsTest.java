@@ -33,6 +33,7 @@ import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -94,5 +95,12 @@ public class NetworkUtilsTest {
         catch (final UnknownHostException e) {
             System.err.println("Could not get localhost - aborting test: " + e.toString());
         }
+    }
+
+    @Test
+    @Ignore("Machine specific test")
+    public void getNetworkInterfaceByName() {
+        final NetworkInterface eth0 = NetworkUtils.getNetworkInterfaceByName("eth0");
+        System.out.println(NetworkUtils.getNetworkInterfaceInfo(eth0));
     }
 }
