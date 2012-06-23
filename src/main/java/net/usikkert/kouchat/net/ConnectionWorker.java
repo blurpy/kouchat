@@ -29,6 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.event.NetworkConnectionListener;
+import net.usikkert.kouchat.misc.Settings;
 
 /**
  * This thread is responsible for keeping the application connected
@@ -68,12 +69,16 @@ public class ConnectionWorker implements Runnable {
     /** For locating the operating system's choice of network interface. */
     private final OperatingSystemNetworkInfo osNetworkInfo;
 
+    /** The settings to use for the network. */
+    private final Settings settings;
+
     /**
      * Constructor.
      */
     public ConnectionWorker() {
         listeners = new ArrayList<NetworkConnectionListener>();
         osNetworkInfo = new OperatingSystemNetworkInfo();
+        settings = Settings.getSettings();
     }
 
     /**
@@ -236,9 +241,11 @@ public class ConnectionWorker implements Runnable {
     /**
      * Locates the best network interface to use.
      *
-     * <p>The operating system's choice of network interface is prioritized,
-     * but if the interface is not seen as usable, then the first usable
-     * interface in the list of available choices is used instead.</p>
+     * <ol>
+     *   <li>The first priority is the network interface selected in the settings.</li>
+     *   <li>The second priority is the operating system's choice of network interface.</li>
+     *   <li>The last priority is KouChat's own choice of network interface.</li>
+     * </ol>
      *
      * <p>If no usable network interfaces are found, then <code>null</code>
      * is returned.</p>
@@ -252,6 +259,14 @@ public class ConnectionWorker implements Runnable {
         if (firstUsableNetIf == null) {
             LOG.log(Level.FINER, "No usable network interface detected.");
             return null;
+        }
+
+        final NetworkInterface savedNetworkInterface =
+                NetworkUtils.getNetworkInterfaceByName(settings.getNetworkInterface());
+
+        if (NetworkUtils.isUsable(savedNetworkInterface)) {
+            LOG.log(Level.FINER, "Using saved network interface.");
+            return savedNetworkInterface;
         }
 
         final NetworkInterface osNetIf = osNetworkInfo.getOperatingSystemNetworkInterface();
