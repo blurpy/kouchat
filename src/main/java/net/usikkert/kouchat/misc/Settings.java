@@ -106,6 +106,9 @@ public final class Settings {
     /** Name of the chosen look and feel. */
     private String lookAndFeel;
 
+    /** Name of the network interface to use, or <code>null</code> to choose automatically. */
+    private String networkInterface;
+
     // Settings from startup arguments
 
     /** If private chat is disabled. */
@@ -225,6 +228,8 @@ public final class Settings {
             buffWriter.newLine();
             buffWriter.write("balloons=" + balloons);
             buffWriter.newLine();
+            buffWriter.write("networkInterface=" + networkInterface);
+            buffWriter.newLine();
         }
 
         catch (final IOException e) {
@@ -313,6 +318,7 @@ public final class Settings {
             balloons = Boolean.valueOf(fileContents.getProperty("balloons"));
             browser = fileContents.getProperty("browser");
             lookAndFeel = fileContents.getProperty("lookAndFeel");
+            networkInterface = fileContents.getProperty("networkInterface");
 
             // Defaults to true
             if (fileContents.getProperty("sound") != null) {
@@ -605,5 +611,25 @@ public final class Settings {
      */
     public void setBalloons(final boolean balloons) {
         this.balloons = balloons;
+    }
+
+    /**
+     * Gets the name of the network interface to use.
+     * Can be <code>null</code> to allow KouChat to choose automatically.
+     *
+     * @return The name of the network interface to use.
+     */
+    public String getNetworkInterface() {
+        return networkInterface;
+    }
+
+    /**
+     * Sets the name of the network interface to use.
+     * Can be <code>null</code> to allow KouChat to choose automatically.
+     *
+     * @param networkInterface The network interface to use.
+     */
+    public void setNetworkInterface(final String networkInterface) {
+        this.networkInterface = networkInterface;
     }
 }
