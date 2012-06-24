@@ -1,12 +1,11 @@
 
-- KouChat v1.1.0 TODO
+- KouChat v1.2.0 TODO
 
-* Release v1.2.0:
+* Release v1.X:
  - Animated system tray icon (issue 11)
  - Multi-line messages (issue 12)
  - Show/Hide menu items in the system tray right click menu
  - Fix Event Dispatch Thread usage
- - User specified network interface
  - Test KouInject
 
 

@@ -1,5 +1,10 @@
 
-- KouChat v1.1.0 CHANGES
+- KouChat v1.2.0 CHANGES
+
+* version 1.2.0 (xx.xx.2012):
+  - Improved debug logging
+  - Added support for user specified network interface
+
 
 * version 1.1.0 (10.06.2012):
   - Fix for PatternSyntaxException when parsing commands containing regex
