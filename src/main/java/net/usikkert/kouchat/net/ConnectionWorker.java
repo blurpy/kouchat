@@ -270,7 +270,7 @@ public class ConnectionWorker implements Runnable {
             return savedNetworkInterface;
         }
 
-        LOG.log(Level.FINER, "Saved network interface " + settings.getNetworkInterface() + " is invalid: \n" +
+        LOG.log(Level.FINER, "Saved network interface '" + settings.getNetworkInterface() + "' is invalid: \n" +
                 NetworkUtils.getNetworkInterfaceInfo(savedNetworkInterface));
 
         final NetworkInterface osNetIf = osNetworkInfo.getOperatingSystemNetworkInterface();
