@@ -129,38 +129,6 @@ public class MessageSender {
     }
 
     /**
-     * Disconnects from the network and closes the multicast socket.
-     */
-    public synchronized void stopSender() {
-        LOG.log(Level.FINE, "Disconnecting...");
-
-        if (!connected) {
-            LOG.log(Level.FINE, "Not connected.");
-        }
-
-        else {
-            connected = false;
-
-            try {
-                if (!mcSocket.isClosed()) {
-                    mcSocket.leaveGroup(address);
-                }
-            }
-
-            catch (final IOException e) {
-                LOG.log(Level.WARNING, e.toString());
-            }
-
-            if (!mcSocket.isClosed()) {
-                mcSocket.close();
-                mcSocket = null;
-            }
-
-            LOG.log(Level.FINE, "Disconnected.");
-        }
-    }
-
-    /**
      * Connects to the network with the given network interface, or gives
      * the control to the operating system to choose if <code>null</code>
      * is given.
@@ -205,5 +173,37 @@ public class MessageSender {
         }
 
         return connected;
+    }
+
+    /**
+     * Disconnects from the network and closes the multicast socket.
+     */
+    public synchronized void stopSender() {
+        LOG.log(Level.FINE, "Disconnecting...");
+
+        if (!connected) {
+            LOG.log(Level.FINE, "Not connected.");
+        }
+
+        else {
+            connected = false;
+
+            try {
+                if (!mcSocket.isClosed()) {
+                    mcSocket.leaveGroup(address);
+                }
+            }
+
+            catch (final IOException e) {
+                LOG.log(Level.WARNING, e.toString());
+            }
+
+            if (!mcSocket.isClosed()) {
+                mcSocket.close();
+                mcSocket = null;
+            }
+
+            LOG.log(Level.FINE, "Disconnected.");
+        }
     }
 }

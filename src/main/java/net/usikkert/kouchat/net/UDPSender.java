@@ -95,27 +95,6 @@ public class UDPSender {
     }
 
     /**
-     * Closes the UDP socket.
-     */
-    public void stopSender() {
-        LOG.log(Level.FINE, "Disconnecting...");
-
-        if (!connected) {
-            LOG.log(Level.FINE, "Not connected.");
-        }
-
-        else {
-            connected = false;
-
-            if (udpSocket != null && !udpSocket.isClosed()) {
-                udpSocket.close();
-            }
-
-            LOG.log(Level.FINE, "Disconnected.");
-        }
-    }
-
-    /**
      * Creates a new UDP socket.
      */
     public void startSender() {
@@ -137,6 +116,27 @@ public class UDPSender {
                 errorHandler.showError("Failed to initialize network:\n" + e +
                         "\n\nYou will not be able to send private messages!");
             }
+        }
+    }
+
+    /**
+     * Closes the UDP socket.
+     */
+    public void stopSender() {
+        LOG.log(Level.FINE, "Disconnecting...");
+
+        if (!connected) {
+            LOG.log(Level.FINE, "Not connected.");
+        }
+
+        else {
+            connected = false;
+
+            if (udpSocket != null && !udpSocket.isClosed()) {
+                udpSocket.close();
+            }
+
+            LOG.log(Level.FINE, "Disconnected.");
         }
     }
 }
