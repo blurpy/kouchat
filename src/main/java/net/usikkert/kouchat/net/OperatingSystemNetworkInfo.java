@@ -68,13 +68,18 @@ public class OperatingSystemNetworkInfo {
      * @return The network interface, or <code>null</code>.
      */
     public NetworkInterface getOperatingSystemNetworkInterface() {
+        LOG.fine("Trying to detect network interface used by operating system");
+
         final String message = createMessageToSend();
         final SimpleReceiverListener listener = new SimpleReceiverListener(message);
         connect(listener);
         sender.send(message);
         waitForMessage(listener);
         disconnect();
-        return findNetworkInterface(listener);
+        final NetworkInterface networkInterface = findNetworkInterface(listener);
+
+        LOG.fine("Detected network interface used by operating system: " + networkInterface);
+        return networkInterface;
     }
 
     /**

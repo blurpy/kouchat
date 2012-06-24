@@ -81,13 +81,13 @@ public class UDPSender {
 
                 final DatagramPacket packet = new DatagramPacket(encodedMsg, size, address, port);
                 udpSocket.send(packet);
-                LOG.log(Level.FINE, "Sent message: " + message);
+                LOG.log(Level.FINE, "Sent message: " + message + " to " + ip + ":" + port);
 
                 return true;
             }
 
             catch (final IOException e) {
-                LOG.log(Level.SEVERE, "Could not send message: " + message);
+                LOG.log(Level.SEVERE, "Could not send message: " + message, e);
             }
         }
 

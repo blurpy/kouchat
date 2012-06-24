@@ -61,6 +61,8 @@ public class NetworkService implements NetworkConnectionListener {
      * Constructor.
      */
     public NetworkService() {
+        LOG.fine("Initializing network");
+
         privateChatEnabled = !Settings.getSettings().isNoPrivateChat();
 
         messageReceiver = new MessageReceiver();

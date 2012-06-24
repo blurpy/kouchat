@@ -122,7 +122,7 @@ public class UDPReceiver implements Runnable {
                     worker = new Thread(this, "UDPReceiverWorker");
                     worker.start();
                     Settings.getSettings().getMe().setPrivateChatPort(port);
-                    LOG.log(Level.FINE, "Connected.");
+                    LOG.log(Level.FINE, "Connected to port " + port);
                 }
 
                 catch (final IOException e) {

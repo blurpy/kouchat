@@ -79,6 +79,8 @@ public class MessageSender {
      * @param port Port to connect to.
      */
     public MessageSender(final String ipAddress, final int port) {
+        LOG.fine("Creating MessageSender on " + ipAddress + ":" + port);
+
         this.port = port;
         errorHandler = ErrorHandler.getErrorHandler();
 
@@ -121,7 +123,7 @@ public class MessageSender {
             }
 
             catch (final IOException e) {
-                LOG.log(Level.WARNING, "Could not send message: " + message);
+                LOG.log(Level.WARNING, "Could not send message: " + message, e);
             }
         }
 
@@ -137,7 +139,7 @@ public class MessageSender {
      * @return If connected to the network or not.
      */
     public synchronized boolean startSender(final NetworkInterface networkInterface) {
-        LOG.log(Level.FINE, "Connecting...");
+        LOG.log(Level.FINE, "Connecting to " + address.getHostAddress() + ":" + port + " on " + networkInterface);
 
         try {
             if (connected) {
@@ -155,13 +157,13 @@ public class MessageSender {
 
                 mcSocket.joinGroup(address);
                 mcSocket.setTimeToLive(64);
-                LOG.log(Level.FINE, "Connected to " + mcSocket.getNetworkInterface().getDisplayName() + ".");
+                LOG.log(Level.FINE, "Connected to " + mcSocket.getNetworkInterface());
                 connected = true;
             }
         }
 
         catch (final IOException e) {
-            LOG.log(Level.SEVERE, "Could not start sender: " + e.toString());
+            LOG.log(Level.SEVERE, "Could not start sender: " + e.toString(), e);
 
             if (mcSocket != null) {
                 if (!mcSocket.isClosed()) {
@@ -179,7 +181,7 @@ public class MessageSender {
      * Disconnects from the network and closes the multicast socket.
      */
     public synchronized void stopSender() {
-        LOG.log(Level.FINE, "Disconnecting...");
+        LOG.log(Level.FINE, "Disconnecting from " + address.getHostAddress() + ":" + port);
 
         if (!connected) {
             LOG.log(Level.FINE, "Not connected.");
@@ -203,7 +205,7 @@ public class MessageSender {
                 mcSocket = null;
             }
 
-            LOG.log(Level.FINE, "Disconnected.");
+            LOG.log(Level.FINE, "Disconnected from " + address.getHostAddress() + ":" + port);
         }
     }
 }

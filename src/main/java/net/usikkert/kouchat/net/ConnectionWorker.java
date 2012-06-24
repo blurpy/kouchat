@@ -265,18 +265,27 @@ public class ConnectionWorker implements Runnable {
                 NetworkUtils.getNetworkInterfaceByName(settings.getNetworkInterface());
 
         if (NetworkUtils.isUsable(savedNetworkInterface)) {
-            LOG.log(Level.FINER, "Using saved network interface.");
+            LOG.log(Level.FINER, "Using saved network interface: \n" +
+                    NetworkUtils.getNetworkInterfaceInfo(savedNetworkInterface));
             return savedNetworkInterface;
         }
+
+        LOG.log(Level.FINER, "Saved network interface " + settings.getNetworkInterface() + " is invalid: \n" +
+                NetworkUtils.getNetworkInterfaceInfo(savedNetworkInterface));
 
         final NetworkInterface osNetIf = osNetworkInfo.getOperatingSystemNetworkInterface();
 
         if (NetworkUtils.isUsable(osNetIf)) {
-            LOG.log(Level.FINER, "Using operating system's choice of network interface.");
+            LOG.log(Level.FINER, "Using operating system's choice of network interface: \n" +
+                    NetworkUtils.getNetworkInterfaceInfo(osNetIf));
             return osNetIf;
         }
 
-        LOG.log(Level.FINER, "Overriding operating system's choice of network interface.");
+        LOG.finer("The operating system suggested the following invalid network interface: \n" +
+                NetworkUtils.getNetworkInterfaceInfo(osNetIf));
+        LOG.log(Level.FINER, "Overriding operating system's choice of network interface with: \n" +
+                NetworkUtils.getNetworkInterfaceInfo(firstUsableNetIf));
+
         return firstUsableNetIf;
     }
 

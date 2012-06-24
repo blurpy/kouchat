@@ -87,6 +87,8 @@ public class MessageReceiver implements Runnable {
      * @param port Port to connect to.
      */
     public MessageReceiver(final String ipAddress, final int port) {
+        LOG.fine("Creating MessageReceiver on " + ipAddress + ":" + port);
+
         this.port = port;
         errorHandler = ErrorHandler.getErrorHandler();
 
@@ -156,7 +158,7 @@ public class MessageReceiver implements Runnable {
      * @return If connected to the network or not.
      */
     public synchronized boolean startReceiver(final NetworkInterface networkInterface) {
-        LOG.log(Level.FINE, "Connecting...");
+        LOG.log(Level.FINE, "Connecting to " + address.getHostAddress() + ":" + port + " on " + networkInterface);
 
         try {
             if (connected) {
@@ -173,13 +175,13 @@ public class MessageReceiver implements Runnable {
                 }
 
                 mcSocket.joinGroup(address);
-                LOG.log(Level.FINE, "Connected to " + mcSocket.getNetworkInterface().getDisplayName() + ".");
+                LOG.log(Level.FINE, "Connected to " + mcSocket.getNetworkInterface());
                 connected = true;
             }
         }
 
         catch (final IOException e) {
-            LOG.log(Level.SEVERE, "Could not start receiver: " + e.toString());
+            LOG.log(Level.SEVERE, "Could not start receiver: " + e.toString(), e);
 
             if (mcSocket != null) {
                 if (!mcSocket.isClosed()) {
@@ -201,7 +203,7 @@ public class MessageReceiver implements Runnable {
      * Disconnects from the network and closes the multicast socket.
      */
     public synchronized void stopReceiver() {
-        LOG.log(Level.FINE, "Disconnecting...");
+        LOG.log(Level.FINE, "Disconnecting from " + address.getHostAddress() + ":" + port);
 
         if (!connected) {
             LOG.log(Level.FINE, "Not connected.");
@@ -225,7 +227,7 @@ public class MessageReceiver implements Runnable {
                 mcSocket = null;
             }
 
-            LOG.log(Level.FINE, "Disconnected.");
+            LOG.log(Level.FINE, "Disconnected from " + address.getHostAddress() + ":" + port);
         }
     }
 
