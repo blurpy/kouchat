@@ -32,8 +32,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.net.NetworkInterface;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -54,12 +57,13 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.WindowConstants;
 import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.WindowConstants;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.net.NetworkUtils;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -173,7 +177,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         networkInterfaceL.setToolTipText("<html>Allows you to specify which network interface to use for " +
                 "<br>communication with other clients. Or use <em>Auto</em> to " +
                 "<br>let " + Constants.APP_NAME + " decide.</html>");
-        networkInterfaceCB = new JComboBox(new String[] {"Auto", "eth0 192.168.5.100", "eth1 192.168.5.101"});
+        networkInterfaceCB = new JComboBox(getNetworkChoices());
 
         final JPanel networkInterfaceP = new JPanel();
         networkInterfaceP.setLayout(new BoxLayout(networkInterfaceP, BoxLayout.LINE_AXIS));
@@ -463,6 +467,50 @@ public class SettingsDialog extends JDialog implements ActionListener {
             if (lafw.getLookAndFeelInfo().getClassName().equals(lnfClass)) {
                 lookAndFeelCB.setSelectedIndex(i);
                 break;
+            }
+        }
+    }
+
+    private NetworkChoice[] getNetworkChoices() {
+        final ArrayList<NetworkChoice> networkChoices = new ArrayList<NetworkChoice>();
+        networkChoices.add(new NetworkChoice("Auto"));
+
+        final List<NetworkInterface> usableNetworkInterfaces = NetworkUtils.getUsableNetworkInterfaces();
+
+        for (final NetworkInterface usableNetworkInterface : usableNetworkInterfaces) {
+            networkChoices.add(new NetworkChoice(usableNetworkInterface));
+        }
+
+        return networkChoices.toArray(new NetworkChoice[networkChoices.size()]);
+    }
+
+    /**
+     * Class for representing a network interface to be chosen in the dropdown box.
+     */
+    private class NetworkChoice {
+
+        private final String displayName;
+        private final String deviceName;
+        private final String ipAddresses;
+
+        public NetworkChoice(final NetworkInterface networkInterface) {
+            this.displayName = networkInterface.getName();
+            this.deviceName = this.displayName;
+            this.ipAddresses = NetworkUtils.getIPv4Addresses(networkInterface);
+        }
+
+        public NetworkChoice(final String displayName) {
+            this.displayName = displayName;
+            this.ipAddresses = null;
+            this.deviceName = null;
+        }
+
+        @Override
+        public String toString() {
+            if (ipAddresses != null) {
+                return displayName + " - " + ipAddresses;
+            } else {
+                return displayName;
             }
         }
     }

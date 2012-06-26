@@ -27,7 +27,9 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -290,6 +292,30 @@ public final class NetworkUtils {
         }
 
         return networkInterfaces;
+    }
+
+    /**
+     * Iterates through a list of available network interfaces, and returns all that are usable.
+     *
+     * @return All the usable network interfaces.
+     * @see #isUsable(NetworkInterface)
+     */
+    public static List<NetworkInterface> getUsableNetworkInterfaces() {
+        final ArrayList<NetworkInterface> usableNetworkInterfaces = new ArrayList<NetworkInterface>();
+        final Enumeration<NetworkInterface> allNetworkInterfaces = getNetworkInterfaces();
+
+        if (allNetworkInterfaces == null) {
+            return usableNetworkInterfaces;
+        }
+
+        while (allNetworkInterfaces.hasMoreElements()) {
+            final NetworkInterface netif = allNetworkInterfaces.nextElement();
+            if (isUsable(netif)) {
+                usableNetworkInterfaces.add(netif);
+            }
+        }
+
+        return usableNetworkInterfaces;
     }
 
     /**
