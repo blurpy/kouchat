@@ -366,6 +366,10 @@ public final class NetworkUtils {
      * @return The requested network interface, or <code>null</code>.
      */
     public static NetworkInterface getNetworkInterfaceByName(final String name) {
+        if (name == null) {
+            return null;
+        }
+
         try {
             return NetworkInterface.getByName(name);
         }
