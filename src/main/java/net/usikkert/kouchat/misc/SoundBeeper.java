@@ -23,7 +23,7 @@
 package net.usikkert.kouchat.misc;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -105,13 +105,13 @@ public class SoundBeeper {
      * Opens an audio file, and reserves the resources needed for playback.
      */
     public void open() {
-        final InputStream resourceStream = getClass().getResourceAsStream(BEEP_FILE);
+        final URL fileUrl = getClass().getResource(BEEP_FILE);
 
-        if (resourceStream != null) {
+        if (fileUrl != null) {
             AudioInputStream audioStream = null;
 
             try {
-                audioStream = AudioSystem.getAudioInputStream(resourceStream);
+                audioStream = AudioSystem.getAudioInputStream(fileUrl);
                 final AudioFormat format = audioStream.getFormat();
                 final DataLine.Info info = new DataLine.Info(Clip.class, format);
 
@@ -122,34 +122,24 @@ public class SoundBeeper {
             }
 
             catch (final UnsupportedAudioFileException e) {
-                LOG.log(Level.SEVERE, e.toString());
+                LOG.log(Level.SEVERE, e.toString(), e);
                 settings.setSound(false);
                 errorHandler.showError("Could not initialize the sound." +
                         "\nUnsupported file format: " + BEEP_FILE);
             }
 
             catch (final IOException e) {
-                LOG.log(Level.SEVERE, e.toString());
+                LOG.log(Level.SEVERE, e.toString(), e);
                 settings.setSound(false);
                 errorHandler.showError("Could not initialize the sound." +
                         "\nAudio file could not be opened: " + BEEP_FILE);
             }
 
             catch (final LineUnavailableException e) {
-                LOG.log(Level.WARNING, e.toString());
+                LOG.log(Level.WARNING, e.toString(), e);
             }
 
             finally {
-                if (resourceStream != null) {
-                    try {
-                        resourceStream.close();
-                    }
-
-                    catch (final IOException e) {
-                        LOG.log(Level.WARNING, e.toString());
-                    }
-                }
-
                 if (audioStream != null) {
                     try {
                         audioStream.close();

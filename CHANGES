@@ -4,6 +4,8 @@
 * version 1.2.0 (xx.xx.2012):
   - Improved debug logging
   - Added support for user specified network interface
+  - Fix for "java.io.IOException: mark/reset not supported" when playing sound
+    on newer versions of Java 6 (u33) and 7 (u5)
 
 
 * version 1.1.0 (10.06.2012):
