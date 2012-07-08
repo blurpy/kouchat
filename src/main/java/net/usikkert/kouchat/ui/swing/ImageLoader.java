@@ -78,16 +78,16 @@ public class ImageLoader {
     private final ImageIcon shadeIcon;
 
     /** The normal kou image icon. */
-    private final ImageIcon kouNormalIcon;
+    private final ImageIcon kouNormal32Icon;
 
     /** The normal activity kou image icon. */
-    private final ImageIcon kouNormalActivityIcon;
+    private final ImageIcon kouNormalActivity32Icon;
 
     /** The away kou image icon. */
-    private final ImageIcon kouAwayIcon;
+    private final ImageIcon kouAway32Icon;
 
     /** The away activity kou image icon. */
-    private final ImageIcon kouAwayActivityIcon;
+    private final ImageIcon kouAwayActivity32Icon;
 
     /** The envelope image icon. */
     private final ImageIcon envelopeIcon;
@@ -134,10 +134,10 @@ public class ImageLoader {
         cryIcon = new ImageIcon(cryURL);
         embarrassedIcon = new ImageIcon(embarrassedURL);
         shadeIcon = new ImageIcon(shadeURL);
-        kouNormalIcon = new ImageIcon(kouNormURL);
-        kouNormalActivityIcon = new ImageIcon(kouNormActURL);
-        kouAwayIcon = new ImageIcon(kouAwayURL);
-        kouAwayActivityIcon = new ImageIcon(kouAwayActURL);
+        kouNormal32Icon = new ImageIcon(kouNormURL);
+        kouNormalActivity32Icon = new ImageIcon(kouNormActURL);
+        kouAway32Icon = new ImageIcon(kouAwayURL);
+        kouAwayActivity32Icon = new ImageIcon(kouAwayActURL);
         envelopeIcon = new ImageIcon(envelopeURL);
         dotIcon = new ImageIcon(dotURL);
     }
@@ -280,8 +280,8 @@ public class ImageLoader {
      *
      * @return The kouNormalIcon.
      */
-    public ImageIcon getKouNormalIcon() {
-        return kouNormalIcon;
+    public ImageIcon getKouNormal32Icon() {
+        return kouNormal32Icon;
     }
 
     /**
@@ -289,8 +289,8 @@ public class ImageLoader {
      *
      * @return The kouNormalActivityIcon.
      */
-    public ImageIcon getKouNormalActivityIcon() {
-        return kouNormalActivityIcon;
+    public ImageIcon getKouNormalActivity32Icon() {
+        return kouNormalActivity32Icon;
     }
 
     /**
@@ -298,8 +298,8 @@ public class ImageLoader {
      *
      * @return The kouAwayIcon.
      */
-    public ImageIcon getKouAwayIcon() {
-        return kouAwayIcon;
+    public ImageIcon getKouAway32Icon() {
+        return kouAway32Icon;
     }
 
     /**
@@ -307,8 +307,8 @@ public class ImageLoader {
      *
      * @return The kouAwayActivityIcon.
      */
-    public ImageIcon getKouAwayActivityIcon() {
-        return kouAwayActivityIcon;
+    public ImageIcon getKouAwayActivity32Icon() {
+        return kouAwayActivity32Icon;
     }
 
     /**

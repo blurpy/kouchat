@@ -56,10 +56,10 @@ public class StatusIcons {
     public StatusIcons(final ImageLoader imageLoader) {
         Validate.notNull(imageLoader, "Image loader can not be null");
 
-        normalIcon = imageLoader.getKouNormalIcon();
-        normalActivityIcon = imageLoader.getKouNormalActivityIcon();
-        awayIcon = imageLoader.getKouAwayIcon();
-        awayActivityIcon = imageLoader.getKouAwayActivityIcon();
+        normalIcon = imageLoader.getKouNormal32Icon();
+        normalActivityIcon = imageLoader.getKouNormalActivity32Icon();
+        awayIcon = imageLoader.getKouAway32Icon();
+        awayActivityIcon = imageLoader.getKouAwayActivity32Icon();
     }
 
     /**
