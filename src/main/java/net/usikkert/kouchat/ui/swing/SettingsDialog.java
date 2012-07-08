@@ -242,7 +242,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
         pack();
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-        setIconImage(imageLoader.getAppIcon().getImage());
+        setIconImage(new StatusIcons(imageLoader).getNormalIcon());
         setTitle(UITools.createTitle("Settings"));
         setResizable(false);
         setModal(true);

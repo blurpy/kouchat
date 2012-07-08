@@ -332,13 +332,4 @@ public class ImageLoader {
     public ImageIcon getDotIcon() {
         return dotIcon;
     }
-
-    /**
-     * Gets the appIcon.
-     *
-     * @return The appIcon.
-     */
-    public ImageIcon getAppIcon() {
-        return appIcon;
-    }
 }

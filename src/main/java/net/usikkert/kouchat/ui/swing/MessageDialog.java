@@ -71,11 +71,13 @@ public class MessageDialog extends JDialog {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(UITools.createTitle("Missing title"));
         setResizable(false);
-        setIconImage(imageLoader.getAppIcon().getImage());
+
+        final StatusIcons statusIcons = new StatusIcons(imageLoader);
+        setIconImage(statusIcons.getNormalIcon());
 
         appNameL = new JLabel();
         appNameL.setFont(new Font("Dialog", 0, 22));
-        appNameL.setIcon(imageLoader.getAppIcon());
+        appNameL.setIcon(statusIcons.getNormalIconImage());
         appNameL.setText(" No top text");
 
         final JPanel northP = new JPanel();

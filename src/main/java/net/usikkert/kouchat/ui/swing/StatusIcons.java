@@ -72,6 +72,15 @@ public class StatusIcons {
     }
 
     /**
+     * Gets the normal icon as image icon.
+     *
+     * @return The normal icon.
+     */
+    public ImageIcon getNormalIconImage() {
+        return normalIcon;
+    }
+
+    /**
      * Gets the normal activity icon.
      *
      * @return The normal activity icon.

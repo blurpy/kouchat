@@ -121,7 +121,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(UITools.createTitle("Unhandled error"));
-        setIconImage(imageLoader.getAppIcon().getImage());
+        setIconImage(new StatusIcons(imageLoader).getNormalIcon());
         setSize(630, 450);
     }
 

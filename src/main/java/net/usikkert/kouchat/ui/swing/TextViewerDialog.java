@@ -118,7 +118,7 @@ public class TextViewerDialog extends JDialog {
 
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         setTitle(UITools.createTitle(title));
-        setIconImage(imageLoader.getAppIcon().getImage());
+        setIconImage(new StatusIcons(imageLoader).getNormalIcon());
         setResizable(false);
         readFile();
         pack();

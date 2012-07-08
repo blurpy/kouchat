@@ -200,7 +200,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         updateTitle(0);
-        setIconImage(imageLoader.getAppIcon().getImage());
+        setIconImage(new StatusIcons(imageLoader).getNormalIcon());
         getRootPane().setDefaultButton(cancelB);
 
         pack();
