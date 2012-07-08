@@ -23,6 +23,7 @@
 package net.usikkert.kouchat.ui.swing;
 
 import java.awt.AWTException;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
@@ -83,15 +84,22 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
         Validate.notNull(imageLoader, "Image loader can not be null");
 
         if (SystemTray.isSupported()) {
-            statusIcons = new StatusIcons(imageLoader);
             final PopupMenu menu = new PopupMenu();
             quitMI = new MenuItem("Quit");
             quitMI.addActionListener(this);
             menu.add(quitMI);
 
             final SystemTray sysTray = SystemTray.getSystemTray();
+
+            final StatusIconSize iconSize = chooseIconSize(sysTray);
+            statusIcons = new StatusIcons(imageLoader, iconSize);
+
             trayIcon = new TrayIcon(statusIcons.getNormalIcon(), "", menu);
-            trayIcon.setImageAutoSize(true);
+
+            if (iconSize == StatusIconSize.SIZE_32x32) {
+                trayIcon.setImageAutoSize(true);
+            }
+
             trayIcon.addMouseListener(this);
             trayIcon.setToolTip(Constants.APP_NAME);
 
@@ -301,6 +309,35 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
     public void showBalloonMessage(final String title, final String message) {
         if (settings.isBalloons() && trayIcon != null) {
             trayIcon.displayMessage(title, message, MessageType.NONE);
+        }
+    }
+
+    /**
+     * Choose a size to use for the icons in the system tray based on the size the system tray requests.
+     *
+     * <ul>
+     *   <li>Windows: 16x16px</li>
+     *   <li>Gnome: 24x24px</li>
+     *   <li>KDE: 22x22px (asks for 24x24, but only 22x22 is actually shown, so looks weird)</li>
+     *   <li>Others: 32x32, with scaling applied.</li>
+     * </ul>
+     *
+     * @param sysTray The system tray.
+     * @return The best icon size.
+     */
+    private StatusIconSize chooseIconSize(final SystemTray sysTray) {
+        final Dimension trayIconSize = sysTray.getTrayIconSize();
+
+        if (trayIconSize.getHeight() == 16) {
+            return StatusIconSize.SIZE_16x16;
+        } else if (trayIconSize.getHeight() == 24) {
+            if (System.getenv("KDE_FULL_SESSION") != null) {
+                return StatusIconSize.SIZE_22x22;
+            } else {
+                return StatusIconSize.SIZE_24x24;
+            }
+        } else {
+            return StatusIconSize.SIZE_32x32;
         }
     }
 }
