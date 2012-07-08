@@ -24,6 +24,8 @@ package net.usikkert.kouchat.ui.swing;
 
 import java.awt.Image;
 
+import javax.swing.ImageIcon;
+
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -35,16 +37,16 @@ import net.usikkert.kouchat.util.Validate;
 public class StatusIcons {
 
     /** User is not away, and has no new messages. */
-    private final Image normalIcon;
+    private final ImageIcon normalIcon;
 
     /** User is not away, but has new messages. */
-    private final Image normalActivityIcon;
+    private final ImageIcon normalActivityIcon;
 
     /** User is away, but has no new messages. */
-    private final Image awayIcon;
+    private final ImageIcon awayIcon;
 
     /** User is away, and has new messages. */
-    private final Image awayActivityIcon;
+    private final ImageIcon awayActivityIcon;
 
     /**
      * Constructor. Loads the icons.
@@ -54,10 +56,10 @@ public class StatusIcons {
     public StatusIcons(final ImageLoader imageLoader) {
         Validate.notNull(imageLoader, "Image loader can not be null");
 
-        normalIcon = imageLoader.getKouNormalIcon().getImage();
-        normalActivityIcon = imageLoader.getKouNormalActivityIcon().getImage();
-        awayIcon = imageLoader.getKouAwayIcon().getImage();
-        awayActivityIcon = imageLoader.getKouAwayActivityIcon().getImage();
+        normalIcon = imageLoader.getKouNormalIcon();
+        normalActivityIcon = imageLoader.getKouNormalActivityIcon();
+        awayIcon = imageLoader.getKouAwayIcon();
+        awayActivityIcon = imageLoader.getKouAwayActivityIcon();
     }
 
     /**
@@ -66,7 +68,7 @@ public class StatusIcons {
      * @return The normal icon.
      */
     public Image getNormalIcon() {
-        return normalIcon;
+        return normalIcon.getImage();
     }
 
     /**
@@ -75,7 +77,7 @@ public class StatusIcons {
      * @return The normal activity icon.
      */
     public Image getNormalActivityIcon() {
-        return normalActivityIcon;
+        return normalActivityIcon.getImage();
     }
 
     /**
@@ -84,7 +86,7 @@ public class StatusIcons {
      * @return The away icon.
      */
     public Image getAwayIcon() {
-        return awayIcon;
+        return awayIcon.getImage();
     }
 
     /**
@@ -93,6 +95,6 @@ public class StatusIcons {
      * @return The away activity icon.
      */
     public Image getAwayActivityIcon() {
-        return awayActivityIcon;
+        return awayActivityIcon.getImage();
     }
 }
