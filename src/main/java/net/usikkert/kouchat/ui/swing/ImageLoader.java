@@ -116,10 +116,10 @@ public class ImageLoader {
         final URL cryURL = loadImage(resourceValidator, Images.SMILEY_CRY);
         final URL embarrassedURL = loadImage(resourceValidator, Images.SMILEY_EMBARRASSED);
         final URL shadeURL = loadImage(resourceValidator, Images.SMILEY_SHADE);
-        final URL kouNormURL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL);
-        final URL kouNormActURL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_ACT);
-        final URL kouAwayURL = loadImage(resourceValidator, Images.ICON_KOU_AWAY);
-        final URL kouAwayActURL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_ACT);
+        final URL kouNormURL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_32);
+        final URL kouNormActURL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_ACT_32);
+        final URL kouAwayURL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_32);
+        final URL kouAwayActURL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_ACT_32);
         final URL envelopeURL = loadImage(resourceValidator, Images.ICON_ENVELOPE);
         final URL dotURL = loadImage(resourceValidator, Images.ICON_DOT);
 
