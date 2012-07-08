@@ -85,7 +85,4 @@ public interface Images {
 
     /** The image for the <code>8)</code> smiley. */
     String SMILEY_SHADE = SMILEY_PATH + "/shade.png";
-
-    /** The icon used to identify the application. */
-    String APP_ICON = ICON_KOU_NORMAL;
 }
