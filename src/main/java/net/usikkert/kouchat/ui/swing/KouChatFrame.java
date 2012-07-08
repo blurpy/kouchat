@@ -125,7 +125,6 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
         setJMenuBar(menuBar);
         getContentPane().add(mainP, BorderLayout.CENTER);
         setTitle(Constants.APP_NAME);
-        setIconImage(imageLoader.getAppIcon().getImage());
         setSize(650, 480);
         setMinimumSize(new Dimension(450, 300));
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);

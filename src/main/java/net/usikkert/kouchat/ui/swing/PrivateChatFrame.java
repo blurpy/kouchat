@@ -117,7 +117,6 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         setSize(460, 340);
         setMinimumSize(new Dimension(300, 250));
-        setIconImage(imageLoader.getAppIcon().getImage());
         updateUserInformation();
 
         fileTransferHandler = new FileTransferHandler(this);
