@@ -95,9 +95,6 @@ public class ImageLoader {
     /** The dot image icon. */
     private final ImageIcon dotIcon;
 
-    /** The application image icon. */
-    private final ImageIcon appIcon;
-
     /**
      * Constructor. Loads and validates the images.
      */
@@ -143,7 +140,6 @@ public class ImageLoader {
         kouAwayActivityIcon = new ImageIcon(kouAwayActURL);
         envelopeIcon = new ImageIcon(envelopeURL);
         dotIcon = new ImageIcon(dotURL);
-        appIcon = kouNormalIcon;
     }
 
     /**
