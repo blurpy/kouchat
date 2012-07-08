@@ -54,12 +54,22 @@ public class StatusIcons {
      * @param imageLoader The image loader.
      */
     public StatusIcons(final ImageLoader imageLoader) {
+        this(imageLoader, StatusIconSize.SIZE_32x32);
+    }
+
+    /**
+     * Constructor. Loads the icons.
+     *
+     * @param imageLoader The image loader.
+     * @param size Size of the status icons to use.
+     */
+    public StatusIcons(final ImageLoader imageLoader, final StatusIconSize size) {
         Validate.notNull(imageLoader, "Image loader can not be null");
 
-        normalIcon = imageLoader.getKouNormal32Icon();
-        normalActivityIcon = imageLoader.getKouNormalActivity32Icon();
-        awayIcon = imageLoader.getKouAway32Icon();
-        awayActivityIcon = imageLoader.getKouAwayActivity32Icon();
+        normalIcon = chooseNormalIcon(imageLoader, size);
+        normalActivityIcon = chooseNormalActivityIcon(imageLoader, size);
+        awayIcon = chooseAwayIcon(imageLoader, size);
+        awayActivityIcon = chooseAwayActivityIcon(imageLoader, size);
     }
 
     /**
@@ -105,5 +115,45 @@ public class StatusIcons {
      */
     public Image getAwayActivityIcon() {
         return awayActivityIcon.getImage();
+    }
+
+    private ImageIcon chooseNormalIcon(final ImageLoader imageLoader, final StatusIconSize size) {
+        switch (size) {
+            case SIZE_16x16: return imageLoader.getKouNormal16Icon();
+            case SIZE_22x22: return imageLoader.getKouNormal22Icon();
+            case SIZE_24x24: return imageLoader.getKouNormal24Icon();
+            case SIZE_32x32: return imageLoader.getKouNormal32Icon();
+            default: throw new IllegalArgumentException("Unsupported status icon size: " + size);
+        }
+    }
+
+    private ImageIcon chooseNormalActivityIcon(final ImageLoader imageLoader, final StatusIconSize size) {
+        switch (size) {
+            case SIZE_16x16: return imageLoader.getKouNormalActivity16Icon();
+            case SIZE_22x22: return imageLoader.getKouNormalActivity22Icon();
+            case SIZE_24x24: return imageLoader.getKouNormalActivity24Icon();
+            case SIZE_32x32: return imageLoader.getKouNormalActivity32Icon();
+            default: throw new IllegalArgumentException("Unsupported status icon size: " + size);
+        }
+    }
+
+    private ImageIcon chooseAwayIcon(final ImageLoader imageLoader, final StatusIconSize size) {
+        switch (size) {
+            case SIZE_16x16: return imageLoader.getKouAway16Icon();
+            case SIZE_22x22: return imageLoader.getKouAway22Icon();
+            case SIZE_24x24: return imageLoader.getKouAway24Icon();
+            case SIZE_32x32: return imageLoader.getKouAway32Icon();
+            default: throw new IllegalArgumentException("Unsupported status icon size: " + size);
+        }
+    }
+
+    private ImageIcon chooseAwayActivityIcon(final ImageLoader imageLoader, final StatusIconSize size) {
+        switch (size) {
+            case SIZE_16x16: return imageLoader.getKouAwayActivity16Icon();
+            case SIZE_22x22: return imageLoader.getKouAwayActivity22Icon();
+            case SIZE_24x24: return imageLoader.getKouAwayActivity24Icon();
+            case SIZE_32x32: return imageLoader.getKouAwayActivity32Icon();
+            default: throw new IllegalArgumentException("Unsupported status icon size: " + size);
+        }
     }
 }
