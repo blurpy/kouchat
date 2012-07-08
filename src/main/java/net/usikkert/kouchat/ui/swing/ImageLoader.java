@@ -77,16 +77,52 @@ public class ImageLoader {
     /** The shade image icon. */
     private final ImageIcon shadeIcon;
 
-    /** The normal kou image icon. */
+    /** The normal kou image icon in 16x16px. */
+    private final ImageIcon kouNormal16Icon;
+
+    /** The normal kou image icon in 22x22px. */
+    private final ImageIcon kouNormal22Icon;
+
+    /** The normal kou image icon in 24x24px. */
+    private final ImageIcon kouNormal24Icon;
+
+    /** The normal kou image icon in 32x32px. */
     private final ImageIcon kouNormal32Icon;
 
-    /** The normal activity kou image icon. */
+    /** The normal activity kou image icon in 16x16px. */
+    private final ImageIcon kouNormalActivity16Icon;
+
+    /** The normal activity kou image icon in 22x22px. */
+    private final ImageIcon kouNormalActivity22Icon;
+
+    /** The normal activity kou image icon in 24x24px. */
+    private final ImageIcon kouNormalActivity24Icon;
+
+    /** The normal activity kou image icon in 32x32px. */
     private final ImageIcon kouNormalActivity32Icon;
 
-    /** The away kou image icon. */
+    /** The away kou image icon in 16x16px. */
+    private final ImageIcon kouAway16Icon;
+
+    /** The away kou image icon in 22x22px. */
+    private final ImageIcon kouAway22Icon;
+
+    /** The away kou image icon in 24x24px. */
+    private final ImageIcon kouAway24Icon;
+
+    /** The away kou image icon in 32x32px. */
     private final ImageIcon kouAway32Icon;
 
-    /** The away activity kou image icon. */
+    /** The away activity kou image icon in 16x16px. */
+    private final ImageIcon kouAwayActivity16Icon;
+
+    /** The away activity kou image icon in 22x22px. */
+    private final ImageIcon kouAwayActivity22Icon;
+
+    /** The away activity kou image icon in 24x24px. */
+    private final ImageIcon kouAwayActivity24Icon;
+
+    /** The away activity kou image icon in 32x32px. */
     private final ImageIcon kouAwayActivity32Icon;
 
     /** The envelope image icon. */
@@ -113,10 +149,27 @@ public class ImageLoader {
         final URL cryURL = loadImage(resourceValidator, Images.SMILEY_CRY);
         final URL embarrassedURL = loadImage(resourceValidator, Images.SMILEY_EMBARRASSED);
         final URL shadeURL = loadImage(resourceValidator, Images.SMILEY_SHADE);
-        final URL kouNormURL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_32);
-        final URL kouNormActURL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_ACT_32);
-        final URL kouAwayURL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_32);
-        final URL kouAwayActURL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_ACT_32);
+
+        final URL kouNorm16URL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_16);
+        final URL kouNorm22URL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_22);
+        final URL kouNorm24URL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_24);
+        final URL kouNorm32URL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_32);
+
+        final URL kouNormAct16URL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_ACT_16);
+        final URL kouNormAct22URL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_ACT_22);
+        final URL kouNormAct24URL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_ACT_24);
+        final URL kouNormAct32URL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_ACT_32);
+
+        final URL kouAway16URL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_16);
+        final URL kouAway22URL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_22);
+        final URL kouAway24URL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_24);
+        final URL kouAway32URL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_32);
+
+        final URL kouAwayAct16URL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_ACT_16);
+        final URL kouAwayAct22URL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_ACT_22);
+        final URL kouAwayAct24URL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_ACT_24);
+        final URL kouAwayAct32URL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_ACT_32);
+
         final URL envelopeURL = loadImage(resourceValidator, Images.ICON_ENVELOPE);
         final URL dotURL = loadImage(resourceValidator, Images.ICON_DOT);
 
@@ -134,10 +187,27 @@ public class ImageLoader {
         cryIcon = new ImageIcon(cryURL);
         embarrassedIcon = new ImageIcon(embarrassedURL);
         shadeIcon = new ImageIcon(shadeURL);
-        kouNormal32Icon = new ImageIcon(kouNormURL);
-        kouNormalActivity32Icon = new ImageIcon(kouNormActURL);
-        kouAway32Icon = new ImageIcon(kouAwayURL);
-        kouAwayActivity32Icon = new ImageIcon(kouAwayActURL);
+
+        kouNormal16Icon = new ImageIcon(kouNorm16URL);
+        kouNormal22Icon = new ImageIcon(kouNorm22URL);
+        kouNormal24Icon = new ImageIcon(kouNorm24URL);
+        kouNormal32Icon = new ImageIcon(kouNorm32URL);
+
+        kouNormalActivity16Icon = new ImageIcon(kouNormAct16URL);
+        kouNormalActivity22Icon = new ImageIcon(kouNormAct22URL);
+        kouNormalActivity24Icon = new ImageIcon(kouNormAct24URL);
+        kouNormalActivity32Icon = new ImageIcon(kouNormAct32URL);
+
+        kouAway16Icon = new ImageIcon(kouAway16URL);
+        kouAway22Icon = new ImageIcon(kouAway22URL);
+        kouAway24Icon = new ImageIcon(kouAway24URL);
+        kouAway32Icon = new ImageIcon(kouAway32URL);
+
+        kouAwayActivity16Icon = new ImageIcon(kouAwayAct16URL);
+        kouAwayActivity22Icon = new ImageIcon(kouAwayAct22URL);
+        kouAwayActivity24Icon = new ImageIcon(kouAwayAct24URL);
+        kouAwayActivity32Icon = new ImageIcon(kouAwayAct32URL);
+
         envelopeIcon = new ImageIcon(envelopeURL);
         dotIcon = new ImageIcon(dotURL);
     }
@@ -276,36 +346,144 @@ public class ImageLoader {
     }
 
     /**
-     * Gets the kouNormalIcon.
+     * Gets the kouNormal16Icon.
      *
-     * @return The kouNormalIcon.
+     * @return The kouNormal16Icon.
+     */
+    public ImageIcon getKouNormal16Icon() {
+        return kouNormal16Icon;
+    }
+
+    /**
+     * Gets the kouNormal22Icon.
+     *
+     * @return The kouNormal22Icon.
+     */
+    public ImageIcon getKouNormal22Icon() {
+        return kouNormal22Icon;
+    }
+
+    /**
+     * Gets the kouNormal24Icon.
+     *
+     * @return The kouNormal24Icon.
+     */
+    public ImageIcon getKouNormal24Icon() {
+        return kouNormal24Icon;
+    }
+
+    /**
+     * Gets the kouNormal32Icon.
+     *
+     * @return The kouNormal32Icon.
      */
     public ImageIcon getKouNormal32Icon() {
         return kouNormal32Icon;
     }
 
     /**
-     * Gets the kouNormalActivityIcon.
+     * Gets the kouNormalActivity16Icon.
      *
-     * @return The kouNormalActivityIcon.
+     * @return The kouNormalActivity16Icon.
+     */
+    public ImageIcon getKouNormalActivity16Icon() {
+        return kouNormalActivity16Icon;
+    }
+
+    /**
+     * Gets the kouNormalActivity22Icon.
+     *
+     * @return The kouNormalActivity22Icon.
+     */
+    public ImageIcon getKouNormalActivity22Icon() {
+        return kouNormalActivity22Icon;
+    }
+
+    /**
+     * Gets the kouNormalActivity24Icon.
+     *
+     * @return The kouNormalActivity24Icon.
+     */
+    public ImageIcon getKouNormalActivity24Icon() {
+        return kouNormalActivity24Icon;
+    }
+
+    /**
+     * Gets the kouNormalActivity32Icon.
+     *
+     * @return The kouNormalActivity32Icon.
      */
     public ImageIcon getKouNormalActivity32Icon() {
         return kouNormalActivity32Icon;
     }
 
     /**
-     * Gets the kouAwayIcon.
+     * Gets the kouAway16Icon.
      *
-     * @return The kouAwayIcon.
+     * @return The kouAway16Icon.
+     */
+    public ImageIcon getKouAway16Icon() {
+        return kouAway16Icon;
+    }
+
+    /**
+     * Gets the kouAway22Icon.
+     *
+     * @return The kouAway22Icon.
+     */
+    public ImageIcon getKouAway22Icon() {
+        return kouAway22Icon;
+    }
+
+    /**
+     * Gets the kouAway24Icon.
+     *
+     * @return The kouAway24Icon.
+     */
+    public ImageIcon getKouAway24Icon() {
+        return kouAway24Icon;
+    }
+
+    /**
+     * Gets the kouAway32Icon.
+     *
+     * @return The kouAway32Icon.
      */
     public ImageIcon getKouAway32Icon() {
         return kouAway32Icon;
     }
 
     /**
-     * Gets the kouAwayActivityIcon.
+     * Gets the kouAwayActivity16Icon.
      *
-     * @return The kouAwayActivityIcon.
+     * @return The kouAwayActivity16Icon.
+     */
+    public ImageIcon getKouAwayActivity16Icon() {
+        return kouAwayActivity16Icon;
+    }
+
+    /**
+     * Gets the kouAwayActivity22Icon.
+     *
+     * @return The kouAwayActivity22Icon.
+     */
+    public ImageIcon getKouAwayActivity22Icon() {
+        return kouAwayActivity22Icon;
+    }
+
+    /**
+     * Gets the kouAwayActivity24Icon.
+     *
+     * @return The kouAwayActivity24Icon.
+     */
+    public ImageIcon getKouAwayActivity24Icon() {
+        return kouAwayActivity24Icon;
+    }
+
+    /**
+     * Gets the kouAwayActivity32Icon.
+     *
+     * @return The kouAwayActivity32Icon.
      */
     public ImageIcon getKouAwayActivity32Icon() {
         return kouAwayActivity32Icon;
