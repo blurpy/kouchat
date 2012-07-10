@@ -26,6 +26,11 @@
           <include>FAQ</include>
           <include>CHANGES</include>
           <include>TipsAndTricks.txt</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>icons</directory>
+        <includes>
           <include>kou_shortcut.*</include>
         </includes>
       </resource>
