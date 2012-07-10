@@ -6,6 +6,8 @@
   - Added support for user specified network interface
   - Fix for "java.io.IOException: mark/reset not supported" when playing sound
     on newer versions of Java 6 (u33) and 7 (u5)
+  - Added prescaled status icons for the system tray. 16x16px for Windows, 22x22px
+    for KDE and 24x24px for Gnome
 
 
 * version 1.1.0 (10.06.2012):
