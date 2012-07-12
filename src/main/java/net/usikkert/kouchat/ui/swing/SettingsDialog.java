@@ -314,10 +314,15 @@ public class SettingsDialog extends JDialog implements ActionListener {
                         settings.setBalloons(balloonCB.isSelected());
                         final LookAndFeelWrapper lnfw = (LookAndFeelWrapper) lookAndFeelCB.getSelectedItem();
                         settings.setLookAndFeel(lnfw.getLookAndFeelInfo().getName());
+                        settings.setNetworkInterface(getSelectedNetworkInterface().getDeviceName());
                         settings.saveSettings();
                         setVisible(false);
                         notifyLookAndFeelChange(lnfw);
                     }
+                }
+
+                private NetworkChoice getSelectedNetworkInterface() {
+                    return (NetworkChoice) networkInterfaceCB.getSelectedItem();
                 }
             });
         }
@@ -503,6 +508,10 @@ public class SettingsDialog extends JDialog implements ActionListener {
             this.displayName = displayName;
             this.ipAddresses = null;
             this.deviceName = null;
+        }
+
+        public String getDeviceName() {
+            return deviceName;
         }
 
         @Override
