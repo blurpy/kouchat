@@ -64,15 +64,9 @@ public class DayTimer extends TimerTask {
     public DayTimer(final UserInterface ui) {
         msgController = ui.getMessageController();
         final Calendar cal = Calendar.getInstance();
-        final int currentHour = cal.get(Calendar.HOUR_OF_DAY);
 
-        // To stop the timer from thinking that the day has changed if
-        // the application is started between 00 and 01 o'clock.
-        if (currentHour == NOTIFY_HOUR) {
-            done = true;
-        }
-
-        cal.set(Calendar.HOUR_OF_DAY, NOTIFY_HOUR);
+        // Starts the timer at the next hour
+        cal.add(Calendar.HOUR_OF_DAY, 1);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
 
