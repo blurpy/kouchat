@@ -445,6 +445,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         smileysCB.setSelected(settings.isSmileys());
         balloonCB.setSelected(settings.isBalloons());
         selectLookAndFeel();
+        selectNetworkInterface();
 
         setVisible(true);
         nickTF.requestFocusInWindow();
@@ -471,6 +472,25 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
             if (lafw.getLookAndFeelInfo().getClassName().equals(lnfClass)) {
                 lookAndFeelCB.setSelectedIndex(i);
+                break;
+            }
+        }
+    }
+
+    /**
+     * Selects the saved network interface in the combobox.
+     *
+     * <p>If the saved network interface is not found in the list of the combobox then
+     * the first element is shown, which is Auto.</p>
+     */
+    private void selectNetworkInterface() {
+        final String savedNetworkInterface = settings.getNetworkInterface();
+
+        for (int i = 0; i < networkInterfaceCB.getItemCount(); i++) {
+            final NetworkChoice networkChoice = (NetworkChoice) networkInterfaceCB.getItemAt(i);
+
+            if (networkChoice.match(savedNetworkInterface)) {
+                networkInterfaceCB.setSelectedIndex(i);
                 break;
             }
         }
@@ -512,6 +532,15 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
         public String getDeviceName() {
             return deviceName;
+        }
+
+        public boolean match(final String savedNetworkInterface) {
+            // To handle the Auto element, where deviceName is null.
+            if (deviceName != null) {
+                return deviceName.equalsIgnoreCase(savedNetworkInterface);
+            }
+
+            return false;
         }
 
         @Override
