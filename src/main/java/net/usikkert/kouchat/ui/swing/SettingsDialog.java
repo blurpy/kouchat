@@ -46,6 +46,7 @@ import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -180,7 +181,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         networkInterfaceL.setToolTipText("<html>Allows you to specify which network interface to use for " +
                 "<br>communication with other clients. Or use <em>Auto</em> to " +
                 "<br>let " + Constants.APP_NAME + " decide.</html>");
-        networkInterfaceCB = new JComboBox(getNetworkChoices());
+        networkInterfaceCB = new JComboBox();
         networkInterfaceCB.setRenderer(new NetworkChoiceCellRenderer());
 
         final JPanel networkInterfaceP = new JPanel();
@@ -448,6 +449,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
         browserTF.setText(settings.getBrowser());
         smileysCB.setSelected(settings.isSmileys());
         balloonCB.setSelected(settings.isBalloons());
+        networkInterfaceCB.setModel(new DefaultComboBoxModel(getNetworkChoices()));
+
         selectLookAndFeel();
         selectNetworkInterface();
 
