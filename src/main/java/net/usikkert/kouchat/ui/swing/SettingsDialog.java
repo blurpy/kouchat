@@ -24,6 +24,7 @@ package net.usikkert.kouchat.ui.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -45,6 +46,7 @@ import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -52,6 +54,7 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
@@ -178,6 +181,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
                 "<br>communication with other clients. Or use <em>Auto</em> to " +
                 "<br>let " + Constants.APP_NAME + " decide.</html>");
         networkInterfaceCB = new JComboBox(getNetworkChoices());
+        networkInterfaceCB.setRenderer(new NetworkChoiceCellRenderer());
 
         final JPanel networkInterfaceP = new JPanel();
         networkInterfaceP.setLayout(new BoxLayout(networkInterfaceP, BoxLayout.LINE_AXIS));
@@ -498,7 +502,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
     private NetworkChoice[] getNetworkChoices() {
         final ArrayList<NetworkChoice> networkChoices = new ArrayList<NetworkChoice>();
-        networkChoices.add(new NetworkChoice("Auto"));
+        networkChoices.add(new NetworkChoice("Auto", "Let " + Constants.APP_NAME + " decide."));
 
         final List<NetworkInterface> usableNetworkInterfaces = NetworkUtils.getUsableNetworkInterfaces();
 
@@ -519,37 +523,53 @@ public class SettingsDialog extends JDialog implements ActionListener {
         private final String ipAddresses;
 
         public NetworkChoice(final NetworkInterface networkInterface) {
-            this.displayName = networkInterface.getName();
-            this.deviceName = this.displayName;
+            this.displayName = networkInterface.getDisplayName();
+            this.deviceName = networkInterface.getName();
             this.ipAddresses = NetworkUtils.getIPv4Addresses(networkInterface);
         }
 
-        public NetworkChoice(final String displayName) {
+        public NetworkChoice(final String deviceName, final String displayName) {
             this.displayName = displayName;
+            this.deviceName = deviceName;
             this.ipAddresses = null;
-            this.deviceName = null;
         }
 
         public String getDeviceName() {
             return deviceName;
         }
 
-        public boolean match(final String savedNetworkInterface) {
-            // To handle the Auto element, where deviceName is null.
-            if (deviceName != null) {
-                return deviceName.equalsIgnoreCase(savedNetworkInterface);
-            }
+        public String getDisplayName() {
+            return displayName;
+        }
 
-            return false;
+        public boolean match(final String savedNetworkInterface) {
+            return deviceName.equalsIgnoreCase(savedNetworkInterface);
         }
 
         @Override
         public String toString() {
             if (ipAddresses != null) {
-                return displayName + " - " + ipAddresses;
+                return deviceName + " - " + ipAddresses;
             } else {
-                return displayName;
+                return deviceName;
             }
+        }
+    }
+
+    /**
+     * A cell renderer for the combobox with network choices that enables tooltips on the elements,
+     * showing the display name of the network device.
+     */
+    private class NetworkChoiceCellRenderer extends DefaultListCellRenderer {
+
+        @Override
+        public Component getListCellRendererComponent(final JList list, final Object value,
+                                                      final int index, final boolean isSelected,
+                                                      final boolean cellHasFocus) {
+            final NetworkChoice networkChoice = (NetworkChoice) value;
+            list.setToolTipText(networkChoice.getDisplayName());
+
+            return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         }
     }
 }
