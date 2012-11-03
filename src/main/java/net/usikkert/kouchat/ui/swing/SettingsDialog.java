@@ -504,6 +504,11 @@ public class SettingsDialog extends JDialog implements ActionListener {
         }
     }
 
+    /**
+     * Returns an array of network interfaces that can be chosen by the user in the combobox.
+     *
+     * @return Currently available and usable network interfaces to choose from.
+     */
     private NetworkChoice[] getNetworkChoices() {
         final ArrayList<NetworkChoice> networkChoices = new ArrayList<NetworkChoice>();
         networkChoices.add(new NetworkChoice("Auto", "Let " + Constants.APP_NAME + " decide."));
