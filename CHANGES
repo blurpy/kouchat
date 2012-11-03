@@ -3,7 +3,7 @@
 
 * version 1.2.0 (xx.xx.2012):
   - Improved debug logging
-  - Added support for user specified network interface
+  - Added support for user specified network interface, in the settings
   - Fix for "java.io.IOException: mark/reset not supported" when playing sound
     on newer versions of Java 6 (u33) and Java 7 (u5)
   - Added the 4 status icons in svg format
@@ -11,7 +11,8 @@
     for KDE and 24x24px for Gnome
   - Updated kou_shortcut.ico with sizes from 16x16px to 256x256px
   - Updated kou_shortcut.png to 256x256px
-  - Fixed crash when starting KouChat on systems with the clock set to unix epoch
+  - Fixed crash when starting KouChat on systems with the clock set to unix epoch,
+    to support devices without a clock battery
 
 
 * version 1.1.0 (10.06.2012):

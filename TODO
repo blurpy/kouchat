@@ -7,6 +7,8 @@
  - Show/Hide menu items in the system tray right click menu
  - Fix Event Dispatch Thread usage
  - Test KouInject
+ - Make the system tray icon optional
+ - Clickable links in the about dialog
 
 
 * Release v2.0:
