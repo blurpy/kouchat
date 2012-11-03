@@ -613,6 +613,14 @@ public class Controller implements NetworkConnectionListener {
     }
 
     /**
+     * Checks the state of the network, and tries to keep the best possible
+     * network connection up.
+     */
+    public void checkNetwork() {
+        networkService.checkNetwork();
+    }
+
+    /**
      * Returns if the client is logged on to the chat.
      *
      * @return True if the client is logged on to the chat.

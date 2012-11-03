@@ -323,6 +323,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
                         settings.saveSettings();
                         setVisible(false);
                         notifyLookAndFeelChange(lnfw);
+                        mediator.checkNetwork();
                     }
                 }
 

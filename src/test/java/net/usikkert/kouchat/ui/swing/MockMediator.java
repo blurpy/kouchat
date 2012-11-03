@@ -179,6 +179,16 @@ public class MockMediator implements Mediator {
     }
 
     /**
+     * Not implemented.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void checkNetwork() {
+
+    }
+
+    /**
      * A simpler implementation of the cancel/close handling of the transfer dialog.
      *
      * @param transferDialog The file transfer dialog.

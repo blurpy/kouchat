@@ -204,6 +204,14 @@ public class SwingMediator implements Mediator, UserInterface {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void checkNetwork() {
+        controller.checkNetwork();
+    }
+
+    /**
      * Asks if the user wants to quit.
      */
     @Override

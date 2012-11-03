@@ -64,6 +64,12 @@ public interface Mediator {
     void start();
 
     /**
+     * Checks the status of the network connection right away, reconnecting to a new
+     * network interface if necessary.
+     */
+    void checkNetwork();
+
+    /**
      * Asks if the user wants to quit.
      */
     void quit();
