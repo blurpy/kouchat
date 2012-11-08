@@ -162,15 +162,20 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      */
     @Override
     public void appendToChat(final String message, final int color) {
-        try {
-            StyleConstants.setForeground(chatAttr, new Color(color));
-            chatDoc.insertString(chatDoc.getLength(), message + "\n", chatAttr);
-            chatTP.setCaretPosition(chatDoc.getLength());
-        }
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    StyleConstants.setForeground(chatAttr, new Color(color));
+                    chatDoc.insertString(chatDoc.getLength(), message + "\n", chatAttr);
+                    chatTP.setCaretPosition(chatDoc.getLength());
+                }
 
-        catch (final BadLocationException e) {
-            LOG.log(Level.SEVERE, e.toString(), e);
-        }
+                catch (final BadLocationException e) {
+                    LOG.log(Level.SEVERE, e.toString(), e);
+                }
+            }
+        });
     }
 
     /**
