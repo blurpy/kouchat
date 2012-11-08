@@ -24,6 +24,8 @@ package net.usikkert.kouchat.ui;
 
 import java.awt.GraphicsEnvironment;
 
+import javax.swing.SwingUtilities;
+
 import net.usikkert.kouchat.ui.console.KouChatConsole;
 import net.usikkert.kouchat.ui.swing.KouChatFrame;
 
@@ -58,7 +60,13 @@ public class UIFactory {
                 }
 
                 else {
-                    new KouChatFrame();
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            new KouChatFrame();
+                        }
+                    });
+
                     done = true;
                 }
             }
