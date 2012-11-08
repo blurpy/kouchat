@@ -37,6 +37,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import net.usikkert.kouchat.event.FileTransferListener;
@@ -215,7 +216,12 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      * @param text The new text on the button.
      */
     public void setCancelButtonText(final String text) {
-        cancelB.setText(text);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                cancelB.setText(text);
+            }
+        });
     }
 
     /**
@@ -264,18 +270,23 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      */
     @Override
     public void statusCompleted() {
-        statusL.setForeground(new Color(0, 176, 0));
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                statusL.setForeground(new Color(0, 176, 0));
 
-        if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE) {
-            statusL.setText("File successfully received");
-            openB.setEnabled(true);
-        }
+                if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE) {
+                    statusL.setText("File successfully received");
+                    openB.setEnabled(true);
+                }
 
-        else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND) {
-            statusL.setText("File successfully sent");
-        }
+                else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND) {
+                    statusL.setText("File successfully sent");
+                }
 
-        cancelB.setText("Close");
+                cancelB.setText("Close");
+            }
+        });
     }
 
     /**
@@ -284,7 +295,12 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      */
     @Override
     public void statusConnecting() {
-        statusL.setText("Connecting...");
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                statusL.setText("Connecting...");
+            }
+        });
     }
 
     /**
@@ -293,15 +309,20 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      */
     @Override
     public void statusFailed() {
-        statusL.setForeground(Color.RED);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                statusL.setForeground(Color.RED);
 
-        if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE) {
-            statusL.setText("Failed to receive file");
-        } else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND) {
-            statusL.setText("Failed to send file");
-        }
+                if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE) {
+                    statusL.setText("Failed to receive file");
+                } else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND) {
+                    statusL.setText("Failed to send file");
+                }
 
-        cancelB.setText("Close");
+                cancelB.setText("Close");
+            }
+        });
     }
 
     /**
@@ -310,11 +331,16 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      */
     @Override
     public void statusTransferring() {
-        if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE) {
-            statusL.setText("Receiving...");
-        } else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND) {
-            statusL.setText("Sending...");
-        }
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE) {
+                    statusL.setText("Receiving...");
+                } else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND) {
+                    statusL.setText("Sending...");
+                }
+            }
+        });
     }
 
     /**
@@ -325,35 +351,40 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      */
     @Override
     public void statusWaiting() {
-        final User me = Settings.getSettings().getMe();
-        final User other = fileTransfer.getUser();
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                final User me = Settings.getSettings().getMe();
+                final User other = fileTransfer.getUser();
 
-        statusL.setText("Waiting...");
+                statusL.setText("Waiting...");
 
-        if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE) {
-            sourceL.setText(other.getNick() + " (" + other.getIpAddress() + ")");
-            destinationL.setText(me.getNick() + " (" + me.getIpAddress() + ")");
-            openB.setVisible(true);
-        }
+                if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE) {
+                    sourceL.setText(other.getNick() + " (" + other.getIpAddress() + ")");
+                    destinationL.setText(me.getNick() + " (" + me.getIpAddress() + ")");
+                    openB.setVisible(true);
+                }
 
-        else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND) {
-            destinationL.setText(other.getNick() + " (" + other.getIpAddress() + ")");
-            sourceL.setText(me.getNick() + " (" + me.getIpAddress() + ")");
-        }
+                else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND) {
+                    destinationL.setText(other.getNick() + " (" + other.getIpAddress() + ")");
+                    sourceL.setText(me.getNick() + " (" + me.getIpAddress() + ")");
+                }
 
-        final String fileName = fileTransfer.getFile().getName();
-        filenameL.setText(fileName);
-        final double width = UITools.getTextWidth(fileName, getGraphics(), filenameL.getFont());
+                final String fileName = fileTransfer.getFile().getName();
+                filenameL.setText(fileName);
+                final double width = UITools.getTextWidth(fileName, getGraphics(), filenameL.getFont());
 
-        if (width > filenameL.getSize().width) {
-            filenameL.setToolTipText(fileName);
-        } else {
-            filenameL.setToolTipText(null);
-        }
+                if (width > filenameL.getSize().width) {
+                    filenameL.setToolTipText(fileName);
+                } else {
+                    filenameL.setToolTipText(null);
+                }
 
-        transferredL.setText("0KB of " +
-                Tools.byteToString(fileTransfer.getFileSize()) + " at 0KB/s");
-        transferProgressPB.setValue(0);
+                transferredL.setText("0KB of " +
+                        Tools.byteToString(fileTransfer.getFileSize()) + " at 0KB/s");
+                transferProgressPB.setValue(0);
+            }
+        });
     }
 
     /**
@@ -364,11 +395,16 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      */
     @Override
     public void transferUpdate() {
-        transferredL.setText(Tools.byteToString(fileTransfer.getTransferred()) + " of " +
-                Tools.byteToString(fileTransfer.getFileSize()) + " at " +
-                Tools.byteToString(fileTransfer.getSpeed()) + "/s");
-        transferProgressPB.setValue(fileTransfer.getPercent());
-        updateTitle(fileTransfer.getPercent());
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                transferredL.setText(Tools.byteToString(fileTransfer.getTransferred()) + " of " +
+                        Tools.byteToString(fileTransfer.getFileSize()) + " at " +
+                        Tools.byteToString(fileTransfer.getSpeed()) + "/s");
+                transferProgressPB.setValue(fileTransfer.getPercent());
+                updateTitle(fileTransfer.getPercent());
+            }
+        });
     }
 
     /**
