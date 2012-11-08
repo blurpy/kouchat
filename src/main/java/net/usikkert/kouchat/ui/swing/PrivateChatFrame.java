@@ -244,15 +244,20 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      */
     @Override
     public void appendToPrivateChat(final String message, final int color) {
-        try {
-            StyleConstants.setForeground(chatAttr, new Color(color));
-            chatDoc.insertString(chatDoc.getLength(), message + "\n", chatAttr);
-            chatTP.setCaretPosition(chatDoc.getLength());
-        }
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    StyleConstants.setForeground(chatAttr, new Color(color));
+                    chatDoc.insertString(chatDoc.getLength(), message + "\n", chatAttr);
+                    chatTP.setCaretPosition(chatDoc.getLength());
+                }
 
-        catch (final BadLocationException e) {
-            LOG.log(Level.SEVERE, e.toString(), e);
-        }
+                catch (final BadLocationException e) {
+                    LOG.log(Level.SEVERE, e.toString(), e);
+                }
+            }
+        });
     }
 
     /**
@@ -403,8 +408,13 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      */
     @Override
     public void setAway(final boolean away) {
-        msgTF.setEnabled(!away);
-        updateUserInformation();
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                msgTF.setEnabled(!away);
+                updateUserInformation();
+            }
+        });
     }
 
     /**
@@ -414,18 +424,23 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      */
     @Override
     public void setLoggedOff() {
-        msgTF.setEnabled(false);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                msgTF.setEnabled(false);
 
-        if (!isVisible() && user.isNewPrivMsg()) {
-            setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            setExtendedState(ICONIFIED);
-            setVisible(true);
-            updateWindowIcon();
-        }
+                if (!isVisible() && user.isNewPrivMsg()) {
+                    setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                    setExtendedState(ICONIFIED);
+                    setVisible(true);
+                    updateWindowIcon();
+                }
 
-        else if (!isVisible()) {
-            dispose();
-        }
+                else if (!isVisible()) {
+                    dispose();
+                }
+            }
+        });
     }
 
     /**
