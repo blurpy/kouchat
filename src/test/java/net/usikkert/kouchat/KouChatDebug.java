@@ -20,9 +20,28 @@
  *   If not, see <http://www.gnu.org/licenses/>.                           *
  ***************************************************************************/
 
+package net.usikkert.kouchat;
+
+import net.usikkert.kouchat.ui.swing.debug.CheckThreadViolationRepaintManager;
+
 /**
- * Contains classes for debugging the swing based graphical user interface.
+ * Starts {@link KouChat} with the {@link CheckThreadViolationRepaintManager}, for debugging.
  *
  * @author Christian Ihle
  */
-package net.usikkert.kouchat.ui.swing.debug;
+public final class KouChatDebug {
+
+    private KouChatDebug() {
+
+    }
+
+    /**
+     * Initializes the repaint manager before running KouChat.
+     *
+     * @param args Arguments to be passed along to the real main method.
+     */
+    public static void main(final String[] args) {
+        new CheckThreadViolationRepaintManager();
+        KouChat.main(args);
+    }
+}
