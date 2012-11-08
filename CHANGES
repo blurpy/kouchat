@@ -13,6 +13,7 @@
   - Updated kou_shortcut.png to 256x256px
   - Fixed crash when starting KouChat on systems with the clock set to unix epoch,
     to support devices without a clock battery
+  - Fixed several Swing event dispatch thread issues
 
 
 * version 1.1.0 (10.06.2012):

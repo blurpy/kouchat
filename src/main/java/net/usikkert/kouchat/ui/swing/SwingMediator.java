@@ -643,6 +643,15 @@ public class SwingMediator implements Mediator, UserInterface {
      */
     @Override
     public void showFileSave(final FileReceiver fileReceiver) {
+        UITools.invokeAndWait(new Runnable() {
+            @Override
+            public void run() {
+                showFileSaveInternal(fileReceiver);
+            }
+        });
+    }
+
+    private void showFileSaveInternal(final FileReceiver fileReceiver) {
         final JFileChooser chooser = UITools.createFileChooser("Save");
         chooser.setSelectedFile(fileReceiver.getFile());
         boolean done = false;
@@ -690,7 +699,12 @@ public class SwingMediator implements Mediator, UserInterface {
      */
     @Override
     public void showTransfer(final FileReceiver fileRes) {
-        new TransferDialog(this, fileRes, imageLoader);
+        UITools.invokeAndWait(new Runnable() {
+            @Override
+            public void run() {
+                new TransferDialog(SwingMediator.this, fileRes, imageLoader);
+            }
+        });
     }
 
     /**
@@ -763,7 +777,12 @@ public class SwingMediator implements Mediator, UserInterface {
     @Override
     public void createPrivChat(final User user) {
         if (user.getPrivchat() == null) {
-            user.setPrivchat(new PrivateChatFrame(this, user, imageLoader));
+            UITools.invokeAndWait(new Runnable() {
+                @Override
+                public void run() {
+                    user.setPrivchat(new PrivateChatFrame(SwingMediator.this, user, imageLoader));
+                }
+            });
         }
 
         if (user.getPrivateChatLogger() == null) {

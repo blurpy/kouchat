@@ -30,6 +30,7 @@ import java.awt.Graphics;
 import java.awt.Desktop.Action;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.logging.Level;
@@ -40,6 +41,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.LookAndFeel;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -201,7 +203,6 @@ public final class UITools {
             if (lookAndFeel != null) {
                 UIManager.setLookAndFeel(lookAndFeel.getClassName());
             }
-
         }
 
         catch (final ClassNotFoundException e) {
@@ -368,9 +369,18 @@ public final class UITools {
      */
     public static int showOptionDialog(final String message, final String title) {
         final Object[] options = {"Yes", "Cancel"};
-        return JOptionPane.showOptionDialog(null, message, createTitle(title),
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-                null, options, options[0]);
+        final int[] choice = new int[1];
+
+        invokeAndWait(new Runnable() {
+            @Override
+            public void run() {
+                choice[0] = JOptionPane.showOptionDialog(null, message, createTitle(title),
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+                        null, options, options[0]);
+            }
+        });
+
+        return choice[0];
     }
 
     /**
@@ -436,6 +446,29 @@ public final class UITools {
     public static void minimize(final JFrame frame) {
         if (!isMinimized(frame)) {
             frame.setExtendedState(frame.getExtendedState() | JFrame.ICONIFIED);
+        }
+    }
+
+    /**
+     * A wrapper for {@link SwingUtilities#invokeAndWait(Runnable)}, that catches checked exceptions,
+     * and rethrows them as unchecked, but only if necessary. Runs the runnable directly if already on
+     * the EDT.
+     *
+     * @param runnable The runnable to invoke and wait for.
+     */
+    public static void invokeAndWait(final Runnable runnable) {
+        if (SwingUtilities.isEventDispatchThread()) {
+            runnable.run();
+        }
+
+        else {
+            try {
+                SwingUtilities.invokeAndWait(runnable);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
