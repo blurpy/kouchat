@@ -618,6 +618,7 @@ public class CommandParser {
      */
     private void appendTransferInfo(final FileTransfer fileTransfer, final StringBuilder transferInfo, final String direction) {
         transferInfo.append("\n  ");
+        transferInfo.append("#" + fileTransfer.getId() + " ");
         transferInfo.append(fileTransfer.getFile().getName());
         transferInfo.append(" [" + Tools.byteToString(fileTransfer.getFileSize()) + "]");
         transferInfo.append(" (" + fileTransfer.getPercent() + "%, ");
@@ -692,7 +693,7 @@ public class CommandParser {
 
         final String size = Tools.byteToString(file.length());
         msgController.showSystemMessage("Trying to send the file " +
-                file.getName() + " [" + size + "] to " + user.getNick());
+                file.getName() + " (#" + fileSend.getId() + ") [" + size + "] to " + user.getNick());
     }
 
     /**

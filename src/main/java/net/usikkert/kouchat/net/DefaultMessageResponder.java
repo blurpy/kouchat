@@ -512,12 +512,13 @@ public class DefaultMessageResponder implements MessageResponder {
 
                 if (!controller.isNewUser(userCode)) {
                     final String size = Tools.byteToString(byteSize);
-                    msgController.showSystemMessage(user + " is trying to send the file " + fileName + " [" + size + "]");
                     final User tmpUser = controller.getUser(userCode);
-                    final File defaultFile = new File(System.getProperty("user.home") +
-                            System.getProperty("file.separator") +
-                            fileName);
+                    final File defaultFile = new File(
+                            System.getProperty("user.home") + System.getProperty("file.separator") + fileName);
                     final FileReceiver fileRes = tList.addFileReceiver(tmpUser, defaultFile, byteSize);
+
+                    msgController.showSystemMessage(
+                            user + " is trying to send the file " + fileName + " (#" + fileRes.getId() + ") [" + size + "]");
 
                     if (ui.askFileSave(user, fileName, size)) {
                         ui.showFileSave(fileRes);
