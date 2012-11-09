@@ -517,8 +517,7 @@ public class DefaultMessageResponder implements MessageResponder {
                     final File defaultFile = new File(System.getProperty("user.home") +
                             System.getProperty("file.separator") +
                             fileName);
-                    final FileReceiver fileRes = new FileReceiver(tmpUser, defaultFile, byteSize);
-                    tList.addFileReceiver(fileRes);
+                    final FileReceiver fileRes = tList.addFileReceiver(tmpUser, defaultFile, byteSize);
 
                     if (ui.askFileSave(user, fileName, size)) {
                         ui.showFileSave(fileRes);

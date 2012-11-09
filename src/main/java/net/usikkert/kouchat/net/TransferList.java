@@ -22,6 +22,7 @@
 
 package net.usikkert.kouchat.net;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,12 +50,17 @@ public class TransferList {
     }
 
     /**
-     * Adds a new file sender to the list.
+     * Adds a new file sender to the list using the following parameters.
      *
-     * @param fileSender The file sender to add.
+     * @param user The user to send the file to.
+     * @param file The file to send.
+     * @return The file sender object that was added to the transfer list.
      */
-    public void addFileSender(final FileSender fileSender) {
+    public FileSender addFileSender(final User user, final File file) {
+        final FileSender fileSender = new FileSender(user, file);
         senders.add(fileSender);
+
+        return fileSender;
     }
 
     /**
@@ -141,12 +147,18 @@ public class TransferList {
     }
 
     /**
-     * Adds a new file receiver to the list.
+     * Adds a new file receiver to the list using the following parameters.
      *
-     * @param fileReceiver The file receiver to add.
+     * @param user The user which sends the file.
+     * @param file The file the user is sending.
+     * @param size The size of the file, in bytes.
+     * @return The file receiver object that was added to the transfer list.
      */
-    public void addFileReceiver(final FileReceiver fileReceiver) {
+    public FileReceiver addFileReceiver(final User user, final File file, final long size) {
+        final FileReceiver fileReceiver = new FileReceiver(user, file, size);
         receivers.add(fileReceiver);
+
+        return fileReceiver;
     }
 
     /**

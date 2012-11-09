@@ -687,9 +687,9 @@ public class CommandParser {
      */
     public void sendFile(final User user, final File file) throws CommandException {
         controller.sendFile(user, file);
-        final FileSender fileSend = new FileSender(user, file);
+        final FileSender fileSend = tList.addFileSender(user, file);
         ui.showTransfer(fileSend);
-        tList.addFileSender(fileSend);
+
         final String size = Tools.byteToString(file.length());
         msgController.showSystemMessage("Trying to send the file " +
                 file.getName() + " [" + size + "] to " + user.getNick());
