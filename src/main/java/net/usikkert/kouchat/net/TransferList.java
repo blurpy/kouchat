@@ -41,6 +41,9 @@ public class TransferList {
     /** The list of all the file receivers. */
     private final List<FileReceiver> receivers;
 
+    /** Counter for unique file transfer id's. */
+    private int fileTransferIdCounter;
+
     /**
      * Constructor.
      */
@@ -57,7 +60,7 @@ public class TransferList {
      * @return The file sender object that was added to the transfer list.
      */
     public FileSender addFileSender(final User user, final File file) {
-        final FileSender fileSender = new FileSender(user, file);
+        final FileSender fileSender = new FileSender(user, file, ++fileTransferIdCounter);
         senders.add(fileSender);
 
         return fileSender;
@@ -155,7 +158,7 @@ public class TransferList {
      * @return The file receiver object that was added to the transfer list.
      */
     public FileReceiver addFileReceiver(final User user, final File file, final long size) {
-        final FileReceiver fileReceiver = new FileReceiver(user, file, size);
+        final FileReceiver fileReceiver = new FileReceiver(user, file, size, ++fileTransferIdCounter);
         receivers.add(fileReceiver);
 
         return fileReceiver;

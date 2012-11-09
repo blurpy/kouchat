@@ -96,6 +96,13 @@ public interface FileTransfer {
     long getSpeed();
 
     /**
+     * Gets the ID of this file transfer. The ID is unique during the session, and starts with 1.
+     *
+     * @return The unique ID of this file transfer.
+     */
+    int getId();
+
+    /**
      * Cancels the file transfer.
      */
     void cancel();

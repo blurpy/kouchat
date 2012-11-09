@@ -122,6 +122,16 @@ public class MockFileTransfer implements FileTransfer {
     }
 
     /**
+     * Returns 1.
+     *
+     * @return 1;
+     */
+    @Override
+    public int getId() {
+        return 1;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

@@ -55,6 +55,9 @@ public class FileSender implements FileTransfer {
     /** The file to send to the user. */
     private final File file;
 
+    /** The unique ID of this file transfer. */
+    private final int id;
+
     /** Keeps count of the transfer speed. */
     private final ByteCounter bCounter;
 
@@ -90,10 +93,12 @@ public class FileSender implements FileTransfer {
      *
      * @param user The user to send the file to.
      * @param file The file to send.
+     * @param id The unique ID of this file transfer.
      */
-    public FileSender(final User user, final File file) {
+    public FileSender(final User user, final File file, final int id) {
         this.user = user;
         this.file = file;
+        this.id = id;
 
         bCounter = new ByteCounter();
         waiting = true;
@@ -343,6 +348,16 @@ public class FileSender implements FileTransfer {
     @Override
     public long getSpeed() {
         return bCounter.getBytesPerSec();
+    }
+
+    /**
+     * Gets the ID of this file transfer. The ID is unique during the session, and starts with 1.
+     *
+     * @return The unique ID of this file transfer.
+     */
+    @Override
+    public int getId() {
+        return id;
     }
 
     /**
