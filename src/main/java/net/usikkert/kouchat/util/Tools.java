@@ -22,6 +22,7 @@
 
 package net.usikkert.kouchat.util;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -395,5 +396,36 @@ public final class Tools {
         else {
             return path + fileSeparator;
         }
+    }
+
+    /**
+     * Returns a new file with the same name and path as the existingFile, but with an incremented counter
+     * at the end of the name. The name file.txt becomes file.txt.1 if it's available. If not, then the counter
+     * increments until a free name is found.
+     *
+     * @param existingFile The existing file to find a new free name for.
+     * @return A new file, with a free, non existing name.
+     */
+    public static File getFileWithIncrementedName(final File existingFile) {
+        Validate.notNull(existingFile, "The existing file to increment the name of can not be null");
+
+        int counter = 1;
+        File newFile;
+        final String path;
+
+        if (existingFile.getParent() == null) {
+            path = "";
+        } else {
+            path = existingFile.getParent() + File.separator;
+        }
+
+        do {
+            final String newName = path + existingFile.getName() + "." + counter;
+            newFile = new File(newName);
+            counter++;
+        }
+        while (newFile.exists());
+
+        return newFile;
     }
 }

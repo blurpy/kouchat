@@ -24,7 +24,12 @@ package net.usikkert.kouchat.util;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Test of {@link Tools}.
@@ -32,6 +37,9 @@ import org.junit.Test;
  * @author Christian Ihle
  */
 public class ToolsTest {
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     /**
      * Tests that capitalization of the first letter in a word works as expected.
@@ -145,5 +153,67 @@ public class ToolsTest {
         System.setProperty("file.separator", "\\");
         assertEquals("C:\\some folder\\logs\\", Tools.appendSlash("C:\\some folder\\logs"));
         assertEquals("C:\\some folder\\logs\\", Tools.appendSlash("C:\\some folder\\logs\\"));
+    }
+
+    @Test
+    public void getFileWithIncrementedNameShouldThrowExceptionIfFileIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("The existing file to increment the name of can not be null");
+
+        Tools.getFileWithIncrementedName(null);
+    }
+
+    @Test
+    public void getFileWithIncrementedNameShouldReturnFileWithOneAppendedIfNoFileWithThatNameExists() {
+        final File file = Tools.getFileWithIncrementedName(new File("monkeys.jpg"));
+
+        assertEquals("monkeys.jpg.1", file.getName());
+        assertNull(file.getParent());
+    }
+
+    @Test
+    public void getFileWithIncrementedNameShouldReturnFileWithTwoAppendedIfFileWithOneAppendedExists() throws IOException {
+        createTemporaryFile("monkeys.jpg.1");
+
+        final File file = Tools.getFileWithIncrementedName(new File("monkeys.jpg"));
+
+        assertEquals("monkeys.jpg.2", file.getName());
+    }
+
+    @Test
+    public void getFileWithIncrementedNameShouldReturnFileWithFiveAppendedIfFileUpToFourAppendedExists() throws IOException {
+        createTemporaryFile("monkeys.jpg.1");
+        createTemporaryFile("monkeys.jpg.2");
+        createTemporaryFile("monkeys.jpg.3");
+        createTemporaryFile("monkeys.jpg.4");
+
+        final File file = Tools.getFileWithIncrementedName(new File("monkeys.jpg"));
+
+        assertEquals("monkeys.jpg.5", file.getName());
+    }
+
+    @Test
+    public void getFileWithIncrementedNameShouldUseTheSameParent() throws IOException {
+        final String home = System.getProperty("user.home");
+        final String homeWithSeparator = home + File.separatorChar;
+
+        createTemporaryFile(homeWithSeparator + "donkeys.jpg.1");
+
+        final File file = Tools.getFileWithIncrementedName(new File(homeWithSeparator + "donkeys.jpg"));
+
+        assertEquals("donkeys.jpg.2", file.getName());
+        assertEquals(home, file.getParent());
+    }
+
+    private File createTemporaryFile(final String fileName) throws IOException {
+        final File file = new File(fileName);
+
+        if (!file.exists()) {
+            assertTrue(file.createNewFile());
+        }
+
+        file.deleteOnExit();
+
+        return file;
     }
 }
