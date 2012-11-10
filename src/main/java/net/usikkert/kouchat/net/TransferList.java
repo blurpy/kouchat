@@ -117,6 +117,23 @@ public class TransferList {
     }
 
     /**
+     * Gets the file sender object for the specified user and file transfer id.
+     *
+     * @param user The file sending user.
+     * @param id The file transfer id of the file being sent.
+     * @return The file sender object, or <code>null</code> if none was found.
+     */
+    public FileSender getFileSender(final User user, final int id) {
+        for (final FileSender fs : senders) {
+            if (fs.getUser() == user && fs.getId() == id) {
+                return fs;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Gets all the file sender objects for a given user.
      *
      * @param user The given user.
@@ -258,6 +275,24 @@ public class TransferList {
             return fileReceiver;
         } else {
             return getFileSender(user, fileName);
+        }
+    }
+
+    /**
+     * Gets the file transfer object for the specified user and file transfer id.
+     *
+     * @param user The user to find a file transfer for.
+     * @param id The file transfer id of the file to look for.
+     * @return Either a file receiver, a file sender, or <code>null</code>
+     * if none of them was found.
+     */
+    public FileTransfer getFileTransfer(final User user, final int id) {
+        final FileReceiver fileReceiver = getFileReceiver(user, id);
+
+        if (fileReceiver != null) {
+            return fileReceiver;
+        } else {
+            return getFileSender(user, id);
         }
     }
 }

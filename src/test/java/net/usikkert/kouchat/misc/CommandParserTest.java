@@ -28,6 +28,8 @@ import static org.mockito.Mockito.*;
 import java.io.File;
 
 import net.usikkert.kouchat.net.FileReceiver;
+import net.usikkert.kouchat.net.FileSender;
+import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.ui.UserInterface;
 
@@ -280,14 +282,129 @@ public class CommandParserTest {
     }
 
     /*
+    * cancel
+    */
+
+    @Test
+    public void cancelShouldReturnIfNoArguments() {
+        parser.parse("/cancel");
+
+        verify(messageController).showSystemMessage("/cancel - wrong number of arguments: <nick> <id>");
+    }
+
+    @Test
+    public void cancelShouldReturnIfOneArgument() {
+        parser.parse("/cancel SomeOne");
+
+        verify(messageController).showSystemMessage("/cancel - wrong number of arguments: <nick> <id>");
+    }
+
+    @Test
+    public void cancelShouldReturnIfThreeArguments() {
+        parser.parse("/cancel SomeOne some thing");
+
+        verify(messageController).showSystemMessage("/cancel - wrong number of arguments: <nick> <id>");
+    }
+
+    @Test
+    public void cancelShouldReturnIfUserDoesntExist() {
+        parser.parse("/cancel NoUser 1");
+
+        verify(messageController).showSystemMessage("/cancel - no such user 'NoUser'");
+    }
+
+    @Test
+    public void cancelShouldReturnIfUserIsMe() {
+        Settings.getSettings().getMe().setNick("MySelf");
+        when(controller.getUser("MySelf")).thenReturn(Settings.getSettings().getMe());
+
+        parser.parse("/cancel MySelf 1");
+
+        verify(messageController).showSystemMessage("/cancel - no point in doing that!");
+    }
+
+    @Test
+    public void cancelShouldReturnIfFileTransferIdIsNotAnInteger() {
+        setupSomeOne();
+
+        parser.parse("/cancel SomeOne monkey");
+
+        verify(messageController).showSystemMessage("/cancel - invalid file id argument: 'monkey'");
+    }
+
+    @Test
+    public void cancelShouldReturnIfFileTransferIdDoesntExist() {
+        final User someOne = setupSomeOne();
+
+        parser.parse("/cancel SomeOne 1");
+
+        verify(transferList).getFileTransfer(someOne, 1);
+        verify(messageController).showSystemMessage("/cancel - no file transfer with id 1 going on with SomeOne");
+    }
+
+    @Test
+    public void cancelShouldReturnIfFileReceiverIsNotAccepted() {
+        final User someOne = setupSomeOne();
+        final FileReceiver fileReceiver = setupFileReceiver(someOne);
+
+        parser.parse("/cancel SomeOne 1");
+
+        verify(transferList).getFileTransfer(someOne, 1);
+        verify(messageController).showSystemMessage("/cancel - transfer of 'doc.pdf' from SomeOne has not started yet");
+        verify(fileReceiver, never()).cancel();
+    }
+
+    @Test
+    public void cancelShouldCancelIfFileReceiverIsAccepted() {
+        final User someOne = setupSomeOne();
+        final FileReceiver fileReceiver = setupFileReceiver(someOne);
+        when(fileReceiver.isAccepted()).thenReturn(true);
+
+        parser.parse("/cancel SomeOne 1");
+
+        verify(transferList).getFileTransfer(someOne, 1);
+        verifyZeroInteractions(messageController);
+        verify(fileReceiver).cancel();
+    }
+
+    @Test
+    public void cancelShouldCancelIfFileSenderAndArgumentsMatch() {
+        final User someOne = setupSomeOne();
+        final FileSender fileSender = setupFileSender(someOne);
+
+        parser.parse("/cancel SomeOne 1");
+
+        verify(transferList).getFileTransfer(someOne, 1);
+        verifyZeroInteractions(messageController);
+        verify(fileSender).cancel();
+    }
+
+    @Test
+    public void cancelShouldCancelAndNotifyRecipientIfFileSendIsWaiting() {
+        final User someOne = setupSomeOne();
+        final FileSender fileSender = setupFileSender(someOne);
+        when(fileSender.isWaiting()).thenReturn(true);
+        final File file = setupFile(fileSender);
+        when(fileSender.getUser()).thenReturn(someOne);
+
+        parser.parse("/cancel SomeOne 1");
+
+        verify(transferList).getFileTransfer(someOne, 1);
+        verify(transferList).removeFileSender(fileSender);
+        verify(messageController).showSystemMessage("You cancelled sending of doc.pdf to SomeOne");
+        verify(controller).sendFileAbort(someOne, file.hashCode(), "doc.pdf");
+        verify(fileSender).cancel();
+    }
+
+    /*
      * Rusable test methods.
      */
 
-    private File setupFile(final FileReceiver fileReceiver) {
+    private File setupFile(final FileTransfer fileTransfer) {
         final File file = mock(File.class);
         when(file.getName()).thenReturn("doc.pdf");
 
-        when(fileReceiver.getFile()).thenReturn(file);
+        when(fileTransfer.getFile()).thenReturn(file);
 
         return file;
     }
@@ -296,9 +413,19 @@ public class CommandParserTest {
         final FileReceiver fileReceiver = mock(FileReceiver.class);
 
         when(transferList.getFileReceiver(user, 1)).thenReturn(fileReceiver);
+        when(transferList.getFileTransfer(user, 1)).thenReturn(fileReceiver);
+
         when(fileReceiver.getFileName()).thenReturn("doc.pdf");
 
         return fileReceiver;
+    }
+
+    private FileSender setupFileSender(final User user) {
+        final FileSender fileSender = mock(FileSender.class);
+
+        when(transferList.getFileTransfer(user, 1)).thenReturn(fileSender);
+
+        return fileSender;
     }
 
     private User setupSomeOne() {

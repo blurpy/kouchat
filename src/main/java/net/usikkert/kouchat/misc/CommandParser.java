@@ -387,26 +387,18 @@ public class CommandParser {
         fileReceiver.reject();
     }
 
-    private Integer parseFileTransferId(final String argument) {
-        try {
-            return Integer.parseInt(argument);
-        } catch (final NumberFormatException e) {
-            return null;
-        }
-    }
-
     /**
-     * Command: <em>/cancel &lt;nick&gt; &lt;file&gt;</em>.
+     * Command: <em>/cancel &lt;nick&gt; &lt;id&gt;</em>.
      * Cancel an ongoing file transfer with a user.
      *
      * @param args First argument is the other user in the file transfer,
-     * and the second is the file being transferred.
+     * and the second is the id of the file transfer.
      */
     private void cmdCancel(final String args) {
         final String[] argsArray = args.split("\\s");
 
-        if (argsArray.length <= 2) {
-            msgController.showSystemMessage("/cancel - missing arguments <nick> <file>");
+        if (argsArray.length != 3) {
+            msgController.showSystemMessage("/cancel - wrong number of arguments: <nick> <id>");
             return;
         }
 
@@ -423,30 +415,38 @@ public class CommandParser {
             return;
         }
 
-        String file = "";
+        final Integer id = parseFileTransferId(argsArray[2]);
 
-        for (int i = 2; i < argsArray.length; i++) {
-            file += argsArray[i] + " ";
+        if (id == null) {
+            msgController.showSystemMessage("/cancel - invalid file id argument: '" + argsArray[2] + "'");
+            return;
         }
 
-        file = file.trim();
-        final FileTransfer fileTransfer = tList.getFileTransfer(user, file);
+        final FileTransfer fileTransfer = tList.getFileTransfer(user, id);
 
         if (fileTransfer == null) {
-            msgController.showSystemMessage("/cancel - no such file transfer of '" + file + "' with " + nick);
+            msgController.showSystemMessage("/cancel - no file transfer with id " + id + " going on with " + nick);
             return;
         }
 
         if (fileTransfer instanceof FileReceiver) {
             final FileReceiver fileReceiver = (FileReceiver) fileTransfer;
 
-            if (!fileReceiver.isAccepted() && !fileReceiver.isRejected()) {
-                msgController.showSystemMessage("/cancel - transfer of '" + file + "' from " + nick + " has not started yet");
+            if (!fileReceiver.isAccepted()) {
+                msgController.showSystemMessage("/cancel - transfer of '" + fileReceiver.getFileName() + "' from " + nick + " has not started yet");
                 return;
             }
         }
 
         cancelFileTransfer(fileTransfer);
+    }
+
+    private Integer parseFileTransferId(final String argument) {
+        try {
+            return Integer.parseInt(argument);
+        } catch (final NumberFormatException e) {
+            return null;
+        }
     }
 
     /**
@@ -728,7 +728,7 @@ public class CommandParser {
                 "/about - information about " + Constants.APP_NAME + "\n" +
                 "/away <away message> - set status to away\n" +
                 "/back - set status to not away\n" +
-                "/cancel <nick> <file> - cancel an ongoing file transfer with a user\n" +
+                "/cancel <nick> <id> - cancel an ongoing file transfer with a user\n" +
                 "/clear - clear all the text from the chat\n" +
                 "/help - show this help message\n" +
                 "/msg <nick> <msg> - send a private message to a user\n" +
