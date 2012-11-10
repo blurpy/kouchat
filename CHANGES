@@ -14,6 +14,9 @@
   - Fixed crash when starting KouChat on systems with the clock set to unix epoch,
     to support devices without a clock battery
   - Fixed several Swing event dispatch thread issues
+  - Changed the /cancel command from /cancel <nick> <file> to /cancel <nick> <id>
+  - Changed the /receive command from /receive <nick> <file> to /receive <nick> <id>
+  - Changed the /reject command from /reject <nick> <file> to /reject <nick> <id>
 
 
 * version 1.1.0 (10.06.2012):
