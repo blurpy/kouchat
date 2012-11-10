@@ -374,6 +374,15 @@ public class FileReceiver implements FileTransfer {
     }
 
     /**
+     * Gets the name of the file being transferred.
+     *
+     * @return The name of the file.
+     */
+    public String getFileName() {
+        return file.getName();
+    }
+
+    /**
      * Gets the direction, which is receive.
      *
      * @return Receive, the direction of the file transfer.

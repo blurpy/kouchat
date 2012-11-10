@@ -347,17 +347,17 @@ public class CommandParser {
     }
 
     /**
-     * Command: <em>/reject &lt;nick&gt; &lt;file&gt;</em>.
+     * Command: <em>/reject &lt;nick&gt; &lt;id&gt;</em>.
      * Reject a file transfer request from a user and abort the transfer.
      *
      * @param args First argument is the other user in the file transfer,
-     * and the second is the file being transferred.
+     * and the second is the id of the file transfer.
      */
     private void cmdReject(final String args) {
         final String[] argsArray = args.split("\\s");
 
-        if (argsArray.length <= 2) {
-            msgController.showSystemMessage("/reject - missing arguments <nick> <file>");
+        if (argsArray.length != 3) {
+            msgController.showSystemMessage("/reject - wrong number of arguments: <nick> <id>");
             return;
         }
 
@@ -374,26 +374,34 @@ public class CommandParser {
             return;
         }
 
-        String file = "";
+        final Integer id = parseFileTransferId(argsArray[2]);
 
-        for (int i = 2; i < argsArray.length; i++) {
-            file += argsArray[i] + " ";
+        if (id == null) {
+            msgController.showSystemMessage("/reject - invalid file id argument: '" + argsArray[2] + "'");
+            return;
         }
 
-        file = file.trim();
-        final FileReceiver fileReceiver = tList.getFileReceiver(user, file);
+        final FileReceiver fileReceiver = tList.getFileReceiver(user, id);
 
         if (fileReceiver == null) {
-            msgController.showSystemMessage("/reject - no such file '" + file + "' offered by " + nick);
+            msgController.showSystemMessage("/reject - no such file with id " + id + " offered by " + nick);
             return;
         }
 
         if (fileReceiver.isAccepted()) {
-            msgController.showSystemMessage("/reject - already receiving '" + file + "' from " + nick);
+            msgController.showSystemMessage("/reject - already receiving '" + fileReceiver.getFileName() + "' from " + nick);
             return;
         }
 
         fileReceiver.reject();
+    }
+
+    private Integer parseFileTransferId(final String argument) {
+        try {
+            return Integer.parseInt(argument);
+        } catch (final NumberFormatException e) {
+            return null;
+        }
     }
 
     /**
@@ -736,7 +744,7 @@ public class CommandParser {
                 "/nick <new nick> - changes your nick name\n" +
                 "/quit - quit from the chat\n" +
                 "/receive <nick> <file> - accept a file transfer request from a user\n" +
-                "/reject <nick> <file> - reject a file transfer request from a user\n" +
+                "/reject <nick> <id> - reject a file transfer request from a user\n" +
                 "/send <nick> <file> - send a file to a user\n" +
                 "/topic <optional new topic> - prints the current topic, or changes the topic\n" +
                 "/transfers - shows a list of all file transfers and their status\n" +

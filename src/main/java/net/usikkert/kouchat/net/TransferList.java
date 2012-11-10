@@ -212,6 +212,23 @@ public class TransferList {
     }
 
     /**
+     * Gets the file receiver object for the specified user and file transfer id.
+     *
+     * @param user The file receiver user.
+     * @param id TThe file transfer id of the file being received.
+     * @return The file receiver object, or <code>null</code> if none was found.
+     */
+    public FileReceiver getFileReceiver(final User user, final int id) {
+        for (final FileReceiver fr : receivers) {
+            if (fr.getUser() == user && fr.getId() == id) {
+                return fr;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Gets all the file receiver objects for all the users.
      *
      * @return A list of all the file receivers.
