@@ -360,10 +360,12 @@ public class Controller implements NetworkConnectionListener {
 
         for (final FileSender fs : fsList) {
             fs.cancel();
+            tList.removeFileSender(fs);
         }
 
         for (final FileReceiver fr : frList) {
             fr.cancel();
+            tList.removeFileReceiver(fr);
         }
     }
 
