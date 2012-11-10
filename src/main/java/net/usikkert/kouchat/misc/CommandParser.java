@@ -280,17 +280,17 @@ public class CommandParser {
     }
 
     /**
-     * Command: <em>/receive &lt;nick&gt; &lt;file&gt;</em>.
+     * Command: <em>/receive &lt;nick&gt; &lt;id&gt;</em>.
      * Accept a file transfer request from a user and start the transfer.
      *
      * @param args First argument is the other user in the file transfer,
-     * and the second is the file being transferred.
+     * and the second is the id of the file transfer.
      */
     private void cmdReceive(final String args) {
         final String[] argsArray = args.split("\\s");
 
-        if (argsArray.length <= 2) {
-            msgController.showSystemMessage("/receive - missing arguments <nick> <file>");
+        if (argsArray.length != 3) {
+            msgController.showSystemMessage("/receive - wrong number of arguments: <nick> <id>");
             return;
         }
 
@@ -307,39 +307,30 @@ public class CommandParser {
             return;
         }
 
-        String filename = "";
+        final Integer id = parseFileTransferId(argsArray[2]);
 
-        for (int i = 2; i < argsArray.length; i++) {
-            filename += argsArray[i] + " ";
+        if (id == null) {
+            msgController.showSystemMessage("/receive - invalid file id argument: '" + argsArray[2] + "'");
+            return;
         }
 
-        filename = filename.trim();
-        final FileReceiver fileReceiver = tList.getFileReceiver(user, filename);
+        final FileReceiver fileReceiver = tList.getFileReceiver(user, id);
 
         if (fileReceiver == null) {
-            msgController.showSystemMessage("/receive - no such file '" + filename + "' offered by " + nick);
+            msgController.showSystemMessage("/receive - no file with id " + id + " offered by " + nick);
             return;
         }
 
         if (fileReceiver.isAccepted()) {
-            msgController.showSystemMessage("/receive - already receiving '" + filename + "' from " + nick);
+            msgController.showSystemMessage("/receive - already receiving '" + fileReceiver.getFileName() + "' from " + nick);
             return;
         }
 
         final File file = fileReceiver.getFile();
 
         if (file.exists()) {
-            int counter = 1;
-            File newFile = null;
-
-            do {
-                final String newName = file.getParent() + File.separator + filename + "." + counter;
-                newFile = new File(newName);
-                counter++;
-            }
-            while (newFile.exists());
-
-            msgController.showSystemMessage("/receive - file '" + filename + "' already exists - renaming to '" + newFile.getName() + "'");
+            final File newFile = Tools.getFileWithIncrementedName(file);
+            msgController.showSystemMessage("/receive - file '" + file.getName() + "' already exists - renaming to '" + newFile.getName() + "'");
             fileReceiver.setFile(newFile);
         }
 
@@ -384,7 +375,7 @@ public class CommandParser {
         final FileReceiver fileReceiver = tList.getFileReceiver(user, id);
 
         if (fileReceiver == null) {
-            msgController.showSystemMessage("/reject - no such file with id " + id + " offered by " + nick);
+            msgController.showSystemMessage("/reject - no file with id " + id + " offered by " + nick);
             return;
         }
 
@@ -743,7 +734,7 @@ public class CommandParser {
                 "/msg <nick> <msg> - send a private message to a user\n" +
                 "/nick <new nick> - changes your nick name\n" +
                 "/quit - quit from the chat\n" +
-                "/receive <nick> <file> - accept a file transfer request from a user\n" +
+                "/receive <nick> <id> - accept a file transfer request from a user\n" +
                 "/reject <nick> <id> - reject a file transfer request from a user\n" +
                 "/send <nick> <file> - send a file to a user\n" +
                 "/topic <optional new topic> - prints the current topic, or changes the topic\n" +

@@ -22,7 +22,10 @@
 
 package net.usikkert.kouchat.misc;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+
+import java.io.File;
 
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.TransferList;
@@ -30,6 +33,7 @@ import net.usikkert.kouchat.ui.UserInterface;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 /**
  * Test of {@link CommandParser}.
@@ -57,6 +61,10 @@ public class CommandParserTest {
 
         parser = new CommandParser(controller, userInterface);
     }
+
+    /*
+     * reject
+     */
 
     @Test
     public void rejectShouldReturnIfNoArguments() {
@@ -112,7 +120,7 @@ public class CommandParserTest {
         parser.parse("/reject SomeOne 1");
 
         verify(transferList).getFileReceiver(someOne, 1);
-        verify(messageController).showSystemMessage("/reject - no such file with id 1 offered by SomeOne");
+        verify(messageController).showSystemMessage("/reject - no file with id 1 offered by SomeOne");
     }
 
     @Test
@@ -125,6 +133,7 @@ public class CommandParserTest {
 
         verify(transferList).getFileReceiver(someOne, 1);
         verify(messageController).showSystemMessage("/reject - already receiving 'doc.pdf' from SomeOne");
+        verify(fileReceiver, never()).reject();
     }
 
     @Test
@@ -149,6 +158,138 @@ public class CommandParserTest {
         verify(transferList).getFileReceiver(someOne, 1);
         verifyZeroInteractions(messageController);
         verify(fileReceiver).reject();
+    }
+
+    /*
+     * receive
+     */
+
+    @Test
+    public void receiveShouldReturnIfNoArguments() {
+        parser.parse("/receive");
+
+        verify(messageController).showSystemMessage("/receive - wrong number of arguments: <nick> <id>");
+    }
+
+    @Test
+    public void receiveShouldReturnIfOneArgument() {
+        parser.parse("/receive SomeOne");
+
+        verify(messageController).showSystemMessage("/receive - wrong number of arguments: <nick> <id>");
+    }
+
+    @Test
+    public void receiveShouldReturnIfThreeArguments() {
+        parser.parse("/receive SomeOne some thing");
+
+        verify(messageController).showSystemMessage("/receive - wrong number of arguments: <nick> <id>");
+    }
+
+    @Test
+    public void receiveShouldReturnIfUserDoesntExist() {
+        parser.parse("/receive NoUser 1");
+
+        verify(messageController).showSystemMessage("/receive - no such user 'NoUser'");
+    }
+
+    @Test
+    public void receiveShouldReturnIfUserIsMe() {
+        Settings.getSettings().getMe().setNick("MySelf");
+        when(controller.getUser("MySelf")).thenReturn(Settings.getSettings().getMe());
+
+        parser.parse("/receive MySelf 1");
+
+        verify(messageController).showSystemMessage("/receive - no point in doing that!");
+    }
+
+    @Test
+    public void receiveShouldReturnIfFileTransferIdIsNotAnInteger() {
+        setupSomeOne();
+
+        parser.parse("/receive SomeOne monkey");
+
+        verify(messageController).showSystemMessage("/receive - invalid file id argument: 'monkey'");
+    }
+
+    @Test
+    public void receiveShouldReturnIfFileTransferIdDoesntExist() {
+        final User someOne = setupSomeOne();
+
+        parser.parse("/receive SomeOne 1");
+
+        verify(transferList).getFileReceiver(someOne, 1);
+        verify(messageController).showSystemMessage("/receive - no file with id 1 offered by SomeOne");
+    }
+
+    @Test
+    public void receiveShouldReturnIfFileTransferHasAlreadyBeingAccepted() {
+        final User someOne = setupSomeOne();
+        final FileReceiver fileReceiver = setupFileReceiver(someOne);
+        when(fileReceiver.isAccepted()).thenReturn(true);
+
+        parser.parse("/receive SomeOne 1");
+
+        verify(transferList).getFileReceiver(someOne, 1);
+        verify(messageController).showSystemMessage("/receive - already receiving 'doc.pdf' from SomeOne");
+        verify(fileReceiver, never()).accept();
+    }
+
+    @Test
+    public void receiveShouldAcceptFileTransferIfArgumentsMatch() {
+        final User someOne = setupSomeOne();
+        final FileReceiver fileReceiver = setupFileReceiver(someOne);
+        setupFile(fileReceiver);
+
+        parser.parse("/receive SomeOne 1");
+
+        verify(transferList).getFileReceiver(someOne, 1);
+        verifyZeroInteractions(messageController);
+        verify(fileReceiver).accept();
+    }
+
+    @Test
+    public void receiveShouldAcceptFileTransferIfArgumentsMatchEvenIfExtraSpaces() {
+        final User someOne = setupSomeOne();
+        final FileReceiver fileReceiver = setupFileReceiver(someOne);
+        setupFile(fileReceiver);
+
+        parser.parse("/receive SomeOne 1  ");
+
+        verify(transferList).getFileReceiver(someOne, 1);
+        verifyZeroInteractions(messageController);
+        verify(fileReceiver).accept();
+    }
+
+    @Test
+    public void receiveShouldAcceptFileTransferIfArgumentsMatchAndRenameExistingFile() {
+        final User someOne = setupSomeOne();
+        final FileReceiver fileReceiver = setupFileReceiver(someOne);
+        final File file = setupFile(fileReceiver);
+        when(file.exists()).thenReturn(true);
+
+        final ArgumentCaptor<File> newFileCaptor = ArgumentCaptor.forClass(File.class);
+
+        parser.parse("/receive SomeOne 1");
+
+        verify(transferList).getFileReceiver(someOne, 1);
+        verify(messageController).showSystemMessage("/receive - file 'doc.pdf' already exists - renaming to 'doc.pdf.1'");
+        verify(fileReceiver).accept();
+
+        verify(fileReceiver).setFile(newFileCaptor.capture());
+        assertEquals("doc.pdf.1", newFileCaptor.getValue().getName());
+    }
+
+    /*
+     * Rusable test methods.
+     */
+
+    private File setupFile(final FileReceiver fileReceiver) {
+        final File file = mock(File.class);
+        when(file.getName()).thenReturn("doc.pdf");
+
+        when(fileReceiver.getFile()).thenReturn(file);
+
+        return file;
     }
 
     private FileReceiver setupFileReceiver(final User user) {
