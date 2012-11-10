@@ -173,23 +173,23 @@ public class ToolsTest {
 
     @Test
     public void getFileWithIncrementedNameShouldReturnFileWithTwoAppendedIfFileWithOneAppendedExists() throws IOException {
-        createTemporaryFile("monkeys.jpg.1");
+        createTemporaryFile("bananas.jpg.1");
 
-        final File file = Tools.getFileWithIncrementedName(new File("monkeys.jpg"));
+        final File file = Tools.getFileWithIncrementedName(new File("bananas.jpg"));
 
-        assertEquals("monkeys.jpg.2", file.getName());
+        assertEquals("bananas.jpg.2", file.getName());
     }
 
     @Test
     public void getFileWithIncrementedNameShouldReturnFileWithFiveAppendedIfFileUpToFourAppendedExists() throws IOException {
-        createTemporaryFile("monkeys.jpg.1");
-        createTemporaryFile("monkeys.jpg.2");
-        createTemporaryFile("monkeys.jpg.3");
-        createTemporaryFile("monkeys.jpg.4");
+        createTemporaryFile("apples.jpg.1");
+        createTemporaryFile("apples.jpg.2");
+        createTemporaryFile("apples.jpg.3");
+        createTemporaryFile("apples.jpg.4");
 
-        final File file = Tools.getFileWithIncrementedName(new File("monkeys.jpg"));
+        final File file = Tools.getFileWithIncrementedName(new File("apples.jpg"));
 
-        assertEquals("monkeys.jpg.5", file.getName());
+        assertEquals("apples.jpg.5", file.getName());
     }
 
     @Test
