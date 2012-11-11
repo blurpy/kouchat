@@ -146,3 +146,18 @@ versions of Java 7, so I'm guessing it's not my bug ;)
 
 Cool :) Just register the suggestion on the issue tracker at
 http://kouchat.googlecode.com/ with "feature request" in the title.
+
+
+17. KouChat uses the wrong network interface. How can I switch?
+
+Typical use cases include:
+
+* You want to connect to the wired network by default, but KouChat keeps
+  connecting to the wireless network.
+* KouChat connects using a "fake" network interface that ships with
+  virtualization software like VMware and Virtual Box.
+
+You can override the network interface chosen by KouChat in the settings.
+Choose one in the list and click OK to switch. Tip: hold the mouse over
+each of the items in the drop down list for more details about the network
+interface, if available.
