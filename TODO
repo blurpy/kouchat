@@ -1,22 +1,16 @@
 
 - KouChat v1.2.0 TODO
 
-* Release v1.X:
+
  - Animated system tray icon (issue 11)
  - Multi-line messages (issue 12)
- - Show/Hide menu items in the system tray right click menu
- - Fix Event Dispatch Thread usage
  - Test KouInject
  - Make the system tray icon optional
  - Clickable links in the about dialog
-
-
-* Release v2.0:
  - Direct TCP/IP connection to users
+ - Switch to json as transport format
  - Point to point encryption (issue 4)
  - Send all files in folder
  - Only see users in specified group
-
-
-* Release v2.1:
+ - Improve console mode with ANSI, to get tab completion, colors and user list (issue 26)
  - Internationalization
