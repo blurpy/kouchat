@@ -19,6 +19,9 @@
   - Changed the /reject command from /reject <nick> <file> to /reject <nick> <id>
   - Fixed issue where file transfers were still shown in the /transfers command after
     a user had logged off without cancelling, rejecting or accepting the transfer
+  - Added hack to work around "focus stealing prevention" in KDE that prevented
+    KouChat from being brought back to focus automatically when opening the
+    window again from the system tray
 
 
 * version 1.1.0 (10.06.2012):

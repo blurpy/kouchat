@@ -471,4 +471,14 @@ public final class UITools {
             }
         }
     }
+
+    /**
+     * Checks if the application is running on a KDE desktop. This is detected by the presence of
+     * the environment variable <code>KDE_FULL_SESSION</code>.
+     *
+     * @return If running on KDE.
+     */
+    public static boolean isRunningOnKDE() {
+        return System.getenv("KDE_FULL_SESSION") != null;
+    }
 }

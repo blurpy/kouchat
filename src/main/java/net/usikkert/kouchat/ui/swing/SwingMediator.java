@@ -275,8 +275,7 @@ public class SwingMediator implements Mediator, UserInterface {
                 UITools.restore(gui);
             }
 
-            gui.setVisible(true);
-            gui.toFront();
+            gui.showWindow();
         }
     }
 
