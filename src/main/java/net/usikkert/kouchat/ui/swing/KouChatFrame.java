@@ -222,9 +222,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
                     mainP.getMsgTF().requestFocusInWindow();
 
                     return true;
-                }
-
-                else {
+                } else {
                     return false;
                 }
             }
@@ -403,7 +401,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
         public void run() {
             try {
                 // Required to make the window appear in front
-                setAlwaysOnTop(true);
+                setAlwaysOnTopOnEDT(true);
 
                 // Need to sleep a short period to give the window time to show itself
                 Tools.sleep(50);
@@ -426,8 +424,17 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 
             } finally {
                 // Need to reset this, or else it's impossible to get other windows in the foreground
-                setAlwaysOnTop(false);
+                setAlwaysOnTopOnEDT(false);
             }
+        }
+
+        private void setAlwaysOnTopOnEDT(final boolean alwaysOnTop) {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    setAlwaysOnTop(alwaysOnTop);
+                }
+            });
         }
     }
 }
