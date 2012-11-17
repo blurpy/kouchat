@@ -274,7 +274,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
     @Override
     public void windowActivated(final WindowEvent e) {
         mainP.getChatSP().repaint();
-        sideP.getUserList().repaint();
+        sideP.repaintPanel();
         mainP.getMsgTF().requestFocusInWindow();
 
         if (me.isNewMsg()) {

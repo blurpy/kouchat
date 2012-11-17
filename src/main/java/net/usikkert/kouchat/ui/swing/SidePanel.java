@@ -72,6 +72,9 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
     /** The user list. */
     private final JList userL;
 
+    /** The panel with the buttons. */
+    private final ButtonPanel buttonP;
+
     /** The application user. */
     private final User me;
 
@@ -96,6 +99,8 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
     public SidePanel(final ButtonPanel buttonP, final ImageLoader imageLoader) {
         Validate.notNull(buttonP, "Button panel can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
+
+        this.buttonP = buttonP;
 
         setLayout(new BorderLayout(2, 2));
 
@@ -352,6 +357,14 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
                 }
             }
         }
+    }
+
+    /**
+     * Makes sure the contents of this panel is repainted.
+     */
+    public void repaintPanel() {
+        userL.repaint();
+        buttonP.repaint();
     }
 
     private boolean canPrivateChatWithUser(final User user) {
