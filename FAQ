@@ -178,6 +178,6 @@ KouChat only:
 Right click on the title bar of the KouChat window, then click on
 "Advanced/Special Application Settings...". Go to the rightmost tab,
 called something like "Workarounds" or "Appearance & Fixes"
-(depends on version of KDE). Enable the checkbox on
+(depends on the version of KDE). Enable the checkbox on
 "Focus stealing prevention", and set it to "Force" and "None" in the 2
 drop down lists, then click OK to save.
