@@ -161,3 +161,23 @@ You can override the network interface chosen by KouChat in the settings.
 Choose one in the list and click OK to switch. Tip: hold the mouse over
 each of the items in the drop down list for more details about the network
 interface, if available.
+
+
+18. How can I get KouChat to open in front of other applications after
+being unhidden from the system tray in KDE?
+
+The window manager in KDE is usually configured with a feature called
+"Focus stealing prevention". This feature keeps new windows from opening
+in front and stealing focus. However, when unhiding KouChat from the
+system tray it's because one wants to interact with that window, and this
+focus stealing prevention gets in the way.
+
+It can be disabled globally or per application. Here is how to disable for
+KouChat only:
+
+Right click on the title bar of the KouChat window, then click on
+"Advanced/Special Application Settings...". Go to the rightmost tab,
+called something like "Workarounds" or "Appearance & Fixes"
+(depends on version of KDE). Enable the checkbox on
+"Focus stealing prevention", and set it to "Force" and "None" in the 2
+drop down lists, then click OK to save.

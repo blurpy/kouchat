@@ -22,24 +22,17 @@
 
 package net.usikkert.kouchat.ui.swing;
 
-import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.Robot;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -54,7 +47,6 @@ import javax.swing.WindowConstants;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
-import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.UncaughtExceptionLogger;
 
 /**
@@ -63,8 +55,6 @@ import net.usikkert.kouchat.util.UncaughtExceptionLogger;
  * @author Christian Ihle
  */
 public class KouChatFrame extends JFrame implements WindowListener, FocusListener {
-
-    private static final Logger LOG = Logger.getLogger(KouChatFrame.class.getName());
 
     /** Standard serial version UID. */
     private static final long serialVersionUID = 1L;
@@ -289,10 +279,6 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
     public void showWindow() {
         setVisible(true);
         toFront();
-
-        if (UITools.isRunningOnKDE()) {
-            new FocusWindowInKdeThread().start();
-        }
     }
 
     /**
@@ -374,67 +360,6 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
     public void setWindowIcon(final Image icon) {
         if (getIconImage() != icon) {
             setIconImage(icon);
-        }
-    }
-
-    /**
-     * This is a hack to work around the focus stealing prevention in KDE that does its best to keep
-     * Java applications from acquiring focus.
-     *
-     * <p>Without setAlwaysOnTop then the window will always be opened behind other applications.
-     * With it, it will be opened in front, but it will not get focus. Trying to request focus will
-     * lead to focus for a few milliseconds, before it's taken away by KDE again.</p>
-     *
-     * <p>To hack around this, a robot is created that clicks on the window frame to give it focus in
-     * a way that KDE finds acceptable.</p>
-     *
-     * <p>Solution adapted from a post by <code>user942821</code> on
-     * <code>http://stackoverflow.com/questions/309023/howto-bring-a-java-window-to-the-front</code>.</p>
-     */
-    private final class FocusWindowInKdeThread extends Thread {
-
-        private FocusWindowInKdeThread() {
-            setName("FocusWindowInKdeThread");
-        }
-
-        @Override
-        public void run() {
-            try {
-                // Required to make the window appear in front
-                setAlwaysOnTopOnEDT(true);
-
-                // Need to sleep a short period to give the window time to show itself
-                Tools.sleep(50);
-
-                // Keep the original mouse location
-                final Point oldMouseLocation = MouseInfo.getPointerInfo().getLocation();
-
-                // Move the mouse and simulate a mouse click on the title bar of the window
-                final Robot robot = new Robot();
-                robot.mouseMove(getX() + 100, getY() + 5);
-                robot.mousePress(InputEvent.BUTTON1_MASK);
-                robot.mouseRelease(InputEvent.BUTTON1_MASK);
-
-                // Move the mouse back to the original location
-                robot.mouseMove((int) oldMouseLocation.getX(), (int) oldMouseLocation.getY());
-
-            } catch (final AWTException e) {
-                // Not very important if this fails. Just log the event.
-                LOG.log(Level.WARNING, "Failed to use a robot to focus the window in KDE", e);
-
-            } finally {
-                // Need to reset this, or else it's impossible to get other windows in the foreground
-                setAlwaysOnTopOnEDT(false);
-            }
-        }
-
-        private void setAlwaysOnTopOnEDT(final boolean alwaysOnTop) {
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    setAlwaysOnTop(alwaysOnTop);
-                }
-            });
         }
     }
 }
