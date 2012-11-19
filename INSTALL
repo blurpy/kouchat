@@ -1,13 +1,13 @@
 
-- KouChat v1.2.0 INSTALL
+- KouChat v1.3.0 INSTALL
 
 The recommended way to build KouChat is by using Maven.
 If you don't have Maven, download from http://maven.apache.org/
 
 To compile, stay in the root folder where pom.xml is, and run:
-'mvn'
+'mvn clean package'
 
-That's it! You should have a ready-to-use kouchat-1.2.0.jar file
+That's it! You should have a ready-to-use kouchat-1.3.0.jar file
 in the target folder.
 
 Have fun! :)
