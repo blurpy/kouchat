@@ -1,7 +1,7 @@
 
 - KouChat v1.2.0 CHANGES
 
-* version 1.2.0 (xx.xx.2012):
+* version 1.2.0 (19.11.2012):
   - Improved debug logging
   - Added support for user specified network interface, in the settings
   - Fix for "java.io.IOException: mark/reset not supported" when playing sound
