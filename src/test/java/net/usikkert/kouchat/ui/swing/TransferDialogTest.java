@@ -22,8 +22,8 @@
 
 package net.usikkert.kouchat.ui.swing;
 
-import net.usikkert.kouchat.net.MockFileTransfer;
 import net.usikkert.kouchat.net.FileTransfer.Direction;
+import net.usikkert.kouchat.net.MockFileTransfer;
 
 import org.junit.Test;
 

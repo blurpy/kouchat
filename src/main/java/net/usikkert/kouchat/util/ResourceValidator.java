@@ -23,7 +23,6 @@
 package net.usikkert.kouchat.util;
 
 import java.net.URL;
-
 import java.util.HashMap;
 import java.util.Map;
 

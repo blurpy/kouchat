@@ -23,7 +23,6 @@
 package net.usikkert.kouchat.misc;
 
 import java.io.File;
-
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
