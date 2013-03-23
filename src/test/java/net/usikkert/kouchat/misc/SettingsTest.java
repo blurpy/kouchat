@@ -40,7 +40,7 @@ public class SettingsTest {
 
     @Before
     public void setUp() throws Exception {
-        settings = Settings.getSettings();
+        settings = new Settings();
         System.setProperty("file.separator", "/");
     }
 
