@@ -109,7 +109,7 @@ public class Controller implements NetworkConnectionListener {
         chatState = new ChatState();
         tList = new TransferList();
         wList = new WaitingList();
-        idleThread = new IdleThread(this, ui);
+        idleThread = new IdleThread(this, ui, settings);
         networkService = new NetworkService();
         msgResponder = new DefaultMessageResponder(this, ui);
         privmsgResponder = new DefaultPrivateMessageResponder(this, ui);
