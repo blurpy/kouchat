@@ -94,7 +94,7 @@ public class SwingMediator implements Mediator, UserInterface {
         buttonP = compHandler.getButtonPanel();
 
         msgController = new MessageController(mainP, this);
-        controller = new Controller(this);
+        controller = new Controller(this, Settings.getSettings());
         new JMXAgent(controller.createJMXBeanLoader());
         settings = Settings.getSettings();
         me = settings.getMe();

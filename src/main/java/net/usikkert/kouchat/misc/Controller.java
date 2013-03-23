@@ -80,16 +80,21 @@ public class Controller implements NetworkConnectionListener {
     private final User me;
     private final UserInterface ui;
     private final MessageController msgController;
+    private final Settings settings;
 
     /**
      * Constructor. Initializes the controller, but does not log on to
      * the network.
      *
      * @param ui The active user interface object.
+     * @param settings The settings to use.
      */
-    public Controller(final UserInterface ui) {
+    public Controller(final UserInterface ui, final Settings settings) {
         Validate.notNull(ui, "User interface can not be null");
+        Validate.notNull(settings, "Settings can not be null");
+
         this.ui = ui;
+        this.settings = settings;
 
         Runtime.getRuntime().addShutdownHook(new Thread("ControllerShutdownHook") {
             @Override
@@ -99,8 +104,7 @@ public class Controller implements NetworkConnectionListener {
             }
         });
 
-        me = Settings.getSettings().getMe();
-
+        me = settings.getMe();
         userListController = new UserListController();
         chatState = new ChatState();
         tList = new TransferList();
@@ -239,7 +243,7 @@ public class Controller implements NetworkConnectionListener {
 
         messages.sendNickMessage(newNick);
         changeNick(me.getCode(), newNick);
-        Settings.getSettings().saveSettings();
+        settings.saveSettings();
     }
 
     /**
@@ -588,7 +592,7 @@ public class Controller implements NetworkConnectionListener {
             throw new CommandException("You can not send a private chat message to a user that is away");
         } else if (!user.isOnline()) {
             throw new CommandException("You can not send a private chat message to a user that is offline");
-        } else if (Settings.getSettings().isNoPrivateChat()) {
+        } else if (settings.isNoPrivateChat()) {
             throw new CommandException("You can not send a private chat message when private chat is disabled");
         } else {
             messages.sendPrivateMessage(privmsg, user);
@@ -739,6 +743,6 @@ public class Controller implements NetworkConnectionListener {
      * @return A JMX bean loader.
      */
     public JMXBeanLoader createJMXBeanLoader() {
-        return new JMXBeanLoader(this, networkService.getConnectionWorker(), Settings.getSettings());
+        return new JMXBeanLoader(this, networkService.getConnectionWorker(), settings);
     }
 }
