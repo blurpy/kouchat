@@ -57,7 +57,7 @@ import net.usikkert.kouchat.util.Tools;
  *
  * @author Christian Ihle
  */
-public final class Settings {
+public class Settings {
 
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(Settings.class.getName());
@@ -125,7 +125,7 @@ public final class Settings {
      *
      * Initializes default settings, and creates <code>me</code>.
      */
-    private Settings() {
+    public Settings() {
         final int code = 10000000 + (int) (Math.random() * 9999999);
 
         me = new User(createNickName(code), code);

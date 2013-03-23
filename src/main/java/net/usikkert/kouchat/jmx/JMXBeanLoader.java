@@ -52,15 +52,18 @@ public class JMXBeanLoader {
      *
      * @param controller The controller.
      * @param connectionWorker The connection worker.
+     * @param settings The settings.
      */
-    public JMXBeanLoader(final Controller controller, final ConnectionWorker connectionWorker) {
+    public JMXBeanLoader(final Controller controller, final ConnectionWorker connectionWorker,
+                         final Settings settings) {
         Validate.notNull(controller, "Controller can not be null");
         Validate.notNull(connectionWorker, "ConnectionWorker can not be null");
+        Validate.notNull(settings, "Settings can not be null");
 
         jmxBeans = Arrays.asList(
                 new NetworkInformation(connectionWorker),
                 new ControllerInformation(controller),
-                new GeneralInformation(Settings.getSettings()));
+                new GeneralInformation(settings));
     }
 
     public List<JMXBean> getJMXBeans() {

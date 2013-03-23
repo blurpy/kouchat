@@ -28,6 +28,7 @@ import static org.mockito.Mockito.*;
 import java.util.List;
 
 import net.usikkert.kouchat.misc.Controller;
+import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.net.ConnectionWorker;
 
 import org.junit.Rule;
@@ -49,7 +50,7 @@ public class JMXBeanLoaderTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Controller can not be null");
 
-        new JMXBeanLoader(null, mock(ConnectionWorker.class));
+        new JMXBeanLoader(null, mock(ConnectionWorker.class), mock(Settings.class));
     }
 
     @Test
@@ -57,12 +58,21 @@ public class JMXBeanLoaderTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("ConnectionWorker can not be null");
 
-        new JMXBeanLoader(mock(Controller.class), null);
+        new JMXBeanLoader(mock(Controller.class), null, mock(Settings.class));
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfSettingsIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Settings can not be null");
+
+        new JMXBeanLoader(mock(Controller.class), mock(ConnectionWorker.class), null);
     }
 
     @Test
     public void getJMXBeansShouldIncludeThreeBeans() {
-        final JMXBeanLoader beanLoader = new JMXBeanLoader(mock(Controller.class), mock(ConnectionWorker.class));
+        final JMXBeanLoader beanLoader =
+                new JMXBeanLoader(mock(Controller.class), mock(ConnectionWorker.class), mock(Settings.class));
 
         final List<JMXBean> jmxBeans = beanLoader.getJMXBeans();
         assertNotNull(jmxBeans);
