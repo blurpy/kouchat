@@ -33,6 +33,7 @@ import java.util.logging.Logger;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.ReceiverListener;
 import net.usikkert.kouchat.misc.ErrorHandler;
+import net.usikkert.kouchat.util.Tools;
 
 /**
  * This is the thread that listens for multicast messages from
@@ -175,7 +176,11 @@ public class MessageReceiver implements Runnable {
                 }
 
                 mcSocket.joinGroup(address);
-                LOG.log(Level.FINE, "Connected to " + mcSocket.getNetworkInterface());
+
+                if (!Tools.isAndroid()) { // Crashes in Android 2.3.3 emulator
+                    LOG.log(Level.FINE, "Connected to " + mcSocket.getNetworkInterface());
+                }
+
                 connected = true;
             }
         }
