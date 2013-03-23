@@ -20,22 +20,38 @@
  *   If not, see <http://www.gnu.org/licenses/>.                           *
  ***************************************************************************/
 
-package net.usikkert.kouchat.misc;
+package net.usikkert.kouchat.jmx;
+
+import net.usikkert.kouchat.misc.Controller;
 
 /**
- * This is a JMX MBean interface for general information.
+ * This is a JMX MBean for the controller.
  *
  * @author Christian Ihle
  */
-public interface GeneralInformationMBean {
+public class ControllerInformation implements ControllerInformationMBean {
 
-    /** The name of this MBean. */
-    String NAME = "General";
+    /** The controller. */
+    private final Controller controller;
 
     /**
-     * Shows information about the client and user.
+     * Constructor.
      *
-     * @return Information about the client and user.
+     * @param controller The controller.
      */
-    String about();
+    public ControllerInformation(final Controller controller) {
+        this.controller = controller;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void logOn() {
+        controller.logOn();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void logOff() {
+        controller.logOff(true);
+    }
 }

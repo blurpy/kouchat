@@ -20,36 +20,55 @@
  *   If not, see <http://www.gnu.org/licenses/>.                           *
  ***************************************************************************/
 
-package net.usikkert.kouchat.misc;
+package net.usikkert.kouchat.jmx;
+
+import java.net.SocketException;
 
 /**
- * This is a JMX MBean for the controller.
+ * This is the JMX MBean interface for the network service.
  *
  * @author Christian Ihle
  */
-public class ControllerInformation implements ControllerInformationMBean {
+public interface NetworkInformationMBean {
 
-    /** The controller. */
-    private final Controller controller;
+    /** The name of this MBean. */
+    String NAME = "Network";
 
     /**
-     * Constructor.
+     * Shows the current connected network.
      *
-     * @param controller The controller.
+     * @return A string with information.
+     * @throws SocketException In case of network errors.
      */
-    public ControllerInformation(final Controller controller) {
-        this.controller = controller;
-    }
+    String showCurrentNetwork() throws SocketException;
 
-    /** {@inheritDoc} */
-    @Override
-    public void logOn() {
-        controller.logOn();
-    }
+    /**
+     * Shows the network that the operation system would have chosen.
+     *
+     * @return A string with information.
+     * @throws SocketException In case of network errors.
+     */
+    String showOperatingSystemNetwork() throws SocketException;
 
-    /** {@inheritDoc} */
-    @Override
-    public void logOff() {
-        controller.logOff(true);
-    }
+    /**
+     * Shows the available networks that are usable for chat.
+     *
+     * @return A string with information.
+     * @throws SocketException In case of network errors.
+     */
+    String[] showUsableNetworks() throws SocketException;
+
+    /**
+     * Shows all the available networks.
+     *
+     * @return A string with information.
+     * @throws SocketException In case of network errors.
+     */
+    String[] showAllNetworks() throws SocketException;
+
+    /** Disconnects from the network, without logging off. */
+    void disconnect();
+
+    /** Connects to the network. */
+    void connect();
 }

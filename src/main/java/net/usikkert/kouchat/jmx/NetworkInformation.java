@@ -20,13 +20,16 @@
  *   If not, see <http://www.gnu.org/licenses/>.                           *
  ***************************************************************************/
 
-package net.usikkert.kouchat.net;
+package net.usikkert.kouchat.jmx;
 
 import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import net.usikkert.kouchat.net.ConnectionWorker;
+import net.usikkert.kouchat.net.NetworkUtils;
+import net.usikkert.kouchat.net.OperatingSystemNetworkInfo;
 import net.usikkert.kouchat.util.Validate;
 
 /**

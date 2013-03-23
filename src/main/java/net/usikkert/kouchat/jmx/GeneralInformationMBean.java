@@ -20,27 +20,22 @@
  *   If not, see <http://www.gnu.org/licenses/>.                           *
  ***************************************************************************/
 
-package net.usikkert.kouchat.misc;
+package net.usikkert.kouchat.jmx;
 
 /**
- * This is a JMX MBean for general information.
+ * This is a JMX MBean interface for general information.
  *
  * @author Christian Ihle
  */
-public class GeneralInformation implements GeneralInformationMBean {
+public interface GeneralInformationMBean {
 
-    /** {@inheritDoc} */
-    @Override
-    public String about() {
-        final User me = Settings.getSettings().getMe();
-        final StringBuilder sb = new StringBuilder();
+    /** The name of this MBean. */
+    String NAME = "General";
 
-        sb.append("Client: " + me.getClient() + "\n");
-        sb.append("User name: " + me.getNick() + "\n");
-        sb.append("IP address: " + me.getIpAddress() + "\n");
-        sb.append("Host name: " + me.getHostName() + "\n");
-        sb.append("Operating System: " + me.getOperatingSystem());
-
-        return sb.toString();
-    }
+    /**
+     * Shows information about the client and user.
+     *
+     * @return Information about the client and user.
+     */
+    String about();
 }

@@ -20,7 +20,7 @@
  *   If not, see <http://www.gnu.org/licenses/>.                           *
  ***************************************************************************/
 
-package net.usikkert.kouchat.util;
+package net.usikkert.kouchat.jmx;
 
 import java.lang.management.ManagementFactory;
 import java.util.logging.Level;
@@ -35,13 +35,7 @@ import javax.management.ObjectName;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.Controller;
-import net.usikkert.kouchat.misc.ControllerInformation;
-import net.usikkert.kouchat.misc.ControllerInformationMBean;
-import net.usikkert.kouchat.misc.GeneralInformation;
-import net.usikkert.kouchat.misc.GeneralInformationMBean;
 import net.usikkert.kouchat.net.ConnectionWorker;
-import net.usikkert.kouchat.net.NetworkInformation;
-import net.usikkert.kouchat.net.NetworkInformationMBean;
 
 /**
  * Registers JMX MBeans.

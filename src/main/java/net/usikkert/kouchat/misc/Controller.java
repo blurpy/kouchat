@@ -34,6 +34,7 @@ import net.usikkert.kouchat.autocomplete.AutoCompleter;
 import net.usikkert.kouchat.autocomplete.CommandAutoCompleteList;
 import net.usikkert.kouchat.autocomplete.UserAutoCompleteList;
 import net.usikkert.kouchat.event.NetworkConnectionListener;
+import net.usikkert.kouchat.jmx.JMXAgent;
 import net.usikkert.kouchat.net.DefaultMessageResponder;
 import net.usikkert.kouchat.net.DefaultPrivateMessageResponder;
 import net.usikkert.kouchat.net.FileReceiver;
@@ -46,7 +47,6 @@ import net.usikkert.kouchat.net.PrivateMessageParser;
 import net.usikkert.kouchat.net.PrivateMessageResponder;
 import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.ui.UserInterface;
-import net.usikkert.kouchat.util.JMXAgent;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
