@@ -34,7 +34,7 @@ import net.usikkert.kouchat.autocomplete.AutoCompleter;
 import net.usikkert.kouchat.autocomplete.CommandAutoCompleteList;
 import net.usikkert.kouchat.autocomplete.UserAutoCompleteList;
 import net.usikkert.kouchat.event.NetworkConnectionListener;
-import net.usikkert.kouchat.jmx.JMXAgent;
+import net.usikkert.kouchat.jmx.JMXBeanLoader;
 import net.usikkert.kouchat.net.DefaultMessageResponder;
 import net.usikkert.kouchat.net.DefaultPrivateMessageResponder;
 import net.usikkert.kouchat.net.FileReceiver;
@@ -117,7 +117,6 @@ public class Controller implements NetworkConnectionListener {
         networkService.registerNetworkConnectionListener(this);
         msgController = ui.getMessageController();
 
-        new JMXAgent(this, networkService.getConnectionWorker());
         new DayTimer(ui);
         idleThread.start();
 
@@ -732,5 +731,14 @@ public class Controller implements NetworkConnectionListener {
      */
     public ChatState getChatState() {
         return chatState;
+    }
+
+    /**
+     * Creates an instance of a JMX bean loader, and returns it.
+     *
+     * @return A JMX bean loader.
+     */
+    public JMXBeanLoader createJMXBeanLoader() {
+        return new JMXBeanLoader(this, networkService.getConnectionWorker());
     }
 }

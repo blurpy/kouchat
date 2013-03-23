@@ -22,58 +22,47 @@
 
 package net.usikkert.kouchat.jmx;
 
-import java.lang.management.ManagementFactory;
+import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import javax.management.JMException;
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-
-import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.misc.Controller;
+import net.usikkert.kouchat.net.ConnectionWorker;
 import net.usikkert.kouchat.util.Validate;
 
 /**
- * Registers JMX MBeans.
+ * Class for getting instances of JMX MBeans.
  *
- * <p>Connect to <code>KouChat</code> with <code>JConsole</code> to get access
- * to the MBeans. <code>JConsole</code> is part of the Java SDK.</p>
+ * <p>The following beans are registered:</p>
+ *
+ * <ul>
+ *   <li>{@link NetworkInformation}</li>
+ *   <li>{@link ControllerInformation}</li>
+ *   <li>{@link GeneralInformation}</li>
+ * </ul>
  *
  * @author Christian Ihle
  */
-public class JMXAgent {
+public class JMXBeanLoader {
 
-    private static final Logger LOG = Logger.getLogger(JMXAgent.class.getName());
+    private final List<JMXBean> jmxBeans;
 
     /**
-     * Default constructor. Registers the MBeans, and logs any failures.
+     * Initializes the bean loader, and the JMX beans.
      *
-     * @param jmxBeanLoader The bean loader containing the JMX MBeans to register and activate.
+     * @param controller The controller.
+     * @param connectionWorker The connection worker.
      */
-    public JMXAgent(final JMXBeanLoader jmxBeanLoader) {
-        Validate.notNull(jmxBeanLoader, "JMXBeanLoader can not be null");
+    public JMXBeanLoader(final Controller controller, final ConnectionWorker connectionWorker) {
+        Validate.notNull(controller, "Controller can not be null");
+        Validate.notNull(connectionWorker, "ConnectionWorker can not be null");
 
-        final MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
-        final List<JMXBean> jmxBeans = jmxBeanLoader.getJMXBeans();
-
-        try {
-            for (JMXBean jmxBean : jmxBeans) {
-                registerJMXBean(mBeanServer, jmxBean);
-            }
-        }
-
-        catch (final JMException e) {
-            LOG.log(Level.SEVERE, e.toString(), e);
-        }
+        jmxBeans = Arrays.asList(
+                new NetworkInformation(connectionWorker),
+                new ControllerInformation(controller),
+                new GeneralInformation());
     }
 
-    private void registerJMXBean(final MBeanServer mBeanServer, final JMXBean jmxBean) throws JMException {
-        final ObjectName generalInfoName = createObjectName(jmxBean);
-        mBeanServer.registerMBean(jmxBean, generalInfoName);
-    }
-
-    private ObjectName createObjectName(final JMXBean jmxBean) throws JMException {
-        return new ObjectName(Constants.APP_NAME + ":name=" + jmxBean.getBeanName());
+    public List<JMXBean> getJMXBeans() {
+        return jmxBeans;
     }
 }

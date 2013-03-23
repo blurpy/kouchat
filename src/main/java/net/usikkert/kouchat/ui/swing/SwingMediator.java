@@ -27,6 +27,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import net.usikkert.kouchat.jmx.JMXAgent;
 import net.usikkert.kouchat.misc.ChatLogger;
 import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.CommandParser;
@@ -94,6 +95,7 @@ public class SwingMediator implements Mediator, UserInterface {
 
         msgController = new MessageController(mainP, this);
         controller = new Controller(this);
+        new JMXAgent(controller.createJMXBeanLoader());
         settings = Settings.getSettings();
         me = settings.getMe();
         cmdParser = new CommandParser(controller, this);

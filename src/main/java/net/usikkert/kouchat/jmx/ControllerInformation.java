@@ -22,6 +22,7 @@
 package net.usikkert.kouchat.jmx;
 
 import net.usikkert.kouchat.misc.Controller;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This is a JMX MBean for the controller.
@@ -39,6 +40,7 @@ public class ControllerInformation implements ControllerInformationMBean {
      * @param controller The controller.
      */
     public ControllerInformation(final Controller controller) {
+        Validate.notNull(controller, "Controller can not be null");
         this.controller = controller;
     }
 

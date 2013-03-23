@@ -22,6 +22,7 @@
 
 package net.usikkert.kouchat.ui.console;
 
+import net.usikkert.kouchat.jmx.JMXAgent;
 import net.usikkert.kouchat.misc.ChatLogger;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
@@ -52,6 +53,8 @@ public class ConsoleMediator implements UserInterface {
         final ConsoleChatWindow chat = new ConsoleChatWindow();
         msgController = new MessageController(chat, this);
         controller = new Controller(this);
+        new JMXAgent(controller.createJMXBeanLoader());
+
         final ConsoleInput ci = new ConsoleInput(controller, this);
         ci.start();
     }
