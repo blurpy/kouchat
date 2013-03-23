@@ -100,7 +100,7 @@ public class SwingMediator implements Mediator, UserInterface {
         controller = new Controller(this, settings);
         new JMXAgent(controller.createJMXBeanLoader());
         me = settings.getMe();
-        cmdParser = new CommandParser(controller, this);
+        cmdParser = new CommandParser(controller, this, Settings.getSettings());
         beeper = new SoundBeeper();
 
         sideP.setUserList(controller.getUserList());

@@ -32,6 +32,7 @@ import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.CommandParser;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
+import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.ui.UserInterface;
 
 /**
@@ -68,7 +69,7 @@ public class ConsoleInput extends Thread {
         setName("ConsoleInputThread");
         msgController = ui.getMessageController();
         stdin = new BufferedReader(new InputStreamReader(System.in));
-        cmdParser = new CommandParser(controller, ui);
+        cmdParser = new CommandParser(controller, ui, Settings.getSettings());
 
         Runtime.getRuntime().addShutdownHook(new Thread("ConsoleInputShutdownHook") {
             @Override
