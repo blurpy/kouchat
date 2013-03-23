@@ -78,13 +78,16 @@ public class SwingMediator implements Mediator, UserInterface {
      *
      * @param compHandler An object with references to all the gui components this mediator works with.
      * @param imageLoader The image loader.
+     * @param settings The settings to use.
      */
-    public SwingMediator(final ComponentHandler compHandler, final ImageLoader imageLoader) {
+    public SwingMediator(final ComponentHandler compHandler, final ImageLoader imageLoader, final Settings settings) {
         Validate.notNull(compHandler, "Component handler can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
+        Validate.notNull(settings, "Settings can not be null");
         compHandler.validate();
 
         this.imageLoader = imageLoader;
+        this.settings = settings;
         sideP = compHandler.getSidePanel();
         settingsDialog = compHandler.getSettingsDialog();
         gui = compHandler.getGui();
@@ -94,9 +97,8 @@ public class SwingMediator implements Mediator, UserInterface {
         buttonP = compHandler.getButtonPanel();
 
         msgController = new MessageController(mainP, this);
-        controller = new Controller(this, Settings.getSettings());
+        controller = new Controller(this, settings);
         new JMXAgent(controller.createJMXBeanLoader());
-        settings = Settings.getSettings();
         me = settings.getMe();
         cmdParser = new CommandParser(controller, this);
         beeper = new SoundBeeper();

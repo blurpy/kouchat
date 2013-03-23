@@ -111,7 +111,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
         compHandler.setSettingsDialog(settingsDialog);
         compHandler.setMenuBar(menuBar);
 
-        mediator = new SwingMediator(compHandler, imageLoader);
+        mediator = new SwingMediator(compHandler, imageLoader, Settings.getSettings());
         buttonP.setMediator(mediator);
         sideP.setMediator(mediator);
         mainP.setMediator(mediator);
