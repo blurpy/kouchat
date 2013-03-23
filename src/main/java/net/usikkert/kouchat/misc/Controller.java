@@ -117,7 +117,7 @@ public class Controller implements NetworkConnectionListener {
         networkService.registerMessageReceiverListener(msgParser);
         privmsgParser = new PrivateMessageParser(privmsgResponder);
         networkService.registerUDPReceiverListener(privmsgParser);
-        messages = new Messages(networkService);
+        messages = new Messages(networkService, settings);
         networkService.registerNetworkConnectionListener(this);
         msgController = ui.getMessageController();
 
