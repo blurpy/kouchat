@@ -1,4 +1,3 @@
-
 /***************************************************************************
  *   Copyright 2006-2013 by Christian Ihle                                 *
  *   kontakt@usikkert.net                                                  *
@@ -52,7 +51,9 @@ public class NetworkInformation implements NetworkInformationMBean {
         this.connectionWorker = connectionWorker;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String showCurrentNetwork() {
         final NetworkInterface networkInterface = connectionWorker.getCurrentNetworkInterface();
@@ -64,7 +65,9 @@ public class NetworkInformation implements NetworkInformationMBean {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String showOperatingSystemNetwork() {
         final OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo();
@@ -77,7 +80,9 @@ public class NetworkInformation implements NetworkInformationMBean {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String[] showUsableNetworks() {
         final List<String> list = new ArrayList<String>();
@@ -100,10 +105,12 @@ public class NetworkInformation implements NetworkInformationMBean {
             return new String[]{"No usable network interfaces detected."};
         }
 
-        return list.toArray(new String[0]);
+        return list.toArray(new String[list.size()]);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String[] showAllNetworks() {
         final List<String> list = new ArrayList<String>();
@@ -119,18 +126,30 @@ public class NetworkInformation implements NetworkInformationMBean {
             list.add(NetworkUtils.getNetworkInterfaceInfo(netif));
         }
 
-        return list.toArray(new String[0]);
+        return list.toArray(new String[list.size()]);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void disconnect() {
         connectionWorker.stop();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void connect() {
         connectionWorker.start();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getBeanName() {
+        return "Network";
     }
 }

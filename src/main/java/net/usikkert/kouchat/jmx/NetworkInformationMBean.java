@@ -1,4 +1,3 @@
-
 /***************************************************************************
  *   Copyright 2006-2013 by Christian Ihle                                 *
  *   kontakt@usikkert.net                                                  *
@@ -29,10 +28,7 @@ import java.net.SocketException;
  *
  * @author Christian Ihle
  */
-public interface NetworkInformationMBean {
-
-    /** The name of this MBean. */
-    String NAME = "Network";
+public interface NetworkInformationMBean extends JMXBean {
 
     /**
      * Shows the current connected network.
@@ -66,9 +62,13 @@ public interface NetworkInformationMBean {
      */
     String[] showAllNetworks() throws SocketException;
 
-    /** Disconnects from the network, without logging off. */
+    /**
+     * Disconnects from the network, without logging off.
+     */
     void disconnect();
 
-    /** Connects to the network. */
+    /**
+     * Connects to the network.
+     */
     void connect();
 }

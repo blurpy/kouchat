@@ -1,4 +1,3 @@
-
 /***************************************************************************
  *   Copyright 2006-2013 by Christian Ihle                                 *
  *   kontakt@usikkert.net                                                  *
@@ -32,7 +31,9 @@ import net.usikkert.kouchat.misc.User;
  */
 public class GeneralInformation implements GeneralInformationMBean {
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String about() {
         final User me = Settings.getSettings().getMe();
@@ -45,5 +46,13 @@ public class GeneralInformation implements GeneralInformationMBean {
         sb.append("Operating System: " + me.getOperatingSystem());
 
         return sb.toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getBeanName() {
+        return "General";
     }
 }

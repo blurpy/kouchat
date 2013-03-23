@@ -1,3 +1,4 @@
+
 /***************************************************************************
  *   Copyright 2006-2013 by Christian Ihle                                 *
  *   kontakt@usikkert.net                                                  *
@@ -21,48 +22,17 @@
 
 package net.usikkert.kouchat.jmx;
 
-import net.usikkert.kouchat.misc.Controller;
-
 /**
- * This is a JMX MBean for the controller.
+ * Interface used to identify JMX beans.
  *
  * @author Christian Ihle
  */
-public class ControllerInformation implements ControllerInformationMBean {
-
-    /** The controller. */
-    private final Controller controller;
+public interface JMXBean {
 
     /**
-     * Constructor.
+     * Gets the name to display for the bean.
      *
-     * @param controller The controller.
+     * @return The name of the bean.
      */
-    public ControllerInformation(final Controller controller) {
-        this.controller = controller;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void logOn() {
-        controller.logOn();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void logOff() {
-        controller.logOff(true);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getBeanName() {
-        return "Controller";
-    }
+    String getBeanName();
 }

@@ -1,4 +1,3 @@
-
 /***************************************************************************
  *   Copyright 2006-2013 by Christian Ihle                                 *
  *   kontakt@usikkert.net                                                  *
@@ -27,14 +26,15 @@ package net.usikkert.kouchat.jmx;
  *
  * @author Christian Ihle
  */
-public interface ControllerInformationMBean {
+public interface ControllerInformationMBean extends JMXBean {
 
-    /** The name of this MBean. */
-    String NAME = "Controller";
-
-    /** Logs the client on to the network. */
+    /**
+     * Logs the client on to the network.
+     */
     void logOn();
 
-    /** Logs the client off the network. */
+    /**
+     * Logs the client off the network.
+     */
     void logOff();
 }

@@ -66,22 +66,22 @@ public class JMXAgent {
 
         try {
             // NetworkInformation MBean
+            final NetworkInformation networkInformation = new NetworkInformation(connectionWorker);
             final ObjectName networkInfoName = new ObjectName(
-                    Constants.APP_NAME + ":name=" + NetworkInformationMBean.NAME);
-            platformMBeanServer.registerMBean(
-                    new NetworkInformation(connectionWorker), networkInfoName);
+                    Constants.APP_NAME + ":name=" + networkInformation.getBeanName());
+            platformMBeanServer.registerMBean(networkInformation, networkInfoName);
 
             // ControllerInformation MBean
+            final ControllerInformation controllerInformation = new ControllerInformation(controller);
             final ObjectName controllerInfoName = new ObjectName(
-                    Constants.APP_NAME + ":name=" + ControllerInformationMBean.NAME);
-            platformMBeanServer.registerMBean(
-                    new ControllerInformation(controller), controllerInfoName);
+                    Constants.APP_NAME + ":name=" + controllerInformation.getBeanName());
+            platformMBeanServer.registerMBean(controllerInformation, controllerInfoName);
 
             // GeneralInformation MBean
+            final GeneralInformation generalInformation = new GeneralInformation();
             final ObjectName generalInfoName = new ObjectName(
-                    Constants.APP_NAME + ":name=" + GeneralInformationMBean.NAME);
-            platformMBeanServer.registerMBean(
-                    new GeneralInformation(), generalInfoName);
+                    Constants.APP_NAME + ":name=" + generalInformation.getBeanName());
+            platformMBeanServer.registerMBean(generalInformation, generalInfoName);
         }
 
         catch (final MalformedObjectNameException e) {

@@ -1,4 +1,3 @@
-
 /***************************************************************************
  *   Copyright 2006-2013 by Christian Ihle                                 *
  *   kontakt@usikkert.net                                                  *
@@ -27,10 +26,7 @@ package net.usikkert.kouchat.jmx;
  *
  * @author Christian Ihle
  */
-public interface GeneralInformationMBean {
-
-    /** The name of this MBean. */
-    String NAME = "General";
+public interface GeneralInformationMBean extends JMXBean {
 
     /**
      * Shows information about the client and user.
