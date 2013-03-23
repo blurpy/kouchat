@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.usikkert.kouchat.misc.Controller;
+import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.net.ConnectionWorker;
 import net.usikkert.kouchat.util.Validate;
 
@@ -59,7 +60,7 @@ public class JMXBeanLoader {
         jmxBeans = Arrays.asList(
                 new NetworkInformation(connectionWorker),
                 new ControllerInformation(controller),
-                new GeneralInformation());
+                new GeneralInformation(Settings.getSettings()));
     }
 
     public List<JMXBean> getJMXBeans() {

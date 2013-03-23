@@ -24,6 +24,7 @@ package net.usikkert.kouchat.jmx;
 
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This is a JMX MBean for general information.
@@ -32,12 +33,20 @@ import net.usikkert.kouchat.misc.User;
  */
 public class GeneralInformation implements GeneralInformationMBean {
 
+    /** The application user. */
+    private final User me;
+
+    public GeneralInformation(final Settings settings) {
+        Validate.notNull(settings, "Settings can not be null");
+
+        me = settings.getMe();
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public String about() {
-        final User me = Settings.getSettings().getMe();
         final StringBuilder sb = new StringBuilder();
 
         sb.append("Client: " + me.getClient() + "\n");
