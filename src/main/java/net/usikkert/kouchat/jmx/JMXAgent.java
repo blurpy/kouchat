@@ -26,11 +26,8 @@ import java.lang.management.ManagementFactory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.MBeanRegistrationException;
+import javax.management.JMException;
 import javax.management.MBeanServer;
-import javax.management.MalformedObjectNameException;
-import javax.management.NotCompliantMBeanException;
 import javax.management.ObjectName;
 
 import net.usikkert.kouchat.Constants;
@@ -48,11 +45,14 @@ import net.usikkert.kouchat.net.ConnectionWorker;
  * <ul>
  *   <li>{@link NetworkInformation}</li>
  *   <li>{@link ControllerInformation}</li>
+ *   <li>{@link GeneralInformation}</li>
  * </ul>
  *
  * @author Christian Ihle
  */
 public class JMXAgent {
+
+    private static final Logger LOG = Logger.getLogger(JMXAgent.class.getName());
 
     /**
      * Default constructor. Registers the MBeans, and logs any failures.
@@ -61,43 +61,25 @@ public class JMXAgent {
      * @param connectionWorker The connection worker.
      */
     public JMXAgent(final Controller controller, final ConnectionWorker connectionWorker) {
-        final Logger log = Logger.getLogger(JMXAgent.class.getName());
-        final MBeanServer platformMBeanServer = ManagementFactory.getPlatformMBeanServer();
+        final MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
 
         try {
-            // NetworkInformation MBean
-            final NetworkInformation networkInformation = new NetworkInformation(connectionWorker);
-            final ObjectName networkInfoName = new ObjectName(
-                    Constants.APP_NAME + ":name=" + networkInformation.getBeanName());
-            platformMBeanServer.registerMBean(networkInformation, networkInfoName);
-
-            // ControllerInformation MBean
-            final ControllerInformation controllerInformation = new ControllerInformation(controller);
-            final ObjectName controllerInfoName = new ObjectName(
-                    Constants.APP_NAME + ":name=" + controllerInformation.getBeanName());
-            platformMBeanServer.registerMBean(controllerInformation, controllerInfoName);
-
-            // GeneralInformation MBean
-            final GeneralInformation generalInformation = new GeneralInformation();
-            final ObjectName generalInfoName = new ObjectName(
-                    Constants.APP_NAME + ":name=" + generalInformation.getBeanName());
-            platformMBeanServer.registerMBean(generalInformation, generalInfoName);
+            registerJMXBean(mBeanServer, new NetworkInformation(connectionWorker));
+            registerJMXBean(mBeanServer, new ControllerInformation(controller));
+            registerJMXBean(mBeanServer, new GeneralInformation());
         }
 
-        catch (final MalformedObjectNameException e) {
-            log.log(Level.SEVERE, e.toString(), e);
+        catch (final JMException e) {
+            LOG.log(Level.SEVERE, e.toString(), e);
         }
+    }
 
-        catch (final InstanceAlreadyExistsException e) {
-            log.log(Level.SEVERE, e.toString(), e);
-        }
+    private void registerJMXBean(final MBeanServer mBeanServer, final JMXBean jmxBean) throws JMException {
+        final ObjectName generalInfoName = createObjectName(jmxBean);
+        mBeanServer.registerMBean(jmxBean, generalInfoName);
+    }
 
-        catch (final MBeanRegistrationException e) {
-            log.log(Level.SEVERE, e.toString(), e);
-        }
-
-        catch (final NotCompliantMBeanException e) {
-            log.log(Level.SEVERE, e.toString(), e);
-        }
+    private ObjectName createObjectName(final JMXBean jmxBean) throws JMException {
+        return new ObjectName(Constants.APP_NAME + ":name=" + jmxBean.getBeanName());
     }
 }
