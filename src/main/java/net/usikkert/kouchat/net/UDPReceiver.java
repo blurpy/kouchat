@@ -33,6 +33,7 @@ import net.usikkert.kouchat.event.ReceiverListener;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * Receives UDP packets sent directly to the IP address
@@ -62,10 +63,14 @@ public class UDPReceiver implements Runnable {
 
     /**
      * Default constructor.
+     *
+     * @param settings The settings to use.
      */
-    public UDPReceiver() {
+    public UDPReceiver(final Settings settings) {
+        Validate.notNull(settings, "Settings can not be null");
+
         errorHandler = ErrorHandler.getErrorHandler();
-        me = Settings.getSettings().getMe();
+        me = settings.getMe();
     }
 
     /**

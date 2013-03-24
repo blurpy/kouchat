@@ -70,7 +70,7 @@ public class NetworkService implements NetworkConnectionListener {
         connectionWorker = new ConnectionWorker(Settings.getSettings());
 
         if (privateChatEnabled) {
-            udpReceiver = new UDPReceiver();
+            udpReceiver = new UDPReceiver(Settings.getSettings());
             udpSender = new UDPSender();
         }
 
