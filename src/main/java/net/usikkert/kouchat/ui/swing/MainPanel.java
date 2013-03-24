@@ -86,10 +86,12 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      *
      * @param sideP The panel on the right, containing the user list and the buttons.
      * @param imageLoader The image loader.
+     * @param settings The settings to use.
      */
-    public MainPanel(final SidePanel sideP, final ImageLoader imageLoader) {
+    public MainPanel(final SidePanel sideP, final ImageLoader imageLoader, final Settings settings) {
         Validate.notNull(sideP, "Side panel can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
+        Validate.notNull(settings, "Settings can not be null");
 
         setLayout(new BorderLayout(2, 2));
 
@@ -110,7 +112,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 
         final DocumentFilterList documentFilterList = new DocumentFilterList();
         documentFilterList.addDocumentFilter(new URLDocumentFilter(false));
-        documentFilterList.addDocumentFilter(new SmileyDocumentFilter(false, imageLoader, Settings.getSettings()));
+        documentFilterList.addDocumentFilter(new SmileyDocumentFilter(false, imageLoader, settings));
         final AbstractDocument doc = (AbstractDocument) chatDoc;
         doc.setDocumentFilter(documentFilterList);
 
