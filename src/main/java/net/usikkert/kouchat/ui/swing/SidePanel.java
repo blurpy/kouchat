@@ -95,12 +95,15 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      *
      * @param buttonP The button panel.
      * @param imageLoader The image loader.
+     * @param settings The settings to use.
      */
-    public SidePanel(final ButtonPanel buttonP, final ImageLoader imageLoader) {
+    public SidePanel(final ButtonPanel buttonP, final ImageLoader imageLoader, final Settings settings) {
         Validate.notNull(buttonP, "Button panel can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
+        Validate.notNull(settings, "Settings can not be null");
 
         this.buttonP = buttonP;
+        this.settings = settings;
 
         setLayout(new BorderLayout(2, 2));
 
@@ -132,7 +135,6 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 
         setPreferredSize(new Dimension(114, 0));
 
-        settings = Settings.getSettings();
         me = settings.getMe();
     }
 
