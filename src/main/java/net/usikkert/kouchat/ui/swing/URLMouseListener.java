@@ -33,6 +33,8 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import net.usikkert.kouchat.misc.Settings;
+
 /**
  * This listener adds support for opening a url in a browser
  * by clicking on a link. The mouse cursor will also change when
@@ -153,7 +155,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override
                         public void run() {
-                            UITools.browse(url);
+                            UITools.browse(url, Settings.getSettings());
                         }
                     });
                 }

@@ -266,7 +266,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
             mediator.transferCancelled(this);
         } else if (event.getSource() == openB) {
             final File folder = fileTransfer.getFile().getParentFile();
-            UITools.open(folder);
+            UITools.open(folder, settings);
         }
     }
 

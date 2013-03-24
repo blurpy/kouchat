@@ -49,6 +49,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This is a collection of practical and reusable methods
@@ -60,7 +61,6 @@ public final class UITools {
 
     private static final Logger LOG = Logger.getLogger(UITools.class.getName());
     private static final ErrorHandler ERRORHANDLER = ErrorHandler.getErrorHandler();
-    private static final Settings SETTINGS = Settings.getSettings();
 
     /**
      * Private constructor. Only static methods here.
@@ -75,9 +75,13 @@ public final class UITools {
      * is tried.
      *
      * @param url The url to open in the browser.
+     * @param settings The settings to use.
      */
-    public static void browse(final String url) {
-        final String browser = SETTINGS.getBrowser();
+    public static void browse(final String url, final Settings settings) {
+        Validate.notEmpty(url, "Url can not be empty");
+        Validate.notNull(settings, "Settings can not be null");
+
+        final String browser = settings.getBrowser();
 
         // The default is to use the browser in the settings.
         if (browser != null && browser.trim().length() > 0) {
@@ -118,11 +122,15 @@ public final class UITools {
     /**
      * Opens a file in the registered application for the file type.
      *
-     * <p>If this fails, {@link #browse(String)} is used as a fallback.</p>
+     * <p>If this fails, {@link #browse(String, Settings)} is used as a fallback.</p>
      *
      * @param file A file or directory to open.
+     * @param settings The settings to use.
      */
-    public static void open(final File file) {
+    public static void open(final File file, final Settings settings) {
+        Validate.notNull(file, "File can not be null");
+        Validate.notNull(settings, "Settings can not be null");
+
         boolean desktopOpenSuccess = false;
 
         if (isDesktopActionSupported(Action.OPEN)) {
@@ -137,7 +145,7 @@ public final class UITools {
         }
 
         if (!desktopOpenSuccess) {
-            browse(file.getAbsolutePath());
+            browse(file.getAbsolutePath(), settings);
         }
     }
 
