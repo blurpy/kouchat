@@ -60,13 +60,16 @@ public class SmileyDocumentFilter extends DocumentFilter {
      *
      * @param standAlone If this is the only document filter used.
      * @param imageLoader The image loader.
+     * @param settings The settings to use.
      */
-    public SmileyDocumentFilter(final boolean standAlone, final ImageLoader imageLoader) {
+    public SmileyDocumentFilter(final boolean standAlone, final ImageLoader imageLoader, final Settings settings) {
         Validate.notNull(imageLoader, "Image loader can not be null");
+        Validate.notNull(settings, "Settings can not be null");
 
         this.standAlone = standAlone;
+        this.settings = settings;
+
         smileyMap = new SmileyMap(imageLoader);
-        settings = Settings.getSettings();
     }
 
     /**

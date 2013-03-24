@@ -23,8 +23,11 @@
 package net.usikkert.kouchat.ui.swing;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import javax.swing.ImageIcon;
+
+import net.usikkert.kouchat.misc.Settings;
 
 import org.junit.Test;
 
@@ -35,9 +38,6 @@ import org.junit.Test;
  */
 public class SmileyDocumentFilterTest {
 
-    /** The image loader. */
-    private final ImageLoader imageLoader;
-
     /** The smiley filter being tested. */
     private final SmileyDocumentFilter filter;
 
@@ -45,8 +45,8 @@ public class SmileyDocumentFilterTest {
      * Constructor.
      */
     public SmileyDocumentFilterTest() {
-        imageLoader = new ImageLoader();
-        filter = new SmileyDocumentFilter(true, imageLoader);
+        final ImageLoader imageLoader = new ImageLoader();
+        filter = new SmileyDocumentFilter(true, imageLoader, mock(Settings.class));
     }
 
     /**

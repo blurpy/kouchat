@@ -141,7 +141,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 
         final DocumentFilterList documentFilterList = new DocumentFilterList();
         documentFilterList.addDocumentFilter(new URLDocumentFilter(false));
-        documentFilterList.addDocumentFilter(new SmileyDocumentFilter(false, imageLoader));
+        documentFilterList.addDocumentFilter(new SmileyDocumentFilter(false, imageLoader, settings));
         final AbstractDocument doc = (AbstractDocument) chatDoc;
         doc.setDocumentFilter(documentFilterList);
 

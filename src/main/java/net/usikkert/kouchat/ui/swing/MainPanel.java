@@ -54,6 +54,7 @@ import javax.swing.text.StyledDocument;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.autocomplete.AutoCompleter;
 import net.usikkert.kouchat.misc.CommandHistory;
+import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.ui.ChatWindow;
 import net.usikkert.kouchat.util.Validate;
 
@@ -109,7 +110,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
 
         final DocumentFilterList documentFilterList = new DocumentFilterList();
         documentFilterList.addDocumentFilter(new URLDocumentFilter(false));
-        documentFilterList.addDocumentFilter(new SmileyDocumentFilter(false, imageLoader));
+        documentFilterList.addDocumentFilter(new SmileyDocumentFilter(false, imageLoader, Settings.getSettings()));
         final AbstractDocument doc = (AbstractDocument) chatDoc;
         doc.setDocumentFilter(documentFilterList);
 
