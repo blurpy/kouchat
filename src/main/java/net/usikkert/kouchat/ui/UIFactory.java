@@ -29,6 +29,7 @@ import javax.swing.SwingUtilities;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.ui.console.KouChatConsole;
 import net.usikkert.kouchat.ui.swing.KouChatFrame;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This factory decides which User Interface to load.
@@ -37,7 +38,14 @@ import net.usikkert.kouchat.ui.swing.KouChatFrame;
  */
 public class UIFactory {
 
+    private final Settings settings;
+
     private boolean done;
+
+    public UIFactory(final Settings settings) {
+        Validate.notNull(settings, "Settings can not be null");
+        this.settings = settings;
+    }
 
     /**
      * Loads the User Interface matching the ui argument.
@@ -64,7 +72,7 @@ public class UIFactory {
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override
                         public void run() {
-                            new KouChatFrame(Settings.getSettings());
+                            new KouChatFrame(settings);
                         }
                     });
 
@@ -73,7 +81,7 @@ public class UIFactory {
             }
 
             else if (choice == UIChoice.CONSOLE) {
-                new KouChatConsole(Settings.getSettings());
+                new KouChatConsole(settings);
                 done = true;
             }
 
