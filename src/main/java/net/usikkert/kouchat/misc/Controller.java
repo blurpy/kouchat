@@ -108,7 +108,7 @@ public class Controller implements NetworkConnectionListener {
         idleThread = new IdleThread(this, ui, settings);
         networkService = new NetworkService();
         final MessageResponder msgResponder = new DefaultMessageResponder(this, ui, settings);
-        final PrivateMessageResponder privmsgResponder = new DefaultPrivateMessageResponder(this, ui);
+        final PrivateMessageResponder privmsgResponder = new DefaultPrivateMessageResponder(this, ui, settings);
         final MessageParser msgParser = new MessageParser(msgResponder);
         networkService.registerMessageReceiverListener(msgParser);
         final PrivateMessageParser privmsgParser = new PrivateMessageParser(privmsgResponder);
