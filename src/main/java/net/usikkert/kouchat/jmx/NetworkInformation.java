@@ -43,14 +43,20 @@ public class NetworkInformation implements NetworkInformationMBean {
     /** Information and control of the network. */
     private final ConnectionWorker connectionWorker;
 
+    private final Settings settings;
+
     /**
      * Constructor.
      *
      * @param connectionWorker To get information about the network, and control the network.
+     * @param settings The settings to use.
      */
-    public NetworkInformation(final ConnectionWorker connectionWorker) {
+    public NetworkInformation(final ConnectionWorker connectionWorker, final Settings settings) {
         Validate.notNull(connectionWorker, "Connection worker can not be null");
+        Validate.notNull(settings, "Settings can not be null");
+
         this.connectionWorker = connectionWorker;
+        this.settings = settings;
     }
 
     /**
@@ -72,7 +78,7 @@ public class NetworkInformation implements NetworkInformationMBean {
      */
     @Override
     public String showOperatingSystemNetwork() {
-        final OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo(Settings.getSettings());
+        final OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo(settings);
         final NetworkInterface osInterface = osNicInfo.getOperatingSystemNetworkInterface();
 
         if (osInterface == null) {

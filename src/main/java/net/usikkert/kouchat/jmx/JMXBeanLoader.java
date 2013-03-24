@@ -61,7 +61,7 @@ public class JMXBeanLoader {
         Validate.notNull(settings, "Settings can not be null");
 
         jmxBeans = Arrays.asList(
-                new NetworkInformation(connectionWorker),
+                new NetworkInformation(connectionWorker, settings),
                 new ControllerInformation(controller),
                 new GeneralInformation(settings));
     }
