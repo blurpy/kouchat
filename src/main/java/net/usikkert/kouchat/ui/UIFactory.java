@@ -73,7 +73,7 @@ public class UIFactory {
             }
 
             else if (choice == UIChoice.CONSOLE) {
-                new KouChatConsole();
+                new KouChatConsole(Settings.getSettings());
                 done = true;
             }
 

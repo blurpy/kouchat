@@ -24,6 +24,7 @@ package net.usikkert.kouchat.ui.console;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * Loads KouChat in console mode.
@@ -35,10 +36,15 @@ public class KouChatConsole {
     /**
      * Default constructor. Initializes the User Interface and
      * the necessary services.
+     *
+     * @param settings The settings to use.
      */
-    public KouChatConsole() {
+    public KouChatConsole(final Settings settings) {
+        Validate.notNull(settings, "Settings can not be null");
+
         System.setProperty(Constants.PROPERTY_CLIENT_UI, "Console");
-        final ConsoleMediator mediator = new ConsoleMediator(Settings.getSettings());
+
+        final ConsoleMediator mediator = new ConsoleMediator(settings);
         mediator.start();
     }
 }
