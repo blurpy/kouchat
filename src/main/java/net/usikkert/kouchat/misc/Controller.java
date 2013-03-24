@@ -106,7 +106,7 @@ public class Controller implements NetworkConnectionListener {
         tList = new TransferList();
         wList = new WaitingList();
         idleThread = new IdleThread(this, ui, settings);
-        networkService = new NetworkService();
+        networkService = new NetworkService(settings);
         final MessageResponder msgResponder = new DefaultMessageResponder(this, ui, settings);
         final PrivateMessageResponder privmsgResponder = new DefaultPrivateMessageResponder(this, ui, settings);
         final MessageParser msgParser = new MessageParser(msgResponder, settings);
