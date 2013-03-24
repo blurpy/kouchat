@@ -48,6 +48,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyledDocument;
 
 import net.usikkert.kouchat.misc.ErrorHandler;
+import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -93,7 +94,7 @@ public class TextViewerDialog extends JDialog {
 
         // Enables the url support
         if (links) {
-            final URLMouseListener urlML = new URLMouseListener(viewerTP);
+            final URLMouseListener urlML = new URLMouseListener(viewerTP, Settings.getSettings());
             viewerTP.addMouseListener(urlML);
             viewerTP.addMouseMotionListener(urlML);
             final AbstractDocument doc = (AbstractDocument) viewerDoc;

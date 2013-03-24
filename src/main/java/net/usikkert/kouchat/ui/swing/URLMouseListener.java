@@ -34,6 +34,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This listener adds support for opening a url in a browser
@@ -47,14 +48,20 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
     private final Cursor handCursor;
     private final JTextPane textPane;
     private final StyledDocument doc;
+    private final Settings settings;
 
     /**
      * Constructor.
      *
      * @param textPane The text pane this listener is registered to.
+     * @param settings The settings to use.
      */
-    public URLMouseListener(final JTextPane textPane) {
+    public URLMouseListener(final JTextPane textPane, final Settings settings) {
+        Validate.notNull(textPane, "TextPane can not be null");
+        Validate.notNull(settings, "Settings can not be null");
+
         this.textPane = textPane;
+        this.settings = settings;
 
         doc = textPane.getStyledDocument();
         handCursor = new Cursor(Cursor.HAND_CURSOR);
@@ -155,7 +162,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override
                         public void run() {
-                            UITools.browse(url, Settings.getSettings());
+                            UITools.browse(url, settings);
                         }
                     });
                 }
