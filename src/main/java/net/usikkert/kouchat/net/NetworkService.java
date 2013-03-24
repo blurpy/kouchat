@@ -67,7 +67,7 @@ public class NetworkService implements NetworkConnectionListener {
 
         messageReceiver = new MessageReceiver();
         messageSender = new MessageSender();
-        connectionWorker = new ConnectionWorker();
+        connectionWorker = new ConnectionWorker(Settings.getSettings());
 
         if (privateChatEnabled) {
             udpReceiver = new UDPReceiver();
