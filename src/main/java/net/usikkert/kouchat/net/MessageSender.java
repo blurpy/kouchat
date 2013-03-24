@@ -53,9 +53,6 @@ public class MessageSender {
     /** If connected to the network or not. */
     private boolean connected;
 
-    /** The error handler for registering important messages. */
-    private final ErrorHandler errorHandler;
-
     /** The port to send messages to. */
     private final int port;
 
@@ -83,7 +80,6 @@ public class MessageSender {
         LOG.fine("Creating MessageSender on " + ipAddress + ":" + port);
 
         this.port = port;
-        errorHandler = ErrorHandler.getErrorHandler();
 
         try {
             address = InetAddress.getByName(ipAddress);
@@ -91,8 +87,11 @@ public class MessageSender {
 
         catch (final IOException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
+
+            final ErrorHandler errorHandler = ErrorHandler.getErrorHandler();
             errorHandler.showCriticalError("Failed to initialize the network:\n" + e + "\n" +
                     Constants.APP_NAME + " will now shutdown.");
+
             System.exit(1);
         }
     }

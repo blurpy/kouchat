@@ -54,9 +54,6 @@ public class UDPReceiver implements Runnable {
     /** If connected to the network or not. */
     private boolean connected;
 
-    /** The background thread watching for messages from the network. */
-    private Thread worker;
-
     /** The error handler for registering important messages. */
     private final ErrorHandler errorHandler;
 
@@ -124,8 +121,11 @@ public class UDPReceiver implements Runnable {
                 try {
                     udpSocket = new DatagramSocket(port);
                     connected = true;
-                    worker = new Thread(this, "UDPReceiverWorker");
+
+                    // The background thread watching for messages from the network.
+                    final Thread worker = new Thread(this, "UDPReceiverWorker");
                     worker.start();
+
                     me.setPrivateChatPort(port);
                     LOG.log(Level.FINE, "Connected to port " + port);
                 }

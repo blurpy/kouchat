@@ -90,7 +90,6 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
     private final CommandHistory cmdHistory;
     private final Mediator mediator;
     private final User me, user;
-    private final FileTransferHandler fileTransferHandler;
 
     /** The icons to use for the window frame. */
     private final StatusIcons statusIcons;
@@ -120,7 +119,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
         setIconImage(statusIcons.getNormalIcon());
         updateUserInformation();
 
-        fileTransferHandler = new FileTransferHandler(this);
+        final FileTransferHandler fileTransferHandler = new FileTransferHandler(this);
         fileTransferHandler.setMediator(mediator);
 
         chatAttr = new SimpleAttributeSet();

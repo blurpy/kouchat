@@ -55,7 +55,6 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class SwingMediator implements Mediator, UserInterface {
 
-    private final SidePanel sideP;
     private final SettingsDialog settingsDialog;
     private final KouChatFrame gui;
     private final MainPanel mainP;
@@ -64,7 +63,6 @@ public class SwingMediator implements Mediator, UserInterface {
     private final ButtonPanel buttonP;
 
     private final Controller controller;
-    private final Settings settings;
     private final User me;
     private final CommandParser cmdParser;
     private final SoundBeeper beeper;
@@ -87,8 +85,7 @@ public class SwingMediator implements Mediator, UserInterface {
         compHandler.validate();
 
         this.imageLoader = imageLoader;
-        this.settings = settings;
-        sideP = compHandler.getSidePanel();
+        final SidePanel sideP = compHandler.getSidePanel();
         settingsDialog = compHandler.getSettingsDialog();
         gui = compHandler.getGui();
         mainP = compHandler.getMainPanel();
