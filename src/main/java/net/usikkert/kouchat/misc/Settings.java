@@ -39,7 +39,7 @@ import net.usikkert.kouchat.event.SettingsListener;
 import net.usikkert.kouchat.util.Tools;
 
 /**
- * This is a singleton class that loads and saves the application settings to file.
+ * This is a class that loads and saves the application settings to file.
  *
  * <p>These settings are persisted:</p>
  *
@@ -48,11 +48,12 @@ import net.usikkert.kouchat.util.Tools;
  *   <li>Browser</li>
  *   <li>Enable sound</li>
  *   <li>Enable logging</li>
- *   <li>Enable debug</li>
+ *   <li>Enable balloons</li>
  *   <li>Enable smileys</li>
  *   <li>Own message color</li>
  *   <li>System message color</li>
  *   <li>Chosen look and feel</li>
+ *   <li>Chosen network interface</li>
  * </ul>
  *
  * @author Christian Ihle
@@ -64,9 +65,6 @@ public class Settings {
 
     /** The path to the file storing the settings. */
     private static final String FILENAME = Constants.APP_FOLDER + "kouchat.ini";
-
-    /** The single instance of this class. */
-    private static final Settings SETTINGS = new Settings();
 
     /** A list of listeners. These listeners are notified when a setting is changed. */
     private final List<SettingsListener> listeners;
@@ -174,15 +172,6 @@ public class Settings {
         }
 
         return Integer.toString(code);
-    }
-
-    /**
-     * Static method to get the single instance of this class.
-     *
-     * @return The settings instance.
-     */
-    public static Settings getSettings() {
-        return SETTINGS;
     }
 
     private void loadArgumentSettings() {
