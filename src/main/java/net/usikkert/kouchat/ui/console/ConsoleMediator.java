@@ -52,7 +52,7 @@ public class ConsoleMediator implements UserInterface {
      */
     public ConsoleMediator() {
         final ConsoleChatWindow chat = new ConsoleChatWindow();
-        msgController = new MessageController(chat, this);
+        msgController = new MessageController(chat, this, Settings.getSettings());
         controller = new Controller(this, Settings.getSettings());
         new JMXAgent(controller.createJMXBeanLoader());
 
