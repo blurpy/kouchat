@@ -68,8 +68,8 @@ public class SwingMediator implements Mediator, UserInterface {
     private final SoundBeeper beeper;
     private final MessageController msgController;
 
-    /** The image loader. */
     private final ImageLoader imageLoader;
+    private final Settings settings;
 
     /**
      * Constructor. Initializes the lower layers.
@@ -85,6 +85,8 @@ public class SwingMediator implements Mediator, UserInterface {
         compHandler.validate();
 
         this.imageLoader = imageLoader;
+        this.settings = settings;
+
         final SidePanel sideP = compHandler.getSidePanel();
         settingsDialog = compHandler.getSettingsDialog();
         gui = compHandler.getGui();
@@ -97,7 +99,7 @@ public class SwingMediator implements Mediator, UserInterface {
         controller = new Controller(this, settings);
         new JMXAgent(controller.createJMXBeanLoader());
         me = settings.getMe();
-        cmdParser = new CommandParser(controller, this, Settings.getSettings());
+        cmdParser = new CommandParser(controller, this, settings);
         beeper = new SoundBeeper(settings);
 
         sideP.setUserList(controller.getUserList());
@@ -780,7 +782,7 @@ public class SwingMediator implements Mediator, UserInterface {
             UITools.invokeAndWait(new Runnable() {
                 @Override
                 public void run() {
-                    user.setPrivchat(new PrivateChatFrame(SwingMediator.this, user, imageLoader));
+                    user.setPrivchat(new PrivateChatFrame(SwingMediator.this, user, imageLoader, settings));
                 }
             });
         }

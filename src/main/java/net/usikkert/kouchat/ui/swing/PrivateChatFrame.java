@@ -100,17 +100,20 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * @param mediator The mediator to command.
      * @param user The user in the private chat.
      * @param imageLoader The image loader.
+     * @param settings The settings to use.
      */
-    public PrivateChatFrame(final Mediator mediator, final User user, final ImageLoader imageLoader) {
+    public PrivateChatFrame(final Mediator mediator, final User user, final ImageLoader imageLoader,
+                            final Settings settings) {
         Validate.notNull(mediator, "Mediator can not be null");
         Validate.notNull(user, "User can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
+        Validate.notNull(settings, "Settings can not be null");
 
         this.mediator = mediator;
         this.user = user;
 
         statusIcons = new StatusIcons(imageLoader);
-        me = Settings.getSettings().getMe();
+        me = settings.getMe();
         user.setPrivchat(this);
 
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
