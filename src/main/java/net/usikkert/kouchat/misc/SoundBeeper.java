@@ -35,6 +35,8 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import net.usikkert.kouchat.util.Validate;
+
 /**
  * Can load an audio file, and play it.
  *
@@ -64,9 +66,13 @@ public class SoundBeeper {
 
     /**
      * Default constructor.
+     *
+     * @param settings The settings to use.
      */
-    public SoundBeeper() {
-        settings = Settings.getSettings();
+    public SoundBeeper(final Settings settings) {
+        Validate.notNull(settings, "Settings can not be null");
+
+        this.settings = settings;
         errorHandler = ErrorHandler.getErrorHandler();
     }
 
