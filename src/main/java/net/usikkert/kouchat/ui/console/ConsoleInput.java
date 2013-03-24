@@ -34,6 +34,7 @@ import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.ui.UserInterface;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * Contains the main input loop for the console mode.
@@ -62,14 +63,19 @@ public class ConsoleInput extends Thread {
      *
      * @param controller The controller to use.
      * @param ui The user interface to send messages to.
+     * @param settings The settings to use.
      */
-    public ConsoleInput(final Controller controller, final UserInterface ui) {
+    public ConsoleInput(final Controller controller, final UserInterface ui, final Settings settings) {
+        Validate.notNull(controller, "Controller can not be null");
+        Validate.notNull(ui, "UserInterface can not be null");
+        Validate.notNull(settings, "Settings can not be null");
+
         this.controller = controller;
 
         setName("ConsoleInputThread");
         msgController = ui.getMessageController();
         stdin = new BufferedReader(new InputStreamReader(System.in));
-        cmdParser = new CommandParser(controller, ui, Settings.getSettings());
+        cmdParser = new CommandParser(controller, ui, settings);
 
         Runtime.getRuntime().addShutdownHook(new Thread("ConsoleInputShutdownHook") {
             @Override

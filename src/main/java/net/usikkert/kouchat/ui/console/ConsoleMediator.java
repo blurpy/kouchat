@@ -62,7 +62,7 @@ public class ConsoleMediator implements UserInterface {
         controller = new Controller(this, settings);
         new JMXAgent(controller.createJMXBeanLoader());
 
-        final ConsoleInput ci = new ConsoleInput(controller, this);
+        final ConsoleInput ci = new ConsoleInput(controller, this, settings);
         ci.start();
     }
 
