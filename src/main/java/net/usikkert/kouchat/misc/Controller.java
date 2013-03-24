@@ -70,10 +70,6 @@ public class Controller implements NetworkConnectionListener {
     private final UserListController userListController;
     private final NetworkService networkService;
     private final Messages messages;
-    private final MessageParser msgParser;
-    private final PrivateMessageParser privmsgParser;
-    private final MessageResponder msgResponder;
-    private final PrivateMessageResponder privmsgResponder;
     private final IdleThread idleThread;
     private final TransferList tList;
     private final WaitingList wList;
@@ -105,17 +101,17 @@ public class Controller implements NetworkConnectionListener {
         });
 
         me = settings.getMe();
-        userListController = new UserListController();
+        userListController = new UserListController(settings);
         chatState = new ChatState();
         tList = new TransferList();
         wList = new WaitingList();
         idleThread = new IdleThread(this, ui, settings);
         networkService = new NetworkService();
-        msgResponder = new DefaultMessageResponder(this, ui);
-        privmsgResponder = new DefaultPrivateMessageResponder(this, ui);
-        msgParser = new MessageParser(msgResponder);
+        final MessageResponder msgResponder = new DefaultMessageResponder(this, ui);
+        final PrivateMessageResponder privmsgResponder = new DefaultPrivateMessageResponder(this, ui);
+        final MessageParser msgParser = new MessageParser(msgResponder);
         networkService.registerMessageReceiverListener(msgParser);
-        privmsgParser = new PrivateMessageParser(privmsgResponder);
+        final PrivateMessageParser privmsgParser = new PrivateMessageParser(privmsgResponder);
         networkService.registerUDPReceiverListener(privmsgParser);
         messages = new Messages(networkService, settings);
         networkService.registerNetworkConnectionListener(this);
