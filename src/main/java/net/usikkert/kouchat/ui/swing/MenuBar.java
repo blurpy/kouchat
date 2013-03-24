@@ -33,6 +33,7 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -233,7 +234,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 public void run() {
                     if (faqViewer == null) {
                         faqViewer = new TextViewerDialog(Constants.FILE_FAQ,
-                                "Frequently Asked Questions", true, imageLoader);
+                                "Frequently Asked Questions", true, imageLoader, Settings.getSettings());
                     }
 
                     faqViewer.setVisible(true);
@@ -248,7 +249,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 public void run() {
                     if (tipsViewer == null) {
                         tipsViewer = new TextViewerDialog(Constants.FILE_TIPS,
-                                "Tips & tricks", false, imageLoader);
+                                "Tips & tricks", false, imageLoader, Settings.getSettings());
                     }
 
                     tipsViewer.setVisible(true);
@@ -263,7 +264,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 public void run() {
                     if (licenseViewer == null) {
                         licenseViewer = new TextViewerDialog(Constants.FILE_LICENSE,
-                                Constants.APP_LICENSE_NAME, false, imageLoader);
+                                Constants.APP_LICENSE_NAME, false, imageLoader, Settings.getSettings());
                     }
 
                     licenseViewer.setVisible(true);

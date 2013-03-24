@@ -78,11 +78,14 @@ public class TextViewerDialog extends JDialog {
      * @param title The title to use for the dialog window.
      * @param links True to enabled support for opening urls by clicking on them.
      * @param imageLoader The image loader.
+     * @param settings The settings to use.
      */
-    public TextViewerDialog(final String textFile, final String title, final boolean links, final ImageLoader imageLoader) {
-        Validate.notNull(textFile, "Text file can not be null");
-        Validate.notNull(title, "Title can not be null");
+    public TextViewerDialog(final String textFile, final String title, final boolean links,
+                            final ImageLoader imageLoader, final Settings settings) {
+        Validate.notEmpty(textFile, "Text file can not be empty");
+        Validate.notEmpty(title, "Title can not be empty");
         Validate.notNull(imageLoader, "Image loader can not be null");
+        Validate.notNull(settings, "Settings can not be null");
 
         this.textFile = textFile;
         errorHandler = ErrorHandler.getErrorHandler();
@@ -94,7 +97,7 @@ public class TextViewerDialog extends JDialog {
 
         // Enables the url support
         if (links) {
-            final URLMouseListener urlML = new URLMouseListener(viewerTP, Settings.getSettings());
+            final URLMouseListener urlML = new URLMouseListener(viewerTP, settings);
             viewerTP.addMouseListener(urlML);
             viewerTP.addMouseMotionListener(urlML);
             final AbstractDocument doc = (AbstractDocument) viewerDoc;
