@@ -179,6 +179,26 @@ public class Controller implements NetworkConnectionListener {
     }
 
     /**
+     * Updates whether the user is currently writing or not. This makes sure a star is shown
+     * by the nick name in the user list, and sends a notice to other users so they can show the same thing.
+     *
+     * @param isCurrentlyWriting If the application user is currently writing.
+     */
+    public void updateMeWriting(final boolean isCurrentlyWriting) {
+        if (isCurrentlyWriting) {
+            if (!isWrote()) {
+                changeWriting(me.getCode(), true);
+            }
+        }
+
+        else {
+            if (isWrote()) {
+                changeWriting(me.getCode(), false);
+            }
+        }
+    }
+
+    /**
      * Updates the away status and the away message for the user.
      *
      * @param code The user code for the user to update.

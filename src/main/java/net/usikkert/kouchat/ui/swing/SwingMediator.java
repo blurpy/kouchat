@@ -426,17 +426,7 @@ public class SwingMediator implements Mediator, UserInterface {
      */
     @Override
     public void updateWriting() {
-        if (mainP.getMsgTF().getText().length() > 0) {
-            if (!controller.isWrote()) {
-                controller.changeWriting(me.getCode(), true);
-            }
-        }
-
-        else {
-            if (controller.isWrote()) {
-                controller.changeWriting(me.getCode(), false);
-            }
-        }
+        controller.updateMeWriting(!mainP.getMsgTF().getText().isEmpty());
     }
 
     /**
