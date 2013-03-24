@@ -79,9 +79,13 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      * Constructor. Activates the system tray icon if it's supported.
      *
      * @param imageLoader The image loader.
+     * @param settings The settings to use.
      */
-    public SysTray(final ImageLoader imageLoader) {
+    public SysTray(final ImageLoader imageLoader, final Settings settings) {
         Validate.notNull(imageLoader, "Image loader can not be null");
+        Validate.notNull(settings, "Settings can not be null");
+
+        this.settings = settings;
 
         if (SystemTray.isSupported()) {
             final PopupMenu menu = new PopupMenu();
@@ -119,8 +123,6 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
         else {
             LOG.log(Level.SEVERE, "System Tray is not supported. Deactivating System Tray support.");
         }
-
-        settings = Settings.getSettings();
     }
 
     /**
