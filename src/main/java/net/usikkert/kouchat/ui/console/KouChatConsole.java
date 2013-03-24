@@ -23,6 +23,7 @@
 package net.usikkert.kouchat.ui.console;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.misc.Settings;
 
 /**
  * Loads KouChat in console mode.
@@ -37,7 +38,7 @@ public class KouChatConsole {
      */
     public KouChatConsole() {
         System.setProperty(Constants.PROPERTY_CLIENT_UI, "Console");
-        final ConsoleMediator mediator = new ConsoleMediator();
+        final ConsoleMediator mediator = new ConsoleMediator(Settings.getSettings());
         mediator.start();
     }
 }

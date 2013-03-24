@@ -32,6 +32,7 @@ import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.ui.UserInterface;
 import net.usikkert.kouchat.util.Tools;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This class is the binding between the controller and the console ui.
@@ -48,12 +49,17 @@ public class ConsoleMediator implements UserInterface {
 
     /**
      * Constructor.
+     *
      * Initializes the lower layers, and starts the input loop thread.
+     *
+     * @param settings The settings to use.
      */
-    public ConsoleMediator() {
+    public ConsoleMediator(final Settings settings) {
+        Validate.notNull(settings, "Settings can not be null");
+
         final ConsoleChatWindow chat = new ConsoleChatWindow();
-        msgController = new MessageController(chat, this, Settings.getSettings());
-        controller = new Controller(this, Settings.getSettings());
+        msgController = new MessageController(chat, this, settings);
+        controller = new Controller(this, settings);
         new JMXAgent(controller.createJMXBeanLoader());
 
         final ConsoleInput ci = new ConsoleInput(controller, this);
