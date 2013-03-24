@@ -22,9 +22,14 @@
 
 package net.usikkert.kouchat.ui.swing;
 
+import static org.mockito.Mockito.*;
+
+import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.FileTransfer.Direction;
 import net.usikkert.kouchat.net.MockFileTransfer;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -34,8 +39,19 @@ import org.junit.Test;
  */
 public class TransferDialogTest {
 
-    /** The image loader. */
-    private final ImageLoader imageLoader = new ImageLoader();
+    private ImageLoader imageLoader;
+    private Settings settings;
+
+    @Before
+    public void setUp() {
+        final User me = new User("Me", 123);
+        me.setIpAddress("192.168.1.2");
+
+        settings = mock(Settings.class);
+        when(settings.getMe()).thenReturn(me);
+
+        imageLoader = new ImageLoader();
+    }
 
     /**
      * Creates a {@link TransferDialog} for receiving a file,
@@ -48,7 +64,7 @@ public class TransferDialogTest {
         final MockMediator mediator = new MockMediator();
         final MockFileTransfer fileTransfer = new MockFileTransfer(Direction.RECEIVE);
 
-        new TransferDialog(mediator, fileTransfer, imageLoader);
+        new TransferDialog(mediator, fileTransfer, imageLoader, settings);
 
         // Returns true when the close button is clicked
         while (!mediator.isClose()) {
@@ -67,7 +83,7 @@ public class TransferDialogTest {
         final MockMediator mediator = new MockMediator();
         final MockFileTransfer fileTransfer = new MockFileTransfer(Direction.SEND);
 
-        new TransferDialog(mediator, fileTransfer, imageLoader);
+        new TransferDialog(mediator, fileTransfer, imageLoader, settings);
 
         // Returns true when the close button is clicked
         while (!mediator.isClose()) {

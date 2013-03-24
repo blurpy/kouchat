@@ -87,6 +87,8 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
     /** The mediator. */
     private final Mediator mediator;
 
+    private final Settings settings;
+
     /**
      * Constructor. Initializes components and registers this dialog
      * as a listener on the file transfer object.
@@ -94,14 +96,18 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      * @param mediator The mediator.
      * @param fileTransfer The file transfer object this dialog is showing the state of.
      * @param imageLoader The image loader.
+     * @param settings The settings to use.
      */
-    public TransferDialog(final Mediator mediator, final FileTransfer fileTransfer, final ImageLoader imageLoader) {
+    public TransferDialog(final Mediator mediator, final FileTransfer fileTransfer, final ImageLoader imageLoader,
+                          final Settings settings) {
         Validate.notNull(mediator, "Mediator can not be null");
         Validate.notNull(fileTransfer, "File transfer can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
+        Validate.notNull(settings, "Settings can not be null");
 
         this.mediator = mediator;
         this.fileTransfer = fileTransfer;
+        this.settings = settings;
 
         cancelB = new JButton("Cancel");
         cancelB.addActionListener(this);
@@ -354,7 +360,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                final User me = Settings.getSettings().getMe();
+                final User me = settings.getMe();
                 final User other = fileTransfer.getUser();
 
                 statusL.setText("Waiting...");

@@ -704,7 +704,7 @@ public class SwingMediator implements Mediator, UserInterface {
         UITools.invokeAndWait(new Runnable() {
             @Override
             public void run() {
-                new TransferDialog(SwingMediator.this, fileRes, imageLoader);
+                new TransferDialog(SwingMediator.this, fileRes, imageLoader, settings);
             }
         });
     }
@@ -716,7 +716,7 @@ public class SwingMediator implements Mediator, UserInterface {
      */
     @Override
     public void showTransfer(final FileSender fileSend) {
-        new TransferDialog(this, fileSend, imageLoader);
+        new TransferDialog(this, fileSend, imageLoader, settings);
     }
 
     /**
