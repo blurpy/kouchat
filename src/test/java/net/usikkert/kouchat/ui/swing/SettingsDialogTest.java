@@ -24,6 +24,8 @@ package net.usikkert.kouchat.ui.swing;
 
 import static org.mockito.Mockito.*;
 
+import net.usikkert.kouchat.misc.Settings;
+
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -37,7 +39,7 @@ public class SettingsDialogTest {
     @Test
     @Ignore("Run manually to see the settings dialog")
     public void showSettings() {
-        final SettingsDialog settingsDialog = new SettingsDialog(new ImageLoader());
+        final SettingsDialog settingsDialog = new SettingsDialog(new ImageLoader(), new Settings());
 
         final Mediator mediator = mock(Mediator.class);
         when(mediator.changeNick(anyString())).thenReturn(true);

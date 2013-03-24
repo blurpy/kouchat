@@ -93,11 +93,13 @@ public class SettingsDialog extends JDialog implements ActionListener {
      * Constructor. Creates the dialog.
      *
      * @param imageLoader The image loader.
+     * @param settings The settings to use.
      */
-    public SettingsDialog(final ImageLoader imageLoader) {
+    public SettingsDialog(final ImageLoader imageLoader, final Settings settings) {
         Validate.notNull(imageLoader, "Image loader can not be null");
+        Validate.notNull(settings, "Settings can not be null");
 
-        settings = Settings.getSettings();
+        this.settings = settings;
 
         final JLabel nickL = new JLabel("Nick:");
         nickTF = new JTextField(10);

@@ -85,6 +85,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * Constructor.
      *
      * Initializes all components, shows the window, and starts the network.
+     *
      * @param settings The settings to use.
      */
     public KouChatFrame(final Settings settings) {
@@ -103,7 +104,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
         sideP = new SidePanel(buttonP, imageLoader);
         mainP = new MainPanel(sideP, imageLoader);
         final SysTray sysTray = new SysTray(imageLoader, settings);
-        final SettingsDialog settingsDialog = new SettingsDialog(imageLoader);
+        final SettingsDialog settingsDialog = new SettingsDialog(imageLoader, settings);
         menuBar = new MenuBar(imageLoader);
 
         final ComponentHandler compHandler = new ComponentHandler();
