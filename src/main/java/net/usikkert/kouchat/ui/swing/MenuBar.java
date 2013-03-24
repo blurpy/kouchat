@@ -51,6 +51,8 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private final JMenuItem clearMI, awayMI, topicMI, settingsMI;
     private final JMenuItem aboutMI, commandsMI, faqMI, licenseMI, tipsMI;
     private final ImageLoader imageLoader;
+    private final Settings settings;
+
     private Mediator mediator;
     private TextViewerDialog faqViewer, licenseViewer, tipsViewer;
 
@@ -58,10 +60,14 @@ public class MenuBar extends JMenuBar implements ActionListener {
      * Constructor. Creates the menubar.
      *
      * @param imageLoader The image loader.
+     * @param settings The settings to use.
      */
-    public MenuBar(final ImageLoader imageLoader) {
+    public MenuBar(final ImageLoader imageLoader, final Settings settings) {
         Validate.notNull(imageLoader, "Image loader can not be null");
+        Validate.notNull(settings, "Settings can not be null");
+
         this.imageLoader = imageLoader;
+        this.settings = settings;
 
         fileMenu = new JMenu("File");
         fileMenu.setMnemonic('F');
@@ -234,7 +240,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 public void run() {
                     if (faqViewer == null) {
                         faqViewer = new TextViewerDialog(Constants.FILE_FAQ,
-                                "Frequently Asked Questions", true, imageLoader, Settings.getSettings());
+                                "Frequently Asked Questions", true, imageLoader, settings);
                     }
 
                     faqViewer.setVisible(true);
@@ -249,7 +255,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 public void run() {
                     if (tipsViewer == null) {
                         tipsViewer = new TextViewerDialog(Constants.FILE_TIPS,
-                                "Tips & tricks", false, imageLoader, Settings.getSettings());
+                                "Tips & tricks", false, imageLoader, settings);
                     }
 
                     tipsViewer.setVisible(true);
@@ -264,7 +270,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 public void run() {
                     if (licenseViewer == null) {
                         licenseViewer = new TextViewerDialog(Constants.FILE_LICENSE,
-                                Constants.APP_LICENSE_NAME, false, imageLoader, Settings.getSettings());
+                                Constants.APP_LICENSE_NAME, false, imageLoader, settings);
                     }
 
                     licenseViewer.setVisible(true);
