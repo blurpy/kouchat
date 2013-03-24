@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.net.ConnectionWorker;
 import net.usikkert.kouchat.net.NetworkUtils;
 import net.usikkert.kouchat.net.OperatingSystemNetworkInfo;
@@ -71,7 +72,7 @@ public class NetworkInformation implements NetworkInformationMBean {
      */
     @Override
     public String showOperatingSystemNetwork() {
-        final OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo();
+        final OperatingSystemNetworkInfo osNicInfo = new OperatingSystemNetworkInfo(Settings.getSettings());
         final NetworkInterface osInterface = osNicInfo.getOperatingSystemNetworkInterface();
 
         if (osInterface == null) {

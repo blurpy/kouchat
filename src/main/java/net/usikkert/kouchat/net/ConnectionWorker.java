@@ -84,7 +84,7 @@ public class ConnectionWorker implements Runnable {
         this.settings = settings;
 
         listeners = new ArrayList<NetworkConnectionListener>();
-        osNetworkInfo = new OperatingSystemNetworkInfo();
+        osNetworkInfo = new OperatingSystemNetworkInfo(settings);
     }
 
     /**
