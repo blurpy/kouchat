@@ -47,6 +47,8 @@ public class ConsoleMediator implements UserInterface {
     /** The controller, for access to lower layer functionality. */
     private final Controller controller;
 
+    private final Settings settings;
+
     /**
      * Constructor.
      *
@@ -56,6 +58,7 @@ public class ConsoleMediator implements UserInterface {
      */
     public ConsoleMediator(final Settings settings) {
         Validate.notNull(settings, "Settings can not be null");
+        this.settings = settings;
 
         final ConsoleChatWindow chat = new ConsoleChatWindow();
         msgController = new MessageController(chat, this, settings);
@@ -178,7 +181,7 @@ public class ConsoleMediator implements UserInterface {
         }
 
         if (user.getPrivateChatLogger() == null) {
-            user.setPrivateChatLogger(new ChatLogger(user.getNick()));
+            user.setPrivateChatLogger(new ChatLogger(user.getNick(), settings));
         }
     }
 
