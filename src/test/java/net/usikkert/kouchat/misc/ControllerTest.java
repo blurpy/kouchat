@@ -104,6 +104,33 @@ public class ControllerTest {
     }
 
     @Test
+    public void sendFileShouldThrowExceptionIfUserIsNull() throws CommandException {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("User can not be null");
+
+        controller.sendFile(null, mock(File.class));
+    }
+
+    @Test
+    public void sendFileShouldThrowExceptionIfFileIsNull() throws CommandException {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("File can not be null");
+
+        controller.sendFile(mock(User.class), null);
+    }
+
+    @Test
+    public void sendFileShouldThrowExceptionIfUserIsMe() throws CommandException {
+        expectedException.expect(CommandException.class);
+        expectedException.expectMessage("You can not send a file to yourself");
+
+        final User user = mock(User.class);
+        when(user.isMe()).thenReturn(true);
+
+        controller.sendFile(user, mock(File.class));
+    }
+
+    @Test
     public void sendFileShouldThrowExceptionIfNotConnected() throws CommandException {
         expectedException.expect(CommandException.class);
         expectedException.expectMessage("You can not send a file without being connected");
