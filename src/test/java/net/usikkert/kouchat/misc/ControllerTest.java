@@ -173,7 +173,7 @@ public class ControllerTest {
         when(networkService.isNetworkUp()).thenReturn(true);
         controller.getChatState().setLoggedOn(true);
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < 45; i++) {
             sb.append("1234567890");
