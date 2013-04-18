@@ -28,12 +28,12 @@ import net.usikkert.kouchat.event.UserListListener;
  * This is the interface used for keeping a list of the users
  * connected to the chat.
  *
- * <p>This is not a normal {@link List}, but the interface reminds of
+ * <p>This is not a normal {@link java.util.List}, but the interface reminds of
  * one, so it can be used like a normal list. The reason a normal
  * list is not used instead is because of the need to notify of changes
  * to the list.</p>
  *
- * <p>The {@link List} interface is not extended because all the methods
+ * <p>The {@link java.util.List} interface is not extended because all the methods
  * there are not needed.</p>
  *
  * @author Christian Ihle
@@ -63,15 +63,6 @@ public interface UserList {
      * @return The position, or -1 if not found.
      */
     int indexOf(User user);
-
-    /**
-     * Removes the user at the specified position from the list,
-     * and notifies with {@link UserListListener#userRemoved(int)}.
-     *
-     * @param pos The position of the user to remove.
-     * @return The user that was removed.
-     */
-    User remove(int pos);
 
     /**
      * Removes the specified user from the list,

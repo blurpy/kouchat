@@ -87,15 +87,6 @@ public class SortedUserList implements UserList {
 
     /** {@inheritDoc} */
     @Override
-    public User remove(final int pos) {
-        final User user = userList.remove(pos);
-        fireUserRemoved(pos);
-
-        return user;
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public boolean remove(final User user) {
         final int pos = userList.indexOf(user);
         final boolean success = userList.remove(user);
