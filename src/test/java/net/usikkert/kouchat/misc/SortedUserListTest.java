@@ -28,7 +28,6 @@ import static org.mockito.Mockito.*;
 import net.usikkert.kouchat.event.UserListListener;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -184,7 +183,6 @@ public class SortedUserListTest {
     }
 
     @Test
-    @Ignore("Not implemented yet")
     public void removeShouldNotNotifyListenersIfUserDoesNotExist() {
         userList.remove(annie);
 

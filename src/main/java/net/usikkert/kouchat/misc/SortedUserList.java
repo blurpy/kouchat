@@ -72,7 +72,9 @@ public class SortedUserList implements UserList {
         return success;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public User get(final int pos) {
         if (pos < userList.size()) {
@@ -82,7 +84,9 @@ public class SortedUserList implements UserList {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int indexOf(final User user) {
         Validate.notNull(user, "User can not be null");
@@ -90,14 +94,19 @@ public class SortedUserList implements UserList {
         return userList.indexOf(user);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean remove(final User user) {
         Validate.notNull(user, "User can not be null");
 
         final int pos = userList.indexOf(user);
         final boolean success = userList.remove(user);
-        fireUserRemoved(pos);
+
+        if (success) {
+            fireUserRemoved(pos);
+        }
 
         return success;
     }
@@ -118,13 +127,17 @@ public class SortedUserList implements UserList {
         return oldUser;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int size() {
         return userList.size();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addUserListListener(final UserListListener listener) {
         Validate.notNull(listener, "UserListListener can not be null");
@@ -132,7 +145,9 @@ public class SortedUserList implements UserList {
         listeners.add(listener);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removeUserListListener(final UserListListener listener) {
         Validate.notNull(listener, "UserListListener can not be null");
@@ -154,7 +169,7 @@ public class SortedUserList implements UserList {
     /**
      * Notifies the listeners that a user was changed.
      *
-     * @param pos The position of the changed user.
+     * @param pos The new position of the changed user.
      */
     private void fireUserChanged(final int pos) {
         for (final UserListListener listener : listeners) {
