@@ -29,7 +29,9 @@ import net.usikkert.kouchat.event.UserListListener;
 
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Test of {@link SortedUserList}.
@@ -37,6 +39,9 @@ import org.junit.Test;
  * @author Christian Ihle
  */
 public class SortedUserListTest {
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     private SortedUserList userList;
 
@@ -58,6 +63,14 @@ public class SortedUserListTest {
         john = new User("John", 2);
         lenny = new User("Lenny", 3);
         annie = new User("Annie", 4);
+    }
+
+    @Test
+    public void addShouldThrowExceptionIfUserIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("User can not be null");
+
+        userList.add(null);
     }
 
     @Test
@@ -114,6 +127,14 @@ public class SortedUserListTest {
     }
 
     @Test
+    public void indexOfShouldThrowExceptionIfUserIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("User can not be null");
+
+        userList.indexOf(null);
+    }
+
+    @Test
     public void indexOfShouldReturnCorrectIndexOfUserInList() {
         addAllUsers();
 
@@ -129,7 +150,15 @@ public class SortedUserListTest {
     }
 
     @Test
-    public void removeByObjectShouldReturnTrueAndRemoveTheCorrectUser() {
+    public void removeShouldThrowExceptionIfUserIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("User can not be null");
+
+        userList.remove(null);
+    }
+
+    @Test
+    public void removeShouldReturnTrueAndRemoveTheCorrectUser() {
         addAllUsers();
 
         assertEquals(4, userList.size());
@@ -141,7 +170,7 @@ public class SortedUserListTest {
     }
 
     @Test
-    public void removeByObjectShouldNotifyListeners() {
+    public void removeShouldNotifyListeners() {
         addAllUsers();
 
         userList.remove(john);
@@ -150,16 +179,32 @@ public class SortedUserListTest {
     }
 
     @Test
-    public void removeByObjectShouldReturnFalseIfUserDoesNotExist() {
+    public void removeShouldReturnFalseIfUserDoesNotExist() {
         assertFalse(userList.remove(annie));
     }
 
     @Test
     @Ignore("Not implemented yet")
-    public void removeByObjectShouldNotNotifyListenersIfUserDoesNotExist() {
+    public void removeShouldNotNotifyListenersIfUserDoesNotExist() {
         userList.remove(annie);
 
         verifyZeroInteractions(listener);
+    }
+
+    @Test
+    public void addUserListListenerShouldThrowExceptionIfListenerIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("UserListListener can not be null");
+
+        userList.addUserListListener(null);
+    }
+
+    @Test
+    public void removeUserListListenerShouldThrowExceptionIfListenerIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("UserListListener can not be null");
+
+        userList.removeUserListListener(null);
     }
 
     @Test
@@ -169,6 +214,14 @@ public class SortedUserListTest {
         addAllUsers();
 
         verifyZeroInteractions(listener);
+    }
+
+    @Test
+    public void setShouldThrowExceptionIfUserIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("User can not be null");
+
+        userList.set(0, null);
     }
 
     @Test

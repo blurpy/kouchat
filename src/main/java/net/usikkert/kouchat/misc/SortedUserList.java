@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.usikkert.kouchat.event.UserListListener;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This is a sorted version of the user list.
@@ -59,6 +60,8 @@ public class SortedUserList implements UserList {
      */
     @Override
     public boolean add(final User user) {
+        Validate.notNull(user, "User can not be null");
+
         final boolean success = userList.add(user);
 
         if (success) {
@@ -82,12 +85,16 @@ public class SortedUserList implements UserList {
     /** {@inheritDoc} */
     @Override
     public int indexOf(final User user) {
+        Validate.notNull(user, "User can not be null");
+
         return userList.indexOf(user);
     }
 
     /** {@inheritDoc} */
     @Override
     public boolean remove(final User user) {
+        Validate.notNull(user, "User can not be null");
+
         final int pos = userList.indexOf(user);
         final boolean success = userList.remove(user);
         fireUserRemoved(pos);
@@ -102,6 +109,8 @@ public class SortedUserList implements UserList {
      */
     @Override
     public User set(final int pos, final User user) {
+        Validate.notNull(user, "User can not be null");
+
         final User oldUser = userList.set(pos, user);
         Collections.sort(userList);
         fireUserChanged(userList.indexOf(user));
@@ -118,12 +127,16 @@ public class SortedUserList implements UserList {
     /** {@inheritDoc} */
     @Override
     public void addUserListListener(final UserListListener listener) {
+        Validate.notNull(listener, "UserListListener can not be null");
+
         listeners.add(listener);
     }
 
     /** {@inheritDoc} */
     @Override
     public void removeUserListListener(final UserListListener listener) {
+        Validate.notNull(listener, "UserListListener can not be null");
+
         listeners.remove(listener);
     }
 
