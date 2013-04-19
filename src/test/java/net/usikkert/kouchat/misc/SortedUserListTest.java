@@ -103,10 +103,10 @@ public class SortedUserListTest {
         userList.add(lenny);
         userList.add(niles);
 
-        verify(listener).userAdded(0);
-        verify(listener).userAdded(1);
-        verify(listener).userAdded(2);
-        verify(listener).userAdded(3);
+        verify(listener).userAdded(0, annie);
+        verify(listener).userAdded(1, john);
+        verify(listener).userAdded(2, lenny);
+        verify(listener).userAdded(3, niles);
     }
 
     @Test
@@ -116,7 +116,10 @@ public class SortedUserListTest {
         userList.add(john);
         userList.add(annie);
 
-        verify(listener, times(4)).userAdded(0);
+        verify(listener).userAdded(0, niles);
+        verify(listener).userAdded(0, lenny);
+        verify(listener).userAdded(0, john);
+        verify(listener).userAdded(0, annie);
     }
 
     @Test
@@ -174,7 +177,7 @@ public class SortedUserListTest {
 
         userList.remove(john);
 
-        verify(listener).userRemoved(1);
+        verify(listener).userRemoved(1, john);
     }
 
     @Test
@@ -260,7 +263,7 @@ public class SortedUserListTest {
 
         userList.set(0, test1);
 
-        verify(listener).userChanged(3);
+        verify(listener).userChanged(3, test1);
     }
 
     @Test(expected = IndexOutOfBoundsException.class)

@@ -66,7 +66,7 @@ public class SortedUserList implements UserList {
 
         if (success) {
             Collections.sort(userList);
-            fireUserAdded(userList.indexOf(user));
+            fireUserAdded(userList.indexOf(user), user);
         }
 
         return success;
@@ -105,7 +105,7 @@ public class SortedUserList implements UserList {
         final boolean success = userList.remove(user);
 
         if (success) {
-            fireUserRemoved(pos);
+            fireUserRemoved(pos, user);
         }
 
         return success;
@@ -122,7 +122,7 @@ public class SortedUserList implements UserList {
 
         final User oldUser = userList.set(pos, user);
         Collections.sort(userList);
-        fireUserChanged(userList.indexOf(user));
+        fireUserChanged(userList.indexOf(user), user);
 
         return oldUser;
     }
@@ -160,9 +160,9 @@ public class SortedUserList implements UserList {
      *
      * @param pos The position where the user was added.
      */
-    private void fireUserAdded(final int pos) {
+    private void fireUserAdded(final int pos, final User user) {
         for (final UserListListener listener : listeners) {
-            listener.userAdded(pos);
+            listener.userAdded(pos, user);
         }
     }
 
@@ -171,9 +171,9 @@ public class SortedUserList implements UserList {
      *
      * @param pos The new position of the changed user.
      */
-    private void fireUserChanged(final int pos) {
+    private void fireUserChanged(final int pos, final User user) {
         for (final UserListListener listener : listeners) {
-            listener.userChanged(pos);
+            listener.userChanged(pos, user);
         }
     }
 
@@ -182,9 +182,9 @@ public class SortedUserList implements UserList {
      *
      * @param pos The position of the removed user.
      */
-    private void fireUserRemoved(final int pos) {
+    private void fireUserRemoved(final int pos, final User user) {
         for (final UserListListener listener : listeners) {
-            listener.userRemoved(pos);
+            listener.userRemoved(pos, user);
         }
     }
 }

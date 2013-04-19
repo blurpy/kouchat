@@ -41,7 +41,7 @@ import net.usikkert.kouchat.event.UserListListener;
 public interface UserList {
 
     /**
-     * Adds a user to the list, and notifies with {@link UserListListener#userAdded(int)}.
+     * Adds a user to the list, and notifies with {@link UserListListener#userAdded(int, User)}.
      *
      * @param user The user to add.
      * @return If the user was successfully added to the list.
@@ -66,7 +66,7 @@ public interface UserList {
 
     /**
      * Removes the specified user from the list,
-     * and notifies with {@link UserListListener#userRemoved(int)}.
+     * and notifies with {@link UserListListener#userRemoved(int, User)}.
      *
      * @param user The user to remove.
      * @return If the user was successfully removed.
@@ -75,7 +75,7 @@ public interface UserList {
 
     /**
      * Sets the specified user at the specified position in the user list,
-     * and notifies with {@link UserListListener#userChanged(int)}.
+     * and notifies with {@link UserListListener#userChanged(int, User)}.
      *
      * @param pos The position to put the user.
      * @param user The user to put in the position.
