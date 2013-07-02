@@ -58,6 +58,17 @@ public class TestUtilsTest {
     }
 
     @Test
+    public void getFieldValueShouldSupportInheritedPrivateAndPublicFields() {
+        final ExtendingClass extendingClass = new ExtendingClass("private", 555);
+
+        final String privateField = TestUtils.getFieldValue(extendingClass, String.class, "privateField");
+        assertEquals("private", privateField);
+
+        final Integer publicField = TestUtils.getFieldValue(extendingClass, Integer.class, "publicField");
+        assertEquals(Integer.valueOf(555), publicField);
+    }
+
+    @Test
     public void getFieldValueShouldThrowExceptionIfInvalidFieldName() {
         expectedException.expect(RuntimeException.class);
         expectedException.expectMessage("NoSuchFieldException: wrongField");
@@ -85,6 +96,16 @@ public class TestUtilsTest {
 
         assertEquals(Integer.valueOf(50), testClass.publicField);
         assertEquals("something", testClass.privateField);
+    }
+
+    @Test
+    public void setFieldValueShouldSupportInheritedPrivateAndPublicFields() {
+        final ExtendingClass extendingClass = new ExtendingClass("test", 1);
+        TestUtils.setFieldValue(extendingClass, "publicField", 50);
+        TestUtils.setFieldValue(extendingClass, "privateField", "something");
+
+        assertEquals(Integer.valueOf(50), extendingClass.publicField);
+        assertEquals("something", extendingClass.getPrivateField());
     }
 
     @Test
@@ -125,6 +146,17 @@ public class TestUtilsTest {
         TestClass(final String privateField, final Integer publicField) {
             this.privateField = privateField;
             this.publicField = publicField;
+        }
+
+        String getPrivateField() {
+            return privateField;
+        }
+    }
+
+    class ExtendingClass extends TestClass {
+
+        ExtendingClass(final String privateField, final Integer publicField) {
+            super(privateField, publicField);
         }
     }
 }
