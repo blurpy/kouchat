@@ -318,4 +318,88 @@ public class ControllerTest {
 
         verify(chatLogger).close();
     }
+
+    @Test
+    public void logOffShouldClosePrivateChatLoggersWhenRemoveUsersIsTrue() {
+        final User user1 = new User("User1", 123);
+        final ChatLogger chatLogger1 = mock(ChatLogger.class);
+        user1.setPrivateChatLogger(chatLogger1);
+
+        final User user2 = new User("User2", 124);
+        final ChatLogger chatLogger2 = mock(ChatLogger.class);
+        user2.setPrivateChatLogger(chatLogger2);
+
+        userList.add(user1);
+        userList.add(user2);
+
+        controller.logOff(true);
+
+        verify(chatLogger1).close();
+        verify(chatLogger2).close();
+    }
+
+    @Test
+    public void logOffShouldClosePrivateChatLoggersWhenRemoveUsersIsFalse() {
+        final User user1 = new User("User1", 123);
+        final ChatLogger chatLogger1 = mock(ChatLogger.class);
+        user1.setPrivateChatLogger(chatLogger1);
+
+        final User user2 = new User("User2", 124);
+        final ChatLogger chatLogger2 = mock(ChatLogger.class);
+        user2.setPrivateChatLogger(chatLogger2);
+
+        userList.add(user1);
+        userList.add(user2);
+
+        controller.logOff(false);
+
+        verify(chatLogger1).close();
+        verify(chatLogger2).close();
+    }
+
+    @Test
+    public void logOffShouldCancelFileTransfersWhenRemoveUsersIsTrue() {
+        final User user1 = new User("User1", 123);
+        userList.add(user1);
+
+        final FileReceiver fileReceiver1 = mock(FileReceiver.class);
+        when(transferList.getFileReceivers(user1)).thenReturn(Arrays.asList(fileReceiver1));
+
+        final User user2 = new User("User2", 124);
+        userList.add(user2);
+
+        final FileSender fileSender1 = mock(FileSender.class);
+        when(transferList.getFileSenders(user2)).thenReturn(Arrays.asList(fileSender1));
+
+        controller.logOff(true);
+
+        verify(fileReceiver1).cancel();
+        verify(fileSender1).cancel();
+
+        verify(transferList).removeFileReceiver(fileReceiver1);
+        verify(transferList).removeFileSender(fileSender1);
+    }
+
+    @Test
+    public void logOffShouldCancelFileTransfersWhenRemoveUsersIsFalse() {
+        final User user1 = new User("User1", 123);
+        userList.add(user1);
+
+        final FileReceiver fileReceiver1 = mock(FileReceiver.class);
+        when(transferList.getFileReceivers(user1)).thenReturn(Arrays.asList(fileReceiver1));
+
+        final User user2 = new User("User2", 124);
+        userList.add(user2);
+
+        final FileSender fileSender1 = mock(FileSender.class);
+        when(transferList.getFileSenders(user2)).thenReturn(Arrays.asList(fileSender1));
+
+        controller.logOff(false);
+
+        verify(fileReceiver1).cancel();
+        verify(fileSender1).cancel();
+
+        verify(transferList).removeFileReceiver(fileReceiver1);
+        verify(transferList).removeFileSender(fileSender1);
+    }
 }

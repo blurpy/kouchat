@@ -341,10 +341,15 @@ public class Controller implements NetworkConnectionListener {
         chatState.setLoggedOn(false);
         chatState.setLogonCompleted(false);
         networkService.disconnect();
+
         getTopic().resetTopic();
+
         if (removeUsers) {
             removeAllUsers();
+        } else {
+            closeAllUserResources();
         }
+
         me.reset();
     }
 
@@ -385,6 +390,21 @@ public class Controller implements NetworkConnectionListener {
             user.getPrivchat().setLoggedOff();
         }
 
+        closePrivateChatLogger(user);
+    }
+
+    private void closeAllUserResources() {
+        final UserList userList = getUserList();
+
+        for (int i = 0; i < userList.size(); i++) {
+            final User user = userList.get(i);
+
+            cancelFileTransfers(user);
+            closePrivateChatLogger(user);
+        }
+    }
+
+    private void closePrivateChatLogger(final User user) {
         if (user.getPrivateChatLogger() != null) {
             user.getPrivateChatLogger().close();
         }
