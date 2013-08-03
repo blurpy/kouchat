@@ -26,10 +26,15 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.io.File;
+import java.util.Arrays;
 
 import net.usikkert.kouchat.event.NetworkConnectionListener;
+import net.usikkert.kouchat.net.FileReceiver;
+import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.net.Messages;
 import net.usikkert.kouchat.net.NetworkService;
+import net.usikkert.kouchat.net.TransferList;
+import net.usikkert.kouchat.ui.PrivateChatWindow;
 import net.usikkert.kouchat.ui.UserInterface;
 import net.usikkert.kouchat.util.TestUtils;
 
@@ -54,8 +59,11 @@ public class ControllerTest {
     private NetworkService networkService;
     private IdleThread idleThread;
     private DayTimer dayTimer;
+    private TransferList transferList;
+    private MessageController messageController;
 
     private User me;
+    private UserList userList;
 
     @Before
     public void setUp() {
@@ -80,6 +88,15 @@ public class ControllerTest {
 
         dayTimer = mock(DayTimer.class);
         TestUtils.setFieldValue(controller, "dayTimer", dayTimer);
+
+        final UserListController userListController = TestUtils.getFieldValue(controller, UserListController.class, "userListController");
+        userList = userListController.getUserList();
+
+        transferList = mock(TransferList.class);
+        TestUtils.setFieldValue(controller, "tList", transferList);
+
+        messageController = mock(MessageController.class);
+        TestUtils.setFieldValue(controller, "msgController", messageController);
     }
 
     @Test
@@ -232,5 +249,59 @@ public class ControllerTest {
 
         verify(idleThread).stopThread();
         verify(dayTimer).stopTimer();
+    }
+
+    @Test
+    public void removeUserShouldRemoveUserAndSetOffline() {
+        final User user = new User("User1", 123);
+        userList.add(user);
+
+        assertEquals(1, userList.indexOf(user));
+        assertTrue(user.isOnline());
+
+        controller.removeUser(user, "Bla bla");
+
+        assertEquals(-1, userList.indexOf(user));
+        assertFalse(user.isOnline());
+    }
+
+    @Test
+    public void removeUserShouldCancelFileTransfers() {
+        final User user = new User("User1", 123);
+        userList.add(user);
+
+        final FileReceiver fileReceiver1 = mock(FileReceiver.class);
+        final FileReceiver fileReceiver2 = mock(FileReceiver.class);
+        when(transferList.getFileReceivers(user)).thenReturn(Arrays.asList(fileReceiver1, fileReceiver2));
+
+        final FileSender fileSender1 = mock(FileSender.class);
+        final FileSender fileSender2 = mock(FileSender.class);
+        when(transferList.getFileSenders(user)).thenReturn(Arrays.asList(fileSender1, fileSender2));
+
+        controller.removeUser(user, "Bla bla");
+
+        verify(fileReceiver1).cancel();
+        verify(fileReceiver2).cancel();
+        verify(fileSender1).cancel();
+        verify(fileSender2).cancel();
+
+        verify(transferList).removeFileReceiver(fileReceiver1);
+        verify(transferList).removeFileReceiver(fileReceiver2);
+        verify(transferList).removeFileSender(fileSender1);
+        verify(transferList).removeFileSender(fileSender2);
+    }
+
+    @Test
+    public void removeUserShouldLogOffPrivateChat() {
+        final User user = new User("User1", 123);
+        userList.add(user);
+
+        final PrivateChatWindow privchat = mock(PrivateChatWindow.class);
+        user.setPrivchat(privchat);
+
+        controller.removeUser(user, "Bla bla");
+
+        verify(messageController).showPrivateSystemMessage(user, "Bla bla");
+        verify(privchat).setLoggedOff();
     }
 }
