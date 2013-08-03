@@ -24,7 +24,6 @@ package net.usikkert.kouchat;
 
 import net.usikkert.kouchat.argument.Argument;
 import net.usikkert.kouchat.argument.ArgumentParser;
-import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.ui.UIChoice;
 import net.usikkert.kouchat.ui.UIException;
 import net.usikkert.kouchat.ui.UIFactory;
@@ -64,7 +63,6 @@ public final class KouChat {
         System.out.println(Constants.APP_NAME + " v" + Constants.APP_VERSION);
         System.out.println("By " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL + " - " + Constants.APP_WEB);
 
-        final Settings settings = new Settings();
         final ArgumentParser argumentParser = new ArgumentParser(arguments);
 
         if (argumentParser.getNumberOfArguments() == 0) {
@@ -92,7 +90,7 @@ public final class KouChat {
         new UncaughtExceptionLogger();
 
         setSettingsFromArguments(argumentParser);
-        loadUserInterface(argumentParser, settings);
+        loadUserInterface(argumentParser);
     }
 
     private static void setSettingsFromArguments(final ArgumentParser argumentParser) {
@@ -106,16 +104,16 @@ public final class KouChat {
         }
     }
 
-    private static void loadUserInterface(final ArgumentParser argumentParser, final Settings settings) {
+    private static void loadUserInterface(final ArgumentParser argumentParser) {
         try {
             if (!argumentParser.hasArgument(Argument.CONSOLE)) {
                 System.out.println("\nLoading Swing User Interface\n");
-                new UIFactory(settings).loadUI(UIChoice.SWING);
+                new UIFactory().loadUI(UIChoice.SWING);
             }
 
             else {
                 System.out.println("\nLoading Console User Interface\n");
-                new UIFactory(settings).loadUI(UIChoice.CONSOLE);
+                new UIFactory().loadUI(UIChoice.CONSOLE);
             }
         }
 
