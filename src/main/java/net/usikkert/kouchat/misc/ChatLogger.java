@@ -89,13 +89,6 @@ public class ChatLogger implements SettingsListener {
         if (settings.isLogging()) {
             open();
         }
-
-        Runtime.getRuntime().addShutdownHook(new Thread("ChatLoggerShutdownHook") {
-            @Override
-            public void run() {
-                close();
-            }
-        });
     }
 
     /**
