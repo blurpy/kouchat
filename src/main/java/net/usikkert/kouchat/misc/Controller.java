@@ -77,6 +77,8 @@ public class Controller implements NetworkConnectionListener {
     private final UserInterface ui;
     private final MessageController msgController;
     private final Settings settings;
+    private final DayTimer dayTimer;
+    private final Thread shutdownHook;
 
     /**
      * Constructor. Initializes the controller, but does not log on to
@@ -92,13 +94,15 @@ public class Controller implements NetworkConnectionListener {
         this.ui = ui;
         this.settings = settings;
 
-        Runtime.getRuntime().addShutdownHook(new Thread("ControllerShutdownHook") {
+        shutdownHook = new Thread("ControllerShutdownHook") {
             @Override
             public void run() {
                 logOff(false);
-                shutdown();
+                doShutdown();
             }
-        });
+        };
+
+        Runtime.getRuntime().addShutdownHook(shutdownHook);
 
         me = settings.getMe();
         userListController = new UserListController(settings);
@@ -106,6 +110,7 @@ public class Controller implements NetworkConnectionListener {
         tList = new TransferList();
         wList = new WaitingList();
         idleThread = new IdleThread(this, ui, settings);
+        dayTimer = new DayTimer(ui);
         networkService = new NetworkService(settings);
         final MessageResponder msgResponder = new DefaultMessageResponder(this, ui, settings);
         final PrivateMessageResponder privmsgResponder = new DefaultPrivateMessageResponder(this, ui, settings);
@@ -117,7 +122,7 @@ public class Controller implements NetworkConnectionListener {
         networkService.registerNetworkConnectionListener(this);
         msgController = ui.getMessageController();
 
-        new DayTimer(ui);
+        dayTimer.startTimer();
         idleThread.start();
 
         msgController.showSystemMessage("Welcome to " + Constants.APP_NAME + " v" + Constants.APP_VERSION + "!");
@@ -392,8 +397,14 @@ public class Controller implements NetworkConnectionListener {
      * Prepares the application for shutdown.
      * Should <strong>only</strong> be called when the application shuts down.
      */
-    private void shutdown() {
+    public void shutdown() {
+        doShutdown();
+        Runtime.getRuntime().removeShutdownHook(shutdownHook); // This throws exception if called from the shutdown hook
+    }
+
+    private void doShutdown() {
         idleThread.stopThread();
+        dayTimer.stopTimer();
     }
 
     /**
