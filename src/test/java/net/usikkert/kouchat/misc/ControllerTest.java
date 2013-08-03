@@ -244,11 +244,12 @@ public class ControllerTest {
     }
 
     @Test
-    public void shutdownShouldStopThreads() {
+    public void shutdownShouldStopThreadsAndShutdownTheMessageController() {
         controller.shutdown();
 
         verify(idleThread).stopThread();
         verify(dayTimer).stopTimer();
+        verify(messageController).shutdown();
     }
 
     @Test

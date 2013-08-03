@@ -418,6 +418,7 @@ public class Controller implements NetworkConnectionListener {
     private void doShutdown() {
         idleThread.stopThread();
         dayTimer.stopTimer();
+        msgController.shutdown();
     }
 
     /**
