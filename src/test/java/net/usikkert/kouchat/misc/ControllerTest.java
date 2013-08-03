@@ -305,4 +305,17 @@ public class ControllerTest {
         verify(messageController).showPrivateSystemMessage(user, "Bla bla");
         verify(privchat).setLoggedOff();
     }
+
+    @Test
+    public void removeUserShouldClosePrivateChatLogger() {
+        final User user = new User("User1", 123);
+        userList.add(user);
+
+        final ChatLogger chatLogger = mock(ChatLogger.class);
+        user.setPrivateChatLogger(chatLogger);
+
+        controller.removeUser(user, "Bla bla");
+
+        verify(chatLogger).close();
+    }
 }

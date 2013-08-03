@@ -368,7 +368,7 @@ public class Controller implements NetworkConnectionListener {
     /**
      * Removes a user from the user list and cleans up the state. This is done when a user logs off or times out.
      *
-     * <p>All file transfers are cancelled, and private chats will be notified with a system message.</p>
+     * <p>All file transfers are cancelled, logs are closed, and private chats will be notified with a system message.</p>
      *
      * @param user The user to remove.
      * @param privateSystemMessage The system message to show in the private chat window for that user.
@@ -383,6 +383,10 @@ public class Controller implements NetworkConnectionListener {
         if (user.getPrivchat() != null) {
             msgController.showPrivateSystemMessage(user, privateSystemMessage);
             user.getPrivchat().setLoggedOff();
+        }
+
+        if (user.getPrivateChatLogger() != null) {
+            user.getPrivateChatLogger().close();
         }
     }
 
