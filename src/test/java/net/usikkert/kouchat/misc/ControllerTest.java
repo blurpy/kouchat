@@ -95,6 +95,10 @@ public class ControllerTest {
 
         transferList = mock(TransferList.class);
         TestUtils.setFieldValue(controller, "tList", transferList);
+
+        // The shutdown hook makes tests fail randomly, because it sometimes runs in parallel or something...
+        final Thread shutdownHook = TestUtils.getFieldValue(controller, Thread.class, "shutdownHook");
+        Runtime.getRuntime().removeShutdownHook(shutdownHook);
     }
 
     @Test
