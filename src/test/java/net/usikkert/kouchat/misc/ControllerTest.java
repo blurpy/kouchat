@@ -73,7 +73,8 @@ public class ControllerTest {
         when(settings.getMe()).thenReturn(me);
 
         final UserInterface ui = mock(UserInterface.class);
-        when(ui.getMessageController()).thenReturn(mock(MessageController.class));
+        messageController = mock(MessageController.class);
+        when(ui.getMessageController()).thenReturn(messageController);
 
         controller = new Controller(ui, settings);
 
@@ -94,9 +95,6 @@ public class ControllerTest {
 
         transferList = mock(TransferList.class);
         TestUtils.setFieldValue(controller, "tList", transferList);
-
-        messageController = mock(MessageController.class);
-        TestUtils.setFieldValue(controller, "msgController", messageController);
     }
 
     @Test
