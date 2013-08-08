@@ -84,6 +84,10 @@ public class ControllerTest {
         networkService = mock(NetworkService.class);
         TestUtils.setFieldValue(controller, "networkService", networkService);
 
+        // The idle thread makes tests fail randomly, because it sometimes runs in parallel and removes idle users...
+        final IdleThread realIdleThread = TestUtils.getFieldValue(controller, IdleThread.class, "idleThread");
+        realIdleThread.stopThread();
+
         idleThread = mock(IdleThread.class);
         TestUtils.setFieldValue(controller, "idleThread", idleThread);
 
@@ -96,7 +100,7 @@ public class ControllerTest {
         transferList = mock(TransferList.class);
         TestUtils.setFieldValue(controller, "tList", transferList);
 
-        // The shutdown hook makes tests fail randomly, because it sometimes runs in parallel or something...
+        // The shutdown hook makes tests fail randomly, because it sometimes runs in parallel...
         final Thread shutdownHook = TestUtils.getFieldValue(controller, Thread.class, "shutdownHook");
         Runtime.getRuntime().removeShutdownHook(shutdownHook);
     }
