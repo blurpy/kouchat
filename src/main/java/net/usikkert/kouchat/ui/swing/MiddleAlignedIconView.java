@@ -1,7 +1,7 @@
 
 /***************************************************************************
- *   Copyright 2006-2013 by Christian Ihle                                 *
- *   kontakt@usikkert.net                                                  *
+ *   Copyright 2006-2014 by Christian Ihle                                 *
+ *   contact@kouchat.net                                                   *
  *                                                                         *
  *   This file is part of KouChat.                                         *
  *                                                                         *
