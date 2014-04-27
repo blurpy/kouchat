@@ -1,7 +1,7 @@
 
 /***************************************************************************
- *   Copyright 2006-2013 by Christian Ihle                                 *
- *   kontakt@usikkert.net                                                  *
+ *   Copyright 2006-2014 by Christian Ihle                                 *
+ *   contact@kouchat.net                                                   *
  *                                                                         *
  *   This file is part of KouChat.                                         *
  *                                                                         *
@@ -47,12 +47,12 @@ public interface Constants {
     /**
      * The home page of this application.
      */
-    String APP_WEB = "http://kouchat.googlecode.com/";
+    String APP_WEB = "http://www.kouchat.net/";
 
     /**
      * Copyright from year, to year.
      */
-    String APP_COPYRIGHT_YEARS = "2006-2013";
+    String APP_COPYRIGHT_YEARS = "2006-2014";
 
     /**
      * Name of the author of this application.
@@ -62,7 +62,7 @@ public interface Constants {
     /**
      * The email address of the author.
      */
-    String AUTHOR_MAIL = "kontakt@usikkert.net";
+    String AUTHOR_MAIL = "contact@kouchat.net";
 
     /**
      * The multicast udp port used for sending and receiving
