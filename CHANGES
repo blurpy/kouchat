@@ -1,14 +1,15 @@
 
 - KouChat v1.3.0 CHANGES
 
-* version 1.3.0 (xx.xx.2013):
-  - Updated headers to include copyright for 2013
+* version 1.3.0 (xx.xx.2014):
+  - Updated headers to include copyright for 2014
   - Reorganized JMX support to make it easier to import updated code into Android
   - Disables logging of connected network interface when on Android,
     because of a crash on v2.3.3
   - Settings is no longer a singleton, to make it easier to mock and test KouChat
   - Added new notification (beforeNetworkCameUp) in the connection worker to allow Android
     to do extra network preparations before the connection is initialized
+  - Changed contact information to use the new kouchat.net domain.
 
 
 * version 1.2.0 (19.11.2012):

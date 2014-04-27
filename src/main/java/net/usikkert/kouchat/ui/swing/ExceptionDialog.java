@@ -82,7 +82,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
         detailL.setText("<html>" + Constants.APP_NAME + " has experienced an unhandled error, " +
                 "and may be in an inconsistent state. It's advised to restart the application " +
                 "to make sure everything works as expected. Bugs can be reported at " +
-                "http://kouchat.googlecode.com/. Please describe what you did when " +
+                "http://www.kouchat.net/. Please describe what you did when " +
                 "this error happened, and add the stack trace below to the report.</html>");
 
         exceptionTP = new JTextPaneWithoutWrap();
