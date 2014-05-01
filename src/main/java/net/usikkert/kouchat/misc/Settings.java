@@ -368,7 +368,7 @@ public class Settings {
     public void setOwnColor(final int ownColor) {
         if (this.ownColor != ownColor) {
             this.ownColor = ownColor;
-            fireSettingChanged("ownColor");
+            fireSettingChanged(Setting.OWN_COLOR);
         }
     }
 
@@ -390,7 +390,7 @@ public class Settings {
     public void setSysColor(final int sysColor) {
         if (this.sysColor != sysColor) {
             this.sysColor = sysColor;
-            fireSettingChanged("sysColor");
+            fireSettingChanged(Setting.SYS_COLOR);
         }
     }
 
@@ -412,7 +412,7 @@ public class Settings {
     public void setSound(final boolean sound) {
         if (this.sound != sound) {
             this.sound = sound;
-            fireSettingChanged("sound");
+            fireSettingChanged(Setting.SOUND);
         }
     }
 
@@ -438,7 +438,7 @@ public class Settings {
     public void setLogging(final boolean logging) {
         if (this.logging != logging) {
             this.logging = logging;
-            fireSettingChanged("logging");
+            fireSettingChanged(Setting.LOGGING);
         }
     }
 
@@ -501,7 +501,7 @@ public class Settings {
      *
      * @param setting The setting that has changed.
      */
-    private void fireSettingChanged(final String setting) {
+    private void fireSettingChanged(final Setting setting) {
         for (final SettingsListener listener : listeners) {
             listener.settingChanged(setting);
         }
