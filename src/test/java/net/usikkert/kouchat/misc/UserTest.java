@@ -35,8 +35,8 @@ public class UserTest {
 
     @Test
     public void equalsAndHashCodeShouldBeTrueWhenSameCode() {
-        final User test1 = new User("Test1", 123456789);
-        final User test2 = new User("Test2", 123456789);
+        final User test1 = new User("Test1", 123);
+        final User test2 = new User("Test2", 123);
 
         assertTrue(test1.equals(test2));
         assertTrue(test2.equals(test1));
@@ -46,8 +46,8 @@ public class UserTest {
 
     @Test
     public void equalsAndHashCodeShouldBeFalseWhenDifferentCode() {
-        final User test1 = new User("Test1", 123456788);
-        final User test2 = new User("Test2", 123456789);
+        final User test1 = new User("Test1", 123);
+        final User test2 = new User("Test2", 124);
 
         assertFalse(test1.equals(test2));
         assertFalse(test2.equals(test1));
