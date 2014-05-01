@@ -10,6 +10,9 @@
   - Added new notification (beforeNetworkCameUp) in the connection worker to allow Android
     to do extra network preparations before the connection is initialized
   - Changed contact information to use the new kouchat.net domain.
+  - Fixed rare bug where quitting would not log off the network right away.
+  - Changed rename format when receiving files with name crash in the console ui
+    from "file.ext.1" to "file_1.ext".
 
 
 * version 1.2.0 (19.11.2012):
