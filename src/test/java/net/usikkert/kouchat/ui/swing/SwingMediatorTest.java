@@ -24,6 +24,7 @@ package net.usikkert.kouchat.ui.swing;
 
 import static org.mockito.Mockito.*;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import net.usikkert.kouchat.misc.CommandException;
@@ -157,7 +158,59 @@ public class SwingMediatorTest {
 
     @Test
     public void setAwayWhenBackShouldRequestFocusOnInputField() {
-        when(uiTools.showInputDialog(anyString(), anyString(), anyString())).thenReturn(" ");
+        mediator.setAway();
+
+        verify(messageTF).requestFocusInWindow();
+    }
+
+    @Test
+    public void setAwayWhenAwayShouldAskIfBackAndNotChangeIfNo() {
+        me.setAway(true);
+        me.setAwayMsg("Gone");
+
+        when(uiTools.showOptionDialog(anyString(), anyString())).thenReturn(JOptionPane.NO_OPTION);
+
+        mediator.setAway();
+
+        verify(uiTools).showOptionDialog("Back from 'Gone'?", "Away");
+        verifyZeroInteractions(controller);
+    }
+
+    @Test
+    public void setAwayWhenAwayShouldAskIfBackAndChangeIfYes() throws CommandException {
+        me.setAway(true);
+        me.setAwayMsg("Gone");
+
+        when(uiTools.showOptionDialog(anyString(), anyString())).thenReturn(JOptionPane.YES_OPTION);
+
+        mediator.setAway();
+
+        verify(uiTools).showOptionDialog("Back from 'Gone'?", "Away");
+        verify(controller).changeAwayStatus(1234, false, "");
+        verify(mediator).changeAway(false);
+        verify(msgController).showSystemMessage("You came back");
+    }
+
+    @Test
+    public void setAwayWhenAwayShouldShowWarningMessageIfChangeFails() throws CommandException {
+        me.setAway(true);
+        me.setAwayMsg("Gone");
+
+        when(uiTools.showOptionDialog(anyString(), anyString())).thenReturn(JOptionPane.YES_OPTION);
+        doThrow(new CommandException("Don't come back"))
+                .when(controller).changeAwayStatus(anyInt(), anyBoolean(), anyString());
+
+        mediator.setAway();
+
+        verify(uiTools).showOptionDialog("Back from 'Gone'?", "Away");
+        verify(controller).changeAwayStatus(1234, false, "");
+        verify(mediator, never()).changeAway(anyBoolean());
+        verify(uiTools).showWarningMessage("Don't come back", "Change away");
+    }
+
+    @Test
+    public void setAwayWhenAwayShouldRequestFocusOnInputField() {
+        me.setAway(true);
 
         mediator.setAway();
 
