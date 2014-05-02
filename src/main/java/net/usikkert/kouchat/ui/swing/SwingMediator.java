@@ -99,13 +99,20 @@ public class SwingMediator implements Mediator, UserInterface {
 
         msgController = new MessageController(mainP, this, settings);
         controller = new Controller(this, settings);
-        new JMXAgent(controller.createJMXBeanLoader());
         me = settings.getMe();
         cmdParser = new CommandParser(controller, this, settings);
         beeper = new SoundBeeper(settings);
 
         sideP.setUserList(controller.getUserList());
         mainP.setAutoCompleter(controller.getAutoCompleter());
+    }
+
+    /**
+     * Activates the JMX beans for remote control of KouChat with JConsole.
+     */
+    @Override
+    public void activateJMX() {
+        new JMXAgent(controller.createJMXBeanLoader());
     }
 
     /**
