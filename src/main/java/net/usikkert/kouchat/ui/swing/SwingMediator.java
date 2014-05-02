@@ -234,24 +234,20 @@ public class SwingMediator implements Mediator, UserInterface {
     public void updateTitleAndTray() {
         if (me != null) {
             String title = me.getNick();
-            String tooltip = me.getNick();
 
             if (!controller.isConnected()) {
                 if (controller.isLoggedOn()) {
                     title += " - Connection lost";
-                    tooltip += " - Connection lost";
                 }
 
                 else {
                     title += " - Not connected";
-                    tooltip += " - Not connected";
                 }
             }
 
             else {
                 if (me.isAway()) {
                     title += " (Away)";
-                    tooltip += " (Away)";
                 }
 
                 if (controller.getTopic().getTopic().length() > 0) {
