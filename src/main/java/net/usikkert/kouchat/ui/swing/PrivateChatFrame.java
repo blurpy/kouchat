@@ -81,6 +81,8 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
     private static final Logger LOG = Logger.getLogger(PrivateChatFrame.class.getName());
     private static final long serialVersionUID = 1L;
 
+    private final UITools uiTools = new UITools();
+
     private final JTextPane chatTP;
     private final MutableAttributeSet chatAttr;
     private final StyledDocument chatDoc;
@@ -289,8 +291,8 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
                 msgTF.setEnabled(false);
             }
 
-            if (isVisible() && UITools.isMinimized(this)) {
-                UITools.restore(this);
+            if (isVisible() && uiTools.isMinimized(this)) {
+                uiTools.restore(this);
             }
         }
 
@@ -457,7 +459,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
             title += " (Away)";
         }
 
-        setTitle(UITools.createTitle(title));
+        setTitle(uiTools.createTitle(title));
         updateWindowIcon();
     }
 

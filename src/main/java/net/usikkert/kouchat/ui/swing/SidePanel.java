@@ -57,6 +57,8 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
     /** The standard version UID. */
     private static final long serialVersionUID = 1L;
 
+    private final UITools uiTools = new UITools();
+
     /** The right click popup menu in the user list. */
     private final JPopupMenu userMenu;
 
@@ -220,7 +222,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
                         info += "\nAway message: " + user.getAwayMsg();
                     }
 
-                    UITools.showInfoMessage(info, "Info");
+                    uiTools.showInfoMessage(info, "Info");
                 }
             });
         }

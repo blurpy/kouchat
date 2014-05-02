@@ -55,6 +55,8 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class SwingMediator implements Mediator, UserInterface {
 
+    private final UITools uiTools = new UITools();
+
     private final SettingsDialog settingsDialog;
     private final KouChatFrame gui;
     private final MainPanel mainP;
@@ -115,7 +117,7 @@ public class SwingMediator implements Mediator, UserInterface {
         if (sysTray.isSystemTraySupport()) {
             gui.setVisible(false);
         } else {
-            UITools.minimize(gui);
+            uiTools.minimize(gui);
         }
     }
 
@@ -137,7 +139,7 @@ public class SwingMediator implements Mediator, UserInterface {
     @Override
     public void setAway() {
         if (me.isAway()) {
-            final int choice = UITools.showOptionDialog("Back from '" + me.getAwayMsg() + "'?", "Away");
+            final int choice = uiTools.showOptionDialog("Back from '" + me.getAwayMsg() + "'?", "Away");
 
             if (choice == JOptionPane.YES_OPTION) {
                 try {
@@ -147,13 +149,13 @@ public class SwingMediator implements Mediator, UserInterface {
                 }
 
                 catch (final CommandException e) {
-                    UITools.showWarningMessage(e.getMessage(), "Change away");
+                    uiTools.showWarningMessage(e.getMessage(), "Change away");
                 }
             }
         }
 
         else {
-            final String reason = UITools.showInputDialog("Reason for away?", "Away", null);
+            final String reason = uiTools.showInputDialog("Reason for away?", "Away", null);
 
             if (reason != null && reason.trim().length() > 0) {
                 if (controller.isWrote()) {
@@ -168,7 +170,7 @@ public class SwingMediator implements Mediator, UserInterface {
                 }
 
                 catch (final CommandException e) {
-                    UITools.showWarningMessage(e.getMessage(), "Change away");
+                    uiTools.showWarningMessage(e.getMessage(), "Change away");
                 }
             }
         }
@@ -182,7 +184,7 @@ public class SwingMediator implements Mediator, UserInterface {
     @Override
     public void setTopic() {
         final Topic topic = controller.getTopic();
-        final String newTopic = UITools.showInputDialog("Change topic?", "Topic", topic.getTopic());
+        final String newTopic = uiTools.showInputDialog("Change topic?", "Topic", topic.getTopic());
 
         if (newTopic != null) {
             try {
@@ -190,7 +192,7 @@ public class SwingMediator implements Mediator, UserInterface {
             }
 
             catch (final CommandException e) {
-                UITools.showWarningMessage(e.getMessage(), "Change topic");
+                uiTools.showWarningMessage(e.getMessage(), "Change topic");
             }
         }
 
@@ -219,7 +221,7 @@ public class SwingMediator implements Mediator, UserInterface {
      */
     @Override
     public void quit() {
-        final int choice = UITools.showOptionDialog("Are you sure you want to quit?", "Quit");
+        final int choice = uiTools.showOptionDialog("Are you sure you want to quit?", "Quit");
 
         if (choice == JOptionPane.YES_OPTION) {
             System.exit(0);
@@ -255,9 +257,9 @@ public class SwingMediator implements Mediator, UserInterface {
                 }
             }
 
-            gui.setTitle(UITools.createTitle(title));
+            gui.setTitle(uiTools.createTitle(title));
             gui.updateWindowIcon();
-            sysTray.setToolTip(UITools.createTitle(title));
+            sysTray.setToolTip(uiTools.createTitle(title));
         }
     }
 
@@ -270,8 +272,8 @@ public class SwingMediator implements Mediator, UserInterface {
         if (gui.isVisible()) {
             minimize();
         } else {
-            if (UITools.isMinimized(gui)) {
-                UITools.restore(gui);
+            if (uiTools.isMinimized(gui)) {
+                uiTools.restore(gui);
             }
 
             gui.showWindow();
@@ -285,7 +287,7 @@ public class SwingMediator implements Mediator, UserInterface {
     @Override
     public void minimizeWindowIfHidden() {
         if (!gui.isVisible()) {
-            UITools.minimize(gui);
+            uiTools.minimize(gui);
             gui.setVisible(true);
         }
     }
@@ -313,26 +315,26 @@ public class SwingMediator implements Mediator, UserInterface {
             return;
         } else if (user.isMe()) {
             final String message = "You cannot send files to yourself.";
-            UITools.showWarningMessage(message, "Warning");
+            uiTools.showWarningMessage(message, "Warning");
         }
 
         else if (me.isAway()) {
             final String message = "You cannot send files while you are away.";
-            UITools.showWarningMessage(message, "Warning");
+            uiTools.showWarningMessage(message, "Warning");
         }
 
         else if (user.isAway()) {
             final String message = "You cannot send files to " + user.getNick() + ", which is away.";
-            UITools.showWarningMessage(message, "Warning");
+            uiTools.showWarningMessage(message, "Warning");
         }
 
         else if (!user.isOnline()) {
             final String message = "You cannot send files to " + user.getNick() + ", which is not online anymore.";
-            UITools.showWarningMessage(message, "Warning");
+            uiTools.showWarningMessage(message, "Warning");
         }
 
         else {
-            final JFileChooser chooser = UITools.createFileChooser("Open");
+            final JFileChooser chooser = uiTools.createFileChooser("Open");
 
             if (selectedFile != null && selectedFile.exists()) {
                 chooser.setSelectedFile(selectedFile);
@@ -349,7 +351,7 @@ public class SwingMediator implements Mediator, UserInterface {
                     }
 
                     catch (final CommandException e) {
-                        UITools.showWarningMessage(e.getMessage(), "Send file");
+                        uiTools.showWarningMessage(e.getMessage(), "Send file");
                     }
                 }
             }
@@ -437,14 +439,14 @@ public class SwingMediator implements Mediator, UserInterface {
 
         if (!trimNick.equals(me.getNick())) {
             if (controller.isNickInUse(trimNick)) {
-                UITools.showWarningMessage("The nick is in use by someone else.", "Change nick");
+                uiTools.showWarningMessage("The nick is in use by someone else.", "Change nick");
             }
 
             else if (!Tools.isValidNick(trimNick)) {
                 final String message = "'" + trimNick + "' is not a valid nick name.\n\n" +
                         "A nick name can have between 1 and 10 characters.\nLegal characters are 'a-z'," +
                         " '0-9', '-' and '_'.";
-                UITools.showWarningMessage(message, "Change nick");
+                uiTools.showWarningMessage(message, "Change nick");
             }
 
             else {
@@ -456,7 +458,7 @@ public class SwingMediator implements Mediator, UserInterface {
                 }
 
                 catch (final CommandException e) {
-                    UITools.showWarningMessage(e.getMessage(), "Change nick");
+                    uiTools.showWarningMessage(e.getMessage(), "Change nick");
                 }
             }
         }
@@ -508,7 +510,7 @@ public class SwingMediator implements Mediator, UserInterface {
             } else {
                 sysTray.setNormalActivityState();
                 beeper.beep();
-                sysTray.showBalloonMessage(UITools.createTitle(me.getNick()),
+                sysTray.showBalloonMessage(uiTools.createTitle(me.getNick()),
                         "New message from " + user.getNick());
             }
         }
@@ -568,7 +570,7 @@ public class SwingMediator implements Mediator, UserInterface {
             if (!privchat.isVisible()) {
                 sysTray.setNormalActivityState();
                 beeper.beep();
-                sysTray.showBalloonMessage(UITools.createTitle(me.getNick()),
+                sysTray.showBalloonMessage(uiTools.createTitle(me.getNick()),
                         "New private message from " + user.getNick());
             }
 
@@ -617,7 +619,7 @@ public class SwingMediator implements Mediator, UserInterface {
     public boolean askFileSave(final String user, final String fileName, final String size) {
         beeper.beep();
         final String message = user + " wants to send you the file " + fileName + " (" + size + ")\nAccept?";
-        final int choice = UITools.showOptionDialog(message, "File send");
+        final int choice = uiTools.showOptionDialog(message, "File send");
 
         return choice == JOptionPane.YES_OPTION;
     }
@@ -631,7 +633,7 @@ public class SwingMediator implements Mediator, UserInterface {
      */
     @Override
     public void showFileSave(final FileReceiver fileReceiver) {
-        UITools.invokeAndWait(new Runnable() {
+        uiTools.invokeAndWait(new Runnable() {
             @Override
             public void run() {
                 showFileSaveInternal(fileReceiver);
@@ -640,7 +642,7 @@ public class SwingMediator implements Mediator, UserInterface {
     }
 
     private void showFileSaveInternal(final FileReceiver fileReceiver) {
-        final JFileChooser chooser = UITools.createFileChooser("Save");
+        final JFileChooser chooser = uiTools.createFileChooser("Save");
         chooser.setSelectedFile(fileReceiver.getFile());
         boolean done = false;
 
@@ -653,7 +655,7 @@ public class SwingMediator implements Mediator, UserInterface {
 
                 if (file.exists()) {
                     final String message = file.getName() + " already exists.\nOverwrite?";
-                    final int overwrite = UITools.showOptionDialog(message, "File exists");
+                    final int overwrite = uiTools.showOptionDialog(message, "File exists");
 
                     if (overwrite != JOptionPane.YES_OPTION) {
                         done = false;
@@ -687,7 +689,7 @@ public class SwingMediator implements Mediator, UserInterface {
      */
     @Override
     public void showTransfer(final FileReceiver fileRes) {
-        UITools.invokeAndWait(new Runnable() {
+        uiTools.invokeAndWait(new Runnable() {
             @Override
             public void run() {
                 new TransferDialog(SwingMediator.this, fileRes, imageLoader, settings);
@@ -765,7 +767,7 @@ public class SwingMediator implements Mediator, UserInterface {
     @Override
     public void createPrivChat(final User user) {
         if (user.getPrivchat() == null) {
-            UITools.invokeAndWait(new Runnable() {
+            uiTools.invokeAndWait(new Runnable() {
                 @Override
                 public void run() {
                     user.setPrivchat(new PrivateChatFrame(SwingMediator.this, user, imageLoader, settings));

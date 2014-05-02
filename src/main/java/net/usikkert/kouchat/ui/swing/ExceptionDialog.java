@@ -59,6 +59,8 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
     /** Standard serial version UID. */
     private static final long serialVersionUID = 1L;
 
+    private final UITools uiTools = new UITools();
+
     /** The textpane to put stack traces. */
     private final JTextPane exceptionTP;
 
@@ -120,7 +122,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
         getContentPane().add(infoP, BorderLayout.CENTER);
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(UITools.createTitle("Unhandled error"));
+        setTitle(uiTools.createTitle("Unhandled error"));
         setIconImage(new StatusIcons(imageLoader).getNormalIcon());
         setSize(630, 450);
     }

@@ -57,6 +57,8 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
     /** Standard serial version UID. */
     private static final long serialVersionUID = 1L;
 
+    private final UITools uiTools = new UITools();
+
     /** Button to cancel file transfer, or close the dialog when transfer is stopped. */
     private final JButton cancelB;
 
@@ -266,7 +268,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
             mediator.transferCancelled(this);
         } else if (event.getSource() == openB) {
             final File folder = fileTransfer.getFile().getParentFile();
-            UITools.open(folder, settings);
+            uiTools.open(folder, settings);
         }
     }
 
@@ -378,7 +380,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 
                 final String fileName = fileTransfer.getFile().getName();
                 filenameL.setText(fileName);
-                final double width = UITools.getTextWidth(fileName, getGraphics(), filenameL.getFont());
+                final double width = uiTools.getTextWidth(fileName, getGraphics(), filenameL.getFont());
 
                 if (width > filenameL.getSize().width) {
                     filenameL.setToolTipText(fileName);
@@ -419,6 +421,6 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      * @param percent The percentage of the file transferred.
      */
     private void updateTitle(final int percent) {
-        setTitle(UITools.createTitle(percent + "% - File transfer"));
+        setTitle(uiTools.createTitle(percent + "% - File transfer"));
     }
 }

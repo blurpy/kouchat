@@ -46,6 +46,8 @@ public class MenuBar extends JMenuBar implements ActionListener {
     /** Standard serial version UID. */
     private static final long serialVersionUID = 1L;
 
+    private final UITools uiTools = new UITools();
+
     private final JMenu fileMenu, toolsMenu, helpMenu;
     private final JMenuItem minimizeMI, quitMI;
     private final JMenuItem clearMI, awayMI, topicMI, settingsMI;
@@ -295,7 +297,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 public void run() {
                     final MessageDialog aboutD = new MessageDialog(null, true, imageLoader);
 
-                    aboutD.setTitle(UITools.createTitle("About"));
+                    aboutD.setTitle(uiTools.createTitle("About"));
                     aboutD.setTopText(Constants.APP_NAME + " v" + Constants.APP_VERSION);
                     aboutD.setContent("<html>Copyright " + Constants.APP_COPYRIGHT_YEARS + " by " + Constants.AUTHOR_NAME + "." +
                             "<br>" + Constants.AUTHOR_MAIL +

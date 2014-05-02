@@ -61,6 +61,8 @@ public class TextViewerDialog extends JDialog {
     private static final Logger LOG = Logger.getLogger(TextViewerDialog.class.getName());
     private static final long serialVersionUID = 1L;
 
+    private final UITools uiTools = new UITools();
+
     private final ErrorHandler errorHandler;
     private final JTextPane viewerTP;
     private final JScrollPane viewerScroll;
@@ -121,7 +123,7 @@ public class TextViewerDialog extends JDialog {
         viewerTP.setPreferredSize(new Dimension(width, height));
 
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-        setTitle(UITools.createTitle(title));
+        setTitle(uiTools.createTitle(title));
         setIconImage(new StatusIcons(imageLoader).getNormalIcon());
         setResizable(false);
         readFile();

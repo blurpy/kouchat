@@ -35,6 +35,8 @@ import net.usikkert.kouchat.misc.ErrorHandler;
  */
 public class SwingPopupErrorHandler implements ErrorListener {
 
+    private final UITools uiTools = new UITools();
+
     /**
      * Default constructor. Registers the class as a listener
      * in the error handler.
@@ -53,7 +55,7 @@ public class SwingPopupErrorHandler implements ErrorListener {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                UITools.showErrorMessage(errorMsg, "Error");
+                uiTools.showErrorMessage(errorMsg, "Error");
             }
         });
     }
@@ -65,6 +67,6 @@ public class SwingPopupErrorHandler implements ErrorListener {
      */
     @Override
     public void criticalErrorReported(final String criticalErrorMsg) {
-        UITools.showErrorMessage(criticalErrorMsg, "Critical Error");
+        uiTools.showErrorMessage(criticalErrorMsg, "Critical Error");
     }
 }

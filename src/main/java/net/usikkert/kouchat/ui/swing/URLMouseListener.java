@@ -45,6 +45,8 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class URLMouseListener implements MouseListener, MouseMotionListener {
 
+    private final UITools uiTools = new UITools();
+
     private final Cursor handCursor;
     private final JTextPane textPane;
     private final StyledDocument doc;
@@ -162,7 +164,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override
                         public void run() {
-                            UITools.browse(url, settings);
+                            uiTools.browse(url, settings);
                         }
                     });
                 }

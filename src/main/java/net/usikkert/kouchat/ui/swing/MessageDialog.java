@@ -68,8 +68,10 @@ public class MessageDialog extends JDialog {
         super(parent, modal);
         Validate.notNull(imageLoader, "Image loader can not be null");
 
+        final UITools uiTools = new UITools();
+
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(UITools.createTitle("Missing title"));
+        setTitle(uiTools.createTitle("Missing title"));
         setResizable(false);
 
         final StatusIcons statusIcons = new StatusIcons(imageLoader);

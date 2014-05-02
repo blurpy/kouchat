@@ -59,6 +59,8 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
     /** Standard serial version UID. */
     private static final long serialVersionUID = 1L;
 
+    private final UITools uiTools = new UITools();
+
     /** The panel that contains all the other panels and components. */
     private final MainPanel mainP;
 
@@ -169,16 +171,16 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * available, then no look and feel is set.</p>
      */
     private void setLookAndFeel() {
-        final LookAndFeelInfo lookAndFeel = UITools.getLookAndFeel(settings.getLookAndFeel());
+        final LookAndFeelInfo lookAndFeel = uiTools.getLookAndFeel(settings.getLookAndFeel());
 
         if (lookAndFeel == null) {
-            if (UITools.isSystemLookAndFeelSupported()) {
-                UITools.setSystemLookAndFeel();
+            if (uiTools.isSystemLookAndFeelSupported()) {
+                uiTools.setSystemLookAndFeel();
             }
         }
 
         else {
-            UITools.setLookAndFeel(settings.getLookAndFeel());
+            uiTools.setLookAndFeel(settings.getLookAndFeel());
         }
     }
 

@@ -24,6 +24,7 @@ package net.usikkert.kouchat.ui.swing;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -34,9 +35,16 @@ import org.junit.Test;
  */
 public class UIToolsTest {
 
+    private UITools uiTools;
+
+    @Before
+    public void setUp() {
+        uiTools = new UITools();
+    }
+
     @Test
     @Ignore("Run this manually. Should fail on other platforms than KDE.")
     public void isRunningOnKDEShouldBeTrueOnKDE() {
-        assertTrue(UITools.isRunningOnKDE());
+        assertTrue(uiTools.isRunningOnKDE());
     }
 }

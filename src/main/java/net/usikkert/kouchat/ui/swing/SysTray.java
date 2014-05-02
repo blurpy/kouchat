@@ -57,6 +57,8 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(SysTray.class.getName());
 
+    private final UITools uiTools = new UITools();
+
     /** The settings. */
     private final Settings settings;
 
@@ -333,7 +335,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
         if (trayIconSize.getHeight() == 16) {
             return StatusIconSize.SIZE_16x16;
         } else if (trayIconSize.getHeight() == 24) {
-            if (UITools.isRunningOnKDE()) {
+            if (uiTools.isRunningOnKDE()) {
                 return StatusIconSize.SIZE_22x22;
             } else {
                 return StatusIconSize.SIZE_24x24;

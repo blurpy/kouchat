@@ -80,6 +80,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
     private static final Logger LOG = Logger.getLogger(SettingsDialog.class.getName());
     private static final long serialVersionUID = 1L;
 
+    private final UITools uiTools = new UITools();
+
     private final JButton saveB, cancelB, chooseOwnColorB, chooseSysColorB, testBrowserB, chooseBrowserB;
     private final JTextField nickTF, browserTF;
     private final JLabel ownColorL, sysColorL;
@@ -139,7 +141,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         lookAndFeelL.setToolTipText("<html>Gives a choice of all the different looks that are available." +
                 "<br />Note that " + Constants.APP_NAME + " needs to be restarted for the" +
                 "<br />changes to take effect.</html>");
-        lookAndFeelCB = new JComboBox(UITools.getLookAndFeels());
+        lookAndFeelCB = new JComboBox(uiTools.getLookAndFeels());
 
         final JPanel lookAndFeelP = new JPanel();
         lookAndFeelP.setLayout(new BoxLayout(lookAndFeelP, BoxLayout.LINE_AXIS));
@@ -250,7 +252,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         pack();
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         setIconImage(new StatusIcons(imageLoader).getNormalIcon());
-        setTitle(UITools.createTitle("Settings"));
+        setTitle(uiTools.createTitle("Settings"));
         setResizable(false);
         setModal(true);
         hideWithEscape();
@@ -348,7 +350,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    final Color newColor = UITools.showColorChooser("Choose color for own messages",
+                    final Color newColor = uiTools.showColorChooser("Choose color for own messages",
                             new Color(settings.getOwnColor()));
 
                     if (newColor != null) {
@@ -362,7 +364,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    final Color newColor = UITools.showColorChooser("Choose color for system messages",
+                    final Color newColor = uiTools.showColorChooser("Choose color for system messages",
                             new Color(settings.getSysColor()));
 
                     if (newColor != null) {
@@ -389,7 +391,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
                         }
                     }
 
-                    else if (UITools.isDesktopActionSupported(Desktop.Action.BROWSE)) {
+                    else if (uiTools.isDesktopActionSupported(Desktop.Action.BROWSE)) {
                         try {
                             Desktop.getDesktop().browse(new URI(Constants.APP_WEB));
                         }
@@ -413,7 +415,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         }
 
         else if (e.getSource() == chooseBrowserB) {
-            final JFileChooser chooser = UITools.createFileChooser("Open");
+            final JFileChooser chooser = uiTools.createFileChooser("Open");
             final int returnVal = chooser.showOpenDialog(null);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -431,10 +433,10 @@ public class SettingsDialog extends JDialog implements ActionListener {
      */
     private void notifyLookAndFeelChange(final LookAndFeelWrapper lnfw) {
         final String newLookAndFeel = lnfw.getLookAndFeelInfo().getName();
-        final LookAndFeelInfo currentLookAndFeel = UITools.getCurrentLookAndFeel();
+        final LookAndFeelInfo currentLookAndFeel = uiTools.getCurrentLookAndFeel();
 
         if (currentLookAndFeel == null || !newLookAndFeel.equals(currentLookAndFeel.getName())) {
-            UITools.showInfoMessage("The new look and feel will be used the next time " +
+            uiTools.showInfoMessage("The new look and feel will be used the next time " +
                     Constants.APP_NAME + " is started.",
                     "Changed look and feel");
         }
@@ -468,7 +470,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
      * or the current look and feel if none is saved yet.</p>
      */
     private void selectLookAndFeel() {
-        final LookAndFeelInfo lookAndFeel = UITools.getLookAndFeel(settings.getLookAndFeel());
+        final LookAndFeelInfo lookAndFeel = uiTools.getLookAndFeel(settings.getLookAndFeel());
         String lnfClass = "";
 
         if (lookAndFeel == null) {
