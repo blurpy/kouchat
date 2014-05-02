@@ -58,7 +58,7 @@ public class JMXAgent {
         final List<JMXBean> jmxBeans = jmxBeanLoader.getJMXBeans();
 
         try {
-            for (JMXBean jmxBean : jmxBeans) {
+            for (final JMXBean jmxBean : jmxBeans) {
                 registerJMXBean(mBeanServer, jmxBean);
             }
         }

@@ -472,9 +472,9 @@ public final class UITools {
         else {
             try {
                 SwingUtilities.invokeAndWait(runnable);
-            } catch (InterruptedException e) {
+            } catch (final InterruptedException e) {
                 throw new RuntimeException(e);
-            } catch (InvocationTargetException e) {
+            } catch (final InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
         }
