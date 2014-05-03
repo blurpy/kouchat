@@ -119,9 +119,11 @@ public class Settings {
     private String logLocation;
 
     /**
-     * Private constructor.
+     * Constructor.
      *
-     * Initializes default settings, and creates <code>me</code>.
+     * <p>Initializes default settings, and creates <code>me</code>.</p>
+     *
+     * <p>Remember to {@link #setClient(String)}.</p>
      */
     public Settings() {
         final int code = 10000000 + (int) (Math.random() * 9999999);
@@ -131,8 +133,6 @@ public class Settings {
         me.setLastIdle(System.currentTimeMillis());
         me.setLogonTime(System.currentTimeMillis());
         me.setOperatingSystem(System.getProperty("os.name"));
-        me.setClient(Constants.APP_NAME + " v" + Constants.APP_VERSION +
-                " " + System.getProperty(Constants.PROPERTY_CLIENT_UI));
 
         listeners = new ArrayList<SettingsListener>();
         errorHandler = ErrorHandler.getErrorHandler();
@@ -145,6 +145,17 @@ public class Settings {
 
         loadArgumentSettings();
         loadSettings();
+    }
+
+    /**
+     * Sets the client to report to other users. Like <code>Swing, Android, Console</code>.
+     *
+     * <p>Must be done before logging on to the network.</p>
+     *
+     * @param client The client to set, on <code>me</code>.
+     */
+    public void setClient(final String client) {
+        me.setClient(Constants.APP_NAME + " v" + Constants.APP_VERSION + " " + client);
     }
 
     /**
