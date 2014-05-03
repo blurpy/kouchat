@@ -26,34 +26,56 @@ import java.awt.GraphicsEnvironment;
 
 import javax.swing.SwingUtilities;
 
+import net.usikkert.kouchat.argument.Argument;
+import net.usikkert.kouchat.argument.ArgumentParser;
 import net.usikkert.kouchat.ui.console.KouChatConsole;
 import net.usikkert.kouchat.ui.swing.KouChatFrame;
+import net.usikkert.kouchat.util.Validate;
 
 /**
- * This factory decides which User Interface to load.
+ * This factory decides which User Interface to load, based on startup arguments.
  *
  * @author Christian Ihle
  */
 public class UIFactory {
 
+    private final ArgumentParser argumentParser;
+
     private boolean done;
 
     /**
-     * Loads the User Interface matching the ui argument.
+     * Initializes the ui factory.
      *
-     * @param choice Which ui to load.
-     * Two choices are available at this moment: 'swing' and 'console'.
-     *
-     * @throws UIException If a ui has already been loaded, or if an
-     * unknown ui type was requested, or if no graphical environment was detected.
+     * @param argumentParser The arguments to use to select the ui to load.
      */
-    public void loadUI(final UIChoice choice) throws UIException {
+    public UIFactory(final ArgumentParser argumentParser) {
+        Validate.notNull(argumentParser, "Argument parser can not be null");
+
+        this.argumentParser = argumentParser;
+    }
+
+    /**
+     * Loads the User Interface based on the startup arguments.
+     *
+     * <p>Loads the console user interface if the argument <code>--console</code> is present.
+     * If not, the swing user interface is loaded.</p>
+     *
+     * @throws UIException If a ui has already been loaded, or if no graphical environment
+     *                     was detected and swing was selected.
+     */
+    public void loadUI() throws UIException {
         if (done) {
             throw new UIException("A User Interface has already been loaded.");
         }
 
         else {
-            if (choice == UIChoice.SWING) {
+            done = true;
+
+            if (argumentParser.hasArgument(Argument.CONSOLE)) {
+                loadConsoleUserInterface();
+            }
+
+            else {
                 if (isHeadless()) {
                     throw new UIException("The Swing User Interface could not be loaded" +
                             " because a graphical environment could not be detected.");
@@ -61,17 +83,7 @@ public class UIFactory {
 
                 else {
                     loadSwingUserInterface();
-                    done = true;
                 }
-            }
-
-            else if (choice == UIChoice.CONSOLE) {
-                loadConsoleUserInterface();
-                done = true;
-            }
-
-            else {
-                throw new UIException("Unknown User Interface requested.");
             }
         }
     }
@@ -81,6 +93,8 @@ public class UIFactory {
     }
 
     void loadSwingUserInterface() {
+        System.out.println("\nLoading Swing User Interface\n");
+
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -90,6 +104,8 @@ public class UIFactory {
     }
 
     void loadConsoleUserInterface() {
+        System.out.println("\nLoading Console User Interface\n");
+
         new KouChatConsole();
     }
 }

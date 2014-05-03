@@ -24,7 +24,8 @@ package net.usikkert.kouchat.ui;
 
 import static org.mockito.Mockito.*;
 
-import org.junit.Before;
+import net.usikkert.kouchat.argument.ArgumentParser;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -39,49 +40,61 @@ public class UIFactoryTest {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    private UIFactory uiFactory;
+    @Test
+    public void constructorShouldThrowExceptionIfArgumentParserIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Argument parser can not be null");
 
-    @Before
-    public void setUp() {
-        uiFactory = spy(new UIFactory());
-
-        doNothing().when(uiFactory).loadConsoleUserInterface();
-        doNothing().when(uiFactory).loadSwingUserInterface();
-        when(uiFactory.isHeadless()).thenReturn(false);
+        new UIFactory(null);
     }
 
     @Test
     public void loadUIWithConsoleAsArgumentShouldLoadConsoleUserInterface() throws UIException {
-        uiFactory.loadUI(UIChoice.CONSOLE);
+        final UIFactory uiFactory = createFactoryWithArguments("--console");
+
+        uiFactory.loadUI();
 
         verify(uiFactory).loadConsoleUserInterface();
     }
 
     @Test
     public void loadUIWithConsoleAsArgumentShouldLoadConsoleUserInterfaceIfHeadless() throws UIException {
+        final UIFactory uiFactory = createFactoryWithArguments("--console");
         when(uiFactory.isHeadless()).thenReturn(true);
 
-        uiFactory.loadUI(UIChoice.CONSOLE);
+        uiFactory.loadUI();
 
         verify(uiFactory).loadConsoleUserInterface();
     }
 
     @Test
-    public void loadUIWithSwingAsArgumentShouldLoadSwingUserInterface() throws UIException {
-        uiFactory.loadUI(UIChoice.SWING);
+    public void loadUIWithNoArgumentShouldLoadSwingUserInterface() throws UIException {
+        final UIFactory uiFactory = createFactoryWithArguments();
+
+        uiFactory.loadUI();
 
         verify(uiFactory).loadSwingUserInterface();
     }
 
     @Test
-    public void loadUIWithSwingAsArgumentShouldThrowExceptionIfHeadless() throws UIException {
+    public void loadUIWithNoArgumentShouldThrowExceptionIfHeadless() throws UIException {
         expectedException.expect(UIException.class);
         expectedException.expectMessage("The Swing User Interface could not be loaded because a " +
                 "graphical environment could not be detected.");
 
+        final UIFactory uiFactory = createFactoryWithArguments();
         when(uiFactory.isHeadless()).thenReturn(true);
 
-        uiFactory.loadUI(UIChoice.SWING);
+        uiFactory.loadUI();
+    }
+
+    @Test
+    public void loadUIWithOtherArgumentsShouldLoadSwingUserInterface() throws UIException {
+        final UIFactory uiFactory = createFactoryWithArguments("--debug", "--always-log");
+
+        uiFactory.loadUI();
+
+        verify(uiFactory).loadSwingUserInterface();
     }
 
     @Test
@@ -89,7 +102,20 @@ public class UIFactoryTest {
         expectedException.expect(UIException.class);
         expectedException.expectMessage("A User Interface has already been loaded.");
 
-        uiFactory.loadUI(UIChoice.SWING);
-        uiFactory.loadUI(UIChoice.SWING);
+        final UIFactory uiFactory = createFactoryWithArguments();
+
+        uiFactory.loadUI();
+        uiFactory.loadUI();
+    }
+
+    private UIFactory createFactoryWithArguments(final String... arguments) {
+        final ArgumentParser argumentParser = new ArgumentParser(arguments);
+        final UIFactory uiFactory = spy(new UIFactory(argumentParser));
+
+        doNothing().when(uiFactory).loadConsoleUserInterface();
+        doNothing().when(uiFactory).loadSwingUserInterface();
+        when(uiFactory.isHeadless()).thenReturn(false);
+
+        return uiFactory;
     }
 }
