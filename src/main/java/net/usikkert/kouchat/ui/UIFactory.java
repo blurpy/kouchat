@@ -54,25 +54,19 @@ public class UIFactory {
 
         else {
             if (choice == UIChoice.SWING) {
-                if (GraphicsEnvironment.isHeadless()) {
+                if (isHeadless()) {
                     throw new UIException("The Swing User Interface could not be loaded" +
                             " because a graphical environment could not be detected.");
                 }
 
                 else {
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            new KouChatFrame();
-                        }
-                    });
-
+                    loadSwingUserInterface();
                     done = true;
                 }
             }
 
             else if (choice == UIChoice.CONSOLE) {
-                new KouChatConsole();
+                loadConsoleUserInterface();
                 done = true;
             }
 
@@ -80,5 +74,22 @@ public class UIFactory {
                 throw new UIException("Unknown User Interface requested.");
             }
         }
+    }
+
+    boolean isHeadless() {
+        return GraphicsEnvironment.isHeadless();
+    }
+
+    void loadSwingUserInterface() {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new KouChatFrame();
+            }
+        });
+    }
+
+    void loadConsoleUserInterface() {
+        new KouChatConsole();
     }
 }
