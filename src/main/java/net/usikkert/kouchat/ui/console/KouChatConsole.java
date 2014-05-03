@@ -22,7 +22,6 @@
 
 package net.usikkert.kouchat.ui.console;
 
-import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.Settings;
 
 /**
@@ -37,8 +36,8 @@ public class KouChatConsole {
      * the necessary services.
      */
     public KouChatConsole() {
-        System.setProperty(Constants.PROPERTY_CLIENT_UI, "Console");
         final Settings settings = new Settings();
+        settings.setClient("Console");
 
         final ConsoleMediator mediator = new ConsoleMediator(settings);
         mediator.start();

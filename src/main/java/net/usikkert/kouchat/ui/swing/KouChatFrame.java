@@ -88,9 +88,8 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * Initializes all components, shows the window, and starts the network.
      */
     public KouChatFrame() {
-        System.setProperty(Constants.PROPERTY_CLIENT_UI, "Swing");
-
         settings = new Settings();
+        settings.setClient("Swing");
         me = settings.getMe();
 
         setLookAndFeel();
