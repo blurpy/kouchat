@@ -79,7 +79,7 @@ public class UIFactoryTest {
     @Test
     public void loadUIWithNoArgumentShouldThrowExceptionIfHeadless() throws UIException {
         expectedException.expect(UIException.class);
-        expectedException.expectMessage("The Swing User Interface could not be loaded because a " +
+        expectedException.expectMessage("Error: The Swing User Interface could not be loaded because a " +
                 "graphical environment could not be detected.");
 
         final UIFactory uiFactory = createFactoryWithArguments();
@@ -100,7 +100,7 @@ public class UIFactoryTest {
     @Test
     public void loadUIMoreThanOnceShouldThrowException() throws UIException {
         expectedException.expect(UIException.class);
-        expectedException.expectMessage("A User Interface has already been loaded.");
+        expectedException.expectMessage("Error: A User Interface has already been loaded.");
 
         final UIFactory uiFactory = createFactoryWithArguments();
 

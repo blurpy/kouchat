@@ -65,7 +65,7 @@ public class UIFactory {
      */
     public void loadUI() throws UIException {
         if (done) {
-            throw new UIException("A User Interface has already been loaded.");
+            throw new UIException("Error: A User Interface has already been loaded.");
         }
 
         else {
@@ -77,7 +77,7 @@ public class UIFactory {
 
             else {
                 if (isHeadless()) {
-                    throw new UIException("The Swing User Interface could not be loaded" +
+                    throw new UIException("Error: The Swing User Interface could not be loaded" +
                             " because a graphical environment could not be detected.");
                 }
 
