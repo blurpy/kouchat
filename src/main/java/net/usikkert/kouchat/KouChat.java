@@ -24,6 +24,7 @@ package net.usikkert.kouchat;
 
 import net.usikkert.kouchat.argument.Argument;
 import net.usikkert.kouchat.argument.ArgumentParser;
+import net.usikkert.kouchat.argument.ArgumentResponder;
 import net.usikkert.kouchat.ui.UIChoice;
 import net.usikkert.kouchat.ui.UIException;
 import net.usikkert.kouchat.ui.UIFactory;
@@ -60,28 +61,10 @@ public final class KouChat {
      * @param arguments The arguments given when starting KouChat.
      */
     public static void main(final String[] arguments) {
-        System.out.println(Constants.APP_NAME + " v" + Constants.APP_VERSION);
-        System.out.println("By " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL + " - " + Constants.APP_WEB);
-
         final ArgumentParser argumentParser = new ArgumentParser(arguments);
+        final ArgumentResponder argumentResponder = new ArgumentResponder(argumentParser, System.out);
 
-        if (argumentParser.getNumberOfArguments() == 0) {
-            System.out.println("Use " + Argument.HELP + " for more information");
-        }
-
-        if (argumentParser.getNumberOfUnknownArguments() > 0) {
-            System.out.println("\nUnknown arguments: " + argumentParser.getUnknownArguments() +
-                    ". Use " + Argument.HELP + " for more information");
-            return;
-        }
-
-        if (argumentParser.hasArgument(Argument.VERSION)) {
-            return;
-        }
-
-        if (argumentParser.hasArgument(Argument.HELP)) {
-            System.out.println("\nArguments:");
-            System.out.println(Argument.getArgumentsAsString());
+        if (!argumentResponder.respond()) {
             return;
         }
 
