@@ -49,6 +49,17 @@ public class ArgumentTest {
     }
 
     @Test
+    public void getFullArgumentNameShouldReturnTheFullArgumentName() {
+        assertEquals("--console", Argument.CONSOLE.getFullArgumentName());
+        assertEquals("--debug", Argument.DEBUG.getFullArgumentName());
+        assertEquals("--help", Argument.HELP.getFullArgumentName());
+        assertEquals("--version", Argument.VERSION.getFullArgumentName());
+        assertEquals("--no-private-chat", Argument.NO_PRIVATE_CHAT.getFullArgumentName());
+        assertEquals("--always-log", Argument.ALWAYS_LOG.getFullArgumentName());
+        assertEquals("--log-location", Argument.LOG_LOCATION.getFullArgumentName());
+    }
+
+    @Test
     public void getArgumentsAsStringShouldIncludeDetailsFromAllValidArguments() {
         final String argumentsAsString = Argument.getArgumentsAsString();
 

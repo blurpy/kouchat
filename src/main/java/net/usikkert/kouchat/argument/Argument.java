@@ -58,6 +58,15 @@ public enum Argument {
     }
 
     /**
+     * Returns the long/full name of the argument.
+     *
+     * @return The full argument name.
+     */
+    public String getFullArgumentName() {
+        return fullArgumentName;
+    }
+
+    /**
      * Checks if the argument in the parameter is equal to "this" enum argument.
      *
      * @param argument The argument to compare with.
