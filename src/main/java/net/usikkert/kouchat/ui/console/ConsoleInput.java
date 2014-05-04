@@ -43,20 +43,13 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class ConsoleInput extends Thread {
 
-    /** The logger. */
     private static final Logger LOG = Logger.getLogger(ConsoleInput.class.getName());
 
-    /** For reading keyboard input from the command line. */
     private final BufferedReader stdin;
-
-    /** The controller, for access to lower layer functionality. */
     private final Controller controller;
-
-    /** For parsing commands. */
     private final CommandParser cmdParser;
-
-    /** For showing messages in the ui. */
     private final MessageController msgController;
+    private final Thread shutdownHook;
 
     /**
      * Constructor. Initializes input from System.in.
@@ -77,12 +70,12 @@ public class ConsoleInput extends Thread {
         stdin = new BufferedReader(new InputStreamReader(System.in));
         cmdParser = new CommandParser(controller, ui, settings);
 
-        Runtime.getRuntime().addShutdownHook(new Thread("ConsoleInputShutdownHook") {
+        shutdownHook = new Thread("ConsoleInputShutdownHook") {
             @Override
             public void run() {
                 System.out.println("Quitting - good bye!");
             }
-        });
+        };
     }
 
     /**
@@ -91,6 +84,7 @@ public class ConsoleInput extends Thread {
      */
     @Override
     public void run() {
+        Runtime.getRuntime().addShutdownHook(shutdownHook);
         String input = "";
 
         while (input != null) {
