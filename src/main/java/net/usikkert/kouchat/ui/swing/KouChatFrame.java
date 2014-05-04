@@ -120,7 +120,6 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
         compHandler.setMenuBar(menuBar);
 
         mediator = new SwingMediator(compHandler, imageLoader, settings);
-        mediator.activateJMX();
 
         buttonP.setMediator(mediator);
         sideP.setMediator(mediator);

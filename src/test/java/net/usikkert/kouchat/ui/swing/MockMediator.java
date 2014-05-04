@@ -44,16 +44,6 @@ public class MockMediator implements Mediator {
      * {@inheritDoc}
      */
     @Override
-    public void activateJMX() {
-
-    }
-
-    /**
-     * Not implemented.
-     *
-     * {@inheritDoc}
-     */
-    @Override
     public void activatedPrivChat(final User user) {
 
     }

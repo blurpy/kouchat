@@ -68,9 +68,10 @@ public class ConsoleMediator implements UserInterface {
     }
 
     /**
-     * Will log on to the network, start the input loop thread, and activate jmx beans.
+     * Logs on to the network, starts the input loop thread, and activates jmx beans.
      */
     public void start() {
+        controller.start();
         controller.logOn();
         consoleInput.start();
         jmxAgent.activate();

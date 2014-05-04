@@ -222,9 +222,11 @@ public class SwingMediatorTest {
     }
 
     @Test
-    public void activateJMXShouldActiveJMXAgent() {
-        mediator.activateJMX();
+    public void startShouldLogOnControllerAndActivateJMXAgent() {
+        mediator.start();
 
+        verify(controller).start();
+        verify(controller).logOn();
         verify(jmxAgent).activate();
     }
 }

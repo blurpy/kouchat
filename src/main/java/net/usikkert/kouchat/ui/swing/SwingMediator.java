@@ -110,14 +110,6 @@ public class SwingMediator implements Mediator, UserInterface {
     }
 
     /**
-     * Activates the JMX beans for remote control of KouChat with JConsole.
-     */
-    @Override
-    public void activateJMX() {
-        jmxAgent.activate();
-    }
-
-    /**
      * Hides the main window in the system tray if a system tray is supported.
      * Or just minimizes the window to the taskbar.
      */
@@ -209,11 +201,13 @@ public class SwingMediator implements Mediator, UserInterface {
     }
 
     /**
-     * Logs on to the network.
+     * Logs on to the network and activates jmx beans.
      */
     @Override
     public void start() {
+        controller.start();
         controller.logOn();
+        jmxAgent.activate();
         updateTitleAndTray();
     }
 

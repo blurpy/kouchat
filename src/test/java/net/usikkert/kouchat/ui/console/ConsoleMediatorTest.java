@@ -83,6 +83,7 @@ public class ConsoleMediatorTest {
     public void startShouldLogOnControllerAndStartInputThreadAndActivateJMXAgent() {
         mediator.start();
 
+        verify(controller).start();
         verify(controller).logOn();
         verify(consoleInput).start();
         verify(jmxAgent).activate();

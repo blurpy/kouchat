@@ -35,11 +35,6 @@ import net.usikkert.kouchat.ui.PrivateChatWindow;
 public interface Mediator {
 
     /**
-     * Activates the JMX beans for remote control of KouChat with JConsole.
-     */
-    void activateJMX();
-
-    /**
      * Hides the main window in the system tray,
      * if a system tray is supported.
      */
