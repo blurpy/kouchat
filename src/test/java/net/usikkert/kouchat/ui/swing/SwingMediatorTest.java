@@ -27,6 +27,7 @@ import static org.mockito.Mockito.*;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import net.usikkert.kouchat.jmx.JMXAgent;
 import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
@@ -54,6 +55,7 @@ public class SwingMediatorTest {
     private UITools uiTools;
     private Controller controller;
     private MessageController msgController;
+    private JMXAgent jmxAgent;
 
     @Before
     public void setUp() {
@@ -82,6 +84,8 @@ public class SwingMediatorTest {
         uiTools = TestUtils.setFieldValueWithMock(mediator, "uiTools", UITools.class);
         controller = TestUtils.setFieldValueWithMock(mediator, "controller", Controller.class);
         msgController = TestUtils.setFieldValueWithMock(mediator, "msgController", MessageController.class);
+        jmxAgent = TestUtils.setFieldValueWithMock(mediator, "jmxAgent", JMXAgent.class);
+
         when(controller.getUserList()).thenReturn(new SortedUserList());
     }
 
@@ -215,5 +219,12 @@ public class SwingMediatorTest {
         mediator.setAway();
 
         verify(messageTF).requestFocusInWindow();
+    }
+
+    @Test
+    public void activateJMXShouldActiveJMXAgent() {
+        mediator.activateJMX();
+
+        verify(jmxAgent).activate();
     }
 }

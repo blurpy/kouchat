@@ -46,14 +46,23 @@ public class JMXAgent {
 
     private static final Logger LOG = Logger.getLogger(JMXAgent.class.getName());
 
+    private final JMXBeanLoader jmxBeanLoader;
+
     /**
-     * Default constructor. Registers the MBeans, and logs any failures.
+     * Constructor.
      *
      * @param jmxBeanLoader The bean loader containing the JMX MBeans to register and activate.
      */
     public JMXAgent(final JMXBeanLoader jmxBeanLoader) {
         Validate.notNull(jmxBeanLoader, "JMXBeanLoader can not be null");
 
+        this.jmxBeanLoader = jmxBeanLoader;
+    }
+
+    /**
+     * Registers the MBeans, and logs any failures.
+     */
+    public void activate() {
         final MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
         final List<JMXBean> jmxBeans = jmxBeanLoader.getJMXBeans();
 

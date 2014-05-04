@@ -69,6 +69,7 @@ public class SwingMediator implements Mediator, UserInterface {
     private final CommandParser cmdParser;
     private final SoundBeeper beeper;
     private final MessageController msgController;
+    private final JMXAgent jmxAgent;
 
     private final ImageLoader imageLoader;
     private final Settings settings;
@@ -102,6 +103,7 @@ public class SwingMediator implements Mediator, UserInterface {
         me = settings.getMe();
         cmdParser = new CommandParser(controller, this, settings);
         beeper = new SoundBeeper(settings);
+        jmxAgent = new JMXAgent(controller.createJMXBeanLoader());
 
         sideP.setUserList(controller.getUserList());
         mainP.setAutoCompleter(controller.getAutoCompleter());
@@ -112,7 +114,7 @@ public class SwingMediator implements Mediator, UserInterface {
      */
     @Override
     public void activateJMX() {
-        new JMXAgent(controller.createJMXBeanLoader());
+        jmxAgent.activate();
     }
 
     /**

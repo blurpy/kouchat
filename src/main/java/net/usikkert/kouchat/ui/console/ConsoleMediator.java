@@ -41,9 +41,10 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class ConsoleMediator implements UserInterface {
 
+    private final Settings settings;
     private final MessageController msgController;
     private final Controller controller;
-    private final Settings settings;
+    private final JMXAgent jmxAgent;
     private final ConsoleInput consoleInput;
     private final Sleeper sleeper;
 
@@ -61,17 +62,18 @@ public class ConsoleMediator implements UserInterface {
         final ConsoleChatWindow chat = new ConsoleChatWindow();
         msgController = new MessageController(chat, this, settings);
         controller = new Controller(this, settings);
-        new JMXAgent(controller.createJMXBeanLoader());
+        jmxAgent = new JMXAgent(controller.createJMXBeanLoader());
         consoleInput = new ConsoleInput(controller, this, settings);
         sleeper = new Sleeper();
     }
 
     /**
-     * Will log on to the network, and start the input loop thread.
+     * Will log on to the network, start the input loop thread, and activate jmx beans.
      */
     public void start() {
         controller.logOn();
         consoleInput.start();
+        jmxAgent.activate();
     }
 
     /**

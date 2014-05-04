@@ -25,6 +25,7 @@ package net.usikkert.kouchat.ui.console;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import net.usikkert.kouchat.jmx.JMXAgent;
 import net.usikkert.kouchat.misc.ChatLogger;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
@@ -57,6 +58,7 @@ public class ConsoleMediatorTest {
     private Controller controller;
     private ConsoleInput consoleInput;
     private Sleeper sleeper;
+    private JMXAgent jmxAgent;
 
     @Before
     public void setUp() {
@@ -66,6 +68,7 @@ public class ConsoleMediatorTest {
         controller = TestUtils.setFieldValueWithMock(mediator, "controller", Controller.class);
         consoleInput = TestUtils.setFieldValueWithMock(mediator, "consoleInput", ConsoleInput.class);
         sleeper = TestUtils.setFieldValueWithMock(mediator, "sleeper", Sleeper.class);
+        jmxAgent = TestUtils.setFieldValueWithMock(mediator, "jmxAgent", JMXAgent.class);
     }
 
     @Test
@@ -77,11 +80,12 @@ public class ConsoleMediatorTest {
     }
 
     @Test
-    public void startShouldLogOnControllerAndStartInputThread() {
+    public void startShouldLogOnControllerAndStartInputThreadAndActivateJMXAgent() {
         mediator.start();
 
         verify(controller).logOn();
         verify(consoleInput).start();
+        verify(jmxAgent).activate();
     }
 
     @Test
