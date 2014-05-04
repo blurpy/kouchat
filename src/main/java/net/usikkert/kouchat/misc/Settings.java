@@ -143,7 +143,6 @@ public class Settings {
         smileys = true;
         lookAndFeel = "";
 
-        loadArgumentSettings();
         loadSettings();
     }
 
@@ -183,12 +182,6 @@ public class Settings {
         }
 
         return Integer.toString(code);
-    }
-
-    private void loadArgumentSettings() {
-        noPrivateChat = Boolean.valueOf(System.getProperty(Constants.SETTINGS_NO_PRIVATE_CHAT));
-        alwaysLog = Boolean.valueOf(System.getProperty(Constants.SETTINGS_ALWAYS_LOG));
-        logLocation = System.getProperty(Constants.SETTINGS_LOG_LOCATION);
     }
 
     /**
