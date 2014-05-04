@@ -22,28 +22,39 @@
 
 package net.usikkert.kouchat.ui.console;
 
+import static org.junit.Assert.*;
+
+import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.Settings;
-import net.usikkert.kouchat.util.Validate;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
- * Loads KouChat in console mode.
+ * Test of {@link KouChatConsole}.
  *
  * @author Christian Ihle
  */
-public class KouChatConsole {
+public class KouChatConsoleTest {
 
-    /**
-     * Default constructor. Initializes the User Interface and
-     * the necessary services.
-     *
-     * @param settings The settings to use for this application.
-     */
-    public KouChatConsole(final Settings settings) {
-        Validate.notNull(settings, "Settings can not be null");
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
-        settings.setClient("Console");
+    @Test
+    public void constructorShouldThrowExceptionIfSettingsIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Settings can not be null");
 
-        final ConsoleMediator mediator = new ConsoleMediator(settings);
-        mediator.start();
+        new KouChatConsole(null);
+    }
+
+    @Test
+    public void constructorShouldSetClientInSettings() {
+        final Settings settings = new Settings();
+
+        new KouChatConsole(settings);
+
+        assertEquals("KouChat v" + Constants.APP_VERSION + " Console", settings.getMe().getClient());
     }
 }

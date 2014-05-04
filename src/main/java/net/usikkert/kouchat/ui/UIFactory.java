@@ -111,6 +111,6 @@ public class UIFactory {
     void loadConsoleUserInterface() {
         System.out.println("\nLoading Console User Interface\n");
 
-        new KouChatConsole();
+        new KouChatConsole(settings);
     }
 }
