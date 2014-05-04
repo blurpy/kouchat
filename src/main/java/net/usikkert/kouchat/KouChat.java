@@ -25,6 +25,7 @@ package net.usikkert.kouchat;
 import net.usikkert.kouchat.argument.Argument;
 import net.usikkert.kouchat.argument.ArgumentParser;
 import net.usikkert.kouchat.argument.ArgumentResponder;
+import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.ui.UIException;
 import net.usikkert.kouchat.ui.UIFactory;
 import net.usikkert.kouchat.util.LogInitializer;
@@ -88,7 +89,7 @@ public final class KouChat {
 
     private static void loadUserInterface(final ArgumentParser argumentParser) {
         try {
-            new UIFactory(argumentParser).loadUI();
+            new UIFactory(argumentParser, new Settings()).loadUI();
         }
 
         catch (final UIException e) {

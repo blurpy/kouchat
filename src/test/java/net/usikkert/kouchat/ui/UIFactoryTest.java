@@ -25,6 +25,7 @@ package net.usikkert.kouchat.ui;
 import static org.mockito.Mockito.*;
 
 import net.usikkert.kouchat.argument.ArgumentParser;
+import net.usikkert.kouchat.misc.Settings;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -45,7 +46,15 @@ public class UIFactoryTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Argument parser can not be null");
 
-        new UIFactory(null);
+        new UIFactory(null, new Settings());
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfSettingsIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Settings can not be null");
+
+        new UIFactory(new ArgumentParser(new String[0]), null);
     }
 
     @Test
@@ -110,7 +119,7 @@ public class UIFactoryTest {
 
     private UIFactory createFactoryWithArguments(final String... arguments) {
         final ArgumentParser argumentParser = new ArgumentParser(arguments);
-        final UIFactory uiFactory = spy(new UIFactory(argumentParser));
+        final UIFactory uiFactory = spy(new UIFactory(argumentParser, new Settings()));
 
         doNothing().when(uiFactory).loadConsoleUserInterface();
         doNothing().when(uiFactory).loadSwingUserInterface();
