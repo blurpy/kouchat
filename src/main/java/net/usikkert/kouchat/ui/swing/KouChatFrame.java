@@ -48,6 +48,7 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.util.UncaughtExceptionLogger;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This is the main chat window.
@@ -85,10 +86,14 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
     /**
      * Constructor.
      *
-     * Initializes all components, shows the window, and starts the network.
+     * <p>Initializes all components, shows the window, and starts the network.</p>
+     *
+     * @param settings The settings to use for this application.
      */
-    public KouChatFrame() {
-        settings = new Settings();
+    public KouChatFrame(final Settings settings) {
+        Validate.notNull(settings, "Settings can not be null");
+        this.settings = settings;
+
         settings.setClient("Swing");
         me = settings.getMe();
 

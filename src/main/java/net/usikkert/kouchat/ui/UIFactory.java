@@ -103,7 +103,7 @@ public class UIFactory {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new KouChatFrame();
+                new KouChatFrame(settings);
             }
         });
     }
