@@ -25,6 +25,7 @@ package net.usikkert.kouchat;
 import net.usikkert.kouchat.argument.Argument;
 import net.usikkert.kouchat.argument.ArgumentParser;
 import net.usikkert.kouchat.argument.ArgumentResponder;
+import net.usikkert.kouchat.argument.ArgumentSettingsLoader;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.ui.UIException;
 import net.usikkert.kouchat.ui.UIFactory;
@@ -72,24 +73,17 @@ public final class KouChat {
         // Initialize as early as possible to catch all exceptions
         new UncaughtExceptionLogger();
 
-        setSettingsFromArguments(argumentParser);
-        loadUserInterface(argumentParser);
+        final Settings settings = new Settings();
+        final ArgumentSettingsLoader argumentSettingsLoader = new ArgumentSettingsLoader();
+        argumentSettingsLoader.loadSettingsFromArguments(argumentParser, settings);
+
+        loadUserInterface(argumentParser, settings);
     }
 
-    private static void setSettingsFromArguments(final ArgumentParser argumentParser) {
-        // Using system properties instead of using Settings directly to avoid loading the settings to early,
-        // so client property doesn't end up being null.
-        System.setProperty(Constants.SETTINGS_ALWAYS_LOG, Boolean.toString(argumentParser.hasArgument(Argument.ALWAYS_LOG)));
-        System.setProperty(Constants.SETTINGS_NO_PRIVATE_CHAT, Boolean.toString(argumentParser.hasArgument(Argument.NO_PRIVATE_CHAT)));
-
-        if (argumentParser.hasArgument(Argument.LOG_LOCATION)) {
-            System.setProperty(Constants.SETTINGS_LOG_LOCATION, argumentParser.getArgument(Argument.LOG_LOCATION).getValue());
-        }
-    }
-
-    private static void loadUserInterface(final ArgumentParser argumentParser) {
+    private static void loadUserInterface(final ArgumentParser argumentParser, final Settings settings) {
         try {
-            new UIFactory(argumentParser, new Settings()).loadUI();
+            final UIFactory uiFactory = new UIFactory(argumentParser, settings);
+            uiFactory.loadUI();
         }
 
         catch (final UIException e) {
