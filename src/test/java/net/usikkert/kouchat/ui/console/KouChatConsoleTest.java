@@ -23,10 +23,13 @@
 package net.usikkert.kouchat.ui.console;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.util.TestUtils;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -41,6 +44,18 @@ public class KouChatConsoleTest {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
+    private KouChatConsole kouChatConsole;
+
+    private Settings settings;
+    private ConsoleMediator consoleMediator;
+
+    @Before
+    public void setUp() {
+        settings = new Settings();
+        kouChatConsole = new KouChatConsole(settings);
+        consoleMediator = TestUtils.setFieldValueWithMock(kouChatConsole, "consoleMediator", ConsoleMediator.class);
+    }
+
     @Test
     public void constructorShouldThrowExceptionIfSettingsIsNull() {
         expectedException.expect(IllegalArgumentException.class);
@@ -51,10 +66,13 @@ public class KouChatConsoleTest {
 
     @Test
     public void constructorShouldSetClientInSettings() {
-        final Settings settings = new Settings();
-
-        new KouChatConsole(settings);
-
         assertEquals("KouChat v" + Constants.APP_VERSION + " Console", settings.getMe().getClient());
+    }
+
+    @Test
+    public void startShouldStartTheMediator() {
+        kouChatConsole.start();
+
+        verify(consoleMediator).start();
     }
 }

@@ -32,9 +32,10 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class KouChatConsole {
 
+    private final ConsoleMediator consoleMediator;
+
     /**
-     * Default constructor. Initializes the User Interface and
-     * the necessary services.
+     * Constructor.
      *
      * @param settings The settings to use for this application.
      */
@@ -42,8 +43,13 @@ public class KouChatConsole {
         Validate.notNull(settings, "Settings can not be null");
 
         settings.setClient("Console");
+        consoleMediator = new ConsoleMediator(settings);
+    }
 
-        final ConsoleMediator mediator = new ConsoleMediator(settings);
-        mediator.start();
+    /**
+     * Initializes the User Interface and the necessary services.
+     */
+    public void start() {
+        consoleMediator.start();
     }
 }
