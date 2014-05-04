@@ -31,7 +31,7 @@ import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.ui.UserInterface;
-import net.usikkert.kouchat.util.Tools;
+import net.usikkert.kouchat.util.Sleeper;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -41,18 +41,16 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class ConsoleMediator implements UserInterface {
 
-    /** For showing messages in the ui. */
     private final MessageController msgController;
-
-    /** The controller, for access to lower layer functionality. */
     private final Controller controller;
-
     private final Settings settings;
+    private final ConsoleInput consoleInput;
+    private final Sleeper sleeper;
 
     /**
      * Constructor.
      *
-     * Initializes the lower layers, and starts the input loop thread.
+     * <p>Initializes the lower layers.</p>
      *
      * @param settings The settings to use.
      */
@@ -64,16 +62,16 @@ public class ConsoleMediator implements UserInterface {
         msgController = new MessageController(chat, this, settings);
         controller = new Controller(this, settings);
         new JMXAgent(controller.createJMXBeanLoader());
-
-        final ConsoleInput ci = new ConsoleInput(controller, this, settings);
-        ci.start();
+        consoleInput = new ConsoleInput(controller, this, settings);
+        sleeper = new Sleeper();
     }
 
     /**
-     * Will log on to the network.
+     * Will log on to the network, and start the input loop thread.
      */
     public void start() {
         controller.logOn();
+        consoleInput.start();
     }
 
     /**
@@ -115,7 +113,7 @@ public class ConsoleMediator implements UserInterface {
     @Override
     public void showFileSave(final FileReceiver fileReceiver) {
         while (!fileReceiver.isAccepted() && !fileReceiver.isRejected() && !fileReceiver.isCanceled()) {
-            Tools.sleep(500);
+            sleeper.sleep(500);
         }
     }
 
