@@ -89,9 +89,12 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * <p>Initializes all components, shows the window, and starts the network.</p>
      *
      * @param settings The settings to use for this application.
+     * @param uncaughtExceptionLogger The uncaught exception logger to use for registering uncaught exception listener.
      */
-    public KouChatFrame(final Settings settings) {
+    public KouChatFrame(final Settings settings, final UncaughtExceptionLogger uncaughtExceptionLogger) {
         Validate.notNull(settings, "Settings can not be null");
+        Validate.notNull(uncaughtExceptionLogger, "Uncaught exception logger can not be null");
+
         this.settings = settings;
 
         settings.setClient("Swing");
@@ -100,7 +103,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
         setLookAndFeel();
         new SwingPopupErrorHandler();
         final ImageLoader imageLoader = new ImageLoader();
-        registerUncaughtExceptionListener(imageLoader);
+        uncaughtExceptionLogger.registerUncaughtExceptionListener(new ExceptionDialog(null, true, imageLoader));
         statusIcons = new StatusIcons(imageLoader);
 
         final ButtonPanel buttonP = new ButtonPanel();
@@ -154,18 +157,6 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
                 mainP.getMsgTF().requestFocusInWindow();
             }
         });
-    }
-
-    /**
-     * Registers the {@link ExceptionDialog} as an uncaught exception listener.
-     *
-     * @param imageLoader The image loader.
-     */
-    private void registerUncaughtExceptionListener(final ImageLoader imageLoader) {
-        final UncaughtExceptionLogger uncaughtExceptionLogger =
-            (UncaughtExceptionLogger) Thread.getDefaultUncaughtExceptionHandler();
-        uncaughtExceptionLogger.registerUncaughtExceptionListener(
-                new ExceptionDialog(null, true, imageLoader));
     }
 
     /**
