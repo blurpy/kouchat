@@ -71,18 +71,19 @@ public final class KouChat {
 
         new LogInitializer(argumentParser.hasArgument(Argument.DEBUG));
         // Initialize as early as possible to catch all exceptions
-        new UncaughtExceptionLogger();
+        final UncaughtExceptionLogger uncaughtExceptionLogger = new UncaughtExceptionLogger();
 
         final Settings settings = new Settings();
         final ArgumentSettingsLoader argumentSettingsLoader = new ArgumentSettingsLoader();
         argumentSettingsLoader.loadSettingsFromArguments(argumentParser, settings);
 
-        loadUserInterface(argumentParser, settings);
+        loadUserInterface(argumentParser, settings, uncaughtExceptionLogger);
     }
 
-    private static void loadUserInterface(final ArgumentParser argumentParser, final Settings settings) {
+    private static void loadUserInterface(final ArgumentParser argumentParser, final Settings settings,
+                                          final UncaughtExceptionLogger uncaughtExceptionLogger) {
         try {
-            final UIFactory uiFactory = new UIFactory(argumentParser, settings);
+            final UIFactory uiFactory = new UIFactory(argumentParser, settings, uncaughtExceptionLogger);
             uiFactory.loadUI();
         }
 

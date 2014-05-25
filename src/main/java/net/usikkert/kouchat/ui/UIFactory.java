@@ -31,6 +31,7 @@ import net.usikkert.kouchat.argument.ArgumentParser;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.ui.console.KouChatConsole;
 import net.usikkert.kouchat.ui.swing.KouChatFrame;
+import net.usikkert.kouchat.util.UncaughtExceptionLogger;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -42,6 +43,7 @@ public class UIFactory {
 
     private final ArgumentParser argumentParser;
     private final Settings settings;
+    private final UncaughtExceptionLogger uncaughtExceptionLogger;
 
     private boolean done;
 
@@ -50,10 +52,14 @@ public class UIFactory {
      *
      * @param argumentParser The arguments to use to select the ui to load.
      * @param settings The settings to use in the ui.
+     * @param uncaughtExceptionLogger The exception logger to use in the ui.
      */
-    public UIFactory(final ArgumentParser argumentParser, final Settings settings) {
+    public UIFactory(final ArgumentParser argumentParser, final Settings settings,
+                     final UncaughtExceptionLogger uncaughtExceptionLogger) {
+        this.uncaughtExceptionLogger = uncaughtExceptionLogger;
         Validate.notNull(argumentParser, "Argument parser can not be null");
         Validate.notNull(settings, "Settings can not be null");
+        Validate.notNull(uncaughtExceptionLogger, "Uncaught exception logger can not be null");
 
         this.argumentParser = argumentParser;
         this.settings = settings;
