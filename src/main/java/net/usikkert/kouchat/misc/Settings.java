@@ -36,6 +36,7 @@ import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.SettingsListener;
+import net.usikkert.kouchat.util.IOTools;
 import net.usikkert.kouchat.util.Tools;
 
 /**
@@ -60,11 +61,12 @@ import net.usikkert.kouchat.util.Tools;
  */
 public class Settings {
 
-    /** The logger. */
     private static final Logger LOG = Logger.getLogger(Settings.class.getName());
 
     /** The path to the file storing the settings. */
     private static final String FILENAME = Constants.APP_FOLDER + "kouchat.ini";
+
+    private final IOTools ioTools = new IOTools();
 
     /** A list of listeners. These listeners are notified when a setting is changed. */
     private final List<SettingsListener> listeners;
@@ -231,45 +233,10 @@ public class Settings {
         }
 
         finally {
-            try {
-                if (buffWriter != null) {
-                    buffWriter.flush();
-                }
-            }
-
-            catch (final IOException e) {
-                LOG.log(Level.SEVERE, e.toString(), e);
-            }
-
-            try {
-                if (fileWriter != null) {
-                    fileWriter.flush();
-                }
-            }
-
-            catch (final IOException e) {
-                LOG.log(Level.SEVERE, e.toString(), e);
-            }
-
-            try {
-                if (buffWriter != null) {
-                    buffWriter.close();
-                }
-            }
-
-            catch (final IOException e) {
-                LOG.log(Level.SEVERE, e.toString(), e);
-            }
-
-            try {
-                if (fileWriter != null) {
-                    fileWriter.close();
-                }
-            }
-
-            catch (final IOException e) {
-                LOG.log(Level.SEVERE, e.toString(), e);
-            }
+            ioTools.flush(buffWriter);
+            ioTools.flush(fileWriter);
+            ioTools.close(buffWriter);
+            ioTools.close(fileWriter);
         }
     }
 
@@ -333,15 +300,7 @@ public class Settings {
         }
 
         finally {
-            try {
-                if (fileStream != null) {
-                    fileStream.close();
-                }
-            }
-
-            catch (final IOException e) {
-                LOG.log(Level.SEVERE, e.toString(), e);
-            }
+            ioTools.close(fileStream);
         }
     }
 
