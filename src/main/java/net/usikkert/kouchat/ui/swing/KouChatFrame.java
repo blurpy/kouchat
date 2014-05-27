@@ -91,10 +91,14 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      *
      * @param settings The settings to use for this application.
      * @param uncaughtExceptionLogger The uncaught exception logger to use for registering uncaught exception listener.
+     * @param errorHandler The error handler to use for registering the swing error listener.
      */
-    public KouChatFrame(final Settings settings, final UncaughtExceptionLogger uncaughtExceptionLogger) {
+    public KouChatFrame(final Settings settings,
+                        final UncaughtExceptionLogger uncaughtExceptionLogger,
+                        final ErrorHandler errorHandler) {
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(uncaughtExceptionLogger, "Uncaught exception logger can not be null");
+        Validate.notNull(errorHandler, "Error handler logger can not be null");
 
         this.settings = settings;
 
@@ -102,7 +106,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
         me = settings.getMe();
 
         setLookAndFeel();
-        ErrorHandler.getErrorHandler().addErrorListener(new SwingPopupErrorHandler());
+        errorHandler.addErrorListener(new SwingPopupErrorHandler());
         final ImageLoader imageLoader = new ImageLoader();
         uncaughtExceptionLogger.registerUncaughtExceptionListener(new ExceptionDialog(null, true, imageLoader));
         statusIcons = new StatusIcons(imageLoader);
