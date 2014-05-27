@@ -474,6 +474,15 @@ public class UITools {
     }
 
     /**
+     * A wrapper for {@link SwingUtilities#invokeLater(Runnable)}.
+     *
+     * @param runnable The runnable to invoke later.
+     */
+    public void invokeLater(final Runnable runnable) {
+        SwingUtilities.invokeLater(runnable);
+    }
+
+    /**
      * Checks if the application is running on a KDE desktop. This is detected by the presence of
      * the environment variable <code>KDE_FULL_SESSION</code>.
      *

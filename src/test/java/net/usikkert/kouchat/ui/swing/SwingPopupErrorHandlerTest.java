@@ -22,40 +22,57 @@
 
 package net.usikkert.kouchat.ui.swing;
 
-import net.usikkert.kouchat.event.ErrorListener;
+import static org.mockito.Mockito.*;
+
+import net.usikkert.kouchat.util.TestUtils;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 /**
- * This is the implementation of the error listener for use
- * in the swing gui. When an error occurs, a message box is shown.
+ * Test of {@link SwingPopupErrorHandler}.
  *
  * @author Christian Ihle
  */
-public class SwingPopupErrorHandler implements ErrorListener {
+public class SwingPopupErrorHandlerTest {
 
-    private final UITools uiTools = new UITools();
+    private SwingPopupErrorHandler errorHandler;
+    private UITools uiTools;
 
-    /**
-     * Shows an error message in a non-blocking JOptionPane message box.
-     *
-     * @param errorMsg The message to show.
-     */
-    @Override
-    public void errorReported(final String errorMsg) {
-        uiTools.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                uiTools.showErrorMessage(errorMsg, "Error");
-            }
-        });
+    @Before
+    public void setUp() {
+        errorHandler = new SwingPopupErrorHandler();
+        uiTools = TestUtils.setFieldValueWithMock(errorHandler, "uiTools", UITools.class);
     }
 
-    /**
-     * Shows a critical error message in a JOptionPane message box.
-     *
-     * @param criticalErrorMsg The message to show.
-     */
-    @Override
-    public void criticalErrorReported(final String criticalErrorMsg) {
-        uiTools.showErrorMessage(criticalErrorMsg, "Critical Error");
+    @Test
+    public void errorReportedShouldShowErrorMessageUsingInvokeLater() {
+        doAnswer(withRunningArgument()).when(uiTools).invokeLater(any(Runnable.class));
+
+        errorHandler.errorReported("This is an error");
+
+        verify(uiTools).invokeLater(any(Runnable.class));
+        verify(uiTools).showErrorMessage("This is an error", "Error");
+    }
+
+    @Test
+    public void criticalErrorReportedShouldShowErrorMessage() {
+        errorHandler.criticalErrorReported("This is another error");
+
+        verify(uiTools).showErrorMessage("This is another error", "Critical Error");
+    }
+
+    private Answer withRunningArgument() {
+        return new Answer<Void>() {
+            @Override
+            public Void answer(final InvocationOnMock invocation) throws Throwable {
+                final Runnable runnable = (Runnable) invocation.getArguments()[0];
+                runnable.run();
+
+                return null;
+            }
+        };
     }
 }
