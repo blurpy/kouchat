@@ -110,7 +110,8 @@ public class UIFactory {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new KouChatFrame(settings, uncaughtExceptionLogger, ErrorHandler.getErrorHandler());
+                final KouChatFrame kouChatFrame = new KouChatFrame(settings, uncaughtExceptionLogger, ErrorHandler.getErrorHandler());
+                kouChatFrame.start();
             }
         });
     }

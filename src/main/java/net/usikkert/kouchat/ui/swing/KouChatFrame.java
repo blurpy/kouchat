@@ -87,7 +87,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
     /**
      * Constructor.
      *
-     * <p>Initializes all components, shows the window, and starts the network.</p>
+     * <p>Initializes all components.</p>
      *
      * @param settings The settings to use for this application.
      * @param uncaughtExceptionLogger The uncaught exception logger to use for registering uncaught exception listener.
@@ -146,22 +146,20 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
         setSize(650, 480);
         setMinimumSize(new Dimension(450, 300));
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        setVisible(true);
 
         getRootPane().addFocusListener(this);
         addWindowListener(this);
         fixTextFieldFocus();
         hideWithEscape();
         mediator.updateTitleAndTray();
+    }
 
-        // Try to stop the gui from lagging during startup
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                mediator.start();
-                mainP.getMsgTF().requestFocusInWindow();
-            }
-        });
+    /**
+     * Shows the window, and starts the network.
+     */
+    public void start() {
+        setVisible(true);
+        mediator.start();
     }
 
     /**
