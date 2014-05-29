@@ -36,6 +36,7 @@ import net.usikkert.kouchat.util.Validate;
 public enum Argument {
 
     CONSOLE("-c", "--console", "Starts " + Constants.APP_NAME + " in console mode.", false),
+    MINIMIZED(null, "--minimized", "Starts " + Constants.APP_NAME + " minimized.", false),
     DEBUG("-d", "--debug", "Starts " + Constants.APP_NAME + " with verbose debug output enabled.", false),
     HELP("-h", "--help", "Shows this help message.", false),
     VERSION("-v", "--version", "Shows version information.", false),

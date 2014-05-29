@@ -37,20 +37,22 @@ public class ArgumentTest {
     public void getValidArgumentsShouldReturnAllArgumentsExceptUnknown() {
         final Argument[] validArguments = Argument.getValidArguments();
 
-        assertEquals(7, validArguments.length);
+        assertEquals(8, validArguments.length);
 
         assertEquals(Argument.CONSOLE, validArguments[0]);
-        assertEquals(Argument.DEBUG, validArguments[1]);
-        assertEquals(Argument.HELP, validArguments[2]);
-        assertEquals(Argument.VERSION, validArguments[3]);
-        assertEquals(Argument.NO_PRIVATE_CHAT, validArguments[4]);
-        assertEquals(Argument.ALWAYS_LOG, validArguments[5]);
-        assertEquals(Argument.LOG_LOCATION, validArguments[6]);
+        assertEquals(Argument.MINIMIZED, validArguments[1]);
+        assertEquals(Argument.DEBUG, validArguments[2]);
+        assertEquals(Argument.HELP, validArguments[3]);
+        assertEquals(Argument.VERSION, validArguments[4]);
+        assertEquals(Argument.NO_PRIVATE_CHAT, validArguments[5]);
+        assertEquals(Argument.ALWAYS_LOG, validArguments[6]);
+        assertEquals(Argument.LOG_LOCATION, validArguments[7]);
     }
 
     @Test
     public void getFullArgumentNameShouldReturnTheFullArgumentName() {
         assertEquals("--console", Argument.CONSOLE.getFullArgumentName());
+        assertEquals("--minimized", Argument.MINIMIZED.getFullArgumentName());
         assertEquals("--debug", Argument.DEBUG.getFullArgumentName());
         assertEquals("--help", Argument.HELP.getFullArgumentName());
         assertEquals("--version", Argument.VERSION.getFullArgumentName());
@@ -65,6 +67,7 @@ public class ArgumentTest {
 
         final String expected =
                 " --console (-c)          Starts KouChat in console mode.\n" +
+                " --minimized             Starts KouChat minimized.\n" +
                 " --debug (-d)            Starts KouChat with verbose debug output enabled.\n" +
                 " --help (-h)             Shows this help message.\n" +
                 " --version (-v)          Shows version information.\n" +
