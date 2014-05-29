@@ -35,13 +35,13 @@ import net.usikkert.kouchat.util.Validate;
  */
 public enum Argument {
 
-    CONSOLE("-c", "--console", "Starts " + Constants.APP_NAME + " in console mode", false),
-    DEBUG("-d", "--debug", "Starts " + Constants.APP_NAME + " with verbose debug output enabled", false),
-    HELP("-h", "--help", "Shows this help message", false),
-    VERSION("-v", "--version", "Shows version information", false),
-    NO_PRIVATE_CHAT(null, "--no-private-chat", "Disables private chat", false),
-    ALWAYS_LOG(null, "--always-log", "Enables logging, without option to disable", false),
-    LOG_LOCATION(null, "--log-location", "Location to store log files", true),
+    CONSOLE("-c", "--console", "Starts " + Constants.APP_NAME + " in console mode.", false),
+    DEBUG("-d", "--debug", "Starts " + Constants.APP_NAME + " with verbose debug output enabled.", false),
+    HELP("-h", "--help", "Shows this help message.", false),
+    VERSION("-v", "--version", "Shows version information.", false),
+    NO_PRIVATE_CHAT(null, "--no-private-chat", "Disables private chat.", false),
+    ALWAYS_LOG(null, "--always-log", "Enables logging, without option to disable.", false),
+    LOG_LOCATION(null, "--log-location", "Location to store log files.", true),
     UNKNOWN(null, null, null, false);
 
     private final String shortArgumentName;
