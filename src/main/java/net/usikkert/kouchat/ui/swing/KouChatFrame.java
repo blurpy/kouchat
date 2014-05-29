@@ -33,6 +33,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -60,6 +61,8 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 
     /** Standard serial version UID. */
     private static final long serialVersionUID = 1L;
+
+    private static final Logger LOG = Logger.getLogger(KouChatFrame.class.getName());
 
     private final UITools uiTools = new UITools();
 
@@ -165,10 +168,35 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
      * @param startMinimized If the window should start minimized/hidden.
      */
     public void start(final boolean startMinimized) {
-        // TODO use startMinimized
         sysTray.activate();
-        setVisible(true);
+
+        if (startMinimized) {
+            startMinimized();
+        } else {
+            setVisible(true);
+        }
+
         mediator.start();
+    }
+
+    /**
+     * If the system tray is activated, then there is nothing to do. The window will be hidden by default,
+     * and a click on the system tray icon will show the window.
+     *
+     * <p>If the system tray is unavailable, then the window must be set visible after the
+     * minimized state has been set.</p>
+     */
+    private void startMinimized() {
+        if (sysTray.isSystemTraySupport()) {
+            LOG.fine("Starting minimized to the system tray");
+        }
+
+        else {
+            LOG.fine("Starting minimized to the task bar");
+
+            uiTools.minimize(this);
+            setVisible(true);
+        }
     }
 
     /**

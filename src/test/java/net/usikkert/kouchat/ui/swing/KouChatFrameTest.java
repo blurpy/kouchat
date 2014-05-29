@@ -49,6 +49,7 @@ public class KouChatFrameTest {
 
     private Mediator mediator;
     private SysTray sysTray;
+    private UITools uiTools;
 
     @Before
     public void setUp() {
@@ -59,6 +60,7 @@ public class KouChatFrameTest {
 
         mediator = TestUtils.setFieldValueWithMock(kouChatFrame, "mediator", Mediator.class);
         sysTray = TestUtils.setFieldValueWithMock(kouChatFrame, "sysTray", SysTray.class);
+        uiTools = TestUtils.setFieldValueWithMock(kouChatFrame, "uiTools", UITools.class);
 
         doNothing().when(kouChatFrame).setVisible(anyBoolean());
     }
@@ -95,9 +97,30 @@ public class KouChatFrameTest {
     }
 
     @Test
-    public void startShouldSetTheWindowVisible() {
+    public void startWithMinimizedFalseShouldSetTheWindowVisible() {
         kouChatFrame.start(false);
 
+        verify(kouChatFrame).setVisible(true);
+        verifyZeroInteractions(uiTools);
+    }
+
+    @Test
+    public void startWithMinimizedTrueAndSupportForSystemTrayShouldNotTouchWindow() {
+        when(sysTray.isSystemTraySupport()).thenReturn(true);
+
+        kouChatFrame.start(true);
+
+        verify(kouChatFrame, never()).setVisible(anyBoolean());
+        verifyZeroInteractions(uiTools);
+    }
+
+    @Test
+    public void startWithMinimizedTrueAndNoSupportForSystemTrayShouldMinimizeAndSetWindowVisible() {
+        when(sysTray.isSystemTraySupport()).thenReturn(false);
+
+        kouChatFrame.start(true);
+
+        verify(uiTools).minimize(kouChatFrame);
         verify(kouChatFrame).setVisible(true);
     }
 
