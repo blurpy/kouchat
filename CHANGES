@@ -2,15 +2,17 @@
 - KouChat v1.3.0 CHANGES
 
 * version 1.3.0 (xx.xx.2014):
-  - Updated headers to include copyright for 2014
-  - Reorganized JMX support to make it easier to import updated code into Android
-  - Settings is no longer a singleton, to make it easier to mock and test KouChat
+  - Updated headers to include copyright for 2014.
+  - Reorganized JMX support to make it easier to import updated code into Android.
+  - Settings is no longer a singleton, to make it easier to mock and test KouChat.
   - Added new notification (beforeNetworkCameUp) in the connection worker to allow Android
-    to do extra network preparations before the connection is initialized
+    to do extra network preparations before the connection is initialized.
   - Changed contact information to use the new kouchat.net domain.
   - Fixed rare bug where quitting would not log off the network right away.
   - Changed rename format when receiving files with name crash in the console ui
     from "file.ext.1" to "file_1.ext".
+  - Lots of cleanup to improve testability.
+  - Added support for the startup argument --minimized to start the Swing gui minimized.
 
 
 * version 1.2.0 (19.11.2012):
