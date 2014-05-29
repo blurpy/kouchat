@@ -26,6 +26,7 @@ import static org.mockito.Mockito.*;
 
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.util.TestUtils;
 import net.usikkert.kouchat.util.UncaughtExceptionLogger;
 
@@ -40,21 +41,41 @@ import org.junit.Test;
 public class KouChatFrameTest {
 
     private KouChatFrame kouChatFrame;
+
     private Mediator mediator;
+    private SysTray sysTray;
 
     @Before
     public void setUp() {
-        kouChatFrame = spy(new KouChatFrame(new Settings(), mock(UncaughtExceptionLogger.class), mock(ErrorHandler.class)));
+        final Settings settings = mock(Settings.class);
+        when(settings.getMe()).thenReturn(new User("Me", 123));
+
+        kouChatFrame = spy(new KouChatFrame(settings, mock(UncaughtExceptionLogger.class), mock(ErrorHandler.class)));
+
         mediator = TestUtils.setFieldValueWithMock(kouChatFrame, "mediator", Mediator.class);
+        sysTray = TestUtils.setFieldValueWithMock(kouChatFrame, "sysTray", SysTray.class);
+
+        doNothing().when(kouChatFrame).setVisible(anyBoolean());
     }
 
     @Test
-    public void startShouldSetFrameVisibleAndStartMediator() {
-        doNothing().when(kouChatFrame).setVisible(anyBoolean());
+    public void startShouldActivateTheSystemTray() {
+        kouChatFrame.start();
 
+        verify(sysTray).activate();
+    }
+
+    @Test
+    public void startShouldSetTheWindowVisible() {
         kouChatFrame.start();
 
         verify(kouChatFrame).setVisible(true);
+    }
+
+    @Test
+    public void startShouldStartTheMediator() {
+        kouChatFrame.start();
+
         verify(mediator).start();
     }
 }

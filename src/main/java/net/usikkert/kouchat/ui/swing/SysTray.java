@@ -62,6 +62,8 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
     /** The settings. */
     private final Settings settings;
 
+    private final ImageLoader imageLoader;
+
     /** The icon in the system tray. */
     private TrayIcon trayIcon;
 
@@ -78,17 +80,28 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
     private StatusIcons statusIcons;
 
     /**
-     * Constructor. Activates the system tray icon if it's supported.
+     * Constructor.
      *
-     * @param imageLoader The image loader.
+     * @param imageLoader The image loader for the system tray icons.
      * @param settings The settings to use.
      */
     public SysTray(final ImageLoader imageLoader, final Settings settings) {
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
 
+        this.imageLoader = imageLoader;
         this.settings = settings;
+    }
 
+    /**
+     * Activates the system tray icon, if supported.
+     *
+     * <p>Not all window managers support a system tray, like TWM. And some window managers support one,
+     * but does not have one enabled at all times. Like you can remove the system tray plasma widget in KDE.</p>
+     *
+     * <p>Use {@link #isSystemTraySupport()} to check if the system tray was activated successfully.</p>
+     */
+    public void activate() {
         if (SystemTray.isSupported()) {
             final PopupMenu menu = new PopupMenu();
             quitMI = new MenuItem("Quit");

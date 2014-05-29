@@ -75,6 +75,8 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
     /** The menu bar. */
     private final MenuBar menuBar;
 
+    private final SysTray sysTray;
+
     /** The settings. */
     private final Settings settings;
 
@@ -114,7 +116,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
         final ButtonPanel buttonP = new ButtonPanel();
         sideP = new SidePanel(buttonP, imageLoader, settings);
         mainP = new MainPanel(sideP, imageLoader, settings);
-        final SysTray sysTray = new SysTray(imageLoader, settings);
+        sysTray = new SysTray(imageLoader, settings);
         final SettingsDialog settingsDialog = new SettingsDialog(imageLoader, settings);
         menuBar = new MenuBar(imageLoader, settings);
 
@@ -155,9 +157,10 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
     }
 
     /**
-     * Shows the window, and starts the network.
+     * Activates the system tray, shows the window, and starts the network.
      */
     public void start() {
+        sysTray.activate();
         setVisible(true);
         mediator.start();
     }
