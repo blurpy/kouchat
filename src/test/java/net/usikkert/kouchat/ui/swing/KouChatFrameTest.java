@@ -89,21 +89,21 @@ public class KouChatFrameTest {
 
     @Test
     public void startShouldActivateTheSystemTray() {
-        kouChatFrame.start();
+        kouChatFrame.start(false);
 
         verify(sysTray).activate();
     }
 
     @Test
     public void startShouldSetTheWindowVisible() {
-        kouChatFrame.start();
+        kouChatFrame.start(false);
 
         verify(kouChatFrame).setVisible(true);
     }
 
     @Test
     public void startShouldStartTheMediator() {
-        kouChatFrame.start();
+        kouChatFrame.start(false);
 
         verify(mediator).start();
     }

@@ -86,12 +86,21 @@ public class UIFactoryTest {
     }
 
     @Test
-    public void loadUIWithNoArgumentShouldLoadSwingUserInterface() throws UIException {
+    public void loadUIWithNoArgumentShouldLoadSwingUserInterfaceWithFalse() throws UIException {
         final UIFactory uiFactory = createFactoryWithArguments();
 
         uiFactory.loadUI();
 
-        verify(uiFactory).loadSwingUserInterface();
+        verify(uiFactory).loadSwingUserInterface(false);
+    }
+
+    @Test
+    public void loadUIWithMinimizedAsArgumentShouldLoadSwingUserInterfaceWithTrue() throws UIException {
+        final UIFactory uiFactory = createFactoryWithArguments("--minimized");
+
+        uiFactory.loadUI();
+
+        verify(uiFactory).loadSwingUserInterface(true);
     }
 
     @Test
@@ -107,12 +116,12 @@ public class UIFactoryTest {
     }
 
     @Test
-    public void loadUIWithOtherArgumentsShouldLoadSwingUserInterface() throws UIException {
+    public void loadUIWithOtherArgumentsShouldLoadSwingUserInterfaceWithFalse() throws UIException {
         final UIFactory uiFactory = createFactoryWithArguments("--debug", "--always-log");
 
         uiFactory.loadUI();
 
-        verify(uiFactory).loadSwingUserInterface();
+        verify(uiFactory).loadSwingUserInterface(false);
     }
 
     @Test
@@ -132,7 +141,7 @@ public class UIFactoryTest {
                 spy(new UIFactory(argumentParser, mock(Settings.class), mock(UncaughtExceptionLogger.class)));
 
         doNothing().when(uiFactory).loadConsoleUserInterface();
-        doNothing().when(uiFactory).loadSwingUserInterface();
+        doNothing().when(uiFactory).loadSwingUserInterface(anyBoolean());
         when(uiFactory.isHeadless()).thenReturn(false);
 
         return uiFactory;

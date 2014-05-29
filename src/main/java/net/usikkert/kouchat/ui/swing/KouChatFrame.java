@@ -158,8 +158,14 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 
     /**
      * Activates the system tray, shows the window, and starts the network.
+     *
+     * <p>Supports starting with the window minimized. If the system tray is activated,
+     * then the window will be hidden instead.</p>
+     *
+     * @param startMinimized If the window should start minimized/hidden.
      */
-    public void start() {
+    public void start(final boolean startMinimized) {
+        // TODO use startMinimized
         sysTray.activate();
         setVisible(true);
         mediator.start();

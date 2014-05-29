@@ -94,7 +94,8 @@ public class UIFactory {
                 }
 
                 else {
-                    loadSwingUserInterface();
+                    final boolean startMinimized = argumentParser.hasArgument(Argument.MINIMIZED);
+                    loadSwingUserInterface(startMinimized);
                 }
             }
         }
@@ -104,14 +105,14 @@ public class UIFactory {
         return GraphicsEnvironment.isHeadless();
     }
 
-    void loadSwingUserInterface() {
+    void loadSwingUserInterface(final boolean startMinimized) {
         System.out.println("\nLoading Swing User Interface\n");
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 final KouChatFrame kouChatFrame = new KouChatFrame(settings, uncaughtExceptionLogger, ErrorHandler.getErrorHandler());
-                kouChatFrame.start();
+                kouChatFrame.start(startMinimized);
             }
         });
     }
