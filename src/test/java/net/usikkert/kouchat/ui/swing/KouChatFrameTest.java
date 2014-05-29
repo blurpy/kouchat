@@ -31,7 +31,9 @@ import net.usikkert.kouchat.util.TestUtils;
 import net.usikkert.kouchat.util.UncaughtExceptionLogger;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Test of {@link KouChatFrame}.
@@ -39,6 +41,9 @@ import org.junit.Test;
  * @author Christian Ihle
  */
 public class KouChatFrameTest {
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     private KouChatFrame kouChatFrame;
 
@@ -56,6 +61,30 @@ public class KouChatFrameTest {
         sysTray = TestUtils.setFieldValueWithMock(kouChatFrame, "sysTray", SysTray.class);
 
         doNothing().when(kouChatFrame).setVisible(anyBoolean());
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfSettingsIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Settings can not be null");
+
+        new KouChatFrame(null, mock(UncaughtExceptionLogger.class), mock(ErrorHandler.class));
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfUncaughtExceptionLoggerIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Uncaught exception logger can not be null");
+
+        new KouChatFrame(mock(Settings.class), null, mock(ErrorHandler.class));
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfErrorHandlerIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Error handler can not be null");
+
+        new KouChatFrame(mock(Settings.class), mock(UncaughtExceptionLogger.class), null);
     }
 
     @Test

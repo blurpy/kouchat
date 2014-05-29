@@ -100,7 +100,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
                         final ErrorHandler errorHandler) {
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(uncaughtExceptionLogger, "Uncaught exception logger can not be null");
-        Validate.notNull(errorHandler, "Error handler logger can not be null");
+        Validate.notNull(errorHandler, "Error handler can not be null");
 
         this.settings = settings;
 
