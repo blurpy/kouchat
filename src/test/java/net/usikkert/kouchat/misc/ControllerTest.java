@@ -62,6 +62,7 @@ public class ControllerTest {
     private DayTimer dayTimer;
     private TransferList transferList;
     private MessageController messageController;
+    private UserInterface ui;
 
     private User me;
     private UserList userList;
@@ -73,7 +74,7 @@ public class ControllerTest {
         me = new User("TestUser", 123);
         when(settings.getMe()).thenReturn(me);
 
-        final UserInterface ui = mock(UserInterface.class);
+        ui = mock(UserInterface.class);
         messageController = mock(MessageController.class);
         when(ui.getMessageController()).thenReturn(messageController);
 
@@ -483,6 +484,28 @@ public class ControllerTest {
 
         verifyZeroInteractions(messages);
         verify(userListController).changeAwayStatus(654, false, "");
+    }
+
+    @Test
+    public void goAwayShouldChangeAwayStatusAndUpdateUserInterfaceAndShowSystemMessage() throws CommandException {
+        when(controller.isLoggedOn()).thenReturn(true);
+
+        controller.goAway("The away message");
+
+        verify(controller).changeAwayStatus(me.getCode(), true, "The away message");
+        verify(ui).changeAway(true);
+        verify(messageController).showSystemMessage("You went away: The away message");
+    }
+
+    @Test
+    public void comeBackShouldChangeAwayStatusAndUpdateUserInterfaceAndShowSystemMessage() throws CommandException {
+        when(controller.isLoggedOn()).thenReturn(true);
+
+        controller.comeBack();
+
+        verify(controller).changeAwayStatus(me.getCode(), false, "");
+        verify(ui).changeAway(false);
+        verify(messageController).showSystemMessage("You came back");
     }
 
     private String createStringOfSize(final int size) {

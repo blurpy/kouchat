@@ -144,9 +144,7 @@ public class SwingMediator implements Mediator, UserInterface {
 
             if (choice == JOptionPane.YES_OPTION) {
                 try {
-                    controller.changeAwayStatus(me.getCode(), false, "");
-                    changeAway(false);
-                    msgController.showSystemMessage("You came back");
+                    controller.comeBack();
                 }
 
                 catch (final CommandException e) {
@@ -165,9 +163,7 @@ public class SwingMediator implements Mediator, UserInterface {
                 }
 
                 try {
-                    controller.changeAwayStatus(me.getCode(), true, reason);
-                    changeAway(true);
-                    msgController.showSystemMessage("You went away: " + me.getAwayMsg());
+                   controller.goAway(reason);
                 }
 
                 catch (final CommandException e) {

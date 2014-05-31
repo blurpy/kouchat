@@ -38,8 +38,6 @@ import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 /**
  * Test of {@link SwingMediator}.
@@ -54,7 +52,6 @@ public class SwingMediatorTest {
     private JTextField messageTF;
     private UITools uiTools;
     private Controller controller;
-    private MessageController msgController;
     private JMXAgent jmxAgent;
 
     @Before
@@ -83,7 +80,7 @@ public class SwingMediatorTest {
 
         uiTools = TestUtils.setFieldValueWithMock(mediator, "uiTools", UITools.class);
         controller = TestUtils.setFieldValueWithMock(mediator, "controller", Controller.class);
-        msgController = TestUtils.setFieldValueWithMock(mediator, "msgController", MessageController.class);
+        TestUtils.setFieldValueWithMock(mediator, "msgController", MessageController.class);
         jmxAgent = TestUtils.setFieldValueWithMock(mediator, "jmxAgent", JMXAgent.class);
 
         when(controller.getUserList()).thenReturn(new SortedUserList());
@@ -92,19 +89,12 @@ public class SwingMediatorTest {
     @Test
     public void setAwayWhenBackShouldAskAwayMessageAndGoAway() throws CommandException {
         when(uiTools.showInputDialog(anyString(), anyString(), anyString())).thenReturn("Going away");
-        doAnswer(new Answer<Void>() {
-            public Void answer(final InvocationOnMock invocation) throws Throwable {
-                me.setAwayMsg((String) invocation.getArguments()[2]); // Third argument is the away message
-                return null;
-            }
-        }).when(controller).changeAwayStatus(anyInt(), anyBoolean(), anyString());
 
         mediator.setAway();
 
         verify(uiTools).showInputDialog("Reason for away?", "Away", null);
-        verify(controller).changeAwayStatus(1234, true, "Going away");
-        verify(mediator).changeAway(true);
-        verify(msgController).showSystemMessage("You went away: Going away");
+        verify(controller).goAway("Going away");
+        verify(uiTools, never()).showWarningMessage(anyString(), anyString());
     }
 
     @Test
@@ -132,13 +122,11 @@ public class SwingMediatorTest {
     @Test
     public void setAwayWhenBackShouldShowWarningMessageIfChangeFails() throws CommandException {
         when(uiTools.showInputDialog(anyString(), anyString(), anyString())).thenReturn("Leaving");
-        doThrow(new CommandException("Don't go away"))
-                .when(controller).changeAwayStatus(anyInt(), anyBoolean(), anyString());
+        doThrow(new CommandException("Don't go away")).when(controller).goAway(anyString());
 
         mediator.setAway();
 
-        verify(controller).changeAwayStatus(1234, true, "Leaving");
-        verify(mediator, never()).changeAway(anyBoolean());
+        verify(controller).goAway("Leaving");
         verify(uiTools).showWarningMessage("Don't go away", "Change away");
     }
 
@@ -190,9 +178,8 @@ public class SwingMediatorTest {
         mediator.setAway();
 
         verify(uiTools).showOptionDialog("Back from 'Gone'?", "Away");
-        verify(controller).changeAwayStatus(1234, false, "");
-        verify(mediator).changeAway(false);
-        verify(msgController).showSystemMessage("You came back");
+        verify(controller).comeBack();
+        verify(uiTools, never()).showWarningMessage(anyString(), anyString());
     }
 
     @Test
@@ -201,14 +188,12 @@ public class SwingMediatorTest {
         me.setAwayMsg("Gone");
 
         when(uiTools.showOptionDialog(anyString(), anyString())).thenReturn(JOptionPane.YES_OPTION);
-        doThrow(new CommandException("Don't come back"))
-                .when(controller).changeAwayStatus(anyInt(), anyBoolean(), anyString());
+        doThrow(new CommandException("Don't come back")).when(controller).comeBack();
 
         mediator.setAway();
 
         verify(uiTools).showOptionDialog("Back from 'Gone'?", "Away");
-        verify(controller).changeAwayStatus(1234, false, "");
-        verify(mediator, never()).changeAway(anyBoolean());
+        verify(controller).comeBack();
         verify(uiTools).showWarningMessage("Don't come back", "Change away");
     }
 
