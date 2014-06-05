@@ -24,6 +24,8 @@ package net.usikkert.kouchat.argument;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.Settings;
 
@@ -105,7 +107,9 @@ public class ArgumentSettingsLoaderTest {
 
         assertFalse(settings.isAlwaysLog());
         assertFalse(settings.isNoPrivateChat());
-        assertEquals("/home/user/logs/", settings.getLogLocation());
+
+        // It appends missing slash or backslash, depending on the OS
+        assertEquals("/home/user/logs" + File.separator, settings.getLogLocation());
     }
 
     @Test
@@ -119,7 +123,7 @@ public class ArgumentSettingsLoaderTest {
 
         assertTrue(settings.isAlwaysLog());
         assertTrue(settings.isNoPrivateChat());
-        assertEquals("/home/user/logs/", settings.getLogLocation());
+        assertEquals("/home/user/logs" + File.separator, settings.getLogLocation());
     }
 
     private ArgumentParser argumentParserWithArguments(final String... arguments) {
