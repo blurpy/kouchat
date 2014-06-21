@@ -25,8 +25,13 @@ package net.usikkert.kouchat.ui.swing;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.awt.Component;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.KeyStroke;
 
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.TestUtils;
@@ -116,9 +121,19 @@ public class MenuBarTest {
     }
 
     @Test
+    public void minimizeMenuItemShouldHaveActionListener() {
+        assertSame(menuBar, minimizeMenuItem.getActionListeners()[0]);
+    }
+
+    @Test
     public void quitMenuItemShouldHaveCorrectText() {
         assertEquals("Quit", quitMenuItem.getText());
         assertEquals('Q', quitMenuItem.getMnemonic());
+    }
+
+    @Test
+    public void quitMenuItemShouldHaveActionListener() {
+        assertSame(menuBar, quitMenuItem.getActionListeners()[0]);
     }
 
     @Test
@@ -134,9 +149,24 @@ public class MenuBarTest {
     }
 
     @Test
+    public void clearMenuItemShouldHaveActionListener() {
+        assertSame(menuBar, clearMenuItem.getActionListeners()[0]);
+    }
+
+    @Test
     public void awayMenuItemShouldHaveCorrectText() {
         assertEquals("Set away", awayMenuItem.getText());
         assertEquals('A', awayMenuItem.getMnemonic());
+    }
+
+    @Test
+    public void awayMenuItemShouldHaveActionListener() {
+        assertSame(menuBar, awayMenuItem.getActionListeners()[0]);
+    }
+
+    @Test
+    public void awayMenuItemShouldHaveShortcutKeyF2() {
+        assertSame(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0), awayMenuItem.getAccelerator());
     }
 
     @Test
@@ -146,9 +176,29 @@ public class MenuBarTest {
     }
 
     @Test
+    public void topicMenuItemShouldHaveActionListener() {
+        assertSame(menuBar, topicMenuItem.getActionListeners()[0]);
+    }
+
+    @Test
+    public void topicMenuItemShouldHaveShortcutKeyF3() {
+        assertSame(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0), topicMenuItem.getAccelerator());
+    }
+
+    @Test
     public void settingsMenuItemShouldHaveCorrectText() {
         assertEquals("Settings", settingsMenuItem.getText());
         assertEquals('S', settingsMenuItem.getMnemonic());
+    }
+
+    @Test
+    public void settingsMenuItemShouldHaveActionListener() {
+        assertSame(menuBar, settingsMenuItem.getActionListeners()[0]);
+    }
+
+    @Test
+    public void settingsMenuItemShouldHaveShortcutKeyF4() {
+        assertSame(KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0), settingsMenuItem.getAccelerator());
     }
 
     @Test
@@ -164,9 +214,24 @@ public class MenuBarTest {
     }
 
     @Test
+    public void faqMenuItemShouldHaveActionListener() {
+        assertSame(menuBar, faqMenuItem.getActionListeners()[0]);
+    }
+
+    @Test
+    public void faqMenuItemShouldHaveShortcutKeyF1() {
+        assertSame(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0), faqMenuItem.getAccelerator());
+    }
+
+    @Test
     public void licenseMenuItemShouldHaveCorrectText() {
         assertEquals("License", licenseMenuItem.getText());
         assertEquals('L', licenseMenuItem.getMnemonic());
+    }
+
+    @Test
+    public void licenseMenuItemShouldHaveActionListener() {
+        assertSame(menuBar, licenseMenuItem.getActionListeners()[0]);
     }
 
     @Test
@@ -176,14 +241,78 @@ public class MenuBarTest {
     }
 
     @Test
+    public void tipsMenuItemShouldHaveActionListener() {
+        assertSame(menuBar, tipsMenuItem.getActionListeners()[0]);
+    }
+
+    @Test
     public void commandsMenuItemShouldHaveCorrectText() {
         assertEquals("Commands", commandsMenuItem.getText());
         assertEquals('C', commandsMenuItem.getMnemonic());
     }
 
     @Test
+    public void commandMenuItemShouldHaveActionListener() {
+        assertSame(menuBar, commandsMenuItem.getActionListeners()[0]);
+    }
+
+    @Test
     public void aboutMenuItemShouldHaveCorrectText() {
         assertEquals("About", aboutMenuItem.getText());
         assertEquals('A', aboutMenuItem.getMnemonic());
+    }
+
+    @Test
+    public void aboutMenuItemShouldHaveActionListener() {
+        assertSame(menuBar, aboutMenuItem.getActionListeners()[0]);
+    }
+
+    @Test
+    public void layoutShouldIncludeAllMenus() {
+        final Component[] components = menuBar.getComponents();
+        assertEquals(3, components.length);
+
+        assertSame(fileMenu, components[0]);
+        assertSame(toolsMenu, components[1]);
+        assertSame(helpMenu, components[2]);
+    }
+
+    @Test
+    public void fileMenuShouldIncludeAllMenuItems() {
+        final Component[] menuComponents = fileMenu.getMenuComponents();
+
+        assertEquals(3, menuComponents.length);
+
+        assertSame(minimizeMenuItem, menuComponents[0]);
+        assertEquals(JPopupMenu.Separator.class, menuComponents[1].getClass());
+        assertSame(quitMenuItem, menuComponents[2]);
+    }
+
+    @Test
+    public void toolsMenuShouldIncludeAllMenuItems() {
+        final Component[] menuComponents = toolsMenu.getMenuComponents();
+
+        assertEquals(5, menuComponents.length);
+
+        assertSame(clearMenuItem, menuComponents[0]);
+        assertSame(awayMenuItem, menuComponents[1]);
+        assertSame(topicMenuItem, menuComponents[2]);
+        assertEquals(JPopupMenu.Separator.class, menuComponents[3].getClass());
+        assertSame(settingsMenuItem, menuComponents[4]);
+    }
+
+    @Test
+    public void helpMenuShouldIncludeAllMenuItems() {
+        final Component[] menuComponents = helpMenu.getMenuComponents();
+
+        assertEquals(7, menuComponents.length);
+
+        assertSame(faqMenuItem, menuComponents[0]);
+        assertSame(tipsMenuItem, menuComponents[1]);
+        assertSame(licenseMenuItem, menuComponents[2]);
+        assertEquals(JPopupMenu.Separator.class, menuComponents[3].getClass());
+        assertSame(commandsMenuItem, menuComponents[4]);
+        assertEquals(JPopupMenu.Separator.class, menuComponents[5].getClass());
+        assertSame(aboutMenuItem, menuComponents[6]);
     }
 }
