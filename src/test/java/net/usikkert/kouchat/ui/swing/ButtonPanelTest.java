@@ -30,6 +30,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
 
+import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.Before;
@@ -57,7 +58,7 @@ public class ButtonPanelTest {
 
     @Before
     public void setUp() {
-        buttonPanel = new ButtonPanel();
+        buttonPanel = new ButtonPanel(new PropertyFileMessages("messages.swing"));
 
         clearButton = TestUtils.getFieldValue(buttonPanel, JButton.class, "clearB");
         awayButton = TestUtils.getFieldValue(buttonPanel, JButton.class, "awayB");
@@ -69,6 +70,14 @@ public class ButtonPanelTest {
 
         final UITools uiTools = TestUtils.setFieldValueWithMock(buttonPanel, "uiTools", UITools.class);
         doAnswer(new RunArgumentAnswer()).when(uiTools).invokeLater(any(Runnable.class));
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfMessagesIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Messages can not be null");
+
+        new ButtonPanel(null);
     }
 
     @Test

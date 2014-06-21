@@ -30,6 +30,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -70,28 +71,32 @@ public class ButtonPanel extends JPanel implements ActionListener {
 
     /**
      * Constructor. Initializes the buttons.
+     *
+     * @param messages The messages to use for the buttons.
      */
-    public ButtonPanel() {
+    public ButtonPanel(final Messages messages) {
+        Validate.notNull(messages, "Messages can not be null");
+
         setLayout(new GridLayout(4, 1));
 
-        clearB = new JButton("Clear");
+        clearB = new JButton(messages.getMessage("swing.buttonBar.clear"));
         clearB.addActionListener(this);
-        clearB.setToolTipText("Clear all the text in the chat area.");
+        clearB.setToolTipText(messages.getMessage("swing.buttonBar.clear.tooltip"));
         add(clearB);
 
-        awayB = new JButton("Away");
+        awayB = new JButton(messages.getMessage("swing.buttonBar.away"));
         awayB.addActionListener(this);
-        awayB.setToolTipText("Set/unset your user as away.");
+        awayB.setToolTipText(messages.getMessage("swing.buttonBar.away.tooltip"));
         add(awayB);
 
-        topicB = new JButton("Topic");
+        topicB = new JButton(messages.getMessage("swing.buttonBar.topic"));
         topicB.addActionListener(this);
-        topicB.setToolTipText("Change the topic of this chat.");
+        topicB.setToolTipText(messages.getMessage("swing.buttonBar.topic.tooltip"));
         add(topicB);
 
-        minimizeB = new JButton("Minimize");
+        minimizeB = new JButton(messages.getMessage("swing.buttonBar.minimize"));
         minimizeB.addActionListener(this);
-        minimizeB.setToolTipText("Minimize to the system tray.");
+        minimizeB.setToolTipText(messages.getMessage("swing.buttonBar.minimize.tooltip"));
         add(minimizeB);
 
         setBorder(BorderFactory.createEmptyBorder(0, 0, 1, 1));
