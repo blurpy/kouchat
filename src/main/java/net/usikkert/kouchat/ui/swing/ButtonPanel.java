@@ -29,7 +29,6 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.util.Validate;
 
@@ -52,6 +51,8 @@ public class ButtonPanel extends JPanel implements ActionListener {
     /** Standard version uid. */
     private static final long serialVersionUID = 1L;
 
+    private final UITools uiTools = new UITools();
+
     /** The minimize button. Minimizes the application to the system tray. */
     private final JButton minimizeB;
 
@@ -68,7 +69,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
     private Mediator mediator;
 
     /**
-     * Constructor.
+     * Constructor. Initializes the buttons.
      */
     public ButtonPanel() {
         setLayout(new GridLayout(4, 1));
@@ -123,7 +124,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(final ActionEvent e) {
         if (e.getSource() == minimizeB) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     mediator.minimize();
@@ -132,7 +133,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
         }
 
         else if (e.getSource() == clearB) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     mediator.clearChat();
@@ -141,7 +142,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
         }
 
         else if (e.getSource() == awayB) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     mediator.setAway();
@@ -150,7 +151,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
         }
 
         else if (e.getSource() == topicB) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     mediator.setTopic();
