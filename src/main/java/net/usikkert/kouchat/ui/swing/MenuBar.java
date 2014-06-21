@@ -30,7 +30,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.Settings;
@@ -177,7 +176,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     public void actionPerformed(final ActionEvent e) {
         // File/Quit
         if (e.getSource() == quitMI) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     mediator.quit();
@@ -187,7 +186,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
         // Tools/Settings
         else if (e.getSource() == settingsMI) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     mediator.showSettings();
@@ -197,7 +196,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
         // File/Minimize
         else if (e.getSource() == minimizeMI) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     mediator.minimize();
@@ -207,7 +206,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
         // Tools/Set away
         else if (e.getSource() == awayMI) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     mediator.setAway();
@@ -217,7 +216,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
         // Tools/Change topic
         else if (e.getSource() == topicMI) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     mediator.setTopic();
@@ -227,7 +226,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
         // Tools/Clear chat
         else if (e.getSource() == clearMI) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     mediator.clearChat();
@@ -237,7 +236,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
         // Help/FAQ
         else if (e.getSource() == faqMI) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     if (faqViewer == null) {
@@ -252,7 +251,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
         // Help/Tips & tricks
         else if (e.getSource() == tipsMI) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     if (tipsViewer == null) {
@@ -267,7 +266,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
         // Help/License
         else if (e.getSource() == licenseMI) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     if (licenseViewer == null) {
@@ -282,7 +281,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
         // Help/Commands
         else if (e.getSource() == commandsMI) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     mediator.showCommands();
@@ -292,7 +291,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
         // Help/About
         else if (e.getSource() == aboutMI) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     final MessageDialog aboutD = new MessageDialog(null, true, imageLoader);
