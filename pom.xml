@@ -37,6 +37,7 @@
       <resource>
         <directory>src/main/resources/</directory>
         <includes>
+          <include>messages/</include>
           <include>sounds/</include>
           <include>icons/</include>
           <include>smileys/smile.png</include>
