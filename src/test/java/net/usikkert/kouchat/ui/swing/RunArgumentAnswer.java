@@ -22,43 +22,21 @@
 
 package net.usikkert.kouchat.ui.swing;
 
-import static org.mockito.Mockito.*;
-
-import net.usikkert.kouchat.util.TestUtils;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 /**
- * Test of {@link SwingPopupErrorHandler}.
+ * Mockito {@link Answer} that expects the first method argument to be a {@link Runnable}, and runs it.
  *
  * @author Christian Ihle
  */
-public class SwingPopupErrorHandlerTest {
+public class RunArgumentAnswer implements Answer<Void> {
 
-    private SwingPopupErrorHandler errorHandler;
-    private UITools uiTools;
+    @Override
+    public Void answer(final InvocationOnMock invocation) throws Throwable {
+        final Runnable runnable = (Runnable) invocation.getArguments()[0];
+        runnable.run();
 
-    @Before
-    public void setUp() {
-        errorHandler = new SwingPopupErrorHandler();
-        uiTools = TestUtils.setFieldValueWithMock(errorHandler, "uiTools", UITools.class);
-    }
-
-    @Test
-    public void errorReportedShouldShowErrorMessageUsingInvokeLater() {
-        doAnswer(new RunArgumentAnswer()).when(uiTools).invokeLater(any(Runnable.class));
-
-        errorHandler.errorReported("This is an error");
-
-        verify(uiTools).invokeLater(any(Runnable.class));
-        verify(uiTools).showErrorMessage("This is an error", "Error");
-    }
-
-    @Test
-    public void criticalErrorReportedShouldShowErrorMessage() {
-        errorHandler.criticalErrorReported("This is another error");
-
-        verify(uiTools).showErrorMessage("This is another error", "Critical Error");
+        return null;
     }
 }
