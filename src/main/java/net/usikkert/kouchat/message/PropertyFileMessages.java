@@ -36,6 +36,12 @@ public class PropertyFileMessages implements Messages {
 
     private final ResourceBundle bundle;
 
+    /**
+     * Constructs an instance that loads a property-file with the given base name.
+     *
+     * @param baseName The base name of the property-file.
+     *                 Example: the base name of <code>messages_en.properties</code> is <code>messages</code>.
+     */
     public PropertyFileMessages(final String baseName) {
         Validate.notEmpty(baseName, "Base name can not be empty");
 
