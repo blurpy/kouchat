@@ -54,6 +54,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private final JMenuItem aboutMI, commandsMI, faqMI, licenseMI, tipsMI;
     private final ImageLoader imageLoader;
     private final Settings settings;
+    private final Messages messages;
 
     private Mediator mediator;
     private TextViewerDialog faqViewer, licenseViewer, tipsViewer;
@@ -72,6 +73,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
         this.imageLoader = imageLoader;
         this.settings = settings;
+        this.messages = messages;
 
         fileMenu = new JMenu(messages.getMessage("swing.menu.file"));
         fileMenu.setMnemonic(keyCode(messages.getMessage("swing.menu.file.mnemonic")));
@@ -244,7 +246,8 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 @Override
                 public void run() {
                     if (faqViewer == null) {
-                        faqViewer = createTextViewerDialog(Constants.FILE_FAQ, "Frequently Asked Questions", true);
+                        faqViewer = createTextViewerDialog(Constants.FILE_FAQ,
+                                messages.getMessage("swing.dialog.faq.title"), true);
                     }
 
                     faqViewer.setVisible(true);
@@ -258,7 +261,8 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 @Override
                 public void run() {
                     if (tipsViewer == null) {
-                        tipsViewer = createTextViewerDialog(Constants.FILE_TIPS, "Tips & tricks", false);
+                        tipsViewer = createTextViewerDialog(Constants.FILE_TIPS,
+                                messages.getMessage("swing.dialog.tipsAndTricks.title"), false);
                     }
 
                     tipsViewer.setVisible(true);
@@ -297,14 +301,12 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 public void run() {
                     final MessageDialog aboutD = createMessageDialog();
 
-                    aboutD.setTitle(uiTools.createTitle("About"));
+                    aboutD.setTitle(uiTools.createTitle(messages.getMessage("swing.dialog.about.title")));
                     aboutD.setTopText(Constants.APP_NAME + " v" + Constants.APP_VERSION);
-                    aboutD.setContent("<html>Copyright " + Constants.APP_COPYRIGHT_YEARS + " by " + Constants.AUTHOR_NAME + "." +
-                            "<br>" + Constants.AUTHOR_MAIL +
-                            "<br>" + Constants.APP_WEB +
-                            "<br>" +
-                            "<br>Source available under the " + Constants.APP_LICENSE_NAME + "." +
-                            "<br>See the license for details.</html>");
+                    aboutD.setContent(messages.getMessage("swing.dialog.about.content",
+                            Constants.APP_COPYRIGHT_YEARS, Constants.AUTHOR_NAME,
+                            Constants.AUTHOR_MAIL, Constants.APP_WEB,
+                            Constants.APP_LICENSE_NAME));
 
                     aboutD.setVisible(true);
                 }
