@@ -34,6 +34,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 
+import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.TestUtils;
 
@@ -72,6 +73,7 @@ public class MenuBarTest {
     private JMenuItem aboutMenuItem;
 
     private Mediator mediator;
+    private UITools uiTools;
 
     @Before
     public void setUp() {
@@ -97,7 +99,7 @@ public class MenuBarTest {
         mediator = mock(Mediator.class);
         menuBar.setMediator(mediator);
 
-        final UITools uiTools = TestUtils.setFieldValueWithMock(menuBar, "uiTools", UITools.class);
+        uiTools = TestUtils.setFieldValueWithMock(menuBar, "uiTools", UITools.class);
         doAnswer(new RunArgumentAnswer()).when(uiTools).invokeLater(any(Runnable.class));
     }
 
@@ -425,11 +427,47 @@ public class MenuBarTest {
         verify(mediator).clearChat();
     }
 
-    // TODO faq
+    @Test
+    public void clickOnFaqShouldCacheAndShowFaq() {
+        menuBar = spy(menuBar);
 
-    // TODO tips
+        final TextViewerDialog dialog = mock(TextViewerDialog.class);
+        doReturn(dialog).when(menuBar).createTextViewerDialog(anyString(), anyString(), anyBoolean());
 
-    // TODO license
+        menuBar.actionPerformed(new ActionEvent(faqMenuItem, 0, null));
+        menuBar.actionPerformed(new ActionEvent(faqMenuItem, 0, null));
+
+        verify(menuBar, times(1)).createTextViewerDialog("FAQ", "Frequently Asked Questions", true);
+        verify(dialog, times(2)).setVisible(true);
+    }
+
+    @Test
+    public void clickOnTipsShouldCacheAndShowTipsAndTricks() {
+        menuBar = spy(menuBar);
+
+        final TextViewerDialog dialog = mock(TextViewerDialog.class);
+        doReturn(dialog).when(menuBar).createTextViewerDialog(anyString(), anyString(), anyBoolean());
+
+        menuBar.actionPerformed(new ActionEvent(tipsMenuItem, 0, null));
+        menuBar.actionPerformed(new ActionEvent(tipsMenuItem, 0, null));
+
+        verify(menuBar, times(1)).createTextViewerDialog("TipsAndTricks.txt", "Tips & tricks", false);
+        verify(dialog, times(2)).setVisible(true);
+    }
+
+    @Test
+    public void clickOnLicenseShouldCacheAndShowLicense() {
+        menuBar = spy(menuBar);
+
+        final TextViewerDialog dialog = mock(TextViewerDialog.class);
+        doReturn(dialog).when(menuBar).createTextViewerDialog(anyString(), anyString(), anyBoolean());
+
+        menuBar.actionPerformed(new ActionEvent(licenseMenuItem, 0, null));
+        menuBar.actionPerformed(new ActionEvent(licenseMenuItem, 0, null));
+
+        verify(menuBar, times(1)).createTextViewerDialog("COPYING", "GNU LGPL v3", false);
+        verify(dialog, times(2)).setVisible(true);
+    }
 
     @Test
     public void clickOnCommandsShouldShowCommands() {
@@ -438,5 +476,28 @@ public class MenuBarTest {
         verify(mediator).showCommands();
     }
 
-    // TODO about
+    @Test
+    public void clickOnAboutShouldShowAboutDialog() {
+        menuBar = spy(menuBar);
+        when(uiTools.createTitle(anyString())).thenCallRealMethod();
+
+        final MessageDialog dialog = mock(MessageDialog.class);
+        doReturn(dialog).when(menuBar).createMessageDialog();
+
+        menuBar.actionPerformed(new ActionEvent(aboutMenuItem, 0, null));
+
+        verify(menuBar).createMessageDialog();
+
+        verify(dialog).setTitle("About - KouChat");
+        verify(dialog).setTopText("KouChat v" + Constants.APP_VERSION);
+        verify(dialog).setContent(
+                "<html>Copyright 2006-2014 by Christian Ihle." +
+                "<br>contact@kouchat.net" +
+                "<br>http://www.kouchat.net/" +
+                "<br>" +
+                "<br>Source available under the GNU LGPL v3." +
+                "<br>See the license for details.</html>");
+
+        verify(dialog).setVisible(true);
+    }
 }

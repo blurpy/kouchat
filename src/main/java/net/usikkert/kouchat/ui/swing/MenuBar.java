@@ -241,8 +241,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 @Override
                 public void run() {
                     if (faqViewer == null) {
-                        faqViewer = new TextViewerDialog(Constants.FILE_FAQ,
-                                "Frequently Asked Questions", true, imageLoader, settings);
+                        faqViewer = createTextViewerDialog(Constants.FILE_FAQ, "Frequently Asked Questions", true);
                     }
 
                     faqViewer.setVisible(true);
@@ -256,8 +255,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 @Override
                 public void run() {
                     if (tipsViewer == null) {
-                        tipsViewer = new TextViewerDialog(Constants.FILE_TIPS,
-                                "Tips & tricks", false, imageLoader, settings);
+                        tipsViewer = createTextViewerDialog(Constants.FILE_TIPS, "Tips & tricks", false);
                     }
 
                     tipsViewer.setVisible(true);
@@ -271,8 +269,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 @Override
                 public void run() {
                     if (licenseViewer == null) {
-                        licenseViewer = new TextViewerDialog(Constants.FILE_LICENSE,
-                                Constants.APP_LICENSE_NAME, false, imageLoader, settings);
+                        licenseViewer = createTextViewerDialog(Constants.FILE_LICENSE, Constants.APP_LICENSE_NAME, false);
                     }
 
                     licenseViewer.setVisible(true);
@@ -295,7 +292,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
             uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    final MessageDialog aboutD = new MessageDialog(null, true, imageLoader);
+                    final MessageDialog aboutD = createMessageDialog();
 
                     aboutD.setTitle(uiTools.createTitle("About"));
                     aboutD.setTopText(Constants.APP_NAME + " v" + Constants.APP_VERSION);
@@ -310,5 +307,13 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 }
             });
         }
+    }
+
+    TextViewerDialog createTextViewerDialog(final String textFile, final String title, final boolean links) {
+        return new TextViewerDialog(textFile, title, links, imageLoader, settings);
+    }
+
+    MessageDialog createMessageDialog() {
+        return new MessageDialog(null, true, imageLoader);
     }
 }
