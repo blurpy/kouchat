@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JMenu;
@@ -70,6 +71,8 @@ public class MenuBarTest {
     private JMenuItem commandsMenuItem;
     private JMenuItem aboutMenuItem;
 
+    private Mediator mediator;
+
     @Before
     public void setUp() {
         menuBar = new MenuBar(mock(ImageLoader.class), mock(Settings.class));
@@ -90,6 +93,12 @@ public class MenuBarTest {
         tipsMenuItem = TestUtils.getFieldValue(menuBar, JMenuItem.class, "tipsMI");
         commandsMenuItem = TestUtils.getFieldValue(menuBar, JMenuItem.class, "commandsMI");
         aboutMenuItem = TestUtils.getFieldValue(menuBar, JMenuItem.class, "aboutMI");
+
+        mediator = mock(Mediator.class);
+        menuBar.setMediator(mediator);
+
+        final UITools uiTools = TestUtils.setFieldValueWithMock(menuBar, "uiTools", UITools.class);
+        doAnswer(new RunArgumentAnswer()).when(uiTools).invokeLater(any(Runnable.class));
     }
 
     @Test
@@ -373,4 +382,61 @@ public class MenuBarTest {
 
         assertTrue(menuBar.isPopupMenuVisible());
     }
+
+    @Test
+    public void clickOnQuitShouldQuit() {
+        menuBar.actionPerformed(new ActionEvent(quitMenuItem, 0, null));
+
+        verify(mediator).quit();
+    }
+
+    @Test
+    public void clickOnSettingsShouldShowSettings() {
+        menuBar.actionPerformed(new ActionEvent(settingsMenuItem, 0, null));
+
+        verify(mediator).showSettings();
+    }
+
+    @Test
+    public void clickOnMinimizeShouldMinimize() {
+        menuBar.actionPerformed(new ActionEvent(minimizeMenuItem, 0, null));
+
+        verify(mediator).minimize();
+    }
+
+    @Test
+    public void clickOnAwayShouldSetAway() {
+        menuBar.actionPerformed(new ActionEvent(awayMenuItem, 0, null));
+
+        verify(mediator).setAway();
+    }
+
+    @Test
+    public void clickOnTopicShouldSetTopic() {
+        menuBar.actionPerformed(new ActionEvent(topicMenuItem, 0, null));
+
+        verify(mediator).setTopic();
+    }
+
+    @Test
+    public void clickOnClearShouldClearChat() {
+        menuBar.actionPerformed(new ActionEvent(clearMenuItem, 0, null));
+
+        verify(mediator).clearChat();
+    }
+
+    // TODO faq
+
+    // TODO tips
+
+    // TODO license
+
+    @Test
+    public void clickOnCommandsShouldShowCommands() {
+        menuBar.actionPerformed(new ActionEvent(commandsMenuItem, 0, null));
+
+        verify(mediator).showCommands();
+    }
+
+    // TODO about
 }
