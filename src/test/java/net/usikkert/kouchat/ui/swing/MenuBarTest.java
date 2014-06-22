@@ -35,6 +35,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.message.Messages;
+import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.TestUtils;
 
@@ -77,7 +79,7 @@ public class MenuBarTest {
 
     @Before
     public void setUp() {
-        menuBar = new MenuBar(mock(ImageLoader.class), mock(Settings.class));
+        menuBar = new MenuBar(mock(ImageLoader.class), mock(Settings.class), new PropertyFileMessages("messages.swing"));
 
         fileMenu = TestUtils.getFieldValue(menuBar, JMenu.class, "fileMenu");
         minimizeMenuItem = TestUtils.getFieldValue(menuBar, JMenuItem.class, "minimizeMI");
@@ -108,7 +110,7 @@ public class MenuBarTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Image loader can not be null");
 
-        new MenuBar(null, mock(Settings.class));
+        new MenuBar(null, mock(Settings.class), mock(Messages.class));
     }
 
     @Test
@@ -116,7 +118,15 @@ public class MenuBarTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new MenuBar(mock(ImageLoader.class), null);
+        new MenuBar(mock(ImageLoader.class), null, mock(Messages.class));
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfMessagesIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Messages can not be null");
+
+        new MenuBar(mock(ImageLoader.class), mock(Settings.class), null);
     }
 
     @Test

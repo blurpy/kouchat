@@ -32,6 +32,7 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Validate;
 
@@ -62,42 +63,44 @@ public class MenuBar extends JMenuBar implements ActionListener {
      *
      * @param imageLoader The image loader.
      * @param settings The settings to use.
+     * @param messages The messages to use for the menu bar.
      */
-    public MenuBar(final ImageLoader imageLoader, final Settings settings) {
+    public MenuBar(final ImageLoader imageLoader, final Settings settings, final Messages messages) {
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
+        Validate.notNull(messages, "Messages can not be null");
 
         this.imageLoader = imageLoader;
         this.settings = settings;
 
-        fileMenu = new JMenu("File");
-        fileMenu.setMnemonic('F');
-        minimizeMI = new JMenuItem("Minimize");
-        minimizeMI.setMnemonic('M');
+        fileMenu = new JMenu(messages.getMessage("swing.menu.file"));
+        fileMenu.setMnemonic(keyCode(messages.getMessage("swing.menu.file.mnemonic")));
+        minimizeMI = new JMenuItem(messages.getMessage("swing.menu.file.minimize"));
+        minimizeMI.setMnemonic(keyCode(messages.getMessage("swing.menu.file.minimize.mnemonic")));
         minimizeMI.addActionListener(this);
-        quitMI = new JMenuItem("Quit");
-        quitMI.setMnemonic('Q');
+        quitMI = new JMenuItem(messages.getMessage("swing.menu.file.quit"));
+        quitMI.setMnemonic(keyCode(messages.getMessage("swing.menu.file.quit.mnemonic")));
         quitMI.addActionListener(this);
 
         fileMenu.add(minimizeMI);
         fileMenu.addSeparator();
         fileMenu.add(quitMI);
 
-        toolsMenu = new JMenu("Tools");
-        toolsMenu.setMnemonic('T');
-        clearMI = new JMenuItem("Clear chat");
-        clearMI.setMnemonic('C');
+        toolsMenu = new JMenu(messages.getMessage("swing.menu.tools"));
+        toolsMenu.setMnemonic(keyCode(messages.getMessage("swing.menu.tools.mnemonic")));
+        clearMI = new JMenuItem(messages.getMessage("swing.menu.tools.clearChat"));
+        clearMI.setMnemonic(keyCode(messages.getMessage("swing.menu.tools.clearChat.mnemonic")));
         clearMI.addActionListener(this);
-        awayMI = new JMenuItem("Set away");
-        awayMI.setMnemonic('A');
+        awayMI = new JMenuItem(messages.getMessage("swing.menu.tools.setAway"));
+        awayMI.setMnemonic(keyCode(messages.getMessage("swing.menu.tools.setAway.mnemonic")));
         awayMI.addActionListener(this);
         awayMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0));
-        topicMI = new JMenuItem("Change topic");
-        topicMI.setMnemonic('O');
+        topicMI = new JMenuItem(messages.getMessage("swing.menu.tools.changeTopic"));
+        topicMI.setMnemonic(keyCode(messages.getMessage("swing.menu.tools.changeTopic.mnemonic")));
         topicMI.addActionListener(this);
         topicMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
-        settingsMI = new JMenuItem("Settings");
-        settingsMI.setMnemonic('S');
+        settingsMI = new JMenuItem(messages.getMessage("swing.menu.tools.settings"));
+        settingsMI.setMnemonic(keyCode(messages.getMessage("swing.menu.tools.settings.mnemonic")));
         settingsMI.addActionListener(this);
         settingsMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0));
 
@@ -107,23 +110,23 @@ public class MenuBar extends JMenuBar implements ActionListener {
         toolsMenu.addSeparator();
         toolsMenu.add(settingsMI);
 
-        helpMenu = new JMenu("Help");
-        helpMenu.setMnemonic('H');
-        faqMI = new JMenuItem("FAQ");
-        faqMI.setMnemonic('F');
+        helpMenu = new JMenu(messages.getMessage("swing.menu.help"));
+        helpMenu.setMnemonic(keyCode(messages.getMessage("swing.menu.help.mnemonic")));
+        faqMI = new JMenuItem(messages.getMessage("swing.menu.help.faq"));
+        faqMI.setMnemonic(keyCode(messages.getMessage("swing.menu.help.faq.mnemonic")));
         faqMI.addActionListener(this);
         faqMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
-        licenseMI = new JMenuItem("License");
-        licenseMI.setMnemonic('L');
+        licenseMI = new JMenuItem(messages.getMessage("swing.menu.help.license"));
+        licenseMI.setMnemonic(keyCode(messages.getMessage("swing.menu.help.license.mnemonic")));
         licenseMI.addActionListener(this);
-        tipsMI = new JMenuItem("Tips & tricks");
-        tipsMI.setMnemonic('T');
+        tipsMI = new JMenuItem(messages.getMessage("swing.menu.help.tipsAndTricks"));
+        tipsMI.setMnemonic(keyCode(messages.getMessage("swing.menu.help.tipsAndTricks.mnemonic")));
         tipsMI.addActionListener(this);
-        commandsMI = new JMenuItem("Commands");
-        commandsMI.setMnemonic('C');
+        commandsMI = new JMenuItem(messages.getMessage("swing.menu.help.commands"));
+        commandsMI.setMnemonic(keyCode(messages.getMessage("swing.menu.help.commands.mnemonic")));
         commandsMI.addActionListener(this);
-        aboutMI = new JMenuItem("About");
-        aboutMI.setMnemonic('A');
+        aboutMI = new JMenuItem(messages.getMessage("swing.menu.help.about"));
+        aboutMI.setMnemonic(keyCode(messages.getMessage("swing.menu.help.about.mnemonic")));
         aboutMI.addActionListener(this);
 
         helpMenu.add(faqMI);
@@ -315,5 +318,9 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
     MessageDialog createMessageDialog() {
         return new MessageDialog(null, true, imageLoader);
+    }
+
+    private int keyCode(final String key) {
+        return KeyStroke.getKeyStroke(key).getKeyCode();
     }
 }
