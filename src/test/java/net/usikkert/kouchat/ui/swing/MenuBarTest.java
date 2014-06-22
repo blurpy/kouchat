@@ -315,4 +315,62 @@ public class MenuBarTest {
         assertEquals(JPopupMenu.Separator.class, menuComponents[5].getClass());
         assertSame(aboutMenuItem, menuComponents[6]);
     }
+
+    @Test
+    public void setMediatorShouldThrowExceptionIfMediatorIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Mediator can not be null");
+
+        menuBar.setMediator(null);
+    }
+
+    @Test
+    public void setAwayStateShouldDisableSettingsAndTopicMenuItemsWhenAway() {
+        assertTrue(settingsMenuItem.isEnabled());
+        assertTrue(topicMenuItem.isEnabled());
+
+        menuBar.setAwayState(true);
+        assertFalse(settingsMenuItem.isEnabled());
+        assertFalse(topicMenuItem.isEnabled());
+
+        menuBar.setAwayState(false);
+        assertTrue(settingsMenuItem.isEnabled());
+        assertTrue(topicMenuItem.isEnabled());
+    }
+
+    @Test
+    public void isPopupMenuVisibleShouldBeTrueWhenFileMenuIsVisible() {
+        // Unable to make the real implementation visible in a test, so mocking instead
+        final JMenu mockFileMenu = TestUtils.setFieldValueWithMock(menuBar, "fileMenu", JMenu.class);
+
+        assertFalse(menuBar.isPopupMenuVisible());
+
+        when(mockFileMenu.isPopupMenuVisible()).thenReturn(true);
+
+        assertTrue(menuBar.isPopupMenuVisible());
+    }
+
+    @Test
+    public void isPopupMenuVisibleShouldBeTrueWhenToolsMenuIsVisible() {
+        // Unable to make the real implementation visible in a test, so mocking instead
+        final JMenu mockToolsMenu = TestUtils.setFieldValueWithMock(menuBar, "toolsMenu", JMenu.class);
+
+        assertFalse(menuBar.isPopupMenuVisible());
+
+        when(mockToolsMenu.isPopupMenuVisible()).thenReturn(true);
+
+        assertTrue(menuBar.isPopupMenuVisible());
+    }
+
+    @Test
+    public void isPopupMenuVisibleShouldBeTrueWhenHelpMenuIsVisible() {
+        // Unable to make the real implementation visible in a test, so mocking instead
+        final JMenu mockHelpMenu = TestUtils.setFieldValueWithMock(menuBar, "helpMenu", JMenu.class);
+
+        assertFalse(menuBar.isPopupMenuVisible());
+
+        when(mockHelpMenu.isPopupMenuVisible()).thenReturn(true);
+
+        assertTrue(menuBar.isPopupMenuVisible());
+    }
 }

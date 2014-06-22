@@ -145,6 +145,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
      * @param mediator The mediator to set.
      */
     public void setMediator(final Mediator mediator) {
+        Validate.notNull(mediator, "Mediator can not be null");
         this.mediator = mediator;
     }
 
