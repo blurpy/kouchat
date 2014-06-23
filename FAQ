@@ -4,8 +4,9 @@
 1. What is Kou?
 
 Kou is a special cow character I've made. You can see Kou at the Super Kou
-project page http://superkou.googlecode.com/
-Kou is pronounced kind of like cows say mooooooo.
+project page at http://superkou.googlecode.com/
+Kou is pronounced kind of like the way cows say moooo, but it's OK to
+just call him Cow.
 
 
 2. KouChat crashed, doesn't connect, or behaves strangely.
@@ -193,3 +194,11 @@ everything to work correctly:
 * Private chat: UDP port 40656 (increased by one for each running instance)
 * File transfer: TCP port 40756
 * Network detection: UDP port 50050
+
+
+20. The KouChat window is invisible over Remote Desktop. How can I fix it?
+
+This happens on some configurations. Try adding '-Dsun.java2d.noddraw=true'
+to the shortcut command when starting KouChat, like this:
+
+'javaw -Dsun.java2d.noddraw=true -jar kouchat-x.x.x.jar'
