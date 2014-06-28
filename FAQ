@@ -3,7 +3,7 @@
 
 1. What is Kou?
 
-Kou is a special cow character I've made. You can see Kou at the Super Kou
+Kou is a cow character I've made. You can see Kou at the Super Kou
 project page at http://superkou.googlecode.com/
 Kou is pronounced kind of like the way cows say moooo, but it's OK to
 just call him Cow.
@@ -12,23 +12,24 @@ just call him Cow.
 2. KouChat crashed, doesn't connect, or behaves strangely.
 
 First, make sure you are using the latest version. When you do, the easiest
-way to find the problem is for you to run KouChat from the console, like this:
-'java -jar kouchat-x.x.x.jar'
+way to find the problem is for you to run KouChat from the command line, like this:
+
+java -jar kouchat-x.x.x.jar
 
 If you see any errors, write them down. If nothing of interest shows up,
 then you can try enabling debug output by running KouChat like this:
-'java -jar kouchat-x.x.x.jar --debug'
 
-Please check the wiki at http://www.kouchat.net/ for help as well.
+java -jar kouchat-x.x.x.jar --debug
 
-When you can reproduce the problem, report it as an issue on
-http://www.kouchat.net/ with as many details as possible.
+Please check the wiki at http://www.kouchat.net/ for help as well. When you
+can reproduce the problem, report it as an issue with as many details as possible.
 
 
 3. I minimized KouChat, and it's not visible on the taskbar anymore.
 
 Have a look in the system tray. There should be a small black and white icon
-there with a cow pattern. Click on it to open KouChat again.
+there with a cow pattern. Click on it to open KouChat again. If you don't
+find the icon, it might be hidden. Check the system tray settings to make it visible.
 
 
 4. How do I change my nick name?
@@ -52,16 +53,18 @@ user in the user list and choose "Private chat".
 7. The file chooser is horribly slow in Windows XP.
 
 This is a Java bug, see
-http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6578753
+http://bugs.java.com/bugdatabase/view_bug.do?bug_id=6578753
 As a workaround you can move any zip-files lying on the desktop
 to some other folder.
 
 
 8. How do I enable console mode?
 
-From a console, run KouChat like this:
-'java -jar kouchat-x.x.x.jar --console'
-See /help for a list of commands you can use while in console mode.
+Run KouChat like this from the command line:
+
+java -jar kouchat-x.x.x.jar --console
+
+Type /help for a list of commands you can use while in console mode.
 
 
 9. How come some messages don't show up in other clients?
@@ -73,31 +76,32 @@ in wired networks, but wireless networks might have some loss.
 
 10. Where do the log files go?
 
-The logs are put in the ~/.kouchat/logs/ folder, sorted by date and time
-of creation. For those wondering, ~ means home folder.
+The logs are put in .kouchat/logs/ in your home folder, sorted by date and
+time of creation.
 
 Examples:
 
 * Windows XP - C:\Documents and Settings\Your Username\.kouchat\logs\
-* Windows Vista - C:\Users\Your Username\.kouchat\logs\
+* Windows 7 - C:\Users\Your Username\.kouchat\logs\
 * Linux - /home/username/.kouchat/logs/
 
 
 11. Why do non-ascii characters look wrong when using console mode in Windows?
 
-That's because the Windows console uses the old DOS character sets instead of
-the normal Windows character sets. A common DOS charset is cp850 and a
-common Windows charset is cp1252. I've found 2 ways to go around this problem:
+That's because the command line in Windows uses the old DOS character set
+instead of the normal Windows character set. A common DOS character set
+is cp850 and a common Windows character set is cp1252. I've found 2 ways
+to work around this problem:
 
-* Change the console charset to match the Windows charset.
-  If your Windows charset is cp1252, just run the command 'chcp 1252' before
-  starting KouChat like normal. For this to work you need a console font
-  which supports the chosen charset, like Lucida Console.
+* Change the character set on the command line to match the character set
+  used by Windows. If your Windows character set is cp1252, just run the
+  command 'chcp 1252' before starting KouChat. For this to work you need a
+  console font which supports the chosen character set, like Lucida Console.
 
-* Change the Java charset to match the console charset.
-  You can get the current console charset by running the command 'chcp'.
-  Then use the charset number when starting KouChat:
-  'java -Dfile.encoding=850 -jar kouchat-x.x.x.jar --console'.
+* Change the character set used by Java to match the character set on the
+  command line. You can get the current command line character set by
+  running the command 'chcp'. Then use the character set number when
+  starting KouChat: java -Dfile.encoding=850 -jar kouchat-x.x.x.jar --console
 
 
 12. Why don't I have the Nimbus look and feel?
@@ -115,7 +119,7 @@ formats:
 * kou_shortcut.ico
 * kou_shortcut.png
 
-To find these, you can just open the jar file in a decompression utility
+To get these, you can just open the jar file in a decompression utility
 like WinZip or 7-Zip.
 
 
@@ -145,8 +149,8 @@ versions of Java 7, so I'm guessing it's not my bug ;)
 
 16. I have a great suggestion for a new feature. What do I do?
 
-Cool :) Just register the suggestion on the issue tracker at
-http://www.kouchat.net/ with "feature request" in the title.
+Cool :) Just register the suggestion in the issue tracker at
+http://www.kouchat.net/ with "Feature request" in the title.
 
 
 17. KouChat uses the wrong network interface. How can I switch?
@@ -159,9 +163,9 @@ Typical use cases include:
   virtualization software like VMware and Virtual Box.
 
 You can override the network interface chosen by KouChat in the settings.
-Choose one in the list and click OK to switch. Tip: hold the mouse over
-each of the items in the drop down list for more details about the network
-interface, if available.
+Choose one in the list and click OK to switch. Tip: hold the mouse cursor
+over each of the items in the drop down list for more details about the
+network interface, if available.
 
 
 18. How can I get KouChat to open in front of other applications after
@@ -170,14 +174,14 @@ being unhidden from the system tray in KDE?
 The window manager in KDE is usually configured with a feature called
 "Focus stealing prevention". This feature keeps new windows from opening
 in front and stealing focus. However, when unhiding KouChat from the
-system tray it's because one wants to interact with that window, and this
-focus stealing prevention gets in the way.
+system tray it's usually because one wants to interact with the window, and
+the focus stealing prevention gets in the way.
 
 It can be disabled globally or per application. Here is how to disable for
 KouChat only:
 
 Right click on the title bar of the KouChat window, then click on
-"Advanced/Special Application Settings...". Go to the rightmost tab,
+"Advanced/Special Application Settings". Go to the rightmost tab,
 called something like "Workarounds" or "Appearance & Fixes"
 (depends on the version of KDE). Enable the checkbox on
 "Focus stealing prevention", and set it to "Force" and "None" in the 2
@@ -201,7 +205,7 @@ everything to work correctly:
 This happens on some configurations. Try adding '-Dsun.java2d.noddraw=true'
 to the shortcut command when starting KouChat, like this:
 
-'javaw -Dsun.java2d.noddraw=true -jar kouchat-x.x.x.jar'
+javaw -Dsun.java2d.noddraw=true -jar kouchat-x.x.x.jar
 
 
 21. How can I start KouChat minimized?
@@ -209,7 +213,7 @@ to the shortcut command when starting KouChat, like this:
 Add the startup argument '--minimized' to the shortcut or script that starts
 KouChat, like this:
 
-'java -jar kouchat-x.x.x.jar --minimized'
+java -jar kouchat-x.x.x.jar --minimized
 
 Put the shortcut or script in the startup/autostart folder of your operating
-system to run automatically when you log in.
+system to run automatically on boot.
