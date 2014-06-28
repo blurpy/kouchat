@@ -202,3 +202,14 @@ This happens on some configurations. Try adding '-Dsun.java2d.noddraw=true'
 to the shortcut command when starting KouChat, like this:
 
 'javaw -Dsun.java2d.noddraw=true -jar kouchat-x.x.x.jar'
+
+
+21. How can I start KouChat minimized?
+
+Add the startup argument '--minimized' to the shortcut or script that starts
+KouChat, like this:
+
+'java -jar kouchat-x.x.x.jar --minimized'
+
+Put the shortcut or script in the startup/autostart folder of your operating
+system to run automatically when you log in.
