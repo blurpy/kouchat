@@ -22,6 +22,7 @@
 
 package net.usikkert.kouchat.ui.swing;
 
+import net.usikkert.kouchat.ui.swing.settings.SettingsDialog;
 import net.usikkert.kouchat.util.Validate;
 
 /**

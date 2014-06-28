@@ -20,11 +20,13 @@
  *   If not, see <http://www.gnu.org/licenses/>.                           *
  ***************************************************************************/
 
-package net.usikkert.kouchat.ui.swing;
+package net.usikkert.kouchat.ui.swing.settings;
 
 import static org.mockito.Mockito.*;
 
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.ui.swing.ImageLoader;
+import net.usikkert.kouchat.ui.swing.Mediator;
 
 import org.junit.Ignore;
 import org.junit.Test;

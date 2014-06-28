@@ -20,7 +20,7 @@
  *   If not, see <http://www.gnu.org/licenses/>.                           *
  ***************************************************************************/
 
-package net.usikkert.kouchat.ui.swing;
+package net.usikkert.kouchat.ui.swing.settings;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -67,6 +67,12 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.net.NetworkUtils;
+import net.usikkert.kouchat.ui.swing.CopyPastePopup;
+import net.usikkert.kouchat.ui.swing.ImageLoader;
+import net.usikkert.kouchat.ui.swing.LookAndFeelWrapper;
+import net.usikkert.kouchat.ui.swing.Mediator;
+import net.usikkert.kouchat.ui.swing.StatusIcons;
+import net.usikkert.kouchat.ui.swing.UITools;
 import net.usikkert.kouchat.util.Validate;
 
 /**
