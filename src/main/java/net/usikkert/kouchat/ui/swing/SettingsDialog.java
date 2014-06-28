@@ -59,7 +59,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.WindowConstants;
@@ -311,7 +310,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(final ActionEvent e) {
         if (e.getSource() == saveB) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     if (mediator.changeNick(nickTF.getText())) {
@@ -339,7 +338,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         }
 
         else if (e.getSource() == cancelB) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     setVisible(false);
@@ -348,7 +347,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         }
 
         else if (e.getSource() == chooseOwnColorB) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     final Color newColor = uiTools.showColorChooser("Choose color for own messages",
@@ -362,7 +361,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         }
 
         else if (e.getSource() == chooseSysColorB) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     final Color newColor = uiTools.showColorChooser("Choose color for system messages",
@@ -376,7 +375,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         }
 
         else if (e.getSource() == testBrowserB) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     final String browser = browserTF.getText();
