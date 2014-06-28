@@ -17,9 +17,9 @@ Several of the most used functions have hotkeys. Look in the menus to see which.
 
 3. Autocomplete nick names
 
-Instead of writing hello SuPeRmAn (if the user is called SuPeRmAn),
-you write hello s and press the tab button. The rest of the nick name will
-be filled in. If more than one user has a nick name starting with s then
+Instead of writing 'hello SuPeRmAn' (if the user is called SuPeRmAn),
+you write 'hello s' and press the tab button. The rest of the nick name will
+be filled in. If more than one user has a nick name starting with 's' then
 press tab multiple times to cycle through all the choices. Or write more of
 the nick name before pressing tab again. The autocompletion is case insensitive.
 
@@ -52,11 +52,11 @@ that user.
 
 8. Set a custom location to store log files
 
-Add the startup argument --log-location="some path" to the shortcut or
+Add the startup argument '--log-location="some path"' to the shortcut or
 script that starts KouChat. Remember to use quotes if the path contains
 spaces, and use double backslash at the end of Windows paths.
 
 Examples:
 
-* Windows: java -jar kouchat-x.x.x.jar --log-location="C:\Users\Your Username\KouChat logs\\"
+* Windows: javaw -jar kouchat-x.x.x.jar --log-location="C:\Users\Your Username\KouChat logs\\"
 * Linux: java -jar kouchat-x.x.x.jar --log-location="/home/username/KouChat logs/"
