@@ -24,7 +24,6 @@ package net.usikkert.kouchat.ui.swing.settings;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -47,7 +46,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -55,7 +53,6 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
@@ -83,7 +80,6 @@ import net.usikkert.kouchat.util.Validate;
 public class SettingsDialog extends JDialog implements ActionListener {
 
     private static final Logger LOG = Logger.getLogger(SettingsDialog.class.getName());
-    private static final long serialVersionUID = 1L;
 
     private final UITools uiTools = new UITools();
 
@@ -93,8 +89,10 @@ public class SettingsDialog extends JDialog implements ActionListener {
     private final JCheckBox soundCB, loggingCB, smileysCB, balloonCB;
     private final JComboBox<LookAndFeelWrapper> lookAndFeelCB;
     private final JComboBox<NetworkChoice> networkInterfaceCB;
+
     private final Settings settings;
     private final ErrorHandler errorHandler;
+
     private Mediator mediator;
 
     /**
@@ -530,65 +528,5 @@ public class SettingsDialog extends JDialog implements ActionListener {
         }
 
         return networkChoices.toArray(new NetworkChoice[networkChoices.size()]);
-    }
-
-    /**
-     * Class for representing a network interface to be chosen in the dropdown box.
-     */
-    private class NetworkChoice {
-
-        private final String displayName;
-        private final String deviceName;
-        private final String ipAddresses;
-
-        public NetworkChoice(final NetworkInterface networkInterface) {
-            this.displayName = networkInterface.getDisplayName();
-            this.deviceName = networkInterface.getName();
-            this.ipAddresses = NetworkUtils.getIPv4Addresses(networkInterface);
-        }
-
-        public NetworkChoice(final String deviceName, final String displayName) {
-            this.displayName = displayName;
-            this.deviceName = deviceName;
-            this.ipAddresses = null;
-        }
-
-        public String getDeviceName() {
-            return deviceName;
-        }
-
-        public String getDisplayName() {
-            return displayName;
-        }
-
-        public boolean match(final String savedNetworkInterface) {
-            return deviceName.equalsIgnoreCase(savedNetworkInterface);
-        }
-
-        @Override
-        public String toString() {
-            if (ipAddresses != null) {
-                return deviceName + " - " + ipAddresses;
-            } else {
-                return deviceName;
-            }
-        }
-    }
-
-    /**
-     * A cell renderer for the combobox with network choices that enables tooltips on the elements,
-     * showing the display name of the network device.
-     */
-    private class NetworkChoiceCellRenderer extends DefaultListCellRenderer {
-
-        @Override
-        public Component getListCellRendererComponent(final JList list, final Object value,
-                                                      final int index, final boolean isSelected,
-                                                      final boolean cellHasFocus) {
-            final NetworkChoice networkChoice = (NetworkChoice) value;
-            list.setToolTipText(networkChoice.getDisplayName());
-
-            return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-        }
     }
 }
