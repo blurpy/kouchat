@@ -88,7 +88,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
     private final JTextField nickTF, browserTF;
     private final JLabel ownColorL, sysColorL;
     private final JCheckBox soundCB, loggingCB, smileysCB, balloonCB;
-    private final JComboBox lookAndFeelCB, networkInterfaceCB;
+    private final JComboBox lookAndFeelCB, networkInterfaceCB; // Java 6 doesn't support generic JComboBox
 
     private final Settings settings;
     private final ErrorHandler errorHandler;
