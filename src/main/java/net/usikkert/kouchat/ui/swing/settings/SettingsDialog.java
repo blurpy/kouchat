@@ -32,7 +32,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import java.net.NetworkInterface;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -63,6 +62,7 @@ import javax.swing.WindowConstants;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.net.NetworkInterfaceInfo;
 import net.usikkert.kouchat.net.NetworkUtils;
 import net.usikkert.kouchat.ui.swing.CopyPastePopup;
 import net.usikkert.kouchat.ui.swing.ImageLoader;
@@ -520,9 +520,9 @@ public class SettingsDialog extends JDialog implements ActionListener {
         final ArrayList<NetworkChoice> networkChoices = new ArrayList<NetworkChoice>();
         networkChoices.add(new NetworkChoice("Auto", "Let " + Constants.APP_NAME + " decide."));
 
-        final List<NetworkInterface> usableNetworkInterfaces = networkUtils.getUsableNetworkInterfaces();
+        final List<NetworkInterfaceInfo> usableNetworkInterfaces = networkUtils.getUsableNetworkInterfaces();
 
-        for (final NetworkInterface usableNetworkInterface : usableNetworkInterfaces) {
+        for (final NetworkInterfaceInfo usableNetworkInterface : usableNetworkInterfaces) {
             networkChoices.add(new NetworkChoice(usableNetworkInterface, networkUtils));
         }
 

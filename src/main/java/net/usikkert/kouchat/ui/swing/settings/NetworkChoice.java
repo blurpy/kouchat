@@ -22,8 +22,7 @@
 
 package net.usikkert.kouchat.ui.swing.settings;
 
-import java.net.NetworkInterface;
-
+import net.usikkert.kouchat.net.NetworkInterfaceInfo;
 import net.usikkert.kouchat.net.NetworkUtils;
 
 /**
@@ -37,7 +36,7 @@ public class NetworkChoice {
     private final String deviceName;
     private final String ipAddresses;
 
-    public NetworkChoice(final NetworkInterface networkInterface, final NetworkUtils networkUtils) {
+    public NetworkChoice(final NetworkInterfaceInfo networkInterface, final NetworkUtils networkUtils) {
         this.displayName = networkInterface.getDisplayName();
         this.deviceName = networkInterface.getName();
         this.ipAddresses = networkUtils.getIPv4Addresses(networkInterface);
