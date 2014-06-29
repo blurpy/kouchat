@@ -54,9 +54,6 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class SidePanel extends JPanel implements ActionListener, MouseListener, FileDropSource {
 
-    /** The standard version UID. */
-    private static final long serialVersionUID = 1L;
-
     private final UITools uiTools = new UITools();
 
     /** The right click popup menu in the user list. */

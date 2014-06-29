@@ -285,8 +285,6 @@ public class SettingsDialog extends JDialog implements ActionListener {
         final KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
 
         final Action escapeAction = new AbstractAction() {
-            private static final long serialVersionUID = 1L;
-
             @Override
             public void actionPerformed(final ActionEvent e) {
                 setVisible(false);

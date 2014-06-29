@@ -47,9 +47,6 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class UserListCellRenderer extends JLabel implements ListCellRenderer {
 
-    /** Standard serial version UID. */
-    private static final long serialVersionUID = 1L;
-
     /** The logger to use for this class. */
     private static final Logger LOG = Logger.getLogger(UserListCellRenderer.class.getName());
 

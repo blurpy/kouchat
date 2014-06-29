@@ -50,9 +50,6 @@ public class FileTransferHandler extends TransferHandler {
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(FileTransferHandler.class.getName());
 
-    /** Standard serial version UID. */
-    private static final long serialVersionUID = 1L;
-
     /** The object where the file gets dropped. */
     private final FileDropSource fileDropSource;
 

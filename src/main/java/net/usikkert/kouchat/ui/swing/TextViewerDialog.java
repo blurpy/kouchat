@@ -59,7 +59,6 @@ import net.usikkert.kouchat.util.Validate;
 public class TextViewerDialog extends JDialog {
 
     private static final Logger LOG = Logger.getLogger(TextViewerDialog.class.getName());
-    private static final long serialVersionUID = 1L;
 
     private final UITools uiTools = new UITools();
 

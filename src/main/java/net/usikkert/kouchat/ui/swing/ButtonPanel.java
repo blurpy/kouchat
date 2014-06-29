@@ -49,9 +49,6 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class ButtonPanel extends JPanel implements ActionListener {
 
-    /** Standard version uid. */
-    private static final long serialVersionUID = 1L;
-
     private final UITools uiTools = new UITools();
 
     /** The minimize button. Minimizes the application to the system tray. */

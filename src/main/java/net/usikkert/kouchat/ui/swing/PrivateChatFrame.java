@@ -79,7 +79,6 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
         PrivateChatWindow, FileDropSource, WindowListener, FocusListener {
 
     private static final Logger LOG = Logger.getLogger(PrivateChatFrame.class.getName());
-    private static final long serialVersionUID = 1L;
 
     private final UITools uiTools = new UITools();
 
@@ -228,8 +227,6 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
         final KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
 
         final Action escapeAction = new AbstractAction() {
-            private static final long serialVersionUID = 1L;
-
             @Override
             public void actionPerformed(final ActionEvent e) {
                 close();

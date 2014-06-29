@@ -37,9 +37,6 @@ import javax.swing.JTextPane;
  */
 public class JTextPaneWithoutWrap extends JTextPane {
 
-    /** Standard serial version UID. */
-    private static final long serialVersionUID = 1L;
-
     /**
      * Makes sure the size of the textpane fills the whole viewport.
      *

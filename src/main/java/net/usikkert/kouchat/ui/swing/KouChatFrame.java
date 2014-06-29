@@ -62,9 +62,6 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class KouChatFrame extends JFrame implements WindowListener, FocusListener {
 
-    /** Standard serial version UID. */
-    private static final long serialVersionUID = 1L;
-
     private static final Logger LOG = Logger.getLogger(KouChatFrame.class.getName());
 
     private final UITools uiTools = new UITools();
@@ -232,8 +229,6 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
         final KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
 
         final Action escapeAction = new AbstractAction() {
-            private static final long serialVersionUID = 1L;
-
             @Override
             public void actionPerformed(final ActionEvent e) {
                 mediator.minimize();

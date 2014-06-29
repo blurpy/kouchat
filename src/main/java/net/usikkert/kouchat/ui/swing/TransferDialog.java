@@ -54,9 +54,6 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class TransferDialog extends JDialog implements FileTransferListener, ActionListener {
 
-    /** Standard serial version UID. */
-    private static final long serialVersionUID = 1L;
-
     private final UITools uiTools = new UITools();
 
     /** Button to cancel file transfer, or close the dialog when transfer is stopped. */

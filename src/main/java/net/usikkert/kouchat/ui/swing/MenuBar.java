@@ -43,9 +43,6 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class MenuBar extends JMenuBar implements ActionListener {
 
-    /** Standard serial version UID. */
-    private static final long serialVersionUID = 1L;
-
     private final UITools uiTools = new UITools();
 
     private final JMenu fileMenu, toolsMenu, helpMenu;

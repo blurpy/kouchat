@@ -41,9 +41,6 @@ import javax.swing.text.DefaultEditorKit;
  */
 public class CopyPastePopup extends JPopupMenu implements MouseListener, ActionListener {
 
-    /** Standard serial version UID. */
-    private static final long serialVersionUID = 1L;
-
     /** Menu item to copy selected text. */
     private final JMenuItem copyMI;
 

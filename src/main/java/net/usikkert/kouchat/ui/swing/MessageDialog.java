@@ -52,9 +52,6 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class MessageDialog extends JDialog {
 
-    /** Standard serial version UID. */
-    private static final long serialVersionUID = 1L;
-
     private final JLabel appNameL, contentL;
 
     /**
@@ -129,8 +126,6 @@ public class MessageDialog extends JDialog {
         final KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
 
         final Action escapeAction = new AbstractAction() {
-            private static final long serialVersionUID = 1L;
-
             @Override
             public void actionPerformed(final ActionEvent e) {
                 dispose();
