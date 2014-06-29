@@ -37,10 +37,10 @@ public class NetworkChoice {
     private final String deviceName;
     private final String ipAddresses;
 
-    public NetworkChoice(final NetworkInterface networkInterface) {
+    public NetworkChoice(final NetworkInterface networkInterface, final NetworkUtils networkUtils) {
         this.displayName = networkInterface.getDisplayName();
         this.deviceName = networkInterface.getName();
-        this.ipAddresses = NetworkUtils.getIPv4Addresses(networkInterface);
+        this.ipAddresses = networkUtils.getIPv4Addresses(networkInterface);
     }
 
     public NetworkChoice(final String deviceName, final String displayName) {

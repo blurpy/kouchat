@@ -81,6 +81,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
     private static final Logger LOG = Logger.getLogger(SettingsDialog.class.getName());
 
+    private final NetworkUtils networkUtils = new NetworkUtils();
     private final UITools uiTools = new UITools();
 
     private final JButton saveB, cancelB, chooseOwnColorB, chooseSysColorB, testBrowserB, chooseBrowserB;
@@ -519,10 +520,10 @@ public class SettingsDialog extends JDialog implements ActionListener {
         final ArrayList<NetworkChoice> networkChoices = new ArrayList<NetworkChoice>();
         networkChoices.add(new NetworkChoice("Auto", "Let " + Constants.APP_NAME + " decide."));
 
-        final List<NetworkInterface> usableNetworkInterfaces = NetworkUtils.getUsableNetworkInterfaces();
+        final List<NetworkInterface> usableNetworkInterfaces = networkUtils.getUsableNetworkInterfaces();
 
         for (final NetworkInterface usableNetworkInterface : usableNetworkInterfaces) {
-            networkChoices.add(new NetworkChoice(usableNetworkInterface));
+            networkChoices.add(new NetworkChoice(usableNetworkInterface, networkUtils));
         }
 
         return networkChoices.toArray(new NetworkChoice[networkChoices.size()]);
