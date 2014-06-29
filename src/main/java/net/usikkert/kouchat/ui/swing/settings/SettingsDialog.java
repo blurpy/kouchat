@@ -88,8 +88,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
     private final JTextField nickTF, browserTF;
     private final JLabel ownColorL, sysColorL;
     private final JCheckBox soundCB, loggingCB, smileysCB, balloonCB;
-    private final JComboBox<LookAndFeelWrapper> lookAndFeelCB;
-    private final JComboBox<NetworkChoice> networkInterfaceCB;
+    private final JComboBox lookAndFeelCB, networkInterfaceCB;
 
     private final Settings settings;
     private final ErrorHandler errorHandler;
@@ -146,7 +145,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         lookAndFeelL.setToolTipText("<html>Gives a choice of all the different looks that are available." +
                 "<br />Note that " + Constants.APP_NAME + " needs to be restarted for the" +
                 "<br />changes to take effect.</html>");
-        lookAndFeelCB = new JComboBox<LookAndFeelWrapper>(uiTools.getLookAndFeels());
+        lookAndFeelCB = new JComboBox(uiTools.getLookAndFeels());
 
         final JPanel lookAndFeelP = new JPanel();
         lookAndFeelP.setLayout(new BoxLayout(lookAndFeelP, BoxLayout.LINE_AXIS));
@@ -190,7 +189,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         networkInterfaceL.setToolTipText("<html>Allows you to specify which network interface to use for " +
                 "<br>communication with other clients. Or use <em>Auto</em> to " +
                 "<br>let " + Constants.APP_NAME + " decide.</html>");
-        networkInterfaceCB = new JComboBox<NetworkChoice>();
+        networkInterfaceCB = new JComboBox();
         networkInterfaceCB.setRenderer(new NetworkChoiceCellRenderer());
 
         final JPanel networkInterfaceP = new JPanel();
@@ -457,7 +456,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         browserTF.setText(settings.getBrowser());
         smileysCB.setSelected(settings.isSmileys());
         balloonCB.setSelected(settings.isBalloons());
-        networkInterfaceCB.setModel(new DefaultComboBoxModel<NetworkChoice>(getNetworkChoices()));
+        networkInterfaceCB.setModel(new DefaultComboBoxModel(getNetworkChoices()));
 
         selectLookAndFeel();
         selectNetworkInterface();
@@ -483,7 +482,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         }
 
         for (int i = 0; i < lookAndFeelCB.getItemCount(); i++) {
-            final LookAndFeelWrapper lafw = lookAndFeelCB.getItemAt(i);
+            final LookAndFeelWrapper lafw = (LookAndFeelWrapper) lookAndFeelCB.getItemAt(i);
 
             if (lafw.getLookAndFeelInfo().getClassName().equals(lnfClass)) {
                 lookAndFeelCB.setSelectedIndex(i);
@@ -502,7 +501,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         final String savedNetworkInterface = settings.getNetworkInterface();
 
         for (int i = 0; i < networkInterfaceCB.getItemCount(); i++) {
-            final NetworkChoice networkChoice = networkInterfaceCB.getItemAt(i);
+            final NetworkChoice networkChoice = (NetworkChoice) networkInterfaceCB.getItemAt(i);
 
             if (networkChoice.match(savedNetworkInterface)) {
                 networkInterfaceCB.setSelectedIndex(i);
