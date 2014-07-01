@@ -397,42 +397,42 @@ public class MenuBarTest {
 
     @Test
     public void clickOnQuitShouldQuit() {
-        menuBar.actionPerformed(new ActionEvent(quitMenuItem, 0, null));
+        quitMenuItem.doClick();
 
         verify(mediator).quit();
     }
 
     @Test
     public void clickOnSettingsShouldShowSettings() {
-        menuBar.actionPerformed(new ActionEvent(settingsMenuItem, 0, null));
+        settingsMenuItem.doClick();
 
         verify(mediator).showSettings();
     }
 
     @Test
     public void clickOnMinimizeShouldMinimize() {
-        menuBar.actionPerformed(new ActionEvent(minimizeMenuItem, 0, null));
+        minimizeMenuItem.doClick();
 
         verify(mediator).minimize();
     }
 
     @Test
     public void clickOnAwayShouldSetAway() {
-        menuBar.actionPerformed(new ActionEvent(awayMenuItem, 0, null));
+        awayMenuItem.doClick();
 
         verify(mediator).setAway();
     }
 
     @Test
     public void clickOnTopicShouldSetTopic() {
-        menuBar.actionPerformed(new ActionEvent(topicMenuItem, 0, null));
+        topicMenuItem.doClick();
 
         verify(mediator).setTopic();
     }
 
     @Test
     public void clickOnClearShouldClearChat() {
-        menuBar.actionPerformed(new ActionEvent(clearMenuItem, 0, null));
+        clearMenuItem.doClick();
 
         verify(mediator).clearChat();
     }
@@ -444,6 +444,7 @@ public class MenuBarTest {
         final TextViewerDialog dialog = mock(TextViewerDialog.class);
         doReturn(dialog).when(menuBar).createTextViewerDialog(anyString(), anyString(), anyBoolean());
 
+        // faqMenuItem.doClick() don't understand the spy, so simulate click instead
         menuBar.actionPerformed(new ActionEvent(faqMenuItem, 0, null));
         menuBar.actionPerformed(new ActionEvent(faqMenuItem, 0, null));
 
@@ -458,6 +459,7 @@ public class MenuBarTest {
         final TextViewerDialog dialog = mock(TextViewerDialog.class);
         doReturn(dialog).when(menuBar).createTextViewerDialog(anyString(), anyString(), anyBoolean());
 
+        // tipsMenuItem.doClick() don't understand the spy, so simulate click instead
         menuBar.actionPerformed(new ActionEvent(tipsMenuItem, 0, null));
         menuBar.actionPerformed(new ActionEvent(tipsMenuItem, 0, null));
 
@@ -472,6 +474,7 @@ public class MenuBarTest {
         final TextViewerDialog dialog = mock(TextViewerDialog.class);
         doReturn(dialog).when(menuBar).createTextViewerDialog(anyString(), anyString(), anyBoolean());
 
+        // licenseMenuItem.doClick() don't understand the spy, so simulate click instead
         menuBar.actionPerformed(new ActionEvent(licenseMenuItem, 0, null));
         menuBar.actionPerformed(new ActionEvent(licenseMenuItem, 0, null));
 
@@ -481,7 +484,7 @@ public class MenuBarTest {
 
     @Test
     public void clickOnCommandsShouldShowCommands() {
-        menuBar.actionPerformed(new ActionEvent(commandsMenuItem, 0, null));
+        commandsMenuItem.doClick();
 
         verify(mediator).showCommands();
     }
@@ -494,6 +497,7 @@ public class MenuBarTest {
         final MessageDialog dialog = mock(MessageDialog.class);
         doReturn(dialog).when(menuBar).createMessageDialog();
 
+        // aboutMenuItem.doClick() don't understand the spy, so simulate click instead
         menuBar.actionPerformed(new ActionEvent(aboutMenuItem, 0, null));
 
         verify(menuBar).createMessageDialog();

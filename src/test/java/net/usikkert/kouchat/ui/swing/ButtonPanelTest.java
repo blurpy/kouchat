@@ -26,7 +26,6 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.awt.Component;
-import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
 
@@ -156,28 +155,28 @@ public class ButtonPanelTest {
 
     @Test
     public void clickOnMinimizeShouldMinimize() {
-        buttonPanel.actionPerformed(new ActionEvent(minimizeButton, 0, null));
+        minimizeButton.doClick();
 
         verify(mediator).minimize();
     }
 
     @Test
     public void clickOnClearShouldClearChat() {
-        buttonPanel.actionPerformed(new ActionEvent(clearButton, 0, null));
+        clearButton.doClick();
 
         verify(mediator).clearChat();
     }
 
     @Test
     public void clickOnAwayShouldSetAway() {
-        buttonPanel.actionPerformed(new ActionEvent(awayButton, 0, null));
+        awayButton.doClick();
 
         verify(mediator).setAway();
     }
 
     @Test
     public void clickOnTopicShouldSetTopic() {
-        buttonPanel.actionPerformed(new ActionEvent(topicButton, 0, null));
+        topicButton.doClick();
 
         verify(mediator).setTopic();
     }
