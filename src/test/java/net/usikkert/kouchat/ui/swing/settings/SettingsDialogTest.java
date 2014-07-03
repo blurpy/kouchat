@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -70,14 +71,30 @@ public class SettingsDialogTest  {
     private JButton changeSystemColorButton;
     private JLabel lookAndFeelLabel;
 
+    private JPanel miscPanel;
+    private JCheckBox soundCheckBox;
+    private JCheckBox loggingCheckBox;
+    private JCheckBox smileysCheckBox;
+    private JCheckBox balloonCheckBox;
+    private JLabel networkInterfaceLabel;
+
+    private JButton okButton;
+    private JButton cancelButton;
+
+    private Settings settings;
+
     @Before
     public void setUp() {
-        settingsDialog = new SettingsDialog(new ImageLoader(), mock(Settings.class));
+        settings = mock(Settings.class);
+        when(settings.getLogLocation()).thenReturn("/home/user/kouchat/logs");
+
+        settingsDialog = new SettingsDialog(new ImageLoader(), settings);
 
         settingsDialog.setMediator(mock(Mediator.class));
 
         final JPanel mainPanel = (JPanel) settingsDialog.getContentPane().getComponent(0);
         final JPanel centerPanel = (JPanel) mainPanel.getComponent(1);
+        final JPanel buttonPanel = (JPanel) mainPanel.getComponent(2);
 
         chooseNickPanel = (JPanel) mainPanel.getComponent(0);
         nickLabel = (JLabel) chooseNickPanel.getComponent(0);
@@ -99,6 +116,18 @@ public class SettingsDialogTest  {
         changeSystemColorButton = (JButton) systemColorPanel.getComponent(2);
         final JPanel lookAndFeelPanel = (JPanel) chooseLookPanel.getComponent(2);
         lookAndFeelLabel = (JLabel) lookAndFeelPanel.getComponent(0);
+
+        miscPanel = (JPanel) centerPanel.getComponent(1);
+        final JPanel miscCheckBoxPanel = (JPanel) miscPanel.getComponent(0);
+        soundCheckBox = (JCheckBox) miscCheckBoxPanel.getComponent(0);
+        loggingCheckBox = (JCheckBox) miscCheckBoxPanel.getComponent(1);
+        smileysCheckBox = (JCheckBox) miscCheckBoxPanel.getComponent(2);
+        balloonCheckBox = (JCheckBox) miscCheckBoxPanel.getComponent(3);
+        final JPanel networkInterfacePanel = (JPanel) miscPanel.getComponent(1);
+        networkInterfaceLabel = (JLabel) networkInterfacePanel.getComponent(0);
+
+        okButton = (JButton) buttonPanel.getComponent(0);
+        cancelButton = (JButton) buttonPanel.getComponent(1);
     }
 
     @Test
@@ -232,7 +261,100 @@ public class SettingsDialogTest  {
                 lookAndFeelLabel.getToolTipText());
     }
 
-    // TODO misc panel
+    @Test
+    public void miscPanelShouldHaveCorrectBorderText() {
+        final CompoundBorder compoundBorder = (CompoundBorder) miscPanel.getBorder();
+        final TitledBorder border = (TitledBorder) compoundBorder.getOutsideBorder();
+
+        assertEquals("Misc", border.getTitle());
+    }
+
+    @Test
+    public void soundCheckBoxShouldHaveCorrectText() {
+        assertEquals("Enable sound", soundCheckBox.getText());
+    }
+
+    @Test
+    public void soundCheckBoxToolTipShouldHaveCorrectText() {
+        assertEquals(
+                "<html>Will give a short sound notification when" +
+                "<br>a new message is received if KouChat" +
+                "<br>is minimized to the system tray, and" +
+                "<br>when asked to receive a file.</html>",
+                soundCheckBox.getToolTipText());
+    }
+
+    @Test
+    public void loggingCheckBoxShouldHaveCorrectText() {
+        assertEquals("Enable logging", loggingCheckBox.getText());
+    }
+
+    @Test
+    public void loggingCheckBoxToolTipShouldHaveCorrectText() {
+        assertEquals(
+                "<html>Stores the conversations in the main chat and private chats to log files in" +
+                "<br><em>/home/user/kouchat/logs</em>." +
+                "<br>Only text written after this option was enabled will be stored.</html>",
+                loggingCheckBox.getToolTipText());
+
+        verify(settings).getLogLocation();
+    }
+
+    @Test
+    public void smileysCheckBoxShouldHaveCorrectText() {
+        assertEquals("Enable smileys", smileysCheckBox.getText());
+    }
+
+    @Test
+    public void smileysCheckBoxToolTipShouldHaveCorrectText() {
+        assertEquals(
+                "<html>Replaces text smileys in the chat with smiley images." +
+                "<br>See the FAQ for a list of available smileys.</html>",
+                smileysCheckBox.getToolTipText());
+    }
+
+    @Test
+    public void ballonCheckBoxShouldHaveCorrectText() {
+        assertEquals("Enable balloons", balloonCheckBox.getText());
+    }
+
+    @Test
+    public void ballonCheckBoxToolTipShouldHaveCorrectText() {
+        assertEquals(
+                "<html>Shows balloon notifications in the system tray when new" +
+                "<br>messages are received while the application is hidden.</html>",
+                balloonCheckBox.getToolTipText());
+    }
+
+    @Test
+    public void networkInterfaceLabelShouldHaveCorrectText() {
+        assertEquals("Network interface", networkInterfaceLabel.getText());
+    }
+
+    @Test
+    public void networkInterfaceLabelToolTipShouldHaveCorrectText() {
+        assertEquals(
+                "<html>Allows you to specify which network interface to use for " +
+                "<br>communication with other clients. Or use <em>Auto</em> to " +
+                "<br>let KouChat decide.</html>",
+                networkInterfaceLabel.getToolTipText());
+    }
+
+    @Test
+    public void okButtonShouldHaveCorrectText() {
+        assertEquals("OK", okButton.getText());
+    }
+
+    @Test
+    public void cancelButtonShouldHaveCorrectText() {
+        assertEquals("Cancel", cancelButton.getText());
+    }
+
+    @Test
+    public void dialogTitleShouldHaveCorrectText() {
+        assertEquals("Settings - KouChat", settingsDialog.getTitle());
+    }
+
     // TODO action listeners
     // TODO drop down content
     // TODO copy paste popup
