@@ -460,6 +460,14 @@ public class SettingsDialogTest  {
         assertEquals(NetworkChoiceCellRenderer.class, renderer.getClass());
     }
 
+    @Test
+    public void setMediatorShouldThrowExceptionIfMediatorIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Mediator can not be null");
+
+        settingsDialog.setMediator(null);
+    }
+
     SettingsDialog createFakeVisibleDialog() {
         final SettingsDialog dialog = new SettingsDialog(imageLoader, settings) {
 
