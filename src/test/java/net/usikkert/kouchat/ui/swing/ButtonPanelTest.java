@@ -86,19 +86,9 @@ public class ButtonPanelTest {
     }
 
     @Test
-    public void clearButtonShouldHaveActionListener() {
-        assertSame(buttonPanel, clearButton.getActionListeners()[0]);
-    }
-
-    @Test
     public void awayButtonShouldHaveCorrectText() {
         assertEquals("Away", awayButton.getText());
         assertEquals("Set/unset your user as away.", awayButton.getToolTipText());
-    }
-
-    @Test
-    public void awayButtonShouldHaveActionListener() {
-        assertSame(buttonPanel, awayButton.getActionListeners()[0]);
     }
 
     @Test
@@ -108,19 +98,9 @@ public class ButtonPanelTest {
     }
 
     @Test
-    public void topicButtonShouldHaveActionListener() {
-        assertSame(buttonPanel, topicButton.getActionListeners()[0]);
-    }
-
-    @Test
     public void minimizeButtonShouldHaveCorrectText() {
         assertEquals("Minimize", minimizeButton.getText());
         assertEquals("Minimize to the system tray.", minimizeButton.getToolTipText());
-    }
-
-    @Test
-    public void minimizeButtonShouldHaveActionListener() {
-        assertSame(buttonPanel, minimizeButton.getActionListeners()[0]);
     }
 
     @Test
