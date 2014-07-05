@@ -55,7 +55,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.WindowConstants;
 
@@ -475,19 +474,19 @@ public class SettingsDialog extends JDialog implements ActionListener {
      * or the current look and feel if none is saved yet.</p>
      */
     private void selectLookAndFeel() {
-        final LookAndFeelInfo lookAndFeel = uiTools.getLookAndFeel(settings.getLookAndFeel());
-        String lnfClass = "";
+        final LookAndFeelInfo savedLookAndFeel = uiTools.getLookAndFeel(settings.getLookAndFeel());
+        final String lnfClass;
 
-        if (lookAndFeel == null) {
-            lnfClass = UIManager.getLookAndFeel().getClass().getName();
+        if (savedLookAndFeel == null) {
+            lnfClass = uiTools.getCurrentLookAndFeel().getClassName();
         } else {
-            lnfClass = lookAndFeel.getClassName();
+            lnfClass = savedLookAndFeel.getClassName();
         }
 
         for (int i = 0; i < lookAndFeelCB.getItemCount(); i++) {
-            final LookAndFeelWrapper lafw = (LookAndFeelWrapper) lookAndFeelCB.getItemAt(i);
+            final LookAndFeelWrapper lookAndFeelWrapper = (LookAndFeelWrapper) lookAndFeelCB.getItemAt(i);
 
-            if (lafw.getLookAndFeelInfo().getClassName().equals(lnfClass)) {
+            if (lookAndFeelWrapper.getLookAndFeelInfo().getClassName().equals(lnfClass)) {
                 lookAndFeelCB.setSelectedIndex(i);
                 break;
             }
