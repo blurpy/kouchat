@@ -145,7 +145,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         lookAndFeelL.setToolTipText("<html>Gives a choice of all the different looks that are available." +
                 "<br />Note that " + Constants.APP_NAME + " needs to be restarted for the" +
                 "<br />changes to take effect.</html>");
-        lookAndFeelCB = new JComboBox(uiTools.getLookAndFeels());
+        lookAndFeelCB = new JComboBox();
 
         final JPanel lookAndFeelP = new JPanel();
         lookAndFeelP.setLayout(new BoxLayout(lookAndFeelP, BoxLayout.LINE_AXIS));
@@ -456,7 +456,9 @@ public class SettingsDialog extends JDialog implements ActionListener {
         browserTF.setText(settings.getBrowser());
         smileysCB.setSelected(settings.isSmileys());
         balloonCB.setSelected(settings.isBalloons());
+
         networkInterfaceCB.setModel(new DefaultComboBoxModel(getNetworkChoices()));
+        lookAndFeelCB.setModel(new DefaultComboBoxModel(uiTools.getLookAndFeels()));
 
         selectLookAndFeel();
         selectNetworkInterface();
