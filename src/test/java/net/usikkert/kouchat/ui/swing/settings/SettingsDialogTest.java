@@ -25,15 +25,22 @@ package net.usikkert.kouchat.ui.swing.settings;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseListener;
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
 
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.ui.swing.CopyPastePopup;
 import net.usikkert.kouchat.ui.swing.ImageLoader;
 import net.usikkert.kouchat.ui.swing.Mediator;
 
@@ -57,6 +64,7 @@ public class SettingsDialogTest  {
 
     private JPanel chooseNickPanel;
     private JLabel nickLabel;
+    private JTextField nickTextField;
 
     private JPanel chooseBrowserPanel;
     private JLabel browserLabel;
@@ -82,13 +90,16 @@ public class SettingsDialogTest  {
     private JButton cancelButton;
 
     private Settings settings;
+    private ImageLoader imageLoader;
 
     @Before
     public void setUp() {
         settings = mock(Settings.class);
+        imageLoader = new ImageLoader();
+
         when(settings.getLogLocation()).thenReturn("/home/user/kouchat/logs");
 
-        settingsDialog = new SettingsDialog(new ImageLoader(), settings);
+        settingsDialog = new SettingsDialog(imageLoader, settings);
 
         settingsDialog.setMediator(mock(Mediator.class));
 
@@ -98,6 +109,7 @@ public class SettingsDialogTest  {
 
         chooseNickPanel = (JPanel) mainPanel.getComponent(0);
         nickLabel = (JLabel) chooseNickPanel.getComponent(0);
+        nickTextField = (JTextField) chooseNickPanel.getComponent(1);
 
         chooseBrowserPanel = (JPanel) centerPanel.getComponent(2);
         final JPanel browserTopPanel = (JPanel) chooseBrowserPanel.getComponent(0);
@@ -133,7 +145,7 @@ public class SettingsDialogTest  {
     @Test
     @Ignore("Run manually to see the settings dialog")
     public void showSettings() {
-        final SettingsDialog dialog = new SettingsDialog(new ImageLoader(), new Settings());
+        final SettingsDialog dialog = new SettingsDialog(imageLoader, new Settings());
 
         final Mediator mediator = mock(Mediator.class);
         when(mediator.changeNick(anyString())).thenReturn(true);
@@ -147,7 +159,7 @@ public class SettingsDialogTest  {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Image loader can not be null");
 
-        new SettingsDialog(null, mock(Settings.class));
+        new SettingsDialog(null, settings);
     }
 
     @Test
@@ -155,7 +167,7 @@ public class SettingsDialogTest  {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new SettingsDialog(mock(ImageLoader.class), null);
+        new SettingsDialog(imageLoader, null);
     }
 
     @Test
@@ -355,8 +367,120 @@ public class SettingsDialogTest  {
         assertEquals("Settings - KouChat", settingsDialog.getTitle());
     }
 
+    @Test
+    public void nickNameTextFieldShouldRegisterCopyPastePopup() {
+        final MouseListener[] mouseListeners = nickTextField.getMouseListeners();
+
+        // Seems to be 4 listeners - three of them are not added by me
+        assertEquals(CopyPastePopup.class, mouseListeners[mouseListeners.length - 1].getClass());
+    }
+
+    @Test
+    public void browserTextFieldShouldRegisterCopyPastePopup() {
+        final MouseListener[] mouseListeners = browserTextField.getMouseListeners();
+
+        // Seems to be 5 listeners - four of them are not added by me
+        assertEquals(CopyPastePopup.class, mouseListeners[mouseListeners.length - 1].getClass());
+    }
+
+    @Test
+    public void dialogShouldHideOnClose() {
+        assertEquals(WindowConstants.HIDE_ON_CLOSE, settingsDialog.getDefaultCloseOperation());
+    }
+
+    @Test
+    public void dialogShouldBeModal() {
+        assertTrue(settingsDialog.isModal());
+    }
+
+    @Test
+    public void dialogShouldNotBeResizeable() {
+        assertFalse(settingsDialog.isResizable());
+    }
+
+    @Test
+    public void dialogShouldHaveCorrectIcon() {
+        final List<Image> iconImages = settingsDialog.getIconImages();
+        assertEquals(1, iconImages.size());
+
+        final Image icon = iconImages.get(0);
+
+        assertSame(imageLoader.getKouNormal32Icon().getImage(), icon);
+    }
+
+    @Test
+    public void dialogShouldHideOnEscape() {
+        final SettingsDialog fakeVisibleDialog = createFakeVisibleDialog();
+
+        assertTrue(fakeVisibleDialog.isVisible());
+
+        final KeyEvent escapeEvent =
+                new KeyEvent(fakeVisibleDialog, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_ESCAPE, '\u001b', 1);
+
+        fakeVisibleDialog.dispatchEvent(escapeEvent);
+
+        assertFalse(fakeVisibleDialog.isVisible());
+    }
+
+    @Test
+    public void okShouldBeTheDefaultButton() {
+        assertSame(okButton, settingsDialog.getRootPane().getDefaultButton());
+    }
+
+    @Test
+    public void loggingCheckBoxShouldBeEnabledIfAlwaysLogIsNotEnabled() {
+        assertFalse(settings.isAlwaysLog());
+        assertTrue(loggingCheckBox.isEnabled());
+    }
+
+    @Test
+    public void loggingCheckBoxShouldBeDisabledIfAlwaysLogIsEnabled() {
+        when(settings.isAlwaysLog()).thenReturn(true);
+        assertTrue(settings.isAlwaysLog());
+
+        final SettingsDialog dialog = new SettingsDialog(imageLoader, settings);
+
+        final JPanel dialogMainPanel = (JPanel) dialog.getContentPane().getComponent(0);
+        final JPanel dialogCenterPanel = (JPanel) dialogMainPanel.getComponent(1);
+        final JPanel dialogMiscPanel = (JPanel) dialogCenterPanel.getComponent(1);
+        final JPanel dialogMiscCheckBoxPanel = (JPanel) dialogMiscPanel.getComponent(0);
+        final JCheckBox dialogLoggingCheckBox = (JCheckBox) dialogMiscCheckBoxPanel.getComponent(1);
+
+        assertFalse(dialogLoggingCheckBox.isEnabled());
+    }
+
+    SettingsDialog createFakeVisibleDialog() {
+        final SettingsDialog dialog = new SettingsDialog(imageLoader, settings) {
+
+            private boolean visible;
+
+            @Override
+            public void setVisible(final boolean visible) {
+                this.visible = visible;
+            }
+
+            @Override
+            public boolean isVisible() {
+                return visible;
+            }
+
+            @Override
+            public boolean isEnabled() {
+                return true;
+            }
+
+            @Override
+            public boolean isShowing() {
+                return true;
+            }
+        };
+
+        dialog.setVisible(true);
+
+        return dialog;
+    }
+
     // TODO action listeners
     // TODO drop down content
-    // TODO copy paste popup
     // TODO ++
 }
