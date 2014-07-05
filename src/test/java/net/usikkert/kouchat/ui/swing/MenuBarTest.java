@@ -142,19 +142,9 @@ public class MenuBarTest {
     }
 
     @Test
-    public void minimizeMenuItemShouldHaveActionListener() {
-        assertSame(menuBar, minimizeMenuItem.getActionListeners()[0]);
-    }
-
-    @Test
     public void quitMenuItemShouldHaveCorrectText() {
         assertEquals("Quit", quitMenuItem.getText());
         assertEquals('Q', quitMenuItem.getMnemonic());
-    }
-
-    @Test
-    public void quitMenuItemShouldHaveActionListener() {
-        assertSame(menuBar, quitMenuItem.getActionListeners()[0]);
     }
 
     @Test
@@ -170,19 +160,9 @@ public class MenuBarTest {
     }
 
     @Test
-    public void clearMenuItemShouldHaveActionListener() {
-        assertSame(menuBar, clearMenuItem.getActionListeners()[0]);
-    }
-
-    @Test
     public void awayMenuItemShouldHaveCorrectText() {
         assertEquals("Set away", awayMenuItem.getText());
         assertEquals('A', awayMenuItem.getMnemonic());
-    }
-
-    @Test
-    public void awayMenuItemShouldHaveActionListener() {
-        assertSame(menuBar, awayMenuItem.getActionListeners()[0]);
     }
 
     @Test
@@ -197,11 +177,6 @@ public class MenuBarTest {
     }
 
     @Test
-    public void topicMenuItemShouldHaveActionListener() {
-        assertSame(menuBar, topicMenuItem.getActionListeners()[0]);
-    }
-
-    @Test
     public void topicMenuItemShouldHaveShortcutKeyF3() {
         assertSame(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0), topicMenuItem.getAccelerator());
     }
@@ -210,11 +185,6 @@ public class MenuBarTest {
     public void settingsMenuItemShouldHaveCorrectText() {
         assertEquals("Settings", settingsMenuItem.getText());
         assertEquals('S', settingsMenuItem.getMnemonic());
-    }
-
-    @Test
-    public void settingsMenuItemShouldHaveActionListener() {
-        assertSame(menuBar, settingsMenuItem.getActionListeners()[0]);
     }
 
     @Test
@@ -270,11 +240,6 @@ public class MenuBarTest {
     public void commandsMenuItemShouldHaveCorrectText() {
         assertEquals("Commands", commandsMenuItem.getText());
         assertEquals('C', commandsMenuItem.getMnemonic());
-    }
-
-    @Test
-    public void commandMenuItemShouldHaveActionListener() {
-        assertSame(menuBar, commandsMenuItem.getActionListeners()[0]);
     }
 
     @Test
