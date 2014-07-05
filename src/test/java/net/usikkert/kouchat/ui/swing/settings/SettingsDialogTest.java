@@ -32,9 +32,11 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.WindowConstants;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
@@ -85,6 +87,7 @@ public class SettingsDialogTest  {
     private JCheckBox smileysCheckBox;
     private JCheckBox balloonCheckBox;
     private JLabel networkInterfaceLabel;
+    private JComboBox networkInterfaceComboBox;
 
     private JButton okButton;
     private JButton cancelButton;
@@ -137,6 +140,7 @@ public class SettingsDialogTest  {
         balloonCheckBox = (JCheckBox) miscCheckBoxPanel.getComponent(3);
         final JPanel networkInterfacePanel = (JPanel) miscPanel.getComponent(1);
         networkInterfaceLabel = (JLabel) networkInterfacePanel.getComponent(0);
+        networkInterfaceComboBox = (JComboBox) networkInterfacePanel.getComponent(2);
 
         okButton = (JButton) buttonPanel.getComponent(0);
         cancelButton = (JButton) buttonPanel.getComponent(1);
@@ -447,6 +451,13 @@ public class SettingsDialogTest  {
         final JCheckBox dialogLoggingCheckBox = (JCheckBox) dialogMiscCheckBoxPanel.getComponent(1);
 
         assertFalse(dialogLoggingCheckBox.isEnabled());
+    }
+
+    @Test
+    public void networkInterfaceComboBoxShouldUseNetworkChoiceCellRenderer() {
+        final ListCellRenderer renderer = networkInterfaceComboBox.getRenderer();
+
+        assertEquals(NetworkChoiceCellRenderer.class, renderer.getClass());
     }
 
     SettingsDialog createFakeVisibleDialog() {
