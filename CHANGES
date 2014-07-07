@@ -13,6 +13,9 @@
     from "file.ext.1" to "file_1.ext".
   - Lots of cleanup to improve testability.
   - Added support for the startup argument --minimized to start the Swing gui minimized.
+  - Right click popup with copy/paste options can now be activated using the menu key
+    on Windows keyboards
+  - User interface translations (under development)
 
 
 * version 1.2.0 (19.11.2012):

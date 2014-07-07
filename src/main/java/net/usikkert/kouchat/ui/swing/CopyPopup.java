@@ -25,13 +25,13 @@ package net.usikkert.kouchat.ui.swing;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import javax.swing.text.DefaultEditorKit;
 
 /**
@@ -39,7 +39,7 @@ import javax.swing.text.DefaultEditorKit;
  *
  * @author Christian Ihle
  */
-public class CopyPopup extends JPopupMenu implements MouseListener, ActionListener {
+public class CopyPopup extends JPopupMenu implements PopupMenuListener, ActionListener {
 
     /** Menu item to copy selected text in the text pane. */
     private final JMenuItem copyMI;
@@ -70,73 +70,32 @@ public class CopyPopup extends JPopupMenu implements MouseListener, ActionListen
         add(copyMI);
         add(selectAllMI);
 
-        textpane.addMouseListener(this);
+        textpane.setComponentPopupMenu(this);
         selectAllMI.addActionListener(this);
+
+        addPopupMenuListener(this);
     }
 
-    /**
-     * Not implemented.
-     *
-     * {@inheritDoc}
-     */
     @Override
-    public void mouseClicked(final MouseEvent e) {
+    public void popupMenuWillBecomeVisible(final PopupMenuEvent e) {
+        if (textpane.getSelectedText() == null) {
+            copyMI.setEnabled(false);
+        } else {
+            copyMI.setEnabled(true);
+        }
 
-    }
-
-    /**
-     * Not implemented.
-     *
-     * {@inheritDoc}
-     */
-    @Override
-    public void mouseEntered(final MouseEvent e) {
-
-    }
-
-    /**
-     * Not implemented.
-     *
-     * {@inheritDoc}
-     */
-    @Override
-    public void mouseExited(final MouseEvent e) {
-
-    }
-
-    /**
-     * Not implemented.
-     *
-     * {@inheritDoc}
-     */
-    @Override
-    public void mousePressed(final MouseEvent e) {
-
-    }
-
-    /**
-     * Shows the popup menu if right mouse button was used.
-     *
-     * {@inheritDoc}
-     */
-    @Override
-    public void mouseReleased(final MouseEvent e) {
-        if (isPopupTrigger(e)) {
-            if (textpane.getSelectedText() == null) {
-                copyMI.setEnabled(false);
-            } else {
-                copyMI.setEnabled(true);
-            }
-
-            if (textpane.getText().length() == 0) {
-                selectAllMI.setEnabled(false);
-            } else {
-                selectAllMI.setEnabled(true);
-            }
-
-            show(textpane, e.getX(), e.getY());
+        if (textpane.getText().length() == 0) {
+            selectAllMI.setEnabled(false);
+        } else {
+            selectAllMI.setEnabled(true);
         }
     }
+
+    @Override
+    public void popupMenuWillBecomeInvisible(final PopupMenuEvent e) { }
+
+    @Override
+    public void popupMenuCanceled(final PopupMenuEvent e) { }
 
     /**
      * Selects all the text.
