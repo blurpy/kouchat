@@ -34,8 +34,12 @@ import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.text.DefaultEditorKit;
 
+import net.usikkert.kouchat.util.Validate;
+
 /**
  * Shows a popup menu with copy and select all menu items.
+ *
+ * <p>Can be activated using the right mouse button or the menu button on the keyboard.</p>
  *
  * @author Christian Ihle
  */
@@ -56,6 +60,8 @@ public class CopyPopup extends JPopupMenu implements PopupMenuListener, ActionLi
      * @param textpane The text pane to use the popup on.
      */
     public CopyPopup(final JTextPane textpane) {
+        Validate.notNull(textpane, "Text pane can not be null");
+
         this.textpane = textpane;
 
         copyMI = new JMenuItem(new DefaultEditorKit.CopyAction());
