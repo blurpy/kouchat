@@ -27,7 +27,6 @@ import static org.mockito.Mockito.*;
 
 import java.awt.Image;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -35,6 +34,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.WindowConstants;
@@ -373,18 +373,16 @@ public class SettingsDialogTest  {
 
     @Test
     public void nickNameTextFieldShouldRegisterCopyPastePopup() {
-        final MouseListener[] mouseListeners = nickTextField.getMouseListeners();
+        final JPopupMenu componentPopupMenu = nickTextField.getComponentPopupMenu();
 
-        // Seems to be 4 listeners - three of them are not added by me
-        assertEquals(CopyPastePopup.class, mouseListeners[mouseListeners.length - 1].getClass());
+        assertEquals(CopyPastePopup.class, componentPopupMenu.getClass());
     }
 
     @Test
     public void browserTextFieldShouldRegisterCopyPastePopup() {
-        final MouseListener[] mouseListeners = browserTextField.getMouseListeners();
+        final JPopupMenu componentPopupMenu = browserTextField.getComponentPopupMenu();
 
-        // Seems to be 5 listeners - four of them are not added by me
-        assertEquals(CopyPastePopup.class, mouseListeners[mouseListeners.length - 1].getClass());
+        assertEquals(CopyPastePopup.class, componentPopupMenu.getClass());
     }
 
     @Test
