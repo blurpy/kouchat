@@ -33,6 +33,7 @@ import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
 import javax.swing.text.DefaultEditorKit;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -62,6 +63,11 @@ public class CopyPopupTest {
 
         copyMenuItem = (JMenuItem) popup.getComponent(0);
         selectAllMenuItem = (JMenuItem) popup.getComponent(1);
+    }
+
+    @After
+    public void tearDown() {
+        popup.setVisible(false); // To keep the popup from showing during test runs
     }
 
     @Test
