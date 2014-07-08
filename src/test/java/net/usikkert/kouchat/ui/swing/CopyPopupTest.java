@@ -137,7 +137,48 @@ public class CopyPopupTest {
     }
 
     @Test
-    public void settingPopupVisibleWithNoTextShouldDisableBothMenuItems() {
+    public void settingPopupVisibleWithNoTextShouldDisableBothMenuItemsWhenEnabled() {
+        setMenuItemsEnabled(true);
+
+        verifyPopupVisibleWithNoText();
+    }
+
+    @Test
+    public void settingPopupVisibleWithNoTextShouldDisableBothMenuItemsWhenDisabled() {
+        setMenuItemsEnabled(false);
+
+        verifyPopupVisibleWithNoText();
+    }
+
+    @Test
+    public void settingPopupVisibleWithSelectionShouldEnableBothMenuItemsWhenEnabled() {
+        setMenuItemsEnabled(true);
+
+        verifyPopupVisibleWithSelection();
+    }
+
+    @Test
+    public void settingPopupVisibleWithSelectionShouldEnableBothMenuItemsWhenDisabled() {
+        setMenuItemsEnabled(false);
+
+        verifyPopupVisibleWithSelection();
+    }
+
+    @Test
+    public void settingPopupVisibleWithNoSelectionShouldDisableCopyMenuItemWhenEnabled() {
+        setMenuItemsEnabled(true);
+
+        verifyPopupVisibleWithNoSelection();
+    }
+
+    @Test
+    public void settingPopupVisibleWithNoSelectionShouldDisableCopyMenuItemWhenDisabled() {
+        setMenuItemsEnabled(false);
+
+        verifyPopupVisibleWithNoSelection();
+    }
+
+    private void verifyPopupVisibleWithNoText() {
         when(textPane.getText()).thenReturn("");
         when(textPane.getSelectedText()).thenReturn(null);
 
@@ -147,8 +188,7 @@ public class CopyPopupTest {
         assertFalse(selectAllMenuItem.isEnabled());
     }
 
-    @Test
-    public void settingPopupVisibleWithSelectionShouldEnableBothMenuItems() {
+    private void verifyPopupVisibleWithSelection() {
         when(textPane.getText()).thenReturn("Text");
         when(textPane.getSelectedText()).thenReturn("Text");
 
@@ -158,8 +198,7 @@ public class CopyPopupTest {
         assertTrue(selectAllMenuItem.isEnabled());
     }
 
-    @Test
-    public void settingPopupVisibleWithNoSelectionShouldDisableCopyMenuItem() {
+    private void verifyPopupVisibleWithNoSelection() {
         when(textPane.getText()).thenReturn("Text");
         when(textPane.getSelectedText()).thenReturn(null);
 
@@ -167,5 +206,10 @@ public class CopyPopupTest {
 
         assertFalse(copyMenuItem.isEnabled());
         assertTrue(selectAllMenuItem.isEnabled());
+    }
+
+    private void setMenuItemsEnabled(final boolean enabled) {
+        copyMenuItem.setEnabled(enabled);
+        selectAllMenuItem.setEnabled(enabled);
     }
 }
