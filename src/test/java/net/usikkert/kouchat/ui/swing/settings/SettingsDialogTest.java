@@ -735,7 +735,118 @@ public class SettingsDialogTest  {
 
     @Test
     public void showSettingsShouldPutAllLookAndFeelsInComboBox() {
-        // TODO
+        prepareShowSettings();
+
+        final LookAndFeelWrapper spungy = createLookAndFeel("Spungy", "net.usikkert.kouchat.lnf.spungy");
+        final LookAndFeelWrapper kou = createLookAndFeel("Kou", "net.usikkert.kouchat.lnf.kou");
+        final LookAndFeelWrapper goompa = createLookAndFeel("Goompa", "net.usikkert.kouchat.lnf.goompa");
+        when(uiTools.getLookAndFeels()).thenReturn(new LookAndFeelWrapper[] {spungy, kou, goompa});
+
+        settingsDialog.showSettings();
+
+        assertEquals(3, lookAndFeelComboBox.getItemCount());
+
+        assertSame(spungy, lookAndFeelComboBox.getItemAt(0));
+        assertSame(kou, lookAndFeelComboBox.getItemAt(1));
+        assertSame(goompa, lookAndFeelComboBox.getItemAt(2));
+
+        verify(uiTools).getLookAndFeels();
+    }
+
+    @Test
+    public void showSettingsShouldSetDialogVisible() {
+        prepareShowSettings();
+
+        settingsDialog.showSettings();
+
+        verify(settingsDialog).setVisible(true);
+    }
+
+    @Test
+    public void showSettingsShouldRequestFocusFromNickNameTextField() {
+        prepareShowSettings();
+
+        final JTextField nickTF = TestUtils.setFieldValueWithMock(settingsDialog, "nickTF", JTextField.class);
+
+        settingsDialog.showSettings();
+
+        verify(nickTF).requestFocusInWindow();
+    }
+
+    @Test
+    public void showSettingsShouldSelectTheSavedLookAndFeelInTheComboBox() {
+        prepareShowSettings();
+
+        final LookAndFeelWrapper spungy = createLookAndFeel("Spungy", "net.usikkert.kouchat.lnf.spungy");
+        final LookAndFeelWrapper kou = createLookAndFeel("Kou", "net.usikkert.kouchat.lnf.kou");
+        final LookAndFeelWrapper goompa = createLookAndFeel("Goompa", "net.usikkert.kouchat.lnf.goompa");
+        when(uiTools.getLookAndFeels()).thenReturn(new LookAndFeelWrapper[] {spungy, kou, goompa});
+
+        when(settings.getLookAndFeel()).thenReturn("Kou");
+
+        final UIManager.LookAndFeelInfo savedLookAndFeel = mock(UIManager.LookAndFeelInfo.class);
+        when(savedLookAndFeel.getClassName()).thenReturn("net.usikkert.kouchat.lnf.kou");
+        when(uiTools.getLookAndFeel("Kou")).thenReturn(savedLookAndFeel);
+
+        settingsDialog.showSettings();
+
+        assertEquals(kou, lookAndFeelComboBox.getSelectedItem());
+    }
+
+    @Test
+    public void showSettingsShouldSelectTheCurrentLookAndFeelInTheComboBoxIfNoneIsSaved() {
+        prepareShowSettings();
+
+        final LookAndFeelWrapper spungy = createLookAndFeel("Spungy", "net.usikkert.kouchat.lnf.spungy");
+        final LookAndFeelWrapper kou = createLookAndFeel("Kou", "net.usikkert.kouchat.lnf.kou");
+        final LookAndFeelWrapper goompa = createLookAndFeel("Goompa", "net.usikkert.kouchat.lnf.goompa");
+        when(uiTools.getLookAndFeels()).thenReturn(new LookAndFeelWrapper[] {spungy, kou, goompa});
+
+        when(settings.getLookAndFeel()).thenReturn(null);
+
+        final UIManager.LookAndFeelInfo currentLookAndFeel = mock(UIManager.LookAndFeelInfo.class);
+        when(currentLookAndFeel.getClassName()).thenReturn("net.usikkert.kouchat.lnf.kou");
+        when(uiTools.getCurrentLookAndFeel()).thenReturn(currentLookAndFeel);
+
+        settingsDialog.showSettings();
+
+        assertEquals(kou, lookAndFeelComboBox.getSelectedItem());
+    }
+
+    @Test
+    public void showSettingsShouldSelectTheSavedNetworkInterfaceInTheComboBox() {
+        prepareShowSettings();
+
+        final NetworkInterfaceInfo net1 = createNetworkInterfaceInfo("eth0");
+        final NetworkInterfaceInfo net2 = createNetworkInterfaceInfo("eth1");
+        final NetworkInterfaceInfo net3 = createNetworkInterfaceInfo("eth2");
+        when(networkUtils.getUsableNetworkInterfaces()).thenReturn(Arrays.asList(net1, net2, net3));
+
+        when(settings.getNetworkInterface()).thenReturn("eth2");
+
+        settingsDialog.showSettings();
+
+        final int expectedPosition = 3;
+        assertEquals(expectedPosition, networkInterfaceComboBox.getSelectedIndex()); // Auto is at position 0
+        checkNetworkChoiceAt(expectedPosition, "eth2", "Display name for eth2");
+    }
+
+    @Test
+    public void showSettingsShouldSelectAutoInTheComboBoxIfNoneIsSaved() {
+        prepareShowSettings();
+
+        final NetworkInterfaceInfo net1 = createNetworkInterfaceInfo("eth0");
+        final NetworkInterfaceInfo net2 = createNetworkInterfaceInfo("eth1");
+        final NetworkInterfaceInfo net3 = createNetworkInterfaceInfo("eth2");
+        when(networkUtils.getUsableNetworkInterfaces()).thenReturn(Arrays.asList(net1, net2, net3));
+
+        when(settings.getNetworkInterface()).thenReturn(null);
+
+        settingsDialog.showSettings();
+
+        final int expectedPosition = 0;
+        assertEquals(expectedPosition, networkInterfaceComboBox.getSelectedIndex());
+        checkNetworkChoiceAt(expectedPosition, "Auto", "Let KouChat decide.");
     }
 
     // TODO rest of the buttons
@@ -763,6 +874,14 @@ public class SettingsDialogTest  {
     private LookAndFeelWrapper createLookAndFeel(final String name) {
         final UIManager.LookAndFeelInfo lookAndFeelInfo = mock(UIManager.LookAndFeelInfo.class);
         when(lookAndFeelInfo.getName()).thenReturn(name);
+
+        return new LookAndFeelWrapper(lookAndFeelInfo);
+    }
+
+    private LookAndFeelWrapper createLookAndFeel(final String name, final String className) {
+        final UIManager.LookAndFeelInfo lookAndFeelInfo = mock(UIManager.LookAndFeelInfo.class);
+        when(lookAndFeelInfo.getName()).thenReturn(name);
+        when(lookAndFeelInfo.getClassName()).thenReturn(className);
 
         return new LookAndFeelWrapper(lookAndFeelInfo);
     }
