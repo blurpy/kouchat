@@ -29,6 +29,7 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -45,6 +46,9 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
 
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.misc.User;
+import net.usikkert.kouchat.net.NetworkInterfaceInfo;
+import net.usikkert.kouchat.net.NetworkUtils;
 import net.usikkert.kouchat.ui.swing.CopyPastePopup;
 import net.usikkert.kouchat.ui.swing.ImageLoader;
 import net.usikkert.kouchat.ui.swing.LookAndFeelWrapper;
@@ -104,6 +108,7 @@ public class SettingsDialogTest  {
     private ImageLoader imageLoader;
     private Mediator mediator;
     private UITools uiTools;
+    private NetworkUtils networkUtils;
 
     @Before
     public void setUp() {
@@ -159,6 +164,8 @@ public class SettingsDialogTest  {
 
         uiTools = TestUtils.setFieldValueWithMock(settingsDialog, "uiTools", UITools.class);
         doAnswer(new RunArgumentAnswer()).when(uiTools).invokeLater(any(Runnable.class));
+
+        networkUtils = TestUtils.setFieldValueWithMock(settingsDialog, "networkUtils", NetworkUtils.class);
 
         lookAndFeelComboBox.addItem(createLookAndFeel("Metal"));
         networkInterfaceComboBox.addItem(new NetworkChoice("eth0", "3Com"));
@@ -430,6 +437,10 @@ public class SettingsDialogTest  {
     @Test
     public void dialogShouldHideOnEscape() {
         final SettingsDialog fakeVisibleDialog = createFakeVisibleDialog();
+        final JComboBox networkInterfaceCB = TestUtils.getFieldValue(fakeVisibleDialog, JComboBox.class, "networkInterfaceCB");
+
+        // Adding an item to avoid NullPointerException in NetworkChoiceCellRenderer.getListCellRendererComponent()
+        networkInterfaceCB.addItem(new NetworkChoice("eth0", "eth0"));
 
         assertTrue(fakeVisibleDialog.isVisible());
 
@@ -642,6 +653,109 @@ public class SettingsDialogTest  {
         verify(uiTools, never()).showInfoMessage(anyString(), anyString());
     }
 
+    @Test
+    public void showSettingsShouldSetNickNameFromSettings() {
+        prepareShowSettings();
+
+        settingsDialog.showSettings();
+
+        assertEquals("Lisa", nickTextField.getText());
+        verify(settings).getMe();
+    }
+
+    @Test
+    public void showSettingsShouldSetBrowserFromSettings() {
+        prepareShowSettings();
+        when(settings.getBrowser()).thenReturn("Firefox");
+
+        settingsDialog.showSettings();
+
+        assertEquals("Firefox", browserTextField.getText());
+        verify(settings).getBrowser();
+    }
+
+    @Test
+    public void showSettingsShouldSetColorsFromSettings() {
+        prepareShowSettings();
+
+        when(settings.getOwnColor()).thenReturn(Color.BLUE.getRGB());
+        when(settings.getSysColor()).thenReturn(Color.RED.getRGB());
+
+        settingsDialog.showSettings();
+
+        assertEquals(Color.BLUE.getRGB(), ownColorLabel.getForeground().getRGB());
+        assertEquals(Color.RED.getRGB(), systemColorLabel.getForeground().getRGB());
+
+        verify(settings).getOwnColor();
+        verify(settings).getSysColor();
+    }
+
+    @Test
+    public void showSettingsShouldSetMiscCheckBoxesFromSettings() {
+        prepareShowSettings();
+
+        when(settings.isSound()).thenReturn(true);
+        when(settings.isLogging()).thenReturn(true);
+        when(settings.isSmileys()).thenReturn(true);
+        when(settings.isBalloons()).thenReturn(true);
+
+        settingsDialog.showSettings();
+
+        assertTrue(soundCheckBox.isSelected());
+        assertTrue(loggingCheckBox.isSelected());
+        assertTrue(smileysCheckBox.isSelected());
+        assertTrue(balloonCheckBox.isSelected());
+
+        verify(settings).isSound();
+        verify(settings).isLogging();
+        verify(settings).isSmileys();
+        verify(settings).isBalloons();
+    }
+
+    @Test
+    public void showSettingsShouldPutAllNetworkInterfacesAndAutoInComboBox() {
+        prepareShowSettings();
+
+        final NetworkInterfaceInfo net1 = createNetworkInterfaceInfo("eth0");
+        final NetworkInterfaceInfo net2 = createNetworkInterfaceInfo("eth1");
+        final NetworkInterfaceInfo net3 = createNetworkInterfaceInfo("eth2");
+        when(networkUtils.getUsableNetworkInterfaces()).thenReturn(Arrays.asList(net1, net2, net3));
+
+        settingsDialog.showSettings();
+
+        assertEquals(4, networkInterfaceComboBox.getItemCount());
+
+        checkNetworkChoiceAt(0, "Auto", "Let KouChat decide.");
+        checkNetworkChoiceAt(1, "eth0", "Display name for eth0");
+        checkNetworkChoiceAt(2, "eth1", "Display name for eth1");
+        checkNetworkChoiceAt(3, "eth2", "Display name for eth2");
+
+        verify(networkUtils).getUsableNetworkInterfaces();
+    }
+
+    @Test
+    public void showSettingsShouldPutAllLookAndFeelsInComboBox() {
+        // TODO
+    }
+
+    // TODO rest of the buttons
+
+    private void checkNetworkChoiceAt(final int position, final String deviceName, final String displayName) {
+        final NetworkChoice itemAt = (NetworkChoice) networkInterfaceComboBox.getItemAt(position);
+
+        assertEquals(deviceName, itemAt.getDeviceName());
+        assertEquals(displayName, itemAt.getDisplayName());
+    }
+
+    private NetworkInterfaceInfo createNetworkInterfaceInfo(final String deviceName) {
+        final NetworkInterfaceInfo networkInterfaceInfo = mock(NetworkInterfaceInfo.class);
+
+        when(networkInterfaceInfo.getName()).thenReturn(deviceName);
+        when(networkInterfaceInfo.getDisplayName()).thenReturn("Display name for " + deviceName);
+
+        return networkInterfaceInfo;
+    }
+
     private NetworkChoice createNetworkInterface(final String deviceName) {
         return new NetworkChoice(deviceName, "Display name for " + deviceName);
     }
@@ -651,6 +765,15 @@ public class SettingsDialogTest  {
         when(lookAndFeelInfo.getName()).thenReturn(name);
 
         return new LookAndFeelWrapper(lookAndFeelInfo);
+    }
+
+    private void prepareShowSettings() {
+        settingsDialog = spy(settingsDialog);
+        doNothing().when(settingsDialog).setVisible(anyBoolean());
+
+        when(settings.getMe()).thenReturn(new User("Lisa", 1234));
+        when(uiTools.getLookAndFeels()).thenReturn(new LookAndFeelWrapper[0]);
+        when(uiTools.getCurrentLookAndFeel()).thenReturn(mock(UIManager.LookAndFeelInfo.class));
     }
 
     private void prepareClickOnOkButton() {
