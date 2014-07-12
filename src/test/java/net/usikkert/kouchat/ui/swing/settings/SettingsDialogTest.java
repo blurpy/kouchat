@@ -29,12 +29,14 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -654,6 +656,103 @@ public class SettingsDialogTest  {
     }
 
     @Test
+    public void cancelButtonShouldHideDialog() {
+        final SettingsDialog spyDialog = spy(settingsDialog);
+
+        // cancelButton.doClick() won't work when using a spy
+        spyDialog.actionPerformed(new ActionEvent(cancelButton, 0, ""));
+
+        verify(spyDialog).setVisible(false);
+    }
+
+    @Test
+    public void changeOwnColorButtonShouldOpenColorChooserWithSavedColorAndSetNewColorAsForegroundOnLabelOnOk() {
+        final Color savedColor = Color.BLUE;
+        final Color newColor = Color.RED;
+
+        when(settings.getOwnColor()).thenReturn(savedColor.getRGB());
+        when(uiTools.showColorChooser(anyString(), any(Color.class))).thenReturn(newColor); // Clicked ok in dialog
+
+        changeOwnColorButton.doClick();
+
+        verify(uiTools).showColorChooser("Choose color for own messages", savedColor);
+        assertEquals(newColor, ownColorLabel.getForeground());
+    }
+
+    @Test
+    public void changeOwnColorButtonShouldOpenColorChooserWithSavedColorAndDoNothingOnCancel() {
+        final Color savedColor = Color.BLUE;
+        final Color originalLabelColor = ownColorLabel.getForeground();
+
+        when(settings.getOwnColor()).thenReturn(savedColor.getRGB());
+        when(uiTools.showColorChooser(anyString(), any(Color.class))).thenReturn(null); // Clicked cancel in dialog
+
+        changeOwnColorButton.doClick();
+
+        verify(uiTools).showColorChooser("Choose color for own messages", savedColor);
+        assertEquals(originalLabelColor, ownColorLabel.getForeground());
+    }
+
+
+    @Test
+    public void changeSystemColorButtonShouldOpenColorChooserWithSavedColorAndSetNewColorAsForegroundOnLabelOnOk() {
+        final Color savedColor = Color.CYAN;
+        final Color newColor = Color.DARK_GRAY;
+
+        when(settings.getSysColor()).thenReturn(savedColor.getRGB());
+        when(uiTools.showColorChooser(anyString(), any(Color.class))).thenReturn(newColor); // Clicked ok in dialog
+
+        changeSystemColorButton.doClick();
+
+        verify(uiTools).showColorChooser("Choose color for system messages", savedColor);
+        assertEquals(newColor, systemColorLabel.getForeground());
+    }
+
+    @Test
+    public void changeSystemColorButtonShouldOpenColorChooserWithSavedColorAndDoNothingOnCancel() {
+        final Color savedColor = Color.GREEN;
+        final Color originalLabelColor = systemColorLabel.getForeground();
+
+        when(settings.getSysColor()).thenReturn(savedColor.getRGB());
+        when(uiTools.showColorChooser(anyString(), any(Color.class))).thenReturn(null); // Clicked cancel in dialog
+
+        changeSystemColorButton.doClick();
+
+        verify(uiTools).showColorChooser("Choose color for system messages", savedColor);
+        assertEquals(originalLabelColor, systemColorLabel.getForeground());
+    }
+
+    @Test
+    public void chooseBrowserButtonShouldSetAbsolutePathToSelectedFileInTextFieldOnOk() {
+        final JFileChooser fileChooser = mock(JFileChooser.class);
+        when(fileChooser.showOpenDialog(null)).thenReturn(JFileChooser.APPROVE_OPTION);
+        when(fileChooser.getSelectedFile()).thenReturn(new File("opera"));
+
+        when(uiTools.createFileChooser(anyString())).thenReturn(fileChooser);
+
+        chooseBrowserButton.doClick();
+
+        assertEquals(new File("").getAbsolutePath() + File.separator + "opera", browserTextField.getText());
+    }
+
+    @Test
+    public void chooseBrowserButtonShouldNotDoAnythingOnCancel() {
+        final JFileChooser fileChooser = mock(JFileChooser.class);
+        when(fileChooser.showOpenDialog(null)).thenReturn(JFileChooser.CANCEL_OPTION);
+
+        when(uiTools.createFileChooser(anyString())).thenReturn(fileChooser);
+
+        chooseBrowserButton.doClick();
+
+        assertEquals("", browserTextField.getText());
+    }
+
+    @Test
+    public void testBrowserButton() {
+        // TODO
+    }
+
+    @Test
     public void showSettingsShouldSetNickNameFromSettings() {
         prepareShowSettings();
 
@@ -848,8 +947,6 @@ public class SettingsDialogTest  {
         assertEquals(expectedPosition, networkInterfaceComboBox.getSelectedIndex());
         checkNetworkChoiceAt(expectedPosition, "Auto", "Let KouChat decide.");
     }
-
-    // TODO rest of the buttons
 
     private void checkNetworkChoiceAt(final int position, final String deviceName, final String displayName) {
         final NetworkChoice itemAt = (NetworkChoice) networkInterfaceComboBox.getItemAt(position);
