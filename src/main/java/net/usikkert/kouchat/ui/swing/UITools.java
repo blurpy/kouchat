@@ -63,6 +63,17 @@ public class UITools {
     private static final ErrorHandler ERRORHANDLER = ErrorHandler.getErrorHandler();
 
     /**
+     * Runs a command using {@link Runtime#exec(String)}.
+     *
+     * @param command The command to run.
+     * @return A {@link Process} to manage the result of the command.
+     * @throws IOException If the command fails.
+     */
+    public Process runCommand(final String command) throws IOException {
+        return Runtime.getRuntime().exec(command);
+    }
+
+    /**
      * Opens a url in a browser. The first choice is taken from the settings,
      * but if no browser i configured there, the systems default browser
      * is tried.
@@ -79,7 +90,7 @@ public class UITools {
         // The default is to use the browser in the settings.
         if (browser != null && browser.trim().length() > 0) {
             try {
-                Runtime.getRuntime().exec(browser + " " + url);
+                runCommand(browser + " " + url);
             }
 
             catch (final IOException e) {

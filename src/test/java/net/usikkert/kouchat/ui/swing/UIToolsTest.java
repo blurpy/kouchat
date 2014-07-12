@@ -25,6 +25,8 @@ package net.usikkert.kouchat.ui.swing;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.io.IOException;
+
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicLookAndFeel;
@@ -48,7 +50,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
  * @author Christian Ihle
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(UIManager.class)
+@PrepareForTest({ UIManager.class, Runtime.class, UITools.class })
 public class UIToolsTest {
 
     @Rule
@@ -59,6 +61,8 @@ public class UIToolsTest {
     @Before
     public void setUp() {
         PowerMockito.mockStatic(UIManager.class);
+        PowerMockito.mockStatic(Runtime.class);
+
         uiTools = new UITools();
     }
 
@@ -114,5 +118,15 @@ public class UIToolsTest {
         final UIManager.LookAndFeelInfo currentLookAndFeel = uiTools.getCurrentLookAndFeel();
 
         assertSame(nimbusLookAndFeelInfo, currentLookAndFeel);
+    }
+
+    @Test
+    public void runCommandShouldUseRuntimeExec() throws IOException {
+        final Runtime runtime = mock(Runtime.class);
+        when(Runtime.getRuntime()).thenReturn(runtime);
+
+        uiTools.runCommand("ls -l");
+
+        verify(runtime).exec("ls -l");
     }
 }

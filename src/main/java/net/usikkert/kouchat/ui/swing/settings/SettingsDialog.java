@@ -384,7 +384,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
                     if (browser.trim().length() > 0) {
                         try {
-                            Runtime.getRuntime().exec(browser + " " + Constants.APP_WEB);
+                            uiTools.runCommand(browser + " " + Constants.APP_WEB);
                         }
 
                         catch (final IOException e) {
