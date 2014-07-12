@@ -437,7 +437,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         final String newLookAndFeel = lnfw.getLookAndFeelInfo().getName();
         final LookAndFeelInfo currentLookAndFeel = uiTools.getCurrentLookAndFeel();
 
-        if (currentLookAndFeel == null || !newLookAndFeel.equals(currentLookAndFeel.getName())) {
+        if (!newLookAndFeel.equals(currentLookAndFeel.getName())) {
             uiTools.showInfoMessage("The new look and feel will be used the next time " +
                     Constants.APP_NAME + " is started.",
                     "Changed look and feel");

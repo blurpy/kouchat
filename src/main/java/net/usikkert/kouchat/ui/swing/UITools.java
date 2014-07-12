@@ -272,13 +272,18 @@ public class UITools {
     /**
      * Gets {@link LookAndFeelInfo} for the current look and feel.
      *
-     * @return The current look and feel, or <code>null</code> if none is set.
+     * <p>Swing throws NullPointerExceptions everywhere if look and feel is not set,
+     * so this is validated before returning.</p>
+     *
+     * @return The current look and feel.
+     * @throws IllegalStateException If no look and feel is set, or look and feel info can't
+     *                               be obtained for the current look and feel.
      */
     public LookAndFeelInfo getCurrentLookAndFeel() {
         final LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
 
         if (lookAndFeel == null) {
-            return null;
+            throw new IllegalStateException("No look and feel set. That's unexpected.");
         }
 
         final LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
@@ -289,7 +294,8 @@ public class UITools {
             }
         }
 
-        return null;
+        throw new IllegalStateException(
+                String.format("No look and feel info found for '%s'. That's unexpected.", lookAndFeel.getName()));
     }
 
     /**
