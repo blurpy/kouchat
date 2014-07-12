@@ -103,7 +103,7 @@ public class UITools {
         // But if no browser is set there, try opening the system default browser
         else if (isDesktopActionSupported(Action.BROWSE)) {
             try {
-                Desktop.getDesktop().browse(new URI(url));
+                browse(url);
             }
 
             catch (final IOException e) {
@@ -121,6 +121,20 @@ public class UITools {
             ERRORHANDLER.showError("No browser detected." +
                     " A browser can be chosen in the settings.");
         }
+    }
+
+    /**
+     * Opens a url in a browser.
+     *
+     * <p>Only for special cases. Don't use this directly, as it doesn't respect the browser set in the settings.
+     * Use {@link #browse(String, Settings)} instead.</p>
+     *
+     * @param url The url to open in the browser.
+     * @throws URISyntaxException If the url is invalid.
+     * @throws IOException If unable to open the browser.
+     */
+    public void browse(final String url) throws URISyntaxException, IOException {
+        Desktop.getDesktop().browse(new URI(url));
     }
 
     /**

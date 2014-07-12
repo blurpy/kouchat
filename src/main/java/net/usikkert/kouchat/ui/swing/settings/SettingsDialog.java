@@ -32,7 +32,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -395,7 +394,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
                     else if (uiTools.isDesktopActionSupported(Desktop.Action.BROWSE)) {
                         try {
-                            Desktop.getDesktop().browse(new URI(Constants.APP_WEB));
+                            uiTools.browse(Constants.APP_WEB);
                         }
 
                         catch (final IOException e) {

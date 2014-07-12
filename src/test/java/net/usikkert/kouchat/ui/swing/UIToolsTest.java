@@ -25,7 +25,10 @@ package net.usikkert.kouchat.ui.swing;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.awt.Desktop;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
@@ -50,7 +53,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
  * @author Christian Ihle
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ UIManager.class, Runtime.class, UITools.class })
+@PrepareForTest({ UIManager.class, Runtime.class, Desktop.class, UITools.class })
 public class UIToolsTest {
 
     @Rule
@@ -62,6 +65,7 @@ public class UIToolsTest {
     public void setUp() {
         PowerMockito.mockStatic(UIManager.class);
         PowerMockito.mockStatic(Runtime.class);
+        PowerMockito.mockStatic(Desktop.class);
 
         uiTools = new UITools();
     }
@@ -128,5 +132,15 @@ public class UIToolsTest {
         uiTools.runCommand("ls -l");
 
         verify(runtime).exec("ls -l");
+    }
+
+    @Test
+    public void browseWithUrlShouldUseDesktopBrowse() throws IOException, URISyntaxException {
+        final Desktop desktop = mock(Desktop.class);
+        when(Desktop.getDesktop()).thenReturn(desktop);
+
+        uiTools.browse("www.ape.no");
+
+        verify(desktop).browse(new URI("www.ape.no"));
     }
 }
