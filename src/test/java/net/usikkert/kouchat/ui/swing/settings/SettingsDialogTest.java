@@ -25,7 +25,9 @@ package net.usikkert.kouchat.ui.swing.settings;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.List;
 
@@ -37,6 +39,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
+import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
@@ -44,7 +47,11 @@ import javax.swing.border.TitledBorder;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.ui.swing.CopyPastePopup;
 import net.usikkert.kouchat.ui.swing.ImageLoader;
+import net.usikkert.kouchat.ui.swing.LookAndFeelWrapper;
 import net.usikkert.kouchat.ui.swing.Mediator;
+import net.usikkert.kouchat.ui.swing.RunArgumentAnswer;
+import net.usikkert.kouchat.ui.swing.UITools;
+import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -80,6 +87,7 @@ public class SettingsDialogTest  {
     private JLabel systemColorLabel;
     private JButton changeSystemColorButton;
     private JLabel lookAndFeelLabel;
+    private JComboBox lookAndFeelComboBox;
 
     private JPanel miscPanel;
     private JCheckBox soundCheckBox;
@@ -94,6 +102,8 @@ public class SettingsDialogTest  {
 
     private Settings settings;
     private ImageLoader imageLoader;
+    private Mediator mediator;
+    private UITools uiTools;
 
     @Before
     public void setUp() {
@@ -104,7 +114,8 @@ public class SettingsDialogTest  {
 
         settingsDialog = new SettingsDialog(imageLoader, settings);
 
-        settingsDialog.setMediator(mock(Mediator.class));
+        mediator = mock(Mediator.class);
+        settingsDialog.setMediator(mediator);
 
         final JPanel mainPanel = (JPanel) settingsDialog.getContentPane().getComponent(0);
         final JPanel centerPanel = (JPanel) mainPanel.getComponent(1);
@@ -131,6 +142,7 @@ public class SettingsDialogTest  {
         changeSystemColorButton = (JButton) systemColorPanel.getComponent(2);
         final JPanel lookAndFeelPanel = (JPanel) chooseLookPanel.getComponent(2);
         lookAndFeelLabel = (JLabel) lookAndFeelPanel.getComponent(0);
+        lookAndFeelComboBox = (JComboBox) lookAndFeelPanel.getComponent(2);
 
         miscPanel = (JPanel) centerPanel.getComponent(1);
         final JPanel miscCheckBoxPanel = (JPanel) miscPanel.getComponent(0);
@@ -144,6 +156,12 @@ public class SettingsDialogTest  {
 
         okButton = (JButton) buttonPanel.getComponent(0);
         cancelButton = (JButton) buttonPanel.getComponent(1);
+
+        uiTools = TestUtils.setFieldValueWithMock(settingsDialog, "uiTools", UITools.class);
+        doAnswer(new RunArgumentAnswer()).when(uiTools).invokeLater(any(Runnable.class));
+
+        lookAndFeelComboBox.addItem(createLookAndFeel("Metal"));
+        networkInterfaceComboBox.addItem(new NetworkChoice("eth0", "3Com"));
     }
 
     @Test
@@ -151,7 +169,6 @@ public class SettingsDialogTest  {
     public void showSettings() {
         final SettingsDialog dialog = new SettingsDialog(imageLoader, new Settings());
 
-        final Mediator mediator = mock(Mediator.class);
         when(mediator.changeNick(anyString())).thenReturn(true);
         dialog.setMediator(mediator);
 
@@ -466,7 +483,182 @@ public class SettingsDialogTest  {
         settingsDialog.setMediator(null);
     }
 
-    SettingsDialog createFakeVisibleDialog() {
+    @Test
+    public void okButtonShouldTryToChangeNickNameAndNotSaveIfInvalid() {
+        reset(settings);
+        nickTextField.setText("NotValid!");
+
+        okButton.doClick();
+
+        verify(mediator).changeNick("NotValid!");
+        verifyZeroInteractions(settings);
+    }
+
+    @Test
+    public void okButtonShouldSaveBrowser() {
+        prepareClickOnOkButton();
+
+        browserTextField.setText("Opera");
+
+        okButton.doClick();
+
+        verify(settings).setBrowser("Opera");
+    }
+
+    @Test
+    public void okButtonShouldSaveColors() {
+        prepareClickOnOkButton();
+
+        ownColorLabel.setForeground(Color.CYAN);
+        systemColorLabel.setForeground(Color.DARK_GRAY);
+
+        okButton.doClick();
+
+        verify(settings).setOwnColor(Color.CYAN.getRGB());
+        verify(settings).setSysColor(Color.DARK_GRAY.getRGB());
+    }
+
+    @Test
+    public void okButtonShouldSaveSelectedLookAndFeel() {
+        prepareClickOnOkButton();
+
+        lookAndFeelComboBox.removeAllItems();
+
+        lookAndFeelComboBox.addItem(createLookAndFeel("Sunny"));
+        lookAndFeelComboBox.addItem(createLookAndFeel("Cloudy"));
+        lookAndFeelComboBox.addItem(createLookAndFeel("Rainy"));
+        lookAndFeelComboBox.addItem(createLookAndFeel("Stormy"));
+
+        lookAndFeelComboBox.setSelectedIndex(2);
+
+        okButton.doClick();
+
+        verify(settings).setLookAndFeel("Rainy");
+    }
+
+    @Test
+    public void okButtonShouldSaveMiscCheckBoxes() {
+        prepareClickOnOkButton();
+
+        soundCheckBox.setSelected(true);
+        smileysCheckBox.setSelected(false);
+        loggingCheckBox.setSelected(true);
+        balloonCheckBox.setSelected(false);
+
+        okButton.doClick();
+
+        verify(settings).setSound(true);
+        verify(settings).setSmileys(false);
+        verify(settings).setLogging(true);
+        verify(settings).setBalloons(false);
+    }
+
+    @Test
+    public void okButtonShouldSaveSelectedNetworkInterface() {
+        prepareClickOnOkButton();
+
+        networkInterfaceComboBox.removeAllItems();
+
+        networkInterfaceComboBox.addItem(createNetworkInterface("eth0"));
+        networkInterfaceComboBox.addItem(createNetworkInterface("eth1"));
+        networkInterfaceComboBox.addItem(createNetworkInterface("lo"));
+        networkInterfaceComboBox.addItem(createNetworkInterface("wlan0"));
+
+        networkInterfaceComboBox.setSelectedIndex(3);
+
+        okButton.doClick();
+
+        verify(settings).setNetworkInterface("wlan0");
+    }
+
+    @Test
+    public void okButtonShouldSaveSettings() {
+        prepareClickOnOkButton();
+
+        okButton.doClick();
+
+        verify(settings).saveSettings();
+    }
+
+    @Test
+    public void okButtonShouldHideDialog() {
+        final SettingsDialog spyDialog = spy(settingsDialog);
+        prepareClickOnOkButton();
+
+        // okButton.doClick() won't work when using a spy
+        spyDialog.actionPerformed(new ActionEvent(okButton, 0, ""));
+
+        verify(spyDialog).setVisible(false);
+    }
+
+    @Test
+    public void okButtonShouldAskToCheckNetwork() {
+        prepareClickOnOkButton();
+
+        okButton.doClick();
+
+        verify(mediator).checkNetwork();
+    }
+
+    @Test
+    public void okButtonShouldShowInfoMessageIfCurrentLookAndFeelIsDifferentFromSelected() {
+        prepareClickOnOkButton();
+
+        lookAndFeelComboBox.removeAllItems();
+
+        final LookAndFeelWrapper stormy = createLookAndFeel("Stormy");
+        lookAndFeelComboBox.addItem(createLookAndFeel("Sunny"));
+        lookAndFeelComboBox.addItem(createLookAndFeel("Cloudy"));
+        lookAndFeelComboBox.addItem(createLookAndFeel("Rainy"));
+        lookAndFeelComboBox.addItem(stormy);
+
+        lookAndFeelComboBox.setSelectedIndex(1); // Selected Cloudy
+        when(uiTools.getCurrentLookAndFeel()).thenReturn(stormy.getLookAndFeelInfo()); // Currently Stormy
+
+        okButton.doClick();
+
+        verify(uiTools).showInfoMessage(
+                "The new look and feel will be used the next time KouChat is started.",
+                "Changed look and feel");
+    }
+
+    @Test
+    public void okButtonShouldNotShowInfoMessageIfCurrentLookAndFeelIsSameAsSelected() {
+        prepareClickOnOkButton();
+
+        lookAndFeelComboBox.removeAllItems();
+
+        final LookAndFeelWrapper stormy = createLookAndFeel("Stormy");
+        lookAndFeelComboBox.addItem(createLookAndFeel("Sunny"));
+        lookAndFeelComboBox.addItem(createLookAndFeel("Cloudy"));
+        lookAndFeelComboBox.addItem(createLookAndFeel("Rainy"));
+        lookAndFeelComboBox.addItem(stormy);
+
+        lookAndFeelComboBox.setSelectedIndex(3); // Selected Stormy
+        when(uiTools.getCurrentLookAndFeel()).thenReturn(stormy.getLookAndFeelInfo()); // Currently Stormy
+
+        okButton.doClick();
+
+        verify(uiTools, never()).showInfoMessage(anyString(), anyString());
+    }
+
+    private NetworkChoice createNetworkInterface(final String deviceName) {
+        return new NetworkChoice(deviceName, "Display name for " + deviceName);
+    }
+
+    private LookAndFeelWrapper createLookAndFeel(final String name) {
+        final UIManager.LookAndFeelInfo lookAndFeelInfo = mock(UIManager.LookAndFeelInfo.class);
+        when(lookAndFeelInfo.getName()).thenReturn(name);
+
+        return new LookAndFeelWrapper(lookAndFeelInfo);
+    }
+
+    private void prepareClickOnOkButton() {
+        when(mediator.changeNick(anyString())).thenReturn(true);
+        when(uiTools.getCurrentLookAndFeel()).thenReturn(mock(UIManager.LookAndFeelInfo.class));
+    }
+
+    private SettingsDialog createFakeVisibleDialog() {
         final SettingsDialog dialog = new SettingsDialog(imageLoader, settings) {
 
             private boolean visible;
@@ -496,8 +688,4 @@ public class SettingsDialogTest  {
 
         return dialog;
     }
-
-    // TODO action listeners
-    // TODO drop down content
-    // TODO ++
 }
