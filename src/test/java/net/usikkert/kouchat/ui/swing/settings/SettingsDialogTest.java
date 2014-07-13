@@ -124,7 +124,8 @@ public class SettingsDialogTest  {
 
         when(settings.getLogLocation()).thenReturn("/home/user/kouchat/logs");
 
-        settingsDialog = new SettingsDialog(imageLoader, settings);
+        errorHandler = mock(ErrorHandler.class);
+        settingsDialog = new SettingsDialog(imageLoader, settings, errorHandler);
 
         mediator = mock(Mediator.class);
         settingsDialog.setMediator(mediator);
@@ -173,7 +174,6 @@ public class SettingsDialogTest  {
         doAnswer(new RunArgumentAnswer()).when(uiTools).invokeLater(any(Runnable.class));
 
         networkUtils = TestUtils.setFieldValueWithMock(settingsDialog, "networkUtils", NetworkUtils.class);
-        errorHandler = TestUtils.setFieldValueWithMock(settingsDialog, "errorHandler", ErrorHandler.class);
 
         lookAndFeelComboBox.addItem(createLookAndFeel("Metal"));
         networkInterfaceComboBox.addItem(new NetworkChoice("eth0", "3Com"));
@@ -182,7 +182,7 @@ public class SettingsDialogTest  {
     @Test
     @Ignore("Run manually to see the settings dialog")
     public void showSettings() {
-        final SettingsDialog dialog = new SettingsDialog(imageLoader, new Settings());
+        final SettingsDialog dialog = new SettingsDialog(imageLoader, new Settings(), errorHandler);
 
         when(mediator.changeNick(anyString())).thenReturn(true);
         dialog.setMediator(mediator);
@@ -195,7 +195,7 @@ public class SettingsDialogTest  {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Image loader can not be null");
 
-        new SettingsDialog(null, settings);
+        new SettingsDialog(null, settings, errorHandler);
     }
 
     @Test
@@ -203,7 +203,15 @@ public class SettingsDialogTest  {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new SettingsDialog(imageLoader, null);
+        new SettingsDialog(imageLoader, null, errorHandler);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfErrorHandlerIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Error handler can not be null");
+
+        new SettingsDialog(imageLoader, settings, null);
     }
 
     @Test
@@ -476,7 +484,7 @@ public class SettingsDialogTest  {
         when(settings.isAlwaysLog()).thenReturn(true);
         assertTrue(settings.isAlwaysLog());
 
-        final SettingsDialog dialog = new SettingsDialog(imageLoader, settings);
+        final SettingsDialog dialog = new SettingsDialog(imageLoader, settings, errorHandler);
 
         final JPanel dialogMainPanel = (JPanel) dialog.getContentPane().getComponent(0);
         final JPanel dialogCenterPanel = (JPanel) dialogMainPanel.getComponent(1);
@@ -1071,7 +1079,7 @@ public class SettingsDialogTest  {
     }
 
     private SettingsDialog createFakeVisibleDialog() {
-        final SettingsDialog dialog = new SettingsDialog(imageLoader, settings) {
+        final SettingsDialog dialog = new SettingsDialog(imageLoader, settings, errorHandler) {
 
             private boolean visible;
 

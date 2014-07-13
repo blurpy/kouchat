@@ -98,12 +98,15 @@ public class SettingsDialog extends JDialog implements ActionListener {
      *
      * @param imageLoader The image loader.
      * @param settings The settings to use.
+     * @param errorHandler The handler to use for showing error messages.
      */
-    public SettingsDialog(final ImageLoader imageLoader, final Settings settings) {
+    public SettingsDialog(final ImageLoader imageLoader, final Settings settings, final ErrorHandler errorHandler) {
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
+        Validate.notNull(errorHandler, "Error handler can not be null");
 
         this.settings = settings;
+        this.errorHandler = errorHandler;
 
         final JLabel nickL = new JLabel("Nick:");
         nickTF = new JTextField(10);
@@ -261,8 +264,6 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
         // So the save button activates using Enter
         getRootPane().setDefaultButton(saveB);
-
-        errorHandler = ErrorHandler.getErrorHandler();
 
         disableLogSettingIfAlwaysLogIsEnabled();
     }
