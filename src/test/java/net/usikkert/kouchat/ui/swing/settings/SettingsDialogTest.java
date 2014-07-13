@@ -230,12 +230,12 @@ public class SettingsDialogTest  {
     public void nickNamePanelShouldHaveCorrectBorderText() {
         final TitledBorder border = (TitledBorder) chooseNickPanel.getBorder();
 
-        assertEquals("Choose nick", border.getTitle());
+        assertEquals("Choose nick name", border.getTitle());
     }
 
     @Test
     public void nickNameLabelShouldHaveCorrectText() {
-        assertEquals("Nick:", nickLabel.getText());
+        assertEquals("Nick name:", nickLabel.getText());
     }
 
     @Test
@@ -247,7 +247,7 @@ public class SettingsDialogTest  {
 
     @Test
     public void browserLabelShouldHaveCorrectText() {
-        assertEquals("Browser: ", browserLabel.getText());
+        assertEquals("Browser:", browserLabel.getText());
     }
 
     @Test
@@ -298,7 +298,7 @@ public class SettingsDialogTest  {
 
     @Test
     public void systemColorLabelShouldHaveCorrectText() {
-        assertEquals("System text color looks like this", systemColorLabel.getText());
+        assertEquals("Info text color looks like this", systemColorLabel.getText());
     }
 
     @Test
@@ -334,7 +334,7 @@ public class SettingsDialogTest  {
         final CompoundBorder compoundBorder = (CompoundBorder) miscPanel.getBorder();
         final TitledBorder border = (TitledBorder) compoundBorder.getOutsideBorder();
 
-        assertEquals("Misc", border.getTitle());
+        assertEquals("Miscellaneous", border.getTitle());
     }
 
     @Test

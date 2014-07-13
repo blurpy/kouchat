@@ -114,26 +114,26 @@ public class SettingsDialog extends JDialog implements ActionListener {
         this.errorHandler = errorHandler;
         this.messages = messages;
 
-        final JLabel nickL = new JLabel("Nick:");
+        final JLabel nickL = new JLabel(messages.getMessage("swing.settings.chooseNick.nickName"));
         nickTF = new JTextField(10);
         new CopyPastePopup(nickTF);
 
         final JPanel nickP = new JPanel(new FlowLayout(FlowLayout.LEFT));
         nickP.add(nickL);
         nickP.add(nickTF);
-        nickP.setBorder(BorderFactory.createTitledBorder("Choose nick"));
+        nickP.setBorder(BorderFactory.createTitledBorder(messages.getMessage("swing.settings.chooseNick")));
 
-        ownColorL = new JLabel("Own text color looks like this");
+        ownColorL = new JLabel(messages.getMessage("swing.settings.chooseLook.ownTextColor"));
         ownColorL.setToolTipText("<html>You and other users will see" +
                 "<br>the messages you write in this color.</html>");
 
-        sysColorL = new JLabel("System text color looks like this");
+        sysColorL = new JLabel(messages.getMessage("swing.settings.chooseLook.systemTextColor"));
         sysColorL.setToolTipText("<html>Information messages from the application" +
                 "<br>will be shown in this color.</html>");
 
-        chooseOwnColorB = new JButton("Change");
+        chooseOwnColorB = new JButton(messages.getMessage("swing.button.change"));
         chooseOwnColorB.addActionListener(this);
-        chooseSysColorB = new JButton("Change");
+        chooseSysColorB = new JButton(messages.getMessage("swing.button.change"));
         chooseSysColorB.addActionListener(this);
 
         final JPanel ownColorP = new JPanel();
@@ -148,7 +148,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         sysColorP.add(Box.createHorizontalGlue());
         sysColorP.add(chooseSysColorB);
 
-        final JLabel lookAndFeelL = new JLabel("Look and feel");
+        final JLabel lookAndFeelL = new JLabel(messages.getMessage("swing.settings.chooseLook.lookAndFeel"));
         lookAndFeelL.setToolTipText("<html>Gives a choice of all the different looks that are available." +
                 "<br />Note that " + Constants.APP_NAME + " needs to be restarted for the" +
                 "<br />changes to take effect.</html>");
@@ -164,25 +164,26 @@ public class SettingsDialog extends JDialog implements ActionListener {
         lookP.add(ownColorP);
         lookP.add(sysColorP);
         lookP.add(lookAndFeelP);
-        lookP.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Choose look"),
+        lookP.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createTitledBorder(messages.getMessage("swing.settings.chooseLook")),
                 BorderFactory.createEmptyBorder(0, 5, 0, 5)));
 
-        soundCB = new JCheckBox("Enable sound");
+        soundCB = new JCheckBox(messages.getMessage("swing.settings.misc.enableSound"));
         soundCB.setToolTipText("<html>Will give a short sound notification when" +
                 "<br>a new message is received if " + Constants.APP_NAME +
                 "<br>is minimized to the system tray, and" +
                 "<br>when asked to receive a file.</html>");
 
-        loggingCB = new JCheckBox("Enable logging");
+        loggingCB = new JCheckBox(messages.getMessage("swing.settings.misc.enableLogging"));
         loggingCB.setToolTipText("<html>Stores the conversations in the main chat and private chats to log files in" +
                 "<br><em>" + settings.getLogLocation() + "</em>." +
                 "<br>Only text written after this option was enabled will be stored.</html>");
 
-        smileysCB = new JCheckBox("Enable smileys");
+        smileysCB = new JCheckBox(messages.getMessage("swing.settings.misc.enableSmileys"));
         smileysCB.setToolTipText("<html>Replaces text smileys in the chat with smiley images." +
                 "<br>See the FAQ for a list of available smileys.</html>");
 
-        balloonCB = new JCheckBox("Enable balloons");
+        balloonCB = new JCheckBox(messages.getMessage("swing.settings.misc.enableBalloons"));
         balloonCB.setToolTipText("<html>Shows balloon notifications in the system tray when new" +
                 "<br>messages are received while the application is hidden.</html>");
 
@@ -192,7 +193,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         miscCheckBoxP.add(smileysCB);
         miscCheckBoxP.add(balloonCB);
 
-        final JLabel networkInterfaceL = new JLabel("Network interface");
+        final JLabel networkInterfaceL = new JLabel(messages.getMessage("swing.settings.misc.networkInterface"));
         networkInterfaceL.setToolTipText("<html>Allows you to specify which network interface to use for " +
                 "<br>communication with other clients. Or use <em>Auto</em> to " +
                 "<br>let " + Constants.APP_NAME + " decide.</html>");
@@ -208,10 +209,11 @@ public class SettingsDialog extends JDialog implements ActionListener {
         final JPanel miscP = new JPanel(new BorderLayout(0, 0));
         miscP.add(miscCheckBoxP, BorderLayout.NORTH);
         miscP.add(networkInterfaceP, BorderLayout.SOUTH);
-        miscP.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Misc"),
+        miscP.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createTitledBorder(messages.getMessage("swing.settings.misc")),
                 BorderFactory.createEmptyBorder(0, 5, 0, 5)));
 
-        final JLabel browserL = new JLabel("Browser: ");
+        final JLabel browserL = new JLabel(messages.getMessage("swing.settings.chooseBrowser.browser"));
         browserTF = new JTextField(22);
         browserTF.setToolTipText("<html>When you click on a link in the chat it will open" +
                 "<br>in the browser defined here. If this field" +
@@ -223,9 +225,9 @@ public class SettingsDialog extends JDialog implements ActionListener {
         browserTopP.add(browserL);
         browserTopP.add(browserTF);
 
-        chooseBrowserB = new JButton("Choose");
+        chooseBrowserB = new JButton(messages.getMessage("swing.button.choose"));
         chooseBrowserB.addActionListener(this);
-        testBrowserB = new JButton("Test");
+        testBrowserB = new JButton(messages.getMessage("swing.button.test"));
         testBrowserB.addActionListener(this);
 
         final JPanel browserBottomP = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -235,16 +237,16 @@ public class SettingsDialog extends JDialog implements ActionListener {
         final JPanel browserP = new JPanel(new BorderLayout());
         browserP.add(browserTopP, BorderLayout.NORTH);
         browserP.add(browserBottomP, BorderLayout.SOUTH);
-        browserP.setBorder(BorderFactory.createTitledBorder("Choose browser"));
+        browserP.setBorder(BorderFactory.createTitledBorder(messages.getMessage("swing.settings.chooseBrowser")));
 
         final JPanel centerP = new JPanel(new BorderLayout());
         centerP.add(lookP, BorderLayout.CENTER);
         centerP.add(miscP, BorderLayout.SOUTH);
         centerP.add(browserP, BorderLayout.NORTH);
 
-        saveB = new JButton("OK");
+        saveB = new JButton(messages.getMessage("swing.button.ok"));
         saveB.addActionListener(this);
-        cancelB = new JButton("Cancel");
+        cancelB = new JButton(messages.getMessage("swing.button.cancel"));
         cancelB.addActionListener(this);
         saveB.setPreferredSize(cancelB.getPreferredSize());
 
