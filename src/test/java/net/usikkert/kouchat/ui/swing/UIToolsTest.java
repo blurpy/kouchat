@@ -33,7 +33,6 @@ import java.net.URISyntaxException;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicLookAndFeel;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.plaf.synth.SynthLookAndFeel;
 
 import org.junit.Before;
@@ -103,25 +102,25 @@ public class UIToolsTest {
     @Test
     public void getCurrentLookAndFeelShouldReturnCorrectLookAndFeelInfoForTheCurrentLookAndFeel() {
         final SynthLookAndFeel synthLookAndFeel = mock(SynthLookAndFeel.class);
-        final NimbusLookAndFeel nimbusLookAndFeel = mock(NimbusLookAndFeel.class);
+        final KouLookAndFeel kouLookAndFeel = mock(KouLookAndFeel.class);
         final BasicLookAndFeel basicLookAndFeel = mock(BasicLookAndFeel.class);
 
         final UIManager.LookAndFeelInfo synthLookAndFeelInfo =
                 new UIManager.LookAndFeelInfo("SynthLookAndFeel", synthLookAndFeel.getClass().getName());
-        final UIManager.LookAndFeelInfo nimbusLookAndFeelInfo =
-                new UIManager.LookAndFeelInfo("NimbusLookAndFeel", nimbusLookAndFeel.getClass().getName());
+        final UIManager.LookAndFeelInfo kouLookAndFeelInfo =
+                new UIManager.LookAndFeelInfo("KouLookAndFeel", kouLookAndFeel.getClass().getName());
         final UIManager.LookAndFeelInfo basicLookAndFeelInfo =
                 new UIManager.LookAndFeelInfo("BasicLookAndFeel", basicLookAndFeel.getClass().getName());
 
         when(UIManager.getInstalledLookAndFeels()).thenReturn(new UIManager.LookAndFeelInfo[] {
-                synthLookAndFeelInfo, nimbusLookAndFeelInfo, basicLookAndFeelInfo
+                synthLookAndFeelInfo, kouLookAndFeelInfo, basicLookAndFeelInfo
         });
 
-        when(UIManager.getLookAndFeel()).thenReturn(nimbusLookAndFeel);
+        when(UIManager.getLookAndFeel()).thenReturn(kouLookAndFeel);
 
         final UIManager.LookAndFeelInfo currentLookAndFeel = uiTools.getCurrentLookAndFeel();
 
-        assertSame(nimbusLookAndFeelInfo, currentLookAndFeel);
+        assertSame(kouLookAndFeelInfo, currentLookAndFeel);
     }
 
     @Test
@@ -142,5 +141,37 @@ public class UIToolsTest {
         uiTools.browse("www.ape.no");
 
         verify(desktop).browse(new URI("www.ape.no"));
+    }
+
+    /**
+     * Need a third look and feel, as Nimbus is in a different package in Java 6 and 7, and
+     * the others are platform specific.
+     */
+    private static class KouLookAndFeel extends BasicLookAndFeel {
+
+        @Override
+        public String getName() {
+            return null;
+        }
+
+        @Override
+        public String getID() {
+            return null;
+        }
+
+        @Override
+        public String getDescription() {
+            return null;
+        }
+
+        @Override
+        public boolean isNativeLookAndFeel() {
+            return false;
+        }
+
+        @Override
+        public boolean isSupportedLookAndFeel() {
+            return false;
+        }
     }
 }
