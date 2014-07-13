@@ -50,6 +50,8 @@ import javax.swing.WindowConstants;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
 
+import net.usikkert.kouchat.message.Messages;
+import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
@@ -116,16 +118,18 @@ public class SettingsDialogTest  {
     private UITools uiTools;
     private NetworkUtils networkUtils;
     private ErrorHandler errorHandler;
+    private Messages messages;
 
     @Before
     public void setUp() {
         settings = mock(Settings.class);
         imageLoader = new ImageLoader();
+        errorHandler = mock(ErrorHandler.class);
+        messages = new PropertyFileMessages("messages.swing");
 
         when(settings.getLogLocation()).thenReturn("/home/user/kouchat/logs");
 
-        errorHandler = mock(ErrorHandler.class);
-        settingsDialog = new SettingsDialog(imageLoader, settings, errorHandler);
+        settingsDialog = new SettingsDialog(imageLoader, settings, errorHandler, messages);
 
         mediator = mock(Mediator.class);
         settingsDialog.setMediator(mediator);
@@ -182,7 +186,7 @@ public class SettingsDialogTest  {
     @Test
     @Ignore("Run manually to see the settings dialog")
     public void showSettings() {
-        final SettingsDialog dialog = new SettingsDialog(imageLoader, new Settings(), errorHandler);
+        final SettingsDialog dialog = new SettingsDialog(imageLoader, new Settings(), errorHandler, messages);
 
         when(mediator.changeNick(anyString())).thenReturn(true);
         dialog.setMediator(mediator);
@@ -195,7 +199,7 @@ public class SettingsDialogTest  {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Image loader can not be null");
 
-        new SettingsDialog(null, settings, errorHandler);
+        new SettingsDialog(null, settings, errorHandler, messages);
     }
 
     @Test
@@ -203,7 +207,7 @@ public class SettingsDialogTest  {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new SettingsDialog(imageLoader, null, errorHandler);
+        new SettingsDialog(imageLoader, null, errorHandler, messages);
     }
 
     @Test
@@ -211,7 +215,15 @@ public class SettingsDialogTest  {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Error handler can not be null");
 
-        new SettingsDialog(imageLoader, settings, null);
+        new SettingsDialog(imageLoader, settings, null, messages);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfMessagesIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Messages can not be null");
+
+        new SettingsDialog(imageLoader, settings, errorHandler, null);
     }
 
     @Test
@@ -484,7 +496,7 @@ public class SettingsDialogTest  {
         when(settings.isAlwaysLog()).thenReturn(true);
         assertTrue(settings.isAlwaysLog());
 
-        final SettingsDialog dialog = new SettingsDialog(imageLoader, settings, errorHandler);
+        final SettingsDialog dialog = new SettingsDialog(imageLoader, settings, errorHandler, messages);
 
         final JPanel dialogMainPanel = (JPanel) dialog.getContentPane().getComponent(0);
         final JPanel dialogCenterPanel = (JPanel) dialogMainPanel.getComponent(1);
@@ -1079,7 +1091,7 @@ public class SettingsDialogTest  {
     }
 
     private SettingsDialog createFakeVisibleDialog() {
-        final SettingsDialog dialog = new SettingsDialog(imageLoader, settings, errorHandler) {
+        final SettingsDialog dialog = new SettingsDialog(imageLoader, settings, errorHandler, messages) {
 
             private boolean visible;
 
