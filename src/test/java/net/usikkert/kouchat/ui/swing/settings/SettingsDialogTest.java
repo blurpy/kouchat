@@ -26,10 +26,13 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,6 +50,7 @@ import javax.swing.WindowConstants;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
 
+import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.NetworkInterfaceInfo;
@@ -111,6 +115,7 @@ public class SettingsDialogTest  {
     private Mediator mediator;
     private UITools uiTools;
     private NetworkUtils networkUtils;
+    private ErrorHandler errorHandler;
 
     @Before
     public void setUp() {
@@ -168,6 +173,7 @@ public class SettingsDialogTest  {
         doAnswer(new RunArgumentAnswer()).when(uiTools).invokeLater(any(Runnable.class));
 
         networkUtils = TestUtils.setFieldValueWithMock(settingsDialog, "networkUtils", NetworkUtils.class);
+        errorHandler = TestUtils.setFieldValueWithMock(settingsDialog, "errorHandler", ErrorHandler.class);
 
         lookAndFeelComboBox.addItem(createLookAndFeel("Metal"));
         networkInterfaceComboBox.addItem(new NetworkChoice("eth0", "3Com"));
@@ -748,8 +754,75 @@ public class SettingsDialogTest  {
     }
 
     @Test
-    public void testBrowserButton() {
-        // TODO
+    public void testBrowserButtonShouldUseSpecifiedBrowser() throws IOException, URISyntaxException {
+        browserTextField.setText("chrome");
+
+        testBrowserButton.doClick();
+
+        verify(uiTools).runCommand("chrome http://www.kouchat.net/");
+        verifyZeroInteractions(errorHandler);
+    }
+
+    @Test
+    public void testBrowserButtonShouldShowErrorIfSpecifiedBrowserIsUnableToLaunch() throws IOException, URISyntaxException {
+        browserTextField.setText("iexplore.exe");
+        when(uiTools.runCommand(anyString())).thenThrow(new IOException("Don't launch"));
+
+        testBrowserButton.doClick();
+
+        verify(uiTools).runCommand("iexplore.exe http://www.kouchat.net/");
+        verify(errorHandler).showError("Could not open the browser 'iexplore.exe'. Try using the full path.");
+    }
+
+    @Test
+    public void testBrowserButtonShouldUseDefaultBrowserIfNoBrowserSet() throws IOException, URISyntaxException {
+        when(uiTools.isDesktopActionSupported(Desktop.Action.BROWSE)).thenReturn(true);
+
+        testBrowserButton.doClick();
+
+        verify(uiTools).browse("http://www.kouchat.net/");
+        verifyZeroInteractions(errorHandler);
+    }
+
+    @Test
+    public void testBrowserButtonShouldUseDefaultBrowserIfBrowserIsWhitespace() throws IOException, URISyntaxException {
+        when(uiTools.isDesktopActionSupported(Desktop.Action.BROWSE)).thenReturn(true);
+        browserTextField.setText(" ");
+
+        testBrowserButton.doClick();
+
+        verify(uiTools).browse("http://www.kouchat.net/");
+        verifyZeroInteractions(errorHandler);
+    }
+
+    @Test
+    public void testBrowserButtonShouldShowErrorIfOpeningDefaultBrowserWithInvalidUrl() throws IOException, URISyntaxException {
+        when(uiTools.isDesktopActionSupported(Desktop.Action.BROWSE)).thenReturn(true);
+        doThrow(new URISyntaxException("http://www.kouchat.net/", "Invalid url")).when(uiTools).browse(anyString());
+
+        testBrowserButton.doClick();
+
+        verify(uiTools).browse("http://www.kouchat.net/");
+        verify(errorHandler).showError("That's strange, could not open http://www.kouchat.net/");
+    }
+
+    @Test
+    public void testBrowserButtonShouldShowErrorIfUnableToOpenDefaultBrowser() throws IOException, URISyntaxException {
+        when(uiTools.isDesktopActionSupported(Desktop.Action.BROWSE)).thenReturn(true);
+        doThrow(new IOException("Wrong browser")).when(uiTools).browse(anyString());
+
+        testBrowserButton.doClick();
+
+        verify(errorHandler).showError("Could not open the default browser.");
+    }
+
+    @Test
+    public void testBrowserButtonShouldShowErrorIfDefaultBrowserIsUnsupported() throws IOException, URISyntaxException {
+        when(uiTools.isDesktopActionSupported(Desktop.Action.BROWSE)).thenReturn(false);
+
+        testBrowserButton.doClick();
+
+        verify(errorHandler).showError("Your system does not support a default browser. Please choose a browser manually.");
     }
 
     @Test
