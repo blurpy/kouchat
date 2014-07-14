@@ -76,6 +76,7 @@ import org.junit.rules.ExpectedException;
  *
  * @author Christian Ihle
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class SettingsDialogTest  {
 
     @Rule
@@ -719,7 +720,6 @@ public class SettingsDialogTest  {
         assertEquals(originalLabelColor, ownColorLabel.getForeground());
     }
 
-
     @Test
     public void changeSystemColorButtonShouldOpenColorChooserWithSavedColorAndSetNewColorAsForegroundOnLabelOnOk() {
         final Color savedColor = Color.CYAN;
@@ -730,7 +730,7 @@ public class SettingsDialogTest  {
 
         changeSystemColorButton.doClick();
 
-        verify(uiTools).showColorChooser("Choose color for system messages", savedColor);
+        verify(uiTools).showColorChooser("Choose color for info messages", savedColor);
         assertEquals(newColor, systemColorLabel.getForeground());
     }
 
@@ -744,7 +744,7 @@ public class SettingsDialogTest  {
 
         changeSystemColorButton.doClick();
 
-        verify(uiTools).showColorChooser("Choose color for system messages", savedColor);
+        verify(uiTools).showColorChooser("Choose color for info messages", savedColor);
         assertEquals(originalLabelColor, systemColorLabel.getForeground());
     }
 

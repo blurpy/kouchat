@@ -249,7 +249,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         pack();
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         setIconImage(new StatusIcons(imageLoader).getNormalIcon());
-        setTitle(uiTools.createTitle("Settings"));
+        setTitle(uiTools.createTitle(messages.getMessage("swing.settings.title")));
         setResizable(false);
         setModal(true);
         hideWithEscape();
@@ -344,7 +344,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
             uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    final Color newColor = uiTools.showColorChooser("Choose color for own messages",
+                    final Color newColor = uiTools.showColorChooser(
+                            messages.getMessage("swing.settings.chooseLook.ownTextColor.dialog.title"),
                             new Color(settings.getOwnColor()));
 
                     if (newColor != null) {
@@ -358,7 +359,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
             uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    final Color newColor = uiTools.showColorChooser("Choose color for system messages",
+                    final Color newColor = uiTools.showColorChooser(
+                            messages.getMessage("swing.settings.chooseLook.systemTextColor.dialog.title"),
                             new Color(settings.getSysColor()));
 
                     if (newColor != null) {
@@ -380,8 +382,9 @@ public class SettingsDialog extends JDialog implements ActionListener {
                         }
 
                         catch (final IOException e) {
-                            errorHandler.showError("Could not open the browser '" + browser +
-                                    "'. Try using the full path.");
+                            LOG.log(Level.WARNING, e.toString());
+                            errorHandler.showError(
+                                    messages.getMessage("swing.settings.chooseBrowser.test.error.chosen.browser.failed", browser));
                         }
                     }
 
@@ -391,25 +394,28 @@ public class SettingsDialog extends JDialog implements ActionListener {
                         }
 
                         catch (final IOException e) {
-                            errorHandler.showError("Could not open the default browser.");
+                            LOG.log(Level.WARNING, e.toString());
+                            errorHandler.showError(
+                                    messages.getMessage("swing.settings.chooseBrowser.test.error.default.browser.failed"));
                         }
 
                         catch (final URISyntaxException e) {
                             LOG.log(Level.WARNING, e.toString());
-                            errorHandler.showError("That's strange, could not open " + Constants.APP_WEB);
+                            errorHandler.showError(
+                                    messages.getMessage("swing.settings.chooseBrowser.test.error.invalid.url", Constants.APP_WEB));
                         }
                     }
 
                     else {
-                        errorHandler.showError("Your system does not support a default browser." +
-                                " Please choose a browser manually.");
+                        errorHandler.showError(
+                                messages.getMessage("swing.settings.chooseBrowser.test.error.default.browser.unsupported"));
                     }
                 }
             });
         }
 
         else if (e.getSource() == chooseBrowserB) {
-            final JFileChooser chooser = uiTools.createFileChooser("Open");
+            final JFileChooser chooser = uiTools.createFileChooser("Open"); // TODO
             final int returnVal = chooser.showOpenDialog(null);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -430,9 +436,9 @@ public class SettingsDialog extends JDialog implements ActionListener {
         final LookAndFeelInfo currentLookAndFeel = uiTools.getCurrentLookAndFeel();
 
         if (!newLookAndFeel.equals(currentLookAndFeel.getName())) {
-            uiTools.showInfoMessage("The new look and feel will be used the next time " +
-                    Constants.APP_NAME + " is started.",
-                    "Changed look and feel");
+            uiTools.showInfoMessage(
+                    messages.getMessage("swing.settings.chooseLook.lookAndFeel.info.changed", Constants.APP_NAME),
+                    messages.getMessage("swing.settings.chooseLook.lookAndFeel.info.changed.title"));
         }
     }
 
