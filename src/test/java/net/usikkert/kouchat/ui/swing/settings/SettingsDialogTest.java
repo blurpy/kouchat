@@ -324,8 +324,8 @@ public class SettingsDialogTest  {
     public void lookAndFeelLabelToolTipShouldHaveCorrectText() {
         assertEquals(
                 "<html>Gives a choice of all the different looks that are available." +
-                "<br />Note that KouChat needs to be restarted for the" +
-                "<br />changes to take effect.</html>",
+                "<br>Note that KouChat needs to be restarted for the" +
+                "<br>changes to take effect.</html>",
                 lookAndFeelLabel.getToolTipText());
     }
 

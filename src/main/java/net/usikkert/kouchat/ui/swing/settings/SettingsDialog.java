@@ -124,12 +124,10 @@ public class SettingsDialog extends JDialog implements ActionListener {
         nickP.setBorder(BorderFactory.createTitledBorder(messages.getMessage("swing.settings.chooseNick")));
 
         ownColorL = new JLabel(messages.getMessage("swing.settings.chooseLook.ownTextColor"));
-        ownColorL.setToolTipText("<html>You and other users will see" +
-                "<br>the messages you write in this color.</html>");
+        ownColorL.setToolTipText(messages.getMessage("swing.settings.chooseLook.ownTextColor.tooltip"));
 
         sysColorL = new JLabel(messages.getMessage("swing.settings.chooseLook.systemTextColor"));
-        sysColorL.setToolTipText("<html>Information messages from the application" +
-                "<br>will be shown in this color.</html>");
+        sysColorL.setToolTipText(messages.getMessage("swing.settings.chooseLook.systemTextColor.tooltip"));
 
         chooseOwnColorB = new JButton(messages.getMessage("swing.button.change"));
         chooseOwnColorB.addActionListener(this);
@@ -149,9 +147,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         sysColorP.add(chooseSysColorB);
 
         final JLabel lookAndFeelL = new JLabel(messages.getMessage("swing.settings.chooseLook.lookAndFeel"));
-        lookAndFeelL.setToolTipText("<html>Gives a choice of all the different looks that are available." +
-                "<br />Note that " + Constants.APP_NAME + " needs to be restarted for the" +
-                "<br />changes to take effect.</html>");
+        lookAndFeelL.setToolTipText(messages.getMessage("swing.settings.chooseLook.lookAndFeel.tooltip", Constants.APP_NAME));
         lookAndFeelCB = new JComboBox();
 
         final JPanel lookAndFeelP = new JPanel();
@@ -169,23 +165,16 @@ public class SettingsDialog extends JDialog implements ActionListener {
                 BorderFactory.createEmptyBorder(0, 5, 0, 5)));
 
         soundCB = new JCheckBox(messages.getMessage("swing.settings.misc.enableSound"));
-        soundCB.setToolTipText("<html>Will give a short sound notification when" +
-                "<br>a new message is received if " + Constants.APP_NAME +
-                "<br>is minimized to the system tray, and" +
-                "<br>when asked to receive a file.</html>");
+        soundCB.setToolTipText(messages.getMessage("swing.settings.misc.enableSound.tooltip", Constants.APP_NAME));
 
         loggingCB = new JCheckBox(messages.getMessage("swing.settings.misc.enableLogging"));
-        loggingCB.setToolTipText("<html>Stores the conversations in the main chat and private chats to log files in" +
-                "<br><em>" + settings.getLogLocation() + "</em>." +
-                "<br>Only text written after this option was enabled will be stored.</html>");
+        loggingCB.setToolTipText(messages.getMessage("swing.settings.misc.enableLogging.tooltip", settings.getLogLocation()));
 
         smileysCB = new JCheckBox(messages.getMessage("swing.settings.misc.enableSmileys"));
-        smileysCB.setToolTipText("<html>Replaces text smileys in the chat with smiley images." +
-                "<br>See the FAQ for a list of available smileys.</html>");
+        smileysCB.setToolTipText(messages.getMessage("swing.settings.misc.enableSmileys.tooltip"));
 
         balloonCB = new JCheckBox(messages.getMessage("swing.settings.misc.enableBalloons"));
-        balloonCB.setToolTipText("<html>Shows balloon notifications in the system tray when new" +
-                "<br>messages are received while the application is hidden.</html>");
+        balloonCB.setToolTipText(messages.getMessage("swing.settings.misc.enableBalloons.tooltip"));
 
         final JPanel miscCheckBoxP = new JPanel(new GridLayout(2, 2));
         miscCheckBoxP.add(soundCB);
@@ -194,9 +183,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         miscCheckBoxP.add(balloonCB);
 
         final JLabel networkInterfaceL = new JLabel(messages.getMessage("swing.settings.misc.networkInterface"));
-        networkInterfaceL.setToolTipText("<html>Allows you to specify which network interface to use for " +
-                "<br>communication with other clients. Or use <em>Auto</em> to " +
-                "<br>let " + Constants.APP_NAME + " decide.</html>");
+        networkInterfaceL.setToolTipText(messages.getMessage("swing.settings.misc.networkInterface.tooltip", Constants.APP_NAME));
         networkInterfaceCB = new JComboBox();
         networkInterfaceCB.setRenderer(new NetworkChoiceCellRenderer());
 
@@ -215,10 +202,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
         final JLabel browserL = new JLabel(messages.getMessage("swing.settings.chooseBrowser.browser"));
         browserTF = new JTextField(22);
-        browserTF.setToolTipText("<html>When you click on a link in the chat it will open" +
-                "<br>in the browser defined here. If this field" +
-                "<br>is empty the default browser on your system" +
-                "<br>will be used, if possible.</html>");
+        browserTF.setToolTipText(messages.getMessage("swing.settings.chooseBrowser.browser.tooltip"));
         new CopyPastePopup(browserTF);
 
         final JPanel browserTopP = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -527,7 +511,9 @@ public class SettingsDialog extends JDialog implements ActionListener {
      */
     private NetworkChoice[] getNetworkChoices() {
         final ArrayList<NetworkChoice> networkChoices = new ArrayList<NetworkChoice>();
-        networkChoices.add(new NetworkChoice("Auto", "Let " + Constants.APP_NAME + " decide."));
+        networkChoices.add(new NetworkChoice(
+                messages.getMessage("swing.settings.misc.networkInterface.auto"),
+                messages.getMessage("swing.settings.misc.networkInterface.auto.tooltip", Constants.APP_NAME)));
 
         final List<NetworkInterfaceInfo> usableNetworkInterfaces = networkUtils.getUsableNetworkInterfaces();
 
