@@ -31,6 +31,7 @@ import javax.swing.ImageIcon;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.util.ResourceValidator;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * Loads, validates and gives access to all the images used in the application.
@@ -43,6 +44,8 @@ public class ImageLoader {
 
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(ImageLoader.class.getName());
+
+    private final ErrorHandler errorHandler;
 
     /** The smile image icon. */
     private final ImageIcon smileIcon;
@@ -133,8 +136,14 @@ public class ImageLoader {
 
     /**
      * Constructor. Loads and validates the images.
+     *
+     * @param errorHandler The error handler to use to show messages if image loading fails.
      */
-    public ImageLoader() {
+    public ImageLoader(final ErrorHandler errorHandler) {
+        Validate.notNull(errorHandler, "Error handler can not be null");
+
+        this.errorHandler = errorHandler;
+
         final ResourceValidator resourceValidator = new ResourceValidator();
 
         // Load resources from jar or local file system
@@ -241,7 +250,7 @@ public class ImageLoader {
                     Constants.APP_NAME + " will now shutdown.";
 
             LOG.log(Level.SEVERE, error);
-            ErrorHandler.getErrorHandler().showCriticalError(error);
+            errorHandler.showCriticalError(error);
             System.exit(1);
         }
     }

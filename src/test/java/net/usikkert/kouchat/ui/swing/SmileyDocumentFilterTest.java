@@ -27,6 +27,7 @@ import static org.mockito.Mockito.*;
 
 import javax.swing.ImageIcon;
 
+import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 
 import org.junit.Test;
@@ -45,7 +46,7 @@ public class SmileyDocumentFilterTest {
      * Constructor.
      */
     public SmileyDocumentFilterTest() {
-        final ImageLoader imageLoader = new ImageLoader();
+        final ImageLoader imageLoader = new ImageLoader(mock(ErrorHandler.class));
         filter = new SmileyDocumentFilter(true, imageLoader, mock(Settings.class));
     }
 
