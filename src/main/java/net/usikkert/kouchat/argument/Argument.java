@@ -28,6 +28,8 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
+import org.jetbrains.annotations.NonNls;
+
 /**
  * The valid startup arguments for the application.
  *
@@ -50,7 +52,7 @@ public enum Argument {
     private final String description;
     private final boolean requiresValue;
 
-    Argument(final String shortArgumentName, final String fullArgumentName, final String description,
+    Argument(@NonNls final String shortArgumentName, @NonNls final String fullArgumentName, final String description,
              final boolean requiresValue) {
         this.shortArgumentName = shortArgumentName;
         this.fullArgumentName = fullArgumentName;
