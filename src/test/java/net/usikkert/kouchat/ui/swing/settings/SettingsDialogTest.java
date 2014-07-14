@@ -759,6 +759,7 @@ public class SettingsDialogTest  {
         chooseBrowserButton.doClick();
 
         assertEquals(new File("").getAbsolutePath() + File.separator + "opera", browserTextField.getText());
+        verify(uiTools).createFileChooser("Choose browser");
     }
 
     @Test
