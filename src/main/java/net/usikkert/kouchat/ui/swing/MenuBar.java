@@ -320,7 +320,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     }
 
     TextViewerDialog createTextViewerDialog(final String textFile, final String title, final boolean links) {
-        return new TextViewerDialog(textFile, title, links, imageLoader, new ResourceLoader(), settings, errorHandler);
+        return new TextViewerDialog(textFile, title, links, imageLoader, new ResourceLoader(), messages, settings, errorHandler);
     }
 
     MessageDialog createMessageDialog() {

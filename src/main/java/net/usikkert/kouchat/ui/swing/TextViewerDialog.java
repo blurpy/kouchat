@@ -47,6 +47,7 @@ import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyledDocument;
 
+import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.ResourceLoader;
@@ -64,6 +65,7 @@ public class TextViewerDialog extends JDialog {
     private final UITools uiTools = new UITools();
 
     private final ResourceLoader resourceLoader;
+    private final Messages messages;
     private final ErrorHandler errorHandler;
 
     private final JTextPane viewerTP;
@@ -83,21 +85,24 @@ public class TextViewerDialog extends JDialog {
      * @param links True to enabled support for opening urls by clicking on them.
      * @param imageLoader The image loader.
      * @param resourceLoader The resource loader to use to load the text file.
+     * @param messages The messages to use in this dialog.
      * @param settings The settings to use.
      * @param errorHandler The error handler to use to show messages if text file could not be opened.
      */
     public TextViewerDialog(final String textFile, final String title, final boolean links,
                             final ImageLoader imageLoader, final ResourceLoader resourceLoader,
-                            final Settings settings, final ErrorHandler errorHandler) {
+                            final Messages messages, final Settings settings, final ErrorHandler errorHandler) {
         Validate.notEmpty(textFile, "Text file can not be empty");
         Validate.notEmpty(title, "Title can not be empty");
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(resourceLoader, "Resource loader can not be null");
+        Validate.notNull(messages, "Messages can not be null");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
 
         this.textFile = textFile;
         this.resourceLoader = resourceLoader;
+        this.messages = messages;
         this.errorHandler = errorHandler;
 
         viewerTP = new JTextPane();
