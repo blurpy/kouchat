@@ -68,12 +68,14 @@ public class SoundBeeper {
      * Default constructor.
      *
      * @param settings The settings to use.
+     * @param errorHandler The error handler to use to show messages when sound isn't working.
      */
-    public SoundBeeper(final Settings settings) {
+    public SoundBeeper(final Settings settings, final ErrorHandler errorHandler) {
         Validate.notNull(settings, "Settings can not be null");
+        Validate.notNull(errorHandler, "Error handler can not be null");
 
         this.settings = settings;
-        errorHandler = ErrorHandler.getErrorHandler();
+        this.errorHandler = errorHandler;
     }
 
     /**

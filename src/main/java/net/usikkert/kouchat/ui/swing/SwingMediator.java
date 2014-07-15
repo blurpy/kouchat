@@ -32,6 +32,7 @@ import net.usikkert.kouchat.misc.ChatLogger;
 import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.CommandParser;
 import net.usikkert.kouchat.misc.Controller;
+import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.SoundBeeper;
@@ -103,7 +104,7 @@ public class SwingMediator implements Mediator, UserInterface {
         controller = new Controller(this, settings);
         me = settings.getMe();
         cmdParser = new CommandParser(controller, this, settings);
-        beeper = new SoundBeeper(settings);
+        beeper = new SoundBeeper(settings, ErrorHandler.getErrorHandler());
         jmxAgent = new JMXAgent(controller.createJMXBeanLoader());
 
         sideP.setUserList(controller.getUserList());
