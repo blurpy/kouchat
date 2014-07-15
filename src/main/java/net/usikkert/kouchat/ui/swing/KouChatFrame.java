@@ -52,6 +52,7 @@ import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.ui.swing.settings.SettingsDialog;
+import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
 import net.usikkert.kouchat.util.UncaughtExceptionLogger;
 import net.usikkert.kouchat.util.Validate;
@@ -115,7 +116,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 
         setLookAndFeel();
         errorHandler.addErrorListener(new SwingPopupErrorHandler());
-        final ImageLoader imageLoader = new ImageLoader(errorHandler, new ResourceValidator());
+        final ImageLoader imageLoader = new ImageLoader(errorHandler, new ResourceValidator(), new ResourceLoader());
         uncaughtExceptionLogger.registerUncaughtExceptionListener(new ExceptionDialog(null, true, imageLoader));
         statusIcons = new StatusIcons(imageLoader);
 

@@ -29,6 +29,7 @@ import javax.swing.ImageIcon;
 
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
 
 import org.junit.Test;
@@ -47,7 +48,8 @@ public class SmileyDocumentFilterTest {
      * Constructor.
      */
     public SmileyDocumentFilterTest() {
-        final ImageLoader imageLoader = new ImageLoader(mock(ErrorHandler.class), new ResourceValidator());
+        final ImageLoader imageLoader =
+                new ImageLoader(mock(ErrorHandler.class), new ResourceValidator(), new ResourceLoader());
         filter = new SmileyDocumentFilter(true, imageLoader, mock(Settings.class));
     }
 

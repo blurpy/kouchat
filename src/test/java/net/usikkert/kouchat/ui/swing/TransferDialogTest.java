@@ -29,6 +29,7 @@ import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.FileTransfer.Direction;
 import net.usikkert.kouchat.net.MockFileTransfer;
+import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
 
 import org.junit.Before;
@@ -52,7 +53,7 @@ public class TransferDialogTest {
         settings = mock(Settings.class);
         when(settings.getMe()).thenReturn(me);
 
-        imageLoader = new ImageLoader(mock(ErrorHandler.class), new ResourceValidator());
+        imageLoader = new ImageLoader(mock(ErrorHandler.class), new ResourceValidator(), new ResourceLoader());
     }
 
     /**

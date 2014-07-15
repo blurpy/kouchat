@@ -30,6 +30,7 @@ import javax.swing.ImageIcon;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
+import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
 import net.usikkert.kouchat.util.Validate;
 
@@ -46,6 +47,7 @@ public class ImageLoader {
     private static final Logger LOG = Logger.getLogger(ImageLoader.class.getName());
 
     private final ErrorHandler errorHandler;
+    private final ResourceLoader resourceLoader;
 
     /** The smile image icon. */
     private final ImageIcon smileIcon;
@@ -139,12 +141,16 @@ public class ImageLoader {
      *
      * @param errorHandler The error handler to use to show messages if image loading fails.
      * @param resourceValidator Validator that verifies that all the images are found.
+     * @param resourceLoader Resource loader for the images.
      */
-    public ImageLoader(final ErrorHandler errorHandler, final ResourceValidator resourceValidator) {
+    public ImageLoader(final ErrorHandler errorHandler, final ResourceValidator resourceValidator,
+                       final ResourceLoader resourceLoader) {
         Validate.notNull(errorHandler, "Error handler can not be null");
         Validate.notNull(resourceValidator, "Resource validator can not be null");
+        Validate.notNull(resourceLoader, "Resource loader can not be null");
 
         this.errorHandler = errorHandler;
+        this.resourceLoader = resourceLoader;
 
         // Load resources from jar or local file system
         final URL smileURL = loadImage(resourceValidator, Images.SMILEY_SMILE);
@@ -230,7 +236,7 @@ public class ImageLoader {
      * @return The URL to the image, or <code>null</code> if the image wasn't loaded.
      */
     private URL loadImage(final ResourceValidator resourceValidator, final String image) {
-        final URL url = getClass().getResource(image);
+        final URL url = resourceLoader.getResource(image);
         resourceValidator.addResource(url, image);
         return url;
     }
