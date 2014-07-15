@@ -35,6 +35,7 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -319,7 +320,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     }
 
     TextViewerDialog createTextViewerDialog(final String textFile, final String title, final boolean links) {
-        return new TextViewerDialog(textFile, title, links, imageLoader, settings, errorHandler);
+        return new TextViewerDialog(textFile, title, links, imageLoader, new ResourceLoader(), settings, errorHandler);
     }
 
     MessageDialog createMessageDialog() {

@@ -49,6 +49,7 @@ import javax.swing.text.StyledDocument;
 
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -62,7 +63,9 @@ public class TextViewerDialog extends JDialog {
 
     private final UITools uiTools = new UITools();
 
+    private final ResourceLoader resourceLoader;
     private final ErrorHandler errorHandler;
+
     private final JTextPane viewerTP;
     private final JScrollPane viewerScroll;
     private final MutableAttributeSet viewerAttr;
@@ -79,18 +82,22 @@ public class TextViewerDialog extends JDialog {
      * @param title The title to use for the dialog window.
      * @param links True to enabled support for opening urls by clicking on them.
      * @param imageLoader The image loader.
+     * @param resourceLoader The resource loader to use to load the text file.
      * @param settings The settings to use.
      * @param errorHandler The error handler to use to show messages if text file could not be opened.
      */
     public TextViewerDialog(final String textFile, final String title, final boolean links,
-                            final ImageLoader imageLoader, final Settings settings, final ErrorHandler errorHandler) {
+                            final ImageLoader imageLoader, final ResourceLoader resourceLoader,
+                            final Settings settings, final ErrorHandler errorHandler) {
         Validate.notEmpty(textFile, "Text file can not be empty");
         Validate.notEmpty(title, "Title can not be empty");
         Validate.notNull(imageLoader, "Image loader can not be null");
+        Validate.notNull(resourceLoader, "Resource loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
 
         this.textFile = textFile;
+        this.resourceLoader = resourceLoader;
         this.errorHandler = errorHandler;
 
         viewerTP = new JTextPane();
@@ -163,7 +170,7 @@ public class TextViewerDialog extends JDialog {
      * Reads the text file, and adds the contents to the text area.
      */
     private void readFile() {
-        final URL fileURL = getClass().getResource("/" + textFile);
+        final URL fileURL = resourceLoader.getResource("/" + textFile);
 
         if (fileURL != null) {
             BufferedReader reader = null;

@@ -26,6 +26,7 @@ import static org.mockito.Mockito.*;
 
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.util.ResourceLoader;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -44,12 +45,14 @@ public class TextViewerDialogTest {
     public ExpectedException expectedException = ExpectedException.none();
 
     private ImageLoader imageLoader;
+    private ResourceLoader resourceLoader;
     private Settings settings;
     private ErrorHandler errorHandler;
 
     @Before
     public void setUp() {
         imageLoader = mock(ImageLoader.class);
+        resourceLoader = mock(ResourceLoader.class);
         settings = mock(Settings.class);
         errorHandler = mock(ErrorHandler.class);
     }
@@ -59,7 +62,7 @@ public class TextViewerDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Text file can not be empty");
 
-        new TextViewerDialog(null, "title", false, imageLoader, settings, errorHandler);
+        new TextViewerDialog(null, "title", false, imageLoader, resourceLoader, settings, errorHandler);
     }
 
     @Test
@@ -67,7 +70,7 @@ public class TextViewerDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Text file can not be empty");
 
-        new TextViewerDialog(" ", "title", false, imageLoader, settings, errorHandler);
+        new TextViewerDialog(" ", "title", false, imageLoader, resourceLoader, settings, errorHandler);
     }
 
     @Test
@@ -75,7 +78,7 @@ public class TextViewerDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Title can not be empty");
 
-        new TextViewerDialog("file", null, false, imageLoader, settings, errorHandler);
+        new TextViewerDialog("file", null, false, imageLoader, resourceLoader, settings, errorHandler);
     }
 
     @Test
@@ -83,7 +86,7 @@ public class TextViewerDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Title can not be empty");
 
-        new TextViewerDialog("file", " ", false, imageLoader, settings, errorHandler);
+        new TextViewerDialog("file", " ", false, imageLoader, resourceLoader, settings, errorHandler);
     }
 
     @Test
@@ -91,7 +94,15 @@ public class TextViewerDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Image loader can not be null");
 
-        new TextViewerDialog("file", "title", false, null, settings, errorHandler);
+        new TextViewerDialog("file", "title", false, null, resourceLoader, settings, errorHandler);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfResourceLoaderIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Resource loader can not be null");
+
+        new TextViewerDialog("file", "title", false, imageLoader, null, settings, errorHandler);
     }
 
     @Test
@@ -99,7 +110,7 @@ public class TextViewerDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new TextViewerDialog("file", "title", false, imageLoader, null, errorHandler);
+        new TextViewerDialog("file", "title", false, imageLoader, resourceLoader, null, errorHandler);
     }
 
     @Test
@@ -107,6 +118,6 @@ public class TextViewerDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Error handler can not be null");
 
-        new TextViewerDialog("file", "title", false, imageLoader, settings, null);
+        new TextViewerDialog("file", "title", false, imageLoader, resourceLoader, settings, null);
     }
 }
