@@ -24,6 +24,8 @@ package net.usikkert.kouchat.misc;
 
 import static org.mockito.Mockito.*;
 
+import net.usikkert.kouchat.util.ResourceLoader;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -42,14 +44,16 @@ public class SoundBeeperTest {
     private SoundBeeper soundBeeper;
 
     private ErrorHandler errorHandler;
+    private ResourceLoader resourceLoader;
     private Settings settings;
 
     @Before
     public void setUp() {
         settings = mock(Settings.class);
+        resourceLoader = mock(ResourceLoader.class);
         errorHandler = mock(ErrorHandler.class);
 
-        soundBeeper = new SoundBeeper(settings, errorHandler);
+        soundBeeper = new SoundBeeper(settings, resourceLoader, errorHandler);
     }
 
     @Test
@@ -57,7 +61,15 @@ public class SoundBeeperTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new SoundBeeper(null, errorHandler);
+        new SoundBeeper(null, resourceLoader, errorHandler);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfResourceLoaderIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Resource loader can not be null");
+
+        new SoundBeeper(settings, null, errorHandler);
     }
 
     @Test
@@ -65,6 +77,6 @@ public class SoundBeeperTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Error handler can not be null");
 
-        new SoundBeeper(settings, null);
+        new SoundBeeper(settings, resourceLoader, null);
     }
 }

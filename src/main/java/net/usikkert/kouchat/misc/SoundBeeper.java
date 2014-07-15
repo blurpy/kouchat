@@ -35,6 +35,7 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -60,6 +61,8 @@ public class SoundBeeper {
 
     private final Settings settings;
     private final ErrorHandler errorHandler;
+    private final ResourceLoader resourceLoader;
+
     private Clip audioClip;
     private Thread closeTimer;
     private long closeTime;
@@ -68,14 +71,17 @@ public class SoundBeeper {
      * Default constructor.
      *
      * @param settings The settings to use.
+     * @param resourceLoader Resource loader for the audio file.
      * @param errorHandler The error handler to use to show messages when sound isn't working.
      */
-    public SoundBeeper(final Settings settings, final ErrorHandler errorHandler) {
+    public SoundBeeper(final Settings settings, final ResourceLoader resourceLoader, final ErrorHandler errorHandler) {
         Validate.notNull(settings, "Settings can not be null");
+        Validate.notNull(resourceLoader, "Resource loader can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
 
         this.settings = settings;
         this.errorHandler = errorHandler;
+        this.resourceLoader = resourceLoader;
     }
 
     /**
@@ -113,7 +119,7 @@ public class SoundBeeper {
      * Opens an audio file, and reserves the resources needed for playback.
      */
     public void open() {
-        final URL fileUrl = getClass().getResource(BEEP_FILE);
+        final URL fileUrl = resourceLoader.getResource(BEEP_FILE);
 
         if (fileUrl != null) {
             AudioInputStream audioStream = null;
