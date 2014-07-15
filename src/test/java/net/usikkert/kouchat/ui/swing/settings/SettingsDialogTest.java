@@ -63,6 +63,7 @@ import net.usikkert.kouchat.ui.swing.LookAndFeelWrapper;
 import net.usikkert.kouchat.ui.swing.Mediator;
 import net.usikkert.kouchat.ui.swing.RunArgumentAnswer;
 import net.usikkert.kouchat.ui.swing.UITools;
+import net.usikkert.kouchat.util.ResourceValidator;
 import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.Before;
@@ -125,7 +126,7 @@ public class SettingsDialogTest  {
     public void setUp() {
         settings = mock(Settings.class);
         errorHandler = mock(ErrorHandler.class);
-        imageLoader = new ImageLoader(errorHandler);
+        imageLoader = new ImageLoader(errorHandler, new ResourceValidator());
         messages = new PropertyFileMessages("messages.swing");
 
         when(settings.getLogLocation()).thenReturn("/home/user/kouchat/logs");

@@ -22,6 +22,11 @@
 
 package net.usikkert.kouchat.ui.swing;
 
+import static org.mockito.Mockito.mock;
+
+import net.usikkert.kouchat.misc.ErrorHandler;
+import net.usikkert.kouchat.util.ResourceValidator;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -41,6 +46,14 @@ public class ImageLoaderTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Error handler can not be null");
 
-        new ImageLoader(null);
+        new ImageLoader(null, new ResourceValidator());
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfResourceValidatorIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Resource validator can not be null");
+
+        new ImageLoader(mock(ErrorHandler.class), null);
     }
 }

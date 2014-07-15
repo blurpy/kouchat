@@ -138,13 +138,13 @@ public class ImageLoader {
      * Constructor. Loads and validates the images.
      *
      * @param errorHandler The error handler to use to show messages if image loading fails.
+     * @param resourceValidator Validator that verifies that all the images are found.
      */
-    public ImageLoader(final ErrorHandler errorHandler) {
+    public ImageLoader(final ErrorHandler errorHandler, final ResourceValidator resourceValidator) {
         Validate.notNull(errorHandler, "Error handler can not be null");
+        Validate.notNull(resourceValidator, "Resource validator can not be null");
 
         this.errorHandler = errorHandler;
-
-        final ResourceValidator resourceValidator = new ResourceValidator();
 
         // Load resources from jar or local file system
         final URL smileURL = loadImage(resourceValidator, Images.SMILEY_SMILE);
