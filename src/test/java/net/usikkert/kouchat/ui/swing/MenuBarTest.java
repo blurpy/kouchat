@@ -37,6 +37,7 @@ import javax.swing.KeyStroke;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.message.PropertyFileMessages;
+import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.TestUtils;
 
@@ -50,6 +51,7 @@ import org.junit.rules.ExpectedException;
  *
  * @author Christian Ihle
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class MenuBarTest {
 
     @Rule
@@ -79,7 +81,8 @@ public class MenuBarTest {
 
     @Before
     public void setUp() {
-        menuBar = new MenuBar(mock(ImageLoader.class), mock(Settings.class), new PropertyFileMessages("messages.swing"));
+        menuBar = new MenuBar(mock(ImageLoader.class), mock(Settings.class),
+                new PropertyFileMessages("messages.swing"), mock(ErrorHandler.class));
 
         fileMenu = TestUtils.getFieldValue(menuBar, JMenu.class, "fileMenu");
         minimizeMenuItem = TestUtils.getFieldValue(menuBar, JMenuItem.class, "minimizeMI");
@@ -110,7 +113,7 @@ public class MenuBarTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Image loader can not be null");
 
-        new MenuBar(null, mock(Settings.class), mock(Messages.class));
+        new MenuBar(null, mock(Settings.class), mock(Messages.class), mock(ErrorHandler.class));
     }
 
     @Test
@@ -118,7 +121,7 @@ public class MenuBarTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new MenuBar(mock(ImageLoader.class), null, mock(Messages.class));
+        new MenuBar(mock(ImageLoader.class), null, mock(Messages.class), mock(ErrorHandler.class));
     }
 
     @Test
@@ -126,7 +129,15 @@ public class MenuBarTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Messages can not be null");
 
-        new MenuBar(mock(ImageLoader.class), mock(Settings.class), null);
+        new MenuBar(mock(ImageLoader.class), mock(Settings.class), null, mock(ErrorHandler.class));
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfErrorHandlerIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Error handler can not be null");
+
+        new MenuBar(mock(ImageLoader.class), mock(Settings.class), mock(Messages.class), null);
     }
 
     @Test

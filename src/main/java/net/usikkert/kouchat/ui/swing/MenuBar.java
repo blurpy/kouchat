@@ -33,6 +33,7 @@ import javax.swing.KeyStroke;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.message.Messages;
+import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Validate;
 
@@ -49,9 +50,11 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private final JMenuItem minimizeMI, quitMI;
     private final JMenuItem clearMI, awayMI, topicMI, settingsMI;
     private final JMenuItem aboutMI, commandsMI, faqMI, licenseMI, tipsMI;
+
     private final ImageLoader imageLoader;
     private final Settings settings;
     private final Messages messages;
+    private final ErrorHandler errorHandler;
 
     private Mediator mediator;
     private TextViewerDialog faqViewer, licenseViewer, tipsViewer;
@@ -62,15 +65,19 @@ public class MenuBar extends JMenuBar implements ActionListener {
      * @param imageLoader The image loader.
      * @param settings The settings to use.
      * @param messages The messages to use for the menu bar.
+     * @param errorHandler The error handler to use in the text viewer dialog.
      */
-    public MenuBar(final ImageLoader imageLoader, final Settings settings, final Messages messages) {
+    public MenuBar(final ImageLoader imageLoader, final Settings settings, final Messages messages,
+                   final ErrorHandler errorHandler) {
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(errorHandler, "Error handler can not be null");
 
         this.imageLoader = imageLoader;
         this.settings = settings;
         this.messages = messages;
+        this.errorHandler = errorHandler;
 
         fileMenu = new JMenu(messages.getMessage("swing.menu.file"));
         fileMenu.setMnemonic(keyCode(messages.getMessage("swing.menu.file.mnemonic")));
@@ -312,7 +319,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     }
 
     TextViewerDialog createTextViewerDialog(final String textFile, final String title, final boolean links) {
-        return new TextViewerDialog(textFile, title, links, imageLoader, settings);
+        return new TextViewerDialog(textFile, title, links, imageLoader, settings, errorHandler);
     }
 
     MessageDialog createMessageDialog() {

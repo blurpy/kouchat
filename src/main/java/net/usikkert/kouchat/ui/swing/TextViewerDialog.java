@@ -80,16 +80,18 @@ public class TextViewerDialog extends JDialog {
      * @param links True to enabled support for opening urls by clicking on them.
      * @param imageLoader The image loader.
      * @param settings The settings to use.
+     * @param errorHandler The error handler to use to show messages if text file could not be opened.
      */
     public TextViewerDialog(final String textFile, final String title, final boolean links,
-                            final ImageLoader imageLoader, final Settings settings) {
+                            final ImageLoader imageLoader, final Settings settings, final ErrorHandler errorHandler) {
         Validate.notEmpty(textFile, "Text file can not be empty");
         Validate.notEmpty(title, "Title can not be empty");
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
+        Validate.notNull(errorHandler, "Error handler can not be null");
 
         this.textFile = textFile;
-        errorHandler = ErrorHandler.getErrorHandler();
+        this.errorHandler = errorHandler;
 
         viewerTP = new JTextPane();
         viewerTP.setFont(new Font("Monospaced", Font.PLAIN, viewerTP.getFont().getSize()));
