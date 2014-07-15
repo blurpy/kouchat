@@ -47,6 +47,7 @@ public class ImageLoader {
     private static final Logger LOG = Logger.getLogger(ImageLoader.class.getName());
 
     private final ErrorHandler errorHandler;
+    private final ResourceValidator resourceValidator;
     private final ResourceLoader resourceLoader;
 
     /** The smile image icon. */
@@ -150,45 +151,46 @@ public class ImageLoader {
         Validate.notNull(resourceLoader, "Resource loader can not be null");
 
         this.errorHandler = errorHandler;
+        this.resourceValidator = resourceValidator;
         this.resourceLoader = resourceLoader;
 
         // Load resources from jar or local file system
-        final URL smileURL = loadImage(resourceValidator, Images.SMILEY_SMILE);
-        final URL sadURL = loadImage(resourceValidator, Images.SMILEY_SAD);
-        final URL tongueURL = loadImage(resourceValidator, Images.SMILEY_TONGUE);
-        final URL teethURL = loadImage(resourceValidator, Images.SMILEY_TEETH);
-        final URL winkURL = loadImage(resourceValidator, Images.SMILEY_WINK);
-        final URL omgURL = loadImage(resourceValidator, Images.SMILEY_OMG);
-        final URL angryURL = loadImage(resourceValidator, Images.SMILEY_ANGRY);
-        final URL confusedURL = loadImage(resourceValidator, Images.SMILEY_CONFUSED);
-        final URL cryURL = loadImage(resourceValidator, Images.SMILEY_CRY);
-        final URL embarrassedURL = loadImage(resourceValidator, Images.SMILEY_EMBARRASSED);
-        final URL shadeURL = loadImage(resourceValidator, Images.SMILEY_SHADE);
+        final URL smileURL = loadImage(Images.SMILEY_SMILE);
+        final URL sadURL = loadImage(Images.SMILEY_SAD);
+        final URL tongueURL = loadImage(Images.SMILEY_TONGUE);
+        final URL teethURL = loadImage(Images.SMILEY_TEETH);
+        final URL winkURL = loadImage(Images.SMILEY_WINK);
+        final URL omgURL = loadImage(Images.SMILEY_OMG);
+        final URL angryURL = loadImage(Images.SMILEY_ANGRY);
+        final URL confusedURL = loadImage(Images.SMILEY_CONFUSED);
+        final URL cryURL = loadImage(Images.SMILEY_CRY);
+        final URL embarrassedURL = loadImage(Images.SMILEY_EMBARRASSED);
+        final URL shadeURL = loadImage(Images.SMILEY_SHADE);
 
-        final URL kouNorm16URL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_16);
-        final URL kouNorm22URL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_22);
-        final URL kouNorm24URL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_24);
-        final URL kouNorm32URL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_32);
+        final URL kouNorm16URL = loadImage(Images.ICON_KOU_NORMAL_16);
+        final URL kouNorm22URL = loadImage(Images.ICON_KOU_NORMAL_22);
+        final URL kouNorm24URL = loadImage(Images.ICON_KOU_NORMAL_24);
+        final URL kouNorm32URL = loadImage(Images.ICON_KOU_NORMAL_32);
 
-        final URL kouNormAct16URL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_ACT_16);
-        final URL kouNormAct22URL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_ACT_22);
-        final URL kouNormAct24URL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_ACT_24);
-        final URL kouNormAct32URL = loadImage(resourceValidator, Images.ICON_KOU_NORMAL_ACT_32);
+        final URL kouNormAct16URL = loadImage(Images.ICON_KOU_NORMAL_ACT_16);
+        final URL kouNormAct22URL = loadImage(Images.ICON_KOU_NORMAL_ACT_22);
+        final URL kouNormAct24URL = loadImage(Images.ICON_KOU_NORMAL_ACT_24);
+        final URL kouNormAct32URL = loadImage(Images.ICON_KOU_NORMAL_ACT_32);
 
-        final URL kouAway16URL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_16);
-        final URL kouAway22URL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_22);
-        final URL kouAway24URL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_24);
-        final URL kouAway32URL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_32);
+        final URL kouAway16URL = loadImage(Images.ICON_KOU_AWAY_16);
+        final URL kouAway22URL = loadImage(Images.ICON_KOU_AWAY_22);
+        final URL kouAway24URL = loadImage(Images.ICON_KOU_AWAY_24);
+        final URL kouAway32URL = loadImage(Images.ICON_KOU_AWAY_32);
 
-        final URL kouAwayAct16URL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_ACT_16);
-        final URL kouAwayAct22URL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_ACT_22);
-        final URL kouAwayAct24URL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_ACT_24);
-        final URL kouAwayAct32URL = loadImage(resourceValidator, Images.ICON_KOU_AWAY_ACT_32);
+        final URL kouAwayAct16URL = loadImage(Images.ICON_KOU_AWAY_ACT_16);
+        final URL kouAwayAct22URL = loadImage(Images.ICON_KOU_AWAY_ACT_22);
+        final URL kouAwayAct24URL = loadImage(Images.ICON_KOU_AWAY_ACT_24);
+        final URL kouAwayAct32URL = loadImage(Images.ICON_KOU_AWAY_ACT_32);
 
-        final URL envelopeURL = loadImage(resourceValidator, Images.ICON_ENVELOPE);
-        final URL dotURL = loadImage(resourceValidator, Images.ICON_DOT);
+        final URL envelopeURL = loadImage(Images.ICON_ENVELOPE);
+        final URL dotURL = loadImage(Images.ICON_DOT);
 
-        validate(resourceValidator);
+        validate();
 
         // Create icons from the resources
         smileIcon = new ImageIcon(smileURL);
@@ -231,13 +233,13 @@ public class ImageLoader {
      * Loads the image to a URL, and updates the validator with the result.
      * Either the image was loaded, or it was not.
      *
-     * @param resourceValidator The validator.
      * @param image The image to load, with path.
      * @return The URL to the image, or <code>null</code> if the image wasn't loaded.
      */
-    private URL loadImage(final ResourceValidator resourceValidator, final String image) {
+    private URL loadImage(final String image) {
         final URL url = resourceLoader.getResource(image);
         resourceValidator.addResource(url, image);
+
         return url;
     }
 
@@ -245,10 +247,8 @@ public class ImageLoader {
      * Goes through all the images, and checks if they were loaded successfully.
      * If any of the images did not load successfully then a message is shown
      * to the user, and the application exits.
-     *
-     * @param resourceValidator The validator.
      */
-    private void validate(final ResourceValidator resourceValidator) {
+    private void validate() {
         final String missing = resourceValidator.validate();
 
         if (missing.length() > 0) {
@@ -257,7 +257,8 @@ public class ImageLoader {
 
             LOG.log(Level.SEVERE, error);
             errorHandler.showCriticalError(error);
-            System.exit(1);
+
+            System.exit(1); // TODO fix
         }
     }
 
