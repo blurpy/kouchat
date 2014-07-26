@@ -173,6 +173,61 @@ public class ImageLoaderTest {
         checkMissingImage("/icons/envelope.png");
     }
 
+    @Test
+    public void constructorShouldThrowExceptionIfSmileySmileIsMissing() {
+        checkMissingImage("/smileys/smile.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfSmileySadIsMissing() {
+        checkMissingImage("/smileys/sad.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfSmileyTongueIsMissing() {
+        checkMissingImage("/smileys/tongue.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfSmileyTeethIsMissing() {
+        checkMissingImage("/smileys/teeth.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfSmileyWinkIsMissing() {
+        checkMissingImage("/smileys/wink.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfSmileyOmgIsMissing() {
+        checkMissingImage("/smileys/omg.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfSmileyAngryIsMissing() {
+        checkMissingImage("/smileys/angry.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfSmileyConfusedIsMissing() {
+        checkMissingImage("/smileys/confused.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfSmileyCryIsMissing() {
+        checkMissingImage("/smileys/cry.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfSmileyEmbarrassedIsMissing() {
+        checkMissingImage("/smileys/embarrassed.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfSmileyShadeIsMissing() {
+        checkMissingImage("/smileys/shade.png");
+    }
+
     // TODO multiple
 
     private void checkMissingImage(final String missingImage) {
