@@ -22,7 +22,7 @@
 
 package net.usikkert.kouchat.ui.swing;
 
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.util.ResourceLoader;
@@ -30,6 +30,8 @@ import net.usikkert.kouchat.util.ResourceValidator;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.Assertion;
+import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.rules.ExpectedException;
 
 /**
@@ -37,10 +39,14 @@ import org.junit.rules.ExpectedException;
  *
  * @author Christian Ihle
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class ImageLoaderTest {
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
+
+    @Rule
+    public final ExpectedSystemExit expectedSystemExit = ExpectedSystemExit.none();
 
     @Test
     public void constructorShouldThrowExceptionIfErrorHandlerIsNull() {
@@ -64,5 +70,110 @@ public class ImageLoaderTest {
         expectedException.expectMessage("Resource loader can not be null");
 
         new ImageLoader(mock(ErrorHandler.class), new ResourceValidator(), null);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfKouAway16IsMissing() {
+        checkMissingImage("/icons/16x16/kou_away_16x16.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfKouAway22IsMissing() {
+        checkMissingImage("/icons/22x22/kou_away_22x22.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfKouAway24IsMissing() {
+        checkMissingImage("/icons/24x24/kou_away_24x24.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfKouAway32IsMissing() {
+        checkMissingImage("/icons/32x32/kou_away_32x32.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfKouAwayActivity16IsMissing() {
+        checkMissingImage("/icons/16x16/kou_away_activity_16x16.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfKouAwayActivity22IsMissing() {
+        checkMissingImage("/icons/22x22/kou_away_activity_22x22.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfKouAwayActivity24IsMissing() {
+        checkMissingImage("/icons/24x24/kou_away_activity_24x24.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfKouAwayActivity32IsMissing() {
+        checkMissingImage("/icons/32x32/kou_away_activity_32x32.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfKouNormal16IsMissing() {
+        checkMissingImage("/icons/16x16/kou_normal_16x16.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfKouNormal22IsMissing() {
+        checkMissingImage("/icons/22x22/kou_normal_22x22.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfKouNormal24IsMissing() {
+        checkMissingImage("/icons/24x24/kou_normal_24x24.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfKouNormal32IsMissing() {
+        checkMissingImage("/icons/32x32/kou_normal_32x32.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfKouNormalActivity16IsMissing() {
+        checkMissingImage("/icons/16x16/kou_normal_activity_16x16.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfKouNormalActivity22IsMissing() {
+        checkMissingImage("/icons/22x22/kou_normal_activity_22x22.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfKouNormalActivity24IsMissing() {
+        checkMissingImage("/icons/24x24/kou_normal_activity_24x24.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfKouNormalActivity32IsMissing() {
+        checkMissingImage("/icons/32x32/kou_normal_activity_32x32.png");
+    }
+
+    // TODO multiple
+
+    private void checkMissingImage(final String missingImage) {
+        final ResourceLoader resourceLoader = spy(new ResourceLoader());
+        when(resourceLoader.getResource(missingImage)).thenReturn(null);
+
+        final ErrorHandler errorHandler = mock(ErrorHandler.class);
+
+        expectedSystemExit.expectSystemExitWithStatus(1);
+        expectedSystemExit.checkAssertionAfterwards(new Assertion() {
+            @Override
+            public void checkAssertion() throws Exception {
+                verify(errorHandler).showCriticalError(expectedMissingImage(missingImage));
+            }
+        });
+
+        new ImageLoader(errorHandler, new ResourceValidator(), resourceLoader);
+    }
+
+    private String expectedMissingImage(final String expectedMissingImages) {
+        return "These images were expected, but not found:\n\n" +
+                expectedMissingImages + "\n\n" +
+                "KouChat will now shutdown.";
     }
 }
