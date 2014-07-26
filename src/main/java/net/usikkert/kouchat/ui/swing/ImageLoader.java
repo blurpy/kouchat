@@ -258,7 +258,7 @@ public class ImageLoader {
             LOG.log(Level.SEVERE, error);
             errorHandler.showCriticalError(error);
 
-            System.exit(1); // TODO fix
+            System.exit(1);
         }
     }
 
