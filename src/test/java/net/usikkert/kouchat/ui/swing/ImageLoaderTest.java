@@ -24,10 +24,14 @@ package net.usikkert.kouchat.ui.swing;
 
 import static org.mockito.Mockito.*;
 
+import java.util.logging.Logger;
+
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
+import net.usikkert.kouchat.util.TestUtils;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.Assertion;
@@ -47,6 +51,13 @@ public class ImageLoaderTest {
 
     @Rule
     public final ExpectedSystemExit expectedSystemExit = ExpectedSystemExit.none();
+
+    @Before
+    public void setUp() {
+        // Silence the static logger
+        final ImageLoader imageLoader = new ImageLoader(mock(ErrorHandler.class), new ResourceValidator(), new ResourceLoader());
+        TestUtils.setFieldValueWithMock(imageLoader, "LOG", Logger.class);
+    }
 
     @Test
     public void constructorShouldThrowExceptionIfErrorHandlerIsNull() {
@@ -150,6 +161,16 @@ public class ImageLoaderTest {
     @Test
     public void constructorShouldThrowExceptionIfKouNormalActivity32IsMissing() {
         checkMissingImage("/icons/32x32/kou_normal_activity_32x32.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfDotIsMissing() {
+        checkMissingImage("/icons/dot.png");
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfEnvelopeIsMissing() {
+        checkMissingImage("/icons/envelope.png");
     }
 
     // TODO multiple
