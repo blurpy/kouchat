@@ -24,7 +24,6 @@ package net.usikkert.kouchat.ui.swing;
 
 import java.util.regex.Pattern;
 
-import javax.swing.SwingUtilities;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
@@ -47,6 +46,8 @@ import javax.swing.text.StyledDocument;
  * @author Christian Ihle
  */
 public class URLDocumentFilter extends DocumentFilter {
+
+    private final UITools uiTools = new UITools();
 
     /**
      * The url is saved as an attribute in the Document, so
@@ -100,7 +101,7 @@ public class URLDocumentFilter extends DocumentFilter {
         // Make a copy now, or else it could change if another message comes
         final MutableAttributeSet urlAttr = (MutableAttributeSet) attr.copyAttributes();
 
-        SwingUtilities.invokeLater(new Runnable() {
+        uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
                 int startPos = findURLPos(text, 0);
