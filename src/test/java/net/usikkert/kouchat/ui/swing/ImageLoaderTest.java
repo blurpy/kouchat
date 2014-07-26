@@ -22,6 +22,8 @@
 
 package net.usikkert.kouchat.ui.swing;
 
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.util.logging.Logger;
@@ -52,10 +54,13 @@ public class ImageLoaderTest {
     @Rule
     public final ExpectedSystemExit expectedSystemExit = ExpectedSystemExit.none();
 
+    private ImageLoader imageLoader;
+
     @Before
     public void setUp() {
+        imageLoader = new ImageLoader(mock(ErrorHandler.class), new ResourceValidator(), new ResourceLoader());
+
         // Silence the static logger
-        final ImageLoader imageLoader = new ImageLoader(mock(ErrorHandler.class), new ResourceValidator(), new ResourceLoader());
         TestUtils.setFieldValueWithMock(imageLoader, "LOG", Logger.class);
     }
 
@@ -228,7 +233,82 @@ public class ImageLoaderTest {
         checkMissingImage("/smileys/shade.png");
     }
 
-    // TODO multiple
+    @Test
+    public void constructorShouldThrowExceptionWithAllMissingImagesInMessage() {
+        final ResourceLoader resourceLoader = spy(new ResourceLoader());
+        when(resourceLoader.getResource("/smileys/embarrassed.png")).thenReturn(null);
+        when(resourceLoader.getResource("/icons/22x22/kou_normal_activity_22x22.png")).thenReturn(null);
+        when(resourceLoader.getResource("/icons/dot.png")).thenReturn(null);
+
+        final ErrorHandler errorHandler = mock(ErrorHandler.class);
+
+        expectedSystemExit.expectSystemExitWithStatus(1);
+        expectedSystemExit.checkAssertionAfterwards(new Assertion() {
+            @Override
+            public void checkAssertion() throws Exception {
+                verify(errorHandler).showCriticalError("These images were expected, but not found:\n\n" +
+                        "/smileys/embarrassed.png\n" +
+                        "/icons/22x22/kou_normal_activity_22x22.png\n" +
+                        "/icons/dot.png\n\n" +
+                        "KouChat will now shutdown.");
+            }
+        });
+
+        new ImageLoader(errorHandler, new ResourceValidator(), resourceLoader);
+    }
+
+    @Test
+    public void constructorShouldLoadCorrectSmileys() {
+        assertThat(imageLoader.getSmileIcon().getDescription(), containsString("smile.png"));
+        assertThat(imageLoader.getSadIcon().getDescription(), containsString("sad.png"));
+        assertThat(imageLoader.getTongueIcon().getDescription(), containsString("tongue.png"));
+        assertThat(imageLoader.getTeethIcon().getDescription(), containsString("teeth.png"));
+        assertThat(imageLoader.getWinkIcon().getDescription(), containsString("wink.png"));
+        assertThat(imageLoader.getOmgIcon().getDescription(), containsString("omg.png"));
+        assertThat(imageLoader.getAngryIcon().getDescription(), containsString("angry.png"));
+        assertThat(imageLoader.getConfusedIcon().getDescription(), containsString("confused.png"));
+        assertThat(imageLoader.getCryIcon().getDescription(), containsString("cry.png"));
+        assertThat(imageLoader.getEmbarrassedIcon().getDescription(), containsString("embarrassed.png"));
+        assertThat(imageLoader.getShadeIcon().getDescription(), containsString("shade.png"));
+    }
+
+    @Test
+    public void constructorShouldLoadCorrectDotAndEnvelope() {
+        assertThat(imageLoader.getDotIcon().getDescription(), containsString("dot.png"));
+        assertThat(imageLoader.getEnvelopeIcon().getDescription(), containsString("envelope.png"));
+    }
+
+    @Test
+    public void constructorShouldLoadCorrectKouNormalIcons() {
+        assertThat(imageLoader.getKouNormal16Icon().getDescription(), containsString("kou_normal_16x16.png"));
+        assertThat(imageLoader.getKouNormal22Icon().getDescription(), containsString("kou_normal_22x22.png"));
+        assertThat(imageLoader.getKouNormal24Icon().getDescription(), containsString("kou_normal_24x24.png"));
+        assertThat(imageLoader.getKouNormal32Icon().getDescription(), containsString("kou_normal_32x32.png"));
+    }
+
+    @Test
+    public void constructorShouldLoadCorrectKouNormalActivityIcons() {
+        assertThat(imageLoader.getKouNormalActivity16Icon().getDescription(), containsString("kou_normal_activity_16x16.png"));
+        assertThat(imageLoader.getKouNormalActivity22Icon().getDescription(), containsString("kou_normal_activity_22x22.png"));
+        assertThat(imageLoader.getKouNormalActivity24Icon().getDescription(), containsString("kou_normal_activity_24x24.png"));
+        assertThat(imageLoader.getKouNormalActivity32Icon().getDescription(), containsString("kou_normal_activity_32x32.png"));
+    }
+
+    @Test
+    public void constructorShouldLoadCorrectKouAwayIcons() {
+        assertThat(imageLoader.getKouAway16Icon().getDescription(), containsString("kou_away_16x16.png"));
+        assertThat(imageLoader.getKouAway22Icon().getDescription(), containsString("kou_away_22x22.png"));
+        assertThat(imageLoader.getKouAway24Icon().getDescription(), containsString("kou_away_24x24.png"));
+        assertThat(imageLoader.getKouAway32Icon().getDescription(), containsString("kou_away_32x32.png"));
+    }
+
+    @Test
+    public void constructorShouldLoadCorrectKouAwayActivityIcons() {
+        assertThat(imageLoader.getKouAwayActivity16Icon().getDescription(), containsString("kou_away_activity_16x16.png"));
+        assertThat(imageLoader.getKouAwayActivity22Icon().getDescription(), containsString("kou_away_activity_22x22.png"));
+        assertThat(imageLoader.getKouAwayActivity24Icon().getDescription(), containsString("kou_away_activity_24x24.png"));
+        assertThat(imageLoader.getKouAwayActivity32Icon().getDescription(), containsString("kou_away_activity_32x32.png"));
+    }
 
     private void checkMissingImage(final String missingImage) {
         final ResourceLoader resourceLoader = spy(new ResourceLoader());
