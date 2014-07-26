@@ -30,6 +30,8 @@ import javax.swing.ImageIcon;
 
 import net.usikkert.kouchat.util.Validate;
 
+import org.jetbrains.annotations.NonNls;
+
 /**
  * This class has a list of all the supported smileys.
  *
@@ -38,6 +40,7 @@ import net.usikkert.kouchat.util.Validate;
 public class SmileyMap {
 
     /** The map linking the smiley code with the smiley image. */
+    @NonNls
     private final Map<String, ImageIcon> smileyMap;
 
     /**
