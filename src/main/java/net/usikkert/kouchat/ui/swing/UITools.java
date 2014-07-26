@@ -62,6 +62,9 @@ public class UITools {
     private static final Logger LOG = Logger.getLogger(UITools.class.getName());
     private static final ErrorHandler ERRORHANDLER = ErrorHandler.getErrorHandler();
 
+    /** Name of the environment variable used to detect if running on KDE. */
+    private static final String KDE_FULL_SESSION = "KDE_FULL_SESSION";
+
     /**
      * Runs a command using {@link Runtime#exec(String)}.
      *
@@ -520,6 +523,6 @@ public class UITools {
      * @return If running on KDE.
      */
     public boolean isRunningOnKDE() {
-        return System.getenv("KDE_FULL_SESSION") != null;
+        return System.getenv(KDE_FULL_SESSION) != null;
     }
 }

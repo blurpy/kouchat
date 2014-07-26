@@ -50,6 +50,8 @@ public class FileTransferHandler extends TransferHandler {
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(FileTransferHandler.class.getName());
 
+    private static final String FILE_PROTOCOL = "file:/";
+
     /** The object where the file gets dropped. */
     private final FileDropSource fileDropSource;
 
@@ -126,7 +128,7 @@ public class FileTransferHandler extends TransferHandler {
                         String fileURI = "";
 
                         for (int i = 0; i < uriList.length; i++) {
-                            if (uriList[i].startsWith("file:/")) {
+                            if (uriList[i].startsWith(FILE_PROTOCOL)) {
                                 fileURI = uriList[i];
                                 break;
                             }
