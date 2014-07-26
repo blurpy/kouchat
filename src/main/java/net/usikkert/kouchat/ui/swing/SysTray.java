@@ -57,6 +57,9 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(SysTray.class.getName());
 
+    /** Name of property to listen for tray icon changes. */
+    private static final String TRAY_ICONS = "trayIcons";
+
     private final UITools uiTools = new UITools();
 
     /** The settings. */
@@ -124,7 +127,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
 
             try {
                 sysTray.add(trayIcon);
-                sysTray.addPropertyChangeListener("trayIcons", this);
+                sysTray.addPropertyChangeListener(TRAY_ICONS, this);
                 systemTraySupported = true;
             }
 
