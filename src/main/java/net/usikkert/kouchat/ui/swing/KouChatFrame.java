@@ -116,7 +116,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
 
         setLookAndFeel();
         errorHandler.addErrorListener(new SwingPopupErrorHandler());
-        final ImageLoader imageLoader = new ImageLoader(errorHandler, new ResourceValidator(), new ResourceLoader());
+        final ImageLoader imageLoader = new ImageLoader(errorHandler, messages, new ResourceValidator(), new ResourceLoader());
         uncaughtExceptionLogger.registerUncaughtExceptionListener(new ExceptionDialog(null, true, imageLoader));
         statusIcons = new StatusIcons(imageLoader);
 

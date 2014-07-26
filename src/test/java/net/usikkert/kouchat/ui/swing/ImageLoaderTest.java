@@ -28,6 +28,7 @@ import static org.mockito.Mockito.*;
 
 import java.util.logging.Logger;
 
+import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
@@ -56,9 +57,13 @@ public class ImageLoaderTest {
 
     private ImageLoader imageLoader;
 
+    private PropertyFileMessages messages;
+
     @Before
     public void setUp() {
-        imageLoader = new ImageLoader(mock(ErrorHandler.class), new ResourceValidator(), new ResourceLoader());
+        messages = new PropertyFileMessages("messages.swing");
+
+        imageLoader = new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
 
         // Silence the static logger
         TestUtils.setFieldValueWithMock(imageLoader, "LOG", Logger.class);
@@ -69,7 +74,15 @@ public class ImageLoaderTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Error handler can not be null");
 
-        new ImageLoader(null, new ResourceValidator(), new ResourceLoader());
+        new ImageLoader(null, messages, new ResourceValidator(), new ResourceLoader());
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfMessagesIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Messages can not be null");
+
+        new ImageLoader(mock(ErrorHandler.class), null, new ResourceValidator(), new ResourceLoader());
     }
 
     @Test
@@ -77,7 +90,7 @@ public class ImageLoaderTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Resource validator can not be null");
 
-        new ImageLoader(mock(ErrorHandler.class), null, new ResourceLoader());
+        new ImageLoader(mock(ErrorHandler.class), messages, null, new ResourceLoader());
     }
 
     @Test
@@ -85,7 +98,7 @@ public class ImageLoaderTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Resource loader can not be null");
 
-        new ImageLoader(mock(ErrorHandler.class), new ResourceValidator(), null);
+        new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), null);
     }
 
     @Test
@@ -254,7 +267,7 @@ public class ImageLoaderTest {
             }
         });
 
-        new ImageLoader(errorHandler, new ResourceValidator(), resourceLoader);
+        new ImageLoader(errorHandler, messages, new ResourceValidator(), resourceLoader);
     }
 
     @Test
@@ -324,7 +337,7 @@ public class ImageLoaderTest {
             }
         });
 
-        new ImageLoader(errorHandler, new ResourceValidator(), resourceLoader);
+        new ImageLoader(errorHandler, messages, new ResourceValidator(), resourceLoader);
     }
 
     private String expectedMissingImage(final String expectedMissingImages) {

@@ -127,8 +127,8 @@ public class SettingsDialogTest  {
     public void setUp() {
         settings = mock(Settings.class);
         errorHandler = mock(ErrorHandler.class);
-        imageLoader = new ImageLoader(errorHandler, new ResourceValidator(), new ResourceLoader());
         messages = new PropertyFileMessages("messages.swing");
+        imageLoader = new ImageLoader(errorHandler, messages, new ResourceValidator(), new ResourceLoader());
 
         when(settings.getLogLocation()).thenReturn("/home/user/kouchat/logs");
 

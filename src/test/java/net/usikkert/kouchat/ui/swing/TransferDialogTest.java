@@ -24,6 +24,7 @@ package net.usikkert.kouchat.ui.swing;
 
 import static org.mockito.Mockito.*;
 
+import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
@@ -53,7 +54,7 @@ public class TransferDialogTest {
         settings = mock(Settings.class);
         when(settings.getMe()).thenReturn(me);
 
-        imageLoader = new ImageLoader(mock(ErrorHandler.class), new ResourceValidator(), new ResourceLoader());
+        imageLoader = new ImageLoader(mock(ErrorHandler.class), mock(Messages.class), new ResourceValidator(), new ResourceLoader());
     }
 
     /**
