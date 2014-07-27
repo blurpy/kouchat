@@ -48,6 +48,7 @@ public class URLDocumentFilterTest {
 
     private DefaultStyledDocument document;
     private UITools uiTools;
+    private SimpleAttributeSet attributeSet;
 
     @Before
     public void setUp() {
@@ -58,12 +59,14 @@ public class URLDocumentFilterTest {
 
         uiTools = TestUtils.setFieldValueWithMock(filter, "uiTools", UITools.class);
         doAnswer(new RunArgumentAnswer()).when(uiTools).invokeLater(any(Runnable.class));
+
+        attributeSet = new SimpleAttributeSet();
     }
 
     @Test
     @Ignore("Not implemented")
     public void insertStringShouldDetectWwwUrlAtTheBeginning() throws BadLocationException {
-        document.insertString(0, "www.kouchat.net is the place to be\n", new SimpleAttributeSet());
+        document.insertString(0, "www.kouchat.net is the place to be\n", attributeSet);
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -75,7 +78,7 @@ public class URLDocumentFilterTest {
 
     @Test
     public void insertStringShouldDetectWwwUrlInTheMiddle() throws BadLocationException {
-        document.insertString(0, "go to www.kouchat.net for details\n", new SimpleAttributeSet());
+        document.insertString(0, "go to www.kouchat.net for details\n", attributeSet);
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -88,7 +91,7 @@ public class URLDocumentFilterTest {
 
     @Test
     public void insertStringShouldDetectWwwUrlAtTheEnd() throws BadLocationException {
-        document.insertString(0, "go to www.kouchat.net\n", new SimpleAttributeSet());
+        document.insertString(0, "go to www.kouchat.net\n", attributeSet);
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -101,7 +104,7 @@ public class URLDocumentFilterTest {
 
     @Test
     public void insertStringShouldDetectWwwUrlWithDifferentParameters() throws BadLocationException {
-        document.insertString(0, "go to www.google.com/search#top?q=some+thing&hl=en_gb&type=1.2.3 to search\n", new SimpleAttributeSet());
+        document.insertString(0, "go to www.google.com/search#top?q=some+thing&hl=en_gb&type=1.2.3 to search\n", attributeSet);
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -114,7 +117,7 @@ public class URLDocumentFilterTest {
 
     @Test
     public void insertStringShouldDetectMultipleWwwUrls() throws BadLocationException {
-        document.insertString(0, "go to www.kouchat.net or www.google.com or www.cnn.com\n", new SimpleAttributeSet());
+        document.insertString(0, "go to www.kouchat.net or www.google.com or www.cnn.com\n", attributeSet);
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -131,7 +134,7 @@ public class URLDocumentFilterTest {
 
     @Test
     public void insertStringShouldOnlyDetectValidWwwUrls() throws BadLocationException {
-        document.insertString(0, "go to www.kouchat www.kouchat.net www.kou www.kouchat www.kouchat.net\n", new SimpleAttributeSet());
+        document.insertString(0, "go to www.kouchat www.kouchat.net www.kou www.kouchat www.kouchat.net\n", attributeSet);
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -147,7 +150,7 @@ public class URLDocumentFilterTest {
     @Test
     @Ignore("Not implemented")
     public void insertStringShouldDetectFtpUrlAtTheBeginning() throws BadLocationException {
-        document.insertString(0, "ftp.download.com has good stuff\n", new SimpleAttributeSet());
+        document.insertString(0, "ftp.download.com has good stuff\n", attributeSet);
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -159,7 +162,7 @@ public class URLDocumentFilterTest {
 
     @Test
     public void insertStringShouldDetectFtpUrlInTheMiddle() throws BadLocationException {
-        document.insertString(0, "go to ftp.download.com for details\n", new SimpleAttributeSet());
+        document.insertString(0, "go to ftp.download.com for details\n", attributeSet);
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -172,7 +175,7 @@ public class URLDocumentFilterTest {
 
     @Test
     public void insertStringShouldDetectFtpUrlAtTheEnd() throws BadLocationException {
-        document.insertString(0, "go to ftp.download.com\n", new SimpleAttributeSet());
+        document.insertString(0, "go to ftp.download.com\n", attributeSet);
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -185,7 +188,7 @@ public class URLDocumentFilterTest {
 
     @Test
     public void insertStringShouldDetectFtpUrlWithDifferentParameters() throws BadLocationException {
-        document.insertString(0, "go to ftp.google.com/search#top?q=some+thing&hl=en_gb&type=1.2.3 to download\n", new SimpleAttributeSet());
+        document.insertString(0, "go to ftp.google.com/search#top?q=some+thing&hl=en_gb&type=1.2.3 to download\n", attributeSet);
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -198,7 +201,7 @@ public class URLDocumentFilterTest {
 
     @Test
     public void insertStringShouldDetectMultipleFtpUrls() throws BadLocationException {
-        document.insertString(0, "go to ftp.cookie.net or ftp.download.com or ftp.upload.com\n", new SimpleAttributeSet());
+        document.insertString(0, "go to ftp.cookie.net or ftp.download.com or ftp.upload.com\n", attributeSet);
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -215,7 +218,7 @@ public class URLDocumentFilterTest {
 
     @Test
     public void insertStringShouldOnlyDetectValidFtpUrls() throws BadLocationException {
-        document.insertString(0, "go to ftp.cookie ftp.cookie.net ftp.coo ftp.cookie ftp.cookie.net\n", new SimpleAttributeSet());
+        document.insertString(0, "go to ftp.cookie ftp.cookie.net ftp.coo ftp.cookie ftp.cookie.net\n", attributeSet);
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -230,7 +233,7 @@ public class URLDocumentFilterTest {
 
     @Test
     public void insertStringShouldDetectProtocolUrlAtTheBeginning() throws BadLocationException {
-        document.insertString(0, "http://google.com can search\n", new SimpleAttributeSet());
+        document.insertString(0, "http://google.com can search\n", attributeSet);
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -242,7 +245,7 @@ public class URLDocumentFilterTest {
 
     @Test
     public void insertStringShouldDetectProtocolUrlInTheMiddle() throws BadLocationException {
-        document.insertString(0, "go to http://google.com for details\n", new SimpleAttributeSet());
+        document.insertString(0, "go to http://google.com for details\n", attributeSet);
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -255,7 +258,7 @@ public class URLDocumentFilterTest {
 
     @Test
     public void insertStringShouldDetectProtocolUrlAtTheEnd() throws BadLocationException {
-        document.insertString(0, "go to http://google.com\n", new SimpleAttributeSet());
+        document.insertString(0, "go to http://google.com\n", attributeSet);
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -268,7 +271,7 @@ public class URLDocumentFilterTest {
 
     @Test
     public void insertStringShouldDetectProtocolUrlWithDifferentParameters() throws BadLocationException {
-        document.insertString(0, "go to http://google.com/search#top?q=some+thing&hl=en_gb&type=1.2.3 to search\n", new SimpleAttributeSet());
+        document.insertString(0, "go to http://google.com/search#top?q=some+thing&hl=en_gb&type=1.2.3 to search\n", attributeSet);
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -281,7 +284,7 @@ public class URLDocumentFilterTest {
 
     @Test
     public void insertStringShouldDetectMultipleDifferentUrlsWithWordsBetween() throws BadLocationException {
-        document.insertString(0, "go to http://cookie.net or ftp://ftp.download.com or http://www.upload.com\n", new SimpleAttributeSet());
+        document.insertString(0, "go to http://cookie.net or ftp://ftp.download.com or http://www.upload.com\n", attributeSet);
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -298,7 +301,7 @@ public class URLDocumentFilterTest {
 
     @Test
     public void insertStringShouldDetectMultipleDifferentUrlsWithNoWordsBetween() throws BadLocationException {
-        document.insertString(0, "go to http://cookie.net ftp://ftp.download.com http://www.upload.com\n", new SimpleAttributeSet());
+        document.insertString(0, "go to http://cookie.net ftp://ftp.download.com http://www.upload.com\n", attributeSet);
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -315,7 +318,7 @@ public class URLDocumentFilterTest {
 
     @Test
     public void insertStringShouldOnlyDetectValidProtocolUrls() throws BadLocationException {
-        document.insertString(0, "go to http://c http://cookie.net http:// http://c http://cookie.net\n", new SimpleAttributeSet());
+        document.insertString(0, "go to http://c http://cookie.net http:// http://c http://cookie.net\n", attributeSet);
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -330,7 +333,7 @@ public class URLDocumentFilterTest {
 
     @Test
     public void insertStringShouldDetectMultipleDifferentUrlsAtTheSameTime() throws BadLocationException {
-        document.insertString(0, "go to http://cookie.net or ftp.download.com or www.upload.com\n", new SimpleAttributeSet());
+        document.insertString(0, "go to http://cookie.net or ftp.download.com or www.upload.com\n", attributeSet);
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -347,7 +350,7 @@ public class URLDocumentFilterTest {
 
     @Test
     public void insertStringShouldHandleEmptyString() throws BadLocationException {
-        document.insertString(0, "\n", new SimpleAttributeSet());
+        document.insertString(0, "\n", attributeSet);
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -360,8 +363,6 @@ public class URLDocumentFilterTest {
     public void insertStringShouldCopyAttributesBeforeModificationToAvoidConcurrencyIssues() throws BadLocationException {
         // Don't run invokeLater() automatically in insertString()
         doNothing().when(uiTools).invokeLater(any(Runnable.class));
-
-        final SimpleAttributeSet attributeSet = new SimpleAttributeSet();
 
         document.insertString(0, "go to www.kouchat.net for details\n", attributeSet);
 
@@ -393,7 +394,7 @@ public class URLDocumentFilterTest {
 
         TestUtils.setFieldValue(filter, "uiTools", uiTools);
 
-        defaultStyledDocument.insertString(0, "go to www.kouchat.net for details\n", new SimpleAttributeSet());
+        defaultStyledDocument.insertString(0, "go to www.kouchat.net for details\n", attributeSet);
 
         // The result is an empty string (just \n), with the same attributes as if the url was there
         final Element paragraphElement = defaultStyledDocument.getParagraphElement(0);
