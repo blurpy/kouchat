@@ -115,6 +115,21 @@ public class URLDocumentFilterTest {
     }
 
     @Test
+    public void insertStringShouldOnlyDetectValidWwwUrls() throws BadLocationException {
+        document.insertString(0, "go to www.kouchat www.kouchat.net www.kou www.kouchat www.kouchat.net\n", new SimpleAttributeSet());
+
+        final Element paragraphElement = document.getParagraphElement(0);
+
+        assertEquals(5, paragraphElement.getElementCount());
+
+        verifyText(paragraphElement.getElement(0), 0, 18, "go to www.kouchat ");
+        verifyUrl(paragraphElement.getElement(1), 18, 33, "www.kouchat.net");
+        verifyText(paragraphElement.getElement(2), 33, 54, " www.kou www.kouchat ");
+        verifyUrl(paragraphElement.getElement(3), 54, 69, "www.kouchat.net");
+        verifyText(paragraphElement.getElement(4), 69, 70, "\n");
+    }
+
+    @Test
     @Ignore("Not implemented")
     public void insertStringShouldDetectFtpUrlAtTheBeginning() throws BadLocationException {
         document.insertString(0, "ftp.download.com has good stuff\n", new SimpleAttributeSet());
@@ -171,6 +186,21 @@ public class URLDocumentFilterTest {
     }
 
     @Test
+    public void insertStringShouldOnlyDetectValidFtpUrls() throws BadLocationException {
+        document.insertString(0, "go to ftp.cookie ftp.cookie.net ftp.coo ftp.cookie ftp.cookie.net\n", new SimpleAttributeSet());
+
+        final Element paragraphElement = document.getParagraphElement(0);
+
+        assertEquals(5, paragraphElement.getElementCount());
+
+        verifyText(paragraphElement.getElement(0), 0, 17, "go to ftp.cookie ");
+        verifyUrl(paragraphElement.getElement(1), 17, 31, "ftp.cookie.net");
+        verifyText(paragraphElement.getElement(2), 31, 51, " ftp.coo ftp.cookie ");
+        verifyUrl(paragraphElement.getElement(3), 51, 65, "ftp.cookie.net");
+        verifyText(paragraphElement.getElement(4), 65, 66, "\n");
+    }
+
+    @Test
     public void insertStringShouldDetectProtocolUrlAtTheBeginning() throws BadLocationException {
         document.insertString(0, "http://google.com can search\n", new SimpleAttributeSet());
 
@@ -209,7 +239,7 @@ public class URLDocumentFilterTest {
     }
 
     @Test
-    public void insertStringShouldDetectMultipleProtocolUrls() throws BadLocationException {
+    public void insertStringShouldDetectMultipleDifferentUrlsWithWordsBetween() throws BadLocationException {
         document.insertString(0, "go to http://cookie.net or ftp://ftp.download.com or http://www.upload.com\n", new SimpleAttributeSet());
 
         final Element paragraphElement = document.getParagraphElement(0);
@@ -223,6 +253,38 @@ public class URLDocumentFilterTest {
         verifyText(paragraphElement.getElement(4), 49, 53, " or ");
         verifyUrl(paragraphElement.getElement(5), 53, 74, "http://www.upload.com");
         verifyText(paragraphElement.getElement(6), 74, 75, "\n");
+    }
+
+    @Test
+    public void insertStringShouldDetectMultipleDifferentUrlsWithNoWordsBetween() throws BadLocationException {
+        document.insertString(0, "go to http://cookie.net ftp://ftp.download.com http://www.upload.com\n", new SimpleAttributeSet());
+
+        final Element paragraphElement = document.getParagraphElement(0);
+
+        assertEquals(7, paragraphElement.getElementCount());
+
+        verifyText(paragraphElement.getElement(0), 0, 6, "go to ");
+        verifyUrl(paragraphElement.getElement(1), 6, 23, "http://cookie.net");
+        verifyText(paragraphElement.getElement(2), 23, 24, " ");
+        verifyUrl(paragraphElement.getElement(3), 24, 46, "ftp://ftp.download.com");
+        verifyText(paragraphElement.getElement(4), 46, 47, " ");
+        verifyUrl(paragraphElement.getElement(5), 47, 68, "http://www.upload.com");
+        verifyText(paragraphElement.getElement(6), 68, 69, "\n");
+    }
+
+    @Test
+    public void insertStringShouldOnlyDetectValidProtocolUrls() throws BadLocationException {
+        document.insertString(0, "go to http://c http://cookie.net http:// http://c http://cookie.net\n", new SimpleAttributeSet());
+
+        final Element paragraphElement = document.getParagraphElement(0);
+
+        assertEquals(5, paragraphElement.getElementCount());
+
+        verifyText(paragraphElement.getElement(0), 0, 15, "go to http://c ");
+        verifyUrl(paragraphElement.getElement(1), 15, 32, "http://cookie.net");
+        verifyText(paragraphElement.getElement(2), 32, 50, " http:// http://c ");
+        verifyUrl(paragraphElement.getElement(3), 50, 67, "http://cookie.net");
+        verifyText(paragraphElement.getElement(4), 67, 68, "\n");
     }
 
     @Test
@@ -245,7 +307,6 @@ public class URLDocumentFilterTest {
     // TODO long url with different characters
     // TODO standalone?
     // TODO copy attributes?
-    // TODO failed regex match
 
     private void verifyUrl(final Element element, final int expectedStartPosition, final int expectedEndPosition,
                            final String expectedUrl) throws BadLocationException {
