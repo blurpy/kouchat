@@ -98,6 +98,23 @@ public class URLDocumentFilterTest {
     }
 
     @Test
+    public void insertStringShouldDetectMultipleWwwUrls() throws BadLocationException {
+        document.insertString(0, "go to www.kouchat.net or www.google.com or www.cnn.com\n", new SimpleAttributeSet());
+
+        final Element paragraphElement = document.getParagraphElement(0);
+
+        assertEquals(7, paragraphElement.getElementCount());
+
+        verifyText(paragraphElement.getElement(0), 0, 6, "go to ");
+        verifyUrl(paragraphElement.getElement(1), 6, 21, "www.kouchat.net");
+        verifyText(paragraphElement.getElement(2), 21, 25, " or ");
+        verifyUrl(paragraphElement.getElement(3), 25, 39, "www.google.com");
+        verifyText(paragraphElement.getElement(4), 39, 43, " or ");
+        verifyUrl(paragraphElement.getElement(5), 43, 54, "www.cnn.com");
+        verifyText(paragraphElement.getElement(6), 54, 55, "\n");
+    }
+
+    @Test
     @Ignore("Not implemented")
     public void insertStringShouldDetectFtpUrlAtTheBeginning() throws BadLocationException {
         document.insertString(0, "ftp.download.com has good stuff\n", new SimpleAttributeSet());
@@ -134,6 +151,23 @@ public class URLDocumentFilterTest {
         verifyText(paragraphElement.getElement(0), 0, 6, "go to ");
         verifyUrl(paragraphElement.getElement(1), 6, 22, "ftp.download.com");
         verifyText(paragraphElement.getElement(2), 22, 23, "\n");
+    }
+
+    @Test
+    public void insertStringShouldDetectMultipleFtpUrls() throws BadLocationException {
+        document.insertString(0, "go to ftp.cookie.net or ftp.download.com or ftp.upload.com\n", new SimpleAttributeSet());
+
+        final Element paragraphElement = document.getParagraphElement(0);
+
+        assertEquals(7, paragraphElement.getElementCount());
+
+        verifyText(paragraphElement.getElement(0), 0, 6, "go to ");
+        verifyUrl(paragraphElement.getElement(1), 6, 20, "ftp.cookie.net");
+        verifyText(paragraphElement.getElement(2), 20, 24, " or ");
+        verifyUrl(paragraphElement.getElement(3), 24, 40, "ftp.download.com");
+        verifyText(paragraphElement.getElement(4), 40, 44, " or ");
+        verifyUrl(paragraphElement.getElement(5), 44, 58, "ftp.upload.com");
+        verifyText(paragraphElement.getElement(6), 58, 59, "\n");
     }
 
     @Test
@@ -174,10 +208,28 @@ public class URLDocumentFilterTest {
         verifyText(paragraphElement.getElement(2), 23, 24, "\n");
     }
 
+    @Test
+    public void insertStringShouldDetectMultipleProtocolUrls() throws BadLocationException {
+        document.insertString(0, "go to http://cookie.net or ftp://ftp.download.com or http://www.upload.com\n", new SimpleAttributeSet());
+
+        final Element paragraphElement = document.getParagraphElement(0);
+
+        assertEquals(7, paragraphElement.getElementCount());
+
+        verifyText(paragraphElement.getElement(0), 0, 6, "go to ");
+        verifyUrl(paragraphElement.getElement(1), 6, 23, "http://cookie.net");
+        verifyText(paragraphElement.getElement(2), 23, 27, " or ");
+        verifyUrl(paragraphElement.getElement(3), 27, 49, "ftp://ftp.download.com");
+        verifyText(paragraphElement.getElement(4), 49, 53, " or ");
+        verifyUrl(paragraphElement.getElement(5), 53, 74, "http://www.upload.com");
+        verifyText(paragraphElement.getElement(6), 74, 75, "\n");
+    }
+
     // TODO long url with different characters
-    // TODO multiple urls on same line
     // TODO multiple urls of different type on same line
     // TODO standalone?
+    // TODO copy attributes?
+    // TODO failed regex match
 
     private void verifyUrl(final Element element, final int expectedStartPosition, final int expectedEndPosition,
                            final String expectedUrl) throws BadLocationException {
