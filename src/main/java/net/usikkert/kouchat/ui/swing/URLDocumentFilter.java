@@ -111,6 +111,7 @@ public class URLDocumentFilter extends DocumentFilter {
                     final StyledDocument doc = (StyledDocument) fb.getDocument();
 
                     while (startPos != -1) {
+                        // The text always ends with \n, so the url either stops at the first space or the first \n
                         int stopPos = text.indexOf(" ", startPos);
 
                         if (stopPos == -1) {
