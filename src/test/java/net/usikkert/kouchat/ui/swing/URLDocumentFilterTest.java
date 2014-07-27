@@ -225,8 +225,24 @@ public class URLDocumentFilterTest {
         verifyText(paragraphElement.getElement(6), 74, 75, "\n");
     }
 
+    @Test
+    public void insertStringShouldDetectMultipleDifferentUrlsAtTheSameTime() throws BadLocationException {
+        document.insertString(0, "go to http://cookie.net or ftp.download.com or www.upload.com\n", new SimpleAttributeSet());
+
+        final Element paragraphElement = document.getParagraphElement(0);
+
+        assertEquals(7, paragraphElement.getElementCount());
+
+        verifyText(paragraphElement.getElement(0), 0, 6, "go to ");
+        verifyUrl(paragraphElement.getElement(1), 6, 23, "http://cookie.net");
+        verifyText(paragraphElement.getElement(2), 23, 27, " or ");
+        verifyUrl(paragraphElement.getElement(3), 27, 43, "ftp.download.com");
+        verifyText(paragraphElement.getElement(4), 43, 47, " or ");
+        verifyUrl(paragraphElement.getElement(5), 47, 61, "www.upload.com");
+        verifyText(paragraphElement.getElement(6), 61, 62, "\n");
+    }
+
     // TODO long url with different characters
-    // TODO multiple urls of different type on same line
     // TODO standalone?
     // TODO copy attributes?
     // TODO failed regex match
