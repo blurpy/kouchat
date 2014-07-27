@@ -384,7 +384,32 @@ public class URLDocumentFilterTest {
         verifyText(paragraphElement.getElement(2), 21, 34, " for details\n");
     }
 
-    // TODO standalone?
+    @Test
+    public void insertStringShouldNotInsertStringIfNotStandAlone() throws BadLocationException {
+        final URLDocumentFilter filter = new URLDocumentFilter(false);
+
+        final DefaultStyledDocument defaultStyledDocument = new DefaultStyledDocument();
+        defaultStyledDocument.setDocumentFilter(filter);
+
+        TestUtils.setFieldValue(filter, "uiTools", uiTools);
+
+        defaultStyledDocument.insertString(0, "go to www.kouchat.net for details\n", new SimpleAttributeSet());
+
+        // The result is an empty string (just \n), with the same attributes as if the url was there
+        final Element paragraphElement = defaultStyledDocument.getParagraphElement(0);
+
+        assertEquals(1, paragraphElement.getElementCount());
+
+        final Element element = paragraphElement.getElement(0);
+        assertEquals(2, element.getAttributes().getAttributeCount());
+        assertEquals("www.kouchat.net", element.getAttributes().getAttribute(URLDocumentFilter.URL_ATTRIBUTE));
+        assertTrue((Boolean) element.getAttributes().getAttribute(StyleConstants.Underline));
+
+        assertEquals(0, element.getStartOffset());
+        assertEquals(1, element.getEndOffset());
+
+        assertEquals("\n", element.getDocument().getText(0, 1));
+    }
 
     private void verifyUrl(final Element element, final int expectedStartPosition, final int expectedEndPosition,
                            final String expectedUrl) throws BadLocationException {
