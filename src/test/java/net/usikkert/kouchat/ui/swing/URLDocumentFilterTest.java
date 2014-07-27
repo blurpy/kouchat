@@ -59,7 +59,7 @@ public class URLDocumentFilterTest {
 
     @Test
     public void insertStringShouldDetectWwwUrlInTheMiddle() throws BadLocationException {
-        document.insertString(0, "go to www.kouchat.net for details", new SimpleAttributeSet());
+        document.insertString(0, "go to www.kouchat.net for details\n", new SimpleAttributeSet());
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -67,12 +67,12 @@ public class URLDocumentFilterTest {
 
         verifyText(paragraphElement.getElement(0), 0, 6, "go to ");
         verifyUrl(paragraphElement.getElement(1), 6, 21, "www.kouchat.net");
-        verifyText(paragraphElement.getElement(2), 21, 34, " for details"); // 33 characters, but "\n" gets appended
+        verifyText(paragraphElement.getElement(2), 21, 34, " for details\n");
     }
 
     @Test
     public void insertStringShouldDetectFtpUrlInTheMiddle() throws BadLocationException {
-        document.insertString(0, "go to ftp.download.com for details", new SimpleAttributeSet());
+        document.insertString(0, "go to ftp.download.com for details\n", new SimpleAttributeSet());
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -80,12 +80,12 @@ public class URLDocumentFilterTest {
 
         verifyText(paragraphElement.getElement(0), 0, 6, "go to ");
         verifyUrl(paragraphElement.getElement(1), 6, 22, "ftp.download.com");
-        verifyText(paragraphElement.getElement(2), 22, 35, " for details");
+        verifyText(paragraphElement.getElement(2), 22, 35, " for details\n");
     }
 
     @Test
     public void insertStringShouldDetectProtocolUrlInTheMiddle() throws BadLocationException {
-        document.insertString(0, "go to http://google.com for details", new SimpleAttributeSet());
+        document.insertString(0, "go to http://google.com for details\n", new SimpleAttributeSet());
 
         final Element paragraphElement = document.getParagraphElement(0);
 
@@ -93,8 +93,14 @@ public class URLDocumentFilterTest {
 
         verifyText(paragraphElement.getElement(0), 0, 6, "go to ");
         verifyUrl(paragraphElement.getElement(1), 6, 23, "http://google.com");
-        verifyText(paragraphElement.getElement(2), 23, 36, " for details");
+        verifyText(paragraphElement.getElement(2), 23, 36, " for details\n");
     }
+
+    // TODO url at beginning and end
+    // TODO long url with different characters
+    // TODO multiple urls on same line
+    // TODO multiple urls of different type on same line
+    // TODO standalone?
 
     private void verifyUrl(final Element element, final int expectedStartPosition, final int expectedEndPosition,
                            final String expectedUrl) throws BadLocationException {
@@ -106,17 +112,18 @@ public class URLDocumentFilterTest {
     }
 
     private void verifyText(final Element element, final int expectedStartPosition, final int expectedEndPosition,
-                            final String expectedString) throws BadLocationException {
-        verifyPositionAndText(element, expectedStartPosition, expectedEndPosition, expectedString);
+                            final String expectedText) throws BadLocationException {
+        verifyPositionAndText(element, expectedStartPosition, expectedEndPosition, expectedText);
 
         assertEquals(0, element.getAttributes().getAttributeCount());
     }
 
     private void verifyPositionAndText(final Element element, final int expectedStartPosition,
-                                       final int expectedEndPosition, final String expectedUrl) throws BadLocationException {
+                                       final int expectedEndPosition, final String expectedText) throws BadLocationException {
         assertEquals(expectedStartPosition, element.getStartOffset());
         assertEquals(expectedEndPosition, element.getEndOffset());
 
-        assertEquals(expectedUrl, element.getDocument().getText(expectedStartPosition, expectedUrl.length()));
+        final int expectedTextLength = expectedEndPosition - expectedStartPosition;
+        assertEquals(expectedText, element.getDocument().getText(expectedStartPosition, expectedTextLength));
     }
 }
