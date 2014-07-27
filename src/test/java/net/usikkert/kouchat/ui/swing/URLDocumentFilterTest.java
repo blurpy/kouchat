@@ -85,6 +85,19 @@ public class URLDocumentFilterTest {
     }
 
     @Test
+    public void insertStringShouldDetectWwwUrlAtTheEnd() throws BadLocationException {
+        document.insertString(0, "go to www.kouchat.net\n", new SimpleAttributeSet());
+
+        final Element paragraphElement = document.getParagraphElement(0);
+
+        assertEquals(3, paragraphElement.getElementCount());
+
+        verifyText(paragraphElement.getElement(0), 0, 6, "go to ");
+        verifyUrl(paragraphElement.getElement(1), 6, 21, "www.kouchat.net");
+        verifyText(paragraphElement.getElement(2), 21, 22, "\n");
+    }
+
+    @Test
     @Ignore("Not implemented")
     public void insertStringShouldDetectFtpUrlAtTheBeginning() throws BadLocationException {
         document.insertString(0, "ftp.download.com has good stuff\n", new SimpleAttributeSet());
@@ -108,6 +121,19 @@ public class URLDocumentFilterTest {
         verifyText(paragraphElement.getElement(0), 0, 6, "go to ");
         verifyUrl(paragraphElement.getElement(1), 6, 22, "ftp.download.com");
         verifyText(paragraphElement.getElement(2), 22, 35, " for details\n");
+    }
+
+    @Test
+    public void insertStringShouldDetectFtpUrlAtTheEnd() throws BadLocationException {
+        document.insertString(0, "go to ftp.download.com\n", new SimpleAttributeSet());
+
+        final Element paragraphElement = document.getParagraphElement(0);
+
+        assertEquals(3, paragraphElement.getElementCount());
+
+        verifyText(paragraphElement.getElement(0), 0, 6, "go to ");
+        verifyUrl(paragraphElement.getElement(1), 6, 22, "ftp.download.com");
+        verifyText(paragraphElement.getElement(2), 22, 23, "\n");
     }
 
     @Test
@@ -135,7 +161,19 @@ public class URLDocumentFilterTest {
         verifyText(paragraphElement.getElement(2), 23, 36, " for details\n");
     }
 
-    // TODO url at beginning and end
+    @Test
+    public void insertStringShouldDetectProtocolUrlAtTheEnd() throws BadLocationException {
+        document.insertString(0, "go to http://google.com\n", new SimpleAttributeSet());
+
+        final Element paragraphElement = document.getParagraphElement(0);
+
+        assertEquals(3, paragraphElement.getElementCount());
+
+        verifyText(paragraphElement.getElement(0), 0, 6, "go to ");
+        verifyUrl(paragraphElement.getElement(1), 6, 23, "http://google.com");
+        verifyText(paragraphElement.getElement(2), 23, 24, "\n");
+    }
+
     // TODO long url with different characters
     // TODO multiple urls on same line
     // TODO multiple urls of different type on same line
