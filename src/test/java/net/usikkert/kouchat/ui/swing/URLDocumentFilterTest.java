@@ -98,6 +98,19 @@ public class URLDocumentFilterTest {
     }
 
     @Test
+    public void insertStringShouldDetectWwwUrlWithDifferentParameters() throws BadLocationException {
+        document.insertString(0, "go to www.google.com/search#top?q=some+thing&hl=en_gb&type=1.2.3 to search\n", new SimpleAttributeSet());
+
+        final Element paragraphElement = document.getParagraphElement(0);
+
+        assertEquals(3, paragraphElement.getElementCount());
+
+        verifyText(paragraphElement.getElement(0), 0, 6, "go to ");
+        verifyUrl(paragraphElement.getElement(1), 6, 64, "www.google.com/search#top?q=some+thing&hl=en_gb&type=1.2.3");
+        verifyText(paragraphElement.getElement(2), 64, 75, " to search\n");
+    }
+
+    @Test
     public void insertStringShouldDetectMultipleWwwUrls() throws BadLocationException {
         document.insertString(0, "go to www.kouchat.net or www.google.com or www.cnn.com\n", new SimpleAttributeSet());
 
@@ -166,6 +179,19 @@ public class URLDocumentFilterTest {
         verifyText(paragraphElement.getElement(0), 0, 6, "go to ");
         verifyUrl(paragraphElement.getElement(1), 6, 22, "ftp.download.com");
         verifyText(paragraphElement.getElement(2), 22, 23, "\n");
+    }
+
+    @Test
+    public void insertStringShouldDetectFtpUrlWithDifferentParameters() throws BadLocationException {
+        document.insertString(0, "go to ftp.google.com/search#top?q=some+thing&hl=en_gb&type=1.2.3 to download\n", new SimpleAttributeSet());
+
+        final Element paragraphElement = document.getParagraphElement(0);
+
+        assertEquals(3, paragraphElement.getElementCount());
+
+        verifyText(paragraphElement.getElement(0), 0, 6, "go to ");
+        verifyUrl(paragraphElement.getElement(1), 6, 64, "ftp.google.com/search#top?q=some+thing&hl=en_gb&type=1.2.3");
+        verifyText(paragraphElement.getElement(2), 64, 77, " to download\n");
     }
 
     @Test
@@ -239,6 +265,19 @@ public class URLDocumentFilterTest {
     }
 
     @Test
+    public void insertStringShouldDetectProtocolUrlWithDifferentParameters() throws BadLocationException {
+        document.insertString(0, "go to http://google.com/search#top?q=some+thing&hl=en_gb&type=1.2.3 to search\n", new SimpleAttributeSet());
+
+        final Element paragraphElement = document.getParagraphElement(0);
+
+        assertEquals(3, paragraphElement.getElementCount());
+
+        verifyText(paragraphElement.getElement(0), 0, 6, "go to ");
+        verifyUrl(paragraphElement.getElement(1), 6, 67, "http://google.com/search#top?q=some+thing&hl=en_gb&type=1.2.3");
+        verifyText(paragraphElement.getElement(2), 67, 78, " to search\n");
+    }
+
+    @Test
     public void insertStringShouldDetectMultipleDifferentUrlsWithWordsBetween() throws BadLocationException {
         document.insertString(0, "go to http://cookie.net or ftp://ftp.download.com or http://www.upload.com\n", new SimpleAttributeSet());
 
@@ -304,7 +343,17 @@ public class URLDocumentFilterTest {
         verifyText(paragraphElement.getElement(6), 61, 62, "\n");
     }
 
-    // TODO long url with different characters
+    @Test
+    public void insertStringShouldHandleEmptyString() throws BadLocationException {
+        document.insertString(0, "\n", new SimpleAttributeSet());
+
+        final Element paragraphElement = document.getParagraphElement(0);
+
+        assertEquals(1, paragraphElement.getElementCount());
+
+        verifyText(paragraphElement.getElement(0), 0, 1, "\n");
+    }
+
     // TODO standalone?
     // TODO copy attributes?
 
