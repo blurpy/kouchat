@@ -34,6 +34,7 @@ import javax.swing.text.StyleConstants;
 import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -58,6 +59,19 @@ public class URLDocumentFilterTest {
     }
 
     @Test
+    @Ignore("Not implemented")
+    public void insertStringShouldDetectWwwUrlAtTheBeginning() throws BadLocationException {
+        document.insertString(0, "www.kouchat.net is the place to be\n", new SimpleAttributeSet());
+
+        final Element paragraphElement = document.getParagraphElement(0);
+
+        assertEquals(2, paragraphElement.getElementCount());
+
+        verifyUrl(paragraphElement.getElement(0), 0, 15, "www.kouchat.net");
+        verifyText(paragraphElement.getElement(1), 15, 35, " is the place to be\n");
+    }
+
+    @Test
     public void insertStringShouldDetectWwwUrlInTheMiddle() throws BadLocationException {
         document.insertString(0, "go to www.kouchat.net for details\n", new SimpleAttributeSet());
 
@@ -71,6 +85,19 @@ public class URLDocumentFilterTest {
     }
 
     @Test
+    @Ignore("Not implemented")
+    public void insertStringShouldDetectFtpUrlAtTheBeginning() throws BadLocationException {
+        document.insertString(0, "ftp.download.com has good stuff\n", new SimpleAttributeSet());
+
+        final Element paragraphElement = document.getParagraphElement(0);
+
+        assertEquals(2, paragraphElement.getElementCount());
+
+        verifyUrl(paragraphElement.getElement(0), 0, 16, "ftp.download.com");
+        verifyText(paragraphElement.getElement(1), 16, 32, " has good stuff\n");
+    }
+
+    @Test
     public void insertStringShouldDetectFtpUrlInTheMiddle() throws BadLocationException {
         document.insertString(0, "go to ftp.download.com for details\n", new SimpleAttributeSet());
 
@@ -81,6 +108,18 @@ public class URLDocumentFilterTest {
         verifyText(paragraphElement.getElement(0), 0, 6, "go to ");
         verifyUrl(paragraphElement.getElement(1), 6, 22, "ftp.download.com");
         verifyText(paragraphElement.getElement(2), 22, 35, " for details\n");
+    }
+
+    @Test
+    public void insertStringShouldDetectProtocolUrlAtTheBeginning() throws BadLocationException {
+        document.insertString(0, "http://google.com can search\n", new SimpleAttributeSet());
+
+        final Element paragraphElement = document.getParagraphElement(0);
+
+        assertEquals(2, paragraphElement.getElementCount());
+
+        verifyUrl(paragraphElement.getElement(0), 0, 17, "http://google.com");
+        verifyText(paragraphElement.getElement(1), 17, 29, " can search\n");
     }
 
     @Test
