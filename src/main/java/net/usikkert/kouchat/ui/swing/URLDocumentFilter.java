@@ -55,6 +55,15 @@ public class URLDocumentFilter extends DocumentFilter {
      */
     public static final String URL_ATTRIBUTE = "url.attribute";
 
+    /** Prefix to look for to detect urls with full protocol. */
+    private static final String PROTOCOL = "://";
+
+    /** Prefix to look for to detect www urls. */
+    private static final String WWW = " www";
+
+    /** Prefix to look for to detect ftp urls. */
+    private static final String FTP = " ftp";
+
     /** Regex for: <code>protocol://host</code>. */
     private final Pattern protPattern;
 
@@ -137,9 +146,9 @@ public class URLDocumentFilter extends DocumentFilter {
      * if no url was found.
      */
     private int findURLPos(final String text, final int offset) {
-        int prot = text.indexOf("://", offset);
-        int www = text.indexOf(" www", offset);
-        int ftp = text.indexOf(" ftp", offset);
+        int prot = text.indexOf(PROTOCOL, offset);
+        int www = text.indexOf(WWW, offset);
+        int ftp = text.indexOf(FTP, offset);
 
         int firstMatch = -1;
         boolean retry = true;
@@ -157,7 +166,7 @@ public class URLDocumentFilter extends DocumentFilter {
                 if (protPattern.matcher(t).matches()) {
                     firstMatch = protStart;
                 } else {
-                    prot = text.indexOf("://", prot + 1);
+                    prot = text.indexOf(PROTOCOL, prot + 1);
 
                     if (prot != -1 && (prot < firstMatch || firstMatch == -1)) {
                         retry = true;
@@ -171,7 +180,7 @@ public class URLDocumentFilter extends DocumentFilter {
                 if (wwwPattern.matcher(t).matches()) {
                     firstMatch = www + 1;
                 } else {
-                    www = text.indexOf(" www", www + 1);
+                    www = text.indexOf(WWW, www + 1);
 
                     if (www != -1 && (www < firstMatch || firstMatch == -1)) {
                         retry = true;
@@ -185,7 +194,7 @@ public class URLDocumentFilter extends DocumentFilter {
                 if (ftpPattern.matcher(t).matches()) {
                     firstMatch = ftp + 1;
                 } else {
-                    ftp = text.indexOf(" ftp", ftp + 1);
+                    ftp = text.indexOf(FTP, ftp + 1);
 
                     if (ftp != -1 && (ftp < firstMatch || firstMatch == -1)) {
                         retry = true;
