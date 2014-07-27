@@ -36,6 +36,7 @@ import net.usikkert.kouchat.util.TestUtils;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 /**
  * Test of {@link URLDocumentFilter}.
@@ -46,6 +47,7 @@ import org.junit.Test;
 public class URLDocumentFilterTest {
 
     private DefaultStyledDocument document;
+    private UITools uiTools;
 
     @Before
     public void setUp() {
@@ -54,7 +56,7 @@ public class URLDocumentFilterTest {
         document = new DefaultStyledDocument();
         document.setDocumentFilter(filter);
 
-        final UITools uiTools = TestUtils.setFieldValueWithMock(filter, "uiTools", UITools.class);
+        uiTools = TestUtils.setFieldValueWithMock(filter, "uiTools", UITools.class);
         doAnswer(new RunArgumentAnswer()).when(uiTools).invokeLater(any(Runnable.class));
     }
 
@@ -354,8 +356,35 @@ public class URLDocumentFilterTest {
         verifyText(paragraphElement.getElement(0), 0, 1, "\n");
     }
 
+    @Test
+    public void insertStringShouldCopyAttributesBeforeModificationToAvoidConcurrencyIssues() throws BadLocationException {
+        // Don't run invokeLater() automatically in insertString()
+        doNothing().when(uiTools).invokeLater(any(Runnable.class));
+
+        final SimpleAttributeSet attributeSet = new SimpleAttributeSet();
+
+        document.insertString(0, "go to www.kouchat.net for details\n", attributeSet);
+
+        // Add a new attribute before running invokeLater() to simulate threads adding messages
+        attributeSet.addAttribute("some", "thing");
+
+        // Run runnable sent to invokeLater()
+        final ArgumentCaptor<Runnable> runnableCaptor = ArgumentCaptor.forClass(Runnable.class);
+        verify(uiTools).invokeLater(runnableCaptor.capture());
+        final Runnable runnable = runnableCaptor.getValue();
+        runnable.run();
+
+        // Verify that there are no extra attributes added to the paragraph elements
+        final Element paragraphElement = document.getParagraphElement(0);
+
+        assertEquals(3, paragraphElement.getElementCount());
+
+        verifyText(paragraphElement.getElement(0), 0, 6, "go to ");
+        verifyUrl(paragraphElement.getElement(1), 6, 21, "www.kouchat.net");
+        verifyText(paragraphElement.getElement(2), 21, 34, " for details\n");
+    }
+
     // TODO standalone?
-    // TODO copy attributes?
 
     private void verifyUrl(final Element element, final int expectedStartPosition, final int expectedEndPosition,
                            final String expectedUrl) throws BadLocationException {
