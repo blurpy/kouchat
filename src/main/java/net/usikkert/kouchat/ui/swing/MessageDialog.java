@@ -105,7 +105,7 @@ public class MessageDialog extends JDialog {
         getContentPane().add(southP, BorderLayout.PAGE_END);
 
         final JLabel iconIconL = new JLabel();
-        iconIconL.setIcon(UIManager.getDefaults().getIcon("OptionPane.informationIcon"));
+        iconIconL.setIcon(UIManager.getIcon("OptionPane.informationIcon"));
 
         final JPanel leftP = new JPanel();
         leftP.setLayout(new FlowLayout(FlowLayout.CENTER, 12, 12));
