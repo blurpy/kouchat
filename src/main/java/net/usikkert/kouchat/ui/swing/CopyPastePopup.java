@@ -74,22 +74,22 @@ public class CopyPastePopup extends JPopupMenu implements PopupMenuListener, Act
         this.textfield = textfield;
 
         copyMI = new JMenuItem(new DefaultEditorKit.CopyAction());
-        copyMI.setText("Copy");
-        copyMI.setMnemonic('C');
+        copyMI.setText(messages.getMessage("swing.popup.menu.copy"));
+        copyMI.setMnemonic(keyCode(messages.getMessage("swing.popup.menu.copy.mnemonic")));
         copyMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK));
 
         cutMI = new JMenuItem(new DefaultEditorKit.CutAction());
-        cutMI.setText("Cut");
-        cutMI.setMnemonic('U');
+        cutMI.setText(messages.getMessage("swing.popup.menu.cut"));
+        cutMI.setMnemonic(keyCode(messages.getMessage("swing.popup.menu.cut.mnemonic")));
         cutMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_MASK));
 
         pasteMI = new JMenuItem(new DefaultEditorKit.PasteAction());
-        pasteMI.setText("Paste");
-        pasteMI.setMnemonic('P');
+        pasteMI.setText(messages.getMessage("swing.popup.menu.paste"));
+        pasteMI.setMnemonic(keyCode(messages.getMessage("swing.popup.menu.paste.mnemonic")));
         pasteMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_MASK));
 
-        clearMI = new JMenuItem("Clear");
-        clearMI.setMnemonic('L');
+        clearMI = new JMenuItem(messages.getMessage("swing.popup.menu.clear"));
+        clearMI.setMnemonic(keyCode(messages.getMessage("swing.popup.menu.clear.mnemonic")));
 
         add(cutMI);
         add(copyMI);
@@ -136,5 +136,9 @@ public class CopyPastePopup extends JPopupMenu implements PopupMenuListener, Act
     @Override
     public void actionPerformed(final ActionEvent e) {
         textfield.setText("");
+    }
+
+    private int keyCode(final String key) {
+        return KeyStroke.getKeyStroke(key).getKeyCode();
     }
 }
