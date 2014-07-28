@@ -22,12 +22,22 @@
 
 package net.usikkert.kouchat.ui.swing;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
 import net.usikkert.kouchat.message.Messages;
+import net.usikkert.kouchat.message.PropertyFileMessages;
+import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
+import net.usikkert.kouchat.util.ResourceLoader;
+import net.usikkert.kouchat.util.ResourceValidator;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -37,7 +47,35 @@ import org.junit.rules.ExpectedException;
  *
  * @author Christian Ihle
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class PrivateChatFrameTest {
+
+    private PrivateChatFrame privateChatFrame;
+
+    private JMenu fileMenu;
+    private JMenu toolsMenu;
+    private JMenuItem closeMenuItem;
+    private JMenuItem clearMenuItem;
+
+    @Before
+    public void setUp() {
+        final User user = new User("Test", 1234);
+        final User me = new User("Me", 1235);
+
+        final PropertyFileMessages messages = new PropertyFileMessages("messages.swing");
+        final ImageLoader imageLoader = new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
+
+        final Settings settings = mock(Settings.class);
+        when(settings.getMe()).thenReturn(me);
+
+        privateChatFrame = new PrivateChatFrame(mock(Mediator.class), user, imageLoader, settings, messages);
+
+        final JMenuBar menuBar = privateChatFrame.getJMenuBar();
+        fileMenu = menuBar.getMenu(0);
+        toolsMenu = menuBar.getMenu(1);
+        closeMenuItem = fileMenu.getItem(0);
+        clearMenuItem = toolsMenu.getItem(0);
+    }
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
@@ -80,5 +118,45 @@ public class PrivateChatFrameTest {
         expectedException.expectMessage("Messages can not be null");
 
         new PrivateChatFrame(mock(Mediator.class), mock(User.class), mock(ImageLoader.class), mock(Settings.class), null);
+    }
+
+    @Test
+    public void fileMenuShouldHaveCorrectText() {
+        assertEquals("File", fileMenu.getText());
+    }
+
+    @Test
+    public void fileMenuShouldHaveCorrectMnemonic() {
+        assertEquals('F', fileMenu.getMnemonic());
+    }
+
+    @Test
+    public void closeMenuItemShouldHaveCorrectText() {
+        assertEquals("Close", closeMenuItem.getText());
+    }
+
+    @Test
+    public void closeMenuItemShouldHaveCorrectMnemonic() {
+        assertEquals('C', closeMenuItem.getMnemonic());
+    }
+
+    @Test
+    public void toolsMenuShouldHaveCorrectText() {
+        assertEquals("Tools", toolsMenu.getText());
+    }
+
+    @Test
+    public void toolsMenuShouldHaveCorrectMnemonic() {
+        assertEquals('T', toolsMenu.getMnemonic());
+    }
+
+    @Test
+    public void clearMenuItemShouldHaveCorrectText() {
+        assertEquals("Clear chat", clearMenuItem.getText());
+    }
+
+    @Test
+    public void clearMenuItemShouldHaveCorrectMnemonic() {
+        assertEquals('C', clearMenuItem.getMnemonic());
     }
 }
