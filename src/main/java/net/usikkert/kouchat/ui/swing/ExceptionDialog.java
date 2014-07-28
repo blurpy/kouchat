@@ -88,7 +88,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
         exceptionTP = new JTextPaneWithoutWrap();
         exceptionTP.setEditable(false);
         final JScrollPane exceptionScroll = new JScrollPane(exceptionTP);
-        new CopyPopup(exceptionTP);
+        new CopyPopup(exceptionTP, messages);
 
         final JButton closeB = new JButton();
         closeB.setText("Close");
