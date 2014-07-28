@@ -40,7 +40,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
@@ -56,6 +55,8 @@ import net.usikkert.kouchat.util.Validate;
  * @author Christian Ihle
  */
 public class ExceptionDialog extends JDialog implements UncaughtExceptionListener {
+
+    private static final String TIMESTAMP_FORMAT = "dd.MMM.yyyy HH:mm:ss";
 
     private final UITools uiTools = new UITools();
 
@@ -144,12 +145,12 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
      */
     @Override
     public void uncaughtException(final Thread thread, final Throwable throwable) {
-        SwingUtilities.invokeLater(new Runnable() {
+        uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
                 final StringWriter stringWriter = new StringWriter();
 
-                stringWriter.append(Tools.dateToString(new Date(), "dd.MMM.yyyy HH:mm:ss") +
+                stringWriter.append(Tools.dateToString(new Date(), TIMESTAMP_FORMAT) +
                         " UncaughtException in thread: " + thread.getName() +
                         " (id " + thread.getId() + ", priority " + thread.getPriority() + ")\n");
 
