@@ -53,6 +53,7 @@ import javax.swing.text.StyledDocument;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.autocomplete.AutoCompleter;
+import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.CommandHistory;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.ui.ChatWindow;
@@ -86,11 +87,13 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      * @param sideP The panel on the right, containing the user list and the buttons.
      * @param imageLoader The image loader.
      * @param settings The settings to use.
+     * @param messages The messages to use in copy/paste popups.
      */
-    public MainPanel(final SidePanel sideP, final ImageLoader imageLoader, final Settings settings) {
+    public MainPanel(final SidePanel sideP, final ImageLoader imageLoader, final Settings settings, final Messages messages) {
         Validate.notNull(sideP, "Side panel can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
+        Validate.notNull(messages, "Messages can not be null");
 
         setLayout(new BorderLayout(2, 2));
 
