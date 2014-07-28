@@ -64,12 +64,10 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
     /**
      * Creates the exception dialog, but does not show it.
      *
-     * @param parent Parent component.
-     * @param modal If this dialog should be modal or not.
      * @param imageLoader The image loader.
      */
-    public ExceptionDialog(final Frame parent, final boolean modal, final ImageLoader imageLoader) {
-        super(parent, modal);
+    public ExceptionDialog(final ImageLoader imageLoader) {
+        super((Frame) null, true);
         Validate.notNull(imageLoader, "Image loader can not be null");
 
         final JLabel titleL = new JLabel();
