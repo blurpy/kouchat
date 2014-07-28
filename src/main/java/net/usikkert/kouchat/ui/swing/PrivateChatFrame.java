@@ -165,23 +165,23 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
         getContentPane().add(backP, BorderLayout.CENTER);
 
         closeMI = new JMenuItem();
-        closeMI.setMnemonic('C');
-        closeMI.setText("Close");
+        closeMI.setMnemonic(keyCode(messages.getMessage("swing.private.chat.menu.file.close.mnemonic")));
+        closeMI.setText(messages.getMessage("swing.private.chat.menu.file.close"));
         closeMI.addActionListener(this);
 
         fileMenu = new JMenu();
-        fileMenu.setMnemonic('F');
-        fileMenu.setText("File");
+        fileMenu.setMnemonic(keyCode(messages.getMessage("swing.private.chat.menu.file.mnemonic")));
+        fileMenu.setText(messages.getMessage("swing.private.chat.menu.file"));
         fileMenu.add(closeMI);
 
         clearMI = new JMenuItem();
-        clearMI.setMnemonic('C');
-        clearMI.setText("Clear chat");
+        clearMI.setMnemonic(keyCode(messages.getMessage("swing.private.chat.menu.tools.clearChat.mnemonic")));
+        clearMI.setText(messages.getMessage("swing.private.chat.menu.tools.clearChat"));
         clearMI.addActionListener(this);
 
         toolsMenu = new JMenu();
-        toolsMenu.setMnemonic('T');
-        toolsMenu.setText("Tools");
+        toolsMenu.setMnemonic(keyCode(messages.getMessage("swing.private.chat.menu.tools.mnemonic")));
+        toolsMenu.setText(messages.getMessage("swing.private.chat.menu.tools"));
         toolsMenu.add(clearMI);
 
         final JMenuBar menuBar = new JMenuBar();
@@ -609,6 +609,10 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      */
     private void setSuperVisible() {
         super.setVisible(true);
+    }
+
+    private int keyCode(final String key) {
+        return KeyStroke.getKeyStroke(key).getKeyCode();
     }
 
     /**
