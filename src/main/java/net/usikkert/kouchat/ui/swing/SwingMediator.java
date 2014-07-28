@@ -77,6 +77,7 @@ public class SwingMediator implements Mediator, UserInterface {
 
     private final ImageLoader imageLoader;
     private final Settings settings;
+    private final Messages messages;
 
     /**
      * Constructor. Initializes the lower layers.
@@ -97,6 +98,7 @@ public class SwingMediator implements Mediator, UserInterface {
 
         this.imageLoader = imageLoader;
         this.settings = settings;
+        this.messages = messages;
 
         final SidePanel sideP = compHandler.getSidePanel();
         settingsDialog = compHandler.getSettingsDialog();
@@ -777,7 +779,7 @@ public class SwingMediator implements Mediator, UserInterface {
             uiTools.invokeAndWait(new Runnable() {
                 @Override
                 public void run() {
-                    user.setPrivchat(new PrivateChatFrame(SwingMediator.this, user, imageLoader, settings));
+                    user.setPrivchat(new PrivateChatFrame(SwingMediator.this, user, imageLoader, settings, messages));
                 }
             });
         }

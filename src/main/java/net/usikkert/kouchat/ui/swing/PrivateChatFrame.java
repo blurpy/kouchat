@@ -63,6 +63,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.CommandHistory;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
@@ -102,13 +103,15 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * @param user The user in the private chat.
      * @param imageLoader The image loader.
      * @param settings The settings to use.
+     * @param messages The messages to use.
      */
     public PrivateChatFrame(final Mediator mediator, final User user, final ImageLoader imageLoader,
-                            final Settings settings) {
+                            final Settings settings, final Messages messages) {
         Validate.notNull(mediator, "Mediator can not be null");
         Validate.notNull(user, "User can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
+        Validate.notNull(messages, "Messages can not be null");
 
         this.mediator = mediator;
         this.user = user;
