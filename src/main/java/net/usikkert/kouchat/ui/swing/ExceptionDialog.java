@@ -80,10 +80,11 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
         titleL.setFont(new Font("Dialog", Font.PLAIN, 20));
 
         final JLabel detailL = new JLabel();
+        // Using html to keep the text from appearing in a single line
         detailL.setText("<html>" + Constants.APP_NAME + " has experienced an unhandled error, " +
                 "and may be in an inconsistent state. It's advised to restart the application " +
                 "to make sure everything works as expected. Bugs can be reported at " +
-                "http://www.kouchat.net/. Please describe what you did when " +
+                Constants.APP_WEB + ". Please describe what you did when " +
                 "this error happened, and add the stack trace below to the report.</html>");
 
         exceptionTP = new JTextPaneWithoutWrap();
