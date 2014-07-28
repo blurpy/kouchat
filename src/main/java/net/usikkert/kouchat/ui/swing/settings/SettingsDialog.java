@@ -116,7 +116,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
         final JLabel nickL = new JLabel(messages.getMessage("swing.settings.chooseNick.nickName"));
         nickTF = new JTextField(10);
-        new CopyPastePopup(nickTF);
+        new CopyPastePopup(nickTF, messages);
 
         final JPanel nickP = new JPanel(new FlowLayout(FlowLayout.LEFT));
         nickP.add(nickL);
@@ -203,7 +203,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         final JLabel browserL = new JLabel(messages.getMessage("swing.settings.chooseBrowser.browser"));
         browserTF = new JTextField(22);
         browserTF.setToolTipText(messages.getMessage("swing.settings.chooseBrowser.browser.tooltip"));
-        new CopyPastePopup(browserTF);
+        new CopyPastePopup(browserTF, messages);
 
         final JPanel browserTopP = new JPanel(new FlowLayout(FlowLayout.LEFT));
         browserTopP.add(browserL);

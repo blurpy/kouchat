@@ -33,6 +33,9 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.text.DefaultEditorKit;
 
+import net.usikkert.kouchat.message.Messages;
+import net.usikkert.kouchat.message.PropertyFileMessages;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -60,7 +63,7 @@ public class CopyPastePopupTest {
     @Before
     public void setUp() {
         textField = mock(JTextField.class);
-        popup = new CopyPastePopup(textField);
+        popup = new CopyPastePopup(textField, new PropertyFileMessages("messages.swing"));
 
         cutMenuItem = (JMenuItem) popup.getComponent(0);
         copyMenuItem = (JMenuItem) popup.getComponent(1);
@@ -78,7 +81,15 @@ public class CopyPastePopupTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Text field can not be null");
 
-        new CopyPastePopup(null);
+        new CopyPastePopup(null, mock(Messages.class));
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfMessagesIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Messages can not be null");
+
+        new CopyPastePopup(mock(JTextField.class), null);
     }
 
     @Test
