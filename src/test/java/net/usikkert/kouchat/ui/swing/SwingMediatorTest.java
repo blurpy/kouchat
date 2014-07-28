@@ -28,6 +28,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import net.usikkert.kouchat.jmx.JMXAgent;
+import net.usikkert.kouchat.message.Messages;
+import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
@@ -38,14 +40,20 @@ import net.usikkert.kouchat.ui.swing.settings.SettingsDialog;
 import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Test of {@link SwingMediator}.
  *
  * @author Christian Ihle
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class SwingMediatorTest {
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     private SwingMediator mediator;
 
@@ -54,6 +62,7 @@ public class SwingMediatorTest {
     private UITools uiTools;
     private Controller controller;
     private JMXAgent jmxAgent;
+    private ComponentHandler componentHandler;
 
     @Before
     public void setUp() {
@@ -62,14 +71,14 @@ public class SwingMediatorTest {
         final MainPanel mainPanel = mock(MainPanel.class);
         when(mainPanel.getMsgTF()).thenReturn(messageTF);
 
-        final ComponentHandler compHandler = new ComponentHandler();
-        compHandler.setButtonPanel(mock(ButtonPanel.class));
-        compHandler.setGui(mock(KouChatFrame.class));
-        compHandler.setMainPanel(mainPanel);
-        compHandler.setMenuBar(mock(MenuBar.class));
-        compHandler.setSettingsDialog(mock(SettingsDialog.class));
-        compHandler.setSidePanel(mock(SidePanel.class));
-        compHandler.setSysTray(mock(SysTray.class));
+        componentHandler = spy(new ComponentHandler());
+        componentHandler.setButtonPanel(mock(ButtonPanel.class));
+        componentHandler.setGui(mock(KouChatFrame.class));
+        componentHandler.setMainPanel(mainPanel);
+        componentHandler.setMenuBar(mock(MenuBar.class));
+        componentHandler.setSettingsDialog(mock(SettingsDialog.class));
+        componentHandler.setSidePanel(mock(SidePanel.class));
+        componentHandler.setSysTray(mock(SysTray.class));
 
         me = new User("Me", 1234);
         me.setMe(true);
@@ -77,7 +86,9 @@ public class SwingMediatorTest {
         final Settings settings = mock(Settings.class);
         when(settings.getMe()).thenReturn(me);
 
-        mediator = spy(new SwingMediator(compHandler, mock(ImageLoader.class), settings));
+        final PropertyFileMessages messages = new PropertyFileMessages("messages.swing");
+
+        mediator = spy(new SwingMediator(componentHandler, mock(ImageLoader.class), settings, messages));
 
         uiTools = TestUtils.setFieldValueWithMock(mediator, "uiTools", UITools.class);
         controller = TestUtils.setFieldValueWithMock(mediator, "controller", Controller.class);
@@ -85,6 +96,43 @@ public class SwingMediatorTest {
         jmxAgent = TestUtils.setFieldValueWithMock(mediator, "jmxAgent", JMXAgent.class);
 
         when(controller.getUserList()).thenReturn(new SortedUserList());
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfComponentHandlerIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Component handler can not be null");
+
+        new SwingMediator(null, mock(ImageLoader.class), mock(Settings.class), mock(Messages.class));
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfImageLoaderIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Image loader can not be null");
+
+        new SwingMediator(mock(ComponentHandler.class), null, mock(Settings.class), mock(Messages.class));
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfSettingsIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Settings can not be null");
+
+        new SwingMediator(mock(ComponentHandler.class), mock(ImageLoader.class), null, mock(Messages.class));
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfMessagesIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Messages can not be null");
+
+        new SwingMediator(mock(ComponentHandler.class), mock(ImageLoader.class), mock(Settings.class), null);
+    }
+
+    @Test
+    public void constructorShouldValidateComponentHandler() {
+        verify(componentHandler).validate();
     }
 
     @Test
