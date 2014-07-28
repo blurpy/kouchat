@@ -57,9 +57,11 @@ public class PrivateChatFrameTest {
     private JMenuItem closeMenuItem;
     private JMenuItem clearMenuItem;
 
+    private User user;
+
     @Before
     public void setUp() {
-        final User user = new User("Test", 1234);
+        user = new User("Test", 1234);
         final User me = new User("Me", 1235);
 
         final PropertyFileMessages messages = new PropertyFileMessages("messages.swing");
@@ -68,7 +70,7 @@ public class PrivateChatFrameTest {
         final Settings settings = mock(Settings.class);
         when(settings.getMe()).thenReturn(me);
 
-        privateChatFrame = new PrivateChatFrame(mock(Mediator.class), user, imageLoader, settings, messages);
+        privateChatFrame = spy(new PrivateChatFrame(mock(Mediator.class), user, imageLoader, settings, messages));
 
         final JMenuBar menuBar = privateChatFrame.getJMenuBar();
         fileMenu = menuBar.getMenu(0);
@@ -158,5 +160,32 @@ public class PrivateChatFrameTest {
     @Test
     public void clearMenuItemShouldHaveCorrectMnemonic() {
         assertEquals('C', clearMenuItem.getMnemonic());
+    }
+
+    @Test
+    public void updateUserInformationShouldSetNickNameInTitle() {
+        assertEquals("Test - KouChat", privateChatFrame.getTitle());
+        user.setNick("Dolly");
+
+        privateChatFrame.updateUserInformation();
+
+        assertEquals("Dolly - KouChat", privateChatFrame.getTitle());
+    }
+
+    @Test
+    public void updateUserInformationShouldIncludeAwayInTitleWhenAway() {
+        assertEquals("Test - KouChat", privateChatFrame.getTitle());
+        user.setAway(true);
+
+        privateChatFrame.updateUserInformation();
+
+        assertEquals("Test (Away) - KouChat", privateChatFrame.getTitle());
+    }
+
+    @Test
+    public void updateUserInformationShouldUpdateWindowIcon() {
+        privateChatFrame.updateUserInformation();
+
+        verify(privateChatFrame).updateWindowIcon();
     }
 }
