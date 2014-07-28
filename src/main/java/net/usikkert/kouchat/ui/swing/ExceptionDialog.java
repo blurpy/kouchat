@@ -45,6 +45,7 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.UncaughtExceptionListener;
 import net.usikkert.kouchat.util.Validate;
@@ -65,10 +66,12 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
      * Creates the exception dialog, but does not show it.
      *
      * @param imageLoader The image loader.
+     * @param messages The messages to use in the copy popup.
      */
-    public ExceptionDialog(final ImageLoader imageLoader) {
+    public ExceptionDialog(final ImageLoader imageLoader, final Messages messages) {
         super((Frame) null, true);
         Validate.notNull(imageLoader, "Image loader can not be null");
+        Validate.notNull(messages, "Messages can not be null");
 
         final JLabel titleL = new JLabel();
         titleL.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
