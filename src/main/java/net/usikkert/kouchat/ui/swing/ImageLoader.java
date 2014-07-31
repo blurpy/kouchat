@@ -257,7 +257,7 @@ public class ImageLoader {
         final String missing = resourceValidator.validate();
 
         if (missing.length() > 0) {
-            final String error = messages.getMessage("swing.imageloader.images.missing", missing, Constants.APP_NAME);
+            final String error = messages.getMessage("swing.imageLoader.images.missing", missing, Constants.APP_NAME);
 
             LOG.log(Level.SEVERE, error);
             errorHandler.showCriticalError(error);
