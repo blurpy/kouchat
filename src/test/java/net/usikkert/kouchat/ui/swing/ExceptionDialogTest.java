@@ -69,9 +69,10 @@ public class ExceptionDialogTest {
 
     private PropertyFileMessages messages;
     private ImageLoader imageLoader;
+    private UITools uiTools;
 
     private JLabel titleLabel;
-    private JButton closebutton;
+    private JButton closeButton;
     private JLabel detailLabel;
     private JTextPaneWithoutWrap exceptionTextPane;
 
@@ -87,13 +88,13 @@ public class ExceptionDialogTest {
         final JPanel infoPanel = (JPanel) exceptionDialog.getContentPane().getComponent(2);
 
         titleLabel = (JLabel) titlePanel.getComponent(0);
-        closebutton = (JButton) buttonPanel.getComponent(0);
+        closeButton = (JButton) buttonPanel.getComponent(0);
         detailLabel = (JLabel) infoPanel.getComponent(0);
 
         final JScrollPane exceptionScroll = (JScrollPane) infoPanel.getComponent(1);
         exceptionTextPane = (JTextPaneWithoutWrap) exceptionScroll.getViewport().getView();
 
-        final UITools uiTools = TestUtils.setFieldValueWithMock(exceptionDialog, "uiTools", UITools.class);
+        uiTools = TestUtils.setFieldValueWithMock(exceptionDialog, "uiTools", UITools.class);
         doAnswer(new RunArgumentAnswer()).when(uiTools).invokeLater(any(Runnable.class));
     }
 
@@ -130,7 +131,7 @@ public class ExceptionDialogTest {
 
     @Test
     public void closeButtonShouldHaveCorrectText() {
-        assertEquals("Close", closebutton.getText());
+        assertEquals("Close", closeButton.getText());
     }
 
     @Test
@@ -221,6 +222,16 @@ public class ExceptionDialogTest {
         exceptionDialog.uncaughtException(Thread.currentThread(), new RuntimeException("Test"));
 
         verify(exceptionDialog).showDialog();
+        verify(uiTools).invokeLater(any(Runnable.class));
+    }
+
+    @Test
+    public void uncaughtExceptionShouldSetCaretAtBeginning() {
+        doNothing().when(exceptionDialog).showDialog();
+
+        exceptionDialog.uncaughtException(Thread.currentThread(), new RuntimeException("Test"));
+
+        assertEquals(0, exceptionTextPane.getCaretPosition());
     }
 
     @Test
@@ -270,5 +281,39 @@ public class ExceptionDialogTest {
                         "\tat FirstClass.secondMethod(FirstClass.java:12)\n" +
                         "\tat FirstClass.firstMethod(FirstClass.java:10)\n",
                 exceptionTextPane.getText());
+    }
+
+    @Test
+    public void uncaughtExceptionShouldPrependExceptions() {
+        doNothing().when(exceptionDialog).showDialog();
+        when(exceptionDialog.timestamp(any(Date.class))).thenReturn("31.Jul.2014 13:58:14",
+                                                                    "31.Jul.2014 14:33:01");
+
+        final RuntimeException firstException = new RuntimeException("First");
+        firstException.setStackTrace(new StackTraceElement[]{
+                new StackTraceElement("FirstClass", "secondMethod", "FirstClass.java", 12),
+                new StackTraceElement("FirstClass", "firstMethod", "FirstClass.java", 10),
+        });
+
+        exceptionDialog.uncaughtException(Thread.currentThread(), firstException);
+
+        final RuntimeException secondException = new RuntimeException("Second");
+        secondException.setStackTrace(new StackTraceElement[]{
+                new StackTraceElement("SecondClass", "secondMethod", "SecondClass.java", 12),
+                new StackTraceElement("SecondClass", "firstMethod", "SecondClass.java", 10),
+        });
+
+        exceptionDialog.uncaughtException(Thread.currentThread(), secondException);
+
+        assertEquals("31.Jul.2014 14:33:01 UncaughtException in thread: main (id 1, priority 5)\n" +
+                             "java.lang.RuntimeException: Second\n" +
+                             "\tat SecondClass.secondMethod(SecondClass.java:12)\n" +
+                             "\tat SecondClass.firstMethod(SecondClass.java:10)\n" +
+                             "\n" +
+                             "31.Jul.2014 13:58:14 UncaughtException in thread: main (id 1, priority 5)\n" +
+                             "java.lang.RuntimeException: First\n" +
+                             "\tat FirstClass.secondMethod(FirstClass.java:12)\n" +
+                             "\tat FirstClass.firstMethod(FirstClass.java:10)\n",
+                     exceptionTextPane.getText());
     }
 }
