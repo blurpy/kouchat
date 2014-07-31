@@ -76,7 +76,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
 
         final JLabel titleL = new JLabel();
         titleL.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
-        titleL.setText(" An unhandled error has occured");
+        titleL.setText(" An unhandled error has occurred");
         titleL.setFont(new Font("Dialog", Font.PLAIN, 20));
 
         final JLabel detailL = new JLabel();
