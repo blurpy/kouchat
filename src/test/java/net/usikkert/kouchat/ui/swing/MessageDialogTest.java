@@ -49,14 +49,15 @@ public class MessageDialogTest {
 
     private MessageDialog messageDialog;
 
+    private PropertyFileMessages messages;
     private ImageLoader imageLoader;
 
     @Before
     public void setUp() {
-        final PropertyFileMessages messages = new PropertyFileMessages("messages.swing");
+        messages = new PropertyFileMessages("messages.swing");
         imageLoader = new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
 
-        messageDialog = new MessageDialog(imageLoader);
+        messageDialog = new MessageDialog(imageLoader, messages);
     }
 
     @Test
@@ -64,7 +65,15 @@ public class MessageDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Image loader can not be null");
 
-        new MessageDialog(null);
+        new MessageDialog(null, messages);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfMessagesIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Messages can not be null");
+
+        new MessageDialog(imageLoader, null);
     }
 
     @Test
@@ -78,7 +87,7 @@ public class MessageDialogTest {
     public void okButtonShouldDisposeOnClick() {
         final boolean[] disposed = {false};
 
-        final MessageDialog messageDialog1 = new MessageDialog(imageLoader) {
+        final MessageDialog messageDialog1 = new MessageDialog(imageLoader, messages) {
             @Override
             public void dispose() {
                 disposed[0] = true;

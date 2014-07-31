@@ -45,7 +45,7 @@ public class MessageDialogIntegrationTest {
         final PropertyFileMessages messages = new PropertyFileMessages("messages.swing");
         final ImageLoader imageLoader = new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
 
-        final MessageDialog messageDialog = new MessageDialog(imageLoader);
+        final MessageDialog messageDialog = new MessageDialog(imageLoader, messages);
 
         messageDialog.setVisible(true);
     }
