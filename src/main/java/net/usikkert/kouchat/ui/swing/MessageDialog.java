@@ -68,7 +68,7 @@ public class MessageDialog extends JDialog {
         final UITools uiTools = new UITools();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(uiTools.createTitle("Missing title"));
+        setTitle(uiTools.createTitle("Missing title")); // NON-NLS - should be overwritten before use
         setResizable(false);
 
         final StatusIcons statusIcons = new StatusIcons(imageLoader);
@@ -77,7 +77,7 @@ public class MessageDialog extends JDialog {
         appNameL = new JLabel();
         appNameL.setFont(new Font("Dialog", 0, 22));
         appNameL.setIcon(statusIcons.getNormalIconImage());
-        appNameL.setText(" No top text");
+        appNameL.setText("No top text"); // NON-NLS - should be overwritten before use
 
         final JPanel northP = new JPanel();
         northP.setBackground(Color.WHITE);
@@ -113,7 +113,7 @@ public class MessageDialog extends JDialog {
 
         getContentPane().add(leftP, BorderLayout.LINE_START);
 
-        contentL = new JLabel("No content");
+        contentL = new JLabel("No content"); // NON-NLS - should be overwritten before use
 
         final JPanel centerP = new JPanel();
         centerP.setBorder(BorderFactory.createEmptyBorder(12, 2, 0, 12));
