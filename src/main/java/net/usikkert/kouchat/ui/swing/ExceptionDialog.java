@@ -67,7 +67,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
      * Creates the exception dialog, but does not show it.
      *
      * @param imageLoader The image loader.
-     * @param messages The messages to use in the copy popup.
+     * @param messages    The messages to use in the copy popup.
      */
     public ExceptionDialog(final ImageLoader imageLoader, final Messages messages) {
         super((Frame) null, true);
@@ -82,10 +82,10 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
         final JLabel detailL = new JLabel();
         // Using html to keep the text from appearing in a single line
         detailL.setText("<html>" + Constants.APP_NAME + " has experienced an unhandled error, " +
-                "and may be in an inconsistent state. It's advised to restart the application " +
-                "to make sure everything works as expected. Bugs can be reported at " +
-                Constants.APP_WEB + ". Please describe what you did when " +
-                "this error happened, and add the stack trace below to the report.</html>");
+                                "and may be in an inconsistent state. It's advised to restart the application " +
+                                "to make sure everything works as expected. Bugs can be reported at " +
+                                Constants.APP_WEB + ". Please describe what you did when " +
+                                "this error happened, and add the stack trace below to the report.</html>");
 
         exceptionTP = new JTextPaneWithoutWrap();
         exceptionTP.setEditable(false);
@@ -140,9 +140,9 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
             public void run() {
                 final StringWriter stringWriter = new StringWriter();
 
-                stringWriter.append(Tools.dateToString(new Date(), TIMESTAMP_FORMAT) +
-                        " UncaughtException in thread: " + thread.getName() +
-                        " (id " + thread.getId() + ", priority " + thread.getPriority() + ")\n");
+                stringWriter.append(timestamp(new Date()) +
+                                            " UncaughtException in thread: " + thread.getName() +
+                                            " (id " + thread.getId() + ", priority " + thread.getPriority() + ")\n");
 
                 final PrintWriter printWriter = new PrintWriter(stringWriter);
                 throwable.printStackTrace(printWriter);
@@ -157,6 +157,10 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
                 showDialog();
             }
         });
+    }
+
+    String timestamp(final Date date) {
+        return Tools.dateToString(date, TIMESTAMP_FORMAT);
     }
 
     void showDialog() {

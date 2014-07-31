@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.awt.Image;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -42,17 +43,23 @@ import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
+import net.usikkert.kouchat.util.TestUtils;
 
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.ArgumentMatcher;
 
 /**
  * Test of {@link ExceptionDialog}.
  *
  * @author Christian Ihle
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class ExceptionDialogTest {
 
     @Rule
@@ -85,6 +92,9 @@ public class ExceptionDialogTest {
 
         final JScrollPane exceptionScroll = (JScrollPane) infoPanel.getComponent(1);
         exceptionTextPane = (JTextPaneWithoutWrap) exceptionScroll.getViewport().getView();
+
+        final UITools uiTools = TestUtils.setFieldValueWithMock(exceptionDialog, "uiTools", UITools.class);
+        doAnswer(new RunArgumentAnswer()).when(uiTools).invokeLater(any(Runnable.class));
     }
 
     @Test
@@ -192,5 +202,73 @@ public class ExceptionDialogTest {
 
         verify(exceptionDialog).setLocationRelativeTo(exceptionDialog.getParent());
         verify(exceptionDialog).setVisible(true);
+    }
+
+    @Test
+    public void timestampShouldCreateCorrectFormat() {
+        final Date date = new LocalDateTime()
+                .withDate(2014, 5, 23)
+                .withTime(10, 55, 12, 0)
+                .toDate();
+
+        assertEquals("23.May.2014 10:55:12", exceptionDialog.timestamp(date));
+    }
+
+    @Test
+    public void uncaughtExceptionShouldShowDialog() {
+        doNothing().when(exceptionDialog).showDialog();
+
+        exceptionDialog.uncaughtException(Thread.currentThread(), new RuntimeException("Test"));
+
+        verify(exceptionDialog).showDialog();
+    }
+
+    @Test
+    public void uncaughtExceptionShouldCreateTimestampForNow() {
+        doNothing().when(exceptionDialog).showDialog();
+
+        exceptionDialog.uncaughtException(Thread.currentThread(), new RuntimeException("Test"));
+
+        verify(exceptionDialog).timestamp(argThat(new ArgumentMatcher<Date>() {
+            @Override
+            public boolean matches(final Object argument) {
+                final Date dateForTimestamp = (Date) argument;
+
+                // Add some slack, to avoid failing test on slow build servers
+                final Interval nowPlusMinus5Seconds = new Interval(new DateTime().minusSeconds(5),
+                                                                   new DateTime().plusSeconds(5));
+
+                return nowPlusMinus5Seconds.contains(dateForTimestamp.getTime());
+            }
+        }));
+    }
+
+    @Test
+    public void uncaughtExceptionShouldShowDetailsAboutException() {
+        doNothing().when(exceptionDialog).showDialog();
+        when(exceptionDialog.timestamp(any(Date.class))).thenReturn("31.Jul.2014 13:58:14");
+
+        final RuntimeException firstException = new RuntimeException("First");
+        firstException.setStackTrace(new StackTraceElement[]{
+                new StackTraceElement("FirstClass", "secondMethod", "FirstClass.java", 12),
+                new StackTraceElement("FirstClass", "firstMethod", "FirstClass.java", 10),
+        });
+
+        final RuntimeException secondException = new RuntimeException("Second", firstException);
+        secondException.setStackTrace(new StackTraceElement[]{
+                new StackTraceElement("SecondClass", "secondMethod", "SecondClass.java", 12),
+                new StackTraceElement("SecondClass", "firstMethod", "SecondClass.java", 10),
+        });
+
+        exceptionDialog.uncaughtException(Thread.currentThread(), secondException);
+
+        assertEquals("31.Jul.2014 13:58:14 UncaughtException in thread: main (id 1, priority 5)\n" +
+                        "java.lang.RuntimeException: Second\n" +
+                        "\tat SecondClass.secondMethod(SecondClass.java:12)\n" +
+                        "\tat SecondClass.firstMethod(SecondClass.java:10)\n" +
+                        "Caused by: java.lang.RuntimeException: First\n" +
+                        "\tat FirstClass.secondMethod(FirstClass.java:12)\n" +
+                        "\tat FirstClass.firstMethod(FirstClass.java:10)\n",
+                exceptionTextPane.getText());
     }
 }
