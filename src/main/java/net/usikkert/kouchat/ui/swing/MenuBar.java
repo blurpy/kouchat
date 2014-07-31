@@ -324,7 +324,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     }
 
     MessageDialog createMessageDialog() {
-        return new MessageDialog(null, true, imageLoader);
+        return new MessageDialog(imageLoader);
     }
 
     private int keyCode(final String key) {

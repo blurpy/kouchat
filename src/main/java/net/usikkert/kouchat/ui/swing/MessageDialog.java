@@ -57,12 +57,11 @@ public class MessageDialog extends JDialog {
     /**
      * Creates a new MessageDialog. To open the dialog, use setVisible().
      *
-     * @param parent The parent frame.
-     * @param modal If the dialog should block or not.
      * @param imageLoader The image loader.
      */
-    public MessageDialog(final Frame parent, final boolean modal, final ImageLoader imageLoader) {
-        super(parent, modal);
+    public MessageDialog(final ImageLoader imageLoader) {
+        super((Frame) null, true);
+
         Validate.notNull(imageLoader, "Image loader can not be null");
 
         final UITools uiTools = new UITools();
