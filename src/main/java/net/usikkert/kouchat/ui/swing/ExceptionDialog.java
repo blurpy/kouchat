@@ -128,14 +128,6 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
     }
 
     /**
-     * Shows the Exception Dialog.
-     */
-    public void showDialog() {
-        setLocationRelativeTo(getParent());
-        setVisible(true);
-    }
-
-    /**
      * Adds the stack trace in the exception to the textpane,
      * and shows the dialog.
      *
@@ -165,5 +157,10 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
                 showDialog();
             }
         });
+    }
+
+    void showDialog() {
+        setLocationRelativeTo(getParent());
+        setVisible(true);
     }
 }
