@@ -23,6 +23,8 @@
 package net.usikkert.kouchat.ui.swing;
 
 import net.usikkert.kouchat.event.ErrorListener;
+import net.usikkert.kouchat.message.Messages;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This is the implementation of the error listener for use
@@ -33,6 +35,14 @@ import net.usikkert.kouchat.event.ErrorListener;
 public class SwingPopupErrorHandler implements ErrorListener {
 
     private final UITools uiTools = new UITools();
+
+    private final Messages messages;
+
+    public SwingPopupErrorHandler(final Messages messages) {
+        Validate.notNull(messages, "Messages can not be null");
+
+        this.messages = messages;
+    }
 
     /**
      * Shows an error message in a non-blocking JOptionPane message box.
