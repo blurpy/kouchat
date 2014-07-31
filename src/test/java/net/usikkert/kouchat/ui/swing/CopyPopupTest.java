@@ -47,7 +47,6 @@ import org.junit.rules.ExpectedException;
  *
  * @author Christian Ihle
  */
-@SuppressWarnings("HardCodedStringLiteral")
 public class CopyPopupTest {
 
     @Rule

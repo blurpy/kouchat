@@ -38,7 +38,6 @@ import org.junit.Test;
  *
  * @author Christian Ihle
  */
-@SuppressWarnings("HardCodedStringLiteral")
 public class ExceptionDialogIntegrationTest {
 
     @Test
