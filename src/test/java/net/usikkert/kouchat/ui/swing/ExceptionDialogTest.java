@@ -73,7 +73,7 @@ public class ExceptionDialogTest {
         messages = new PropertyFileMessages("messages.swing");
         imageLoader = new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
 
-        exceptionDialog = new ExceptionDialog(imageLoader, messages);
+        exceptionDialog = spy(new ExceptionDialog(imageLoader, messages));
 
         final JPanel titlePanel = (JPanel) exceptionDialog.getContentPane().getComponent(0);
         final JPanel buttonPanel = (JPanel) exceptionDialog.getContentPane().getComponent(1);
@@ -182,5 +182,15 @@ public class ExceptionDialogTest {
     @Test
     public void exceptionTextPaneShouldNotBeEditable() {
         assertFalse(exceptionTextPane.isEditable());
+    }
+
+    @Test
+    public void showDialogShouldSetLocationAndSetVisible() {
+        doNothing().when(exceptionDialog).setVisible(anyBoolean());
+
+        exceptionDialog.showDialog();
+
+        verify(exceptionDialog).setLocationRelativeTo(exceptionDialog.getParent());
+        verify(exceptionDialog).setVisible(true);
     }
 }

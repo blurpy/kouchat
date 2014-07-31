@@ -129,13 +129,10 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
 
     /**
      * Shows the Exception Dialog.
-     *
-     * {@inheritDoc}
      */
-    @Override
-    public void setVisible(final boolean visible) {
+    public void showDialog() {
         setLocationRelativeTo(getParent());
-        super.setVisible(visible);
+        setVisible(true);
     }
 
     /**
@@ -165,7 +162,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
 
                 exceptionTP.setText(stringWriter.toString());
                 exceptionTP.setCaretPosition(0);
-                setVisible(true);
+                showDialog();
             }
         });
     }
