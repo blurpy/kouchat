@@ -90,7 +90,7 @@ public class MessageDialog extends JDialog {
         getContentPane().add(northP, BorderLayout.PAGE_START);
 
         final JButton okB = new JButton();
-        okB.setText("OK");
+        okB.setText(messages.getMessage("swing.button.ok"));
         okB.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
