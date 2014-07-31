@@ -63,6 +63,8 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
     /** The textpane to put stack traces. */
     private final JTextPane exceptionTP;
 
+    private final Messages messages;
+
     /**
      * Creates the exception dialog, but does not show it.
      *
@@ -71,21 +73,20 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
      */
     public ExceptionDialog(final ImageLoader imageLoader, final Messages messages) {
         super((Frame) null, true);
+
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(messages, "Messages can not be null");
 
+        this.messages = messages;
+
         final JLabel titleL = new JLabel();
         titleL.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
-        titleL.setText(" An unhandled error has occurred");
+        titleL.setText(messages.getMessage("swing.dialog.exception.topText"));
         titleL.setFont(new Font("Dialog", Font.PLAIN, 20));
 
         final JLabel detailL = new JLabel();
         // Using html to keep the text from appearing in a single line
-        detailL.setText("<html>" + Constants.APP_NAME + " has experienced an unhandled error, " +
-                                "and may be in an inconsistent state. It's advised to restart the application " +
-                                "to make sure everything works as expected. Bugs can be reported at " +
-                                Constants.APP_WEB + ". Please describe what you did when " +
-                                "this error happened, and add the stack trace below to the report.</html>");
+        detailL.setText(messages.getMessage("swing.dialog.exception.message", Constants.APP_NAME, Constants.APP_WEB));
 
         exceptionTP = new JTextPaneWithoutWrap();
         exceptionTP.setEditable(false);
@@ -93,7 +94,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
         new CopyPopup(exceptionTP, messages);
 
         final JButton closeB = new JButton();
-        closeB.setText("Close");
+        closeB.setText(messages.getMessage("swing.button.close"));
         closeB.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
@@ -122,7 +123,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
         getContentPane().add(infoP, BorderLayout.CENTER);
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(uiTools.createTitle("Unhandled error"));
+        setTitle(uiTools.createTitle(messages.getMessage("swing.dialog.exception.title")));
         setIconImage(new StatusIcons(imageLoader).getNormalIcon());
         setSize(630, 450);
     }
@@ -140,16 +141,18 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
             public void run() {
                 final StringWriter stringWriter = new StringWriter();
 
-                stringWriter.append(timestamp(new Date()) +
-                                            " UncaughtException in thread: " + thread.getName() +
-                                            " (id " + thread.getId() + ", priority " + thread.getPriority() + ")\n");
+                stringWriter.append(messages.getMessage("swing.dialog.exception.details",
+                                                        timestamp(new Date()), thread.getName(),
+                                                        thread.getId(), thread.getPriority()));
+                stringWriter.append("\n");
 
                 final PrintWriter printWriter = new PrintWriter(stringWriter);
                 throwable.printStackTrace(printWriter);
                 printWriter.close();
 
                 if (exceptionTP.getText().length() > 0) {
-                    stringWriter.append("\n" + exceptionTP.getText());
+                    stringWriter.append("\n");
+                    stringWriter.append(exceptionTP.getText());
                 }
 
                 exceptionTP.setText(stringWriter.toString());

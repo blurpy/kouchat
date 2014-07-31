@@ -121,7 +121,7 @@ public class ExceptionDialogTest {
 
     @Test
     public void topTextShouldHaveCorrectText() {
-        assertEquals(" An unhandled error has occurred", titleLabel.getText());
+        assertEquals("An unhandled error has occurred", titleLabel.getText());
     }
 
     @Test
