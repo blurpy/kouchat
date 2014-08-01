@@ -25,11 +25,16 @@ package net.usikkert.kouchat.ui.swing;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.util.Date;
+
 import javax.swing.JMenuItem;
 
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.misc.SortedUserList;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.util.TestUtils;
 
+import org.joda.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -40,6 +45,7 @@ import org.junit.rules.ExpectedException;
  *
  * @author Christian Ihle
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class SidePanelTest {
 
     @Rule
@@ -47,13 +53,37 @@ public class SidePanelTest {
 
     private SidePanel sidePanel;
 
+    private Mediator mediator;
+    private UITools uiTools;
+
     private JMenuItem infoMenuItem;
     private JMenuItem sendfileMenuItem;
     private JMenuItem privchatMenuItem;
 
+    private User abby;
+    private User dorothy;
+    private User sandra;
+
     @Before
     public void setUp() {
         sidePanel = new SidePanel(mock(ButtonPanel.class), mock(ImageLoader.class), mock(Settings.class));
+
+        mediator = mock(Mediator.class);
+        sidePanel.setMediator(mediator);
+
+        abby = new User("Abby", 123);
+        dorothy = new User("Dorothy", 124);
+        sandra = new User("Sandra", 125);
+
+        final SortedUserList userList = new SortedUserList();
+        userList.add(abby);
+        userList.add(dorothy);
+        userList.add(sandra);
+
+        sidePanel.setUserList(userList);
+
+        uiTools = TestUtils.setFieldValueWithMock(sidePanel, "uiTools", UITools.class);
+        doAnswer(new RunArgumentAnswer()).when(uiTools).invokeLater(any(Runnable.class));
 
         infoMenuItem = TestUtils.getFieldValue(sidePanel, JMenuItem.class, "infoMI");
         sendfileMenuItem = TestUtils.getFieldValue(sidePanel, JMenuItem.class, "sendfileMI");
@@ -112,5 +142,161 @@ public class SidePanelTest {
     @Test
     public void privateChatMenuItemShouldHaveCorrectMnemonic() {
         assertEquals('P', privchatMenuItem.getMnemonic());
+    }
+
+    @Test
+    public void setMediatorShouldThrowExceptionIfMediatorIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Mediator can not be null");
+
+        sidePanel.setMediator(null);
+    }
+
+    @Test
+    public void setUserListShouldThrowExceptionIfUserListIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("User list can not be null");
+
+        sidePanel.setUserList(null);
+    }
+
+    @Test
+    public void clickOnSendFileShouldSendFileToSelectedUser() {
+        sidePanel.getUserList().setSelectedIndex(1);
+
+        sendfileMenuItem.doClick();
+
+        verify(mediator).sendFile(dorothy, null);
+    }
+
+    @Test
+    public void clickOnPrivateChatShouldOpenPrivateChatWithSelectedUser() {
+        sidePanel.getUserList().setSelectedIndex(2);
+
+        privchatMenuItem.doClick();
+
+        verify(mediator).showPrivChat(sandra);
+    }
+
+    @Test
+    public void clickOnInformationShouldShowInfoAboutSelectedUser() {
+        sidePanel.getUserList().setSelectedIndex(0);
+
+        final Date logonTime = new LocalDateTime()
+                .minusDays(1)
+                .minusHours(4)
+                .minusMinutes(12)
+                .minusSeconds(45)
+                .toDate();
+
+        abby.setClient("JUnit");
+        abby.setOperatingSystem("Solaris");
+        abby.setIpAddress("192.168.1.1");
+        abby.setLogonTime(logonTime.getTime());
+
+        infoMenuItem.doClick();
+
+        verify(uiTools).showInfoMessage("Information about Abby.\n" +
+                                                "\n" +
+                                                "IP address: 192.168.1.1\n" +
+                                                "Client: JUnit\n" +
+                                                "Operating System: Solaris\n" +
+                                                "\n" +
+                                                "Online: 1 days, 04:12:45",
+                                        "Info");
+    }
+
+    @Test
+    public void clickOnInformationShouldIncludeAwayInfoWhenAway() {
+        sidePanel.getUserList().setSelectedIndex(0);
+
+        final Date logonTime = new LocalDateTime()
+                .minusDays(1)
+                .minusHours(4)
+                .minusMinutes(12)
+                .minusSeconds(45)
+                .toDate();
+
+        abby.setClient("JUnit");
+        abby.setOperatingSystem("Solaris");
+        abby.setIpAddress("192.168.1.1");
+        abby.setLogonTime(logonTime.getTime());
+        abby.setAway(true);
+        abby.setAwayMsg("Gone home");
+
+        infoMenuItem.doClick();
+
+        verify(uiTools).showInfoMessage("Information about Abby (Away).\n" +
+                                                "\n" +
+                                                "IP address: 192.168.1.1\n" +
+                                                "Client: JUnit\n" +
+                                                "Operating System: Solaris\n" +
+                                                "\n" +
+                                                "Online: 1 days, 04:12:45\n" +
+                                                "Away message: Gone home",
+                                        "Info");
+    }
+
+    @Test
+    public void clickOnInformationShouldIncludeHostNameWhenAvailable() {
+        sidePanel.getUserList().setSelectedIndex(1);
+
+        final Date logonTime = new LocalDateTime()
+                .minusDays(2)
+                .minusHours(4)
+                .minusMinutes(12)
+                .minusSeconds(45)
+                .toDate();
+
+        dorothy.setClient("PC");
+        dorothy.setOperatingSystem("XP");
+        dorothy.setIpAddress("192.168.1.2");
+        dorothy.setLogonTime(logonTime.getTime());
+        dorothy.setHostName("dorothy.kouchat.net");
+
+        infoMenuItem.doClick();
+
+        verify(uiTools).showInfoMessage("Information about Dorothy.\n" +
+                                                "\n" +
+                                                "IP address: 192.168.1.2\n" +
+                                                "Host name: dorothy.kouchat.net\n" +
+                                                "Client: PC\n" +
+                                                "Operating System: XP\n" +
+                                                "\n" +
+                                                "Online: 2 days, 04:12:45",
+                                        "Info");
+    }
+
+    @Test
+    public void clickOnInformationShouldIncludeHostNameAndAwayInfoWhenAvailable() {
+        sidePanel.getUserList().setSelectedIndex(1);
+
+        final Date logonTime = new LocalDateTime()
+                .minusDays(2)
+                .minusHours(4)
+                .minusMinutes(12)
+                .minusSeconds(45)
+                .toDate();
+
+        dorothy.setClient("PC");
+        dorothy.setOperatingSystem("XP");
+        dorothy.setIpAddress("192.168.1.2");
+        dorothy.setLogonTime(logonTime.getTime());
+        dorothy.setHostName("dorothy.kouchat.net");
+        dorothy.setAway(true);
+        dorothy.setAwayMsg("Shopping");
+
+        infoMenuItem.doClick();
+
+        verify(uiTools).showInfoMessage("Information about Dorothy (Away).\n" +
+                                                "\n" +
+                                                "IP address: 192.168.1.2\n" +
+                                                "Host name: dorothy.kouchat.net\n" +
+                                                "Client: PC\n" +
+                                                "Operating System: XP\n" +
+                                                "\n" +
+                                                "Online: 2 days, 04:12:45\n" +
+                                                "Away message: Shopping",
+                                        "Info");
     }
 }
