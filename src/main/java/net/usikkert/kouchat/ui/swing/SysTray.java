@@ -105,13 +105,13 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      * <p>Use {@link #isSystemTraySupport()} to check if the system tray was activated successfully.</p>
      */
     public void activate() {
-        if (SystemTray.isSupported()) {
+        if (uiTools.isSystemTraySupported()) {
             final PopupMenu menu = new PopupMenu();
             quitMI = new MenuItem("Quit");
             quitMI.addActionListener(this);
             menu.add(quitMI);
 
-            final SystemTray sysTray = SystemTray.getSystemTray();
+            final SystemTray sysTray = uiTools.getSystemTray();
 
             final StatusIconSize iconSize = chooseIconSize(sysTray);
             statusIcons = new StatusIcons(imageLoader, iconSize);

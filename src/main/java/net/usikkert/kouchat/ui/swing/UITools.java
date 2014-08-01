@@ -28,6 +28,7 @@ import java.awt.Desktop.Action;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.SystemTray;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -524,5 +525,27 @@ public class UITools {
      */
     public boolean isRunningOnKDE() {
         return System.getenv(KDE_FULL_SESSION) != null;
+    }
+
+    /**
+     * Checks if the {@link SystemTray} is supported on the current system.
+     *
+     * <p>See {@link SystemTray#isSupported()} for more details.</p>
+     *
+     * @return If the system tray is supported.
+     */
+    public boolean isSystemTraySupported() {
+        return SystemTray.isSupported();
+    }
+
+    /**
+     * Gets an instance of the {@link SystemTray}. Use {@link #isSystemTraySupported()} first to avoid exceptions.
+     *
+     * <p>See {@link SystemTray#getSystemTray()} for more details.</p>
+     *
+     * @return An instance of the system tray.
+     */
+    public SystemTray getSystemTray() {
+        return SystemTray.getSystemTray();
     }
 }

@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.awt.Desktop;
+import java.awt.SystemTray;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -52,7 +53,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
  * @author Christian Ihle
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ UIManager.class, Runtime.class, Desktop.class, UITools.class })
+@PrepareForTest({ UIManager.class, Runtime.class, Desktop.class, SystemTray.class, UITools.class })
 public class UIToolsTest {
 
     @Rule
@@ -65,6 +66,7 @@ public class UIToolsTest {
         PowerMockito.mockStatic(UIManager.class);
         PowerMockito.mockStatic(Runtime.class);
         PowerMockito.mockStatic(Desktop.class);
+        PowerMockito.mockStatic(SystemTray.class);
 
         uiTools = new UITools();
     }
@@ -141,6 +143,25 @@ public class UIToolsTest {
         uiTools.browse("www.ape.no");
 
         verify(desktop).browse(new URI("www.ape.no"));
+    }
+
+    @Test
+    public void isSystemTraySupportedShouldReturnValueFromSystemTray() {
+        when(SystemTray.isSupported()).thenReturn(true);
+        assertTrue(uiTools.isSystemTraySupported());
+
+        when(SystemTray.isSupported()).thenReturn(false);
+        assertFalse(uiTools.isSystemTraySupported());
+    }
+
+    @Test
+    public void getSystemTrayShouldReturnSystemTrayInstanceFromSystemTray() {
+        final SystemTray mockSystemTray = mock(SystemTray.class);
+        when(SystemTray.getSystemTray()).thenReturn(mockSystemTray);
+
+        final SystemTray systemTrayFromUiTools = uiTools.getSystemTray();
+
+        assertSame(mockSystemTray, systemTrayFromUiTools);
     }
 
     /**
