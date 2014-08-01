@@ -209,34 +209,34 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
                     final StringBuilder info = new StringBuilder();
 
                     if (user.isAway()) {
-                        info.append("Information about " + user.getNick() + " (Away).");
+                        info.append(messages.getMessage("swing.userList.popup.userInfo.topText.away", user.getNick()));
                     } else {
-                        info.append("Information about " + user.getNick() + ".");
+                        info.append(messages.getMessage("swing.userList.popup.userInfo.topText", user.getNick()));
                     }
 
                     info.append("\n\n");
-                    info.append("IP address: " + user.getIpAddress());
+                    info.append(messages.getMessage("swing.userList.popup.userInfo.ipAddress", user.getIpAddress()));
 
                     if (user.getHostName() != null) {
                         info.append("\n");
-                        info.append("Host name: " + user.getHostName());
+                        info.append(messages.getMessage("swing.userList.popup.userInfo.hostName", user.getHostName()));
                     }
 
                     info.append("\n");
-                    info.append("Client: " + user.getClient());
+                    info.append(messages.getMessage("swing.userList.popup.userInfo.client", user.getClient()));
 
                     info.append("\n");
-                    info.append("Operating System: " + user.getOperatingSystem());
+                    info.append(messages.getMessage("swing.userList.popup.userInfo.operatingSystem", user.getOperatingSystem()));
 
                     info.append("\n\n");
-                    info.append("Online: " + Tools.howLongFromNow(user.getLogonTime()));
+                    info.append(messages.getMessage("swing.userList.popup.userInfo.online", Tools.howLongFromNow(user.getLogonTime())));
 
                     if (user.isAway()) {
                         info.append("\n");
-                        info.append("Away message: " + user.getAwayMsg());
+                        info.append(messages.getMessage("swing.userList.popup.userInfo.awayMessage", user.getAwayMsg()));
                     }
 
-                    uiTools.showInfoMessage(info.toString(), "Info");
+                    uiTools.showInfoMessage(info.toString(), messages.getMessage("swing.userList.popup.userInfo.title"));
                 }
             });
         }
