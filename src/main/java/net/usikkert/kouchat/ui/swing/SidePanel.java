@@ -38,7 +38,6 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
 
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
@@ -195,7 +194,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
     @Override
     public void actionPerformed(final ActionEvent e) {
         if (e.getSource() == infoMI) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     final User user = userListModel.getElementAt(userL.getSelectedIndex());
@@ -225,7 +224,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
         }
 
         else if (e.getSource() == sendfileMI) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     mediator.sendFile(getUser(), null);
@@ -234,7 +233,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
         }
 
         else if (e.getSource() == privchatMI) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     final User user = userListModel.getElementAt(userL.getSelectedIndex());
