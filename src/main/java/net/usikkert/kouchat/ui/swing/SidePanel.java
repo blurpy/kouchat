@@ -37,6 +37,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 
 import net.usikkert.kouchat.message.Messages;
@@ -123,14 +124,14 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
         add(buttonP, BorderLayout.SOUTH);
 
         userMenu = new JPopupMenu();
-        infoMI = new JMenuItem("Information");
-        infoMI.setMnemonic('I');
+        infoMI = new JMenuItem(messages.getMessage("swing.userList.popup.menu.info"));
+        infoMI.setMnemonic(keyCode(messages.getMessage("swing.userList.popup.menu.info.mnemonic")));
         infoMI.addActionListener(this);
-        sendfileMI = new JMenuItem("Send file");
-        sendfileMI.setMnemonic('S');
+        sendfileMI = new JMenuItem(messages.getMessage("swing.userList.popup.menu.sendFile"));
+        sendfileMI.setMnemonic(keyCode(messages.getMessage("swing.userList.popup.menu.sendFile.mnemonic")));
         sendfileMI.addActionListener(this);
-        privchatMI = new JMenuItem("Private chat");
-        privchatMI.setMnemonic('P');
+        privchatMI = new JMenuItem(messages.getMessage("swing.userList.popup.menu.privateChat"));
+        privchatMI.setMnemonic(keyCode(messages.getMessage("swing.userList.popup.menu.privateChat.mnemonic")));
         privchatMI.addActionListener(this);
         privchatMI.setFont(privchatMI.getFont().deriveFont(Font.BOLD)); // default menu item
         userMenu.add(infoMI);
@@ -376,5 +377,9 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
     private boolean canPrivateChatWithUser(final User user) {
         final boolean privateChatEnabled = !settings.isNoPrivateChat();
         return privateChatEnabled && user.getPrivateChatPort() != 0;
+    }
+
+    private int keyCode(final String key) {
+        return KeyStroke.getKeyStroke(key).getKeyCode();
     }
 }
