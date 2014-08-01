@@ -206,27 +206,37 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
                 public void run() {
                     final User user = getUser();
 
-                    String info = "Information about " + user.getNick();
+                    final StringBuilder info = new StringBuilder();
 
                     if (user.isAway()) {
-                        info += " (Away)";
+                        info.append("Information about " + user.getNick() + " (Away).");
+                    } else {
+                        info.append("Information about " + user.getNick() + ".");
                     }
 
-                    info += ".\n\nIP address: " + user.getIpAddress();
+                    info.append("\n\n");
+                    info.append("IP address: " + user.getIpAddress());
 
                     if (user.getHostName() != null) {
-                        info += "\nHost name: " + user.getHostName();
+                        info.append("\n");
+                        info.append("Host name: " + user.getHostName());
                     }
 
-                    info += "\nClient: " + user.getClient() +
-                            "\nOperating System: " + user.getOperatingSystem() +
-                            "\n\nOnline: " + Tools.howLongFromNow(user.getLogonTime());
+                    info.append("\n");
+                    info.append("Client: " + user.getClient());
+
+                    info.append("\n");
+                    info.append("Operating System: " + user.getOperatingSystem());
+
+                    info.append("\n\n");
+                    info.append("Online: " + Tools.howLongFromNow(user.getLogonTime()));
 
                     if (user.isAway()) {
-                        info += "\nAway message: " + user.getAwayMsg();
+                        info.append("\n");
+                        info.append("Away message: " + user.getAwayMsg());
                     }
 
-                    uiTools.showInfoMessage(info, "Info");
+                    uiTools.showInfoMessage(info.toString(), "Info");
                 }
             });
         }
