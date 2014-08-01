@@ -31,6 +31,7 @@ import java.awt.SystemTray;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
@@ -57,13 +58,14 @@ public class SysTrayTest {
 
     private UITools uiTools;
     private Logger log;
+    private Messages messages;
 
     @Before
     public void setUp() {
-        final PropertyFileMessages messages = new PropertyFileMessages("messages.swing");
+        messages = new PropertyFileMessages("messages.swing");
         final ImageLoader imageLoader = new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
 
-        sysTray = new SysTray(imageLoader, mock(Settings.class));
+        sysTray = new SysTray(imageLoader, mock(Settings.class), messages);
 
         uiTools = TestUtils.setFieldValueWithMock(sysTray, "uiTools", UITools.class);
         log = TestUtils.setFieldValueWithMock(sysTray, "LOG", Logger.class);
@@ -78,7 +80,7 @@ public class SysTrayTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Image loader can not be null");
 
-        new SysTray(null, mock(Settings.class));
+        new SysTray(null, mock(Settings.class), messages);
     }
 
     @Test
@@ -86,7 +88,15 @@ public class SysTrayTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new SysTray(mock(ImageLoader.class), null);
+        new SysTray(mock(ImageLoader.class), null, messages);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfMessagesIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Messages can not be null");
+
+        new SysTray(mock(ImageLoader.class), mock(Settings.class), null);
     }
 
     @Test
