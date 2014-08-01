@@ -29,6 +29,8 @@ import java.util.Date;
 
 import javax.swing.JMenuItem;
 
+import net.usikkert.kouchat.message.Messages;
+import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.SortedUserList;
 import net.usikkert.kouchat.misc.User;
@@ -55,6 +57,7 @@ public class SidePanelTest {
 
     private Mediator mediator;
     private UITools uiTools;
+    private Messages messages;
 
     private JMenuItem infoMenuItem;
     private JMenuItem sendfileMenuItem;
@@ -66,7 +69,9 @@ public class SidePanelTest {
 
     @Before
     public void setUp() {
-        sidePanel = new SidePanel(mock(ButtonPanel.class), mock(ImageLoader.class), mock(Settings.class));
+        messages = new PropertyFileMessages("messages.swing");
+
+        sidePanel = new SidePanel(new ButtonPanel(messages), mock(ImageLoader.class), mock(Settings.class), messages);
 
         mediator = mock(Mediator.class);
         sidePanel.setMediator(mediator);
@@ -95,7 +100,7 @@ public class SidePanelTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Button panel can not be null");
 
-        new SidePanel(null, mock(ImageLoader.class), mock(Settings.class));
+        new SidePanel(null, mock(ImageLoader.class), mock(Settings.class), messages);
     }
 
     @Test
@@ -103,7 +108,7 @@ public class SidePanelTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Image loader can not be null");
 
-        new SidePanel(mock(ButtonPanel.class), null, mock(Settings.class));
+        new SidePanel(mock(ButtonPanel.class), null, mock(Settings.class), messages);
     }
 
     @Test
@@ -111,7 +116,15 @@ public class SidePanelTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new SidePanel(mock(ButtonPanel.class), mock(ImageLoader.class), null);
+        new SidePanel(mock(ButtonPanel.class), mock(ImageLoader.class), null, messages);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfMessagesIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Messages can not be null");
+
+        new SidePanel(mock(ButtonPanel.class), mock(ImageLoader.class), mock(Settings.class), null);
     }
 
     @Test

@@ -121,7 +121,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
         statusIcons = new StatusIcons(imageLoader);
 
         final ButtonPanel buttonP = new ButtonPanel(messages);
-        sideP = new SidePanel(buttonP, imageLoader, settings);
+        sideP = new SidePanel(buttonP, imageLoader, settings, messages);
         mainP = new MainPanel(sideP, imageLoader, settings, messages);
         sysTray = new SysTray(imageLoader, settings);
         final SettingsDialog settingsDialog = new SettingsDialog(imageLoader, settings, errorHandler, messages);

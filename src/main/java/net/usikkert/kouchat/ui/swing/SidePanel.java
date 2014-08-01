@@ -39,6 +39,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
+import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.UserList;
@@ -79,6 +80,8 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
     /** The application settings. */
     private final Settings settings;
 
+    private final Messages messages;
+
     /** Handles drag and drop of files on users. */
     private final FileTransferHandler fileTransferHandler;
 
@@ -94,14 +97,17 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      * @param buttonP The button panel.
      * @param imageLoader The image loader.
      * @param settings The settings to use.
+     * @param messages The messages to use in this panel.
      */
-    public SidePanel(final ButtonPanel buttonP, final ImageLoader imageLoader, final Settings settings) {
+    public SidePanel(final ButtonPanel buttonP, final ImageLoader imageLoader, final Settings settings, final Messages messages) {
         Validate.notNull(buttonP, "Button panel can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
+        Validate.notNull(messages, "Messages can not be null");
 
         this.buttonP = buttonP;
         this.settings = settings;
+        this.messages = messages;
 
         setLayout(new BorderLayout(2, 2));
 
