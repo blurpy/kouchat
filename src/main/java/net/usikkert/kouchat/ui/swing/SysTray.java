@@ -113,7 +113,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
     public void activate() {
         if (uiTools.isSystemTraySupported()) {
             final PopupMenu menu = new PopupMenu();
-            quitMI = new MenuItem("Quit");
+            quitMI = new MenuItem(messages.getMessage("swing.systemTray.menu.quit"));
             quitMI.addActionListener(this);
             menu.add(quitMI);
 
