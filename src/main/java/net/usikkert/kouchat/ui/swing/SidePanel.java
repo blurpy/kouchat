@@ -197,7 +197,8 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
             uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    final User user = userListModel.getElementAt(userL.getSelectedIndex());
+                    final User user = getUser();
+
                     String info = "Information about " + user.getNick();
 
                     if (user.isAway()) {
@@ -236,8 +237,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
             uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    final User user = userListModel.getElementAt(userL.getSelectedIndex());
-                    mediator.showPrivChat(user);
+                    mediator.showPrivChat(getUser());
                 }
             });
         }
@@ -314,7 +314,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
         if (e.getSource() == userL) {
             // Right click
             if (userMenu.isPopupTrigger(e) && userL.getSelectedIndex() != -1) {
-                final User temp = userListModel.getElementAt(userL.getSelectedIndex());
+                final User temp = userListModel.getElementAt(userL.getSelectedIndex()); // TODO getUser() instead?
 
                 if (temp.isMe()) {
                     sendfileMI.setVisible(false);
@@ -350,7 +350,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 
             // Double left click
             else if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2 && userL.getSelectedIndex() != -1) {
-                final User user = userListModel.getElementAt(userL.getSelectedIndex());
+                final User user = userListModel.getElementAt(userL.getSelectedIndex()); // TODO getUser() instead?
 
                 if (user != me && canPrivateChatWithUser(user)) {
                     mediator.showPrivChat(user);
