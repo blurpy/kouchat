@@ -108,9 +108,10 @@ public class SwingMediator implements Mediator, UserInterface {
         menuBar = compHandler.getMenuBar();
         buttonP = compHandler.getButtonPanel();
 
+        me = settings.getMe();
+
         msgController = new MessageController(mainP, this, settings);
         controller = new Controller(this, settings);
-        me = settings.getMe();
         cmdParser = new CommandParser(controller, this, settings);
         beeper = new SoundBeeper(settings, new ResourceLoader(), ErrorHandler.getErrorHandler());
         jmxAgent = new JMXAgent(controller.createJMXBeanLoader());
@@ -249,33 +250,31 @@ public class SwingMediator implements Mediator, UserInterface {
      */
     @Override
     public void updateTitleAndTray() {
-        if (me != null) {
-            String title = me.getNick();
+        String title = me.getNick();
 
-            if (!controller.isConnected()) {
-                if (controller.isLoggedOn()) {
-                    title += " - Connection lost";
-                }
-
-                else {
-                    title += " - Not connected";
-                }
+        if (!controller.isConnected()) {
+            if (controller.isLoggedOn()) {
+                title += " - Connection lost";
             }
 
             else {
-                if (me.isAway()) {
-                    title += " (Away)";
-                }
+                title += " - Not connected";
+            }
+        }
 
-                if (controller.getTopic().getTopic().length() > 0) {
-                    title += " - Topic: " + controller.getTopic();
-                }
+        else {
+            if (me.isAway()) {
+                title += " (Away)";
             }
 
-            gui.setTitle(uiTools.createTitle(title));
-            gui.updateWindowIcon();
-            sysTray.setToolTip(uiTools.createTitle(title));
+            if (controller.getTopic().getTopic().length() > 0) {
+                title += " - Topic: " + controller.getTopic();
+            }
         }
+
+        gui.setTitle(uiTools.createTitle(title));
+        gui.updateWindowIcon();
+        sysTray.setToolTip(uiTools.createTitle(title));
     }
 
     /**
