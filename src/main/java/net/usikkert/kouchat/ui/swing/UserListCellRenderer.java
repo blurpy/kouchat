@@ -153,15 +153,15 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer {
             }
 
             if (user.isWriting()) {
-                setText(user.getNick() + " *");
-                setToolTipText(user.getNick() + " is writing");
+                setText(messages.getMessage("swing.userList.userWriting.text", user.getNick()));
+                setToolTipText(messages.getMessage("swing.userList.userWriting.tooltip", user.getNick()));
             }
 
             else {
                 setText(user.getNick());
 
                 if (user.isAway()) {
-                    setToolTipText(user.getNick() + " is away");
+                    setToolTipText(messages.getMessage("swing.userList.userAway.tooltip", user.getNick()));
                 } else {
                     setToolTipText(user.getNick());
                 }
