@@ -71,6 +71,8 @@ public class SwingMediatorTest {
     private JMXAgent jmxAgent;
     private CommandParser cmdParser;
     private ComponentHandler componentHandler;
+    private KouChatFrame kouChatFrame;
+    private SysTray sysTray;
 
     @Before
     public void setUp() {
@@ -79,14 +81,17 @@ public class SwingMediatorTest {
         final MainPanel mainPanel = mock(MainPanel.class);
         when(mainPanel.getMsgTF()).thenReturn(messageTF);
 
+        kouChatFrame = mock(KouChatFrame.class);
+        sysTray = mock(SysTray.class);
+
         componentHandler = spy(new ComponentHandler());
         componentHandler.setButtonPanel(mock(ButtonPanel.class));
-        componentHandler.setGui(mock(KouChatFrame.class));
+        componentHandler.setGui(kouChatFrame);
         componentHandler.setMainPanel(mainPanel);
         componentHandler.setMenuBar(mock(MenuBar.class));
         componentHandler.setSettingsDialog(mock(SettingsDialog.class));
         componentHandler.setSidePanel(mock(SidePanel.class));
-        componentHandler.setSysTray(mock(SysTray.class));
+        componentHandler.setSysTray(sysTray);
 
         me = new User("Me", 1234);
         me.setMe(true);
@@ -105,6 +110,8 @@ public class SwingMediatorTest {
         cmdParser = TestUtils.setFieldValueWithMock(mediator, "cmdParser", CommandParser.class);
 
         when(controller.getUserList()).thenReturn(new SortedUserList());
+        when(uiTools.createTitle(anyString())).thenCallRealMethod();
+        when(controller.getTopic()).thenReturn(new Topic());
     }
 
     @Test
@@ -340,5 +347,110 @@ public class SwingMediatorTest {
         mediator.quit();
 
         verify(uiTools).showOptionDialog("Are you sure you want to quit?", "Quit");
+    }
+
+    @Test
+    public void updateTitleAndTrayShouldShowNotConnectedWhenNotConnectedAndNotLoggedOn() {
+        when(controller.isConnected()).thenReturn(false);
+        when(controller.isLoggedOn()).thenReturn(false);
+
+        mediator.updateTitleAndTray();
+
+        verify(kouChatFrame).setTitle("Me - Not connected - KouChat");
+        verify(sysTray).setToolTip("Me - Not connected - KouChat");
+    }
+
+    @Test
+    public void updateTitleAndTrayShouldShowNotConnectedWhenNotConnectedAndNotLoggedOnEvenWhenAwayAndWithTopicSet() {
+        when(controller.isConnected()).thenReturn(false);
+        when(controller.isLoggedOn()).thenReturn(false);
+
+        when(controller.getTopic()).thenReturn(new Topic("Topic", "Niles", System.currentTimeMillis()));
+        me.setAway(true);
+
+        mediator.updateTitleAndTray();
+
+        verify(kouChatFrame).setTitle("Me - Not connected - KouChat");
+        verify(sysTray).setToolTip("Me - Not connected - KouChat");
+    }
+
+    @Test
+    public void updateTitleAndTrayShouldShowConnectionLostWhenNotConnectedAndLoggedOn() {
+        when(controller.isConnected()).thenReturn(false);
+        when(controller.isLoggedOn()).thenReturn(true);
+
+        mediator.updateTitleAndTray();
+
+        verify(kouChatFrame).setTitle("Me - Connection lost - KouChat");
+        verify(sysTray).setToolTip("Me - Connection lost - KouChat");
+    }
+
+    @Test
+    public void updateTitleAndTrayShouldShowConnectionLostWhenNotConnectedAndLoggedOnEvenWhenAwayAndWithTopicSet() {
+        when(controller.isConnected()).thenReturn(false);
+        when(controller.isLoggedOn()).thenReturn(true);
+
+        when(controller.getTopic()).thenReturn(new Topic("Topic", "Niles", System.currentTimeMillis()));
+        me.setAway(true);
+
+        mediator.updateTitleAndTray();
+
+        verify(kouChatFrame).setTitle("Me - Connection lost - KouChat");
+        verify(sysTray).setToolTip("Me - Connection lost - KouChat");
+    }
+
+    @Test
+    public void updateTitleAndTrayShouldShowJustNickNameWhenOnline() {
+        when(controller.isConnected()).thenReturn(true);
+        when(controller.isLoggedOn()).thenReturn(true);
+
+        mediator.updateTitleAndTray();
+
+        verify(kouChatFrame).setTitle("Me - KouChat");
+        verify(sysTray).setToolTip("Me - KouChat");
+    }
+
+    @Test
+    public void updateTitleAndTrayShouldIncludeAwayWhenAway() {
+        when(controller.isConnected()).thenReturn(true);
+        when(controller.isLoggedOn()).thenReturn(true);
+        me.setAway(true);
+
+        mediator.updateTitleAndTray();
+
+        verify(kouChatFrame).setTitle("Me (Away) - KouChat");
+        verify(sysTray).setToolTip("Me (Away) - KouChat");
+    }
+
+    @Test
+    public void updateTitleAndTrayShouldIncludeTopicWhenTopicIsSet() {
+        when(controller.isConnected()).thenReturn(true);
+        when(controller.isLoggedOn()).thenReturn(true);
+        when(controller.getTopic()).thenReturn(new Topic("Christmas time", "Niles", System.currentTimeMillis()));
+
+        mediator.updateTitleAndTray();
+
+        verify(kouChatFrame).setTitle("Me - Topic: Christmas time (Niles) - KouChat");
+        verify(sysTray).setToolTip("Me - Topic: Christmas time (Niles) - KouChat");
+    }
+
+    @Test
+    public void updateTitleAndTrayShouldIncludeBothTopicAndAwayWhenAwayAndTopicIsSet() {
+        when(controller.isConnected()).thenReturn(true);
+        when(controller.isLoggedOn()).thenReturn(true);
+        when(controller.getTopic()).thenReturn(new Topic("Smell you later", "Kenny", System.currentTimeMillis()));
+        me.setAway(true);
+
+        mediator.updateTitleAndTray();
+
+        verify(kouChatFrame).setTitle("Me (Away) - Topic: Smell you later (Kenny) - KouChat");
+        verify(sysTray).setToolTip("Me (Away) - Topic: Smell you later (Kenny) - KouChat");
+    }
+
+    @Test
+    public void updateTitleAndTrayShouldUpdateWindowIcon() {
+        mediator.updateTitleAndTray();
+
+        verify(kouChatFrame).updateWindowIcon();
     }
 }
