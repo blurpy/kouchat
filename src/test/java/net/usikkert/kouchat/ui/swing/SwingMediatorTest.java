@@ -31,10 +31,12 @@ import net.usikkert.kouchat.jmx.JMXAgent;
 import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.CommandException;
+import net.usikkert.kouchat.misc.CommandParser;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.SortedUserList;
+import net.usikkert.kouchat.misc.Topic;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.ui.swing.settings.SettingsDialog;
 import net.usikkert.kouchat.util.TestUtils;
@@ -62,6 +64,7 @@ public class SwingMediatorTest {
     private UITools uiTools;
     private Controller controller;
     private JMXAgent jmxAgent;
+    private CommandParser cmdParser;
     private ComponentHandler componentHandler;
 
     @Before
@@ -94,6 +97,7 @@ public class SwingMediatorTest {
         controller = TestUtils.setFieldValueWithMock(mediator, "controller", Controller.class);
         TestUtils.setFieldValueWithMock(mediator, "msgController", MessageController.class);
         jmxAgent = TestUtils.setFieldValueWithMock(mediator, "jmxAgent", JMXAgent.class);
+        cmdParser = TestUtils.setFieldValueWithMock(mediator, "cmdParser", CommandParser.class);
 
         when(controller.getUserList()).thenReturn(new SortedUserList());
     }
@@ -262,5 +266,50 @@ public class SwingMediatorTest {
         verify(controller).start();
         verify(controller).logOn();
         verify(jmxAgent).activate();
+    }
+
+    @Test
+    public void setTopicShouldUseExistingTopicAsInitialValue() {
+        when(controller.getTopic()).thenReturn(new Topic("Initial topic", "Niles", System.currentTimeMillis()));
+
+        mediator.setTopic();
+
+        verify(uiTools).showInputDialog("Change topic?", "Topic", "Initial topic");
+    }
+
+    @Test
+    public void setTopicShouldNotChangeTopicIfDialogWasCancelled() {
+        when(controller.getTopic()).thenReturn(new Topic("Initial topic", "Niles", System.currentTimeMillis()));
+        when(uiTools.showInputDialog(anyString(), anyString(), anyString())).thenReturn(null);
+
+        mediator.setTopic();
+
+        verifyZeroInteractions(cmdParser);
+        verify(messageTF).requestFocusInWindow();
+    }
+
+    @Test
+    public void setTopicShouldChangeTopicIfDialogWasAccepted() throws CommandException {
+        when(controller.getTopic()).thenReturn(new Topic("Initial topic", "Niles", System.currentTimeMillis()));
+        when(uiTools.showInputDialog(anyString(), anyString(), anyString())).thenReturn("new topic");
+
+        mediator.setTopic();
+
+        verify(cmdParser).fixTopic("new topic");
+        verify(messageTF).requestFocusInWindow();
+        verify(uiTools, never()).showWarningMessage(anyString(), anyString());
+    }
+
+    @Test
+    public void setTopicShouldShowWarningMessageIfChangingTopicFails() throws CommandException {
+        when(controller.getTopic()).thenReturn(new Topic("Initial topic", "Niles", System.currentTimeMillis()));
+        when(uiTools.showInputDialog(anyString(), anyString(), anyString())).thenReturn("new topic");
+        doThrow(new CommandException("Topic error")).when(cmdParser).fixTopic(anyString());
+
+        mediator.setTopic();
+
+        verify(cmdParser).fixTopic("new topic");
+        verify(messageTF).requestFocusInWindow();
+        verify(uiTools).showWarningMessage("Topic error", "Change topic");
     }
 }
