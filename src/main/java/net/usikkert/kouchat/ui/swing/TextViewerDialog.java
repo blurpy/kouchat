@@ -167,7 +167,7 @@ public class TextViewerDialog extends JDialog {
         }
 
         else {
-            errorHandler.showError("The file " + textFile + " could not be opened.");
+            errorHandler.showError(messages.getMessage("swing.dialog.textViewer.error.openFile", textFile));
         }
     }
 
