@@ -25,9 +25,12 @@ package net.usikkert.kouchat.ui.swing;
 import static org.mockito.Mockito.*;
 
 import net.usikkert.kouchat.message.Messages;
+import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.ResourceLoader;
+import net.usikkert.kouchat.util.ResourceValidator;
+import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -45,6 +48,8 @@ public class TextViewerDialogTest {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
+    private TextViewerDialog textViewerDialog;
+
     private ImageLoader imageLoader;
     private ResourceLoader resourceLoader;
     private Messages messages;
@@ -53,11 +58,13 @@ public class TextViewerDialogTest {
 
     @Before
     public void setUp() {
-        imageLoader = mock(ImageLoader.class);
-        resourceLoader = mock(ResourceLoader.class);
-        messages = mock(Messages.class);
+        resourceLoader = new ResourceLoader();
+        messages = new PropertyFileMessages("messages.swing");
         settings = mock(Settings.class);
         errorHandler = mock(ErrorHandler.class);
+        imageLoader = new ImageLoader(errorHandler, messages, new ResourceValidator(), resourceLoader);
+
+        textViewerDialog = new TextViewerDialog("test-messages.properties", "title", false, imageLoader, resourceLoader, messages, settings, errorHandler);
     }
 
     @Test
@@ -130,5 +137,14 @@ public class TextViewerDialogTest {
         expectedException.expectMessage("Error handler can not be null");
 
         new TextViewerDialog("file", "title", false, imageLoader, resourceLoader, messages, settings, null);
+    }
+
+    @Test
+    public void setVisibleShouldShowErrorIfFileWasNotOpened() {
+        TestUtils.setFieldValue(textViewerDialog, "fileOpened", false);
+
+        textViewerDialog.setVisible(true);
+
+        verify(errorHandler).showError("The file test-messages.properties could not be opened.");
     }
 }
