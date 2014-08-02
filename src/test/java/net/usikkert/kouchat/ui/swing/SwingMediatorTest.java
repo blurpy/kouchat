@@ -44,6 +44,8 @@ import net.usikkert.kouchat.util.TestUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.Assertion;
+import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.rules.ExpectedException;
 
 /**
@@ -56,6 +58,9 @@ public class SwingMediatorTest {
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
+
+    @Rule
+    public ExpectedSystemExit expectedSystemExit = ExpectedSystemExit.none();
 
     private SwingMediator mediator;
 
@@ -311,5 +316,29 @@ public class SwingMediatorTest {
         verify(cmdParser).fixTopic("new topic");
         verify(messageTF).requestFocusInWindow();
         verify(uiTools).showWarningMessage("Topic error", "Change topic");
+    }
+
+    @Test
+    public void quitShouldExitIfYes() {
+        expectedSystemExit.expectSystemExitWithStatus(0);
+        expectedSystemExit.checkAssertionAfterwards(new Assertion() {
+            @Override
+            public void checkAssertion() throws Exception {
+                verify(uiTools).showOptionDialog("Are you sure you want to quit?", "Quit");
+            }
+        });
+
+        when(uiTools.showOptionDialog(anyString(), anyString())).thenReturn(JOptionPane.YES_OPTION);
+
+        mediator.quit();
+    }
+
+    @Test
+    public void quitShouldNotExitIfCancel() {
+        when(uiTools.showOptionDialog(anyString(), anyString())).thenReturn(JOptionPane.CANCEL_OPTION);
+
+        mediator.quit();
+
+        verify(uiTools).showOptionDialog("Are you sure you want to quit?", "Quit");
     }
 }
