@@ -336,27 +336,27 @@ public class SwingMediator implements Mediator, UserInterface {
         if (user == null) {
             return;
         } else if (user.isMe()) {
-            final String message = "You cannot send files to yourself.";
-            uiTools.showWarningMessage(message, "Warning");
+            uiTools.showWarningMessage(messages.getMessage("swing.popup.sendFile.validation.isMe"),
+                                       messages.getMessage("swing.popup.sendFile.validation.title"));
         }
 
         else if (me.isAway()) {
-            final String message = "You cannot send files while you are away.";
-            uiTools.showWarningMessage(message, "Warning");
+            uiTools.showWarningMessage(messages.getMessage("swing.popup.sendFile.validation.meIsAway"),
+                                       messages.getMessage("swing.popup.sendFile.validation.title"));
         }
 
         else if (user.isAway()) {
-            final String message = "You cannot send files to " + user.getNick() + ", which is away.";
-            uiTools.showWarningMessage(message, "Warning");
+            uiTools.showWarningMessage(messages.getMessage("swing.popup.sendFile.validation.userIsAway", user.getNick()),
+                                       messages.getMessage("swing.popup.sendFile.validation.title"));
         }
 
         else if (!user.isOnline()) {
-            final String message = "You cannot send files to " + user.getNick() + ", which is not online anymore.";
-            uiTools.showWarningMessage(message, "Warning");
+            uiTools.showWarningMessage(messages.getMessage("swing.popup.sendFile.validation.userIsOffline", user.getNick()),
+                                       messages.getMessage("swing.popup.sendFile.validation.title"));
         }
 
         else {
-            final JFileChooser chooser = uiTools.createFileChooser("Open");
+            final JFileChooser chooser = uiTools.createFileChooser(messages.getMessage("swing.popup.sendFile.title"));
 
             if (selectedFile != null && selectedFile.exists()) {
                 chooser.setSelectedFile(selectedFile);
@@ -373,7 +373,7 @@ public class SwingMediator implements Mediator, UserInterface {
                     }
 
                     catch (final CommandException e) {
-                        uiTools.showWarningMessage(e.getMessage(), "Send file");
+                        uiTools.showWarningMessage(e.getMessage(), messages.getMessage("swing.popup.sendFile.error.title"));
                     }
                 }
             }
