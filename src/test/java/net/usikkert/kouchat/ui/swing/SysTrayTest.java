@@ -26,8 +26,11 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.MenuItem;
+import java.awt.PopupMenu;
 import java.awt.SystemTray;
+import java.awt.TrayIcon;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -65,7 +68,7 @@ public class SysTrayTest {
         messages = new PropertyFileMessages("messages.swing");
         final ImageLoader imageLoader = new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
 
-        sysTray = new SysTray(imageLoader, mock(Settings.class), messages);
+        sysTray = spy(new SysTray(imageLoader, mock(Settings.class), messages));
 
         uiTools = TestUtils.setFieldValueWithMock(sysTray, "uiTools", UITools.class);
         log = TestUtils.setFieldValueWithMock(sysTray, "LOG", Logger.class);
@@ -73,6 +76,7 @@ public class SysTrayTest {
         final SystemTray systemTray = mock(SystemTray.class);
         when(systemTray.getTrayIconSize()).thenReturn(new Dimension(16, 16));
         when(uiTools.getSystemTray()).thenReturn(systemTray);
+        doReturn(mock(TrayIcon.class)).when(sysTray).createTrayIcon(any(Image.class), any(PopupMenu.class));
     }
 
     @Test

@@ -122,7 +122,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
             final StatusIconSize iconSize = chooseIconSize(sysTray);
             statusIcons = new StatusIcons(imageLoader, iconSize);
 
-            trayIcon = new TrayIcon(statusIcons.getNormalIcon(), "", menu);
+            trayIcon = createTrayIcon(statusIcons.getNormalIcon(), menu);
 
             if (iconSize == StatusIconSize.SIZE_32x32) {
                 trayIcon.setImageAutoSize(true);
@@ -365,5 +365,9 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
         } else {
             return StatusIconSize.SIZE_32x32;
         }
+    }
+
+    TrayIcon createTrayIcon(final Image icon, final PopupMenu menu) {
+        return new TrayIcon(icon, "", menu);
     }
 }
