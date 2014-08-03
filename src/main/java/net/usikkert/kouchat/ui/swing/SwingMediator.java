@@ -250,25 +250,33 @@ public class SwingMediator implements Mediator, UserInterface {
      */
     @Override
     public void updateTitleAndTray() {
-        String title = me.getNick();
+        final String title;
 
         if (!controller.isConnected()) {
             if (controller.isLoggedOn()) {
-                title += " - Connection lost";
+                title = messages.getMessage("swing.mainChat.title.connectionLost", me.getNick());
             }
 
             else {
-                title += " - Not connected";
+                title = messages.getMessage("swing.mainChat.title.notConnected", me.getNick());
             }
         }
 
         else {
-            if (me.isAway()) {
-                title += " (Away)";
+            if (me.isAway() && controller.getTopic().hasTopic()) {
+                title = messages.getMessage("swing.mainChat.title.awayAndTopic", me.getNick(), controller.getTopic());
             }
 
-            if (controller.getTopic().getTopic().length() > 0) {
-                title += " - Topic: " + controller.getTopic();
+            else if (me.isAway()) {
+                title = messages.getMessage("swing.mainChat.title.away", me.getNick());
+            }
+
+            else if (controller.getTopic().hasTopic()) {
+                title = messages.getMessage("swing.mainChat.title.topic", me.getNick(), controller.getTopic());
+            }
+
+            else {
+                title = me.getNick();
             }
         }
 
