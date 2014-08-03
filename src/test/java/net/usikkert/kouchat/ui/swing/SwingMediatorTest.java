@@ -22,8 +22,12 @@
 
 package net.usikkert.kouchat.ui.swing;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.io.File;
+
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -65,6 +69,7 @@ public class SwingMediatorTest {
     private SwingMediator mediator;
 
     private User me;
+    private User user;
     private JTextField messageTF;
     private UITools uiTools;
     private Controller controller;
@@ -95,6 +100,8 @@ public class SwingMediatorTest {
 
         me = new User("Me", 1234);
         me.setMe(true);
+
+        user = new User("Sally", 1235);
 
         final Settings settings = mock(Settings.class);
         when(settings.getMe()).thenReturn(me);
@@ -452,5 +459,189 @@ public class SwingMediatorTest {
         mediator.updateTitleAndTray();
 
         verify(kouChatFrame).updateWindowIcon();
+    }
+
+    @Test
+    public void sendFileShouldDoNothingIfUserIsNull() {
+        mediator.sendFile(null, null);
+
+        verifyZeroInteractions(cmdParser, uiTools);
+    }
+
+    @Test
+    public void sendFileShouldShowWarningMessageIfUserIsMe() {
+        mediator.sendFile(me, null);
+
+        verify(uiTools).showWarningMessage("You cannot send files to yourself.", "Warning");
+        verify(uiTools, never()).createFileChooser(anyString());
+        verifyZeroInteractions(cmdParser);
+    }
+
+    @Test
+    public void sendFileShouldShowWarningMessageIfMeIsAway() {
+        me.setAway(true);
+
+        mediator.sendFile(user, null);
+
+        verify(uiTools).showWarningMessage("You cannot send files while you are away.", "Warning");
+        verify(uiTools, never()).createFileChooser(anyString());
+        verifyZeroInteractions(cmdParser);
+    }
+
+    @Test
+    public void sendFileShouldShowWarningMessageIfUserIsAway() {
+        user.setAway(true);
+
+        mediator.sendFile(user, null);
+
+        verify(uiTools).showWarningMessage("You cannot send files to Sally, which is away.", "Warning");
+        verify(uiTools, never()).createFileChooser(anyString());
+        verifyZeroInteractions(cmdParser);
+    }
+
+    @Test
+    public void sendFileShouldShowWarningMessageIfUserHasLoggedOff() {
+        user.setOnline(false);
+
+        mediator.sendFile(user, null);
+
+        verify(uiTools).showWarningMessage("You cannot send files to Sally, which is not online anymore.", "Warning");
+        verify(uiTools, never()).createFileChooser(anyString());
+        verifyZeroInteractions(cmdParser);
+    }
+
+    @Test
+    public void sendFileShouldNotSetSelectedFileIfSelectedFileIsNull() {
+        final JFileChooser fileChooser = mock(JFileChooser.class);
+        when(fileChooser.showOpenDialog(null)).thenReturn(JFileChooser.CANCEL_OPTION);
+
+        when(uiTools.createFileChooser(anyString())).thenReturn(fileChooser);
+
+        mediator.sendFile(user, null);
+
+        verify(uiTools).createFileChooser("Open");
+        verify(fileChooser, never()).setSelectedFile(any(File.class));
+    }
+
+    @Test
+    public void sendFileShouldNotSetSelectedFileIfSelectedFileDoesNotExist() {
+        final JFileChooser fileChooser = mock(JFileChooser.class);
+        when(fileChooser.showOpenDialog(null)).thenReturn(JFileChooser.CANCEL_OPTION);
+
+        when(uiTools.createFileChooser(anyString())).thenReturn(fileChooser);
+
+        final File selectedFile = new File("");
+        assertFalse(selectedFile.exists());
+        mediator.sendFile(user, selectedFile);
+
+        verify(uiTools).createFileChooser("Open");
+        verify(fileChooser, never()).setSelectedFile(any(File.class));
+    }
+
+    @Test
+    public void sendFileShouldSetSelectedFileIfSelectedFileExist() {
+        final JFileChooser fileChooser = mock(JFileChooser.class);
+        when(fileChooser.showOpenDialog(null)).thenReturn(JFileChooser.CANCEL_OPTION);
+
+        when(uiTools.createFileChooser(anyString())).thenReturn(fileChooser);
+
+        final File selectedFile = new File("README");
+        assertTrue(selectedFile.exists());
+
+        mediator.sendFile(user, selectedFile);
+
+        verify(uiTools).createFileChooser("Open");
+        verify(fileChooser).setSelectedFile(selectedFile);
+    }
+
+    @Test
+    public void sendFileShouldNotSendIfUserClicksCancel() {
+        final JFileChooser fileChooser = mock(JFileChooser.class);
+        when(fileChooser.showOpenDialog(null)).thenReturn(JFileChooser.CANCEL_OPTION);
+
+        when(uiTools.createFileChooser(anyString())).thenReturn(fileChooser);
+
+        mediator.sendFile(user, new File("README"));
+
+        verify(uiTools).createFileChooser("Open");
+        verify(uiTools, never()).showWarningMessage(anyString(), anyString());
+        verifyZeroInteractions(cmdParser);
+    }
+
+    @Test
+    public void sendFileShouldNotSendIfFileDoesNotExist() {
+        final JFileChooser fileChooser = mock(JFileChooser.class);
+        when(fileChooser.showOpenDialog(null)).thenReturn(JFileChooser.APPROVE_OPTION);
+
+        final File selectedFile = new File("nothing.txt");
+        assertFalse(selectedFile.exists());
+        when(fileChooser.getSelectedFile()).thenReturn(selectedFile);
+
+        when(uiTools.createFileChooser(anyString())).thenReturn(fileChooser);
+
+        mediator.sendFile(user, null);
+
+        verify(uiTools).createFileChooser("Open");
+        verify(uiTools, never()).showWarningMessage(anyString(), anyString());
+        verifyZeroInteractions(cmdParser);
+    }
+
+    @Test
+    public void sendFileShouldNotSendIfFileIsDirectory() {
+        final JFileChooser fileChooser = mock(JFileChooser.class);
+        when(fileChooser.showOpenDialog(null)).thenReturn(JFileChooser.APPROVE_OPTION);
+
+        final File selectedFile = new File("icons");
+        assertTrue(selectedFile.exists());
+        assertFalse(selectedFile.isFile());
+        when(fileChooser.getSelectedFile()).thenReturn(selectedFile);
+
+        when(uiTools.createFileChooser(anyString())).thenReturn(fileChooser);
+
+        mediator.sendFile(user, null);
+
+        verify(uiTools).createFileChooser("Open");
+        verify(uiTools, never()).showWarningMessage(anyString(), anyString());
+        verifyZeroInteractions(cmdParser);
+    }
+
+    @Test
+    public void sendFileShouldSendIfFileIsValid() throws CommandException {
+        final JFileChooser fileChooser = mock(JFileChooser.class);
+        when(fileChooser.showOpenDialog(null)).thenReturn(JFileChooser.APPROVE_OPTION);
+
+        final File selectedFile = new File("README");
+        assertTrue(selectedFile.exists());
+        assertTrue(selectedFile.isFile());
+        when(fileChooser.getSelectedFile()).thenReturn(selectedFile);
+
+        when(uiTools.createFileChooser(anyString())).thenReturn(fileChooser);
+
+        mediator.sendFile(user, null);
+
+        verify(uiTools).createFileChooser("Open");
+        verify(uiTools, never()).showWarningMessage(anyString(), anyString());
+        verify(cmdParser).sendFile(user, selectedFile.getAbsoluteFile());
+    }
+
+    @Test
+    public void sendFileShouldShowWarningMessageIfSendingFileFailed() throws CommandException {
+        final JFileChooser fileChooser = mock(JFileChooser.class);
+        when(fileChooser.showOpenDialog(null)).thenReturn(JFileChooser.APPROVE_OPTION);
+
+        final File selectedFile = new File("README");
+        assertTrue(selectedFile.exists());
+        assertTrue(selectedFile.isFile());
+        when(fileChooser.getSelectedFile()).thenReturn(selectedFile);
+
+        when(uiTools.createFileChooser(anyString())).thenReturn(fileChooser);
+
+        doThrow(new CommandException("Don't send file")).when(cmdParser).sendFile(any(User.class), any(File.class));
+
+        mediator.sendFile(user, null);
+
+        verify(uiTools).createFileChooser("Open");
+        verify(uiTools).showWarningMessage("Don't send file", "Send file");
+        verify(cmdParser).sendFile(user, selectedFile.getAbsoluteFile());
     }
 }
