@@ -198,7 +198,7 @@ public class MockMediator implements Mediator {
         if (transferDialog.getCancelButtonText().equals("Close")) {
             close = true;
         } else {
-            transferDialog.setCancelButtonText("Close");
+            transferDialog.setCancelButtonTextToClose();
             final FileTransfer fileTransfer = transferDialog.getFileTransfer();
             fileTransfer.cancel();
         }

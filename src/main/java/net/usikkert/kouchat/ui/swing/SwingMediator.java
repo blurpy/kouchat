@@ -504,7 +504,7 @@ public class SwingMediator implements Mediator, UserInterface {
         if (transferDialog.getCancelButtonText().equals("Close")) {
             transferDialog.dispose();
         } else {
-            transferDialog.setCancelButtonText("Close");
+            transferDialog.setCancelButtonTextToClose();
             final FileTransfer fileTransfer = transferDialog.getFileTransfer();
             cmdParser.cancelFileTransfer(fileTransfer);
         }

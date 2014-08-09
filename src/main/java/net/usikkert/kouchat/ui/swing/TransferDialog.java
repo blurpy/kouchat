@@ -215,15 +215,13 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
     }
 
     /**
-     * Changes the button text on the cancel button.
-     *
-     * @param text The new text on the button.
+     * Changes the text on the cancel button to close.
      */
-    public void setCancelButtonText(final String text) {
+    public void setCancelButtonTextToClose() {
         uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
-                cancelB.setText(text);
+                cancelB.setText("Close");
             }
         });
     }
