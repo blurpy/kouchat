@@ -195,7 +195,7 @@ public class MockMediator implements Mediator {
      */
     @Override
     public void transferCancelled(final TransferDialog transferDialog) {
-        if (transferDialog.getCancelButtonText().equals("Close")) {
+        if (transferDialog.isCancelButtonTextClose()) {
             close = true;
         } else {
             transferDialog.setCancelButtonTextToClose();

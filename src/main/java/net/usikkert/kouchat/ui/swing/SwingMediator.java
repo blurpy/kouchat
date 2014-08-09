@@ -501,7 +501,7 @@ public class SwingMediator implements Mediator, UserInterface {
      */
     @Override
     public void transferCancelled(final TransferDialog transferDialog) {
-        if (transferDialog.getCancelButtonText().equals("Close")) {
+        if (transferDialog.isCancelButtonTextClose()) {
             transferDialog.dispose();
         } else {
             transferDialog.setCancelButtonTextToClose();
