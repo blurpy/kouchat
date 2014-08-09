@@ -461,26 +461,25 @@ public class SwingMediator implements Mediator, UserInterface {
 
         if (!trimNick.equals(me.getNick())) {
             if (controller.isNickInUse(trimNick)) {
-                uiTools.showWarningMessage("The nick is in use by someone else.", "Change nick");
+                uiTools.showWarningMessage(messages.getMessage("swing.changeNick.validation.inUse"),
+                                           messages.getMessage("swing.changeNick.validation.title"));
             }
 
             else if (!Tools.isValidNick(trimNick)) {
-                final String message = "'" + trimNick + "' is not a valid nick name.\n\n" +
-                        "A nick name can have between 1 and 10 characters.\nLegal characters are 'a-z'," +
-                        " '0-9', '-' and '_'.";
-                uiTools.showWarningMessage(message, "Change nick");
+                uiTools.showWarningMessage(messages.getMessage("swing.changeNick.validation.invalid", trimNick),
+                                           messages.getMessage("swing.changeNick.validation.title"));
             }
 
             else {
                 try {
                     controller.changeMyNick(trimNick);
-                    msgController.showSystemMessage("You changed nick to " + me.getNick());
+                    msgController.showSystemMessage(messages.getMessage("swing.changeNick.message", me.getNick()));
                     updateTitleAndTray();
                     return true;
                 }
 
                 catch (final CommandException e) {
-                    uiTools.showWarningMessage(e.getMessage(), "Change nick");
+                    uiTools.showWarningMessage(e.getMessage(), messages.getMessage("swing.changeNick.validation.title"));
                 }
             }
         }
