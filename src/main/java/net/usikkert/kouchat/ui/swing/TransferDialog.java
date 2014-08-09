@@ -37,7 +37,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import net.usikkert.kouchat.event.FileTransferListener;
@@ -221,7 +220,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      * @param text The new text on the button.
      */
     public void setCancelButtonText(final String text) {
-        SwingUtilities.invokeLater(new Runnable() {
+        uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
                 cancelB.setText(text);
@@ -275,7 +274,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      */
     @Override
     public void statusCompleted() {
-        SwingUtilities.invokeLater(new Runnable() {
+        uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
                 statusL.setForeground(new Color(0, 176, 0));
@@ -300,7 +299,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      */
     @Override
     public void statusConnecting() {
-        SwingUtilities.invokeLater(new Runnable() {
+        uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
                 statusL.setText("Connecting...");
@@ -314,7 +313,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      */
     @Override
     public void statusFailed() {
-        SwingUtilities.invokeLater(new Runnable() {
+        uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
                 statusL.setForeground(Color.RED);
@@ -336,7 +335,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      */
     @Override
     public void statusTransferring() {
-        SwingUtilities.invokeLater(new Runnable() {
+        uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
                 if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE) {
@@ -356,7 +355,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      */
     @Override
     public void statusWaiting() {
-        SwingUtilities.invokeLater(new Runnable() {
+        uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
                 final User me = settings.getMe();
@@ -400,7 +399,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      */
     @Override
     public void transferUpdate() {
-        SwingUtilities.invokeLater(new Runnable() {
+        uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
                 transferredL.setText(Tools.byteToString(fileTransfer.getTransferred()) + " of " +
