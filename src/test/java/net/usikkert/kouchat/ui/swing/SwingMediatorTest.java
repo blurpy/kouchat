@@ -51,6 +51,8 @@ import org.junit.Test;
 import org.junit.contrib.java.lang.system.Assertion;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.rules.ExpectedException;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 /**
  * Test of {@link SwingMediator}.
@@ -78,6 +80,7 @@ public class SwingMediatorTest {
     private ComponentHandler componentHandler;
     private KouChatFrame kouChatFrame;
     private SysTray sysTray;
+    private MessageController msgController;
 
     @Before
     public void setUp() {
@@ -112,7 +115,7 @@ public class SwingMediatorTest {
 
         uiTools = TestUtils.setFieldValueWithMock(mediator, "uiTools", UITools.class);
         controller = TestUtils.setFieldValueWithMock(mediator, "controller", Controller.class);
-        TestUtils.setFieldValueWithMock(mediator, "msgController", MessageController.class);
+        msgController = TestUtils.setFieldValueWithMock(mediator, "msgController", MessageController.class);
         jmxAgent = TestUtils.setFieldValueWithMock(mediator, "jmxAgent", JMXAgent.class);
         cmdParser = TestUtils.setFieldValueWithMock(mediator, "cmdParser", CommandParser.class);
 
@@ -643,5 +646,88 @@ public class SwingMediatorTest {
         verify(uiTools).createFileChooser("Open");
         verify(uiTools).showWarningMessage("Don't send file", "Send file");
         verify(cmdParser).sendFile(user, selectedFile.getAbsoluteFile());
+    }
+
+    @Test
+    public void changeNickShouldReturnTrueAndDoNothingIfNickNameIsTheSame() {
+        me.setNick("Lilly");
+
+        assertTrue(mediator.changeNick("Lilly"));
+
+        verifyZeroInteractions(controller, uiTools);
+    }
+
+    @Test
+    public void changeNickShouldReturnTrueAndDoNothingIfTrimmedNickNameIsTheSame() {
+        me.setNick("Lilly");
+
+        assertTrue(mediator.changeNick("   Lilly   "));
+
+        verifyZeroInteractions(controller, uiTools);
+    }
+
+    @Test
+    public void changeNickShouldReturnFalseAndShowWarningIfNickNameIsInUse() {
+        when(controller.isNickInUse(anyString())).thenReturn(true);
+
+        assertFalse(mediator.changeNick(" Lilly "));
+
+        verify(uiTools).showWarningMessage("The nick is in use by someone else.", "Change nick");
+        verify(controller).isNickInUse("Lilly");
+        verifyNoMoreInteractions(controller, uiTools);
+    }
+
+    @Test
+    public void changeNickShouldReturnFalseAndShowWarningIfNickNameIsInvalid() {
+        assertFalse(mediator.changeNick(" Lilly@ "));
+
+        verify(uiTools).showWarningMessage("'Lilly@' is not a valid nick name.\n\n" +
+                                                   "A nick name can have between 1 and 10 characters.\n" +
+                                                   "Legal characters are 'a-z', '0-9', '-' and '_'.",
+                                           "Change nick");
+        verify(controller).isNickInUse("Lilly@");
+        verifyNoMoreInteractions(controller, uiTools);
+    }
+
+    @Test
+    public void changeNickShouldReturnTrueAndChangeNickNameIfNickNameIsValid() throws CommandException {
+        doAnswer(withSetNickNameOnMe()).when(controller).changeMyNick(anyString());
+        doNothing().when(mediator).updateTitleAndTray();
+
+        assertTrue(mediator.changeNick(" Amy "));
+
+        verify(controller).isNickInUse("Amy");
+        verify(controller).changeMyNick("Amy");
+        verify(msgController).showSystemMessage("You changed nick to Amy");
+        verify(mediator).updateTitleAndTray();
+
+        verifyNoMoreInteractions(controller);
+        verifyZeroInteractions(uiTools);
+    }
+
+    @Test
+    public void changeNickShouldReturnFalseAndShowWarningMessageIfChangeNickNameFails() throws CommandException {
+        doThrow(new CommandException("Don't change nick")).when(controller).changeMyNick(anyString());
+
+        assertFalse(mediator.changeNick(" Amy "));
+
+        verify(controller).isNickInUse("Amy");
+        verify(controller).changeMyNick("Amy");
+        verify(uiTools).showWarningMessage("Don't change nick", "Change nick");
+
+        verifyNoMoreInteractions(controller);
+        verifyZeroInteractions(uiTools, msgController);
+    }
+
+    private Answer<Void> withSetNickNameOnMe() {
+        return new Answer<Void>() {
+            @Override
+            public Void answer(final InvocationOnMock invocation) throws Throwable {
+                final String newNick = (String) invocation.getArguments()[0];
+                me.setNick(newNick);
+
+                return null;
+            }
+        };
     }
 }
