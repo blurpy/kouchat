@@ -43,6 +43,7 @@ import net.usikkert.kouchat.misc.SortedUserList;
 import net.usikkert.kouchat.misc.SoundBeeper;
 import net.usikkert.kouchat.misc.Topic;
 import net.usikkert.kouchat.misc.User;
+import net.usikkert.kouchat.ui.PrivateChatWindow;
 import net.usikkert.kouchat.ui.swing.settings.SettingsDialog;
 import net.usikkert.kouchat.util.TestUtils;
 
@@ -83,6 +84,7 @@ public class SwingMediatorTest {
     private SysTray sysTray;
     private MessageController msgController;
     private SoundBeeper beeper;
+    private PrivateChatWindow privchat;
 
     @Before
     public void setUp() {
@@ -106,7 +108,10 @@ public class SwingMediatorTest {
         me = new User("Me", 1234);
         me.setMe(true);
 
+        privchat = mock(PrivateChatWindow.class);
+
         user = new User("Sally", 1235);
+        user.setPrivchat(privchat);
 
         final Settings settings = mock(Settings.class);
         when(settings.getMe()).thenReturn(me);
@@ -789,6 +794,139 @@ public class SwingMediatorTest {
 
         verify(mediator, never()).updateTitleAndTray();
         verifyZeroInteractions(sysTray, beeper);
+    }
+
+    @Test
+    public void notifyPrivateMessageArrivedWhenGuiHiddenAndPrivateChatFocusedShouldDoNothing() {
+        when(kouChatFrame.isVisible()).thenReturn(false);
+        when(kouChatFrame.isFocused()).thenReturn(false);
+
+        when(privchat.isVisible()).thenReturn(true);
+        when(privchat.isFocused()).thenReturn(true);
+
+        mediator.notifyPrivateMessageArrived(user);
+
+        verifyZeroInteractions(sysTray, beeper);
+        assertFalse(me.isNewMsg());
+    }
+
+    @Test
+    public void notifyPrivateMessageArrivedWhenGuiAndPrivateChatHiddenShouldSetNormalActivityStateAndBalloonInSystemTrayAndBeep() {
+        when(kouChatFrame.isVisible()).thenReturn(false);
+        when(kouChatFrame.isFocused()).thenReturn(false);
+
+        when(privchat.isVisible()).thenReturn(false);
+        when(privchat.isFocused()).thenReturn(false);
+
+        mediator.notifyPrivateMessageArrived(user);
+
+        verify(sysTray).setNormalActivityState();
+        verify(sysTray).showBalloonMessage("Me - KouChat", "New private message from Sally");
+        verify(beeper).beep();
+
+        verifyNoMoreInteractions(sysTray);
+        assertFalse(me.isNewMsg());
+    }
+
+    @Test
+    public void notifyPrivateMessageArrivedWhenGuiHiddenAndPrivateChatOutOfFocusShouldUpdateAndBeep() {
+        when(kouChatFrame.isVisible()).thenReturn(false);
+        when(kouChatFrame.isFocused()).thenReturn(false);
+
+        when(privchat.isVisible()).thenReturn(true);
+        when(privchat.isFocused()).thenReturn(false);
+
+        mediator.notifyPrivateMessageArrived(user);
+
+        verify(privchat).updateUserInformation();
+        verify(beeper).beep();
+
+        verifyZeroInteractions(sysTray);
+        assertFalse(me.isNewMsg());
+    }
+
+    @Test
+    public void notifyPrivateMessageArrivedWhenGuiOutOfFocusAndPrivateChatFocusedShouldDoNothing() {
+        when(kouChatFrame.isVisible()).thenReturn(true);
+        when(kouChatFrame.isFocused()).thenReturn(false);
+
+        when(privchat.isVisible()).thenReturn(true);
+        when(privchat.isFocused()).thenReturn(true);
+
+        mediator.notifyPrivateMessageArrived(user);
+
+        verifyZeroInteractions(sysTray, beeper);
+        assertFalse(me.isNewMsg());
+    }
+
+    @Test
+    public void notifyPrivateMessageArrivedWhenGuiOutOfFocusAndPrivateChatHiddenShouldBeepAndUpdateAndSetNewMessage() {
+        doNothing().when(mediator).updateTitleAndTray();
+        when(kouChatFrame.isVisible()).thenReturn(true);
+        when(kouChatFrame.isFocused()).thenReturn(false);
+
+        when(privchat.isVisible()).thenReturn(false);
+        when(privchat.isFocused()).thenReturn(false);
+
+        assertFalse(me.isNewMsg());
+
+        mediator.notifyPrivateMessageArrived(user);
+
+        assertTrue(me.isNewMsg());
+        verify(mediator).updateTitleAndTray();
+        verify(beeper).beep();
+
+        verifyZeroInteractions(sysTray);
+    }
+
+    @Test
+    public void notifyPrivateMessageArrivedWhenGuiAndPrivateChatOutOfFocusShouldUpdateAndBeep() {
+        when(kouChatFrame.isVisible()).thenReturn(true);
+        when(kouChatFrame.isFocused()).thenReturn(false);
+
+        when(privchat.isVisible()).thenReturn(true);
+        when(privchat.isFocused()).thenReturn(false);
+
+        mediator.notifyPrivateMessageArrived(user);
+
+        verify(privchat).updateUserInformation();
+        verify(beeper).beep();
+
+        verifyZeroInteractions(sysTray);
+        assertFalse(me.isNewMsg());
+    }
+
+    // Skipping test with both gui and privchat focused - not possible
+
+    @Test
+    public void notifyPrivateMessageArrivedWhenGuiInFocusAndPrivateChatHiddenShouldDoNothing() {
+        doNothing().when(mediator).updateTitleAndTray();
+        when(kouChatFrame.isVisible()).thenReturn(true);
+        when(kouChatFrame.isFocused()).thenReturn(true);
+
+        when(privchat.isVisible()).thenReturn(false);
+        when(privchat.isFocused()).thenReturn(false);
+
+        mediator.notifyPrivateMessageArrived(user);
+
+        verifyZeroInteractions(sysTray, beeper);
+        assertFalse(me.isNewMsg());
+    }
+
+    @Test
+    public void notifyPrivateMessageArrivedWhenGuiInFocusAndPrivateChatOutOfFocusShouldUpdate() {
+        when(kouChatFrame.isVisible()).thenReturn(true);
+        when(kouChatFrame.isFocused()).thenReturn(true);
+
+        when(privchat.isVisible()).thenReturn(true);
+        when(privchat.isFocused()).thenReturn(false);
+
+        mediator.notifyPrivateMessageArrived(user);
+
+        verify(privchat).updateUserInformation();
+
+        verifyZeroInteractions(sysTray, beeper);
+        assertFalse(me.isNewMsg());
     }
 
     private Answer<Void> withSetNickNameOnMe() {
