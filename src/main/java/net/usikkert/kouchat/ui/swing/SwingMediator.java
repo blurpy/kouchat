@@ -532,7 +532,7 @@ public class SwingMediator implements Mediator, UserInterface {
                 sysTray.setNormalActivityState();
                 beeper.beep();
                 sysTray.showBalloonMessage(uiTools.createTitle(me.getNick()),
-                        "New message from " + user.getNick());
+                                           messages.getMessage("swing.systemTray.balloon.newMessage", user.getNick()));
             }
         }
 
