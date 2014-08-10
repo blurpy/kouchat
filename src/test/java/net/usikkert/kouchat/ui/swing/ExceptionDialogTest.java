@@ -280,7 +280,7 @@ public class ExceptionDialogTest {
                         "Caused by: java.lang.RuntimeException: First\n" +
                         "\tat FirstClass.secondMethod(FirstClass.java:12)\n" +
                         "\tat FirstClass.firstMethod(FirstClass.java:10)\n",
-                exceptionTextPane.getText());
+                     exceptionTextPane.getText().replaceAll("\\r\\n", "\\\n")); // Replace Windows newlines
     }
 
     @Test
@@ -314,6 +314,6 @@ public class ExceptionDialogTest {
                              "java.lang.RuntimeException: First\n" +
                              "\tat FirstClass.secondMethod(FirstClass.java:12)\n" +
                              "\tat FirstClass.firstMethod(FirstClass.java:10)\n",
-                     exceptionTextPane.getText());
+                     exceptionTextPane.getText().replaceAll("\\r\\n", "\\\n")); // Replace Windows newlines
     }
 }
