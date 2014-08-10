@@ -40,6 +40,7 @@ import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.SortedUserList;
+import net.usikkert.kouchat.misc.SoundBeeper;
 import net.usikkert.kouchat.misc.Topic;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.ui.swing.settings.SettingsDialog;
@@ -81,6 +82,7 @@ public class SwingMediatorTest {
     private KouChatFrame kouChatFrame;
     private SysTray sysTray;
     private MessageController msgController;
+    private SoundBeeper beeper;
 
     @Before
     public void setUp() {
@@ -118,6 +120,7 @@ public class SwingMediatorTest {
         msgController = TestUtils.setFieldValueWithMock(mediator, "msgController", MessageController.class);
         jmxAgent = TestUtils.setFieldValueWithMock(mediator, "jmxAgent", JMXAgent.class);
         cmdParser = TestUtils.setFieldValueWithMock(mediator, "cmdParser", CommandParser.class);
+        beeper = TestUtils.setFieldValueWithMock(mediator, "beeper", SoundBeeper.class);
 
         when(controller.getUserList()).thenReturn(new SortedUserList());
         when(uiTools.createTitle(anyString())).thenCallRealMethod();
@@ -717,6 +720,75 @@ public class SwingMediatorTest {
 
         verifyNoMoreInteractions(controller);
         verifyZeroInteractions(uiTools, msgController);
+    }
+
+    @Test
+    public void notifyMessageArrivedWhenGuiNotVisibleAndMeIsAwayShouldSetAwayActivityStateInSystemTray() {
+        when(kouChatFrame.isVisible()).thenReturn(false);
+        when(kouChatFrame.isFocused()).thenReturn(false);
+        me.setAway(true);
+
+        mediator.notifyMessageArrived(user);
+
+        verify(sysTray).setAwayActivityState();
+
+        verifyNoMoreInteractions(sysTray);
+        verifyZeroInteractions(beeper);
+    }
+
+    @Test
+    public void notifyMessageArrivedWhenGuiNotVisibleAndMeIsNotAwayShouldSetNormalActivityStateAndBalloonInSystemTrayAndBeep() {
+        when(kouChatFrame.isVisible()).thenReturn(false);
+        when(kouChatFrame.isFocused()).thenReturn(false);
+        me.setAway(false);
+
+        mediator.notifyMessageArrived(user);
+
+        verify(sysTray).setNormalActivityState();
+        verify(sysTray).showBalloonMessage("Me - KouChat", "New message from Sally");
+        verify(beeper).beep();
+
+        verifyNoMoreInteractions(sysTray);
+    }
+
+    @Test
+    public void notifyMessageArrivedWhenGuiNotFocusedAndMeIsAwayShouldUpdateTitleAndTray() {
+        doNothing().when(mediator).updateTitleAndTray();
+        when(kouChatFrame.isVisible()).thenReturn(true);
+        when(kouChatFrame.isFocused()).thenReturn(false);
+        me.setAway(true);
+
+        mediator.notifyMessageArrived(user);
+
+        verify(mediator).updateTitleAndTray();
+
+        verifyZeroInteractions(beeper, sysTray);
+    }
+
+    @Test
+    public void notifyMessageArrivedWhenGuiNotFocusedAndMeIsNotAwayShouldUpdateTitleAndTrayAndBeep() {
+        doNothing().when(mediator).updateTitleAndTray();
+        when(kouChatFrame.isVisible()).thenReturn(true);
+        when(kouChatFrame.isFocused()).thenReturn(false);
+        me.setAway(false);
+
+        mediator.notifyMessageArrived(user);
+
+        verify(mediator).updateTitleAndTray();
+        verify(beeper).beep();
+
+        verifyZeroInteractions(sysTray);
+    }
+
+    @Test
+    public void notifyMessageArrivedWhenGuiFocusedShouldDoNothing() {
+        when(kouChatFrame.isVisible()).thenReturn(true);
+        when(kouChatFrame.isFocused()).thenReturn(true);
+
+        mediator.notifyMessageArrived(user);
+
+        verify(mediator, never()).updateTitleAndTray();
+        verifyZeroInteractions(sysTray, beeper);
     }
 
     private Answer<Void> withSetNickNameOnMe() {
