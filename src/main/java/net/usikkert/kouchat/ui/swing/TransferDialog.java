@@ -215,9 +215,11 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
     }
 
     /**
-     * Changes the text on the cancel button to "Close".
+     * Prepares the dialog so that it can be closed by clicking the "Close" button.
+     *
+     * <p>The text on the cancel button changes to "Close".</p>
      */
-    public void setCancelButtonTextToClose() {
+    public void registerAsCloseable() {
         uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -227,11 +229,13 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
     }
 
     /**
-     * Checks if the text on the cancel button is "Close".
+     * Checks if the dialog will be closed when clicking on the button.
      *
-     * @return If the text on the button is "Close".
+     * <p>If not, the button cancels the file transfer.</p>
+     *
+     * @return If the dialog closes when clicking the button.
      */
-    public boolean isCancelButtonTextClose() {
+    public boolean isCloseable() {
         return cancelB.getText().equals("Close");
     }
 
