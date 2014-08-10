@@ -43,7 +43,7 @@ import org.junit.Test;
  * @author Christian Ihle
  */
 @Ignore
-public class TransferDialogTest {
+public class TransferDialogIntegrationTest {
 
     private ImageLoader imageLoader;
     private Settings settings;
