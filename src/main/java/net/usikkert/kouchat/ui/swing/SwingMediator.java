@@ -592,7 +592,7 @@ public class SwingMediator implements Mediator, UserInterface {
                 sysTray.setNormalActivityState();
                 beeper.beep();
                 sysTray.showBalloonMessage(uiTools.createTitle(me.getNick()),
-                        "New private message from " + user.getNick());
+                                           messages.getMessage("swing.systemTray.balloon.newPrivateMessage", user.getNick()));
             }
 
             // Private chat out of focus - beep, update privchat icon
