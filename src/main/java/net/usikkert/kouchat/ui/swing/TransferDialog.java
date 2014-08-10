@@ -87,6 +87,9 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 
     private final Settings settings;
 
+    /** If the dialog is in a state where it will be closed when clicking the cancel button (with the text "Close"). */
+    private boolean closeable;
+
     /**
      * Constructor. Initializes components and registers this dialog
      * as a listener on the file transfer object.
@@ -223,7 +226,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
         uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
-                cancelB.setText("Close");
+                setAsCloseable();
             }
         });
     }
@@ -236,7 +239,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      * @return If the dialog closes when clicking the button.
      */
     public boolean isCloseable() {
-        return cancelB.getText().equals("Close");
+        return closeable;
     }
 
     /**
@@ -290,7 +293,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
                     statusL.setText("File successfully sent");
                 }
 
-                cancelB.setText("Close");
+                setAsCloseable();
             }
         });
     }
@@ -326,7 +329,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
                     statusL.setText("Failed to send file");
                 }
 
-                cancelB.setText("Close");
+                setAsCloseable();
             }
         });
     }
@@ -420,5 +423,10 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      */
     private void updateTitle(final int percent) {
         setTitle(uiTools.createTitle(percent + "% - File transfer"));
+    }
+
+    private void setAsCloseable() {
+        closeable = true;
+        cancelB.setText("Close");
     }
 }
