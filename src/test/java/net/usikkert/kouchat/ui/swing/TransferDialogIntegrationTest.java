@@ -38,11 +38,12 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Test for the {@link TransferDialog}.
+ * Integration test for the {@link TransferDialog}.
  *
  * @author Christian Ihle
  */
-@Ignore
+@Ignore("Run manually")
+@SuppressWarnings("HardCodedStringLiteral")
 public class TransferDialogIntegrationTest {
 
     private ImageLoader imageLoader;
@@ -66,7 +67,7 @@ public class TransferDialogIntegrationTest {
      * @throws InterruptedException In case of sleep issues.
      */
     @Test
-    public void testReceiveDialog() throws InterruptedException {
+    public void showReceiveDialog() throws InterruptedException {
         final MockMediator mediator = new MockMediator();
         final MockFileTransfer fileTransfer = new MockFileTransfer(Direction.RECEIVE);
 
@@ -85,7 +86,7 @@ public class TransferDialogIntegrationTest {
      * @throws InterruptedException In case of sleep issues.
      */
     @Test
-    public void testSendDialog() throws InterruptedException {
+    public void showSendDialog() throws InterruptedException {
         final MockMediator mediator = new MockMediator();
         final MockFileTransfer fileTransfer = new MockFileTransfer(Direction.SEND);
 
