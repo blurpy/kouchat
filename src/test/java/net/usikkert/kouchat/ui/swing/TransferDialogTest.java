@@ -34,6 +34,7 @@ import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -41,6 +42,7 @@ import org.junit.Test;
  *
  * @author Christian Ihle
  */
+@Ignore
 public class TransferDialogTest {
 
     private ImageLoader imageLoader;
