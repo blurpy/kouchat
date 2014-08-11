@@ -639,8 +639,10 @@ public class SwingMediator implements Mediator, UserInterface {
     @Override
     public boolean askFileSave(final String user, final String fileName, final String size) {
         beeper.beep();
-        final String message = user + " wants to send you the file " + fileName + " (" + size + ")\nAccept?";
-        final int choice = uiTools.showOptionDialog(message, "File send");
+
+        final int choice = uiTools.showOptionDialog(
+                messages.getMessage("swing.popup.receiveFile.askToReceive.message", user, fileName, size),
+                messages.getMessage("swing.popup.receiveFile.askToReceive.title"));
 
         return choice == JOptionPane.YES_OPTION;
     }
