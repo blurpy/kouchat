@@ -929,6 +929,26 @@ public class SwingMediatorTest {
         assertFalse(me.isNewMsg());
     }
 
+    @Test
+    public void askFileSaveShouldBeepAndAskToSaveFileAndReturnFalseOnNo() {
+        when(uiTools.showOptionDialog(anyString(), anyString())).thenReturn(JOptionPane.NO_OPTION);
+
+        assertFalse(mediator.askFileSave("Niles", "donald.png", "2048kb"));
+
+        verify(beeper).beep();
+        verify(uiTools).showOptionDialog("Niles wants to send you the file donald.png (2048kb)\nAccept?", "File send");
+    }
+
+    @Test
+    public void askFileSaveShouldBeepAndAskToSaveFileAndReturnTrueOnYes() {
+        when(uiTools.showOptionDialog(anyString(), anyString())).thenReturn(JOptionPane.YES_OPTION);
+
+        assertTrue(mediator.askFileSave("Penny", "dolly.png", "1024kb"));
+
+        verify(beeper).beep();
+        verify(uiTools).showOptionDialog("Penny wants to send you the file dolly.png (1024kb)\nAccept?", "File send");
+    }
+
     private Answer<Void> withSetNickNameOnMe() {
         return new Answer<Void>() {
             @Override
