@@ -936,7 +936,7 @@ public class SwingMediatorTest {
         assertFalse(mediator.askFileSave("Niles", "donald.png", "2048kb"));
 
         verify(beeper).beep();
-        verify(uiTools).showOptionDialog("Niles wants to send you the file donald.png (2048kb)\nAccept?", "File send");
+        verify(uiTools).showOptionDialog("Niles wants to send you the file donald.png (2048kb)\nAccept?", "Receive file");
     }
 
     @Test
@@ -946,7 +946,7 @@ public class SwingMediatorTest {
         assertTrue(mediator.askFileSave("Penny", "dolly.png", "1024kb"));
 
         verify(beeper).beep();
-        verify(uiTools).showOptionDialog("Penny wants to send you the file dolly.png (1024kb)\nAccept?", "File send");
+        verify(uiTools).showOptionDialog("Penny wants to send you the file dolly.png (1024kb)\nAccept?", "Receive file");
     }
 
     private Answer<Void> withSetNickNameOnMe() {
