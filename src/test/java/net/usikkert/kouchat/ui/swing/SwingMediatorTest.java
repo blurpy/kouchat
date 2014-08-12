@@ -43,6 +43,7 @@ import net.usikkert.kouchat.misc.SortedUserList;
 import net.usikkert.kouchat.misc.SoundBeeper;
 import net.usikkert.kouchat.misc.Topic;
 import net.usikkert.kouchat.misc.User;
+import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 import net.usikkert.kouchat.ui.swing.settings.SettingsDialog;
 import net.usikkert.kouchat.util.TestUtils;
@@ -130,6 +131,7 @@ public class SwingMediatorTest {
         when(controller.getUserList()).thenReturn(new SortedUserList());
         when(uiTools.createTitle(anyString())).thenCallRealMethod();
         when(controller.getTopic()).thenReturn(new Topic());
+        doAnswer(new RunArgumentAnswer()).when(uiTools).invokeAndWait(any(Runnable.class));
     }
 
     @Test
@@ -947,6 +949,138 @@ public class SwingMediatorTest {
 
         verify(beeper).beep();
         verify(uiTools).showOptionDialog("Penny wants to send you the file dolly.png (1024kb)\nAccept?", "Receive file");
+    }
+
+    @Test
+    public void showFileSaveShouldSetSelectedFileAndShowSaveDialogUsingInvokeAndWait() {
+        final FileReceiver fileReceiver = mock(FileReceiver.class);
+        final JFileChooser fileChooser = mock(JFileChooser.class);
+        final File file = mock(File.class);
+
+        when(uiTools.createFileChooser(anyString())).thenReturn(fileChooser);
+        when(fileChooser.showSaveDialog(null)).thenReturn(JFileChooser.CANCEL_OPTION);
+        when(fileReceiver.getFile()).thenReturn(file);
+
+        mediator.showFileSave(fileReceiver);
+
+        verify(uiTools).createFileChooser("Save");
+        verify(fileChooser).setSelectedFile(file);
+        verify(fileChooser).showSaveDialog(null);
+        verify(uiTools).invokeAndWait(any(Runnable.class));
+    }
+
+    @Test
+    public void showFileSaveShouldRejectOnCancel() {
+        final FileReceiver fileReceiver = mock(FileReceiver.class);
+        final JFileChooser fileChooser = mock(JFileChooser.class);
+        final File file = mock(File.class);
+
+        when(uiTools.createFileChooser(anyString())).thenReturn(fileChooser);
+        when(fileChooser.showSaveDialog(null)).thenReturn(JFileChooser.CANCEL_OPTION);
+        when(fileReceiver.getFile()).thenReturn(file);
+
+        mediator.showFileSave(fileReceiver);
+
+        verify(fileReceiver).reject();
+        verify(fileReceiver, never()).accept();
+    }
+
+    @Test
+    public void showFileSaveShouldAcceptAndSetSelectedFileOnSave() {
+        final FileReceiver fileReceiver = mock(FileReceiver.class);
+        final JFileChooser fileChooser = mock(JFileChooser.class);
+
+        final File selectedFile = new File("nothing.txt");
+        assertFalse(selectedFile.exists());
+
+        when(uiTools.createFileChooser(anyString())).thenReturn(fileChooser);
+        when(fileChooser.showSaveDialog(null)).thenReturn(JFileChooser.APPROVE_OPTION);
+        when(fileReceiver.getFile()).thenReturn(mock(File.class));
+        when(fileChooser.getSelectedFile()).thenReturn(selectedFile);
+
+        mediator.showFileSave(fileReceiver);
+
+        verify(fileReceiver).accept();
+        verify(fileReceiver).setFile(selectedFile.getAbsoluteFile());
+
+        verify(fileReceiver, never()).reject();
+        verify(uiTools, never()).showOptionDialog(anyString(), anyString());
+    }
+
+    @Test
+    public void showFileSaveShouldAcceptIfFileExistsOnSaveAndYesOnOverwrite() {
+        final FileReceiver fileReceiver = mock(FileReceiver.class);
+        final JFileChooser fileChooser = mock(JFileChooser.class);
+
+        final File selectedFile = new File("README");
+        assertTrue(selectedFile.exists());
+
+        when(uiTools.createFileChooser(anyString())).thenReturn(fileChooser);
+        when(fileChooser.showSaveDialog(null)).thenReturn(JFileChooser.APPROVE_OPTION);
+        when(fileReceiver.getFile()).thenReturn(mock(File.class));
+        when(fileChooser.getSelectedFile()).thenReturn(selectedFile);
+        when(uiTools.showOptionDialog(anyString(), anyString())).thenReturn(JOptionPane.YES_OPTION);
+
+        mediator.showFileSave(fileReceiver);
+
+        verify(fileReceiver).accept();
+        verify(fileReceiver).setFile(selectedFile.getAbsoluteFile());
+
+        verify(fileReceiver, never()).reject();
+        verify(uiTools).showOptionDialog("README already exists.\nOverwrite?", "File exists");
+    }
+
+    @Test
+    public void showFileSaveShouldRetryUntilCancelIfFileExistsAndThenReject() {
+        final FileReceiver fileReceiver = mock(FileReceiver.class);
+        final JFileChooser fileChooser = mock(JFileChooser.class);
+
+        final File selectedFile = new File("README");
+        assertTrue(selectedFile.exists());
+
+        when(uiTools.createFileChooser(anyString())).thenReturn(fileChooser);
+
+        // Cancel save dialog on the third try to break out of loop
+        when(fileChooser.showSaveDialog(null)).thenReturn(JFileChooser.APPROVE_OPTION,
+                                                          JFileChooser.APPROVE_OPTION,
+                                                          JFileChooser.CANCEL_OPTION);
+        when(fileReceiver.getFile()).thenReturn(mock(File.class));
+        when(fileChooser.getSelectedFile()).thenReturn(selectedFile);
+        when(uiTools.showOptionDialog(anyString(), anyString())).thenReturn(JOptionPane.CANCEL_OPTION);
+
+        mediator.showFileSave(fileReceiver);
+
+        verify(fileReceiver, never()).accept();
+
+        verify(fileReceiver).reject();
+        verify(uiTools, times(2)).showOptionDialog("README already exists.\nOverwrite?", "File exists");
+    }
+
+    @Test
+    public void showFileSaveShouldRetryUntilOverwriteIfFileExistsAndThenAccept() {
+        final FileReceiver fileReceiver = mock(FileReceiver.class);
+        final JFileChooser fileChooser = mock(JFileChooser.class);
+
+        final File selectedFile = new File("README");
+        assertTrue(selectedFile.exists());
+
+        when(uiTools.createFileChooser(anyString())).thenReturn(fileChooser);
+        when(fileChooser.showSaveDialog(null)).thenReturn(JFileChooser.APPROVE_OPTION);
+        when(fileReceiver.getFile()).thenReturn(mock(File.class));
+        when(fileChooser.getSelectedFile()).thenReturn(selectedFile);
+
+        // Accept overwrite on third try to break out of loop
+        when(uiTools.showOptionDialog(anyString(), anyString())).thenReturn(JOptionPane.CANCEL_OPTION,
+                                                                            JOptionPane.CANCEL_OPTION,
+                                                                            JOptionPane.YES_OPTION);
+
+        mediator.showFileSave(fileReceiver);
+
+        verify(fileReceiver).accept();
+        verify(fileReceiver).setFile(selectedFile.getAbsoluteFile());
+
+        verify(fileReceiver, never()).reject();
+        verify(uiTools, times(3)).showOptionDialog("README already exists.\nOverwrite?", "File exists");
     }
 
     private Answer<Void> withSetNickNameOnMe() {
