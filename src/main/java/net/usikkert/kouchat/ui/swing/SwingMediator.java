@@ -665,7 +665,7 @@ public class SwingMediator implements Mediator, UserInterface {
     }
 
     private void showFileSaveInternal(final FileReceiver fileReceiver) {
-        final JFileChooser chooser = uiTools.createFileChooser("Save");
+        final JFileChooser chooser = uiTools.createFileChooser(messages.getMessage("swing.popup.receiveFile.saveFile.title"));
         chooser.setSelectedFile(fileReceiver.getFile());
         boolean done = false;
 
@@ -677,8 +677,9 @@ public class SwingMediator implements Mediator, UserInterface {
                 final File file = chooser.getSelectedFile().getAbsoluteFile();
 
                 if (file.exists()) {
-                    final String message = file.getName() + " already exists.\nOverwrite?";
-                    final int overwrite = uiTools.showOptionDialog(message, "File exists");
+                    final int overwrite = uiTools.showOptionDialog(
+                            messages.getMessage("swing.popup.receiveFile.fileExist.message", file.getName()),
+                            messages.getMessage("swing.popup.receiveFile.fileExist.title"));
 
                     if (overwrite != JOptionPane.YES_OPTION) {
                         done = false;
