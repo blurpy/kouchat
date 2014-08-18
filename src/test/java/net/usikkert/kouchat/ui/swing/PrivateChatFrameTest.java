@@ -58,17 +58,22 @@ public class PrivateChatFrameTest {
     private JMenuItem clearMenuItem;
 
     private User user;
+    private User me;
+
+    private StatusIcons statusIcons;
 
     @Before
     public void setUp() {
         user = new User("Test", 1234);
-        final User me = new User("Me", 1235);
+        me = new User("Me", 1235);
 
         final PropertyFileMessages messages = new PropertyFileMessages("messages.swing");
         final ImageLoader imageLoader = new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
 
         final Settings settings = mock(Settings.class);
         when(settings.getMe()).thenReturn(me);
+
+        statusIcons = new StatusIcons(imageLoader);
 
         privateChatFrame = spy(new PrivateChatFrame(mock(Mediator.class), user, imageLoader, settings, messages));
 
@@ -187,5 +192,71 @@ public class PrivateChatFrameTest {
         privateChatFrame.updateUserInformation();
 
         verify(privateChatFrame).updateWindowIcon();
+    }
+
+    @Test
+    public void updateWindowIconShouldSetNormalIconWhenNotAwayAndNoNewPrivateMessages() {
+        assertFalse(me.isAway());
+        assertFalse(user.isAway());
+        assertFalse(user.isNewPrivMsg());
+
+        privateChatFrame.updateWindowIcon();
+
+        verify(privateChatFrame).setWindowIcon(statusIcons.getNormalIcon());
+    }
+
+    @Test
+    public void updateWindowIconShouldSetAwayIconWhenMeAwayAndNoNewPrivateMessages() {
+        me.setAway(true);
+        assertFalse(user.isAway());
+        assertFalse(user.isNewPrivMsg());
+
+        privateChatFrame.updateWindowIcon();
+
+        verify(privateChatFrame).setWindowIcon(statusIcons.getAwayIcon());
+    }
+
+    @Test
+    public void updateWindowIconShouldSetAwayIconWhenUserAwayAndNoNewPrivateMessages() {
+        assertFalse(me.isAway());
+        user.setAway(true);
+        assertFalse(user.isNewPrivMsg());
+
+        privateChatFrame.updateWindowIcon();
+
+        verify(privateChatFrame).setWindowIcon(statusIcons.getAwayIcon());
+    }
+
+    @Test
+    public void updateWindowIconShouldSetNormalActivityIconWhenNotAwayAndNewPrivateMessages() {
+        assertFalse(me.isAway());
+        assertFalse(user.isAway());
+        user.setNewPrivMsg(true);
+
+        privateChatFrame.updateWindowIcon();
+
+        verify(privateChatFrame).setWindowIcon(statusIcons.getNormalActivityIcon());
+    }
+
+    @Test
+    public void updateWindowIconShouldSetAwayActivityIconWhenMeAwayAndNoNewPrivateMessages() {
+        me.setAway(true);
+        assertFalse(user.isAway());
+        user.setNewPrivMsg(true);
+
+        privateChatFrame.updateWindowIcon();
+
+        verify(privateChatFrame).setWindowIcon(statusIcons.getAwayActivityIcon());
+    }
+
+    @Test
+    public void updateWindowIconShouldSetAwayActivityIconWhenUserAwayAndNoNewPrivateMessages() {
+        assertFalse(me.isAway());
+        user.setAway(true);
+        user.setNewPrivMsg(true);
+
+        privateChatFrame.updateWindowIcon();
+
+        verify(privateChatFrame).setWindowIcon(statusIcons.getAwayActivityIcon());
     }
 }
