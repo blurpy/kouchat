@@ -52,7 +52,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.text.AbstractDocument;
@@ -249,7 +248,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      */
     @Override
     public void appendToPrivateChat(final String message, final int color) {
-        SwingUtilities.invokeLater(new Runnable() {
+        uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -309,7 +308,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
     public void actionPerformed(final ActionEvent e) {
         // Sends a message when the user presses the enter key.
         if (e.getSource() == msgTF) {
-            SwingUtilities.invokeLater(new Runnable() {
+            uiTools.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     cmdHistory.add(msgTF.getText());
@@ -366,7 +365,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      */
     @Override
     public void keyReleased(final KeyEvent ke) {
-        SwingUtilities.invokeLater(new Runnable() {
+        uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
                 if (ke.getKeyCode() == KeyEvent.VK_UP) {
@@ -413,7 +412,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      */
     @Override
     public void setAway(final boolean away) {
-        SwingUtilities.invokeLater(new Runnable() {
+        uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
                 msgTF.setEnabled(!away);
@@ -429,7 +428,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      */
     @Override
     public void setLoggedOff() {
-        SwingUtilities.invokeLater(new Runnable() {
+        uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
                 msgTF.setEnabled(false);
