@@ -86,6 +86,8 @@ public class SwingMediatorTest {
     private MessageController msgController;
     private SoundBeeper beeper;
     private PrivateChatWindow privchat;
+    private MenuBar menuBar;
+    private ButtonPanel buttonP;
 
     @Before
     public void setUp() {
@@ -127,6 +129,8 @@ public class SwingMediatorTest {
         jmxAgent = TestUtils.setFieldValueWithMock(mediator, "jmxAgent", JMXAgent.class);
         cmdParser = TestUtils.setFieldValueWithMock(mediator, "cmdParser", CommandParser.class);
         beeper = TestUtils.setFieldValueWithMock(mediator, "beeper", SoundBeeper.class);
+        menuBar = TestUtils.setFieldValueWithMock(mediator, "menuBar", MenuBar.class);
+        buttonP = TestUtils.setFieldValueWithMock(mediator, "buttonP", ButtonPanel.class);
 
         when(controller.getUserList()).thenReturn(new SortedUserList());
         when(uiTools.createTitle(anyString())).thenCallRealMethod();
@@ -1082,6 +1086,42 @@ public class SwingMediatorTest {
         verify(fileReceiver, never()).reject();
         verify(uiTools, times(3)).showOptionDialog("README already exists.\nOverwrite?", "File exists");
     }
+
+    @Test
+    public void changeAwayWhenAwayShouldSetAwayState() {
+        mediator.changeAway(true);
+
+        verify(sysTray).setAwayState();
+        verify(messageTF).setEnabled(false);
+        verify(menuBar).setAwayState(true);
+        verify(buttonP).setAwayState(true);
+    }
+
+    @Test
+    public void changeAwayWhenNotAwayShouldSetNormalState() {
+        mediator.changeAway(false);
+
+        verify(sysTray).setNormalState();
+        verify(messageTF).setEnabled(true);
+        verify(menuBar).setAwayState(false);
+        verify(buttonP).setAwayState(false);
+    }
+
+    @Test
+    public void changeAwayWhenAwayShouldUpdateTitleAndTray() {
+        mediator.changeAway(true);
+
+        verify(mediator).updateTitleAndTray();
+    }
+
+    @Test
+    public void changeAwayWhenNotAwayShouldUpdateTitleAndTray() {
+        mediator.changeAway(false);
+
+        verify(mediator).updateTitleAndTray();
+    }
+
+    // TODO more tests of changeAway
 
     private Answer<Void> withSetNickNameOnMe() {
         return new Answer<Void>() {
