@@ -28,6 +28,7 @@ import static org.mockito.Mockito.*;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JTextField;
 
 import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.message.PropertyFileMessages;
@@ -36,6 +37,7 @@ import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
+import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -57,10 +59,13 @@ public class PrivateChatFrameTest {
     private JMenuItem closeMenuItem;
     private JMenuItem clearMenuItem;
 
+    private JTextField msgTF;
+
     private User user;
     private User me;
 
     private StatusIcons statusIcons;
+    private UITools uiTools;
 
     @Before
     public void setUp() {
@@ -82,6 +87,12 @@ public class PrivateChatFrameTest {
         toolsMenu = menuBar.getMenu(1);
         closeMenuItem = fileMenu.getItem(0);
         clearMenuItem = toolsMenu.getItem(0);
+
+        msgTF = TestUtils.setFieldValueWithMock(privateChatFrame, "msgTF", JTextField.class);
+
+        uiTools = TestUtils.setFieldValueWithMock(privateChatFrame, "uiTools", UITools.class);
+        doAnswer(new RunArgumentAnswer()).when(uiTools).invokeLater(any(Runnable.class));
+        doCallRealMethod().when(uiTools).createTitle(anyString());
     }
 
     @Rule
@@ -258,5 +269,23 @@ public class PrivateChatFrameTest {
         privateChatFrame.updateWindowIcon();
 
         verify(privateChatFrame).setWindowIcon(statusIcons.getAwayActivityIcon());
+    }
+
+    @Test
+    public void setAwayShouldDisableInputAndUpdateUserInfoWhenAway() {
+        privateChatFrame.setAway(true);
+
+        verify(msgTF).setEnabled(false);
+        verify(privateChatFrame).updateUserInformation();
+        verify(uiTools).invokeLater(any(Runnable.class));
+    }
+
+    @Test
+    public void setAwayShouldEnableInputAndUpdateUserInfoWhenNotAway() {
+        privateChatFrame.setAway(false);
+
+        verify(msgTF).setEnabled(true);
+        verify(privateChatFrame).updateUserInformation();
+        verify(uiTools).invokeLater(any(Runnable.class));
     }
 }
