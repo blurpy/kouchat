@@ -122,6 +122,7 @@ public class MessageParserTest {
                                 final Class<? extends Exception> expectedException,
                                 final String expectedMessage) {
         final Exception exception = exceptionCaptor.getValue();
+
         assertEquals(expectedException, exception.getClass());
         assertEquals(expectedMessage, exception.getMessage());
     }
