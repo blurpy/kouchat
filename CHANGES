@@ -15,6 +15,8 @@
   - Added support for the startup argument --minimized to start the Swing gui minimized.
   - Right click popup with copy/paste options can now be activated using the menu key
     on Windows keyboards
+  - Fixed bug where the private chat input would activate when coming back from away
+    when the other user is still away.
   - User interface translations (under development)
 
 

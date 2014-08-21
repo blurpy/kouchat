@@ -415,7 +415,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
         uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
-                msgTF.setEnabled(!away);
+                msgTF.setEnabled(!isAway());
                 updateUserInformation();
             }
         });
