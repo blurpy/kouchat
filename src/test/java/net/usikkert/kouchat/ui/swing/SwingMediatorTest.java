@@ -43,6 +43,7 @@ import net.usikkert.kouchat.misc.SortedUserList;
 import net.usikkert.kouchat.misc.SoundBeeper;
 import net.usikkert.kouchat.misc.Topic;
 import net.usikkert.kouchat.misc.User;
+import net.usikkert.kouchat.misc.UserList;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 import net.usikkert.kouchat.ui.swing.settings.SettingsDialog;
@@ -88,6 +89,7 @@ public class SwingMediatorTest {
     private PrivateChatWindow privchat;
     private MenuBar menuBar;
     private ButtonPanel buttonP;
+    private UserList userList;
 
     @Before
     public void setUp() {
@@ -132,7 +134,9 @@ public class SwingMediatorTest {
         menuBar = TestUtils.setFieldValueWithMock(mediator, "menuBar", MenuBar.class);
         buttonP = TestUtils.setFieldValueWithMock(mediator, "buttonP", ButtonPanel.class);
 
-        when(controller.getUserList()).thenReturn(new SortedUserList());
+        userList = new SortedUserList();
+
+        when(controller.getUserList()).thenReturn(userList);
         when(uiTools.createTitle(anyString())).thenCallRealMethod();
         when(controller.getTopic()).thenReturn(new Topic());
         doAnswer(new RunArgumentAnswer()).when(uiTools).invokeAndWait(any(Runnable.class));
@@ -1121,7 +1125,93 @@ public class SwingMediatorTest {
         verify(mediator).updateTitleAndTray();
     }
 
-    // TODO more tests of changeAway
+    @Test
+    public void changeAwayShouldShowPrivateSystemMessageWhenAway() {
+        me.setAwayMsg("monkey");
+
+        final User user1 = new User("User1", 1);
+        final User user2 = new User("User2", 2);
+        final User user3 = new User("User3", 3);
+
+        user1.setPrivchat(mock(PrivateChatWindow.class));
+        user3.setPrivchat(mock(PrivateChatWindow.class));
+        assertNull(user2.getPrivchat());
+
+        userList.add(user1);
+        userList.add(user2);
+        userList.add(user3);
+
+        mediator.changeAway(true);
+
+        verify(msgController).showPrivateSystemMessage(user1, "You went away: monkey");
+        verify(msgController).showPrivateSystemMessage(user3, "You went away: monkey");
+        verifyNoMoreInteractions(msgController);
+    }
+
+    @Test
+    public void changeAwayShouldShowPrivateSystemMessageWhenNotAway() {
+        final User user1 = new User("User1", 1);
+        final User user2 = new User("User2", 2);
+        final User user3 = new User("User3", 3);
+
+        user1.setPrivchat(mock(PrivateChatWindow.class));
+        user3.setPrivchat(mock(PrivateChatWindow.class));
+        assertNull(user2.getPrivchat());
+
+        userList.add(user1);
+        userList.add(user2);
+        userList.add(user3);
+
+        mediator.changeAway(false);
+
+        verify(msgController).showPrivateSystemMessage(user1, "You came back");
+        verify(msgController).showPrivateSystemMessage(user3, "You came back");
+        verifyNoMoreInteractions(msgController);
+    }
+
+    @Test
+    public void changeAwayShouldNotifyPrivateChatWhenAway() {
+        final User user1 = new User("User1", 1);
+        final User user2 = new User("User2", 2);
+        final User user3 = new User("User3", 3);
+
+        final PrivateChatWindow privchat1 = mock(PrivateChatWindow.class);
+        final PrivateChatWindow privchat3 = mock(PrivateChatWindow.class);
+
+        user1.setPrivchat(privchat1);
+        user3.setPrivchat(privchat3);
+
+        userList.add(user1);
+        userList.add(user2);
+        userList.add(user3);
+
+        mediator.changeAway(true);
+
+        verify(privchat1).setAway(true);
+        verify(privchat3).setAway(true);
+    }
+
+    @Test
+    public void changeAwayShouldNotifyPrivateChatWhenNotAway() {
+        final User user1 = new User("User1", 1);
+        final User user2 = new User("User2", 2);
+        final User user3 = new User("User3", 3);
+
+        final PrivateChatWindow privchat1 = mock(PrivateChatWindow.class);
+        final PrivateChatWindow privchat3 = mock(PrivateChatWindow.class);
+
+        user1.setPrivchat(privchat1);
+        user3.setPrivchat(privchat3);
+
+        userList.add(user1);
+        userList.add(user2);
+        userList.add(user3);
+
+        mediator.changeAway(false);
+
+        verify(privchat1).setAway(false);
+        verify(privchat3).setAway(false);
+    }
 
     private Answer<Void> withSetNickNameOnMe() {
         return new Answer<Void>() {
