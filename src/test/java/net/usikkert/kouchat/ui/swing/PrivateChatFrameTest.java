@@ -276,7 +276,7 @@ public class PrivateChatFrameTest {
         me.setAway(true);
         user.setAway(false);
 
-        privateChatFrame.setAway(true);
+        privateChatFrame.setAway();
 
         verify(msgTF).setEnabled(false);
         verify(privateChatFrame).updateUserInformation();
@@ -288,7 +288,7 @@ public class PrivateChatFrameTest {
         me.setAway(false);
         user.setAway(true);
 
-        privateChatFrame.setAway(true);
+        privateChatFrame.setAway();
 
         verify(msgTF).setEnabled(false);
         verify(privateChatFrame).updateUserInformation();
@@ -300,7 +300,7 @@ public class PrivateChatFrameTest {
         me.setAway(true);
         user.setAway(true);
 
-        privateChatFrame.setAway(true);
+        privateChatFrame.setAway();
 
         verify(msgTF).setEnabled(false);
         verify(privateChatFrame).updateUserInformation();
@@ -312,7 +312,7 @@ public class PrivateChatFrameTest {
         me.setAway(false);
         user.setAway(false);
 
-        privateChatFrame.setAway(false);
+        privateChatFrame.setAway();
 
         verify(msgTF).setEnabled(true);
         verify(privateChatFrame).updateUserInformation();

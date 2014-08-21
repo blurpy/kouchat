@@ -406,12 +406,10 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
     }
 
     /**
-     * Disables the write field if away.
-     *
-     * @param away If away or not.
+     * Disables the write field if me or the user is away.
      */
     @Override
-    public void setAway(final boolean away) {
+    public void setAway() {
         uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
