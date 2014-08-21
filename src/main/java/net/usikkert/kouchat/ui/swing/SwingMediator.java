@@ -769,7 +769,7 @@ public class SwingMediator implements Mediator, UserInterface {
 
             if (user.getPrivchat() != null) {
                 if (!user.isAway()) {
-                    user.getPrivchat().setAway();
+                    user.getPrivchat().updateAwayState();
                 }
 
                 if (away) {

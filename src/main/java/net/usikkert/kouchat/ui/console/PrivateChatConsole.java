@@ -110,7 +110,7 @@ public class PrivateChatConsole implements PrivateChatWindow {
      * {@inheritDoc}
      */
     @Override
-    public void setAway() {
+    public void updateAwayState() {
 
     }
 

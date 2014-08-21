@@ -1187,8 +1187,8 @@ public class SwingMediatorTest {
 
         mediator.changeAway(true);
 
-        verify(privchat1).setAway();
-        verify(privchat3).setAway();
+        verify(privchat1).updateAwayState();
+        verify(privchat3).updateAwayState();
     }
 
     @Test
@@ -1209,8 +1209,8 @@ public class SwingMediatorTest {
 
         mediator.changeAway(false);
 
-        verify(privchat1).setAway();
-        verify(privchat3).setAway();
+        verify(privchat1).updateAwayState();
+        verify(privchat3).updateAwayState();
     }
 
     private Answer<Void> withSetNickNameOnMe() {

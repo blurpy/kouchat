@@ -272,11 +272,11 @@ public class PrivateChatFrameTest {
     }
 
     @Test
-    public void setAwayShouldDisableInputAndUpdateUserInfoWhenMeAway() {
+    public void updateAwayStateShouldDisableInputAndUpdateUserInfoWhenMeAway() {
         me.setAway(true);
         user.setAway(false);
 
-        privateChatFrame.setAway();
+        privateChatFrame.updateAwayState();
 
         verify(msgTF).setEnabled(false);
         verify(privateChatFrame).updateUserInformation();
@@ -284,11 +284,11 @@ public class PrivateChatFrameTest {
     }
 
     @Test
-    public void setAwayShouldDisableInputAndUpdateUserInfoWhenUserAway() {
+    public void updateAwayStateShouldDisableInputAndUpdateUserInfoWhenUserAway() {
         me.setAway(false);
         user.setAway(true);
 
-        privateChatFrame.setAway();
+        privateChatFrame.updateAwayState();
 
         verify(msgTF).setEnabled(false);
         verify(privateChatFrame).updateUserInformation();
@@ -296,11 +296,11 @@ public class PrivateChatFrameTest {
     }
 
     @Test
-    public void setAwayShouldDisableInputAndUpdateUserInfoWhenBothAway() {
+    public void updateAwayStateShouldDisableInputAndUpdateUserInfoWhenBothAway() {
         me.setAway(true);
         user.setAway(true);
 
-        privateChatFrame.setAway();
+        privateChatFrame.updateAwayState();
 
         verify(msgTF).setEnabled(false);
         verify(privateChatFrame).updateUserInformation();
@@ -308,11 +308,11 @@ public class PrivateChatFrameTest {
     }
 
     @Test
-    public void setAwayShouldEnableInputAndUpdateUserInfoWhenNoOneAway() {
+    public void updateAwayStateShouldEnableInputAndUpdateUserInfoWhenNoOneAway() {
         me.setAway(false);
         user.setAway(false);
 
-        privateChatFrame.setAway();
+        privateChatFrame.updateAwayState();
 
         verify(msgTF).setEnabled(true);
         verify(privateChatFrame).updateUserInformation();
