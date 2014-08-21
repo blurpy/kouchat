@@ -578,7 +578,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      */
     public void updateWindowIcon() {
         if (user.isNewPrivMsg()) {
-            if (me.isAway() || user.isAway()) {
+            if (isAway()) {
                 setWindowIcon(statusIcons.getAwayActivityIcon());
             } else {
                 setWindowIcon(statusIcons.getNormalActivityIcon());
@@ -586,7 +586,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
         }
 
         else {
-            if (me.isAway() || user.isAway()) {
+            if (isAway()) {
                 setWindowIcon(statusIcons.getAwayIcon());
             } else {
                 setWindowIcon(statusIcons.getNormalIcon());
@@ -615,6 +615,10 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 
     private int keyCode(final String key) {
         return KeyStroke.getKeyStroke(key).getKeyCode();
+    }
+
+    private boolean isAway() {
+        return me.isAway() || user.isAway();
     }
 
     /**
