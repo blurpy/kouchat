@@ -32,7 +32,9 @@ import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Test of {@link TransferDialog}.
@@ -40,6 +42,9 @@ import org.junit.Test;
  * @author Christian Ihle
  */
 public class TransferDialogTest {
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     private TransferDialog transferDialog;
 
@@ -51,6 +56,38 @@ public class TransferDialogTest {
         transferDialog = spy(new TransferDialog(mock(Mediator.class), mock(FileTransfer.class), imageLoader, mock(Settings.class)));
 
         doNothing().when(transferDialog).setVisible(anyBoolean());
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfMediatorIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Mediator can not be null");
+
+        new TransferDialog(null, mock(FileTransfer.class), mock(ImageLoader.class), mock(Settings.class));
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfFileTransferIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("File transfer can not be null");
+
+        new TransferDialog(mock(Mediator.class), null, mock(ImageLoader.class), mock(Settings.class));
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfImageLoaderIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Image loader can not be null");
+
+        new TransferDialog(mock(Mediator.class), mock(FileTransfer.class), null, mock(Settings.class));
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfSettingsIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Settings can not be null");
+
+        new TransferDialog(mock(Mediator.class), mock(FileTransfer.class), mock(ImageLoader.class), null);
     }
 
     @Test
