@@ -236,8 +236,8 @@ public class SwingMediator implements Mediator, UserInterface {
      */
     @Override
     public void quit() {
-        final int choice = uiTools.showOptionDialog(messages.getMessage("swing.popup.quit.message"),
-                                                    messages.getMessage("swing.popup.quit.title"));
+        final int choice = uiTools.showOptionDialog(messages.getMessage("swing.quitPopup.message"),
+                                                    messages.getMessage("swing.quitPopup.title"));
 
         if (choice == JOptionPane.YES_OPTION) {
             System.exit(0);
