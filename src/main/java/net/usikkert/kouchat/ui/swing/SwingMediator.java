@@ -151,8 +151,8 @@ public class SwingMediator implements Mediator, UserInterface {
     @Override
     public void setAway() {
         if (me.isAway()) {
-            final int choice = uiTools.showOptionDialog(messages.getMessage("swing.popup.away.comeBack.message", me.getAwayMsg()),
-                                                        messages.getMessage("swing.popup.away.comeBack.title"));
+            final int choice = uiTools.showOptionDialog(messages.getMessage("swing.away.comeBackPopup.message", me.getAwayMsg()),
+                                                        messages.getMessage("swing.away.comeBackPopup.title"));
 
             if (choice == JOptionPane.YES_OPTION) {
                 try {
@@ -160,14 +160,14 @@ public class SwingMediator implements Mediator, UserInterface {
                 }
 
                 catch (final CommandException e) {
-                    uiTools.showWarningMessage(e.getMessage(), messages.getMessage("swing.popup.away.comeBack.error.title"));
+                    uiTools.showWarningMessage(e.getMessage(), messages.getMessage("swing.away.warningPopup.generalError.title"));
                 }
             }
         }
 
         else {
-            final String reason = uiTools.showInputDialog(messages.getMessage("swing.popup.away.goAway.message"),
-                                                          messages.getMessage("swing.popup.away.goAway.title"),
+            final String reason = uiTools.showInputDialog(messages.getMessage("swing.away.goAwayPopup.message"),
+                                                          messages.getMessage("swing.away.goAwayPopup.title"),
                                                           null);
 
             if (reason != null && reason.trim().length() > 0) {
@@ -181,7 +181,7 @@ public class SwingMediator implements Mediator, UserInterface {
                 }
 
                 catch (final CommandException e) {
-                    uiTools.showWarningMessage(e.getMessage(), messages.getMessage("swing.popup.away.goAway.error.title"));
+                    uiTools.showWarningMessage(e.getMessage(), messages.getMessage("swing.away.warningPopup.generalError.title"));
                 }
             }
         }
