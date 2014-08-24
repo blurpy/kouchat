@@ -252,7 +252,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 public void run() {
                     if (faqViewer == null) {
                         faqViewer = createTextViewerDialog(Constants.FILE_FAQ,
-                                messages.getMessage("swing.dialog.faq.title"), true);
+                                messages.getMessage("swing.textViewerDialog.faq.title"), true);
                     }
 
                     faqViewer.setVisible(true);
@@ -267,7 +267,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 public void run() {
                     if (tipsViewer == null) {
                         tipsViewer = createTextViewerDialog(Constants.FILE_TIPS,
-                                messages.getMessage("swing.dialog.tipsAndTricks.title"), false);
+                                messages.getMessage("swing.textViewerDialog.tipsAndTricks.title"), false);
                     }
 
                     tipsViewer.setVisible(true);
