@@ -461,25 +461,25 @@ public class SwingMediator implements Mediator, UserInterface {
 
         if (!trimNick.equals(me.getNick())) {
             if (controller.isNickInUse(trimNick)) {
-                uiTools.showWarningMessage(messages.getMessage("swing.changeNick.validation.inUse"),
-                                           messages.getMessage("swing.changeNick.validation.title"));
+                uiTools.showWarningMessage(messages.getMessage("swing.changeNick.warningPopup.nickInUse"),
+                                           messages.getMessage("swing.changeNick.warningPopup.title"));
             }
 
             else if (!Tools.isValidNick(trimNick)) {
-                uiTools.showWarningMessage(messages.getMessage("swing.changeNick.validation.invalid", trimNick),
-                                           messages.getMessage("swing.changeNick.validation.title"));
+                uiTools.showWarningMessage(messages.getMessage("swing.changeNick.warningPopup.invalidNick", trimNick),
+                                           messages.getMessage("swing.changeNick.warningPopup.title"));
             }
 
             else {
                 try {
                     controller.changeMyNick(trimNick);
-                    msgController.showSystemMessage(messages.getMessage("swing.changeNick.message", me.getNick()));
+                    msgController.showSystemMessage(messages.getMessage("swing.changeNick.systemMessage.nickChanged", me.getNick()));
                     updateTitleAndTray();
                     return true;
                 }
 
                 catch (final CommandException e) {
-                    uiTools.showWarningMessage(e.getMessage(), messages.getMessage("swing.changeNick.validation.title"));
+                    uiTools.showWarningMessage(e.getMessage(), messages.getMessage("swing.changeNick.warningPopup.title"));
                 }
             }
         }
