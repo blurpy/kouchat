@@ -81,12 +81,12 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
 
         final JLabel titleL = new JLabel();
         titleL.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
-        titleL.setText(messages.getMessage("swing.dialog.exception.topText"));
+        titleL.setText(messages.getMessage("swing.exceptionDialog.topText"));
         titleL.setFont(new Font("Dialog", Font.PLAIN, 20));
 
         final JLabel detailL = new JLabel();
         // Using html to keep the text from appearing in a single line
-        detailL.setText(messages.getMessage("swing.dialog.exception.message", Constants.APP_NAME, Constants.APP_WEB));
+        detailL.setText(messages.getMessage("swing.exceptionDialog.message", Constants.APP_NAME, Constants.APP_WEB));
 
         exceptionTP = new JTextPaneWithoutWrap();
         exceptionTP.setEditable(false);
@@ -123,7 +123,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
         getContentPane().add(infoP, BorderLayout.CENTER);
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(uiTools.createTitle(messages.getMessage("swing.dialog.exception.title")));
+        setTitle(uiTools.createTitle(messages.getMessage("swing.exceptionDialog.title")));
         setIconImage(new StatusIcons(imageLoader).getNormalIcon());
         setSize(630, 450);
     }
@@ -141,7 +141,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
             public void run() {
                 final StringWriter stringWriter = new StringWriter();
 
-                stringWriter.append(messages.getMessage("swing.dialog.exception.details",
+                stringWriter.append(messages.getMessage("swing.exceptionDialog.details",
                                                         timestamp(new Date()), thread.getName(),
                                                         thread.getId(), thread.getPriority()));
                 stringWriter.append("\n");
