@@ -54,7 +54,7 @@ public class SwingPopupErrorHandler implements ErrorListener {
         uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
-                uiTools.showErrorMessage(errorMsg, messages.getMessage("swing.popup.errorHandler.errorReported.title"));
+                uiTools.showErrorMessage(errorMsg, messages.getMessage("swing.errorHandlerPopup.errorReported.title"));
             }
         });
     }
@@ -66,6 +66,6 @@ public class SwingPopupErrorHandler implements ErrorListener {
      */
     @Override
     public void criticalErrorReported(final String criticalErrorMsg) {
-        uiTools.showErrorMessage(criticalErrorMsg, messages.getMessage("swing.popup.errorHandler.criticalErrorReported.title"));
+        uiTools.showErrorMessage(criticalErrorMsg, messages.getMessage("swing.errorHandlerPopup.criticalErrorReported.title"));
     }
 }
