@@ -195,8 +195,8 @@ public class SwingMediator implements Mediator, UserInterface {
     @Override
     public void setTopic() {
         final Topic topic = controller.getTopic();
-        final String newTopic = uiTools.showInputDialog(messages.getMessage("swing.popup.topic.message"),
-                                                        messages.getMessage("swing.popup.topic.title"),
+        final String newTopic = uiTools.showInputDialog(messages.getMessage("swing.topic.changeTopicPopup.message"),
+                                                        messages.getMessage("swing.topic.changeTopicPopup.title"),
                                                         topic.getTopic());
 
         if (newTopic != null) {
@@ -205,7 +205,7 @@ public class SwingMediator implements Mediator, UserInterface {
             }
 
             catch (final CommandException e) {
-                uiTools.showWarningMessage(e.getMessage(), messages.getMessage("swing.popup.topic.error.title"));
+                uiTools.showWarningMessage(e.getMessage(), messages.getMessage("swing.topic.warningPopup.generalError.title"));
             }
         }
 
