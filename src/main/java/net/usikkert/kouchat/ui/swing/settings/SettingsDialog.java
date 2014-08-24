@@ -384,7 +384,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
                         catch (final IOException e) {
                             LOG.log(Level.WARNING, e.toString());
                             errorHandler.showError(
-                                    messages.getMessage("swing.settings.chooseBrowser.testBrowserButton.error.couldNotOpenChosen",
+                                    messages.getMessage("swing.settings.chooseBrowser.testButton.errorPopup.couldNotOpenChosen",
                                                         browser));
                         }
                     }
@@ -397,20 +397,20 @@ public class SettingsDialog extends JDialog implements ActionListener {
                         catch (final IOException e) {
                             LOG.log(Level.WARNING, e.toString());
                             errorHandler.showError(
-                                    messages.getMessage("swing.settings.chooseBrowser.testBrowserButton.error.couldNotOpenDefault"));
+                                    messages.getMessage("swing.settings.chooseBrowser.testButton.errorPopup.couldNotOpenDefault"));
                         }
 
                         catch (final URISyntaxException e) {
                             LOG.log(Level.WARNING, e.toString());
                             errorHandler.showError(
-                                    messages.getMessage("swing.settings.chooseBrowser.testBrowserButton.error.invalidUrl",
+                                    messages.getMessage("swing.settings.chooseBrowser.testButton.errorPopup.invalidUrl",
                                                         Constants.APP_WEB));
                         }
                     }
 
                     else {
                         errorHandler.showError(
-                                messages.getMessage("swing.settings.chooseBrowser.testBrowserButton.error.defaultBrowserUnsupported"));
+                                messages.getMessage("swing.settings.chooseBrowser.testButton.errorPopup.defaultBrowserUnsupported"));
                     }
                 }
             });
