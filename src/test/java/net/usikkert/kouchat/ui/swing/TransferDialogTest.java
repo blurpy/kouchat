@@ -22,7 +22,14 @@
 
 package net.usikkert.kouchat.ui.swing;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+
+import java.io.File;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.ErrorHandler;
@@ -30,6 +37,7 @@ import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
+import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -47,15 +55,37 @@ public class TransferDialogTest {
     public ExpectedException expectedException = ExpectedException.none();
 
     private TransferDialog transferDialog;
+    private TransferDialog transferDialogSpy;
+
+    private Mediator mediator;
+    private Settings settings;
+    private UITools uiTools;
+    private FileTransfer fileTransfer;
+    private StatusIcons statusIcons;
+
+    private JButton cancelButton;
+    private JButton openButton;
 
     @Before
     public void setUp() {
         final ImageLoader imageLoader =
                 new ImageLoader(mock(ErrorHandler.class), mock(Messages.class), new ResourceValidator(), new ResourceLoader());
 
-        transferDialog = spy(new TransferDialog(mock(Mediator.class), mock(FileTransfer.class), imageLoader, mock(Settings.class)));
+        mediator = mock(Mediator.class);
+        settings = mock(Settings.class);
+        fileTransfer = mock(FileTransfer.class);
 
-        doNothing().when(transferDialog).setVisible(anyBoolean());
+        transferDialog = new TransferDialog(mediator, fileTransfer, imageLoader, settings);
+        uiTools = TestUtils.setFieldValueWithMock(transferDialog, "uiTools", UITools.class);
+
+        statusIcons = new StatusIcons(imageLoader);
+
+        final JPanel bottomPanel = (JPanel) transferDialog.getContentPane().getComponent(1);
+        openButton = (JButton) bottomPanel.getComponent(1);
+        cancelButton = (JButton) bottomPanel.getComponent(3);
+
+        transferDialogSpy = spy(transferDialog);
+        doNothing().when(transferDialogSpy).setVisible(anyBoolean());
     }
 
     @Test
@@ -63,7 +93,7 @@ public class TransferDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Mediator can not be null");
 
-        new TransferDialog(null, mock(FileTransfer.class), mock(ImageLoader.class), mock(Settings.class));
+        new TransferDialog(null, fileTransfer, mock(ImageLoader.class), settings);
     }
 
     @Test
@@ -71,7 +101,7 @@ public class TransferDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("File transfer can not be null");
 
-        new TransferDialog(mock(Mediator.class), null, mock(ImageLoader.class), mock(Settings.class));
+        new TransferDialog(mediator, null, mock(ImageLoader.class), settings);
     }
 
     @Test
@@ -79,7 +109,7 @@ public class TransferDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Image loader can not be null");
 
-        new TransferDialog(mock(Mediator.class), mock(FileTransfer.class), null, mock(Settings.class));
+        new TransferDialog(mediator, fileTransfer, null, settings);
     }
 
     @Test
@@ -87,13 +117,78 @@ public class TransferDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new TransferDialog(mock(Mediator.class), mock(FileTransfer.class), mock(ImageLoader.class), null);
+        new TransferDialog(mediator, fileTransfer, mock(ImageLoader.class), null);
+    }
+
+    @Test
+    public void constructorShouldRegisterListenerOnFileTransfer() {
+        verify(fileTransfer).registerListener(transferDialog);
+    }
+
+    @Test
+    public void dialogTitleShouldBeZeroPercentByDefault() {
+        assertEquals("0% - File transfer - KouChat", transferDialog.getTitle());
+    }
+
+    @Test
+    public void dialogShouldDoNothingOnClose() {
+        assertEquals(WindowConstants.DO_NOTHING_ON_CLOSE, transferDialog.getDefaultCloseOperation());
+    }
+
+    @Test
+    public void dialogShouldSetNormalIcon() {
+        assertSame(statusIcons.getNormalIcon(), transferDialog.getIconImages().get(0));
+    }
+
+    @Test
+    public void dialogShouldNotBeResizable() {
+        assertFalse(transferDialog.isResizable());
+    }
+
+    @Test
+    public void cancelButtonShouldHaveCorrectText() {
+        assertEquals("Cancel", cancelButton.getText());
+    }
+
+    @Test
+    public void cancelButtonShouldBeDefaultButton() {
+        assertSame(cancelButton, transferDialog.getRootPane().getDefaultButton());
+    }
+
+    @Test
+    public void cancelButtonShouldNotifyMediatorOnClick() {
+        cancelButton.doClick();
+
+        verify(mediator).transferCancelled(transferDialog);
+    }
+
+    @Test
+    public void openButtonShouldHaveCorrectText() {
+        assertEquals("Open folder", openButton.getText());
+    }
+
+    @Test
+    public void openButtonShouldBeHiddenAndDisabledByDefault() {
+        assertFalse(openButton.isEnabled());
+        assertFalse(openButton.isVisible());
+    }
+
+    @Test
+    public void openButtonShouldUseUiToolsToOpenFileFromFileTransfer() {
+        final File file = new File("files/something.txt");
+        when(fileTransfer.getFile()).thenReturn(file);
+
+        openButton.setEnabled(true); // Must be enabled for actionPerformed() to run
+
+        openButton.doClick();
+
+        verify(uiTools).open(file.getParentFile(), settings);
     }
 
     @Test
     public void openShouldSetTheDialogVisible() {
-        transferDialog.open();
+        transferDialogSpy.open();
 
-        verify(transferDialog).setVisible(true);
+        verify(transferDialogSpy).setVisible(true);
     }
 }
