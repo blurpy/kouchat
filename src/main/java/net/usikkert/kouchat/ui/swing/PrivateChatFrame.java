@@ -165,23 +165,23 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
         getContentPane().add(backP, BorderLayout.CENTER);
 
         closeMI = new JMenuItem();
-        closeMI.setMnemonic(keyCode(messages.getMessage("swing.private.chat.menu.file.close.mnemonic")));
-        closeMI.setText(messages.getMessage("swing.private.chat.menu.file.close"));
+        closeMI.setMnemonic(keyCode(messages.getMessage("swing.privateChat.menu.file.close.mnemonic")));
+        closeMI.setText(messages.getMessage("swing.privateChat.menu.file.close"));
         closeMI.addActionListener(this);
 
         fileMenu = new JMenu();
-        fileMenu.setMnemonic(keyCode(messages.getMessage("swing.private.chat.menu.file.mnemonic")));
-        fileMenu.setText(messages.getMessage("swing.private.chat.menu.file"));
+        fileMenu.setMnemonic(keyCode(messages.getMessage("swing.privateChat.menu.file.mnemonic")));
+        fileMenu.setText(messages.getMessage("swing.privateChat.menu.file"));
         fileMenu.add(closeMI);
 
         clearMI = new JMenuItem();
-        clearMI.setMnemonic(keyCode(messages.getMessage("swing.private.chat.menu.tools.clearChat.mnemonic")));
-        clearMI.setText(messages.getMessage("swing.private.chat.menu.tools.clearChat"));
+        clearMI.setMnemonic(keyCode(messages.getMessage("swing.privateChat.menu.tools.clearChat.mnemonic")));
+        clearMI.setText(messages.getMessage("swing.privateChat.menu.tools.clearChat"));
         clearMI.addActionListener(this);
 
         toolsMenu = new JMenu();
-        toolsMenu.setMnemonic(keyCode(messages.getMessage("swing.private.chat.menu.tools.mnemonic")));
-        toolsMenu.setText(messages.getMessage("swing.private.chat.menu.tools"));
+        toolsMenu.setMnemonic(keyCode(messages.getMessage("swing.privateChat.menu.tools.mnemonic")));
+        toolsMenu.setText(messages.getMessage("swing.privateChat.menu.tools"));
         toolsMenu.add(clearMI);
 
         final JMenuBar menuBar = new JMenuBar();
@@ -454,7 +454,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
         final String title;
 
         if (user.isAway()) {
-            title = messages.getMessage("swing.private.chat.title.away", user.getNick());
+            title = messages.getMessage("swing.privateChat.title.away", user.getNick());
         } else {
             title = user.getNick();
         }
