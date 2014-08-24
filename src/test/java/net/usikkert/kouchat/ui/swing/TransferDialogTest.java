@@ -28,6 +28,7 @@ import static org.mockito.Mockito.*;
 import java.io.File;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
@@ -66,6 +67,17 @@ public class TransferDialogTest {
     private JButton cancelButton;
     private JButton openButton;
 
+    private JLabel transferredHeaderLabel;
+    private JLabel transferredLabel;
+    private JLabel fileNameHeaderLabel;
+    private JLabel fileNameLabel;
+    private JLabel statusHeaderLabel;
+    private JLabel statusLabel;
+    private JLabel sourceHeaderLabel;
+    private JLabel sourceLabel;
+    private JLabel destinationHeaderLabel;
+    private JLabel destinationLabel;
+
     @Before
     public void setUp() {
         final ImageLoader imageLoader =
@@ -79,6 +91,28 @@ public class TransferDialogTest {
         uiTools = TestUtils.setFieldValueWithMock(transferDialog, "uiTools", UITools.class);
 
         statusIcons = new StatusIcons(imageLoader);
+
+        final JPanel topPanel = (JPanel) transferDialog.getContentPane().getComponent(0);
+
+        final JPanel statusPanel = (JPanel) topPanel.getComponent(0);
+        statusHeaderLabel = (JLabel) statusPanel.getComponent(0);
+        statusLabel = (JLabel) statusPanel.getComponent(1);
+
+        final JPanel sourcePanel = (JPanel) topPanel.getComponent(1);
+        sourceHeaderLabel = (JLabel) sourcePanel.getComponent(0);
+        sourceLabel = (JLabel) sourcePanel.getComponent(1);
+
+        final JPanel destinationPanel = (JPanel) topPanel.getComponent(2);
+        destinationHeaderLabel = (JLabel) destinationPanel.getComponent(0);
+        destinationLabel = (JLabel) destinationPanel.getComponent(1);
+
+        final JPanel fileNamePanel = (JPanel) topPanel.getComponent(3);
+        fileNameHeaderLabel = (JLabel) fileNamePanel.getComponent(0);
+        fileNameLabel = (JLabel) fileNamePanel.getComponent(1);
+
+        final JPanel transferredPanel = (JPanel) topPanel.getComponent(5);
+        transferredHeaderLabel = (JLabel) transferredPanel.getComponent(0);
+        transferredLabel = (JLabel) transferredPanel.getComponent(1);
 
         final JPanel bottomPanel = (JPanel) transferDialog.getContentPane().getComponent(1);
         openButton = (JButton) bottomPanel.getComponent(1);
@@ -183,6 +217,56 @@ public class TransferDialogTest {
         openButton.doClick();
 
         verify(uiTools).open(file.getParentFile(), settings);
+    }
+
+    @Test
+    public void transferredHeaderLabelShouldHaveCorrectText() {
+        assertEquals("Transferred:", transferredHeaderLabel.getText());
+    }
+
+    @Test
+    public void transferredLabelShouldHaveCorrectText() {
+        assertEquals("0KB of 0KB at 0KB/s", transferredLabel.getText());
+    }
+
+    @Test
+    public void fileNameHeaderLabelShouldHaveCorrectText() {
+        assertEquals("Filename:", fileNameHeaderLabel.getText());
+    }
+
+    @Test
+    public void fileNameLabelShouldHaveCorrectText() {
+        assertEquals("(No file)", fileNameLabel.getText());
+    }
+
+    @Test
+    public void statusHeaderLabelShouldHaveCorrectText() {
+        assertEquals("Status:", statusHeaderLabel.getText());
+    }
+
+    @Test
+    public void statusLabelShouldHaveCorrectText() {
+        assertEquals("Waiting...", statusLabel.getText());
+    }
+
+    @Test
+    public void sourceHeaderLabelShouldHaveCorrectText() {
+        assertEquals("Source:", sourceHeaderLabel.getText());
+    }
+
+    @Test
+    public void sourceLabelShouldHaveCorrectText() {
+        assertEquals("Source (No IP)", sourceLabel.getText());
+    }
+
+    @Test
+    public void destinationHeaderLabelShouldHaveCorrectText() {
+        assertEquals("Destination:", destinationHeaderLabel.getText());
+    }
+
+    @Test
+    public void destinationLabelShouldHaveCorrectText() {
+        assertEquals("Destination (No IP)", destinationLabel.getText());
     }
 
     @Test
