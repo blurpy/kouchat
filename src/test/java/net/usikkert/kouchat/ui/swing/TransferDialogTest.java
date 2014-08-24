@@ -30,6 +30,7 @@ import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
 import net.usikkert.kouchat.message.Messages;
@@ -77,6 +78,7 @@ public class TransferDialogTest {
     private JLabel sourceLabel;
     private JLabel destinationHeaderLabel;
     private JLabel destinationLabel;
+    private JProgressBar progressBar;
 
     @Before
     public void setUp() {
@@ -88,7 +90,9 @@ public class TransferDialogTest {
         fileTransfer = mock(FileTransfer.class);
 
         transferDialog = new TransferDialog(mediator, fileTransfer, imageLoader, settings);
+
         uiTools = TestUtils.setFieldValueWithMock(transferDialog, "uiTools", UITools.class);
+        doAnswer(new RunArgumentAnswer()).when(uiTools).invokeLater(any(Runnable.class));
 
         statusIcons = new StatusIcons(imageLoader);
 
@@ -109,6 +113,9 @@ public class TransferDialogTest {
         final JPanel fileNamePanel = (JPanel) topPanel.getComponent(3);
         fileNameHeaderLabel = (JLabel) fileNamePanel.getComponent(0);
         fileNameLabel = (JLabel) fileNamePanel.getComponent(1);
+
+        final JPanel progressPanel = (JPanel) topPanel.getComponent(4);
+        progressBar = (JProgressBar) progressPanel.getComponent(0);
 
         final JPanel transferredPanel = (JPanel) topPanel.getComponent(5);
         transferredHeaderLabel = (JLabel) transferredPanel.getComponent(0);
@@ -270,9 +277,35 @@ public class TransferDialogTest {
     }
 
     @Test
+    public void progressBarShouldGoFromZeroToHundred() {
+        assertEquals(0, progressBar.getMinimum());
+        assertEquals(100, progressBar.getMaximum());
+
+        assertTrue(progressBar.isStringPainted());
+    }
+
+    @Test
     public void openShouldSetTheDialogVisible() {
         transferDialogSpy.open();
 
         verify(transferDialogSpy).setVisible(true);
+    }
+
+    @Test
+    public void registerAsCloseableShouldSetFieldClosableAndCloseTextOnCancelButton() {
+        assertFalse(transferDialog.isCloseable());
+        assertEquals("Cancel", cancelButton.getText());
+
+        transferDialog.registerAsCloseable();
+
+        assertTrue(transferDialog.isCloseable());
+        assertEquals("Close", cancelButton.getText());
+
+        verify(uiTools).invokeLater(any(Runnable.class));
+    }
+
+    @Test
+    public void getFileTransferShouldReturnFileTransferFromConstructor() {
+        assertSame(fileTransfer, transferDialog.getFileTransfer());
     }
 }
