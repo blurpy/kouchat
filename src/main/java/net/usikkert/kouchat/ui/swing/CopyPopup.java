@@ -68,12 +68,12 @@ public class CopyPopup extends JPopupMenu implements PopupMenuListener, ActionLi
         this.textpane = textpane;
 
         copyMI = new JMenuItem(new DefaultEditorKit.CopyAction());
-        copyMI.setText(messages.getMessage("swing.popup.menu.copy"));
-        copyMI.setMnemonic(keyCode(messages.getMessage("swing.popup.menu.copy.mnemonic")));
+        copyMI.setText(messages.getMessage("swing.rightClickPopup.menu.copy"));
+        copyMI.setMnemonic(keyCode(messages.getMessage("swing.rightClickPopup.menu.copy.mnemonic")));
         copyMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK));
 
-        selectAllMI = new JMenuItem(messages.getMessage("swing.popup.menu.selectAll"));
-        selectAllMI.setMnemonic(keyCode(messages.getMessage("swing.popup.menu.selectAll.mnemonic")));
+        selectAllMI = new JMenuItem(messages.getMessage("swing.rightClickPopup.menu.selectAll"));
+        selectAllMI.setMnemonic(keyCode(messages.getMessage("swing.rightClickPopup.menu.selectAll.mnemonic")));
         selectAllMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_MASK));
 
         add(copyMI);
