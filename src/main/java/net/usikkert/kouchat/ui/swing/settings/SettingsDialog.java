@@ -114,19 +114,19 @@ public class SettingsDialog extends JDialog implements ActionListener {
         this.errorHandler = errorHandler;
         this.messages = messages;
 
-        final JLabel nickL = new JLabel(messages.getMessage("swing.settings.chooseNick.nickName"));
+        final JLabel nickL = new JLabel(messages.getMessage("swing.settings.chooseNick.nickName.label"));
         nickTF = new JTextField(10);
         new CopyPastePopup(nickTF, messages);
 
         final JPanel nickP = new JPanel(new FlowLayout(FlowLayout.LEFT));
         nickP.add(nickL);
         nickP.add(nickTF);
-        nickP.setBorder(BorderFactory.createTitledBorder(messages.getMessage("swing.settings.chooseNick")));
+        nickP.setBorder(BorderFactory.createTitledBorder(messages.getMessage("swing.settings.chooseNick.border")));
 
-        ownColorL = new JLabel(messages.getMessage("swing.settings.chooseLook.ownTextColor"));
+        ownColorL = new JLabel(messages.getMessage("swing.settings.chooseLook.ownTextColor.label"));
         ownColorL.setToolTipText(messages.getMessage("swing.settings.chooseLook.ownTextColor.tooltip"));
 
-        sysColorL = new JLabel(messages.getMessage("swing.settings.chooseLook.systemTextColor"));
+        sysColorL = new JLabel(messages.getMessage("swing.settings.chooseLook.systemTextColor.label"));
         sysColorL.setToolTipText(messages.getMessage("swing.settings.chooseLook.systemTextColor.tooltip"));
 
         chooseOwnColorB = new JButton(messages.getMessage("swing.button.change"));
@@ -146,7 +146,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         sysColorP.add(Box.createHorizontalGlue());
         sysColorP.add(chooseSysColorB);
 
-        final JLabel lookAndFeelL = new JLabel(messages.getMessage("swing.settings.chooseLook.lookAndFeel"));
+        final JLabel lookAndFeelL = new JLabel(messages.getMessage("swing.settings.chooseLook.lookAndFeel.label"));
         lookAndFeelL.setToolTipText(messages.getMessage("swing.settings.chooseLook.lookAndFeel.tooltip", Constants.APP_NAME));
         lookAndFeelCB = new JComboBox();
 
@@ -161,19 +161,19 @@ public class SettingsDialog extends JDialog implements ActionListener {
         lookP.add(sysColorP);
         lookP.add(lookAndFeelP);
         lookP.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createTitledBorder(messages.getMessage("swing.settings.chooseLook")),
+                BorderFactory.createTitledBorder(messages.getMessage("swing.settings.chooseLook.border")),
                 BorderFactory.createEmptyBorder(0, 5, 0, 5)));
 
-        soundCB = new JCheckBox(messages.getMessage("swing.settings.misc.enableSound"));
+        soundCB = new JCheckBox(messages.getMessage("swing.settings.misc.enableSound.label"));
         soundCB.setToolTipText(messages.getMessage("swing.settings.misc.enableSound.tooltip", Constants.APP_NAME));
 
-        loggingCB = new JCheckBox(messages.getMessage("swing.settings.misc.enableLogging"));
+        loggingCB = new JCheckBox(messages.getMessage("swing.settings.misc.enableLogging.label"));
         loggingCB.setToolTipText(messages.getMessage("swing.settings.misc.enableLogging.tooltip", settings.getLogLocation()));
 
-        smileysCB = new JCheckBox(messages.getMessage("swing.settings.misc.enableSmileys"));
+        smileysCB = new JCheckBox(messages.getMessage("swing.settings.misc.enableSmileys.label"));
         smileysCB.setToolTipText(messages.getMessage("swing.settings.misc.enableSmileys.tooltip"));
 
-        balloonCB = new JCheckBox(messages.getMessage("swing.settings.misc.enableBalloons"));
+        balloonCB = new JCheckBox(messages.getMessage("swing.settings.misc.enableBalloons.label"));
         balloonCB.setToolTipText(messages.getMessage("swing.settings.misc.enableBalloons.tooltip"));
 
         final JPanel miscCheckBoxP = new JPanel(new GridLayout(2, 2));
@@ -182,7 +182,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         miscCheckBoxP.add(smileysCB);
         miscCheckBoxP.add(balloonCB);
 
-        final JLabel networkInterfaceL = new JLabel(messages.getMessage("swing.settings.misc.networkInterface"));
+        final JLabel networkInterfaceL = new JLabel(messages.getMessage("swing.settings.misc.networkInterface.label"));
         networkInterfaceL.setToolTipText(messages.getMessage("swing.settings.misc.networkInterface.tooltip", Constants.APP_NAME));
         networkInterfaceCB = new JComboBox();
         networkInterfaceCB.setRenderer(new NetworkChoiceCellRenderer());
@@ -197,10 +197,10 @@ public class SettingsDialog extends JDialog implements ActionListener {
         miscP.add(miscCheckBoxP, BorderLayout.NORTH);
         miscP.add(networkInterfaceP, BorderLayout.SOUTH);
         miscP.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createTitledBorder(messages.getMessage("swing.settings.misc")),
+                BorderFactory.createTitledBorder(messages.getMessage("swing.settings.misc.border")),
                 BorderFactory.createEmptyBorder(0, 5, 0, 5)));
 
-        final JLabel browserL = new JLabel(messages.getMessage("swing.settings.chooseBrowser.browser"));
+        final JLabel browserL = new JLabel(messages.getMessage("swing.settings.chooseBrowser.browser.label"));
         browserTF = new JTextField(22);
         browserTF.setToolTipText(messages.getMessage("swing.settings.chooseBrowser.browser.tooltip"));
         new CopyPastePopup(browserTF, messages);
@@ -221,7 +221,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         final JPanel browserP = new JPanel(new BorderLayout());
         browserP.add(browserTopP, BorderLayout.NORTH);
         browserP.add(browserBottomP, BorderLayout.SOUTH);
-        browserP.setBorder(BorderFactory.createTitledBorder(messages.getMessage("swing.settings.chooseBrowser")));
+        browserP.setBorder(BorderFactory.createTitledBorder(messages.getMessage("swing.settings.chooseBrowser.border")));
 
         final JPanel centerP = new JPanel(new BorderLayout());
         centerP.add(lookP, BorderLayout.CENTER);
@@ -345,7 +345,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
                 @Override
                 public void run() {
                     final Color newColor = uiTools.showColorChooser(
-                            messages.getMessage("swing.settings.chooseLook.ownTextColor.dialog.title"),
+                            messages.getMessage("swing.settings.chooseLook.ownTextColor.chooseColorDialog.title"),
                             new Color(settings.getOwnColor()));
 
                     if (newColor != null) {
@@ -360,7 +360,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
                 @Override
                 public void run() {
                     final Color newColor = uiTools.showColorChooser(
-                            messages.getMessage("swing.settings.chooseLook.systemTextColor.dialog.title"),
+                            messages.getMessage("swing.settings.chooseLook.systemTextColor.chooseColorDialog.title"),
                             new Color(settings.getSysColor()));
 
                     if (newColor != null) {
@@ -384,7 +384,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
                         catch (final IOException e) {
                             LOG.log(Level.WARNING, e.toString());
                             errorHandler.showError(
-                                    messages.getMessage("swing.settings.chooseBrowser.test.error.chosen.browser.failed", browser));
+                                    messages.getMessage("swing.settings.chooseBrowser.testBrowserButton.error.couldNotOpenChosen", browser));
                         }
                     }
 
@@ -396,19 +396,19 @@ public class SettingsDialog extends JDialog implements ActionListener {
                         catch (final IOException e) {
                             LOG.log(Level.WARNING, e.toString());
                             errorHandler.showError(
-                                    messages.getMessage("swing.settings.chooseBrowser.test.error.default.browser.failed"));
+                                    messages.getMessage("swing.settings.chooseBrowser.testBrowserButton.error.couldNotOpenDefault"));
                         }
 
                         catch (final URISyntaxException e) {
                             LOG.log(Level.WARNING, e.toString());
                             errorHandler.showError(
-                                    messages.getMessage("swing.settings.chooseBrowser.test.error.invalid.url", Constants.APP_WEB));
+                                    messages.getMessage("swing.settings.chooseBrowser.testBrowserButton.error.invalidUrl", Constants.APP_WEB));
                         }
                     }
 
                     else {
                         errorHandler.showError(
-                                messages.getMessage("swing.settings.chooseBrowser.test.error.default.browser.unsupported"));
+                                messages.getMessage("swing.settings.chooseBrowser.testBrowserButton.error.defaultBrowserUnsupported"));
                     }
                 }
             });
@@ -416,7 +416,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
         else if (e.getSource() == chooseBrowserB) {
             final JFileChooser chooser = uiTools.createFileChooser(
-                    messages.getMessage("swing.settings.chooseBrowser.dialog.title"));
+                    messages.getMessage("swing.settings.chooseBrowser.chooseBrowserDialog.title"));
             final int returnVal = chooser.showOpenDialog(null);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -438,8 +438,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
         if (!newLookAndFeel.equals(currentLookAndFeel.getName())) {
             uiTools.showInfoMessage(
-                    messages.getMessage("swing.settings.chooseLook.lookAndFeel.info.changed", Constants.APP_NAME),
-                    messages.getMessage("swing.settings.chooseLook.lookAndFeel.info.changed.title"));
+                    messages.getMessage("swing.settings.chooseLook.lookAndFeel.infoDialog.lookAndFeelChanged", Constants.APP_NAME),
+                    messages.getMessage("swing.settings.chooseLook.lookAndFeel.infoDialog.lookAndFeelChanged.title"));
         }
     }
 
@@ -519,8 +519,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
     private NetworkChoice[] getNetworkChoices() {
         final ArrayList<NetworkChoice> networkChoices = new ArrayList<NetworkChoice>();
         networkChoices.add(new NetworkChoice(
-                messages.getMessage("swing.settings.misc.networkInterface.auto"),
-                messages.getMessage("swing.settings.misc.networkInterface.auto.tooltip", Constants.APP_NAME)));
+                messages.getMessage("swing.settings.misc.networkInterface.item.auto"),
+                messages.getMessage("swing.settings.misc.networkInterface.item.auto.tooltip", Constants.APP_NAME)));
 
         final List<NetworkInterfaceInfo> usableNetworkInterfaces = networkUtils.getUsableNetworkInterfaces();
 
