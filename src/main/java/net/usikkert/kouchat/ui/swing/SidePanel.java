@@ -124,14 +124,14 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
         add(buttonP, BorderLayout.SOUTH);
 
         userMenu = new JPopupMenu();
-        infoMI = new JMenuItem(messages.getMessage("swing.userList.popup.menu.info"));
-        infoMI.setMnemonic(keyCode(messages.getMessage("swing.userList.popup.menu.info.mnemonic")));
+        infoMI = new JMenuItem(messages.getMessage("swing.userList.rightClickPopup.menu.info"));
+        infoMI.setMnemonic(keyCode(messages.getMessage("swing.userList.rightClickPopup.menu.info.mnemonic")));
         infoMI.addActionListener(this);
-        sendfileMI = new JMenuItem(messages.getMessage("swing.userList.popup.menu.sendFile"));
-        sendfileMI.setMnemonic(keyCode(messages.getMessage("swing.userList.popup.menu.sendFile.mnemonic")));
+        sendfileMI = new JMenuItem(messages.getMessage("swing.userList.rightClickPopup.menu.sendFile"));
+        sendfileMI.setMnemonic(keyCode(messages.getMessage("swing.userList.rightClickPopup.menu.sendFile.mnemonic")));
         sendfileMI.addActionListener(this);
-        privchatMI = new JMenuItem(messages.getMessage("swing.userList.popup.menu.privateChat"));
-        privchatMI.setMnemonic(keyCode(messages.getMessage("swing.userList.popup.menu.privateChat.mnemonic")));
+        privchatMI = new JMenuItem(messages.getMessage("swing.userList.rightClickPopup.menu.privateChat"));
+        privchatMI.setMnemonic(keyCode(messages.getMessage("swing.userList.rightClickPopup.menu.privateChat.mnemonic")));
         privchatMI.addActionListener(this);
         privchatMI.setFont(privchatMI.getFont().deriveFont(Font.BOLD)); // default menu item
         userMenu.add(infoMI);
