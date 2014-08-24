@@ -641,8 +641,8 @@ public class SwingMediator implements Mediator, UserInterface {
         beeper.beep();
 
         final int choice = uiTools.showOptionDialog(
-                messages.getMessage("swing.popup.receiveFile.askToReceive.message", user, fileName, size),
-                messages.getMessage("swing.popup.receiveFile.askToReceive.title"));
+                messages.getMessage("swing.receiveFile.askToReceivePopup.message", user, fileName, size),
+                messages.getMessage("swing.receiveFile.askToReceivePopup.title"));
 
         return choice == JOptionPane.YES_OPTION;
     }
@@ -665,7 +665,7 @@ public class SwingMediator implements Mediator, UserInterface {
     }
 
     private void showFileSaveInternal(final FileReceiver fileReceiver) {
-        final JFileChooser chooser = uiTools.createFileChooser(messages.getMessage("swing.popup.receiveFile.saveFile.title"));
+        final JFileChooser chooser = uiTools.createFileChooser(messages.getMessage("swing.receiveFile.saveFileDialog.title"));
         chooser.setSelectedFile(fileReceiver.getFile());
         boolean done = false;
 
@@ -678,8 +678,8 @@ public class SwingMediator implements Mediator, UserInterface {
 
                 if (file.exists()) {
                     final int overwrite = uiTools.showOptionDialog(
-                            messages.getMessage("swing.popup.receiveFile.fileExist.message", file.getName()),
-                            messages.getMessage("swing.popup.receiveFile.fileExist.title"));
+                            messages.getMessage("swing.receiveFile.fileExistPopup.message", file.getName()),
+                            messages.getMessage("swing.receiveFile.fileExistPopup.title"));
 
                     if (overwrite != JOptionPane.YES_OPTION) {
                         done = false;
