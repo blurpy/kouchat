@@ -306,9 +306,9 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 public void run() {
                     final MessageDialog aboutD = createMessageDialog();
 
-                    aboutD.setTitle(uiTools.createTitle(messages.getMessage("swing.dialog.about.title")));
-                    aboutD.setTopText(messages.getMessage("swing.dialog.about.version", Constants.APP_NAME, Constants.APP_VERSION));
-                    aboutD.setContent(messages.getMessage("swing.dialog.about.content",
+                    aboutD.setTitle(uiTools.createTitle(messages.getMessage("swing.aboutDialog.title")));
+                    aboutD.setTopText(messages.getMessage("swing.aboutDialog.version", Constants.APP_NAME, Constants.APP_VERSION));
+                    aboutD.setContent(messages.getMessage("swing.aboutDialog.content",
                             Constants.APP_COPYRIGHT_YEARS, Constants.AUTHOR_NAME,
                             Constants.AUTHOR_MAIL, Constants.APP_WEB,
                             Constants.APP_LICENSE_NAME));
