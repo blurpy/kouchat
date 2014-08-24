@@ -336,27 +336,27 @@ public class SwingMediator implements Mediator, UserInterface {
         if (user == null) {
             return;
         } else if (user.isMe()) {
-            uiTools.showWarningMessage(messages.getMessage("swing.popup.sendFile.validation.isMe"),
-                                       messages.getMessage("swing.popup.sendFile.validation.title"));
+            uiTools.showWarningMessage(messages.getMessage("swing.sendFile.warningPopup.userIsMe"),
+                                       messages.getMessage("swing.sendFile.warningPopup.title"));
         }
 
         else if (me.isAway()) {
-            uiTools.showWarningMessage(messages.getMessage("swing.popup.sendFile.validation.meIsAway"),
-                                       messages.getMessage("swing.popup.sendFile.validation.title"));
+            uiTools.showWarningMessage(messages.getMessage("swing.sendFile.warningPopup.meIsAway"),
+                                       messages.getMessage("swing.sendFile.warningPopup.title"));
         }
 
         else if (user.isAway()) {
-            uiTools.showWarningMessage(messages.getMessage("swing.popup.sendFile.validation.userIsAway", user.getNick()),
-                                       messages.getMessage("swing.popup.sendFile.validation.title"));
+            uiTools.showWarningMessage(messages.getMessage("swing.sendFile.warningPopup.userIsAway", user.getNick()),
+                                       messages.getMessage("swing.sendFile.warningPopup.title"));
         }
 
         else if (!user.isOnline()) {
-            uiTools.showWarningMessage(messages.getMessage("swing.popup.sendFile.validation.userIsOffline", user.getNick()),
-                                       messages.getMessage("swing.popup.sendFile.validation.title"));
+            uiTools.showWarningMessage(messages.getMessage("swing.sendFile.warningPopup.userIsOffline", user.getNick()),
+                                       messages.getMessage("swing.sendFile.warningPopup.title"));
         }
 
         else {
-            final JFileChooser chooser = uiTools.createFileChooser(messages.getMessage("swing.popup.sendFile.title"));
+            final JFileChooser chooser = uiTools.createFileChooser(messages.getMessage("swing.sendFile.chooseFileDialog.title"));
 
             if (selectedFile != null && selectedFile.exists()) {
                 chooser.setSelectedFile(selectedFile);
@@ -373,7 +373,7 @@ public class SwingMediator implements Mediator, UserInterface {
                     }
 
                     catch (final CommandException e) {
-                        uiTools.showWarningMessage(e.getMessage(), messages.getMessage("swing.popup.sendFile.error.title"));
+                        uiTools.showWarningMessage(e.getMessage(), messages.getMessage("swing.sendFile.warningPopup.generalError.title"));
                     }
                 }
             }
