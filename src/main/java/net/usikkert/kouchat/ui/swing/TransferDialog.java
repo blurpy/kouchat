@@ -94,6 +94,8 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      * Constructor. Initializes components and registers this dialog
      * as a listener on the file transfer object.
      *
+     * <p>Use {@link #open()} to open the dialog.</p>
+     *
      * @param mediator The mediator.
      * @param fileTransfer The file transfer object this dialog is showing the state of.
      * @param imageLoader The image loader.
@@ -213,8 +215,15 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 
         pack();
         setResizable(false);
-        setVisible(true);
+
         fileTransfer.registerListener(this);
+    }
+
+    /**
+     * Opens this dialog.
+     */
+    public void open() {
+        setVisible(true);
     }
 
     /**

@@ -71,7 +71,8 @@ public class TransferDialogIntegrationTest {
         final MockMediator mediator = new MockMediator();
         final MockFileTransfer fileTransfer = new MockFileTransfer(Direction.RECEIVE);
 
-        new TransferDialog(mediator, fileTransfer, imageLoader, settings);
+        final TransferDialog transferDialog = new TransferDialog(mediator, fileTransfer, imageLoader, settings);
+        transferDialog.open();
 
         // Returns true when the close button is clicked
         while (!mediator.isClose()) {
@@ -90,7 +91,8 @@ public class TransferDialogIntegrationTest {
         final MockMediator mediator = new MockMediator();
         final MockFileTransfer fileTransfer = new MockFileTransfer(Direction.SEND);
 
-        new TransferDialog(mediator, fileTransfer, imageLoader, settings);
+        final TransferDialog transferDialog = new TransferDialog(mediator, fileTransfer, imageLoader, settings);
+        transferDialog.open();
 
         // Returns true when the close button is clicked
         while (!mediator.isClose()) {
