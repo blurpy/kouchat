@@ -771,11 +771,13 @@ public class SwingMediator implements Mediator, UserInterface {
                 user.getPrivchat().updateAwayState();
 
                 if (away) {
-                    msgController.showPrivateSystemMessage(user, "You went away: " + me.getAwayMsg());
+                    msgController.showPrivateSystemMessage(user, messages.getMessage(
+                            "swing.privateChat.systemMessage.wentAway", me.getAwayMsg()));
                 }
 
                 else {
-                    msgController.showPrivateSystemMessage(user, "You came back");
+                    msgController.showPrivateSystemMessage(user, messages.getMessage(
+                            "swing.privateChat.systemMessage.cameBack"));
                 }
             }
         }
