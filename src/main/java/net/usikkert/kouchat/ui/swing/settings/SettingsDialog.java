@@ -440,8 +440,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
         if (!newLookAndFeel.equals(currentLookAndFeel.getName())) {
             uiTools.showInfoMessage(
-                    messages.getMessage("swing.settings.chooseLook.lookAndFeel.infoDialog.lookAndFeelChanged", Constants.APP_NAME),
-                    messages.getMessage("swing.settings.chooseLook.lookAndFeel.infoDialog.lookAndFeelChanged.title"));
+                    messages.getMessage("swing.settings.chooseLook.lookAndFeel.infoPopup.lookAndFeelChanged", Constants.APP_NAME),
+                    messages.getMessage("swing.settings.chooseLook.lookAndFeel.infoPopup.lookAndFeelChanged.title"));
         }
     }
 
