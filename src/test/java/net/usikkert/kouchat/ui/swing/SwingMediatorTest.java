@@ -690,7 +690,7 @@ public class SwingMediatorTest {
 
         assertFalse(mediator.changeNick(" Lilly "));
 
-        verify(uiTools).showWarningMessage("The nick is in use by someone else.", "Change nick");
+        verify(uiTools).showWarningMessage("The nick name is in use by someone else.", "Change nick name");
         verify(controller).isNickInUse("Lilly");
         verifyNoMoreInteractions(controller, uiTools);
     }
@@ -702,7 +702,7 @@ public class SwingMediatorTest {
         verify(uiTools).showWarningMessage("'Lilly@' is not a valid nick name.\n\n" +
                                                    "A nick name can have between 1 and 10 characters.\n" +
                                                    "Legal characters are 'a-z', '0-9', '-' and '_'.",
-                                           "Change nick");
+                                           "Change nick name");
         verify(controller).isNickInUse("Lilly@");
         verifyNoMoreInteractions(controller, uiTools);
     }
@@ -716,7 +716,7 @@ public class SwingMediatorTest {
 
         verify(controller).isNickInUse("Amy");
         verify(controller).changeMyNick("Amy");
-        verify(msgController).showSystemMessage("You changed nick to Amy");
+        verify(msgController).showSystemMessage("You changed nick name to Amy");
         verify(mediator).updateTitleAndTray();
 
         verifyNoMoreInteractions(controller);
@@ -731,7 +731,7 @@ public class SwingMediatorTest {
 
         verify(controller).isNickInUse("Amy");
         verify(controller).changeMyNick("Amy");
-        verify(uiTools).showWarningMessage("Don't change nick", "Change nick");
+        verify(uiTools).showWarningMessage("Don't change nick", "Change nick name");
 
         verifyNoMoreInteractions(controller);
         verifyZeroInteractions(uiTools, msgController);
