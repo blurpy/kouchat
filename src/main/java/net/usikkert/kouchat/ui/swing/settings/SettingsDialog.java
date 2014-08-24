@@ -384,7 +384,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
                         catch (final IOException e) {
                             LOG.log(Level.WARNING, e.toString());
                             errorHandler.showError(
-                                    messages.getMessage("swing.settings.chooseBrowser.testBrowserButton.error.couldNotOpenChosen", browser));
+                                    messages.getMessage("swing.settings.chooseBrowser.testBrowserButton.error.couldNotOpenChosen",
+                                                        browser));
                         }
                     }
 
@@ -402,7 +403,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
                         catch (final URISyntaxException e) {
                             LOG.log(Level.WARNING, e.toString());
                             errorHandler.showError(
-                                    messages.getMessage("swing.settings.chooseBrowser.testBrowserButton.error.invalidUrl", Constants.APP_WEB));
+                                    messages.getMessage("swing.settings.chooseBrowser.testBrowserButton.error.invalidUrl",
+                                                        Constants.APP_WEB));
                         }
                     }
 
