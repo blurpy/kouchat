@@ -26,6 +26,8 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.io.File;
 
 import javax.swing.JButton;
@@ -37,6 +39,7 @@ import javax.swing.WindowConstants;
 import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
@@ -52,6 +55,7 @@ import org.junit.rules.ExpectedException;
  *
  * @author Christian Ihle
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class TransferDialogTest {
 
     @Rule
@@ -396,5 +400,104 @@ public class TransferDialogTest {
         assertEquals("Close", cancelButton.getText());
 
         verify(uiTools).invokeLater(any(Runnable.class));
+    }
+
+    @Test
+    public void statusTransferringWithReceiveShouldSetCorrectStatusText() {
+        when(fileTransfer.getDirection()).thenReturn(FileTransfer.Direction.RECEIVE);
+
+        transferDialog.statusTransferring();
+
+        assertEquals("Receiving...", statusLabel.getText());
+        verify(uiTools).invokeLater(any(Runnable.class));
+    }
+
+    @Test
+    public void statusTransferringWithSendShouldSetCorrectStatusText() {
+        when(fileTransfer.getDirection()).thenReturn(FileTransfer.Direction.SEND);
+
+        transferDialog.statusTransferring();
+
+        assertEquals("Sending...", statusLabel.getText());
+    }
+
+    @Test
+    public void statusWaitingShouldSetCorrectStatusTextAndCorrectFileNameAndZeroPercent() {
+        when(fileTransfer.getFile()).thenReturn(new File("image.png"));
+        when(fileTransfer.getFileSize()).thenReturn((long) (1024 * 1024 * 3.5)); // 3.5MB
+
+        transferDialog.statusWaiting();
+
+        assertEquals("Waiting...", statusLabel.getText());
+        assertEquals("image.png", fileNameLabel.getText());
+        assertEquals("0KB of 3.50MB at 0KB/s", transferredLabel.getText());
+        assertEquals(0, progressBar.getValue());
+
+        verify(uiTools).invokeLater(any(Runnable.class));
+    }
+
+    @Test
+    public void statusWaitingShouldSetToolTipOnFileNameIfLongerThanDialog() {
+        when(fileTransfer.getFile()).thenReturn(new File("image.png"));
+        when(uiTools.getTextWidth(anyString(), any(Graphics.class), any(Font.class))).thenReturn(500.0);
+
+        transferDialog.statusWaiting();
+
+        assertEquals("image.png", fileNameLabel.getToolTipText());
+
+        // transferDialog.getGraphics() doesn't work in the verify for some reason
+        verify(uiTools).getTextWidth(eq("image.png"), any(Graphics.class), eq(fileNameLabel.getFont()));
+    }
+
+    @Test
+    public void statusWaitingShouldNotSetToolTipOnFileNameIfShorterThanDialog() {
+        when(fileTransfer.getFile()).thenReturn(new File("image.png"));
+        when(uiTools.getTextWidth(anyString(), any(Graphics.class), any(Font.class))).thenReturn(300.0);
+
+        transferDialog.statusWaiting();
+
+        assertNull(fileNameLabel.getToolTipText());
+
+        verify(uiTools).getTextWidth(eq("image.png"), any(Graphics.class), eq(fileNameLabel.getFont()));
+    }
+
+    @Test
+    public void statusWaitingWithReceiveShouldSetMeAsDestinationAndOpenButtonVisible() {
+        final User me = new User("Me", 45678);
+        me.setIpAddress("192.168.1.1");
+
+        final User pedro = new User("Pedro", 12345);
+        pedro.setIpAddress("192.168.1.2");
+
+        when(settings.getMe()).thenReturn(me);
+        when(fileTransfer.getUser()).thenReturn(pedro);
+        when(fileTransfer.getFile()).thenReturn(new File("image.png"));
+        when(fileTransfer.getDirection()).thenReturn(FileTransfer.Direction.RECEIVE);
+
+        transferDialog.statusWaiting();
+
+        assertTrue(openButton.isVisible());
+        assertEquals("Pedro (192.168.1.2)", sourceLabel.getText());
+        assertEquals("Me (192.168.1.1)", destinationLabel.getText());
+    }
+
+    @Test
+    public void statusWaitingWithSendShouldSetMeAsSourceAndOpenButtonHidden() {
+        final User me = new User("Me", 45678);
+        me.setIpAddress("192.168.1.1");
+
+        final User pedro = new User("Pedro", 12345);
+        pedro.setIpAddress("192.168.1.2");
+
+        when(settings.getMe()).thenReturn(me);
+        when(fileTransfer.getUser()).thenReturn(pedro);
+        when(fileTransfer.getFile()).thenReturn(new File("image.png"));
+        when(fileTransfer.getDirection()).thenReturn(FileTransfer.Direction.SEND);
+
+        transferDialog.statusWaiting();
+
+        assertFalse(openButton.isVisible());
+        assertEquals("Me (192.168.1.1)", sourceLabel.getText());
+        assertEquals("Pedro (192.168.1.2)", destinationLabel.getText());
     }
 }
