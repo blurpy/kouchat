@@ -25,6 +25,7 @@ package net.usikkert.kouchat.ui.swing;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.awt.Color;
 import java.io.File;
 
 import javax.swing.JButton;
@@ -307,5 +308,93 @@ public class TransferDialogTest {
     @Test
     public void getFileTransferShouldReturnFileTransferFromConstructor() {
         assertSame(fileTransfer, transferDialog.getFileTransfer());
+    }
+
+    @Test
+    public void statusCompletedShouldSetGreenColorOnStatus() {
+        final Color green = new Color(0, 176, 0);
+
+        assertNotEquals(green, statusLabel.getForeground());
+
+        transferDialog.statusCompleted();
+
+        assertEquals(green, statusLabel.getForeground());
+    }
+
+    @Test
+    public void statusCompletedWithReceiveShouldSetCorrectStatusTextAndEnableOpenButton() {
+        when(fileTransfer.getDirection()).thenReturn(FileTransfer.Direction.RECEIVE);
+
+        transferDialog.statusCompleted();
+
+        assertEquals("File successfully received", statusLabel.getText());
+        assertTrue(openButton.isEnabled());
+    }
+
+    @Test
+    public void statusCompletedWithSendShouldSetCorrectStatusTextAndNotEnableOpenButton() {
+        when(fileTransfer.getDirection()).thenReturn(FileTransfer.Direction.SEND);
+
+        transferDialog.statusCompleted();
+
+        assertEquals("File successfully sent", statusLabel.getText());
+        assertFalse(openButton.isEnabled());
+    }
+
+    @Test
+    public void statusCompletedShouldSetFieldClosableAndCloseTextOnCancelButton() {
+        transferDialog.statusCompleted();
+
+        assertTrue(transferDialog.isCloseable());
+        assertEquals("Close", cancelButton.getText());
+
+        verify(uiTools).invokeLater(any(Runnable.class));
+    }
+
+    @Test
+    public void statusConnectingShouldSetCorrectStatusText() {
+        transferDialog.statusConnecting();
+
+        assertEquals("Connecting...", statusLabel.getText());
+        verify(uiTools).invokeLater(any(Runnable.class));
+    }
+
+    @Test
+    public void statusFailedShouldSetRedColorOnStatus() {
+        assertNotEquals(Color.RED, statusLabel.getForeground());
+
+        transferDialog.statusFailed();
+
+        assertEquals(Color.RED, statusLabel.getForeground());
+    }
+
+    @Test
+    public void statusFailedWithReceiveShouldSetCorrectStatusTextAndNotEnableOpenButton() {
+        when(fileTransfer.getDirection()).thenReturn(FileTransfer.Direction.RECEIVE);
+
+        transferDialog.statusFailed();
+
+        assertEquals("Failed to receive file", statusLabel.getText());
+        assertFalse(openButton.isEnabled());
+    }
+
+    @Test
+    public void statusFailedWithSendShouldSetCorrectStatusTextAndNotEnableOpenButton() {
+        when(fileTransfer.getDirection()).thenReturn(FileTransfer.Direction.SEND);
+
+        transferDialog.statusFailed();
+
+        assertEquals("Failed to send file", statusLabel.getText());
+        assertFalse(openButton.isEnabled());
+    }
+
+    @Test
+    public void statusFailedShouldSetFieldClosableAndCloseTextOnCancelButton() {
+        transferDialog.statusFailed();
+
+        assertTrue(transferDialog.isCloseable());
+        assertEquals("Close", cancelButton.getText());
+
+        verify(uiTools).invokeLater(any(Runnable.class));
     }
 }
