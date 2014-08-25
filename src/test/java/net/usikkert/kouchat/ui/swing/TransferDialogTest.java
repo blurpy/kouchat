@@ -500,4 +500,22 @@ public class TransferDialogTest {
         assertEquals("Me (192.168.1.1)", sourceLabel.getText());
         assertEquals("Pedro (192.168.1.2)", destinationLabel.getText());
     }
+
+    @Test
+    public void transferUpdateShouldUpdateProgressBarAndTitleAndTransferDetails() {
+        when(fileTransfer.getPercent()).thenReturn(23);
+        when(fileTransfer.getTransferred()).thenReturn((long) (1024 * 1024 * 1.7)); // 1.7MB
+        when(fileTransfer.getFileSize()).thenReturn((long) (1024 * 1024 * 4.3)); // 4.3MB
+        when(fileTransfer.getSpeed()).thenReturn((long) (1024 * 200)); // 200KB
+
+        doCallRealMethod().when(uiTools).createTitle(anyString());
+
+        transferDialog.transferUpdate();
+
+        assertEquals(23, progressBar.getValue());
+        assertEquals("23% - File transfer - KouChat", transferDialog.getTitle());
+        assertEquals("1.70MB of 4.30MB at 200.00KB/s", transferredLabel.getText());
+
+        verify(uiTools).invokeLater(any(Runnable.class));
+    }
 }
