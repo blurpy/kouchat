@@ -25,6 +25,7 @@ package net.usikkert.kouchat.ui.swing;
 import static org.mockito.Mockito.*;
 
 import net.usikkert.kouchat.message.Messages;
+import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
@@ -48,6 +49,7 @@ public class TransferDialogIntegrationTest {
 
     private ImageLoader imageLoader;
     private Settings settings;
+    private Messages messages;
 
     @Before
     public void setUp() {
@@ -57,7 +59,8 @@ public class TransferDialogIntegrationTest {
         settings = mock(Settings.class);
         when(settings.getMe()).thenReturn(me);
 
-        imageLoader = new ImageLoader(mock(ErrorHandler.class), mock(Messages.class), new ResourceValidator(), new ResourceLoader());
+        messages = new PropertyFileMessages("messages.swing");
+        imageLoader = new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
     }
 
     /**
@@ -71,7 +74,7 @@ public class TransferDialogIntegrationTest {
         final MockMediator mediator = new MockMediator();
         final MockFileTransfer fileTransfer = new MockFileTransfer(Direction.RECEIVE);
 
-        final TransferDialog transferDialog = new TransferDialog(mediator, fileTransfer, imageLoader, settings);
+        final TransferDialog transferDialog = new TransferDialog(mediator, fileTransfer, imageLoader, settings, messages);
         transferDialog.open();
 
         // Returns true when the close button is clicked
@@ -91,7 +94,7 @@ public class TransferDialogIntegrationTest {
         final MockMediator mediator = new MockMediator();
         final MockFileTransfer fileTransfer = new MockFileTransfer(Direction.SEND);
 
-        final TransferDialog transferDialog = new TransferDialog(mediator, fileTransfer, imageLoader, settings);
+        final TransferDialog transferDialog = new TransferDialog(mediator, fileTransfer, imageLoader, settings, messages);
         transferDialog.open();
 
         // Returns true when the close button is clicked

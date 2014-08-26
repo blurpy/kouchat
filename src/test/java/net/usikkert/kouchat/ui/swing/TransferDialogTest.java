@@ -37,6 +37,7 @@ import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
 import net.usikkert.kouchat.message.Messages;
+import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
@@ -69,6 +70,8 @@ public class TransferDialogTest {
     private UITools uiTools;
     private FileTransfer fileTransfer;
     private StatusIcons statusIcons;
+    private Messages messages;
+    private ImageLoader imageLoader;
 
     private JButton cancelButton;
     private JButton openButton;
@@ -87,14 +90,14 @@ public class TransferDialogTest {
 
     @Before
     public void setUp() {
-        final ImageLoader imageLoader =
-                new ImageLoader(mock(ErrorHandler.class), mock(Messages.class), new ResourceValidator(), new ResourceLoader());
+        messages = new PropertyFileMessages("messages.swing");
+        imageLoader = new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
 
         mediator = mock(Mediator.class);
         settings = mock(Settings.class);
         fileTransfer = mock(FileTransfer.class);
 
-        transferDialog = new TransferDialog(mediator, fileTransfer, imageLoader, settings);
+        transferDialog = new TransferDialog(mediator, fileTransfer, imageLoader, settings, messages);
 
         uiTools = TestUtils.setFieldValueWithMock(transferDialog, "uiTools", UITools.class);
         doAnswer(new RunArgumentAnswer()).when(uiTools).invokeLater(any(Runnable.class));
@@ -139,7 +142,7 @@ public class TransferDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Mediator can not be null");
 
-        new TransferDialog(null, fileTransfer, mock(ImageLoader.class), settings);
+        new TransferDialog(null, fileTransfer, imageLoader, settings, messages);
     }
 
     @Test
@@ -147,7 +150,7 @@ public class TransferDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("File transfer can not be null");
 
-        new TransferDialog(mediator, null, mock(ImageLoader.class), settings);
+        new TransferDialog(mediator, null, imageLoader, settings, messages);
     }
 
     @Test
@@ -155,7 +158,7 @@ public class TransferDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Image loader can not be null");
 
-        new TransferDialog(mediator, fileTransfer, null, settings);
+        new TransferDialog(mediator, fileTransfer, null, settings, messages);
     }
 
     @Test
@@ -163,7 +166,15 @@ public class TransferDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new TransferDialog(mediator, fileTransfer, mock(ImageLoader.class), null);
+        new TransferDialog(mediator, fileTransfer, imageLoader, null, messages);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfMessagesIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Messages can not be null");
+
+        new TransferDialog(mediator, fileTransfer, imageLoader, settings, null);
     }
 
     @Test
