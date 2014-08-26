@@ -54,6 +54,8 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class TransferDialog extends JDialog implements FileTransferListener, ActionListener {
 
+    private static final String ZERO_KB = "0KB";
+
     private final UITools uiTools = new UITools();
 
     /** Button to cancel file transfer, or close the dialog when transfer is stopped. */
@@ -118,10 +120,10 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
         this.settings = settings;
         this.messages = messages;
 
-        cancelB = new JButton("Cancel");
+        cancelB = new JButton(messages.getMessage("swing.button.cancel"));
         cancelB.addActionListener(this);
 
-        openB = new JButton("Open folder");
+        openB = new JButton(messages.getMessage("swing.transferDialog.button.openFolder"));
         openB.addActionListener(this);
         openB.setVisible(false);
         openB.setEnabled(false);
@@ -130,28 +132,28 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
         transferProgressPB.setStringPainted(true);
         transferProgressPB.setPreferredSize(new Dimension(410, 25));
 
-        final JLabel transferredHeaderL = new JLabel("Transferred:");
+        final JLabel transferredHeaderL = new JLabel(messages.getMessage("swing.transferDialog.transferred.header"));
         final int headerHeight = transferredHeaderL.getPreferredSize().height;
         final int headerWidth = transferredHeaderL.getPreferredSize().width + 8;
         transferredHeaderL.setPreferredSize(new Dimension(headerWidth, headerHeight));
-        transferredL = new JLabel("0KB of 0KB at 0KB/s");
+        transferredL = new JLabel(createTransferStatusText(ZERO_KB, ZERO_KB, ZERO_KB));
 
-        final JLabel filenameHeaderL = new JLabel("Filename:");
+        final JLabel filenameHeaderL = new JLabel(messages.getMessage("swing.transferDialog.filename.header"));
         filenameHeaderL.setPreferredSize(new Dimension(headerWidth, headerHeight));
-        filenameL = new JLabel("(No file)");
+        filenameL = new JLabel(messages.getMessage("swing.transferDialog.filename.defaultValue"));
         filenameL.setPreferredSize(new Dimension(410 - headerWidth, headerHeight));
 
-        final JLabel statusHeaderL = new JLabel("Status:");
+        final JLabel statusHeaderL = new JLabel(messages.getMessage("swing.transferDialog.status.header"));
         statusHeaderL.setPreferredSize(new Dimension(headerWidth, headerHeight));
-        statusL = new JLabel("Waiting...");
+        statusL = new JLabel(messages.getMessage("swing.transferDialog.status.waiting"));
 
-        final JLabel sourceHeaderL = new JLabel("Source:");
+        final JLabel sourceHeaderL = new JLabel(messages.getMessage("swing.transferDialog.source.header"));
         sourceHeaderL.setPreferredSize(new Dimension(headerWidth, headerHeight));
-        sourceL = new JLabel("Source (No IP)");
+        sourceL = new JLabel(messages.getMessage("swing.transferDialog.source.defaultValue"));
 
-        final JLabel destinationHeaderL = new JLabel("Destination:");
+        final JLabel destinationHeaderL = new JLabel(messages.getMessage("swing.transferDialog.destination.header"));
         destinationHeaderL.setPreferredSize(new Dimension(headerWidth, headerHeight));
-        destinationL = new JLabel("Destination (No IP)");
+        destinationL = new JLabel(messages.getMessage("swing.transferDialog.destination.defaultValue"));
 
         final JPanel topP = new JPanel();
         topP.setBorder(BorderFactory.createEmptyBorder(4, 8, 4, 8));
@@ -300,12 +302,12 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
                 statusL.setForeground(new Color(0, 176, 0));
 
                 if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE) {
-                    statusL.setText("File successfully received");
+                    statusL.setText(messages.getMessage("swing.transferDialog.status.completed.receive"));
                     openB.setEnabled(true);
                 }
 
                 else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND) {
-                    statusL.setText("File successfully sent");
+                    statusL.setText(messages.getMessage("swing.transferDialog.status.completed.send"));
                 }
 
                 setAsCloseable();
@@ -322,7 +324,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
         uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
-                statusL.setText("Connecting...");
+                statusL.setText(messages.getMessage("swing.transferDialog.status.connecting"));
             }
         });
     }
@@ -339,9 +341,9 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
                 statusL.setForeground(Color.RED);
 
                 if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE) {
-                    statusL.setText("Failed to receive file");
+                    statusL.setText(messages.getMessage("swing.transferDialog.status.failed.receive"));
                 } else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND) {
-                    statusL.setText("Failed to send file");
+                    statusL.setText(messages.getMessage("swing.transferDialog.status.failed.send"));
                 }
 
                 setAsCloseable();
@@ -359,9 +361,9 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
             @Override
             public void run() {
                 if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE) {
-                    statusL.setText("Receiving...");
+                    statusL.setText(messages.getMessage("swing.transferDialog.status.transferring.receive"));
                 } else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND) {
-                    statusL.setText("Sending...");
+                    statusL.setText(messages.getMessage("swing.transferDialog.status.transferring.send"));
                 }
             }
         });
@@ -381,7 +383,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
                 final User me = settings.getMe();
                 final User other = fileTransfer.getUser();
 
-                statusL.setText("Waiting...");
+                statusL.setText(messages.getMessage("swing.transferDialog.status.waiting"));
 
                 if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE) {
                     sourceL.setText(other.getNick() + " (" + other.getIpAddress() + ")");
@@ -404,8 +406,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
                     filenameL.setToolTipText(null);
                 }
 
-                transferredL.setText("0KB of " +
-                        Tools.byteToString(fileTransfer.getFileSize()) + " at 0KB/s");
+                transferredL.setText(createTransferStatusText(ZERO_KB, Tools.byteToString(fileTransfer.getFileSize()), ZERO_KB));
                 transferProgressPB.setValue(0);
             }
         });
@@ -422,9 +423,10 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
         uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
-                transferredL.setText(Tools.byteToString(fileTransfer.getTransferred()) + " of " +
-                        Tools.byteToString(fileTransfer.getFileSize()) + " at " +
-                        Tools.byteToString(fileTransfer.getSpeed()) + "/s");
+                transferredL.setText(createTransferStatusText(
+                        Tools.byteToString(fileTransfer.getTransferred()),
+                        Tools.byteToString(fileTransfer.getFileSize()),
+                        Tools.byteToString(fileTransfer.getSpeed())));
                 transferProgressPB.setValue(fileTransfer.getPercent());
                 updateTitle(fileTransfer.getPercent());
             }
@@ -437,11 +439,15 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      * @param percent The percentage of the file transferred.
      */
     private void updateTitle(final int percent) {
-        setTitle(uiTools.createTitle(percent + "% - File transfer"));
+        setTitle(uiTools.createTitle(messages.getMessage("swing.transferDialog.title", percent)));
     }
 
     private void setAsCloseable() {
         closeable = true;
-        cancelB.setText("Close");
+        cancelB.setText(messages.getMessage("swing.button.close"));
+    }
+
+    private String createTransferStatusText(final String transferred, final String fileSize, final String speed) {
+        return messages.getMessage("swing.transferDialog.transferred.value", transferred, fileSize, speed);
     }
 }
