@@ -64,6 +64,7 @@ import javax.swing.text.StyledDocument;
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.CommandHistory;
+import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
@@ -139,7 +140,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
         chatDoc = chatTP.getStyledDocument();
         final JScrollPane chatScroll = new JScrollPane(chatTP);
 
-        final URLMouseListener urlML = new URLMouseListener(chatTP, settings);
+        final URLMouseListener urlML = new URLMouseListener(chatTP, settings, ErrorHandler.getErrorHandler());
         chatTP.addMouseListener(urlML);
         chatTP.addMouseMotionListener(urlML);
 

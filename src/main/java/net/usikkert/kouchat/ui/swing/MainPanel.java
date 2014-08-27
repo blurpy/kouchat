@@ -55,6 +55,7 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.autocomplete.AutoCompleter;
 import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.CommandHistory;
+import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.ui.ChatWindow;
 import net.usikkert.kouchat.util.Validate;
@@ -108,7 +109,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
         chatAttr = new SimpleAttributeSet();
         chatDoc = chatTP.getStyledDocument();
 
-        final URLMouseListener urlML = new URLMouseListener(chatTP, settings);
+        final URLMouseListener urlML = new URLMouseListener(chatTP, settings, ErrorHandler.getErrorHandler());
         chatTP.addMouseListener(urlML);
         chatTP.addMouseMotionListener(urlML);
 

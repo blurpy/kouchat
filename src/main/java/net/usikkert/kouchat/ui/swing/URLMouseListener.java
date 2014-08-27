@@ -51,19 +51,23 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
     private final JTextPane textPane;
     private final StyledDocument doc;
     private final Settings settings;
+    private final ErrorHandler errorHandler;
 
     /**
      * Constructor.
      *
      * @param textPane The text pane this listener is registered to.
      * @param settings The settings to use.
+     * @param errorHandler The error handler to use for opening the browser.
      */
-    public URLMouseListener(final JTextPane textPane, final Settings settings) {
+    public URLMouseListener(final JTextPane textPane, final Settings settings, final ErrorHandler errorHandler) {
         Validate.notNull(textPane, "TextPane can not be null");
         Validate.notNull(settings, "Settings can not be null");
+        Validate.notNull(errorHandler, "Error handler can not be null");
 
         this.textPane = textPane;
         this.settings = settings;
+        this.errorHandler = errorHandler;
 
         doc = textPane.getStyledDocument();
         handCursor = new Cursor(Cursor.HAND_CURSOR);
@@ -164,7 +168,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
                     uiTools.invokeLater(new Runnable() {
                         @Override
                         public void run() {
-                            uiTools.browse(url, settings, ErrorHandler.getErrorHandler());
+                            uiTools.browse(url, settings, errorHandler);
                         }
                     });
                 }
