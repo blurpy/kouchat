@@ -253,11 +253,11 @@ public class SwingMediatorTest {
         me.setAway(true);
         me.setAwayMsg("Gone");
 
-        when(uiTools.showOptionDialog(anyString(), anyString())).thenReturn(JOptionPane.NO_OPTION);
+        when(uiTools.showOptionDialog(anyString(), anyString(), anyString(), anyString())).thenReturn(JOptionPane.NO_OPTION);
 
         mediator.setAway();
 
-        verify(uiTools).showOptionDialog("Back from 'Gone'?", "Away");
+        verify(uiTools).showOptionDialog("Back from 'Gone'?", "Away", "Yes", "Cancel");
         verifyZeroInteractions(controller);
     }
 
@@ -266,11 +266,11 @@ public class SwingMediatorTest {
         me.setAway(true);
         me.setAwayMsg("Gone");
 
-        when(uiTools.showOptionDialog(anyString(), anyString())).thenReturn(JOptionPane.YES_OPTION);
+        when(uiTools.showOptionDialog(anyString(), anyString(), anyString(), anyString())).thenReturn(JOptionPane.YES_OPTION);
 
         mediator.setAway();
 
-        verify(uiTools).showOptionDialog("Back from 'Gone'?", "Away");
+        verify(uiTools).showOptionDialog("Back from 'Gone'?", "Away", "Yes", "Cancel");
         verify(controller).comeBack();
         verify(uiTools, never()).showWarningMessage(anyString(), anyString());
     }
@@ -280,12 +280,12 @@ public class SwingMediatorTest {
         me.setAway(true);
         me.setAwayMsg("Gone");
 
-        when(uiTools.showOptionDialog(anyString(), anyString())).thenReturn(JOptionPane.YES_OPTION);
+        when(uiTools.showOptionDialog(anyString(), anyString(), anyString(), anyString())).thenReturn(JOptionPane.YES_OPTION);
         doThrow(new CommandException("Don't come back")).when(controller).comeBack();
 
         mediator.setAway();
 
-        verify(uiTools).showOptionDialog("Back from 'Gone'?", "Away");
+        verify(uiTools).showOptionDialog("Back from 'Gone'?", "Away", "Yes", "Cancel");
         verify(controller).comeBack();
         verify(uiTools).showWarningMessage("Don't come back", "Change away");
     }
@@ -359,22 +359,22 @@ public class SwingMediatorTest {
         expectedSystemExit.checkAssertionAfterwards(new Assertion() {
             @Override
             public void checkAssertion() throws Exception {
-                verify(uiTools).showOptionDialog("Are you sure you want to quit?", "Quit");
+                verify(uiTools).showOptionDialog("Are you sure you want to quit?", "Quit", "Yes", "Cancel");
             }
         });
 
-        when(uiTools.showOptionDialog(anyString(), anyString())).thenReturn(JOptionPane.YES_OPTION);
+        when(uiTools.showOptionDialog(anyString(), anyString(), anyString(), anyString())).thenReturn(JOptionPane.YES_OPTION);
 
         mediator.quit();
     }
 
     @Test
     public void quitShouldNotExitIfCancel() {
-        when(uiTools.showOptionDialog(anyString(), anyString())).thenReturn(JOptionPane.CANCEL_OPTION);
+        when(uiTools.showOptionDialog(anyString(), anyString(), anyString(), anyString())).thenReturn(JOptionPane.CANCEL_OPTION);
 
         mediator.quit();
 
-        verify(uiTools).showOptionDialog("Are you sure you want to quit?", "Quit");
+        verify(uiTools).showOptionDialog("Are you sure you want to quit?", "Quit", "Yes", "Cancel");
     }
 
     @Test
@@ -941,22 +941,22 @@ public class SwingMediatorTest {
 
     @Test
     public void askFileSaveShouldBeepAndAskToSaveFileAndReturnFalseOnNo() {
-        when(uiTools.showOptionDialog(anyString(), anyString())).thenReturn(JOptionPane.NO_OPTION);
+        when(uiTools.showOptionDialog(anyString(), anyString(), anyString(), anyString())).thenReturn(JOptionPane.NO_OPTION);
 
         assertFalse(mediator.askFileSave("Niles", "donald.png", "2048kb"));
 
         verify(beeper).beep();
-        verify(uiTools).showOptionDialog("Niles wants to send you the file donald.png (2048kb)\nAccept?", "Receive file");
+        verify(uiTools).showOptionDialog("Niles wants to send you the file donald.png (2048kb)\nAccept?", "Receive file", "Yes", "Cancel");
     }
 
     @Test
     public void askFileSaveShouldBeepAndAskToSaveFileAndReturnTrueOnYes() {
-        when(uiTools.showOptionDialog(anyString(), anyString())).thenReturn(JOptionPane.YES_OPTION);
+        when(uiTools.showOptionDialog(anyString(), anyString(), anyString(), anyString())).thenReturn(JOptionPane.YES_OPTION);
 
         assertTrue(mediator.askFileSave("Penny", "dolly.png", "1024kb"));
 
         verify(beeper).beep();
-        verify(uiTools).showOptionDialog("Penny wants to send you the file dolly.png (1024kb)\nAccept?", "Receive file");
+        verify(uiTools).showOptionDialog("Penny wants to send you the file dolly.png (1024kb)\nAccept?", "Receive file", "Yes", "Cancel");
     }
 
     @Test
@@ -1012,7 +1012,7 @@ public class SwingMediatorTest {
         verify(fileReceiver).setFile(selectedFile.getAbsoluteFile());
 
         verify(fileReceiver, never()).reject();
-        verify(uiTools, never()).showOptionDialog(anyString(), anyString());
+        verify(uiTools, never()).showOptionDialog(anyString(), anyString(), anyString(), anyString());
     }
 
     @Test
@@ -1027,7 +1027,7 @@ public class SwingMediatorTest {
         when(fileChooser.showSaveDialog(null)).thenReturn(JFileChooser.APPROVE_OPTION);
         when(fileReceiver.getFile()).thenReturn(mock(File.class));
         when(fileChooser.getSelectedFile()).thenReturn(selectedFile);
-        when(uiTools.showOptionDialog(anyString(), anyString())).thenReturn(JOptionPane.YES_OPTION);
+        when(uiTools.showOptionDialog(anyString(), anyString(), anyString(), anyString())).thenReturn(JOptionPane.YES_OPTION);
 
         mediator.showFileSave(fileReceiver);
 
@@ -1035,7 +1035,7 @@ public class SwingMediatorTest {
         verify(fileReceiver).setFile(selectedFile.getAbsoluteFile());
 
         verify(fileReceiver, never()).reject();
-        verify(uiTools).showOptionDialog("README already exists.\nOverwrite?", "File exists");
+        verify(uiTools).showOptionDialog("README already exists.\nOverwrite?", "File exists", "Yes", "Cancel");
     }
 
     @Test
@@ -1054,14 +1054,14 @@ public class SwingMediatorTest {
                                                           JFileChooser.CANCEL_OPTION);
         when(fileReceiver.getFile()).thenReturn(mock(File.class));
         when(fileChooser.getSelectedFile()).thenReturn(selectedFile);
-        when(uiTools.showOptionDialog(anyString(), anyString())).thenReturn(JOptionPane.CANCEL_OPTION);
+        when(uiTools.showOptionDialog(anyString(), anyString(), anyString(), anyString())).thenReturn(JOptionPane.CANCEL_OPTION);
 
         mediator.showFileSave(fileReceiver);
 
         verify(fileReceiver, never()).accept();
 
         verify(fileReceiver).reject();
-        verify(uiTools, times(2)).showOptionDialog("README already exists.\nOverwrite?", "File exists");
+        verify(uiTools, times(2)).showOptionDialog("README already exists.\nOverwrite?", "File exists", "Yes", "Cancel");
     }
 
     @Test
@@ -1078,9 +1078,9 @@ public class SwingMediatorTest {
         when(fileChooser.getSelectedFile()).thenReturn(selectedFile);
 
         // Accept overwrite on third try to break out of loop
-        when(uiTools.showOptionDialog(anyString(), anyString())).thenReturn(JOptionPane.CANCEL_OPTION,
-                                                                            JOptionPane.CANCEL_OPTION,
-                                                                            JOptionPane.YES_OPTION);
+        when(uiTools.showOptionDialog(anyString(), anyString(), anyString(), anyString())).thenReturn(JOptionPane.CANCEL_OPTION,
+                                                                                                      JOptionPane.CANCEL_OPTION,
+                                                                                                      JOptionPane.YES_OPTION);
 
         mediator.showFileSave(fileReceiver);
 
@@ -1088,7 +1088,7 @@ public class SwingMediatorTest {
         verify(fileReceiver).setFile(selectedFile.getAbsoluteFile());
 
         verify(fileReceiver, never()).reject();
-        verify(uiTools, times(3)).showOptionDialog("README already exists.\nOverwrite?", "File exists");
+        verify(uiTools, times(3)).showOptionDialog("README already exists.\nOverwrite?", "File exists", "Yes", "Cancel");
     }
 
     @Test

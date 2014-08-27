@@ -397,14 +397,20 @@ public class UITools {
 
     /**
      * Shows an option dialog with the specified message and title,
-     * with the buttons set to "Yes" and "Cancel".
+     * and two buttons with specified text.
+     *
+     * <p>The positive button returns {@link JOptionPane#YES_OPTION} on click,
+     * and is also the default button.</p>
      *
      * @param message The message to show.
      * @param title The title of the dialog box.
+     * @param positiveButtonText Text to use on the positive/accept/yes button.
+     * @param negativeButtonText Text to use on the negative/cancel/no button.
      * @return Which button the user pressed. See {@link JOptionPane} for options.
      */
-    public int showOptionDialog(final String message, final String title) {
-        final Object[] options = {"Yes", "Cancel"};
+    public int showOptionDialog(final String message, final String title,
+                                final String positiveButtonText, final String negativeButtonText) {
+        final Object[] options = {positiveButtonText, negativeButtonText};
         final int[] choice = new int[1];
 
         invokeAndWait(new Runnable() {

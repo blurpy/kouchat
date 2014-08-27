@@ -152,7 +152,9 @@ public class SwingMediator implements Mediator, UserInterface {
     public void setAway() {
         if (me.isAway()) {
             final int choice = uiTools.showOptionDialog(messages.getMessage("swing.away.comeBackPopup.message", me.getAwayMsg()),
-                                                        messages.getMessage("swing.away.comeBackPopup.title"));
+                                                        messages.getMessage("swing.away.comeBackPopup.title"),
+                                                        messages.getMessage("swing.button.yes"),
+                                                        messages.getMessage("swing.button.cancel"));
 
             if (choice == JOptionPane.YES_OPTION) {
                 try {
@@ -237,7 +239,9 @@ public class SwingMediator implements Mediator, UserInterface {
     @Override
     public void quit() {
         final int choice = uiTools.showOptionDialog(messages.getMessage("swing.quitPopup.message"),
-                                                    messages.getMessage("swing.quitPopup.title"));
+                                                    messages.getMessage("swing.quitPopup.title"),
+                                                    messages.getMessage("swing.button.yes"),
+                                                    messages.getMessage("swing.button.cancel"));
 
         if (choice == JOptionPane.YES_OPTION) {
             System.exit(0);
@@ -642,7 +646,9 @@ public class SwingMediator implements Mediator, UserInterface {
 
         final int choice = uiTools.showOptionDialog(
                 messages.getMessage("swing.receiveFile.askToReceivePopup.message", user, fileName, size),
-                messages.getMessage("swing.receiveFile.askToReceivePopup.title"));
+                messages.getMessage("swing.receiveFile.askToReceivePopup.title"),
+                messages.getMessage("swing.button.yes"),
+                messages.getMessage("swing.button.cancel"));
 
         return choice == JOptionPane.YES_OPTION;
     }
@@ -679,7 +685,9 @@ public class SwingMediator implements Mediator, UserInterface {
                 if (file.exists()) {
                     final int overwrite = uiTools.showOptionDialog(
                             messages.getMessage("swing.receiveFile.fileExistPopup.message", file.getName()),
-                            messages.getMessage("swing.receiveFile.fileExistPopup.title"));
+                            messages.getMessage("swing.receiveFile.fileExistPopup.title"),
+                            messages.getMessage("swing.button.yes"),
+                            messages.getMessage("swing.button.cancel"));
 
                     if (overwrite != JOptionPane.YES_OPTION) {
                         done = false;
