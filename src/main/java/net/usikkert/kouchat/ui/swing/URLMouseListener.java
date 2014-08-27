@@ -28,7 +28,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JTextPane;
-import javax.swing.SwingUtilities;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
@@ -162,7 +161,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
                 if (obj != null) {
                     final String url = obj.toString();
 
-                    SwingUtilities.invokeLater(new Runnable() {
+                    uiTools.invokeLater(new Runnable() {
                         @Override
                         public void run() {
                             uiTools.browse(url, settings, ErrorHandler.getErrorHandler());
