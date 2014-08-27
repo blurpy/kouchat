@@ -83,12 +83,12 @@ public class UITools {
      *
      * @param url The url to open in the browser.
      * @param settings The settings to use.
+     * @param errorHandler The error handler to use if opening the browser fails.
      */
-    public void browse(final String url, final Settings settings) {
+    public void browse(final String url, final Settings settings, final ErrorHandler errorHandler) {
         Validate.notEmpty(url, "Url can not be empty");
         Validate.notNull(settings, "Settings can not be null");
-
-        final ErrorHandler errorHandler = ErrorHandler.getErrorHandler();
+        Validate.notNull(errorHandler, "Error handler can not be null");
 
         final String browser = settings.getBrowser();
 
@@ -130,7 +130,7 @@ public class UITools {
      * Opens a url in a browser.
      *
      * <p>Only for special cases. Don't use this directly, as it doesn't respect the browser set in the settings.
-     * Use {@link #browse(String, Settings)} instead.</p>
+     * Use {@link #browse(String, Settings, ErrorHandler)} instead.</p>
      *
      * @param url The url to open in the browser.
      * @throws URISyntaxException If the url is invalid.
@@ -143,7 +143,7 @@ public class UITools {
     /**
      * Opens a file in the registered application for the file type.
      *
-     * <p>If this fails, {@link #browse(String, Settings)} is used as a fallback.</p>
+     * <p>If this fails, {@link #browse(String, Settings, ErrorHandler)} is used as a fallback.</p>
      *
      * @param file A file or directory to open.
      * @param settings The settings to use.
@@ -166,7 +166,7 @@ public class UITools {
         }
 
         if (!desktopOpenSuccess) {
-            browse(file.getAbsolutePath(), settings);
+            browse(file.getAbsolutePath(), settings, ErrorHandler.getErrorHandler());
         }
     }
 

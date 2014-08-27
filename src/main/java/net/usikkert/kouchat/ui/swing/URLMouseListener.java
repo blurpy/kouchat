@@ -33,6 +33,7 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Validate;
 
@@ -164,7 +165,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override
                         public void run() {
-                            uiTools.browse(url, settings);
+                            uiTools.browse(url, settings, ErrorHandler.getErrorHandler());
                         }
                     });
                 }
