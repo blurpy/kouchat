@@ -29,6 +29,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.io.File;
+import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -90,6 +91,8 @@ public class TransferDialogTest {
 
     @Before
     public void setUp() {
+        Locale.setDefault(Locale.US); // To avoid issues with "," and "." in numbers
+
         messages = new PropertyFileMessages("messages.swing");
         imageLoader = new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
 
