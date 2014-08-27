@@ -61,7 +61,6 @@ import net.usikkert.kouchat.util.Validate;
 public class UITools {
 
     private static final Logger LOG = Logger.getLogger(UITools.class.getName());
-    private static final ErrorHandler ERRORHANDLER = ErrorHandler.getErrorHandler();
 
     /** Name of the environment variable used to detect if running on KDE. */
     private static final String KDE_FULL_SESSION = "KDE_FULL_SESSION";
@@ -89,6 +88,8 @@ public class UITools {
         Validate.notEmpty(url, "Url can not be empty");
         Validate.notNull(settings, "Settings can not be null");
 
+        final ErrorHandler errorHandler = ErrorHandler.getErrorHandler();
+
         final String browser = settings.getBrowser();
 
         // The default is to use the browser in the settings.
@@ -99,8 +100,7 @@ public class UITools {
 
             catch (final IOException e) {
                 LOG.log(Level.WARNING, e.toString());
-                ERRORHANDLER.showError("Could not open the browser '" +
-                        browser + "'. Please check the settings.");
+                errorHandler.showError("Could not open the browser '" + browser + "'. Please check the settings.");
             }
         }
 
@@ -112,8 +112,8 @@ public class UITools {
 
             catch (final IOException e) {
                 LOG.log(Level.WARNING, e.toString());
-                ERRORHANDLER.showError("Could not open '" + url + "' with the default browser." +
-                        " Try setting a browser in the settings.");
+                errorHandler.showError("Could not open '" + url + "' with the default browser." +
+                                               " Try setting a browser in the settings.");
             }
 
             catch (final URISyntaxException e) {
@@ -122,8 +122,7 @@ public class UITools {
         }
 
         else {
-            ERRORHANDLER.showError("No browser detected." +
-                    " A browser can be chosen in the settings.");
+            errorHandler.showError("No browser detected. A browser can be chosen in the settings.");
         }
     }
 
