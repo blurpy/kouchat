@@ -22,6 +22,8 @@
 
 package net.usikkert.kouchat.ui.swing;
 
+import static org.junit.Assert.*;
+
 import javax.swing.JOptionPane;
 
 import org.junit.Before;
@@ -49,5 +51,11 @@ public class UIToolsIntegrationTest {
         final int responce = uiTools.showOptionDialog("The message", "The title", "Positive", "Negative");
 
         System.out.println(responce + " " + (responce == JOptionPane.YES_OPTION));
+    }
+
+    @Test
+    public void isRunningOnKDEShouldBeTrueOnKDE() {
+        // Should fail on other platforms than KDE
+        assertTrue(uiTools.isRunningOnKDE());
     }
 }

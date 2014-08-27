@@ -37,7 +37,6 @@ import javax.swing.plaf.basic.BasicLookAndFeel;
 import javax.swing.plaf.synth.SynthLookAndFeel;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -69,12 +68,6 @@ public class UIToolsTest {
         PowerMockito.mockStatic(SystemTray.class);
 
         uiTools = new UITools();
-    }
-
-    @Test
-    @Ignore("Run this manually. Should fail on other platforms than KDE.")
-    public void isRunningOnKDEShouldBeTrueOnKDE() {
-        assertTrue(uiTools.isRunningOnKDE());
     }
 
     @Test
