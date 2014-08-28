@@ -66,21 +66,28 @@ public class PrivateChatFrameTest {
 
     private StatusIcons statusIcons;
     private UITools uiTools;
+    private Mediator mediator;
+    private ErrorHandler errorHandler;
+    private Messages messages;
+    private ImageLoader imageLoader;
+    private Settings settings;
 
     @Before
     public void setUp() {
         user = new User("Test", 1234);
         me = new User("Me", 1235);
 
-        final PropertyFileMessages messages = new PropertyFileMessages("messages.swing");
-        final ImageLoader imageLoader = new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
+        errorHandler = mock(ErrorHandler.class);
+        messages = new PropertyFileMessages("messages.swing");
+        imageLoader = new ImageLoader(errorHandler, messages, new ResourceValidator(), new ResourceLoader());
 
-        final Settings settings = mock(Settings.class);
+        settings = mock(Settings.class);
         when(settings.getMe()).thenReturn(me);
 
+        mediator = mock(Mediator.class);
         statusIcons = new StatusIcons(imageLoader);
 
-        privateChatFrame = spy(new PrivateChatFrame(mock(Mediator.class), user, imageLoader, settings, messages));
+        privateChatFrame = spy(new PrivateChatFrame(mediator, user, imageLoader, settings, messages, errorHandler));
 
         final JMenuBar menuBar = privateChatFrame.getJMenuBar();
         fileMenu = menuBar.getMenu(0);
@@ -103,7 +110,7 @@ public class PrivateChatFrameTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Mediator can not be null");
 
-        new PrivateChatFrame(null, mock(User.class), mock(ImageLoader.class), mock(Settings.class), mock(Messages.class));
+        new PrivateChatFrame(null, user, imageLoader, settings, messages, errorHandler);
     }
 
     @Test
@@ -111,7 +118,7 @@ public class PrivateChatFrameTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("User can not be null");
 
-        new PrivateChatFrame(mock(Mediator.class), null, mock(ImageLoader.class), mock(Settings.class), mock(Messages.class));
+        new PrivateChatFrame(mediator, null, imageLoader, settings, messages, errorHandler);
     }
 
     @Test
@@ -119,7 +126,7 @@ public class PrivateChatFrameTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Image loader can not be null");
 
-        new PrivateChatFrame(mock(Mediator.class), mock(User.class), null, mock(Settings.class), mock(Messages.class));
+        new PrivateChatFrame(mediator, user, null, settings, messages, errorHandler);
     }
 
     @Test
@@ -127,7 +134,7 @@ public class PrivateChatFrameTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new PrivateChatFrame(mock(Mediator.class), mock(User.class), mock(ImageLoader.class), null, mock(Messages.class));
+        new PrivateChatFrame(mediator, user, imageLoader, null, messages, errorHandler);
     }
 
     @Test
@@ -135,7 +142,15 @@ public class PrivateChatFrameTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Messages can not be null");
 
-        new PrivateChatFrame(mock(Mediator.class), mock(User.class), mock(ImageLoader.class), mock(Settings.class), null);
+        new PrivateChatFrame(mediator, user, imageLoader, settings, null, errorHandler);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfErrorHandlerIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Error handler can not be null");
+
+        new PrivateChatFrame(mediator, user, imageLoader, settings, messages, null);
     }
 
     @Test

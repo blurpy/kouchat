@@ -804,7 +804,7 @@ public class SwingMediator implements Mediator, UserInterface {
             uiTools.invokeAndWait(new Runnable() {
                 @Override
                 public void run() {
-                    user.setPrivchat(new PrivateChatFrame(SwingMediator.this, user, imageLoader, settings, messages));
+                    user.setPrivchat(new PrivateChatFrame(SwingMediator.this, user, imageLoader, settings, messages, ErrorHandler.getErrorHandler()));
                 }
             });
         }

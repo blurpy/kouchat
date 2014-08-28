@@ -104,14 +104,16 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * @param imageLoader The image loader.
      * @param settings The settings to use.
      * @param messages The messages to use.
+     * @param errorHandler The error handler to use.
      */
     public PrivateChatFrame(final Mediator mediator, final User user, final ImageLoader imageLoader,
-                            final Settings settings, final Messages messages) {
+                            final Settings settings, final Messages messages, final ErrorHandler errorHandler) {
         Validate.notNull(mediator, "Mediator can not be null");
         Validate.notNull(user, "User can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(errorHandler, "Error handler can not be null");
 
         this.mediator = mediator;
         this.user = user;
@@ -140,7 +142,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
         chatDoc = chatTP.getStyledDocument();
         final JScrollPane chatScroll = new JScrollPane(chatTP);
 
-        final URLMouseListener urlML = new URLMouseListener(chatTP, settings, ErrorHandler.getErrorHandler());
+        final URLMouseListener urlML = new URLMouseListener(chatTP, settings, errorHandler);
         chatTP.addMouseListener(urlML);
         chatTP.addMouseMotionListener(urlML);
 
