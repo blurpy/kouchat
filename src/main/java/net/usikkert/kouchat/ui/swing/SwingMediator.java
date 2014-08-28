@@ -78,6 +78,7 @@ public class SwingMediator implements Mediator, UserInterface {
     private final ImageLoader imageLoader;
     private final Settings settings;
     private final Messages messages;
+    private final ErrorHandler errorHandler;
 
     /**
      * Constructor. Initializes the lower layers.
@@ -86,19 +87,22 @@ public class SwingMediator implements Mediator, UserInterface {
      * @param imageLoader The image loader.
      * @param settings The settings to use.
      * @param messages The messages to use.
+     * @param errorHandler The error handler to use.
      */
     public SwingMediator(final ComponentHandler compHandler, final ImageLoader imageLoader,
-                         final Settings settings, final Messages messages) {
+                         final Settings settings, final Messages messages, final ErrorHandler errorHandler) {
         Validate.notNull(compHandler, "Component handler can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(errorHandler, "Error handler can not be null");
 
         compHandler.validate();
 
         this.imageLoader = imageLoader;
         this.settings = settings;
         this.messages = messages;
+        this.errorHandler = errorHandler;
 
         final SidePanel sideP = compHandler.getSidePanel();
         settingsDialog = compHandler.getSettingsDialog();
@@ -113,7 +117,7 @@ public class SwingMediator implements Mediator, UserInterface {
         msgController = new MessageController(mainP, this, settings);
         controller = new Controller(this, settings);
         cmdParser = new CommandParser(controller, this, settings);
-        beeper = new SoundBeeper(settings, new ResourceLoader(), ErrorHandler.getErrorHandler());
+        beeper = new SoundBeeper(settings, new ResourceLoader(), errorHandler);
         jmxAgent = new JMXAgent(controller.createJMXBeanLoader());
 
         sideP.setUserList(controller.getUserList());
@@ -804,7 +808,8 @@ public class SwingMediator implements Mediator, UserInterface {
             uiTools.invokeAndWait(new Runnable() {
                 @Override
                 public void run() {
-                    user.setPrivchat(new PrivateChatFrame(SwingMediator.this, user, imageLoader, settings, messages, ErrorHandler.getErrorHandler()));
+                    user.setPrivchat(new PrivateChatFrame(SwingMediator.this, user, imageLoader,
+                                                          settings, messages, errorHandler));
                 }
             });
         }
