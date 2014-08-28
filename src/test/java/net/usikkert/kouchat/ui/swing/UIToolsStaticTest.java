@@ -36,9 +36,6 @@ import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicLookAndFeel;
 import javax.swing.plaf.synth.SynthLookAndFeel;
 
-import net.usikkert.kouchat.misc.ErrorHandler;
-import net.usikkert.kouchat.misc.Settings;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -50,7 +47,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 
 /**
- * Test of {@link UITools}.
+ * Test of {@link UITools} using {@link PowerMockito} to mock statics.
  *
  * @author Christian Ihle
  */
@@ -130,38 +127,6 @@ public class UIToolsStaticTest {
         uiTools.runCommand("ls -l");
 
         verify(runtime).exec("ls -l");
-    }
-
-    @Test
-    public void browseShouldThrowExceptionIfUrlIsNull() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Url can not be empty");
-
-        uiTools.browse(null, mock(Settings.class), mock(ErrorHandler.class));
-    }
-
-    @Test
-    public void browseShouldThrowExceptionIfUrlIsEmpty() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Url can not be empty");
-
-        uiTools.browse(" ", mock(Settings.class), mock(ErrorHandler.class));
-    }
-
-    @Test
-    public void browseShouldThrowExceptionIfSettingsIsNull() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Settings can not be null");
-
-        uiTools.browse("url", null, mock(ErrorHandler.class));
-    }
-
-    @Test
-    public void browseShouldThrowExceptionIfErrorHandlerIsNull() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Error handler can not be null");
-
-        uiTools.browse("url", mock(Settings.class), null);
     }
 
     @Test
