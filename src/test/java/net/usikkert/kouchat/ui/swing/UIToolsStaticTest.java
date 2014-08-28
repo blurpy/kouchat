@@ -57,7 +57,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @SuppressWarnings("HardCodedStringLiteral")
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ UIManager.class, Runtime.class, Desktop.class, SystemTray.class, UITools.class })
-public class UIToolsTest {
+public class UIToolsStaticTest {
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
