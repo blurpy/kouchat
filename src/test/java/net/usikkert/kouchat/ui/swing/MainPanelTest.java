@@ -25,8 +25,10 @@ package net.usikkert.kouchat.ui.swing;
 import static org.mockito.Mockito.*;
 
 import net.usikkert.kouchat.message.Messages;
+import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -41,12 +43,27 @@ public class MainPanelTest {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
+    private SidePanel sidePanel;
+    private ImageLoader imageLoader;
+    private Settings settings;
+    private Messages messages;
+    private ErrorHandler errorHandler;
+
+    @Before
+    public void setUp() {
+        sidePanel = mock(SidePanel.class);
+        imageLoader = mock(ImageLoader.class);
+        settings = mock(Settings.class);
+        messages = mock(Messages.class);
+        errorHandler = mock(ErrorHandler.class);
+    }
+
     @Test
     public void constructorShouldThrowExceptionIfSidePanelIsNull() {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Side panel can not be null");
 
-        new MainPanel(null, mock(ImageLoader.class), mock(Settings.class), mock(Messages.class));
+        new MainPanel(null, imageLoader, settings, messages, errorHandler);
     }
 
     @Test
@@ -54,7 +71,7 @@ public class MainPanelTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Image loader can not be null");
 
-        new MainPanel(mock(SidePanel.class), null, mock(Settings.class), mock(Messages.class));
+        new MainPanel(sidePanel, null, settings, messages, errorHandler);
     }
 
     @Test
@@ -62,7 +79,7 @@ public class MainPanelTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new MainPanel(mock(SidePanel.class), mock(ImageLoader.class), null, mock(Messages.class));
+        new MainPanel(sidePanel, imageLoader, null, messages, errorHandler);
     }
 
     @Test
@@ -70,6 +87,14 @@ public class MainPanelTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Messages can not be null");
 
-        new MainPanel(mock(SidePanel.class), mock(ImageLoader.class), mock(Settings.class), null);
+        new MainPanel(sidePanel, imageLoader, settings, null, errorHandler);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfErrorHandlerIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Error handler can not be null");
+
+        new MainPanel(sidePanel, imageLoader, settings, messages, null);
     }
 }

@@ -89,12 +89,15 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      * @param imageLoader The image loader.
      * @param settings The settings to use.
      * @param messages The messages to use in copy/paste popups.
+     * @param errorHandler The error handler to use.
      */
-    public MainPanel(final SidePanel sideP, final ImageLoader imageLoader, final Settings settings, final Messages messages) {
+    public MainPanel(final SidePanel sideP, final ImageLoader imageLoader, final Settings settings,
+                     final Messages messages, final ErrorHandler errorHandler) {
         Validate.notNull(sideP, "Side panel can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(errorHandler, "Error handler can not be null");
 
         setLayout(new BorderLayout(2, 2));
 
@@ -109,7 +112,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
         chatAttr = new SimpleAttributeSet();
         chatDoc = chatTP.getStyledDocument();
 
-        final URLMouseListener urlML = new URLMouseListener(chatTP, settings, ErrorHandler.getErrorHandler());
+        final URLMouseListener urlML = new URLMouseListener(chatTP, settings, errorHandler);
         chatTP.addMouseListener(urlML);
         chatTP.addMouseMotionListener(urlML);
 
