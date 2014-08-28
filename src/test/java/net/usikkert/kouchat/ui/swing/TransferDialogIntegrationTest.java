@@ -50,6 +50,7 @@ public class TransferDialogIntegrationTest {
     private ImageLoader imageLoader;
     private Settings settings;
     private Messages messages;
+    private ErrorHandler errorHandler;
 
     @Before
     public void setUp() {
@@ -60,7 +61,8 @@ public class TransferDialogIntegrationTest {
         when(settings.getMe()).thenReturn(me);
 
         messages = new PropertyFileMessages("messages.swing");
-        imageLoader = new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
+        errorHandler = mock(ErrorHandler.class);
+        imageLoader = new ImageLoader(errorHandler, messages, new ResourceValidator(), new ResourceLoader());
     }
 
     /**
@@ -74,7 +76,9 @@ public class TransferDialogIntegrationTest {
         final MockMediator mediator = new MockMediator();
         final MockFileTransfer fileTransfer = new MockFileTransfer(Direction.RECEIVE);
 
-        final TransferDialog transferDialog = new TransferDialog(mediator, fileTransfer, imageLoader, settings, messages);
+        final TransferDialog transferDialog =
+                new TransferDialog(mediator, fileTransfer, imageLoader, settings, messages, errorHandler);
+
         transferDialog.open();
 
         // Returns true when the close button is clicked
@@ -94,7 +98,9 @@ public class TransferDialogIntegrationTest {
         final MockMediator mediator = new MockMediator();
         final MockFileTransfer fileTransfer = new MockFileTransfer(Direction.SEND);
 
-        final TransferDialog transferDialog = new TransferDialog(mediator, fileTransfer, imageLoader, settings, messages);
+        final TransferDialog transferDialog =
+                new TransferDialog(mediator, fileTransfer, imageLoader, settings, messages, errorHandler);
+
         transferDialog.open();
 
         // Returns true when the close button is clicked

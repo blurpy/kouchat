@@ -41,6 +41,7 @@ import javax.swing.WindowConstants;
 
 import net.usikkert.kouchat.event.FileTransferListener;
 import net.usikkert.kouchat.message.Messages;
+import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.FileTransfer;
@@ -85,12 +86,10 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
     /** The file transfer object this dialog is showing the state of. */
     private final FileTransfer fileTransfer;
 
-    /** The mediator. */
     private final Mediator mediator;
-
     private final Settings settings;
-
     private final Messages messages;
+    private final ErrorHandler errorHandler;
 
     /** If the dialog is in a state where it will be closed when clicking the cancel button (with the text "Close"). */
     private boolean closeable;
@@ -106,19 +105,22 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      * @param imageLoader The image loader.
      * @param settings The settings to use.
      * @param messages The messages to use in the dialog.
+     * @param errorHandler The error handler to use.
      */
     public TransferDialog(final Mediator mediator, final FileTransfer fileTransfer, final ImageLoader imageLoader,
-                          final Settings settings, final Messages messages) {
+                          final Settings settings, final Messages messages, final ErrorHandler errorHandler) {
         Validate.notNull(mediator, "Mediator can not be null");
         Validate.notNull(fileTransfer, "File transfer can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(errorHandler, "Error handler can not be null");
 
         this.mediator = mediator;
         this.fileTransfer = fileTransfer;
         this.settings = settings;
         this.messages = messages;
+        this.errorHandler = errorHandler;
 
         cancelB = new JButton(messages.getMessage("swing.button.cancel"));
         cancelB.addActionListener(this);
@@ -286,7 +288,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
             mediator.transferCancelled(this);
         } else if (event.getSource() == openB) {
             final File folder = fileTransfer.getFile().getParentFile();
-            uiTools.open(folder, settings);
+            uiTools.open(folder, settings, errorHandler);
         }
     }
 

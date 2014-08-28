@@ -88,6 +88,7 @@ public class TransferDialogTest {
     private JLabel destinationHeaderLabel;
     private JLabel destinationLabel;
     private JProgressBar progressBar;
+    private ErrorHandler errorHandler;
 
     @Before
     public void setUp() {
@@ -99,8 +100,9 @@ public class TransferDialogTest {
         mediator = mock(Mediator.class);
         settings = mock(Settings.class);
         fileTransfer = mock(FileTransfer.class);
+        errorHandler = mock(ErrorHandler.class);
 
-        transferDialog = new TransferDialog(mediator, fileTransfer, imageLoader, settings, messages);
+        transferDialog = new TransferDialog(mediator, fileTransfer, imageLoader, settings, messages, errorHandler);
 
         uiTools = TestUtils.setFieldValueWithMock(transferDialog, "uiTools", UITools.class);
         doAnswer(new RunArgumentAnswer()).when(uiTools).invokeLater(any(Runnable.class));
@@ -145,7 +147,7 @@ public class TransferDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Mediator can not be null");
 
-        new TransferDialog(null, fileTransfer, imageLoader, settings, messages);
+        new TransferDialog(null, fileTransfer, imageLoader, settings, messages, errorHandler);
     }
 
     @Test
@@ -153,7 +155,7 @@ public class TransferDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("File transfer can not be null");
 
-        new TransferDialog(mediator, null, imageLoader, settings, messages);
+        new TransferDialog(mediator, null, imageLoader, settings, messages, errorHandler);
     }
 
     @Test
@@ -161,7 +163,7 @@ public class TransferDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Image loader can not be null");
 
-        new TransferDialog(mediator, fileTransfer, null, settings, messages);
+        new TransferDialog(mediator, fileTransfer, null, settings, messages, errorHandler);
     }
 
     @Test
@@ -169,7 +171,7 @@ public class TransferDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new TransferDialog(mediator, fileTransfer, imageLoader, null, messages);
+        new TransferDialog(mediator, fileTransfer, imageLoader, null, messages, errorHandler);
     }
 
     @Test
@@ -177,7 +179,15 @@ public class TransferDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Messages can not be null");
 
-        new TransferDialog(mediator, fileTransfer, imageLoader, settings, null);
+        new TransferDialog(mediator, fileTransfer, imageLoader, settings, null, errorHandler);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfErrorHandlerIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Error handler can not be null");
+
+        new TransferDialog(mediator, fileTransfer, imageLoader, settings, messages, null);
     }
 
     @Test
@@ -242,7 +252,7 @@ public class TransferDialogTest {
 
         openButton.doClick();
 
-        verify(uiTools).open(file.getParentFile(), settings);
+        verify(uiTools).open(file.getParentFile(), settings, errorHandler);
     }
 
     @Test

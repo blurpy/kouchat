@@ -147,10 +147,12 @@ public class UITools {
      *
      * @param file A file or directory to open.
      * @param settings The settings to use.
+     * @param errorHandler The error handler to use if opening the browser fails.
      */
-    public void open(final File file, final Settings settings) {
+    public void open(final File file, final Settings settings, final ErrorHandler errorHandler) {
         Validate.notNull(file, "File can not be null");
         Validate.notNull(settings, "Settings can not be null");
+        Validate.notNull(errorHandler, "Error handler can not be null");
 
         boolean desktopOpenSuccess = false;
 
@@ -166,7 +168,7 @@ public class UITools {
         }
 
         if (!desktopOpenSuccess) {
-            browse(file.getAbsolutePath(), settings, ErrorHandler.getErrorHandler());
+            browse(file.getAbsolutePath(), settings, errorHandler);
         }
     }
 
