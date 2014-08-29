@@ -94,12 +94,14 @@ public class UITools {
 
         // The default is to use the browser in the settings.
         if (browser != null && browser.trim().length() > 0) {
+            final String command = browser + " " + url;
+
             try {
-                runCommand(browser + " " + url);
+                runCommand(command);
             }
 
             catch (final IOException e) {
-                LOG.log(Level.WARNING, e.toString());
+                LOG.log(Level.WARNING, "Failed to run command to open browser from settings: '" + command + "'", e);
                 errorHandler.showError("Could not open the browser '" + browser + "'. Please check the settings.");
             }
         }
@@ -111,13 +113,14 @@ public class UITools {
             }
 
             catch (final IOException e) {
-                LOG.log(Level.WARNING, e.toString());
+                LOG.log(Level.WARNING, "Failed to open '" + url + "' in default browser", e);
                 errorHandler.showError("Could not open '" + url + "' with the default browser." +
                                                " Try setting a browser in the settings.");
             }
 
             catch (final URISyntaxException e) {
-                LOG.log(Level.WARNING, e.toString());
+                LOG.log(Level.WARNING, "Failed to open '" + url + "' in default browser", e);
+                errorHandler.showError("Could not open '" + url + "' with the default browser. Invalid url?");
             }
         }
 
