@@ -106,7 +106,7 @@ public class UITools {
 
             catch (final IOException e) {
                 LOG.log(Level.WARNING, "Failed to run command to open browser from settings: '" + command + "'", e);
-                errorHandler.showError("Could not open the browser '" + browser + "'. Please check the settings.");
+                errorHandler.showError(messages.getMessage("swing.browse.errorPopup.couldNotOpenChosen", browser));
             }
         }
 
@@ -118,18 +118,17 @@ public class UITools {
 
             catch (final IOException e) {
                 LOG.log(Level.WARNING, "Failed to open '" + url + "' in default browser", e);
-                errorHandler.showError("Could not open '" + url + "' with the default browser." +
-                                               " Try setting a browser in the settings.");
+                errorHandler.showError(messages.getMessage("swing.browse.errorPopup.couldNotOpenDefault", url));
             }
 
             catch (final URISyntaxException e) {
                 LOG.log(Level.WARNING, "Failed to open '" + url + "' in default browser", e);
-                errorHandler.showError("Could not open '" + url + "' with the default browser. Invalid url?");
+                errorHandler.showError(messages.getMessage("swing.browse.errorPopup.couldNotOpenUrl", url));
             }
         }
 
         else {
-            errorHandler.showError("No browser detected. A browser can be chosen in the settings.");
+            errorHandler.showError(messages.getMessage("swing.browse.errorPopup.noBrowserToOpen"));
         }
     }
 
