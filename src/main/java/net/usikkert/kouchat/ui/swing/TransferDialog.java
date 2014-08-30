@@ -288,7 +288,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
             mediator.transferCancelled(this);
         } else if (event.getSource() == openB) {
             final File folder = fileTransfer.getFile().getParentFile();
-            uiTools.open(folder, settings, errorHandler);
+            uiTools.open(folder, settings, errorHandler, messages);
         }
     }
 

@@ -252,7 +252,7 @@ public class TransferDialogTest {
 
         openButton.doClick();
 
-        verify(uiTools).open(file.getParentFile(), settings, errorHandler);
+        verify(uiTools).open(file.getParentFile(), settings, errorHandler, messages);
     }
 
     @Test
