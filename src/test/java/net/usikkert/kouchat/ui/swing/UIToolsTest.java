@@ -30,6 +30,8 @@ import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.usikkert.kouchat.message.Messages;
+import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.TestUtils;
@@ -55,6 +57,7 @@ public class UIToolsTest {
     private Logger log;
     private ErrorHandler errorHandler;
     private Settings settings;
+    private Messages messages;
 
     @Before
     public void setUp() {
@@ -63,6 +66,7 @@ public class UIToolsTest {
         log = TestUtils.setFieldValueWithMock(uiTools, "LOG", Logger.class);
         errorHandler = mock(ErrorHandler.class);
         settings = mock(Settings.class);
+        messages = new PropertyFileMessages("messages.swing");
     }
 
     @Test
@@ -70,7 +74,7 @@ public class UIToolsTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Url can not be empty");
 
-        uiTools.browse(null, mock(Settings.class), mock(ErrorHandler.class), null);
+        uiTools.browse(null, settings, errorHandler, messages);
     }
 
     @Test
@@ -78,7 +82,7 @@ public class UIToolsTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Url can not be empty");
 
-        uiTools.browse(" ", mock(Settings.class), mock(ErrorHandler.class), null);
+        uiTools.browse(" ", settings, errorHandler, messages);
     }
 
     @Test
@@ -86,7 +90,7 @@ public class UIToolsTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        uiTools.browse("url", null, mock(ErrorHandler.class), null);
+        uiTools.browse("url", null, errorHandler, messages);
     }
 
     @Test
@@ -94,7 +98,15 @@ public class UIToolsTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Error handler can not be null");
 
-        uiTools.browse("url", mock(Settings.class), null, null);
+        uiTools.browse("url", settings, null, messages);
+    }
+
+    @Test
+    public void browseShouldThrowExceptionIfMessagesIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Messages can not be null");
+
+        uiTools.browse("url", settings, errorHandler, null);
     }
 
     @Test
@@ -102,7 +114,7 @@ public class UIToolsTest {
         when(settings.getBrowser()).thenReturn("opera");
         doReturn(null).when(uiTools).runCommand(anyString());
 
-        uiTools.browse("www.kouchat.net", settings, errorHandler, null);
+        uiTools.browse("www.kouchat.net", settings, errorHandler, messages);
 
         verify(uiTools).runCommand("opera www.kouchat.net");
         verifyZeroInteractions(errorHandler, log);
@@ -115,7 +127,7 @@ public class UIToolsTest {
         final IOException exception = new IOException("Don't run command");
         doThrow(exception).when(uiTools).runCommand(anyString());
 
-        uiTools.browse("www.kouchat.net", settings, errorHandler, null);
+        uiTools.browse("www.kouchat.net", settings, errorHandler, messages);
 
         verify(uiTools).runCommand("firefox www.kouchat.net");
         verify(errorHandler).showError("Could not open the browser 'firefox'. Please check the settings.");
@@ -130,7 +142,7 @@ public class UIToolsTest {
         when(uiTools.isDesktopActionSupported(any(Desktop.Action.class))).thenReturn(true);
         doNothing().when(uiTools).browse(anyString());
 
-        uiTools.browse("www.kouchat.net", settings, errorHandler, null);
+        uiTools.browse("www.kouchat.net", settings, errorHandler, messages);
 
         verify(uiTools).browse("www.kouchat.net");
         verify(uiTools).isDesktopActionSupported(Desktop.Action.BROWSE);
@@ -145,7 +157,7 @@ public class UIToolsTest {
         when(uiTools.isDesktopActionSupported(any(Desktop.Action.class))).thenReturn(true);
         doNothing().when(uiTools).browse(anyString());
 
-        uiTools.browse("www.kouchat.net", settings, errorHandler, null);
+        uiTools.browse("www.kouchat.net", settings, errorHandler, messages);
 
         verify(uiTools).browse("www.kouchat.net");
         verify(uiTools).isDesktopActionSupported(Desktop.Action.BROWSE);
@@ -160,7 +172,7 @@ public class UIToolsTest {
         final IOException exception = new IOException("Don't browse");
         doThrow(exception).when(uiTools).browse(anyString());
 
-        uiTools.browse("www.kouchat.net", settings, errorHandler, null);
+        uiTools.browse("www.kouchat.net", settings, errorHandler, messages);
 
         verify(uiTools).browse("www.kouchat.net");
         verify(errorHandler).showError("Could not open 'www.kouchat.net' with the default browser. " +
@@ -176,7 +188,7 @@ public class UIToolsTest {
         final URISyntaxException exception = new URISyntaxException("url", "Invalid url");
         doThrow(exception).when(uiTools).browse(anyString());
 
-        uiTools.browse("www.kouchat.net", settings, errorHandler, null);
+        uiTools.browse("www.kouchat.net", settings, errorHandler, messages);
 
         verify(uiTools).browse("www.kouchat.net");
         verify(errorHandler).showError("Could not open 'www.kouchat.net' with the default browser. Invalid url?");
@@ -188,7 +200,7 @@ public class UIToolsTest {
                                                                                                      URISyntaxException {
         when(uiTools.isDesktopActionSupported(any(Desktop.Action.class))).thenReturn(false);
 
-        uiTools.browse("www.kouchat.net", settings, errorHandler, null);
+        uiTools.browse("www.kouchat.net", settings, errorHandler, messages);
 
         verify(uiTools, never()).runCommand(anyString());
         verify(uiTools, never()).browse(anyString());

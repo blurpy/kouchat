@@ -92,6 +92,7 @@ public class UITools {
         Validate.notEmpty(url, "Url can not be empty");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
+        Validate.notNull(messages, "Messages can not be null");
 
         final String browser = settings.getBrowser();
 
