@@ -168,7 +168,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
                     uiTools.invokeLater(new Runnable() {
                         @Override
                         public void run() {
-                            uiTools.browse(url, settings, errorHandler);
+                            uiTools.browse(url, settings, errorHandler, null);
                         }
                     });
                 }
