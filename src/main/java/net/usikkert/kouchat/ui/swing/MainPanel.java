@@ -112,7 +112,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
         chatAttr = new SimpleAttributeSet();
         chatDoc = chatTP.getStyledDocument();
 
-        final URLMouseListener urlML = new URLMouseListener(chatTP, settings, errorHandler);
+        final URLMouseListener urlML = new URLMouseListener(chatTP, settings, errorHandler, messages);
         chatTP.addMouseListener(urlML);
         chatTP.addMouseMotionListener(urlML);
 

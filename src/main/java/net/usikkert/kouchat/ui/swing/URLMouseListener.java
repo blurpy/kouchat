@@ -32,6 +32,7 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Validate;
@@ -52,6 +53,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
     private final StyledDocument doc;
     private final Settings settings;
     private final ErrorHandler errorHandler;
+    private final Messages messages;
 
     /**
      * Constructor.
@@ -59,15 +61,19 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
      * @param textPane The text pane this listener is registered to.
      * @param settings The settings to use.
      * @param errorHandler The error handler to use for opening the browser.
+     * @param messages The messages to use.
      */
-    public URLMouseListener(final JTextPane textPane, final Settings settings, final ErrorHandler errorHandler) {
+    public URLMouseListener(final JTextPane textPane, final Settings settings, final ErrorHandler errorHandler,
+                            final Messages messages) {
         Validate.notNull(textPane, "TextPane can not be null");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
+        Validate.notNull(messages, "Messages can not be null");
 
         this.textPane = textPane;
         this.settings = settings;
         this.errorHandler = errorHandler;
+        this.messages = messages;
 
         doc = textPane.getStyledDocument();
         handCursor = new Cursor(Cursor.HAND_CURSOR);
@@ -168,7 +174,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
                     uiTools.invokeLater(new Runnable() {
                         @Override
                         public void run() {
-                            uiTools.browse(url, settings, errorHandler, null);
+                            uiTools.browse(url, settings, errorHandler, messages);
                         }
                     });
                 }

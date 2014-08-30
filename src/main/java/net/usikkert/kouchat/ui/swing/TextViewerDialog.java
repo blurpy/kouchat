@@ -112,7 +112,7 @@ public class TextViewerDialog extends JDialog {
 
         // Enables the url support
         if (links) {
-            final URLMouseListener urlML = new URLMouseListener(viewerTP, settings, errorHandler);
+            final URLMouseListener urlML = new URLMouseListener(viewerTP, settings, errorHandler, messages);
             viewerTP.addMouseListener(urlML);
             viewerTP.addMouseMotionListener(urlML);
             final AbstractDocument doc = (AbstractDocument) viewerDoc;

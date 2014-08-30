@@ -142,7 +142,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
         chatDoc = chatTP.getStyledDocument();
         final JScrollPane chatScroll = new JScrollPane(chatTP);
 
-        final URLMouseListener urlML = new URLMouseListener(chatTP, settings, errorHandler);
+        final URLMouseListener urlML = new URLMouseListener(chatTP, settings, errorHandler, messages);
         chatTP.addMouseListener(urlML);
         chatTP.addMouseMotionListener(urlML);
 
