@@ -856,7 +856,7 @@ public class Controller implements NetworkConnectionListener {
      * @return A JMX bean loader.
      */
     public JMXBeanLoader createJMXBeanLoader() {
-        return new JMXBeanLoader(this, networkService.getConnectionWorker(), settings);
+        return new JMXBeanLoader(this, networkService.getConnectionWorker(), settings, ErrorHandler.getErrorHandler());
     }
 
     public void registerNetworkConnectionListener(final NetworkConnectionListener listener) {

@@ -54,15 +54,17 @@ public class JMXBeanLoader {
      * @param controller The controller.
      * @param connectionWorker The connection worker.
      * @param settings The settings.
+     * @param errorHandler The error handler to use.
      */
     public JMXBeanLoader(final Controller controller, final ConnectionWorker connectionWorker,
-                         final Settings settings) {
+                         final Settings settings, final ErrorHandler errorHandler) {
         Validate.notNull(controller, "Controller can not be null");
         Validate.notNull(connectionWorker, "ConnectionWorker can not be null");
         Validate.notNull(settings, "Settings can not be null");
+        Validate.notNull(errorHandler, "Error handler can not be null");
 
         jmxBeans = Arrays.asList(
-                new NetworkInformation(connectionWorker, settings, ErrorHandler.getErrorHandler()),
+                new NetworkInformation(connectionWorker, settings, errorHandler),
                 new ControllerInformation(controller),
                 new GeneralInformation(settings));
     }
