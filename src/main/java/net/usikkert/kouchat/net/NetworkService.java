@@ -72,7 +72,7 @@ public class NetworkService implements NetworkConnectionListener {
         privateChatEnabled = !settings.isNoPrivateChat();
 
         messageReceiver = new MessageReceiver();
-        messageSender = new MessageSender();
+        messageSender = new MessageSender(ErrorHandler.getErrorHandler());
         connectionWorker = new ConnectionWorker(settings);
 
         if (privateChatEnabled) {
