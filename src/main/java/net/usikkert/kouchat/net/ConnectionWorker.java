@@ -80,14 +80,16 @@ public class ConnectionWorker implements Runnable {
      * Constructor.
      *
      * @param settings The settings to use.
+     * @param errorHandler The error handler to use.
      */
-    public ConnectionWorker(final Settings settings) {
+    public ConnectionWorker(final Settings settings, final ErrorHandler errorHandler) {
         Validate.notNull(settings, "Settings can not be null");
+        Validate.notNull(errorHandler, "Error handler can not be null");
 
         this.settings = settings;
 
         listeners = new ArrayList<NetworkConnectionListener>();
-        osNetworkInfo = new OperatingSystemNetworkInfo(settings, ErrorHandler.getErrorHandler());
+        osNetworkInfo = new OperatingSystemNetworkInfo(settings, errorHandler);
     }
 
     /**
