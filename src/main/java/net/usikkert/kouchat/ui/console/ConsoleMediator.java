@@ -65,7 +65,7 @@ public class ConsoleMediator implements UserInterface {
         errorHandler = ErrorHandler.getErrorHandler();
         final ConsoleChatWindow chat = new ConsoleChatWindow();
         msgController = new MessageController(chat, this, settings, errorHandler);
-        controller = new Controller(this, settings);
+        controller = new Controller(this, settings, errorHandler);
         jmxAgent = new JMXAgent(controller.createJMXBeanLoader());
         consoleInput = new ConsoleInput(controller, this, settings);
         sleeper = new Sleeper();
