@@ -48,6 +48,7 @@ public class ConsoleMediator implements UserInterface {
     private final JMXAgent jmxAgent;
     private final ConsoleInput consoleInput;
     private final Sleeper sleeper;
+    private final ErrorHandler errorHandler;
 
     /**
      * Constructor.
@@ -58,10 +59,12 @@ public class ConsoleMediator implements UserInterface {
      */
     public ConsoleMediator(final Settings settings) {
         Validate.notNull(settings, "Settings can not be null");
+
         this.settings = settings;
 
+        errorHandler = ErrorHandler.getErrorHandler();
         final ConsoleChatWindow chat = new ConsoleChatWindow();
-        msgController = new MessageController(chat, this, settings, ErrorHandler.getErrorHandler());
+        msgController = new MessageController(chat, this, settings, errorHandler);
         controller = new Controller(this, settings);
         jmxAgent = new JMXAgent(controller.createJMXBeanLoader());
         consoleInput = new ConsoleInput(controller, this, settings);
@@ -183,7 +186,7 @@ public class ConsoleMediator implements UserInterface {
         }
 
         if (user.getPrivateChatLogger() == null) {
-            user.setPrivateChatLogger(new ChatLogger(user.getNick(), settings, ErrorHandler.getErrorHandler()));
+            user.setPrivateChatLogger(new ChatLogger(user.getNick(), settings, errorHandler));
         }
     }
 
