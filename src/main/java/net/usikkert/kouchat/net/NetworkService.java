@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 
 import net.usikkert.kouchat.event.NetworkConnectionListener;
 import net.usikkert.kouchat.event.ReceiverListener;
+import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Validate;
 
@@ -75,7 +76,7 @@ public class NetworkService implements NetworkConnectionListener {
         connectionWorker = new ConnectionWorker(settings);
 
         if (privateChatEnabled) {
-            udpReceiver = new UDPReceiver(settings);
+            udpReceiver = new UDPReceiver(settings, ErrorHandler.getErrorHandler());
             udpSender = new UDPSender();
         }
 
