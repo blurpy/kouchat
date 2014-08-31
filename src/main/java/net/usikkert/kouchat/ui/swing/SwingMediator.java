@@ -819,7 +819,7 @@ public class SwingMediator implements Mediator, UserInterface {
         }
 
         if (user.getPrivateChatLogger() == null) {
-            user.setPrivateChatLogger(new ChatLogger(user.getNick(), settings));
+            user.setPrivateChatLogger(new ChatLogger(user.getNick(), settings, errorHandler));
         }
     }
 

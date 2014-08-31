@@ -25,6 +25,7 @@ package net.usikkert.kouchat.ui.console;
 import net.usikkert.kouchat.jmx.JMXAgent;
 import net.usikkert.kouchat.misc.ChatLogger;
 import net.usikkert.kouchat.misc.Controller;
+import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
@@ -182,7 +183,7 @@ public class ConsoleMediator implements UserInterface {
         }
 
         if (user.getPrivateChatLogger() == null) {
-            user.setPrivateChatLogger(new ChatLogger(user.getNick(), settings));
+            user.setPrivateChatLogger(new ChatLogger(user.getNick(), settings, ErrorHandler.getErrorHandler()));
         }
     }
 

@@ -58,7 +58,7 @@ public class MessageController {
         this.settings = settings;
 
         me = settings.getMe();
-        cLog = new ChatLogger(settings);
+        cLog = new ChatLogger(settings, ErrorHandler.getErrorHandler());
     }
 
     /**
