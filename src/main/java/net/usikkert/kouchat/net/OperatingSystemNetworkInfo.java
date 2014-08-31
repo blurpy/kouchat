@@ -64,7 +64,7 @@ public class OperatingSystemNetworkInfo {
     public OperatingSystemNetworkInfo(final Settings settings) {
         Validate.notNull(settings, "Settings can not be null");
 
-        receiver = new MessageReceiver(Constants.NETWORK_TEMP_IP, Constants.NETWORK_TEMP_PORT);
+        receiver = new MessageReceiver(Constants.NETWORK_TEMP_IP, Constants.NETWORK_TEMP_PORT, ErrorHandler.getErrorHandler());
         sender = new MessageSender(Constants.NETWORK_TEMP_IP, Constants.NETWORK_TEMP_PORT, ErrorHandler.getErrorHandler());
         me = settings.getMe();
     }
