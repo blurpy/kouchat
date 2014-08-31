@@ -114,7 +114,7 @@ public class SwingMediator implements Mediator, UserInterface {
 
         me = settings.getMe();
 
-        msgController = new MessageController(mainP, this, settings);
+        msgController = new MessageController(mainP, this, settings, errorHandler);
         controller = new Controller(this, settings);
         cmdParser = new CommandParser(controller, this, settings);
         beeper = new SoundBeeper(settings, new ResourceLoader(), errorHandler);
