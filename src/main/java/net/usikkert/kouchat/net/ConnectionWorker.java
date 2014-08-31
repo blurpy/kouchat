@@ -29,6 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.event.NetworkConnectionListener;
+import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.util.Validate;
 
@@ -86,7 +87,7 @@ public class ConnectionWorker implements Runnable {
         this.settings = settings;
 
         listeners = new ArrayList<NetworkConnectionListener>();
-        osNetworkInfo = new OperatingSystemNetworkInfo(settings);
+        osNetworkInfo = new OperatingSystemNetworkInfo(settings, ErrorHandler.getErrorHandler());
     }
 
     /**
