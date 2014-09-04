@@ -29,7 +29,7 @@ import javax.swing.SwingUtilities;
 import net.usikkert.kouchat.argument.Argument;
 import net.usikkert.kouchat.argument.ArgumentParser;
 import net.usikkert.kouchat.misc.ErrorHandler;
-import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.console.KouChatConsole;
 import net.usikkert.kouchat.ui.swing.KouChatFrame;
 import net.usikkert.kouchat.util.UncaughtExceptionLogger;

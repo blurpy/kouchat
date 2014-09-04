@@ -26,7 +26,7 @@ import net.usikkert.kouchat.argument.Argument;
 import net.usikkert.kouchat.argument.ArgumentParser;
 import net.usikkert.kouchat.argument.ArgumentResponder;
 import net.usikkert.kouchat.argument.ArgumentSettingsLoader;
-import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.UIException;
 import net.usikkert.kouchat.ui.UIFactory;
 import net.usikkert.kouchat.util.LogInitializer;

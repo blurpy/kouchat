@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 
 import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.settings.Settings;
 
 import org.junit.Before;
 import org.junit.Test;

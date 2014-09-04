@@ -41,9 +41,9 @@ import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 
 import net.usikkert.kouchat.message.Messages;
-import net.usikkert.kouchat.misc.Settings;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.UserList;
+import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 

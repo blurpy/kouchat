@@ -22,7 +22,7 @@
 
 package net.usikkert.kouchat.argument;
 
-import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.settings.Settings;
 
 /**
  * Loads settings based on arguments.

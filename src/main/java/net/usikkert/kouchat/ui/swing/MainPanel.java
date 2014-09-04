@@ -56,7 +56,7 @@ import net.usikkert.kouchat.autocomplete.AutoCompleter;
 import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.CommandHistory;
 import net.usikkert.kouchat.misc.ErrorHandler;
-import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.ChatWindow;
 import net.usikkert.kouchat.util.Validate;
 

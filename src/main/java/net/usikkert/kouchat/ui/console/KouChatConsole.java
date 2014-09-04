@@ -22,7 +22,7 @@
 
 package net.usikkert.kouchat.ui.console;
 
-import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.util.Validate;
 
 /**

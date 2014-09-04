@@ -26,7 +26,7 @@ import static org.mockito.Mockito.*;
 
 import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.ErrorHandler;
-import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.settings.Settings;
 
 import org.junit.Before;
 import org.junit.Rule;

@@ -25,7 +25,7 @@ package net.usikkert.kouchat.ui;
 import static org.mockito.Mockito.*;
 
 import net.usikkert.kouchat.argument.ArgumentParser;
-import net.usikkert.kouchat.misc.Settings;
+import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.util.UncaughtExceptionLogger;
 
 import org.junit.Rule;
