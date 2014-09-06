@@ -24,7 +24,6 @@ package net.usikkert.kouchat.settings;
 
 import static net.usikkert.kouchat.settings.PropertyFileSettings.*;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -198,7 +197,6 @@ public class Settings {
      */
     public void saveSettings() {
         FileWriter fileWriter = null;
-        BufferedWriter buffWriter = null;
 
         final File appFolder = new File(Constants.APP_FOLDER);
 
@@ -208,29 +206,20 @@ public class Settings {
 
         try {
             fileWriter = new FileWriter(FILENAME);
-            buffWriter = new BufferedWriter(fileWriter);
+            final Properties properties = new Properties();
 
-            buffWriter.write("nick=" + me.getNick());
-            buffWriter.newLine();
-            buffWriter.write("owncolor=" + ownColor);
-            buffWriter.newLine();
-            buffWriter.write("syscolor=" + sysColor);
-            buffWriter.newLine();
-            buffWriter.write("logging=" + logging);
-            buffWriter.newLine();
-            buffWriter.write("sound=" + sound);
-            buffWriter.newLine();
-            // Properties does not support loading back slash, so replace with forward slash
-            buffWriter.write("browser=" + browser.replaceAll("\\\\", "/"));
-            buffWriter.newLine();
-            buffWriter.write("smileys=" + smileys);
-            buffWriter.newLine();
-            buffWriter.write("lookAndFeel=" + lookAndFeel);
-            buffWriter.newLine();
-            buffWriter.write("balloons=" + balloons);
-            buffWriter.newLine();
-            buffWriter.write("networkInterface=" + networkInterface);
-            buffWriter.newLine();
+            properties.put(NICK_NAME.getKey(), me.getNick());
+            properties.put(OWN_COLOR.getKey(), String.valueOf(ownColor));
+            properties.put(SYS_COLOR.getKey(), String.valueOf(sysColor));
+            properties.put(LOGGING.getKey(), String.valueOf(logging));
+            properties.put(SOUND.getKey(), String.valueOf(sound));
+            properties.put(BROWSER.getKey(), String.valueOf(browser));
+            properties.put(SMILEYS.getKey(), String.valueOf(smileys));
+            properties.put(LOOK_AND_FEEL.getKey(), String.valueOf(lookAndFeel));
+            properties.put(BALLOONS.getKey(), String.valueOf(balloons));
+            properties.put(NETWORK_INTERFACE.getKey(), String.valueOf(networkInterface));
+
+            properties.store(fileWriter, "KouChat Settings");
         }
 
         catch (final IOException e) {
@@ -239,9 +228,7 @@ public class Settings {
         }
 
         finally {
-            ioTools.flush(buffWriter);
             ioTools.flush(fileWriter);
-            ioTools.close(buffWriter);
             ioTools.close(fileWriter);
         }
     }
