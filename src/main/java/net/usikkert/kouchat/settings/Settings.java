@@ -22,6 +22,8 @@
 
 package net.usikkert.kouchat.settings;
 
+import static net.usikkert.kouchat.settings.PropertyFileSettings.*;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -256,14 +258,14 @@ public class Settings {
             fileStream = new FileInputStream(FILENAME);
             fileContents.load(fileStream);
 
-            final String tmpNick = fileContents.getProperty("nick");
+            final String tmpNick = fileContents.getProperty(NICK_NAME.getKey());
 
             if (tmpNick != null && Tools.isValidNick(tmpNick)) {
                 me.setNick(tmpNick.trim());
             }
 
             try {
-                ownColor = Integer.parseInt(fileContents.getProperty("owncolor"));
+                ownColor = Integer.parseInt(fileContents.getProperty(OWN_COLOR.getKey()));
             }
 
             catch (final NumberFormatException e) {
@@ -271,27 +273,27 @@ public class Settings {
             }
 
             try {
-                sysColor = Integer.parseInt(fileContents.getProperty("syscolor"));
+                sysColor = Integer.parseInt(fileContents.getProperty(SYS_COLOR.getKey()));
             }
 
             catch (final NumberFormatException e) {
                 LOG.log(Level.WARNING, "Could not read setting for syscolor..");
             }
 
-            logging = Boolean.valueOf(fileContents.getProperty("logging"));
-            balloons = Boolean.valueOf(fileContents.getProperty("balloons"));
-            browser = fileContents.getProperty("browser");
-            lookAndFeel = fileContents.getProperty("lookAndFeel");
-            networkInterface = fileContents.getProperty("networkInterface");
+            logging = Boolean.valueOf(fileContents.getProperty(LOGGING.getKey()));
+            balloons = Boolean.valueOf(fileContents.getProperty(BALLOONS.getKey()));
+            browser = fileContents.getProperty(BROWSER.getKey());
+            lookAndFeel = fileContents.getProperty(LOOK_AND_FEEL.getKey());
+            networkInterface = fileContents.getProperty(NETWORK_INTERFACE.getKey());
 
             // Defaults to true
-            if (fileContents.getProperty("sound") != null) {
-                sound = Boolean.valueOf(fileContents.getProperty("sound"));
+            if (fileContents.getProperty(SOUND.getKey()) != null) {
+                sound = Boolean.valueOf(fileContents.getProperty(SOUND.getKey()));
             }
 
             // Defaults to true
-            if (fileContents.getProperty("smileys") != null) {
-                smileys = Boolean.valueOf(fileContents.getProperty("smileys"));
+            if (fileContents.getProperty(SMILEYS.getKey()) != null) {
+                smileys = Boolean.valueOf(fileContents.getProperty(SMILEYS.getKey()));
             }
         }
 
