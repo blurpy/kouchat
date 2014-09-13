@@ -24,7 +24,6 @@ package net.usikkert.kouchat.settings;
 
 import static net.usikkert.kouchat.settings.PropertyFileSettings.*;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -198,11 +197,7 @@ public class Settings {
     public void saveSettings() {
         FileWriter fileWriter = null;
 
-        final File appFolder = new File(Constants.APP_FOLDER);
-
-        if (!appFolder.exists()) {
-            appFolder.mkdir();
-        }
+        ioTools.createFolder(Constants.APP_FOLDER);
 
         try {
             fileWriter = new FileWriter(FILENAME);
