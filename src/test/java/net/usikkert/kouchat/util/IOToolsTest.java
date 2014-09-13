@@ -29,6 +29,7 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.Flushable;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -51,6 +52,8 @@ public class IOToolsTest {
     @Before
     public void setUp() {
         ioTools = new IOTools();
+
+        TestUtils.setFieldValueWithMock(ioTools, "LOG", Logger.class); // To silence log output in tests
     }
 
     @Test
