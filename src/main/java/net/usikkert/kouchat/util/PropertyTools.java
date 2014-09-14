@@ -24,6 +24,7 @@ package net.usikkert.kouchat.util;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -62,6 +63,32 @@ public class PropertyTools {
 
         finally {
             ioTools.close(inputStream);
+        }
+    }
+
+    /**
+     * Saves the specified properties in a file at the specified path, with an optional comment at the top.
+     *
+     * @param filePath The full file system path to the properties file to save.
+     * @param properties The properties to save in the file.
+     * @param comment Optional comment to put at the top of the properties file.
+     * @throws IOException If the properties could not be saved.
+     */
+    public void saveProperties(@NonNls final String filePath, final Properties properties,
+                               final String comment) throws IOException {
+        Validate.notEmpty(filePath, "File path can not be empty");
+        Validate.notNull(properties, "Properties can not be null");
+
+        FileWriter fileWriter = null;
+
+        try {
+            fileWriter = new FileWriter(filePath);
+            properties.store(fileWriter, comment);
+        }
+
+        finally {
+            ioTools.flush(fileWriter);
+            ioTools.close(fileWriter);
         }
     }
 }
