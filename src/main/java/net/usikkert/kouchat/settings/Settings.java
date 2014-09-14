@@ -24,9 +24,7 @@ package net.usikkert.kouchat.settings;
 
 import static net.usikkert.kouchat.settings.PropertyFileSettings.*;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +37,7 @@ import net.usikkert.kouchat.event.SettingsListener;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.util.IOTools;
+import net.usikkert.kouchat.util.PropertyTools;
 import net.usikkert.kouchat.util.Tools;
 
 import org.jetbrains.annotations.NonNls;
@@ -71,6 +70,8 @@ public class Settings {
     private static final String FILENAME = Constants.APP_FOLDER + "kouchat.ini";
 
     private final IOTools ioTools = new IOTools();
+
+    private final PropertyTools propertyTools = new PropertyTools();
 
     /** A list of listeners. These listeners are notified when a setting is changed. */
     private final List<SettingsListener> listeners;
@@ -195,36 +196,27 @@ public class Settings {
      * or files.
      */
     public void saveSettings() {
-        FileWriter fileWriter = null;
+        final Properties properties = new Properties();
 
-        ioTools.createFolder(Constants.APP_FOLDER);
+        properties.put(NICK_NAME.getKey(), me.getNick());
+        properties.put(OWN_COLOR.getKey(), String.valueOf(ownColor));
+        properties.put(SYS_COLOR.getKey(), String.valueOf(sysColor));
+        properties.put(LOGGING.getKey(), String.valueOf(logging));
+        properties.put(SOUND.getKey(), String.valueOf(sound));
+        properties.put(BROWSER.getKey(), String.valueOf(browser));
+        properties.put(SMILEYS.getKey(), String.valueOf(smileys));
+        properties.put(LOOK_AND_FEEL.getKey(), String.valueOf(lookAndFeel));
+        properties.put(BALLOONS.getKey(), String.valueOf(balloons));
+        properties.put(NETWORK_INTERFACE.getKey(), String.valueOf(networkInterface));
 
         try {
-            fileWriter = new FileWriter(FILENAME);
-            final Properties properties = new Properties();
-
-            properties.put(NICK_NAME.getKey(), me.getNick());
-            properties.put(OWN_COLOR.getKey(), String.valueOf(ownColor));
-            properties.put(SYS_COLOR.getKey(), String.valueOf(sysColor));
-            properties.put(LOGGING.getKey(), String.valueOf(logging));
-            properties.put(SOUND.getKey(), String.valueOf(sound));
-            properties.put(BROWSER.getKey(), String.valueOf(browser));
-            properties.put(SMILEYS.getKey(), String.valueOf(smileys));
-            properties.put(LOOK_AND_FEEL.getKey(), String.valueOf(lookAndFeel));
-            properties.put(BALLOONS.getKey(), String.valueOf(balloons));
-            properties.put(NETWORK_INTERFACE.getKey(), String.valueOf(networkInterface));
-
-            properties.store(fileWriter, "KouChat Settings");
+            ioTools.createFolder(Constants.APP_FOLDER);
+            propertyTools.saveProperties(FILENAME, properties, "KouChat Settings");
         }
 
         catch (final IOException e) {
-            LOG.log(Level.SEVERE, e.toString());
+            LOG.log(Level.SEVERE, "Failed to save settings" , e);
             errorHandler.showError("Settings could not be saved:\n " + e);
-        }
-
-        finally {
-            ioTools.flush(fileWriter);
-            ioTools.close(fileWriter);
         }
     }
 
@@ -233,12 +225,8 @@ public class Settings {
      * If some values are not found in the settings, the default is used instead.
      */
     private void loadSettings() {
-        FileInputStream fileStream = null;
-
         try {
-            final Properties fileContents = new Properties();
-            fileStream = new FileInputStream(FILENAME);
-            fileContents.load(fileStream);
+            final Properties fileContents = propertyTools.loadProperties(FILENAME);
 
             final String tmpNick = fileContents.getProperty(NICK_NAME.getKey());
 
@@ -285,10 +273,6 @@ public class Settings {
 
         catch (final IOException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
-        }
-
-        finally {
-            ioTools.close(fileStream);
         }
     }
 
