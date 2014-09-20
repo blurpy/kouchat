@@ -332,15 +332,11 @@ public class Settings {
 
     /**
      * Sets if sound is enabled.
-     * Listeners are notified of the change.
      *
      * @param sound If sound is enabled.
      */
     public void setSound(final boolean sound) {
-        if (this.sound != sound) {
-            this.sound = sound;
-            fireSettingChanged(Setting.SOUND);
-        }
+        this.sound = sound;
     }
 
     /**

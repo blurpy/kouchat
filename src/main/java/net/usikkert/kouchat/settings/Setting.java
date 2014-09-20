@@ -22,15 +22,16 @@
 
 package net.usikkert.kouchat.settings;
 
+import net.usikkert.kouchat.event.SettingsListener;
+
 /**
  * An enum representing the different types of settings that can be changed.
  *
- * <p>Not a complete list.</p>
+ * <p>Contains only the settings that can be used with {@link SettingsListener}.</p>
  *
  * @author Christian Ihle
  */
 public enum Setting {
 
     LOGGING,
-    SOUND,
 }

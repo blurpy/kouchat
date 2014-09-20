@@ -36,6 +36,7 @@ import org.junit.Test;
  *
  * @author Christian Ihle
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class SettingsTest {
 
     private Settings settings;
@@ -103,23 +104,12 @@ public class SettingsTest {
     }
 
     @Test
-    public void setSoundShouldNotNotifyListenersIfSettingIsUnchanged() {
-        assertFalse(settings.isSound());
-
-        settings.setSound(false);
-
-        assertFalse(settings.isSound());
-        assertNull(lastChangedSetting);
-    }
-
-    @Test
-    public void setSoundShouldNotifyListenersIfSettingIsChanged() {
+    public void setSoundShouldWork() {
         assertFalse(settings.isSound());
 
         settings.setSound(true);
 
         assertTrue(settings.isSound());
-        assertEquals(Setting.SOUND, lastChangedSetting);
     }
 
     @Test
