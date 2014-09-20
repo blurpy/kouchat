@@ -23,6 +23,7 @@
 package net.usikkert.kouchat.settings;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.SettingsListener;
@@ -41,6 +42,7 @@ public class SettingsTest {
 
     private Settings settings;
 
+    private SettingsListener listener;
     private Setting lastChangedSetting;
 
     @Before
@@ -55,11 +57,13 @@ public class SettingsTest {
 
         System.setProperty("file.separator", "/");
 
-        settings.addSettingsListener(new SettingsListener() {
+        listener = new SettingsListener() {
             public void settingChanged(final Setting setting) {
                 lastChangedSetting = setting;
             }
-        });
+        };
+
+        settings.addSettingsListener(listener);
     }
 
     @Test
@@ -138,5 +142,23 @@ public class SettingsTest {
         settings.setClient("SuperClient");
 
         assertEquals("KouChat v" + Constants.APP_VERSION + " SuperClient", me.getClient());
+    }
+
+    @Test
+    public void fireSettingChangedShouldNotifyAllListeners() {
+        settings.removeSettingsListener(listener);
+
+        final SettingsListener listener1 = mock(SettingsListener.class);
+        final SettingsListener listener2 = mock(SettingsListener.class);
+
+        settings.addSettingsListener(listener1);
+        settings.addSettingsListener(listener2);
+
+        final Setting setting = new Setting("MONKEY");
+
+        settings.fireSettingChanged(setting);
+
+        verify(listener1).settingChanged(setting);
+        verify(listener2).settingChanged(setting);
     }
 }
