@@ -31,8 +31,6 @@ package net.usikkert.kouchat.settings;
  */
 public enum Setting {
 
-    OWN_COLOR,
-    SYS_COLOR,
     LOGGING,
     SOUND,
 }

@@ -296,15 +296,11 @@ public class Settings {
 
     /**
      * Sets the color used for the user's own messages.
-     * Listeners are notified of the change.
      *
      * @param ownColor The color for own messages.
      */
     public void setOwnColor(final int ownColor) {
-        if (this.ownColor != ownColor) {
-            this.ownColor = ownColor;
-            fireSettingChanged(Setting.OWN_COLOR);
-        }
+        this.ownColor = ownColor;
     }
 
     /**
@@ -318,15 +314,11 @@ public class Settings {
 
     /**
      * Sets the color used for system messages.
-     * Listeners are notified of the change.
      *
      * @param sysColor The color for system messages.
      */
     public void setSysColor(final int sysColor) {
-        if (this.sysColor != sysColor) {
-            this.sysColor = sysColor;
-            fireSettingChanged(Setting.SYS_COLOR);
-        }
+        this.sysColor = sysColor;
     }
 
     /**

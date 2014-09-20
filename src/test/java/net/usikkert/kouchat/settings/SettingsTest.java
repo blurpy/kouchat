@@ -123,43 +123,21 @@ public class SettingsTest {
     }
 
     @Test
-    public void setOwnColorShouldNotNotifyListenersIfSettingIsUnchanged() {
-        assertEquals(0, settings.getOwnColor());
-
-        settings.setOwnColor(0);
-
-        assertEquals(0, settings.getOwnColor());
-        assertNull(lastChangedSetting);
-    }
-
-    @Test
-    public void setOwnColorShouldNotifyListenersIfSettingIsChanged() {
+    public void setOwnColorShouldWork() {
         assertEquals(0, settings.getOwnColor());
 
         settings.setOwnColor(100);
 
         assertEquals(100, settings.getOwnColor());
-        assertEquals(Setting.OWN_COLOR, lastChangedSetting);
     }
 
     @Test
-    public void setSysColorShouldNotNotifyListenersIfSettingIsUnchanged() {
-        assertEquals(0, settings.getSysColor());
-
-        settings.setSysColor(0);
-
-        assertEquals(0, settings.getSysColor());
-        assertNull(lastChangedSetting);
-    }
-
-    @Test
-    public void setSysColorShouldNotifyListenersIfSettingIsChanged() {
+    public void setSysColorShouldWork() {
         assertEquals(0, settings.getSysColor());
 
         settings.setSysColor(100);
 
         assertEquals(100, settings.getSysColor());
-        assertEquals(Setting.SYS_COLOR, lastChangedSetting);
     }
 
     @Test
