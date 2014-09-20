@@ -22,48 +22,69 @@
 
 package net.usikkert.kouchat.settings;
 
-import net.usikkert.kouchat.event.SettingsListener;
+import static org.junit.Assert.*;
 
-import org.jetbrains.annotations.NonNls;
+import org.junit.Test;
 
 /**
- * An "enum" representing the different types of settings that can be changed.
- *
- * <p>Contains only the settings that can be used with {@link SettingsListener}.</p>
- *
- * <p>This is not a real enum because of the need to support inheritance. Use {@link #equals(Object)}
- * instead of <code>==</code> for comparison, to avoid issues with class loaders and serialization.</p>
+ * Test of {@link Setting}.
  *
  * @author Christian Ihle
  */
-public class Setting {
+public class SettingTest {
 
-    /** Maps to {@link Settings#isLogging()}. */
-    public static final Setting LOGGING = new Setting("LOGGING");
+    @Test
+    public void equalsAndHashCodeShouldBeTrueIfSameInstance() {
+        final Setting one = new Setting("TEST1");
 
-    private final String name; // Must be unique
-
-    protected Setting(@NonNls final String name) {
-        this.name = name;
+        assertEquals(one, one);
+        assertEquals(one.hashCode(), one.hashCode());
     }
 
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
+    @Test
+    public void equalsAndHashCodeShouldBeTrueIfSameName() {
+        final Setting one = new Setting("TEST1");
+        final Setting two = new Setting("TEST1");
 
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        final Setting setting = (Setting) o;
-
-        return name.equals(setting.name);
+        assertEquals(one, two);
+        assertEquals(two, one);
+        assertEquals(one.hashCode(), two.hashCode());
     }
 
-    @Override
-    public int hashCode() {
-        return name.hashCode();
+    @Test
+    public void equalsAndHashCodeShouldBeFalseIfDifferentName() {
+        final Setting one = new Setting("TEST1");
+        final Setting two = new Setting("TEST2");
+
+        assertNotEquals(one, two);
+        assertNotEquals(two, one);
+        assertNotEquals(one.hashCode(), two.hashCode());
+    }
+
+    @Test
+    public void equalsShouldBeFalseForNull() {
+        final Setting one = new Setting("TEST1");
+
+        assertNotEquals(one, null);
+    }
+
+    @Test
+    public void equalsShouldBeFalseForDifferentClass() {
+        final Setting one = new Setting("TEST1");
+
+        assertNotEquals(one, 1);
+    }
+
+    @Test
+    public void equalsShouldBeFalseForInheritingClass() {
+        final Setting one = new Setting("TEST1");
+        final Setting differentClass = new Setting("TEST1") { };
+
+        assertNotEquals(one, differentClass);
+    }
+
+    @Test
+    public void loggingShouldWorkWithEquals() {
+        assertEquals(Setting.LOGGING, Setting.LOGGING);
     }
 }
