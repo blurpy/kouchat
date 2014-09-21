@@ -161,16 +161,16 @@ public class Settings {
     public void saveSettings() {
         final Properties properties = new Properties();
 
-        properties.put(NICK_NAME.getKey(), me.getNick());
+        properties.put(NICK_NAME.getKey(), Tools.emptyIfNull(me.getNick()));
         properties.put(OWN_COLOR.getKey(), String.valueOf(ownColor));
         properties.put(SYS_COLOR.getKey(), String.valueOf(sysColor));
         properties.put(LOGGING.getKey(), String.valueOf(logging));
         properties.put(SOUND.getKey(), String.valueOf(sound));
-        properties.put(BROWSER.getKey(), String.valueOf(browser));
+        properties.put(BROWSER.getKey(), Tools.emptyIfNull(browser));
         properties.put(SMILEYS.getKey(), String.valueOf(smileys));
-        properties.put(LOOK_AND_FEEL.getKey(), String.valueOf(lookAndFeel));
+        properties.put(LOOK_AND_FEEL.getKey(), Tools.emptyIfNull(lookAndFeel));
         properties.put(BALLOONS.getKey(), String.valueOf(balloons));
-        properties.put(NETWORK_INTERFACE.getKey(), String.valueOf(networkInterface));
+        properties.put(NETWORK_INTERFACE.getKey(), Tools.emptyIfNull(networkInterface));
 
         try {
             ioTools.createFolder(Constants.APP_FOLDER);
