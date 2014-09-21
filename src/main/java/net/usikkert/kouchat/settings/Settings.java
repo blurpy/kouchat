@@ -81,7 +81,7 @@ public class Settings {
 
     // The stored settings:
 
-    /** The application user. */
+    /** The application user. Only the nick name is stored. */
     private final User me;
 
     /** The color of the user's own messages. */
@@ -141,8 +141,6 @@ public class Settings {
         sound = true;
         smileys = true;
         lookAndFeel = "";
-
-        loadSettings();
     }
 
     /**
@@ -189,7 +187,7 @@ public class Settings {
      * Loads the settings from file.
      * If some values are not found in the settings, the default is used instead.
      */
-    private void loadSettings() {
+    public void loadSettings() {
         try {
             final Properties fileContents = propertyTools.loadProperties(FILENAME);
 

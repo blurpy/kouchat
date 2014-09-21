@@ -30,7 +30,9 @@ import net.usikkert.kouchat.event.SettingsListener;
 import net.usikkert.kouchat.misc.User;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.RestoreSystemProperties;
 
 /**
  * Test of {@link Settings}.
@@ -39,6 +41,9 @@ import org.junit.Test;
  */
 @SuppressWarnings("HardCodedStringLiteral")
 public class SettingsTest {
+
+    @Rule
+    public RestoreSystemProperties restoreSystemProperties = new RestoreSystemProperties("file.separator");
 
     private Settings settings;
 
@@ -49,12 +54,6 @@ public class SettingsTest {
     public void setUp() throws Exception {
         settings = new Settings();
 
-        // Setting these to known values to avoid tests behaving differently on different machines
-        settings.setSound(false);
-        settings.setLogging(false);
-        settings.setOwnColor(0);
-        settings.setSysColor(0);
-
         System.setProperty("file.separator", "/");
 
         listener = new SettingsListener() {
@@ -64,6 +63,32 @@ public class SettingsTest {
         };
 
         settings.addSettingsListener(listener);
+    }
+
+    @Test
+    public void meShouldBeCreated() {
+        final User me = settings.getMe();
+
+        assertTrue(me.isMe());
+    }
+
+    @Test
+    public void defaultValuesShouldBeSet() {
+        assertEquals(-15987646, settings.getOwnColor());
+        assertEquals(-16759040, settings.getSysColor());
+
+        assertTrue(settings.isSound());
+        assertFalse(settings.isLogging());
+        assertTrue(settings.isSmileys());
+        assertFalse(settings.isBalloons());
+
+        assertEquals("", settings.getBrowser());
+        assertEquals("", settings.getLookAndFeel());
+        assertNull(settings.getNetworkInterface());
+
+        assertFalse(settings.isNoPrivateChat());
+        assertFalse(settings.isAlwaysLog());
+        assertEquals(Constants.APP_LOG_FOLDER, settings.getLogLocation());
     }
 
     @Test
@@ -108,30 +133,12 @@ public class SettingsTest {
     }
 
     @Test
-    public void setSoundShouldWork() {
-        assertFalse(settings.isSound());
+    public void isLoggingShouldBeTrueIfAlwaysLogIsEnabled() {
+        assertFalse(settings.isLogging());
 
-        settings.setSound(true);
+        settings.setAlwaysLog(true);
 
-        assertTrue(settings.isSound());
-    }
-
-    @Test
-    public void setOwnColorShouldWork() {
-        assertEquals(0, settings.getOwnColor());
-
-        settings.setOwnColor(100);
-
-        assertEquals(100, settings.getOwnColor());
-    }
-
-    @Test
-    public void setSysColorShouldWork() {
-        assertEquals(0, settings.getSysColor());
-
-        settings.setSysColor(100);
-
-        assertEquals(100, settings.getSysColor());
+        assertTrue(settings.isLogging());
     }
 
     @Test
