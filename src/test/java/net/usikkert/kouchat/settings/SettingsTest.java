@@ -95,21 +95,7 @@ public class SettingsTest {
 
     @Test
     public void defaultValuesShouldBeSet() {
-        assertEquals(-15987646, settings.getOwnColor());
-        assertEquals(-16759040, settings.getSysColor());
-
-        assertTrue(settings.isSound());
-        assertFalse(settings.isLogging());
-        assertTrue(settings.isSmileys());
-        assertFalse(settings.isBalloons());
-
-        assertEquals("", settings.getBrowser());
-        assertEquals("", settings.getLookAndFeel());
-        assertNull(settings.getNetworkInterface());
-
-        assertFalse(settings.isNoPrivateChat());
-        assertFalse(settings.isAlwaysLog());
-        assertEquals(Constants.APP_LOG_FOLDER, settings.getLogLocation());
+        verifyDefaultValues();
     }
 
     @Test
@@ -275,5 +261,32 @@ public class SettingsTest {
         assertEquals("", properties.get(BROWSER.getKey()));
         assertEquals("", properties.get(LOOK_AND_FEEL.getKey()));
         assertEquals("", properties.get(NETWORK_INTERFACE.getKey()));
+    }
+
+    @Test
+    public void loadSettingsShouldHandleMissingPropertiesAndKeepDefaultValues() throws IOException {
+        when(propertyTools.loadProperties(anyString())).thenReturn(new Properties());
+
+        settings.loadSettings();
+
+        verifyDefaultValues();
+    }
+
+    private void verifyDefaultValues() {
+        assertEquals(-15987646, settings.getOwnColor());
+        assertEquals(-16759040, settings.getSysColor());
+
+        assertTrue(settings.isSound());
+        assertFalse(settings.isLogging());
+        assertTrue(settings.isSmileys());
+        assertFalse(settings.isBalloons());
+
+        assertEquals("", settings.getBrowser());
+        assertEquals("", settings.getLookAndFeel());
+        assertNull(settings.getNetworkInterface());
+
+        assertFalse(settings.isNoPrivateChat());
+        assertFalse(settings.isAlwaysLog());
+        assertEquals(Constants.APP_LOG_FOLDER, settings.getLogLocation());
     }
 }

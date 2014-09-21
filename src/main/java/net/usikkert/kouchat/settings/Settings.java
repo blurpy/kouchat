@@ -215,8 +215,8 @@ public class Settings {
 
             logging = Boolean.valueOf(fileContents.getProperty(LOGGING.getKey()));
             balloons = Boolean.valueOf(fileContents.getProperty(BALLOONS.getKey()));
-            browser = fileContents.getProperty(BROWSER.getKey());
-            lookAndFeel = fileContents.getProperty(LOOK_AND_FEEL.getKey());
+            browser = Tools.emptyIfNull(fileContents.getProperty(BROWSER.getKey()));
+            lookAndFeel = Tools.emptyIfNull(fileContents.getProperty(LOOK_AND_FEEL.getKey()));
             networkInterface = fileContents.getProperty(NETWORK_INTERFACE.getKey());
 
             // Defaults to true
