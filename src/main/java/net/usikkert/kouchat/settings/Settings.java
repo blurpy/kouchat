@@ -81,10 +81,7 @@ public class Settings {
 
     // The stored settings:
 
-    /**
-     * The nick name of the application user. The rest of the values in <code>me</code>
-     * is generated in the constructor.
-     */
+    /** The application user. */
     private final User me;
 
     /** The color of the user's own messages. */
@@ -133,14 +130,9 @@ public class Settings {
      * <p>Remember to {@link #setClient(String)}.</p>
      */
     public Settings() {
-        final int code = 10000000 + (int) (Math.random() * 9999999);
+        final MeFactory meFactory = new MeFactory();
 
-        me = new User(createNickName(code), code);
-        me.setMe(true);
-        me.setLastIdle(System.currentTimeMillis());
-        me.setLogonTime(System.currentTimeMillis());
-        me.setOperatingSystem(System.getProperty("os.name"));
-
+        me = meFactory.createMe();
         listeners = new ArrayList<SettingsListener>();
         errorHandler = ErrorHandler.getErrorHandler();
         browser = "";
@@ -162,33 +154,6 @@ public class Settings {
      */
     public void setClient(@NonNls final String client) {
         me.setClient(Constants.APP_NAME + " v" + Constants.APP_VERSION + " " + client);
-    }
-
-    /**
-     * Creates a new default nick name from the name of the user logged in to
-     * the operating system. The name is shortened to 10 characters and the
-     * first letter is capitalized.
-     *
-     * <p>If the name is invalid as a nick name then the user code is used instead.</p>
-     *
-     * @param code The user code.
-     * @return The created nick name.
-     */
-    private String createNickName(final int code) {
-        final String userName = System.getProperty("user.name");
-
-        if (userName == null) {
-            return Integer.toString(code);
-        }
-
-        final String[] splitUserName = userName.split(" ");
-        final String defaultNick = Tools.capitalizeFirstLetter(Tools.shorten(splitUserName[0].trim(), 10));
-
-        if (Tools.isValidNick(defaultNick)) {
-            return defaultNick;
-        }
-
-        return Integer.toString(code);
     }
 
     /**
