@@ -26,8 +26,10 @@ import static net.usikkert.kouchat.settings.PropertyFileSettings.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
@@ -37,6 +39,7 @@ import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.util.IOTools;
 import net.usikkert.kouchat.util.PropertyTools;
 import net.usikkert.kouchat.util.TestUtils;
+import net.usikkert.kouchat.util.Tools;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -64,6 +67,7 @@ public class SettingsTest {
     private IOTools ioTools;
     private PropertyTools propertyTools;
     private ErrorHandler errorHandler;
+    private Logger log;
 
     @Before
     public void setUp() throws Exception {
@@ -82,8 +86,7 @@ public class SettingsTest {
         ioTools = TestUtils.setFieldValueWithMock(settings, "ioTools", IOTools.class);
         propertyTools = TestUtils.setFieldValueWithMock(settings, "propertyTools", PropertyTools.class);
         errorHandler = TestUtils.setFieldValueWithMock(settings, "errorHandler", ErrorHandler.class);
-
-        TestUtils.setFieldValueWithMock(settings, "LOG", Logger.class); // To avoid log output in tests
+        log = TestUtils.setFieldValueWithMock(settings, "LOG", Logger.class); // To avoid log output in tests
     }
 
     @Test
@@ -306,6 +309,76 @@ public class SettingsTest {
         assertEquals("opera", settings.getBrowser());
         assertEquals("sega", settings.getLookAndFeel());
         assertEquals("eth5", settings.getNetworkInterface());
+    }
+
+    @Test
+    public void loadSettingsShouldHandleBooleansWithStrangeValues() throws IOException {
+        final Properties properties = new Properties();
+
+        properties.setProperty(SOUND.getKey(), "yeah");
+        properties.setProperty(LOGGING.getKey(), "nah");
+        properties.setProperty(SMILEYS.getKey(), "nope");
+        properties.setProperty(BALLOONS.getKey(), "yey");
+
+        when(propertyTools.loadProperties(anyString())).thenReturn(properties);
+
+        settings.loadSettings();
+
+        assertFalse(settings.isSound());
+        assertFalse(settings.isLogging());
+        assertFalse(settings.isSmileys());
+        assertFalse(settings.isBalloons());
+    }
+
+    @Test
+    public void loadSettingsShouldIgnoreMissingNickName() throws IOException {
+        when(propertyTools.loadProperties(anyString())).thenReturn(new Properties());
+
+        final String defaultNickName = settings.getMe().getNick();
+        assertTrue(Tools.isValidNick(defaultNickName));
+
+        settings.loadSettings();
+
+        assertEquals(defaultNickName, settings.getMe().getNick());
+    }
+
+    @Test
+    public void loadSettingsShouldIgnoreInvalidNickName() throws IOException {
+        final Properties properties = new Properties();
+        properties.setProperty(NICK_NAME.getKey(), "@Boss");
+
+        when(propertyTools.loadProperties(anyString())).thenReturn(properties);
+
+        final String defaultNickName = settings.getMe().getNick();
+        assertTrue(Tools.isValidNick(defaultNickName));
+
+        settings.loadSettings();
+
+        assertEquals(defaultNickName, settings.getMe().getNick());
+    }
+
+    @Test
+    public void loadSettingsShouldHandleFileNotFound() throws IOException {
+        doThrow(new FileNotFoundException("No file")).when(propertyTools).loadProperties(anyString());
+
+        settings.loadSettings();
+
+        verify(propertyTools).loadProperties(Constants.APP_FOLDER + "kouchat.ini");
+        verify(log).log(Level.WARNING,
+                        "Could not find " + Constants.APP_FOLDER + "kouchat.ini, using default settings.");
+        verifyDefaultValues();
+    }
+
+    @Test
+    public void loadSettingsShouldHandleIOException() throws IOException {
+        final IOException ioException = new IOException("Unknown error");
+        doThrow(ioException).when(propertyTools).loadProperties(anyString());
+
+        settings.loadSettings();
+
+        verify(propertyTools).loadProperties(Constants.APP_FOLDER + "kouchat.ini");
+        verify(log).log(Level.SEVERE, "java.io.IOException: Unknown error", ioException);
+        verifyDefaultValues();
     }
 
     private void verifyDefaultValues() {
