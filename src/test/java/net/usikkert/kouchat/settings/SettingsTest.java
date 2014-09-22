@@ -272,6 +272,42 @@ public class SettingsTest {
         verifyDefaultValues();
     }
 
+    @Test
+    public void loadSettingsShouldLoadAllSettingsFromProperties() throws IOException {
+        final Properties properties = new Properties();
+
+        properties.setProperty(NICK_NAME.getKey(), "Kenny");
+        properties.setProperty(OWN_COLOR.getKey(), "-1234");
+        properties.setProperty(SYS_COLOR.getKey(), "5678");
+        properties.setProperty(SOUND.getKey(), "false");
+        properties.setProperty(LOGGING.getKey(), "true");
+        properties.setProperty(SMILEYS.getKey(), "false");
+        properties.setProperty(BALLOONS.getKey(), "true");
+        properties.setProperty(BROWSER.getKey(), "opera");
+        properties.setProperty(LOOK_AND_FEEL.getKey(), "sega");
+        properties.setProperty(NETWORK_INTERFACE.getKey(), "eth5");
+
+        assertEquals(10, properties.size());
+
+        when(propertyTools.loadProperties(anyString())).thenReturn(properties);
+
+        settings.loadSettings();
+
+        assertEquals("Kenny", settings.getMe().getNick());
+
+        assertEquals(-1234, settings.getOwnColor());
+        assertEquals(5678, settings.getSysColor());
+
+        assertFalse(settings.isSound());
+        assertTrue(settings.isLogging());
+        assertFalse(settings.isSmileys());
+        assertTrue(settings.isBalloons());
+
+        assertEquals("opera", settings.getBrowser());
+        assertEquals("sega", settings.getLookAndFeel());
+        assertEquals("eth5", settings.getNetworkInterface());
+    }
+
     private void verifyDefaultValues() {
         assertEquals(-15987646, settings.getOwnColor());
         assertEquals(-16759040, settings.getSysColor());
