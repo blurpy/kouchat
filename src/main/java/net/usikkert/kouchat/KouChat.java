@@ -26,6 +26,7 @@ import net.usikkert.kouchat.argument.Argument;
 import net.usikkert.kouchat.argument.ArgumentParser;
 import net.usikkert.kouchat.argument.ArgumentResponder;
 import net.usikkert.kouchat.argument.ArgumentSettingsLoader;
+import net.usikkert.kouchat.settings.PropertyFileSettingsLoader;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.UIException;
 import net.usikkert.kouchat.ui.UIFactory;
@@ -73,11 +74,21 @@ public final class KouChat {
         // Initialize as early as possible to catch all exceptions
         final UncaughtExceptionLogger uncaughtExceptionLogger = new UncaughtExceptionLogger();
 
+        final Settings settings = loadSettings(argumentParser);
+
+        loadUserInterface(argumentParser, settings, uncaughtExceptionLogger);
+    }
+
+    private static Settings loadSettings(final ArgumentParser argumentParser) {
         final Settings settings = new Settings();
+
         final ArgumentSettingsLoader argumentSettingsLoader = new ArgumentSettingsLoader();
         argumentSettingsLoader.loadSettingsFromArguments(argumentParser, settings);
 
-        loadUserInterface(argumentParser, settings, uncaughtExceptionLogger);
+        final PropertyFileSettingsLoader propertyFileSettingsLoader = new PropertyFileSettingsLoader();
+        propertyFileSettingsLoader.loadSettings(settings);
+
+        return settings;
     }
 
     private static void loadUserInterface(final ArgumentParser argumentParser, final Settings settings,
