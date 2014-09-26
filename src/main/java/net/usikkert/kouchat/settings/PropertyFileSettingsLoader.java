@@ -61,44 +61,16 @@ public class PropertyFileSettingsLoader {
         try {
             final Properties fileContents = propertyTools.loadProperties(FILENAME);
 
-            final String tmpNick = fileContents.getProperty(NICK_NAME.getKey());
-
-            if (tmpNick != null && Tools.isValidNick(tmpNick)) {
-                final User me = settings.getMe();
-                me.setNick(tmpNick.trim());
-            }
-
-            try {
-                settings.setOwnColor(Integer.parseInt(fileContents.getProperty(OWN_COLOR.getKey())));
-            }
-
-            catch (final NumberFormatException e) {
-                LOG.log(Level.WARNING, "Could not read setting for owncolor..");
-            }
-
-            try {
-                settings.setSysColor(Integer.parseInt(fileContents.getProperty(SYS_COLOR.getKey())));
-            }
-
-            catch (final NumberFormatException e) {
-                LOG.log(Level.WARNING, "Could not read setting for syscolor..");
-            }
-
-            settings.setLogging(Boolean.valueOf(fileContents.getProperty(LOGGING.getKey())));
-            settings.setBalloons(Boolean.valueOf(fileContents.getProperty(BALLOONS.getKey())));
-            settings.setBrowser(Tools.emptyIfNull(fileContents.getProperty(BROWSER.getKey())));
-            settings.setLookAndFeel(Tools.emptyIfNull(fileContents.getProperty(LOOK_AND_FEEL.getKey())));
-            settings.setNetworkInterface(fileContents.getProperty(NETWORK_INTERFACE.getKey()));
-
-            // Defaults to true
-            if (fileContents.getProperty(SOUND.getKey()) != null) {
-                settings.setSound(Boolean.valueOf(fileContents.getProperty(SOUND.getKey())));
-            }
-
-            // Defaults to true
-            if (fileContents.getProperty(SMILEYS.getKey()) != null) {
-                settings.setSmileys(Boolean.valueOf(fileContents.getProperty(SMILEYS.getKey())));
-            }
+            setNickName(settings, fileContents);
+            setOwnColor(settings, fileContents);
+            setSysColor(settings, fileContents);
+            setLogging(settings, fileContents);
+            setBalloons(settings, fileContents);
+            setBrowser(settings, fileContents);
+            setLookAndFeel(settings, fileContents);
+            setNetworkInterface(settings, fileContents);
+            setSound(settings, fileContents);
+            setSmileys(settings, fileContents);
         }
 
         catch (final FileNotFoundException e) {
@@ -107,6 +79,69 @@ public class PropertyFileSettingsLoader {
 
         catch (final IOException e) {
             LOG.log(Level.SEVERE, e.toString(), e);
+        }
+    }
+
+    private void setNickName(final Settings settings, final Properties fileContents) {
+        final String tmpNick = fileContents.getProperty(NICK_NAME.getKey());
+
+        if (tmpNick != null && Tools.isValidNick(tmpNick)) {
+            final User me = settings.getMe();
+            me.setNick(tmpNick.trim());
+        }
+    }
+
+    private void setOwnColor(final Settings settings, final Properties fileContents) {
+        try {
+            settings.setOwnColor(Integer.parseInt(fileContents.getProperty(OWN_COLOR.getKey())));
+        }
+
+        catch (final NumberFormatException e) {
+            LOG.log(Level.WARNING, "Could not read setting for owncolor..");
+        }
+    }
+
+    private void setSysColor(final Settings settings, final Properties fileContents) {
+        try {
+            settings.setSysColor(Integer.parseInt(fileContents.getProperty(SYS_COLOR.getKey())));
+        }
+
+        catch (final NumberFormatException e) {
+            LOG.log(Level.WARNING, "Could not read setting for syscolor..");
+        }
+    }
+
+    private void setLogging(final Settings settings, final Properties fileContents) {
+        settings.setLogging(Boolean.valueOf(fileContents.getProperty(LOGGING.getKey())));
+    }
+
+    private void setBalloons(final Settings settings, final Properties fileContents) {
+        settings.setBalloons(Boolean.valueOf(fileContents.getProperty(BALLOONS.getKey())));
+    }
+
+    private void setBrowser(final Settings settings, final Properties fileContents) {
+        settings.setBrowser(Tools.emptyIfNull(fileContents.getProperty(BROWSER.getKey())));
+    }
+
+    private void setLookAndFeel(final Settings settings, final Properties fileContents) {
+        settings.setLookAndFeel(Tools.emptyIfNull(fileContents.getProperty(LOOK_AND_FEEL.getKey())));
+    }
+
+    private void setNetworkInterface(final Settings settings, final Properties fileContents) {
+        settings.setNetworkInterface(fileContents.getProperty(NETWORK_INTERFACE.getKey()));
+    }
+
+    private void setSound(final Settings settings, final Properties fileContents) {
+        // Defaults to true
+        if (fileContents.getProperty(SOUND.getKey()) != null) {
+            settings.setSound(Boolean.valueOf(fileContents.getProperty(SOUND.getKey())));
+        }
+    }
+
+    private void setSmileys(final Settings settings, final Properties fileContents) {
+        // Defaults to true
+        if (fileContents.getProperty(SMILEYS.getKey()) != null) {
+            settings.setSmileys(Boolean.valueOf(fileContents.getProperty(SMILEYS.getKey())));
         }
     }
 }
