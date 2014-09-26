@@ -26,10 +26,8 @@ import static net.usikkert.kouchat.settings.PropertyFileSettings.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
@@ -39,7 +37,6 @@ import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.util.IOTools;
 import net.usikkert.kouchat.util.PropertyTools;
 import net.usikkert.kouchat.util.TestUtils;
-import net.usikkert.kouchat.util.Tools;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -67,7 +64,6 @@ public class SettingsTest {
     private IOTools ioTools;
     private PropertyTools propertyTools;
     private ErrorHandler errorHandler;
-    private Logger log;
 
     @Before
     public void setUp() throws Exception {
@@ -86,7 +82,7 @@ public class SettingsTest {
         ioTools = TestUtils.setFieldValueWithMock(settings, "ioTools", IOTools.class);
         propertyTools = TestUtils.setFieldValueWithMock(settings, "propertyTools", PropertyTools.class);
         errorHandler = TestUtils.setFieldValueWithMock(settings, "errorHandler", ErrorHandler.class);
-        log = TestUtils.setFieldValueWithMock(settings, "LOG", Logger.class); // To avoid log output in tests
+        TestUtils.setFieldValueWithMock(settings, "LOG", Logger.class); // To avoid log output in tests
     }
 
     @Test
@@ -98,7 +94,7 @@ public class SettingsTest {
 
     @Test
     public void defaultValuesShouldBeSet() {
-        verifyDefaultValues();
+        verifyDefaultValues(settings);
     }
 
     @Test
@@ -266,122 +262,7 @@ public class SettingsTest {
         assertEquals("", properties.get(NETWORK_INTERFACE.getKey()));
     }
 
-    @Test
-    public void loadSettingsShouldHandleMissingPropertiesAndKeepDefaultValues() throws IOException {
-        when(propertyTools.loadProperties(anyString())).thenReturn(new Properties());
-
-        settings.loadSettings();
-
-        verifyDefaultValues();
-    }
-
-    @Test
-    public void loadSettingsShouldLoadAllSettingsFromProperties() throws IOException {
-        final Properties properties = new Properties();
-
-        properties.setProperty(NICK_NAME.getKey(), "Kenny");
-        properties.setProperty(OWN_COLOR.getKey(), "-1234");
-        properties.setProperty(SYS_COLOR.getKey(), "5678");
-        properties.setProperty(SOUND.getKey(), "false");
-        properties.setProperty(LOGGING.getKey(), "true");
-        properties.setProperty(SMILEYS.getKey(), "false");
-        properties.setProperty(BALLOONS.getKey(), "true");
-        properties.setProperty(BROWSER.getKey(), "opera");
-        properties.setProperty(LOOK_AND_FEEL.getKey(), "sega");
-        properties.setProperty(NETWORK_INTERFACE.getKey(), "eth5");
-
-        assertEquals(10, properties.size());
-
-        when(propertyTools.loadProperties(anyString())).thenReturn(properties);
-
-        settings.loadSettings();
-
-        assertEquals("Kenny", settings.getMe().getNick());
-
-        assertEquals(-1234, settings.getOwnColor());
-        assertEquals(5678, settings.getSysColor());
-
-        assertFalse(settings.isSound());
-        assertTrue(settings.isLogging());
-        assertFalse(settings.isSmileys());
-        assertTrue(settings.isBalloons());
-
-        assertEquals("opera", settings.getBrowser());
-        assertEquals("sega", settings.getLookAndFeel());
-        assertEquals("eth5", settings.getNetworkInterface());
-    }
-
-    @Test
-    public void loadSettingsShouldHandleBooleansWithStrangeValues() throws IOException {
-        final Properties properties = new Properties();
-
-        properties.setProperty(SOUND.getKey(), "yeah");
-        properties.setProperty(LOGGING.getKey(), "nah");
-        properties.setProperty(SMILEYS.getKey(), "nope");
-        properties.setProperty(BALLOONS.getKey(), "yey");
-
-        when(propertyTools.loadProperties(anyString())).thenReturn(properties);
-
-        settings.loadSettings();
-
-        assertFalse(settings.isSound());
-        assertFalse(settings.isLogging());
-        assertFalse(settings.isSmileys());
-        assertFalse(settings.isBalloons());
-    }
-
-    @Test
-    public void loadSettingsShouldIgnoreMissingNickName() throws IOException {
-        when(propertyTools.loadProperties(anyString())).thenReturn(new Properties());
-
-        final String defaultNickName = settings.getMe().getNick();
-        assertTrue(Tools.isValidNick(defaultNickName));
-
-        settings.loadSettings();
-
-        assertEquals(defaultNickName, settings.getMe().getNick());
-    }
-
-    @Test
-    public void loadSettingsShouldIgnoreInvalidNickName() throws IOException {
-        final Properties properties = new Properties();
-        properties.setProperty(NICK_NAME.getKey(), "@Boss");
-
-        when(propertyTools.loadProperties(anyString())).thenReturn(properties);
-
-        final String defaultNickName = settings.getMe().getNick();
-        assertTrue(Tools.isValidNick(defaultNickName));
-
-        settings.loadSettings();
-
-        assertEquals(defaultNickName, settings.getMe().getNick());
-    }
-
-    @Test
-    public void loadSettingsShouldHandleFileNotFound() throws IOException {
-        doThrow(new FileNotFoundException("No file")).when(propertyTools).loadProperties(anyString());
-
-        settings.loadSettings();
-
-        verify(propertyTools).loadProperties(Constants.APP_FOLDER + "kouchat.ini");
-        verify(log).log(Level.WARNING,
-                        "Could not find " + Constants.APP_FOLDER + "kouchat.ini, using default settings.");
-        verifyDefaultValues();
-    }
-
-    @Test
-    public void loadSettingsShouldHandleIOException() throws IOException {
-        final IOException ioException = new IOException("Unknown error");
-        doThrow(ioException).when(propertyTools).loadProperties(anyString());
-
-        settings.loadSettings();
-
-        verify(propertyTools).loadProperties(Constants.APP_FOLDER + "kouchat.ini");
-        verify(log).log(Level.SEVERE, "java.io.IOException: Unknown error", ioException);
-        verifyDefaultValues();
-    }
-
-    private void verifyDefaultValues() {
+    static void verifyDefaultValues(final Settings settings) {
         assertEquals(-15987646, settings.getOwnColor());
         assertEquals(-16759040, settings.getSysColor());
 

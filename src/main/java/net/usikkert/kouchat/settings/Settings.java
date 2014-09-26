@@ -24,7 +24,6 @@ package net.usikkert.kouchat.settings;
 
 import static net.usikkert.kouchat.settings.PropertyFileSettings.*;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -180,62 +179,6 @@ public class Settings {
         catch (final IOException e) {
             LOG.log(Level.SEVERE, "Failed to save settings" , e);
             errorHandler.showError("Settings could not be saved:\n " + e);
-        }
-    }
-
-    /**
-     * Loads the settings from file.
-     * If some values are not found in the settings, the default is used instead.
-     */
-    public void loadSettings() {
-        try {
-            final Properties fileContents = propertyTools.loadProperties(FILENAME);
-
-            final String tmpNick = fileContents.getProperty(NICK_NAME.getKey());
-
-            if (tmpNick != null && Tools.isValidNick(tmpNick)) {
-                me.setNick(tmpNick.trim());
-            }
-
-            try {
-                ownColor = Integer.parseInt(fileContents.getProperty(OWN_COLOR.getKey()));
-            }
-
-            catch (final NumberFormatException e) {
-                LOG.log(Level.WARNING, "Could not read setting for owncolor..");
-            }
-
-            try {
-                sysColor = Integer.parseInt(fileContents.getProperty(SYS_COLOR.getKey()));
-            }
-
-            catch (final NumberFormatException e) {
-                LOG.log(Level.WARNING, "Could not read setting for syscolor..");
-            }
-
-            logging = Boolean.valueOf(fileContents.getProperty(LOGGING.getKey()));
-            balloons = Boolean.valueOf(fileContents.getProperty(BALLOONS.getKey()));
-            browser = Tools.emptyIfNull(fileContents.getProperty(BROWSER.getKey()));
-            lookAndFeel = Tools.emptyIfNull(fileContents.getProperty(LOOK_AND_FEEL.getKey()));
-            networkInterface = fileContents.getProperty(NETWORK_INTERFACE.getKey());
-
-            // Defaults to true
-            if (fileContents.getProperty(SOUND.getKey()) != null) {
-                sound = Boolean.valueOf(fileContents.getProperty(SOUND.getKey()));
-            }
-
-            // Defaults to true
-            if (fileContents.getProperty(SMILEYS.getKey()) != null) {
-                smileys = Boolean.valueOf(fileContents.getProperty(SMILEYS.getKey()));
-            }
-        }
-
-        catch (final FileNotFoundException e) {
-            LOG.log(Level.WARNING, "Could not find " + FILENAME + ", using default settings.");
-        }
-
-        catch (final IOException e) {
-            LOG.log(Level.SEVERE, e.toString(), e);
         }
     }
 
