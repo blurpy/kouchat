@@ -51,7 +51,8 @@ public class PropertyFileSettingsLoader {
 
     /**
      * Loads the settings from file.
-     * If some values are not found in the settings, the default is used instead.
+     *
+     * <p>If some values are not found in the settings, the default is used instead.</p>
      *
      * @param settings The settings to load into.
      */
@@ -83,11 +84,11 @@ public class PropertyFileSettingsLoader {
     }
 
     private void setNickName(final Settings settings, final Properties fileContents) {
-        final String tmpNick = fileContents.getProperty(NICK_NAME.getKey());
+        final User me = settings.getMe();
+        final String loadedNickName = fileContents.getProperty(NICK_NAME.getKey());
 
-        if (tmpNick != null && Tools.isValidNick(tmpNick)) {
-            final User me = settings.getMe();
-            me.setNick(tmpNick.trim());
+        if (loadedNickName != null && Tools.isValidNick(loadedNickName)) {
+            me.setNick(loadedNickName.trim());
         }
     }
 
@@ -97,7 +98,7 @@ public class PropertyFileSettingsLoader {
         }
 
         catch (final NumberFormatException e) {
-            LOG.log(Level.WARNING, "Could not read setting for owncolor..");
+            LOG.log(Level.WARNING, "Could not read setting for owncolor...");
         }
     }
 
@@ -107,7 +108,7 @@ public class PropertyFileSettingsLoader {
         }
 
         catch (final NumberFormatException e) {
-            LOG.log(Level.WARNING, "Could not read setting for syscolor..");
+            LOG.log(Level.WARNING, "Could not read setting for syscolor...");
         }
     }
 
