@@ -43,7 +43,7 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class PropertyFileSettingsLoader {
 
-    private static final Logger LOG = Logger.getLogger(Settings.class.getName());
+    private static final Logger LOG = Logger.getLogger(PropertyFileSettingsLoader.class.getName());
 
     private static final String FILENAME = Constants.APP_FOLDER + "kouchat.ini";
 
