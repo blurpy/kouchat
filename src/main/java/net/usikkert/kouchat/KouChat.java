@@ -83,7 +83,7 @@ public final class KouChat {
         final Settings settings = new Settings();
 
         final ArgumentSettingsLoader argumentSettingsLoader = new ArgumentSettingsLoader();
-        argumentSettingsLoader.loadSettingsFromArguments(argumentParser, settings);
+        argumentSettingsLoader.loadSettings(argumentParser, settings);
 
         final PropertyFileSettingsLoader propertyFileSettingsLoader = new PropertyFileSettingsLoader();
         propertyFileSettingsLoader.loadSettings(settings);

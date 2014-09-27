@@ -44,7 +44,7 @@ public class ArgumentSettingsLoader {
      * @param argumentParser The parsed arguments.
      * @param settings The settings to put the parsed arguments.
      */
-    public void loadSettingsFromArguments(final ArgumentParser argumentParser, final Settings settings) {
+    public void loadSettings(final ArgumentParser argumentParser, final Settings settings) {
         settings.setAlwaysLog(argumentParser.hasArgument(Argument.ALWAYS_LOG));
         settings.setNoPrivateChat(argumentParser.hasArgument(Argument.NO_PRIVATE_CHAT));
 

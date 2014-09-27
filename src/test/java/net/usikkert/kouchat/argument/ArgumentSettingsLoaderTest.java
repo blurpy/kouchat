@@ -37,6 +37,7 @@ import org.junit.Test;
  *
  * @author Christian Ihle
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class ArgumentSettingsLoaderTest {
 
     private ArgumentSettingsLoader loader;
@@ -49,10 +50,10 @@ public class ArgumentSettingsLoaderTest {
     }
 
     @Test
-    public void loadSettingsFromArgumentsWithNoArgumentsShouldKeepDefaultSettings() {
+    public void loadSettingsWithNoArgumentsShouldKeepDefaultSettings() {
         final ArgumentParser argumentParser = argumentParserWithArguments();
 
-        loader.loadSettingsFromArguments(argumentParser, settings);
+        loader.loadSettings(argumentParser, settings);
 
         assertFalse(settings.isAlwaysLog());
         assertFalse(settings.isNoPrivateChat());
@@ -60,14 +61,14 @@ public class ArgumentSettingsLoaderTest {
     }
 
     @Test
-    public void loadSettingsFromArgumentsWithUnrelatedArgumentsShouldKeepDefaultSettings() {
+    public void loadSettingsWithUnrelatedArgumentsShouldKeepDefaultSettings() {
         final ArgumentParser argumentParser = argumentParserWithArguments(
                 Argument.CONSOLE.getFullArgumentName(),
                 Argument.DEBUG.getFullArgumentName(),
                 Argument.HELP.getFullArgumentName(),
                 Argument.VERSION.getFullArgumentName());
 
-        loader.loadSettingsFromArguments(argumentParser, settings);
+        loader.loadSettings(argumentParser, settings);
 
         assertFalse(settings.isAlwaysLog());
         assertFalse(settings.isNoPrivateChat());
@@ -75,11 +76,11 @@ public class ArgumentSettingsLoaderTest {
     }
 
     @Test
-    public void loadSettingsFromArgumentsWithAlwaysLogArgumentShouldSetAlwaysLogInTheSettings() {
+    public void loadSettingsWithAlwaysLogArgumentShouldSetAlwaysLogInTheSettings() {
         final ArgumentParser argumentParser = argumentParserWithArguments(
                 Argument.ALWAYS_LOG.getFullArgumentName());
 
-        loader.loadSettingsFromArguments(argumentParser, settings);
+        loader.loadSettings(argumentParser, settings);
 
         assertTrue(settings.isAlwaysLog());
         assertFalse(settings.isNoPrivateChat());
@@ -87,11 +88,11 @@ public class ArgumentSettingsLoaderTest {
     }
 
     @Test
-    public void loadSettingsFromArgumentsWithNoPrivateChatArgumentShouldSetNoPrivateChatInTheSettings() {
+    public void loadSettingsWithNoPrivateChatArgumentShouldSetNoPrivateChatInTheSettings() {
         final ArgumentParser argumentParser = argumentParserWithArguments(
                 Argument.NO_PRIVATE_CHAT.getFullArgumentName());
 
-        loader.loadSettingsFromArguments(argumentParser, settings);
+        loader.loadSettings(argumentParser, settings);
 
         assertFalse(settings.isAlwaysLog());
         assertTrue(settings.isNoPrivateChat());
@@ -99,11 +100,11 @@ public class ArgumentSettingsLoaderTest {
     }
 
     @Test
-    public void loadSettingsFromArgumentsWithLogLocationArgumentShouldSetLogLocationInTheSettings() {
+    public void loadSettingsWithLogLocationArgumentShouldSetLogLocationInTheSettings() {
         final ArgumentParser argumentParser = argumentParserWithArguments(
                 Argument.LOG_LOCATION.getFullArgumentName() + "=/home/user/logs");
 
-        loader.loadSettingsFromArguments(argumentParser, settings);
+        loader.loadSettings(argumentParser, settings);
 
         assertFalse(settings.isAlwaysLog());
         assertFalse(settings.isNoPrivateChat());
@@ -113,13 +114,13 @@ public class ArgumentSettingsLoaderTest {
     }
 
     @Test
-    public void loadSettingsFromArgumentsWithAllArgumentsShouldSetAllArgumentsInTheSettings() {
+    public void loadSettingsWithAllArgumentsShouldSetAllArgumentsInTheSettings() {
         final ArgumentParser argumentParser = argumentParserWithArguments(
                 Argument.ALWAYS_LOG.getFullArgumentName(),
                 Argument.NO_PRIVATE_CHAT.getFullArgumentName(),
                 Argument.LOG_LOCATION.getFullArgumentName() + "=/home/user/logs");
 
-        loader.loadSettingsFromArguments(argumentParser, settings);
+        loader.loadSettings(argumentParser, settings);
 
         assertTrue(settings.isAlwaysLog());
         assertTrue(settings.isNoPrivateChat());
