@@ -27,7 +27,6 @@ import java.util.List;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.SettingsListener;
-import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.util.Tools;
 
@@ -115,13 +114,6 @@ public class Settings {
      */
     public void setClient(@NonNls final String client) {
         me.setClient(Constants.APP_NAME + " v" + Constants.APP_VERSION + " " + client);
-    }
-
-    /**
-     * TODO remove
-     */
-    public void saveSettings() {
-        new PropertyFileSettingsSaver(this, ErrorHandler.getErrorHandler()).saveSettings();
     }
 
     /**
