@@ -619,7 +619,7 @@ public class SettingsDialogTest  {
 
         okButton.doClick();
 
-        verify(settings).saveSettings();
+        verify(mediator).saveSettings();
     }
 
     @Test

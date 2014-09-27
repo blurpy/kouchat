@@ -318,7 +318,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
                         final LookAndFeelWrapper lnfw = (LookAndFeelWrapper) lookAndFeelCB.getSelectedItem();
                         settings.setLookAndFeel(lnfw.getLookAndFeelInfo().getName());
                         settings.setNetworkInterface(getSelectedNetworkInterface().getDeviceName());
-                        settings.saveSettings();
+                        mediator.saveSettings();
                         setVisible(false);
                         notifyLookAndFeelChange(lnfw);
                         mediator.checkNetwork();
