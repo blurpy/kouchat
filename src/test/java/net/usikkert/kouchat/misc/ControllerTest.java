@@ -576,6 +576,25 @@ public class ControllerTest {
         verify(messageController).showSystemMessage("You came back");
     }
 
+    @Test
+    public void changeMyNickShouldThrowExceptionIfAway() throws CommandException {
+        expectedException.expect(CommandException.class);
+        expectedException.expectMessage("You can not change nick while away");
+
+        me.setAway(true);
+
+        controller.changeMyNick("nah");
+    }
+
+    @Test
+    public void changeMyNickShouldSendMessageAndChangeNickAndSave() throws CommandException {
+        controller.changeMyNick("kelly");
+
+        verify(messages).sendNickMessage("kelly");
+        verify(controller).changeNick(me.getCode(), "kelly");
+        verify(settings).saveSettings();
+    }
+
     private String createStringOfSize(final int size) {
         final StringBuilder sb = new StringBuilder(size);
 
