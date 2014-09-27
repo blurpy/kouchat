@@ -312,7 +312,7 @@ public class Controller implements NetworkConnectionListener {
 
         messages.sendNickMessage(newNick);
         changeNick(me.getCode(), newNick);
-        settings.saveSettings();
+        saveSettings();
     }
 
     /**

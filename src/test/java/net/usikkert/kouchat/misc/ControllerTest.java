@@ -592,7 +592,7 @@ public class ControllerTest {
 
         verify(messages).sendNickMessage("kelly");
         verify(controller).changeNick(me.getCode(), "kelly");
-        verify(settings).saveSettings();
+        verify(controller).saveSettings();
     }
 
     @Test
