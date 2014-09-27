@@ -595,6 +595,13 @@ public class ControllerTest {
         verify(settings).saveSettings();
     }
 
+    @Test
+    public void saveSettingsShouldUseSettingsSaver() {
+        controller.saveSettings();
+
+        verify(settingsSaver).saveSettings();
+    }
+
     private String createStringOfSize(final int size) {
         final StringBuilder sb = new StringBuilder(size);
 

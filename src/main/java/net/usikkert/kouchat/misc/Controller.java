@@ -326,6 +326,13 @@ public class Controller implements NetworkConnectionListener {
     }
 
     /**
+     * Saves the current settings.
+     */
+    public void saveSettings() {
+        settingsSaver.saveSettings();
+    }
+
+    /**
      * Gets the user with the specified user code.
      *
      * @param code The user code for the user.
