@@ -64,14 +64,22 @@ public class PropertyFileSettingsSaverTest {
 
     @Before
     public void setUp() {
-        settingsSaver = new PropertyFileSettingsSaver(mock(ErrorHandler.class));
-
         settings = new Settings();
+        errorHandler = mock(ErrorHandler.class);
+
+        settingsSaver = new PropertyFileSettingsSaver(settings, errorHandler);
 
         ioTools = TestUtils.setFieldValueWithMock(settingsSaver, "ioTools", IOTools.class);
         propertyTools = TestUtils.setFieldValueWithMock(settingsSaver, "propertyTools", PropertyTools.class);
-        errorHandler = TestUtils.setFieldValueWithMock(settingsSaver, "errorHandler", ErrorHandler.class);
         TestUtils.setFieldValueWithMock(settingsSaver, "LOG", Logger.class); // To avoid log output in tests
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfSettingsIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Settings can not be null");
+
+        new PropertyFileSettingsSaver(null, errorHandler);
     }
 
     @Test
@@ -79,20 +87,12 @@ public class PropertyFileSettingsSaverTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Error handler can not be null");
 
-        new PropertyFileSettingsSaver(null);
-    }
-
-    @Test
-    public void loadSettingsShouldThrowExceptionIfSettingsIsNull() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Settings can not be null");
-
-        settingsSaver.saveSettings(null);
+        new PropertyFileSettingsSaver(settings, null);
     }
 
     @Test
     public void saveSettingsShouldCreateKouChatFolderBeforeSaving() throws IOException {
-        settingsSaver.saveSettings(settings);
+        settingsSaver.saveSettings();
 
         final InOrder inOrder = inOrder(ioTools, propertyTools);
 
@@ -107,14 +107,14 @@ public class PropertyFileSettingsSaverTest {
         doThrow(new IOException("Don't save")).when(propertyTools).saveProperties(
                 anyString(), any(Properties.class), anyString());
 
-        settingsSaver.saveSettings(settings);
+        settingsSaver.saveSettings();
 
         verify(errorHandler).showError("Settings could not be saved:\n java.io.IOException: Don't save");
     }
 
     @Test
     public void saveSettingsShouldNotShowErrorWhenOK() throws IOException {
-        settingsSaver.saveSettings(settings);
+        settingsSaver.saveSettings();
 
         verify(errorHandler, never()).showError(anyString());
     }
@@ -132,7 +132,7 @@ public class PropertyFileSettingsSaverTest {
         settings.setLookAndFeel("starwars");
         settings.setNetworkInterface("wlan2");
 
-        settingsSaver.saveSettings(settings);
+        settingsSaver.saveSettings();
 
         final ArgumentCaptor<Properties> propertiesCaptor = ArgumentCaptor.forClass(Properties.class);
 
@@ -161,7 +161,7 @@ public class PropertyFileSettingsSaverTest {
         settings.setLookAndFeel(null);
         settings.setNetworkInterface(null);
 
-        settingsSaver.saveSettings(settings);
+        settingsSaver.saveSettings();
 
         final ArgumentCaptor<Properties> propertiesCaptor = ArgumentCaptor.forClass(Properties.class);
 

@@ -121,7 +121,7 @@ public class Settings {
      * TODO remove
      */
     public void saveSettings() {
-        new PropertyFileSettingsSaver(ErrorHandler.getErrorHandler()).saveSettings(this);
+        new PropertyFileSettingsSaver(this, ErrorHandler.getErrorHandler()).saveSettings();
     }
 
     /**

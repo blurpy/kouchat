@@ -48,22 +48,22 @@ public class PropertyFileSettingsSaver {
 
     private final IOTools ioTools = new IOTools();
     private final PropertyTools propertyTools = new PropertyTools();
+
+    private final Settings settings;
     private final ErrorHandler errorHandler;
 
-    public PropertyFileSettingsSaver(final ErrorHandler errorHandler) {
+    public PropertyFileSettingsSaver(final Settings settings, final ErrorHandler errorHandler) {
+        Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
 
+        this.settings = settings;
         this.errorHandler = errorHandler;
     }
 
     /**
      * Saves the current settings to file. Creates any missing folders or files.
-     *
-     * @param settings The settings to save to file.
      */
-    public void saveSettings(final Settings settings) {
-        Validate.notNull(settings, "Settings can not be null");
-
+    public void saveSettings() {
         final Properties properties = new Properties();
         final User me = settings.getMe();
 
