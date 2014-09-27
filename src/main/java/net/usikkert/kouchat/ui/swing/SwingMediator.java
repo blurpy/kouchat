@@ -42,6 +42,7 @@ import net.usikkert.kouchat.misc.UserList;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.net.FileTransfer;
+import net.usikkert.kouchat.settings.PropertyFileSettingsSaver;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 import net.usikkert.kouchat.ui.UserInterface;
@@ -115,7 +116,8 @@ public class SwingMediator implements Mediator, UserInterface {
         me = settings.getMe();
 
         msgController = new MessageController(mainP, this, settings, errorHandler);
-        controller = new Controller(this, settings, errorHandler);
+        final PropertyFileSettingsSaver settingsSaver = new PropertyFileSettingsSaver(settings, errorHandler);
+        controller = new Controller(this, settings, settingsSaver, errorHandler);
         cmdParser = new CommandParser(controller, this, settings);
         beeper = new SoundBeeper(settings, new ResourceLoader(), errorHandler);
         jmxAgent = new JMXAgent(controller.createJMXBeanLoader());

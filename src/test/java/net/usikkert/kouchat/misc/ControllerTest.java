@@ -36,6 +36,7 @@ import net.usikkert.kouchat.net.Messages;
 import net.usikkert.kouchat.net.NetworkService;
 import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.settings.SettingsSaver;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 import net.usikkert.kouchat.ui.UserInterface;
 import net.usikkert.kouchat.util.TestUtils;
@@ -66,6 +67,7 @@ public class ControllerTest {
     private MessageController messageController;
     private UserInterface ui;
     private Settings settings;
+    private SettingsSaver settingsSaver;
     private ErrorHandler errorHandler;
 
     private User me;
@@ -74,6 +76,7 @@ public class ControllerTest {
     @Before
     public void setUp() {
         settings = mock(Settings.class);
+        settingsSaver = mock(SettingsSaver.class);
         errorHandler = mock(ErrorHandler.class);
 
         me = new User("TestUser", 123);
@@ -83,7 +86,7 @@ public class ControllerTest {
         messageController = mock(MessageController.class);
         when(ui.getMessageController()).thenReturn(messageController);
 
-        controller = spy(new Controller(ui, settings, errorHandler));
+        controller = spy(new Controller(ui, settings, settingsSaver, errorHandler));
 
         messages = mock(Messages.class);
         TestUtils.setFieldValue(controller, "messages", messages);
@@ -117,7 +120,7 @@ public class ControllerTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("User interface can not be null");
 
-        new Controller(null, settings, errorHandler);
+        new Controller(null, settings, settingsSaver, errorHandler);
     }
 
     @Test
@@ -125,7 +128,15 @@ public class ControllerTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new Controller(ui, null, errorHandler);
+        new Controller(ui, null, settingsSaver, errorHandler);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfSettingsSaverIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Settings saver can not be null");
+
+        new Controller(ui, settings, null, errorHandler);
     }
 
     @Test
@@ -133,7 +144,7 @@ public class ControllerTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Error handler can not be null");
 
-        new Controller(ui, settings, null);
+        new Controller(ui, settings, settingsSaver, null);
     }
 
     @Test
