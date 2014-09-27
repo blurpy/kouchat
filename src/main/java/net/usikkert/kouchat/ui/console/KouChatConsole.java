@@ -22,6 +22,8 @@
 
 package net.usikkert.kouchat.ui.console;
 
+import net.usikkert.kouchat.message.Messages;
+import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.util.Validate;
 
@@ -43,7 +45,9 @@ public class KouChatConsole {
         Validate.notNull(settings, "Settings can not be null");
 
         settings.setClient("Console");
-        consoleMediator = new ConsoleMediator(settings);
+
+        final Messages messages = new PropertyFileMessages("messages.console");
+        consoleMediator = new ConsoleMediator(settings, messages);
     }
 
     /**

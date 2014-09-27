@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import net.usikkert.kouchat.jmx.JMXAgent;
+import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ChatLogger;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
@@ -47,6 +48,7 @@ import org.junit.rules.ExpectedException;
  *
  * @author Christian Ihle
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class ConsoleMediatorTest {
 
     @Rule
@@ -59,10 +61,13 @@ public class ConsoleMediatorTest {
     private ConsoleInput consoleInput;
     private Sleeper sleeper;
     private JMXAgent jmxAgent;
+    private PropertyFileMessages messages;
 
     @Before
     public void setUp() {
-        mediator = new ConsoleMediator(new Settings());
+        messages = new PropertyFileMessages("messages.console");
+
+        mediator = new ConsoleMediator(new Settings(), messages);
 
         msgController = TestUtils.setFieldValueWithMock(mediator, "msgController", MessageController.class);
         controller = TestUtils.setFieldValueWithMock(mediator, "controller", Controller.class);
@@ -76,7 +81,15 @@ public class ConsoleMediatorTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new ConsoleMediator(null);
+        new ConsoleMediator(null, messages);
+    }
+
+    @Test
+    public void constructShouldThrowExceptionIfMessagesIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Messages can not be null");
+
+        new ConsoleMediator(mock(Settings.class), null);
     }
 
     @Test
