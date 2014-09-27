@@ -154,6 +154,16 @@ public class MockMediator implements Mediator {
      * {@inheritDoc}
      */
     @Override
+    public void saveSettings() {
+
+    }
+
+    /**
+     * Not implemented.
+     *
+     * {@inheritDoc}
+     */
+    @Override
     public void showOrHideWindow() {
 
     }

@@ -333,6 +333,14 @@ public class SwingMediator implements Mediator, UserInterface {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void saveSettings() {
+        controller.saveSettings();
+    }
+
+    /**
      * Opens a file chooser, where the user can select a file to send to
      * another user.
      *

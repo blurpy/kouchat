@@ -1228,6 +1228,13 @@ public class SwingMediatorTest {
         verify(privchat3).updateAwayState();
     }
 
+    @Test
+    public void saveSettingsShouldUseController() {
+        mediator.saveSettings();
+
+        verify(controller).saveSettings();
+    }
+
     private Answer<Void> withSetNickNameOnMe() {
         return new Answer<Void>() {
             @Override

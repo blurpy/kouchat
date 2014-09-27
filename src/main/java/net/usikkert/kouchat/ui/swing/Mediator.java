@@ -98,6 +98,11 @@ public interface Mediator {
     void showSettings();
 
     /**
+     * Saves the current settings.
+     */
+    void saveSettings();
+
+    /**
      * Opens a file chooser, where the user can select a file to send to
      * another user.
      *
