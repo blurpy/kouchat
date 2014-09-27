@@ -42,7 +42,7 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class PropertyFileSettingsSaver {
+public class PropertyFileSettingsSaver implements SettingsSaver {
 
     private static final Logger LOG = Logger.getLogger(PropertyFileSettingsSaver.class.getName());
 
@@ -63,6 +63,7 @@ public class PropertyFileSettingsSaver {
     /**
      * Saves the current settings to file. Creates any missing folders or files.
      */
+    @Override
     public void saveSettings() {
         final Properties properties = new Properties();
         final User me = settings.getMe();
