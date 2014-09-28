@@ -22,8 +22,6 @@
 
 package net.usikkert.kouchat.argument;
 
-import java.io.PrintStream;
-
 import net.usikkert.kouchat.Constants;
 
 /**
@@ -34,11 +32,9 @@ import net.usikkert.kouchat.Constants;
 public class ArgumentResponder {
 
     private final ArgumentParser argumentParser;
-    private final PrintStream printStream;
 
-    public ArgumentResponder(final ArgumentParser argumentParser, final PrintStream printStream) {
+    public ArgumentResponder(final ArgumentParser argumentParser) {
         this.argumentParser = argumentParser;
-        this.printStream = printStream;
     }
 
     /**
@@ -56,26 +52,26 @@ public class ArgumentResponder {
      * @return <code>true</code> if startup should continue, <code>false</code> if startup should halt.
      */
     public boolean respond() {
-        printStream.println(Constants.APP_NAME + " v" + Constants.APP_VERSION);
-        printStream.println("By " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL + " - " + Constants.APP_WEB);
+        System.out.println(Constants.APP_NAME + " v" + Constants.APP_VERSION);
+        System.out.println("By " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL + " - " + Constants.APP_WEB);
 
         // No arguments - continue
         if (argumentParser.getNumberOfArguments() == 0) {
-            printStream.println("Use " + Argument.HELP + " for more information");
+            System.out.println("Use " + Argument.HELP + " for more information");
             return true;
         }
 
         // Unknown arguments - halt
         if (argumentParser.getNumberOfUnknownArguments() > 0) {
-            printStream.println("\nUnknown arguments: " + argumentParser.getUnknownArguments() +
+            System.out.println("\nUnknown arguments: " + argumentParser.getUnknownArguments() +
                     ". Use " + Argument.HELP + " for more information");
             return false;
         }
 
         // --help - halt
         if (argumentParser.hasArgument(Argument.HELP)) {
-            printStream.println("\nArguments:");
-            printStream.println(Argument.getArgumentsAsString());
+            System.out.println("\nArguments:");
+            System.out.println(Argument.getArgumentsAsString());
             return false;
         }
 

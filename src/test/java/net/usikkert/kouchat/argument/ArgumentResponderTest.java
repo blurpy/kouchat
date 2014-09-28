@@ -128,6 +128,6 @@ public class ArgumentResponderTest {
     }
 
     private ArgumentResponder createHandlerWithArguments(final String... arguments) {
-        return new ArgumentResponder(new ArgumentParser(arguments), System.out);
+        return new ArgumentResponder(new ArgumentParser(arguments));
     }
 }

@@ -64,7 +64,7 @@ public final class KouChat {
      */
     public static void main(final String[] arguments) {
         final ArgumentParser argumentParser = new ArgumentParser(arguments);
-        final ArgumentResponder argumentResponder = new ArgumentResponder(argumentParser, System.out);
+        final ArgumentResponder argumentResponder = new ArgumentResponder(argumentParser);
 
         if (!argumentResponder.respond()) {
             return;
