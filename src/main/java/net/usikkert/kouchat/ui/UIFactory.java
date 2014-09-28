@@ -45,6 +45,7 @@ public class UIFactory {
     private final ArgumentParser argumentParser;
     private final Settings settings;
     private final UncaughtExceptionLogger uncaughtExceptionLogger;
+    private final ErrorHandler errorHandler;
 
     private boolean done;
 
@@ -57,13 +58,14 @@ public class UIFactory {
      */
     public UIFactory(final ArgumentParser argumentParser, final Settings settings,
                      final UncaughtExceptionLogger uncaughtExceptionLogger) {
-        this.uncaughtExceptionLogger = uncaughtExceptionLogger;
         Validate.notNull(argumentParser, "Argument parser can not be null");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(uncaughtExceptionLogger, "Uncaught exception logger can not be null");
 
         this.argumentParser = argumentParser;
         this.settings = settings;
+        this.uncaughtExceptionLogger = uncaughtExceptionLogger;
+        this.errorHandler = ErrorHandler.getErrorHandler();
     }
 
     /**
@@ -111,7 +113,7 @@ public class UIFactory {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                final KouChatFrame kouChatFrame = new KouChatFrame(settings, uncaughtExceptionLogger, ErrorHandler.getErrorHandler());
+                final KouChatFrame kouChatFrame = new KouChatFrame(settings, uncaughtExceptionLogger, errorHandler);
                 kouChatFrame.start(startMinimized);
             }
         });
@@ -120,7 +122,7 @@ public class UIFactory {
     void loadConsoleUserInterface() {
         System.out.println("\nLoading Console User Interface\n");
 
-        final KouChatConsole kouChatConsole = new KouChatConsole(settings, ErrorHandler.getErrorHandler());
+        final KouChatConsole kouChatConsole = new KouChatConsole(settings, errorHandler);
         kouChatConsole.start();
     }
 }
