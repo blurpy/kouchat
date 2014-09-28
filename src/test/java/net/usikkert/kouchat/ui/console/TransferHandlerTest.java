@@ -26,6 +26,8 @@ import static org.mockito.Mockito.*;
 
 import java.io.File;
 
+import net.usikkert.kouchat.message.Messages;
+import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.FileReceiver;
@@ -42,6 +44,7 @@ import org.junit.rules.ExpectedException;
  *
  * @author Christian Ihle
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class TransferHandlerTest {
 
     @Rule
@@ -51,13 +54,15 @@ public class TransferHandlerTest {
 
     private FileTransfer fileTransfer;
     private MessageController messageController;
+    private Messages messages;
 
     @Before
     public void setUp() {
         fileTransfer = mock(FileSender.class);
         messageController = mock(MessageController.class);
+        messages = new PropertyFileMessages("messages.console");
 
-        transferHandler = new TransferHandler(fileTransfer, messageController);
+        transferHandler = new TransferHandler(fileTransfer, messageController, messages);
     }
 
     @Test
@@ -65,7 +70,7 @@ public class TransferHandlerTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("File transfer can not be null");
 
-        new TransferHandler(null, messageController);
+        new TransferHandler(null, messageController, messages);
     }
 
     @Test
@@ -73,7 +78,15 @@ public class TransferHandlerTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Message controller can not be null");
 
-        new TransferHandler(fileTransfer, null);
+        new TransferHandler(fileTransfer, null, messages);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfMessagesIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Messages can not be null");
+
+        new TransferHandler(fileTransfer, messageController, null);
     }
 
     @Test
@@ -99,7 +112,8 @@ public class TransferHandlerTest {
     @Test
     public void statusTransferringWhenReceivingShouldShowSystemMessage() {
         final FileReceiver fileReceiver = new FileReceiver(new User("Dude", 1234), new File("sunset.jpg"), 100, 1);
-        final TransferHandler fileReceiverTransferHandler = new TransferHandler(fileReceiver, messageController);
+        final TransferHandler fileReceiverTransferHandler =
+                new TransferHandler(fileReceiver, messageController, messages);
 
         fileReceiverTransferHandler.statusTransferring();
 
@@ -109,7 +123,7 @@ public class TransferHandlerTest {
     @Test
     public void statusTransferringWhenSendingShouldDoNothing() {
         final FileSender fileSender = new FileSender(new User("Dude", 1234), new File("sunset.jpg"), 2);
-        final TransferHandler fileSenderTransferHandler = new TransferHandler(fileSender, messageController);
+        final TransferHandler fileSenderTransferHandler = new TransferHandler(fileSender, messageController, messages);
 
         fileSenderTransferHandler.statusTransferring();
 

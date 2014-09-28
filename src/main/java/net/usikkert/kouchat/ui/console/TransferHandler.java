@@ -23,6 +23,7 @@
 package net.usikkert.kouchat.ui.console;
 
 import net.usikkert.kouchat.event.FileTransferListener;
+import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.net.FileTransfer.Direction;
@@ -40,22 +41,25 @@ public class TransferHandler implements FileTransferListener {
     /** The file transfer to handle. */
     private final FileTransfer fileTransfer;
 
-    /** The message controller. */
     private final MessageController msgController;
+    private final Messages messages;
 
     /**
-     * Constructor. Registers this class as a listener of
-     * file transfer events.
+     * Constructor. Registers this class as a listener of file transfer events.
      *
      * @param fileTransfer The file transfer to handle.
      * @param msgController The message controller.
+     * @param messages The messages to use.
      */
-    public TransferHandler(final FileTransfer fileTransfer, final MessageController msgController) {
+    public TransferHandler(final FileTransfer fileTransfer, final MessageController msgController,
+                           final Messages messages) {
         Validate.notNull(fileTransfer, "File transfer can not be null");
         Validate.notNull(msgController, "Message controller can not be null");
+        Validate.notNull(messages, "Messages can not be null");
 
         this.fileTransfer = fileTransfer;
         this.msgController = msgController;
+        this.messages = messages;
 
         fileTransfer.registerListener(this);
     }
