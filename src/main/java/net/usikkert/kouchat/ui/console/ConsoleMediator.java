@@ -46,12 +46,12 @@ public class ConsoleMediator implements UserInterface {
 
     private final Settings settings;
     private final Messages messages;
+    private final ErrorHandler errorHandler;
     private final MessageController msgController;
     private final Controller controller;
     private final JMXAgent jmxAgent;
     private final ConsoleInput consoleInput;
     private final Sleeper sleeper;
-    private final ErrorHandler errorHandler;
 
     /**
      * Constructor.
@@ -60,15 +60,17 @@ public class ConsoleMediator implements UserInterface {
      *
      * @param settings The settings to use.
      * @param messages The messages to use.
+     * @param errorHandler The error handler to use.
      */
-    public ConsoleMediator(final Settings settings, final Messages messages) {
+    public ConsoleMediator(final Settings settings, final Messages messages, final ErrorHandler errorHandler) {
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(errorHandler, "Error handler can not be null");
 
         this.settings = settings;
         this.messages = messages;
+        this.errorHandler = errorHandler;
 
-        errorHandler = ErrorHandler.getErrorHandler();
         final ConsoleChatWindow chat = new ConsoleChatWindow();
         msgController = new MessageController(chat, this, settings, errorHandler);
         final PropertyFileSettingsSaver settingsSaver = new PropertyFileSettingsSaver(settings, errorHandler);

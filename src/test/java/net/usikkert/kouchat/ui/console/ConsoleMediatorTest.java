@@ -29,6 +29,7 @@ import net.usikkert.kouchat.jmx.JMXAgent;
 import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ChatLogger;
 import net.usikkert.kouchat.misc.Controller;
+import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.FileReceiver;
@@ -61,13 +62,17 @@ public class ConsoleMediatorTest {
     private ConsoleInput consoleInput;
     private Sleeper sleeper;
     private JMXAgent jmxAgent;
+    private Settings settings;
     private PropertyFileMessages messages;
+    private ErrorHandler errorHandler;
 
     @Before
     public void setUp() {
+        settings = new Settings();
         messages = new PropertyFileMessages("messages.console");
+        errorHandler = mock(ErrorHandler.class);
 
-        mediator = new ConsoleMediator(new Settings(), messages);
+        mediator = new ConsoleMediator(settings, messages, errorHandler);
 
         msgController = TestUtils.setFieldValueWithMock(mediator, "msgController", MessageController.class);
         controller = TestUtils.setFieldValueWithMock(mediator, "controller", Controller.class);
@@ -81,7 +86,7 @@ public class ConsoleMediatorTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new ConsoleMediator(null, messages);
+        new ConsoleMediator(null, messages, errorHandler);
     }
 
     @Test
@@ -89,7 +94,15 @@ public class ConsoleMediatorTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Messages can not be null");
 
-        new ConsoleMediator(mock(Settings.class), null);
+        new ConsoleMediator(settings, null, errorHandler);
+    }
+
+    @Test
+    public void constructShouldThrowExceptionIfErrorHandlerIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Error handler can not be null");
+
+        new ConsoleMediator(settings, messages, null);
     }
 
     @Test
