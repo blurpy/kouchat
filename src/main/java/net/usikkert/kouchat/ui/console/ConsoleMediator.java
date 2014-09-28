@@ -74,7 +74,7 @@ public class ConsoleMediator implements UserInterface {
         final PropertyFileSettingsSaver settingsSaver = new PropertyFileSettingsSaver(settings, errorHandler);
         controller = new Controller(this, settings, settingsSaver, errorHandler);
         jmxAgent = new JMXAgent(controller.createJMXBeanLoader());
-        consoleInput = new ConsoleInput(controller, this, settings);
+        consoleInput = new ConsoleInput(controller, this, settings, messages);
         sleeper = new Sleeper();
     }
 
