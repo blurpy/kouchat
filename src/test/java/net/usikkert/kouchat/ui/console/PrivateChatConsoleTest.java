@@ -22,6 +22,9 @@
 
 package net.usikkert.kouchat.ui.console;
 
+import static org.mockito.Mockito.*;
+
+import net.usikkert.kouchat.junit.ExpectedSystemOut;
 import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.User;
@@ -41,6 +44,9 @@ public class PrivateChatConsoleTest {
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
+
+    @Rule
+    public ExpectedSystemOut expectedSystemOut = new ExpectedSystemOut();
 
     private PrivateChatConsole privateChat;
 
@@ -69,5 +75,12 @@ public class PrivateChatConsoleTest {
         expectedException.expectMessage("Messages can not be null");
 
         new PrivateChatConsole(user, null);
+    }
+
+    @Test
+    public void appendToPrivateChatShouldPrintPrefixedMessage() {
+        privateChat.appendToPrivateChat("the message", 10);
+
+        verify(System.out).println("(privmsg) the message");
     }
 }
