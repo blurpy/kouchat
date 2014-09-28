@@ -22,8 +22,10 @@
 
 package net.usikkert.kouchat.ui.console;
 
+import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * Very simple console support for private chat sessions.
@@ -32,6 +34,8 @@ import net.usikkert.kouchat.ui.PrivateChatWindow;
  */
 public class PrivateChatConsole implements PrivateChatWindow {
 
+    private final Messages messages;
+
     /** The user in this chat session. */
     private User user;
 
@@ -39,9 +43,14 @@ public class PrivateChatConsole implements PrivateChatWindow {
      * Constructor.
      *
      * @param user The user in this chat session.
+     * @param messages The messages to use.
      */
-    public PrivateChatConsole(final User user) {
+    public PrivateChatConsole(final User user, final Messages messages) {
+        Validate.notNull(user, "User can not be null");
+        Validate.notNull(messages, "Messages can not be null");
+
         this.user = user;
+        this.messages = messages;
     }
 
     /**
