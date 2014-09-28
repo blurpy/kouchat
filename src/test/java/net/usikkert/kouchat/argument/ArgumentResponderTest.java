@@ -25,11 +25,10 @@ package net.usikkert.kouchat.argument;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import java.io.PrintStream;
-
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.junit.ExpectedSystemOut;
 
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -37,14 +36,11 @@ import org.junit.Test;
  *
  * @author Christian Ihle
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class ArgumentResponderTest {
 
-    private PrintStream printStream;
-
-    @Before
-    public void setUp() {
-        printStream = mock(PrintStream.class);
-    }
+    @Rule
+    public ExpectedSystemOut expectedSystemOut = new ExpectedSystemOut();
 
     @Test
     public void respondWithNoArgumentsShouldReturnTrueAndPrintDetailsAboutHelp() {
@@ -52,10 +48,10 @@ public class ArgumentResponderTest {
 
         assertTrue(handler.respond());
 
-        verify(printStream).println("KouChat v" + Constants.APP_VERSION);
-        verify(printStream).println("By Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
-        verify(printStream).println("Use --help for more information");
-        verifyNoMoreInteractions(printStream);
+        verify(System.out).println("KouChat v" + Constants.APP_VERSION);
+        verify(System.out).println("By Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
+        verify(System.out).println("Use --help for more information");
+        verifyNoMoreInteractions(System.out);
     }
 
     @Test
@@ -65,9 +61,9 @@ public class ArgumentResponderTest {
 
         assertTrue(handler.respond());
 
-        verify(printStream).println("KouChat v" + Constants.APP_VERSION);
-        verify(printStream).println("By Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
-        verifyNoMoreInteractions(printStream);
+        verify(System.out).println("KouChat v" + Constants.APP_VERSION);
+        verify(System.out).println("By Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
+        verifyNoMoreInteractions(System.out);
     }
 
     @Test
@@ -76,9 +72,9 @@ public class ArgumentResponderTest {
 
         assertFalse(handler.respond());
 
-        verify(printStream).println("KouChat v" + Constants.APP_VERSION);
-        verify(printStream).println("By Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
-        verifyNoMoreInteractions(printStream);
+        verify(System.out).println("KouChat v" + Constants.APP_VERSION);
+        verify(System.out).println("By Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
+        verifyNoMoreInteractions(System.out);
     }
 
     @Test
@@ -87,11 +83,11 @@ public class ArgumentResponderTest {
 
         assertFalse(handler.respond());
 
-        verify(printStream).println("KouChat v" + Constants.APP_VERSION);
-        verify(printStream).println("By Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
-        verify(printStream).println("\nArguments:");
-        verify(printStream).println(Argument.getArgumentsAsString());
-        verifyNoMoreInteractions(printStream);
+        verify(System.out).println("KouChat v" + Constants.APP_VERSION);
+        verify(System.out).println("By Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
+        verify(System.out).println("\nArguments:");
+        verify(System.out).println(Argument.getArgumentsAsString());
+        verifyNoMoreInteractions(System.out);
     }
 
     @Test
@@ -100,11 +96,11 @@ public class ArgumentResponderTest {
 
         assertFalse(handler.respond());
 
-        verify(printStream).println("KouChat v" + Constants.APP_VERSION);
-        verify(printStream).println("By Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
-        verify(printStream).println("\nArguments:");
-        verify(printStream).println(Argument.getArgumentsAsString());
-        verifyNoMoreInteractions(printStream);
+        verify(System.out).println("KouChat v" + Constants.APP_VERSION);
+        verify(System.out).println("By Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
+        verify(System.out).println("\nArguments:");
+        verify(System.out).println(Argument.getArgumentsAsString());
+        verifyNoMoreInteractions(System.out);
     }
 
     @Test
@@ -113,10 +109,10 @@ public class ArgumentResponderTest {
 
         assertFalse(handler.respond());
 
-        verify(printStream).println("KouChat v" + Constants.APP_VERSION);
-        verify(printStream).println("By Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
-        verify(printStream).println("\nUnknown arguments: [--something, -w]. Use --help for more information");
-        verifyNoMoreInteractions(printStream);
+        verify(System.out).println("KouChat v" + Constants.APP_VERSION);
+        verify(System.out).println("By Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
+        verify(System.out).println("\nUnknown arguments: [--something, -w]. Use --help for more information");
+        verifyNoMoreInteractions(System.out);
     }
 
     @Test
@@ -125,13 +121,13 @@ public class ArgumentResponderTest {
 
         assertFalse(handler.respond());
 
-        verify(printStream).println("KouChat v" + Constants.APP_VERSION);
-        verify(printStream).println("By Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
-        verify(printStream).println("\nUnknown arguments: [--wrong]. Use --help for more information");
-        verifyNoMoreInteractions(printStream);
+        verify(System.out).println("KouChat v" + Constants.APP_VERSION);
+        verify(System.out).println("By Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
+        verify(System.out).println("\nUnknown arguments: [--wrong]. Use --help for more information");
+        verifyNoMoreInteractions(System.out);
     }
 
     private ArgumentResponder createHandlerWithArguments(final String... arguments) {
-        return new ArgumentResponder(new ArgumentParser(arguments), printStream);
+        return new ArgumentResponder(new ArgumentParser(arguments), System.out);
     }
 }
