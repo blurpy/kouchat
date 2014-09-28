@@ -25,8 +25,8 @@ package net.usikkert.kouchat.ui.console;
 import static org.mockito.Mockito.*;
 
 import java.io.BufferedReader;
-import java.io.PrintStream;
 
+import net.usikkert.kouchat.junit.ExpectedSystemOut;
 import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.Controller;
@@ -34,7 +34,6 @@ import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.UserInterface;
 import net.usikkert.kouchat.util.TestUtils;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -55,15 +54,15 @@ public class ConsoleInputTest {
     @Rule
     public final ExpectedSystemExit expectedSystemExit = ExpectedSystemExit.none();
 
+    @Rule
+    public ExpectedSystemOut expectedSystemOut = new ExpectedSystemOut();
+
     private ConsoleInput consoleInput;
 
     private Controller controller;
     private UserInterface ui;
     private Settings settings;
     private Messages messages;
-
-    private PrintStream originalSystemOut;
-    private PrintStream systemOutMock;
 
     @Before
     public void setUp() {
@@ -74,16 +73,7 @@ public class ConsoleInputTest {
 
         consoleInput = new ConsoleInput(controller, ui, settings, messages);
 
-        originalSystemOut = System.out;
-        systemOutMock = mock(PrintStream.class);
-        System.setOut(systemOutMock);
-
         TestUtils.setFieldValueWithMock(consoleInput, "stdin", BufferedReader.class);
-    }
-
-    @After
-    public void tearDown() {
-        System.setOut(originalSystemOut);
     }
 
     @Test
@@ -122,10 +112,10 @@ public class ConsoleInputTest {
     public void constructorShouldCreateShutdownHookThatPrintsQuitMessages() {
         final Thread shutdownHook = TestUtils.getFieldValue(consoleInput, Thread.class, "shutdownHook");
 
-        verifyZeroInteractions(systemOutMock);
+        verifyZeroInteractions(System.out);
 
         shutdownHook.run();
 
-        verify(systemOutMock).println("Quitting - good bye!");
+        verify(System.out).println("Quitting - good bye!");
     }
 }
