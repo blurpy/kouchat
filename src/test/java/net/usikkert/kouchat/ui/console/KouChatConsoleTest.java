@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.util.TestUtils;
 
@@ -47,12 +48,16 @@ public class KouChatConsoleTest {
     private KouChatConsole kouChatConsole;
 
     private Settings settings;
+    private ErrorHandler errorHandler;
     private ConsoleMediator consoleMediator;
 
     @Before
     public void setUp() {
         settings = new Settings();
-        kouChatConsole = new KouChatConsole(settings);
+        errorHandler = mock(ErrorHandler.class);
+
+        kouChatConsole = new KouChatConsole(settings, errorHandler);
+
         consoleMediator = TestUtils.setFieldValueWithMock(kouChatConsole, "consoleMediator", ConsoleMediator.class);
     }
 
@@ -61,7 +66,15 @@ public class KouChatConsoleTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new KouChatConsole(null);
+        new KouChatConsole(null, errorHandler);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfErrorHandlerIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Error handler can not be null");
+
+        new KouChatConsole(settings, null);
     }
 
     @Test

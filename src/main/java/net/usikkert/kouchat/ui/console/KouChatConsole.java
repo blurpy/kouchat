@@ -41,14 +41,16 @@ public class KouChatConsole {
      * Constructor.
      *
      * @param settings The settings to use for this application.
+     * @param errorHandler The error handler to use for this application.
      */
-    public KouChatConsole(final Settings settings) {
+    public KouChatConsole(final Settings settings, final ErrorHandler errorHandler) {
         Validate.notNull(settings, "Settings can not be null");
+        Validate.notNull(errorHandler, "Error handler can not be null");
 
         settings.setClient("Console");
 
         final Messages messages = new PropertyFileMessages("messages.console");
-        consoleMediator = new ConsoleMediator(settings, messages, ErrorHandler.getErrorHandler());
+        consoleMediator = new ConsoleMediator(settings, messages, errorHandler);
     }
 
     /**
