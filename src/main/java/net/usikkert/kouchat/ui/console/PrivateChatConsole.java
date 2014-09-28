@@ -62,7 +62,7 @@ public class PrivateChatConsole implements PrivateChatWindow {
      */
     @Override
     public void appendToPrivateChat(final String message, final int color) {
-        System.out.println("(privmsg) " + message);
+        System.out.println(messages.getMessage("console.privateChat.messageFormat", message));
     }
 
     /**

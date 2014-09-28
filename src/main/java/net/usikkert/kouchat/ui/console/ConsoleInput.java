@@ -77,7 +77,7 @@ public class ConsoleInput extends Thread {
         shutdownHook = new Thread("ConsoleInputShutdownHook") {
             @Override
             public void run() {
-                System.out.println("Quitting - good bye!");
+                System.out.println(messages.getMessage("console.quit.message"));
             }
         };
     }

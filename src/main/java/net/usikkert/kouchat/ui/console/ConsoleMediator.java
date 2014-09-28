@@ -97,7 +97,7 @@ public class ConsoleMediator implements UserInterface {
      */
     @Override
     public boolean askFileSave(final String user, final String fileName, final String size) {
-        msgController.showSystemMessage("/receive or /reject the file");
+        msgController.showSystemMessage(messages.getMessage("console.receiveFile.askToReceive.systemMessage"));
         return true;
     }
 
@@ -118,7 +118,7 @@ public class ConsoleMediator implements UserInterface {
      */
     @Override
     public void clearChat() {
-        msgController.showSystemMessage("Clear chat is not supported in console mode");
+        msgController.showSystemMessage(messages.getMessage("console.clearChat.systemMessage"));
     }
 
     /**
