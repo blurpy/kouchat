@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.usikkert.kouchat.event.ErrorListener;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * This is a class for reporting errors to listeners.
@@ -71,6 +72,8 @@ public class ErrorHandler {
      * @param listener The class to add as a listener.
      */
     public void addErrorListener(final ErrorListener listener) {
+        Validate.notNull(listener, "Error listener can not be null");
+
         listeners.add(listener);
     }
 
@@ -80,6 +83,8 @@ public class ErrorHandler {
      * @param listener The class to remove as a listener.
      */
     public void removeErrorListener(final ErrorListener listener) {
+        Validate.notNull(listener, "Error listener can not be null");
+
         listeners.remove(listener);
     }
 }
