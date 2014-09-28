@@ -28,33 +28,19 @@ import java.util.List;
 import net.usikkert.kouchat.event.ErrorListener;
 
 /**
- * This is a singleton class for reporting errors to listeners.
- * These errors will be shown to the user of the application.
+ * This is a class for reporting errors to listeners.
+ *
+ * <p>These errors will be shown to the user of the application.</p>
  *
  * @author Christian Ihle
  */
 public class ErrorHandler {
 
-    /** The single instance of this class. */
-    private static final ErrorHandler INSTANCE = new ErrorHandler(); // TODO remove singleton
-
     /** The error listeners. */
     private final List<ErrorListener> listeners;
 
-    /**
-     * Private constructor.
-     */
-    private ErrorHandler() {
+    public ErrorHandler() {
         listeners = new ArrayList<ErrorListener>();
-    }
-
-    /**
-     * Will return the only instance of this class.
-     *
-     * @return The only instance of ErrorHandler.
-     */
-    public static ErrorHandler getErrorHandler() {
-        return INSTANCE;
     }
 
     /**

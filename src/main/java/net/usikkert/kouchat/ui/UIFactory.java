@@ -65,7 +65,7 @@ public class UIFactory {
         this.argumentParser = argumentParser;
         this.settings = settings;
         this.uncaughtExceptionLogger = uncaughtExceptionLogger;
-        this.errorHandler = ErrorHandler.getErrorHandler();
+        this.errorHandler = new ErrorHandler();
     }
 
     /**
