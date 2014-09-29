@@ -80,7 +80,8 @@ public class PropertyToolsTest {
     @Test
     public void loadPropertiesShouldThrowExceptionIfFileNotFound() throws IOException {
         expectedException.expect(FileNotFoundException.class);
-        expectedException.expectMessage("unknown.properties (No such file or directory)");
+        // Linux: (No such file or directory) || Windows: (The system cannot find the file specified)
+        expectedException.expectMessage("unknown.properties (");
 
         propertyTools.loadProperties("unknown.properties");
     }
@@ -146,7 +147,8 @@ public class PropertyToolsTest {
     @Test
     public void savePropertiesShouldThrowExceptionIfFileCouldNotBeSaved() throws IOException {
         expectedException.expect(FileNotFoundException.class);
-        expectedException.expectMessage("(Is a directory)");
+        // Linux: (Is a directory) || Windows: (Access is denied)
+        expectedException.expectMessage("test-classes (");
 
         final File filePath = getPathTo("");
 
