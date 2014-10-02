@@ -27,8 +27,6 @@ import static org.mockito.Mockito.*;
 import java.io.BufferedReader;
 
 import net.usikkert.kouchat.junit.ExpectedSystemOut;
-import net.usikkert.kouchat.message.Messages;
-import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.UserInterface;
@@ -62,14 +60,14 @@ public class ConsoleInputTest {
     private Controller controller;
     private UserInterface ui;
     private Settings settings;
-    private Messages messages;
+    private ConsoleMessages messages;
 
     @Before
     public void setUp() {
         controller = mock(Controller.class);
         ui = mock(UserInterface.class);
         settings = mock(Settings.class);
-        messages = new PropertyFileMessages("messages.console");
+        messages = new ConsoleMessages();
 
         consoleInput = new ConsoleInput(controller, ui, settings, messages);
 
@@ -101,9 +99,9 @@ public class ConsoleInputTest {
     }
 
     @Test
-    public void constructorShouldThrowExceptionIfMessagesIsNull() {
+    public void constructorShouldThrowExceptionIfConsoleMessagesIsNull() {
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Messages can not be null");
+        expectedException.expectMessage("Console messages can not be null");
 
         new ConsoleInput(controller, ui, settings, null);
     }

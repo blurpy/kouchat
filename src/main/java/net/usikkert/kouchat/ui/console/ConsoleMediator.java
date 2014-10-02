@@ -23,7 +23,6 @@
 package net.usikkert.kouchat.ui.console;
 
 import net.usikkert.kouchat.jmx.JMXAgent;
-import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.ChatLogger;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.ErrorHandler;
@@ -45,7 +44,7 @@ import net.usikkert.kouchat.util.Validate;
 public class ConsoleMediator implements UserInterface {
 
     private final Settings settings;
-    private final Messages messages;
+    private final ConsoleMessages consoleMessages;
     private final ErrorHandler errorHandler;
     private final MessageController msgController;
     private final Controller controller;
@@ -59,16 +58,17 @@ public class ConsoleMediator implements UserInterface {
      * <p>Initializes the lower layers.</p>
      *
      * @param settings The settings to use.
-     * @param messages The messages to use.
+     * @param consoleMessages The messages to use for the console ui.
      * @param errorHandler The error handler to use.
      */
-    public ConsoleMediator(final Settings settings, final Messages messages, final ErrorHandler errorHandler) {
+    public ConsoleMediator(final Settings settings, final ConsoleMessages consoleMessages,
+                           final ErrorHandler errorHandler) {
         Validate.notNull(settings, "Settings can not be null");
-        Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(consoleMessages, "Console messages can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
 
         this.settings = settings;
-        this.messages = messages;
+        this.consoleMessages = consoleMessages;
         this.errorHandler = errorHandler;
 
         final ConsoleChatWindow chat = new ConsoleChatWindow();
@@ -76,7 +76,7 @@ public class ConsoleMediator implements UserInterface {
         final PropertyFileSettingsSaver settingsSaver = new PropertyFileSettingsSaver(settings, errorHandler);
         controller = new Controller(this, settings, settingsSaver, errorHandler);
         jmxAgent = new JMXAgent(controller.createJMXBeanLoader());
-        consoleInput = new ConsoleInput(controller, this, settings, messages);
+        consoleInput = new ConsoleInput(controller, this, settings, consoleMessages);
         sleeper = new Sleeper();
     }
 
@@ -97,7 +97,7 @@ public class ConsoleMediator implements UserInterface {
      */
     @Override
     public boolean askFileSave(final String user, final String fileName, final String size) {
-        msgController.showSystemMessage(messages.getMessage("console.receiveFile.askToReceive.systemMessage"));
+        msgController.showSystemMessage(consoleMessages.getMessage("console.receiveFile.askToReceive.systemMessage"));
         return true;
     }
 
@@ -118,7 +118,7 @@ public class ConsoleMediator implements UserInterface {
      */
     @Override
     public void clearChat() {
-        msgController.showSystemMessage(messages.getMessage("console.clearChat.systemMessage"));
+        msgController.showSystemMessage(consoleMessages.getMessage("console.clearChat.systemMessage"));
     }
 
     /**
@@ -150,7 +150,7 @@ public class ConsoleMediator implements UserInterface {
      */
     @Override
     public void showTransfer(final FileReceiver fileRes) {
-        new TransferHandler(fileRes, msgController, messages);
+        new TransferHandler(fileRes, msgController, consoleMessages);
     }
 
     /**
@@ -160,7 +160,7 @@ public class ConsoleMediator implements UserInterface {
      */
     @Override
     public void showTransfer(final FileSender fileSend) {
-        new TransferHandler(fileSend, msgController, messages);
+        new TransferHandler(fileSend, msgController, consoleMessages);
     }
 
     /**
@@ -191,7 +191,7 @@ public class ConsoleMediator implements UserInterface {
     @Override
     public void createPrivChat(final User user) {
         if (user.getPrivchat() == null) {
-            user.setPrivchat(new PrivateChatConsole(user, messages));
+            user.setPrivchat(new PrivateChatConsole(user, consoleMessages));
         }
 
         if (user.getPrivateChatLogger() == null) {

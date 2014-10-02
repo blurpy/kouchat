@@ -26,8 +26,6 @@ import static org.mockito.Mockito.*;
 
 import java.io.File;
 
-import net.usikkert.kouchat.message.Messages;
-import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.FileReceiver;
@@ -54,13 +52,13 @@ public class TransferHandlerTest {
 
     private FileTransfer fileTransfer;
     private MessageController messageController;
-    private Messages messages;
+    private ConsoleMessages messages;
 
     @Before
     public void setUp() {
         fileTransfer = mock(FileSender.class);
         messageController = mock(MessageController.class);
-        messages = new PropertyFileMessages("messages.console");
+        messages = new ConsoleMessages();
 
         transferHandler = new TransferHandler(fileTransfer, messageController, messages);
     }
@@ -82,9 +80,9 @@ public class TransferHandlerTest {
     }
 
     @Test
-    public void constructorShouldThrowExceptionIfMessagesIsNull() {
+    public void constructorShouldThrowExceptionIfConsoleMessagesIsNull() {
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Messages can not be null");
+        expectedException.expectMessage("Console messages can not be null");
 
         new TransferHandler(fileTransfer, messageController, null);
     }

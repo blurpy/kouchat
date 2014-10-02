@@ -26,7 +26,6 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import net.usikkert.kouchat.jmx.JMXAgent;
-import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ChatLogger;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.ErrorHandler;
@@ -63,13 +62,13 @@ public class ConsoleMediatorTest {
     private Sleeper sleeper;
     private JMXAgent jmxAgent;
     private Settings settings;
-    private PropertyFileMessages messages;
+    private ConsoleMessages messages;
     private ErrorHandler errorHandler;
 
     @Before
     public void setUp() {
         settings = new Settings();
-        messages = new PropertyFileMessages("messages.console");
+        messages = new ConsoleMessages();
         errorHandler = mock(ErrorHandler.class);
 
         mediator = new ConsoleMediator(settings, messages, errorHandler);
@@ -90,9 +89,9 @@ public class ConsoleMediatorTest {
     }
 
     @Test
-    public void constructShouldThrowExceptionIfMessagesIsNull() {
+    public void constructShouldThrowExceptionIfConsoleMessagesIsNull() {
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Messages can not be null");
+        expectedException.expectMessage("Console messages can not be null");
 
         new ConsoleMediator(settings, null, errorHandler);
     }

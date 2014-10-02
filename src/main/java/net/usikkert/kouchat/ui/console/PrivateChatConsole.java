@@ -22,7 +22,6 @@
 
 package net.usikkert.kouchat.ui.console;
 
-import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 import net.usikkert.kouchat.util.Validate;
@@ -34,7 +33,7 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class PrivateChatConsole implements PrivateChatWindow {
 
-    private final Messages messages;
+    private final ConsoleMessages consoleMessages;
 
     /** The user in this chat session. */
     private User user;
@@ -43,14 +42,14 @@ public class PrivateChatConsole implements PrivateChatWindow {
      * Constructor.
      *
      * @param user The user in this chat session.
-     * @param messages The messages to use.
+     * @param consoleMessages The messages to use for the console ui.
      */
-    public PrivateChatConsole(final User user, final Messages messages) {
+    public PrivateChatConsole(final User user, final ConsoleMessages consoleMessages) {
         Validate.notNull(user, "User can not be null");
-        Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(consoleMessages, "Console messages can not be null");
 
         this.user = user;
-        this.messages = messages;
+        this.consoleMessages = consoleMessages;
     }
 
     /**
@@ -62,7 +61,7 @@ public class PrivateChatConsole implements PrivateChatWindow {
      */
     @Override
     public void appendToPrivateChat(final String message, final int color) {
-        System.out.println(messages.getMessage("console.privateChat.messageFormat", message));
+        System.out.println(consoleMessages.getMessage("console.privateChat.messageFormat", message));
     }
 
     /**

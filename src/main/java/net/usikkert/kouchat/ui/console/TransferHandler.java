@@ -23,7 +23,6 @@
 package net.usikkert.kouchat.ui.console;
 
 import net.usikkert.kouchat.event.FileTransferListener;
-import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.net.FileTransfer.Direction;
@@ -42,24 +41,24 @@ public class TransferHandler implements FileTransferListener {
     private final FileTransfer fileTransfer;
 
     private final MessageController msgController;
-    private final Messages messages;
+    private final ConsoleMessages consoleMessages;
 
     /**
      * Constructor. Registers this class as a listener of file transfer events.
      *
      * @param fileTransfer The file transfer to handle.
      * @param msgController The message controller.
-     * @param messages The messages to use.
+     * @param consoleMessages The messages to use for the console ui.
      */
     public TransferHandler(final FileTransfer fileTransfer, final MessageController msgController,
-                           final Messages messages) {
+                           final ConsoleMessages consoleMessages) {
         Validate.notNull(fileTransfer, "File transfer can not be null");
         Validate.notNull(msgController, "Message controller can not be null");
-        Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(consoleMessages, "Console messages can not be null");
 
         this.fileTransfer = fileTransfer;
         this.msgController = msgController;
-        this.messages = messages;
+        this.consoleMessages = consoleMessages;
 
         fileTransfer.registerListener(this);
     }
@@ -96,9 +95,9 @@ public class TransferHandler implements FileTransferListener {
     @Override
     public void statusTransferring() {
         if (fileTransfer.getDirection() == Direction.RECEIVE) {
-            msgController.showSystemMessage(messages.getMessage("console.receiveFile.receiving.systemMessage",
-                                                                fileTransfer.getFile().getName(),
-                                                                fileTransfer.getUser().getNick()));
+            msgController.showSystemMessage(consoleMessages.getMessage("console.receiveFile.receiving.systemMessage",
+                                                                       fileTransfer.getFile().getName(),
+                                                                       fileTransfer.getUser().getNick()));
         }
     }
 

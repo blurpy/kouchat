@@ -28,7 +28,6 @@ import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.CommandParser;
 import net.usikkert.kouchat.misc.Controller;
@@ -58,14 +57,14 @@ public class ConsoleInput extends Thread {
      * @param controller The controller to use.
      * @param ui The user interface to send messages to.
      * @param settings The settings to use.
-     * @param messages The messages to use.
+     * @param consoleMessages The messages to use for the console ui.
      */
     public ConsoleInput(final Controller controller, final UserInterface ui, final Settings settings,
-                        final Messages messages) {
+                        final ConsoleMessages consoleMessages) {
         Validate.notNull(controller, "Controller can not be null");
         Validate.notNull(ui, "UserInterface can not be null");
         Validate.notNull(settings, "Settings can not be null");
-        Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(consoleMessages, "Console messages can not be null");
 
         this.controller = controller;
 
@@ -77,7 +76,7 @@ public class ConsoleInput extends Thread {
         shutdownHook = new Thread("ConsoleInputShutdownHook") {
             @Override
             public void run() {
-                System.out.println(messages.getMessage("console.quit.message"));
+                System.out.println(consoleMessages.getMessage("console.quit.message"));
             }
         };
     }
