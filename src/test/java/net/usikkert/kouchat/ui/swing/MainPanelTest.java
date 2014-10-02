@@ -24,9 +24,9 @@ package net.usikkert.kouchat.ui.swing;
 
 import static org.mockito.Mockito.*;
 
-import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -46,7 +46,7 @@ public class MainPanelTest {
     private SidePanel sidePanel;
     private ImageLoader imageLoader;
     private Settings settings;
-    private Messages messages;
+    private SwingMessages messages;
     private ErrorHandler errorHandler;
 
     @Before
@@ -54,7 +54,7 @@ public class MainPanelTest {
         sidePanel = mock(SidePanel.class);
         imageLoader = mock(ImageLoader.class);
         settings = mock(Settings.class);
-        messages = mock(Messages.class);
+        messages = mock(SwingMessages.class);
         errorHandler = mock(ErrorHandler.class);
     }
 

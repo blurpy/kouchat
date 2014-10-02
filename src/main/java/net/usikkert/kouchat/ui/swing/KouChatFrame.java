@@ -46,11 +46,10 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.WindowConstants;
 
 import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.message.Messages;
-import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.ui.swing.settings.SettingsDialog;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
@@ -112,7 +111,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
         settings.setClient("Swing");
         me = settings.getMe();
 
-        final Messages messages = new PropertyFileMessages("messages.swing");
+        final SwingMessages messages = new SwingMessages();
 
         setLookAndFeel();
         errorHandler.addErrorListener(new SwingPopupErrorHandler(messages));

@@ -23,7 +23,7 @@
 package net.usikkert.kouchat.ui.swing;
 
 import net.usikkert.kouchat.event.ErrorListener;
-import net.usikkert.kouchat.message.Messages;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -36,9 +36,9 @@ public class SwingPopupErrorHandler implements ErrorListener {
 
     private final UITools uiTools = new UITools();
 
-    private final Messages messages;
+    private final SwingMessages messages;
 
-    public SwingPopupErrorHandler(final Messages messages) {
+    public SwingPopupErrorHandler(final SwingMessages messages) {
         Validate.notNull(messages, "Messages can not be null");
 
         this.messages = messages;

@@ -30,11 +30,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JTextField;
 
-import net.usikkert.kouchat.message.Messages;
-import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
 import net.usikkert.kouchat.util.TestUtils;
@@ -68,7 +67,7 @@ public class PrivateChatFrameTest {
     private UITools uiTools;
     private Mediator mediator;
     private ErrorHandler errorHandler;
-    private Messages messages;
+    private SwingMessages messages;
     private ImageLoader imageLoader;
     private Settings settings;
 
@@ -78,7 +77,7 @@ public class PrivateChatFrameTest {
         me = new User("Me", 1235);
 
         errorHandler = mock(ErrorHandler.class);
-        messages = new PropertyFileMessages("messages.swing");
+        messages = new SwingMessages();
         imageLoader = new ImageLoader(errorHandler, messages, new ResourceValidator(), new ResourceLoader());
 
         settings = mock(Settings.class);

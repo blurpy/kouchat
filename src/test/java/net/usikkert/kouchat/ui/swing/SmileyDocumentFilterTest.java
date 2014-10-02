@@ -27,9 +27,9 @@ import static org.mockito.Mockito.*;
 
 import javax.swing.ImageIcon;
 
-import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
 
@@ -49,8 +49,9 @@ public class SmileyDocumentFilterTest {
      * Constructor.
      */
     public SmileyDocumentFilterTest() {
-        final ImageLoader imageLoader =
-                new ImageLoader(mock(ErrorHandler.class), mock(Messages.class), new ResourceValidator(), new ResourceLoader());
+        final ImageLoader imageLoader = new ImageLoader(mock(ErrorHandler.class), mock(SwingMessages.class),
+                                                        new ResourceValidator(), new ResourceLoader());
+
         filter = new SmileyDocumentFilter(true, imageLoader, mock(Settings.class));
     }
 

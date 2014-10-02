@@ -24,8 +24,8 @@ package net.usikkert.kouchat.ui.swing;
 
 import static org.mockito.Mockito.*;
 
-import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
 
@@ -42,8 +42,9 @@ public class MessageDialogIntegrationTest {
     @Test
     @Ignore("Run manually")
     public void showMessageDialog() {
-        final PropertyFileMessages messages = new PropertyFileMessages("messages.swing");
-        final ImageLoader imageLoader = new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
+        final SwingMessages messages = new SwingMessages();
+        final ImageLoader imageLoader = new ImageLoader(mock(ErrorHandler.class), messages,
+                                                        new ResourceValidator(), new ResourceLoader());
 
         final MessageDialog messageDialog = new MessageDialog(imageLoader, messages);
 

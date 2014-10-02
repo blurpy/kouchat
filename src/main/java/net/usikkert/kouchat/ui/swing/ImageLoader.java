@@ -29,8 +29,8 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.ErrorHandler;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
 import net.usikkert.kouchat.util.Validate;
@@ -48,7 +48,7 @@ public class ImageLoader {
     private static final Logger LOG = Logger.getLogger(ImageLoader.class.getName());
 
     private final ErrorHandler errorHandler;
-    private final Messages messages;
+    private final SwingMessages messages;
     private final ResourceValidator resourceValidator;
     private final ResourceLoader resourceLoader;
 
@@ -147,7 +147,7 @@ public class ImageLoader {
      * @param resourceValidator Validator that verifies that all the images are found.
      * @param resourceLoader Resource loader for the images.
      */
-    public ImageLoader(final ErrorHandler errorHandler, final Messages messages,
+    public ImageLoader(final ErrorHandler errorHandler, final SwingMessages messages,
                        final ResourceValidator resourceValidator, final ResourceLoader resourceLoader) {
         Validate.notNull(errorHandler, "Error handler can not be null");
         Validate.notNull(messages, "Messages can not be null");

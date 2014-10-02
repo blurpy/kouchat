@@ -29,11 +29,10 @@ import java.util.Date;
 
 import javax.swing.JMenuItem;
 
-import net.usikkert.kouchat.message.Messages;
-import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.SortedUserList;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.TestUtils;
 
 import org.joda.time.LocalDateTime;
@@ -57,7 +56,7 @@ public class SidePanelTest {
 
     private Mediator mediator;
     private UITools uiTools;
-    private Messages messages;
+    private SwingMessages messages;
 
     private JMenuItem infoMenuItem;
     private JMenuItem sendfileMenuItem;
@@ -69,7 +68,7 @@ public class SidePanelTest {
 
     @Before
     public void setUp() {
-        messages = new PropertyFileMessages("messages.swing");
+        messages = new SwingMessages();
 
         sidePanel = new SidePanel(new ButtonPanel(messages), mock(ImageLoader.class), mock(Settings.class), messages);
 

@@ -40,8 +40,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -68,7 +68,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
 
     private final ImageLoader imageLoader;
 
-    private final Messages messages;
+    private final SwingMessages messages;
 
     /** The icon in the system tray. */
     private TrayIcon trayIcon;
@@ -92,7 +92,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      * @param settings The settings to use.
      * @param messages The messages to use in the system tray.
      */
-    public SysTray(final ImageLoader imageLoader, final Settings settings, final Messages messages) {
+    public SysTray(final ImageLoader imageLoader, final Settings settings, final SwingMessages messages) {
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(messages, "Messages can not be null");

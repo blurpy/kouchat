@@ -24,7 +24,7 @@ package net.usikkert.kouchat.ui.swing;
 
 import static org.mockito.Mockito.*;
 
-import net.usikkert.kouchat.message.PropertyFileMessages;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.Before;
@@ -35,6 +35,7 @@ import org.junit.Test;
  *
  * @author Christian Ihle
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class SwingPopupErrorHandlerTest {
 
     private SwingPopupErrorHandler errorHandler;
@@ -42,7 +43,7 @@ public class SwingPopupErrorHandlerTest {
 
     @Before
     public void setUp() {
-        errorHandler = new SwingPopupErrorHandler(new PropertyFileMessages("messages.swing"));
+        errorHandler = new SwingPopupErrorHandler(new SwingMessages());
         uiTools = TestUtils.setFieldValueWithMock(errorHandler, "uiTools", UITools.class);
     }
 

@@ -32,8 +32,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import net.usikkert.kouchat.jmx.JMXAgent;
-import net.usikkert.kouchat.message.Messages;
-import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.CommandParser;
 import net.usikkert.kouchat.misc.Controller;
@@ -47,6 +45,7 @@ import net.usikkert.kouchat.misc.UserList;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.ui.swing.settings.SettingsDialog;
 import net.usikkert.kouchat.util.TestUtils;
 
@@ -92,7 +91,7 @@ public class SwingMediatorTest {
     private ButtonPanel buttonP;
     private UserList userList;
     private ErrorHandler errorHandler;
-    private Messages messages;
+    private SwingMessages messages;
     private ImageLoader imageLoader;
     private Settings settings;
 
@@ -126,7 +125,7 @@ public class SwingMediatorTest {
         settings = mock(Settings.class);
         when(settings.getMe()).thenReturn(me);
 
-        messages = new PropertyFileMessages("messages.swing");
+        messages = new SwingMessages();
         errorHandler = mock(ErrorHandler.class);
         imageLoader = mock(ImageLoader.class);
 

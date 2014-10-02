@@ -35,10 +35,9 @@ import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 
 import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.message.Messages;
-import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.Before;
@@ -82,7 +81,7 @@ public class MenuBarTest {
     @Before
     public void setUp() {
         menuBar = new MenuBar(mock(ImageLoader.class), mock(Settings.class),
-                new PropertyFileMessages("messages.swing"), mock(ErrorHandler.class));
+                              new SwingMessages(), mock(ErrorHandler.class));
 
         fileMenu = TestUtils.getFieldValue(menuBar, JMenu.class, "fileMenu");
         minimizeMenuItem = TestUtils.getFieldValue(menuBar, JMenuItem.class, "minimizeMI");
@@ -113,7 +112,7 @@ public class MenuBarTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Image loader can not be null");
 
-        new MenuBar(null, mock(Settings.class), mock(Messages.class), mock(ErrorHandler.class));
+        new MenuBar(null, mock(Settings.class), mock(SwingMessages.class), mock(ErrorHandler.class));
     }
 
     @Test
@@ -121,7 +120,7 @@ public class MenuBarTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new MenuBar(mock(ImageLoader.class), null, mock(Messages.class), mock(ErrorHandler.class));
+        new MenuBar(mock(ImageLoader.class), null, mock(SwingMessages.class), mock(ErrorHandler.class));
     }
 
     @Test
@@ -137,7 +136,7 @@ public class MenuBarTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Error handler can not be null");
 
-        new MenuBar(mock(ImageLoader.class), mock(Settings.class), mock(Messages.class), null);
+        new MenuBar(mock(ImageLoader.class), mock(Settings.class), mock(SwingMessages.class), null);
     }
 
     @Test

@@ -24,10 +24,9 @@ package net.usikkert.kouchat.ui.swing;
 
 import static org.mockito.Mockito.*;
 
-import net.usikkert.kouchat.message.Messages;
-import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
 import net.usikkert.kouchat.util.TestUtils;
@@ -52,19 +51,20 @@ public class TextViewerDialogTest {
 
     private ImageLoader imageLoader;
     private ResourceLoader resourceLoader;
-    private Messages messages;
+    private SwingMessages messages;
     private Settings settings;
     private ErrorHandler errorHandler;
 
     @Before
     public void setUp() {
         resourceLoader = new ResourceLoader();
-        messages = new PropertyFileMessages("messages.swing");
+        messages = new SwingMessages();
         settings = mock(Settings.class);
         errorHandler = mock(ErrorHandler.class);
         imageLoader = new ImageLoader(errorHandler, messages, new ResourceValidator(), resourceLoader);
 
-        textViewerDialog = new TextViewerDialog("test-messages.properties", "title", false, imageLoader, resourceLoader, messages, settings, errorHandler);
+        textViewerDialog = new TextViewerDialog("test-messages.properties", "title", false, imageLoader,
+                                                resourceLoader, messages, settings, errorHandler);
     }
 
     @Test

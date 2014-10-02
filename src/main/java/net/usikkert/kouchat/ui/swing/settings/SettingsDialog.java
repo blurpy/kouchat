@@ -58,7 +58,6 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.WindowConstants;
 
 import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.net.NetworkInterfaceInfo;
 import net.usikkert.kouchat.net.NetworkUtils;
@@ -69,6 +68,7 @@ import net.usikkert.kouchat.ui.swing.LookAndFeelWrapper;
 import net.usikkert.kouchat.ui.swing.Mediator;
 import net.usikkert.kouchat.ui.swing.StatusIcons;
 import net.usikkert.kouchat.ui.swing.UITools;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -91,7 +91,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
     private final Settings settings;
     private final ErrorHandler errorHandler;
-    private final Messages messages;
+    private final SwingMessages messages;
 
     private Mediator mediator;
 
@@ -104,7 +104,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
      * @param messages The messages to use for the dialog.
      */
     public SettingsDialog(final ImageLoader imageLoader, final Settings settings, final ErrorHandler errorHandler,
-                          final Messages messages) {
+                          final SwingMessages messages) {
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");

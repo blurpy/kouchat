@@ -32,9 +32,9 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.Validate;
 
@@ -54,7 +54,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
     private final ImageLoader imageLoader;
     private final Settings settings;
-    private final Messages messages;
+    private final SwingMessages messages;
     private final ErrorHandler errorHandler;
 
     private Mediator mediator;
@@ -68,7 +68,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
      * @param messages The messages to use for the menu bar.
      * @param errorHandler The error handler to use in the text viewer dialog.
      */
-    public MenuBar(final ImageLoader imageLoader, final Settings settings, final Messages messages,
+    public MenuBar(final ImageLoader imageLoader, final Settings settings, final SwingMessages messages,
                    final ErrorHandler errorHandler) {
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");

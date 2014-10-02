@@ -24,13 +24,12 @@ package net.usikkert.kouchat.ui.swing;
 
 import static org.mockito.Mockito.*;
 
-import net.usikkert.kouchat.message.Messages;
-import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.FileTransfer.Direction;
 import net.usikkert.kouchat.net.MockFileTransfer;
 import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
 
@@ -49,7 +48,7 @@ public class TransferDialogIntegrationTest {
 
     private ImageLoader imageLoader;
     private Settings settings;
-    private Messages messages;
+    private SwingMessages messages;
     private ErrorHandler errorHandler;
 
     @Before
@@ -60,7 +59,7 @@ public class TransferDialogIntegrationTest {
         settings = mock(Settings.class);
         when(settings.getMe()).thenReturn(me);
 
-        messages = new PropertyFileMessages("messages.swing");
+        messages = new SwingMessages();
         errorHandler = mock(ErrorHandler.class);
         imageLoader = new ImageLoader(errorHandler, messages, new ResourceValidator(), new ResourceLoader());
     }

@@ -28,8 +28,8 @@ import static org.mockito.Mockito.*;
 
 import java.util.logging.Logger;
 
-import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
 import net.usikkert.kouchat.util.TestUtils;
@@ -57,11 +57,11 @@ public class ImageLoaderTest {
 
     private ImageLoader imageLoader;
 
-    private PropertyFileMessages messages;
+    private SwingMessages messages;
 
     @Before
     public void setUp() {
-        messages = new PropertyFileMessages("messages.swing");
+        messages = new SwingMessages();
 
         imageLoader = new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
 

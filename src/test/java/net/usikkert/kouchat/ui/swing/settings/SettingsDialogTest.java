@@ -50,8 +50,6 @@ import javax.swing.WindowConstants;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
 
-import net.usikkert.kouchat.message.Messages;
-import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.NetworkInterfaceInfo;
@@ -63,6 +61,7 @@ import net.usikkert.kouchat.ui.swing.LookAndFeelWrapper;
 import net.usikkert.kouchat.ui.swing.Mediator;
 import net.usikkert.kouchat.ui.swing.RunArgumentAnswer;
 import net.usikkert.kouchat.ui.swing.UITools;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
 import net.usikkert.kouchat.util.TestUtils;
@@ -121,13 +120,13 @@ public class SettingsDialogTest  {
     private UITools uiTools;
     private NetworkUtils networkUtils;
     private ErrorHandler errorHandler;
-    private Messages messages;
+    private SwingMessages messages;
 
     @Before
     public void setUp() {
         settings = mock(Settings.class);
         errorHandler = mock(ErrorHandler.class);
-        messages = new PropertyFileMessages("messages.swing");
+        messages = new SwingMessages();
         imageLoader = new ImageLoader(errorHandler, messages, new ResourceValidator(), new ResourceLoader());
 
         when(settings.getLogLocation()).thenReturn("/home/user/kouchat/logs");

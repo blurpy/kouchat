@@ -28,7 +28,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import net.usikkert.kouchat.jmx.JMXAgent;
-import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.ChatLogger;
 import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.CommandParser;
@@ -46,6 +45,7 @@ import net.usikkert.kouchat.settings.PropertyFileSettingsSaver;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 import net.usikkert.kouchat.ui.UserInterface;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.ui.swing.settings.SettingsDialog;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.Tools;
@@ -78,7 +78,7 @@ public class SwingMediator implements Mediator, UserInterface {
 
     private final ImageLoader imageLoader;
     private final Settings settings;
-    private final Messages messages;
+    private final SwingMessages messages;
     private final ErrorHandler errorHandler;
 
     /**
@@ -91,7 +91,7 @@ public class SwingMediator implements Mediator, UserInterface {
      * @param errorHandler The error handler to use.
      */
     public SwingMediator(final ComponentHandler compHandler, final ImageLoader imageLoader,
-                         final Settings settings, final Messages messages, final ErrorHandler errorHandler) {
+                         final Settings settings, final SwingMessages messages, final ErrorHandler errorHandler) {
         Validate.notNull(compHandler, "Component handler can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");

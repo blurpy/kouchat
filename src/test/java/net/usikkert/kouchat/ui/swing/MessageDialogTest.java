@@ -27,8 +27,8 @@ import static org.mockito.Mockito.*;
 
 import javax.swing.JButton;
 
-import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
 
@@ -49,12 +49,12 @@ public class MessageDialogTest {
 
     private MessageDialog messageDialog;
 
-    private PropertyFileMessages messages;
+    private SwingMessages messages;
     private ImageLoader imageLoader;
 
     @Before
     public void setUp() {
-        messages = new PropertyFileMessages("messages.swing");
+        messages = new SwingMessages();
         imageLoader = new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
 
         messageDialog = new MessageDialog(imageLoader, messages);

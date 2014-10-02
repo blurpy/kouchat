@@ -32,9 +32,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.border.Border;
 
-import net.usikkert.kouchat.message.Messages;
-import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.User;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.Before;
@@ -70,7 +69,7 @@ public class UserListCellRendererTest {
         when(imageLoader.getEnvelopeIcon()).thenReturn(envelope);
         when(imageLoader.getDotIcon()).thenReturn(dot);
 
-        cellRenderer = new UserListCellRenderer(imageLoader, new PropertyFileMessages("messages.swing"));
+        cellRenderer = new UserListCellRenderer(imageLoader, new SwingMessages());
 
         jList = new JList();
         user = new User("Test", 123);
@@ -81,7 +80,7 @@ public class UserListCellRendererTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Image loader can not be null");
 
-        new UserListCellRenderer(null, mock(Messages.class));
+        new UserListCellRenderer(null, mock(SwingMessages.class));
     }
 
     @Test

@@ -34,10 +34,9 @@ import java.awt.TrayIcon;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.usikkert.kouchat.message.Messages;
-import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
 import net.usikkert.kouchat.util.TestUtils;
@@ -61,12 +60,13 @@ public class SysTrayTest {
 
     private UITools uiTools;
     private Logger log;
-    private Messages messages;
+    private SwingMessages messages;
 
     @Before
     public void setUp() {
-        messages = new PropertyFileMessages("messages.swing");
-        final ImageLoader imageLoader = new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
+        messages = new SwingMessages();
+        final ImageLoader imageLoader =
+                new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
 
         sysTray = spy(new SysTray(imageLoader, mock(Settings.class), messages));
 

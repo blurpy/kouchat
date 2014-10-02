@@ -33,8 +33,7 @@ import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
 import javax.swing.text.DefaultEditorKit;
 
-import net.usikkert.kouchat.message.Messages;
-import net.usikkert.kouchat.message.PropertyFileMessages;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 
 import org.junit.After;
 import org.junit.Before;
@@ -62,7 +61,7 @@ public class CopyPopupTest {
     public void setUp() {
         textPane = mock(JTextPane.class);
 
-        popup = new CopyPopup(textPane, new PropertyFileMessages("messages.swing"));
+        popup = new CopyPopup(textPane, new SwingMessages());
 
         copyMenuItem = (JMenuItem) popup.getComponent(0);
         selectAllMenuItem = (JMenuItem) popup.getComponent(1);
@@ -78,7 +77,7 @@ public class CopyPopupTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Text pane can not be null");
 
-        new CopyPopup(null, mock(Messages.class));
+        new CopyPopup(null, mock(SwingMessages.class));
     }
 
     @Test

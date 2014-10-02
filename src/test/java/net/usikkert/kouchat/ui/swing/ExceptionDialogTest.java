@@ -38,9 +38,8 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.message.Messages;
-import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
 import net.usikkert.kouchat.util.TestUtils;
@@ -67,7 +66,7 @@ public class ExceptionDialogTest {
 
     private ExceptionDialog exceptionDialog;
 
-    private PropertyFileMessages messages;
+    private SwingMessages messages;
     private ImageLoader imageLoader;
     private UITools uiTools;
 
@@ -78,7 +77,7 @@ public class ExceptionDialogTest {
 
     @Before
     public void setUp() {
-        messages = new PropertyFileMessages("messages.swing");
+        messages = new SwingMessages();
         imageLoader = new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
 
         exceptionDialog = spy(new ExceptionDialog(imageLoader, messages));
@@ -103,7 +102,7 @@ public class ExceptionDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Image loader can not be null");
 
-        new ExceptionDialog(null, mock(Messages.class));
+        new ExceptionDialog(null, mock(SwingMessages.class));
     }
 
     @Test

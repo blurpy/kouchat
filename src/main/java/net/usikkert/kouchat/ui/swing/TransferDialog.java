@@ -40,11 +40,11 @@ import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
 import net.usikkert.kouchat.event.FileTransferListener;
-import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
@@ -88,7 +88,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 
     private final Mediator mediator;
     private final Settings settings;
-    private final Messages messages;
+    private final SwingMessages messages;
     private final ErrorHandler errorHandler;
 
     /** If the dialog is in a state where it will be closed when clicking the cancel button (with the text "Close"). */
@@ -108,7 +108,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      * @param errorHandler The error handler to use.
      */
     public TransferDialog(final Mediator mediator, final FileTransfer fileTransfer, final ImageLoader imageLoader,
-                          final Settings settings, final Messages messages, final ErrorHandler errorHandler) {
+                          final Settings settings, final SwingMessages messages, final ErrorHandler errorHandler) {
         Validate.notNull(mediator, "Mediator can not be null");
         Validate.notNull(fileTransfer, "File transfer can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");

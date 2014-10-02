@@ -48,9 +48,9 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -88,7 +88,7 @@ public class UITools {
      * @param messages The messages to use in errors.
      */
     public void browse(final String url, final Settings settings, final ErrorHandler errorHandler,
-                       final Messages messages) {
+                       final SwingMessages messages) {
         Validate.notEmpty(url, "Url can not be empty");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
@@ -136,7 +136,7 @@ public class UITools {
      * Opens a url in a browser.
      *
      * <p>Only for special cases. Don't use this directly, as it doesn't respect the browser set in the settings.
-     * Use {@link #browse(String, Settings, ErrorHandler, Messages)} instead.</p>
+     * Use {@link #browse(String, Settings, ErrorHandler, SwingMessages)} instead.</p>
      *
      * @param url The url to open in the browser.
      * @throws URISyntaxException If the url is invalid.
@@ -149,7 +149,7 @@ public class UITools {
     /**
      * Opens a file in the registered application for the file type.
      *
-     * <p>If this fails, {@link #browse(String, Settings, ErrorHandler, Messages)} is used as a fallback.</p>
+     * <p>If this fails, {@link #browse(String, Settings, ErrorHandler, SwingMessages)} is used as a fallback.</p>
      *
      * @param file A file or directory to open.
      * @param settings The settings to use.
@@ -157,7 +157,7 @@ public class UITools {
      * @param messages The messages to use in errors.
      */
     public void open(final File file, final Settings settings, final ErrorHandler errorHandler,
-                     final Messages messages) {
+                     final SwingMessages messages) {
         Validate.notNull(file, "File can not be null");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");

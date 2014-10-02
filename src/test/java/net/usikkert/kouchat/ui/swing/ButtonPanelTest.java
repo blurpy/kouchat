@@ -29,7 +29,7 @@ import java.awt.Component;
 
 import javax.swing.JButton;
 
-import net.usikkert.kouchat.message.PropertyFileMessages;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.Before;
@@ -57,7 +57,7 @@ public class ButtonPanelTest {
 
     @Before
     public void setUp() {
-        buttonPanel = new ButtonPanel(new PropertyFileMessages("messages.swing"));
+        buttonPanel = new ButtonPanel(new SwingMessages());
 
         clearButton = TestUtils.getFieldValue(buttonPanel, JButton.class, "clearB");
         awayButton = TestUtils.getFieldValue(buttonPanel, JButton.class, "awayB");

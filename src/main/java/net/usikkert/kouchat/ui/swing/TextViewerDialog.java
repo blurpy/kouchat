@@ -47,9 +47,9 @@ import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyledDocument;
 
-import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.Validate;
 
@@ -65,7 +65,7 @@ public class TextViewerDialog extends JDialog {
     private final UITools uiTools = new UITools();
 
     private final ResourceLoader resourceLoader;
-    private final Messages messages;
+    private final SwingMessages messages;
     private final ErrorHandler errorHandler;
 
     private final JTextPane viewerTP;
@@ -91,7 +91,7 @@ public class TextViewerDialog extends JDialog {
      */
     public TextViewerDialog(final String textFile, final String title, final boolean links,
                             final ImageLoader imageLoader, final ResourceLoader resourceLoader,
-                            final Messages messages, final Settings settings, final ErrorHandler errorHandler) {
+                            final SwingMessages messages, final Settings settings, final ErrorHandler errorHandler) {
         Validate.notEmpty(textFile, "Text file can not be empty");
         Validate.notEmpty(title, "Title can not be empty");
         Validate.notNull(imageLoader, "Image loader can not be null");

@@ -43,7 +43,7 @@ import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
-import net.usikkert.kouchat.message.Messages;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -61,7 +61,7 @@ public class MessageDialog extends JDialog {
      * @param imageLoader The image loader.
      * @param messages The messages to use for the dialog.
      */
-    public MessageDialog(final ImageLoader imageLoader, final Messages messages) {
+    public MessageDialog(final ImageLoader imageLoader, final SwingMessages messages) {
         super((Frame) null, true);
 
         Validate.notNull(imageLoader, "Image loader can not be null");

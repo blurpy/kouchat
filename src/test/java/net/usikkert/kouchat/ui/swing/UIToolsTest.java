@@ -30,10 +30,9 @@ import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.usikkert.kouchat.message.Messages;
-import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.Before;
@@ -57,7 +56,7 @@ public class UIToolsTest {
     private Logger log;
     private ErrorHandler errorHandler;
     private Settings settings;
-    private Messages messages;
+    private SwingMessages messages;
 
     @Before
     public void setUp() {
@@ -66,7 +65,7 @@ public class UIToolsTest {
         log = TestUtils.setFieldValueWithMock(uiTools, "LOG", Logger.class);
         errorHandler = mock(ErrorHandler.class);
         settings = mock(Settings.class);
-        messages = new PropertyFileMessages("messages.swing");
+        messages = new SwingMessages();
     }
 
     @Test

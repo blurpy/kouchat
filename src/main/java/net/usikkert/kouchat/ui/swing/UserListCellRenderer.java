@@ -37,8 +37,8 @@ import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 
-import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.User;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -69,7 +69,7 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer {
     /** The border to use for unselected list elements. */
     private final Border normalBorder;
 
-    private final Messages messages;
+    private final SwingMessages messages;
 
     /**
      * Default constructor.
@@ -77,7 +77,7 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer {
      * @param imageLoader The image loader.
      * @param messages The messages to use.
      */
-    public UserListCellRenderer(final ImageLoader imageLoader, final Messages messages) {
+    public UserListCellRenderer(final ImageLoader imageLoader, final SwingMessages messages) {
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(messages, "Messages can not be null");
 

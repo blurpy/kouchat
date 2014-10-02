@@ -37,12 +37,11 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
-import net.usikkert.kouchat.message.Messages;
-import net.usikkert.kouchat.message.PropertyFileMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
 import net.usikkert.kouchat.util.TestUtils;
@@ -71,7 +70,7 @@ public class TransferDialogTest {
     private UITools uiTools;
     private FileTransfer fileTransfer;
     private StatusIcons statusIcons;
-    private Messages messages;
+    private SwingMessages messages;
     private ImageLoader imageLoader;
 
     private JButton cancelButton;
@@ -94,7 +93,7 @@ public class TransferDialogTest {
     public void setUp() {
         Locale.setDefault(Locale.US); // To avoid issues with "," and "." in numbers
 
-        messages = new PropertyFileMessages("messages.swing");
+        messages = new SwingMessages();
         imageLoader = new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
 
         mediator = mock(Mediator.class);

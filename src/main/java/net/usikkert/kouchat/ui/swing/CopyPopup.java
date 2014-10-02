@@ -34,7 +34,7 @@ import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.text.DefaultEditorKit;
 
-import net.usikkert.kouchat.message.Messages;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -61,7 +61,7 @@ public class CopyPopup extends JPopupMenu implements PopupMenuListener, ActionLi
      * @param textpane The text pane to use the popup on.
      * @param messages The messages to use for the menu items.
      */
-    public CopyPopup(final JTextPane textpane, final Messages messages) {
+    public CopyPopup(final JTextPane textpane, final SwingMessages messages) {
         Validate.notNull(textpane, "Text pane can not be null");
         Validate.notNull(messages, "Messages can not be null");
 

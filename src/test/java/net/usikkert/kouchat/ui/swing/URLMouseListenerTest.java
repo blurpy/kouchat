@@ -26,9 +26,9 @@ import static org.mockito.Mockito.*;
 
 import javax.swing.JTextPane;
 
-import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -49,7 +49,7 @@ public class URLMouseListenerTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("TextPane can not be null");
 
-        new URLMouseListener(null, mock(Settings.class), mock(ErrorHandler.class), mock(Messages.class));
+        new URLMouseListener(null, mock(Settings.class), mock(ErrorHandler.class), mock(SwingMessages.class));
     }
 
     @Test
@@ -57,7 +57,7 @@ public class URLMouseListenerTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new URLMouseListener(mock(JTextPane.class), null, mock(ErrorHandler.class), mock(Messages.class));
+        new URLMouseListener(mock(JTextPane.class), null, mock(ErrorHandler.class), mock(SwingMessages.class));
     }
 
     @Test
@@ -65,7 +65,7 @@ public class URLMouseListenerTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Error handler can not be null");
 
-        new URLMouseListener(mock(JTextPane.class), mock(Settings.class), null, mock(Messages.class));
+        new URLMouseListener(mock(JTextPane.class), mock(Settings.class), null, mock(SwingMessages.class));
     }
 
     @Test

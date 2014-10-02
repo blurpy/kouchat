@@ -62,12 +62,12 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import net.usikkert.kouchat.Constants;
-import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.CommandHistory;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
@@ -94,7 +94,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
     private final User me, user;
 
     private final StatusIcons statusIcons;
-    private final Messages messages;
+    private final SwingMessages messages;
 
     /**
      * Creates a new private chat frame. To open the window, use setVisible().
@@ -107,7 +107,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
      * @param errorHandler The error handler to use.
      */
     public PrivateChatFrame(final Mediator mediator, final User user, final ImageLoader imageLoader,
-                            final Settings settings, final Messages messages, final ErrorHandler errorHandler) {
+                            final Settings settings, final SwingMessages messages, final ErrorHandler errorHandler) {
         Validate.notNull(mediator, "Mediator can not be null");
         Validate.notNull(user, "User can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");

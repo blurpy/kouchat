@@ -32,9 +32,9 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import net.usikkert.kouchat.message.Messages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -53,7 +53,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
     private final StyledDocument doc;
     private final Settings settings;
     private final ErrorHandler errorHandler;
-    private final Messages messages;
+    private final SwingMessages messages;
 
     /**
      * Constructor.
@@ -64,7 +64,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
      * @param messages The messages to use.
      */
     public URLMouseListener(final JTextPane textPane, final Settings settings, final ErrorHandler errorHandler,
-                            final Messages messages) {
+                            final SwingMessages messages) {
         Validate.notNull(textPane, "TextPane can not be null");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");

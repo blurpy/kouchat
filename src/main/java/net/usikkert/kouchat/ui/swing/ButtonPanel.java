@@ -30,7 +30,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import net.usikkert.kouchat.message.Messages;
+import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -71,7 +71,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
      *
      * @param messages The messages to use for the buttons.
      */
-    public ButtonPanel(final Messages messages) {
+    public ButtonPanel(final SwingMessages messages) {
         Validate.notNull(messages, "Messages can not be null");
 
         setLayout(new GridLayout(4, 1));
