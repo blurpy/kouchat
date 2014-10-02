@@ -59,21 +59,21 @@ public class CopyPopup extends JPopupMenu implements PopupMenuListener, ActionLi
      * Constructor. Creates the menu.
      *
      * @param textpane The text pane to use the popup on.
-     * @param messages The messages to use for the menu items.
+     * @param swingMessages The swing messages to use for the menu items.
      */
-    public CopyPopup(final JTextPane textpane, final SwingMessages messages) {
+    public CopyPopup(final JTextPane textpane, final SwingMessages swingMessages) {
         Validate.notNull(textpane, "Text pane can not be null");
-        Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(swingMessages, "Swing messages can not be null");
 
         this.textpane = textpane;
 
         copyMI = new JMenuItem(new DefaultEditorKit.CopyAction());
-        copyMI.setText(messages.getMessage("swing.rightClickPopup.menu.copy"));
-        copyMI.setMnemonic(keyCode(messages.getMessage("swing.rightClickPopup.menu.copy.mnemonic")));
+        copyMI.setText(swingMessages.getMessage("swing.rightClickPopup.menu.copy"));
+        copyMI.setMnemonic(keyCode(swingMessages.getMessage("swing.rightClickPopup.menu.copy.mnemonic")));
         copyMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK));
 
-        selectAllMI = new JMenuItem(messages.getMessage("swing.rightClickPopup.menu.selectAll"));
-        selectAllMI.setMnemonic(keyCode(messages.getMessage("swing.rightClickPopup.menu.selectAll.mnemonic")));
+        selectAllMI = new JMenuItem(swingMessages.getMessage("swing.rightClickPopup.menu.selectAll"));
+        selectAllMI.setMnemonic(keyCode(swingMessages.getMessage("swing.rightClickPopup.menu.selectAll.mnemonic")));
         selectAllMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_MASK));
 
         add(copyMI);

@@ -90,16 +90,16 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      *
      * @param imageLoader The image loader for the system tray icons.
      * @param settings The settings to use.
-     * @param messages The messages to use in the system tray.
+     * @param swingMessages The swing messages to use in the system tray.
      */
-    public SysTray(final ImageLoader imageLoader, final Settings settings, final SwingMessages messages) {
+    public SysTray(final ImageLoader imageLoader, final Settings settings, final SwingMessages swingMessages) {
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
-        Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(swingMessages, "Swing messages can not be null");
 
         this.imageLoader = imageLoader;
         this.settings = settings;
-        this.messages = messages;
+        this.messages = swingMessages;
     }
 
     /**

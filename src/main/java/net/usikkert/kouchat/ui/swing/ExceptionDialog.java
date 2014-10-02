@@ -69,32 +69,32 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
      * Creates the exception dialog, but does not show it.
      *
      * @param imageLoader The image loader.
-     * @param messages    The messages to use in the copy popup.
+     * @param swingMessages The swing messages to use in the copy popup.
      */
-    public ExceptionDialog(final ImageLoader imageLoader, final SwingMessages messages) {
+    public ExceptionDialog(final ImageLoader imageLoader, final SwingMessages swingMessages) {
         super((Frame) null, true);
 
         Validate.notNull(imageLoader, "Image loader can not be null");
-        Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(swingMessages, "Swing messages can not be null");
 
-        this.messages = messages;
+        this.messages = swingMessages;
 
         final JLabel titleL = new JLabel();
         titleL.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
-        titleL.setText(messages.getMessage("swing.exceptionDialog.topText"));
+        titleL.setText(swingMessages.getMessage("swing.exceptionDialog.topText"));
         titleL.setFont(new Font("Dialog", Font.PLAIN, 20));
 
         final JLabel detailL = new JLabel();
         // Using html to keep the text from appearing in a single line
-        detailL.setText(messages.getMessage("swing.exceptionDialog.message", Constants.APP_NAME, Constants.APP_WEB));
+        detailL.setText(swingMessages.getMessage("swing.exceptionDialog.message", Constants.APP_NAME, Constants.APP_WEB));
 
         exceptionTP = new JTextPaneWithoutWrap();
         exceptionTP.setEditable(false);
         final JScrollPane exceptionScroll = new JScrollPane(exceptionTP);
-        new CopyPopup(exceptionTP, messages);
+        new CopyPopup(exceptionTP, swingMessages);
 
         final JButton closeB = new JButton();
-        closeB.setText(messages.getMessage("swing.button.close"));
+        closeB.setText(swingMessages.getMessage("swing.button.close"));
         closeB.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
@@ -123,7 +123,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
         getContentPane().add(infoP, BorderLayout.CENTER);
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(uiTools.createTitle(messages.getMessage("swing.exceptionDialog.title")));
+        setTitle(uiTools.createTitle(swingMessages.getMessage("swing.exceptionDialog.title")));
         setIconImage(new StatusIcons(imageLoader).getNormalIcon());
         setSize(630, 450);
     }

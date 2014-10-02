@@ -59,13 +59,13 @@ public class MessageDialog extends JDialog {
      * Creates a new MessageDialog. To open the dialog, use setVisible().
      *
      * @param imageLoader The image loader.
-     * @param messages The messages to use for the dialog.
+     * @param swingMessages The swing messages to use for the dialog.
      */
-    public MessageDialog(final ImageLoader imageLoader, final SwingMessages messages) {
+    public MessageDialog(final ImageLoader imageLoader, final SwingMessages swingMessages) {
         super((Frame) null, true);
 
         Validate.notNull(imageLoader, "Image loader can not be null");
-        Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(swingMessages, "Swing messages can not be null");
 
         final UITools uiTools = new UITools();
 
@@ -90,7 +90,7 @@ public class MessageDialog extends JDialog {
         getContentPane().add(northP, BorderLayout.PAGE_START);
 
         final JButton okB = new JButton();
-        okB.setText(messages.getMessage("swing.button.ok"));
+        okB.setText(swingMessages.getMessage("swing.button.ok"));
         okB.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {

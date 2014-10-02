@@ -104,28 +104,28 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      * @param fileTransfer The file transfer object this dialog is showing the state of.
      * @param imageLoader The image loader.
      * @param settings The settings to use.
-     * @param messages The messages to use in the dialog.
+     * @param swingMessages The swing messages to use in the dialog.
      * @param errorHandler The error handler to use.
      */
     public TransferDialog(final Mediator mediator, final FileTransfer fileTransfer, final ImageLoader imageLoader,
-                          final Settings settings, final SwingMessages messages, final ErrorHandler errorHandler) {
+                          final Settings settings, final SwingMessages swingMessages, final ErrorHandler errorHandler) {
         Validate.notNull(mediator, "Mediator can not be null");
         Validate.notNull(fileTransfer, "File transfer can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
-        Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(swingMessages, "Swing messages can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
 
         this.mediator = mediator;
         this.fileTransfer = fileTransfer;
         this.settings = settings;
-        this.messages = messages;
+        this.messages = swingMessages;
         this.errorHandler = errorHandler;
 
-        cancelB = new JButton(messages.getMessage("swing.button.cancel"));
+        cancelB = new JButton(swingMessages.getMessage("swing.button.cancel"));
         cancelB.addActionListener(this);
 
-        openB = new JButton(messages.getMessage("swing.transferDialog.button.openFolder"));
+        openB = new JButton(swingMessages.getMessage("swing.transferDialog.button.openFolder"));
         openB.addActionListener(this);
         openB.setVisible(false);
         openB.setEnabled(false);
@@ -134,28 +134,28 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
         transferProgressPB.setStringPainted(true);
         transferProgressPB.setPreferredSize(new Dimension(410, 25));
 
-        final JLabel transferredHeaderL = new JLabel(messages.getMessage("swing.transferDialog.transferred.header"));
+        final JLabel transferredHeaderL = new JLabel(swingMessages.getMessage("swing.transferDialog.transferred.header"));
         final int headerHeight = transferredHeaderL.getPreferredSize().height;
         final int headerWidth = transferredHeaderL.getPreferredSize().width + 8;
         transferredHeaderL.setPreferredSize(new Dimension(headerWidth, headerHeight));
         transferredL = new JLabel(createTransferStatusText(ZERO_KB, ZERO_KB, ZERO_KB));
 
-        final JLabel filenameHeaderL = new JLabel(messages.getMessage("swing.transferDialog.filename.header"));
+        final JLabel filenameHeaderL = new JLabel(swingMessages.getMessage("swing.transferDialog.filename.header"));
         filenameHeaderL.setPreferredSize(new Dimension(headerWidth, headerHeight));
-        filenameL = new JLabel(messages.getMessage("swing.transferDialog.filename.defaultValue"));
+        filenameL = new JLabel(swingMessages.getMessage("swing.transferDialog.filename.defaultValue"));
         filenameL.setPreferredSize(new Dimension(410 - headerWidth, headerHeight));
 
-        final JLabel statusHeaderL = new JLabel(messages.getMessage("swing.transferDialog.status.header"));
+        final JLabel statusHeaderL = new JLabel(swingMessages.getMessage("swing.transferDialog.status.header"));
         statusHeaderL.setPreferredSize(new Dimension(headerWidth, headerHeight));
-        statusL = new JLabel(messages.getMessage("swing.transferDialog.status.waiting"));
+        statusL = new JLabel(swingMessages.getMessage("swing.transferDialog.status.waiting"));
 
-        final JLabel sourceHeaderL = new JLabel(messages.getMessage("swing.transferDialog.source.header"));
+        final JLabel sourceHeaderL = new JLabel(swingMessages.getMessage("swing.transferDialog.source.header"));
         sourceHeaderL.setPreferredSize(new Dimension(headerWidth, headerHeight));
-        sourceL = new JLabel(messages.getMessage("swing.transferDialog.source.defaultValue"));
+        sourceL = new JLabel(swingMessages.getMessage("swing.transferDialog.source.defaultValue"));
 
-        final JLabel destinationHeaderL = new JLabel(messages.getMessage("swing.transferDialog.destination.header"));
+        final JLabel destinationHeaderL = new JLabel(swingMessages.getMessage("swing.transferDialog.destination.header"));
         destinationHeaderL.setPreferredSize(new Dimension(headerWidth, headerHeight));
-        destinationL = new JLabel(messages.getMessage("swing.transferDialog.destination.defaultValue"));
+        destinationL = new JLabel(swingMessages.getMessage("swing.transferDialog.destination.defaultValue"));
 
         final JPanel topP = new JPanel();
         topP.setBorder(BorderFactory.createEmptyBorder(4, 8, 4, 8));

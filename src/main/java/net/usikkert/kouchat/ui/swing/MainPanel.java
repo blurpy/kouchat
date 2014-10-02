@@ -88,15 +88,15 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
      * @param sideP The panel on the right, containing the user list and the buttons.
      * @param imageLoader The image loader.
      * @param settings The settings to use.
-     * @param messages The messages to use in copy/paste popups.
+     * @param swingMessages The swing messages to use in copy/paste popups.
      * @param errorHandler The error handler to use.
      */
     public MainPanel(final SidePanel sideP, final ImageLoader imageLoader, final Settings settings,
-                     final SwingMessages messages, final ErrorHandler errorHandler) {
+                     final SwingMessages swingMessages, final ErrorHandler errorHandler) {
         Validate.notNull(sideP, "Side panel can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
-        Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(swingMessages, "Swing messages can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
 
         setLayout(new BorderLayout(2, 2));
@@ -112,7 +112,7 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
         chatAttr = new SimpleAttributeSet();
         chatDoc = chatTP.getStyledDocument();
 
-        final URLMouseListener urlML = new URLMouseListener(chatTP, settings, errorHandler, messages);
+        final URLMouseListener urlML = new URLMouseListener(chatTP, settings, errorHandler, swingMessages);
         chatTP.addMouseListener(urlML);
         chatTP.addMouseMotionListener(urlML);
 
@@ -138,8 +138,8 @@ public class MainPanel extends JPanel implements ActionListener, CaretListener, 
         add(sideP, BorderLayout.EAST);
         add(msgTF, BorderLayout.SOUTH);
 
-        new CopyPastePopup(msgTF, messages);
-        new CopyPopup(chatTP, messages);
+        new CopyPastePopup(msgTF, swingMessages);
+        new CopyPopup(chatTP, swingMessages);
 
         setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         cmdHistory = new CommandHistory();

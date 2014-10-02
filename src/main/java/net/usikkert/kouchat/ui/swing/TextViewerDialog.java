@@ -85,24 +85,24 @@ public class TextViewerDialog extends JDialog {
      * @param links True to enabled support for opening urls by clicking on them.
      * @param imageLoader The image loader.
      * @param resourceLoader The resource loader to use to load the text file.
-     * @param messages The messages to use in this dialog.
+     * @param swingMessages The swing messages to use in this dialog.
      * @param settings The settings to use.
      * @param errorHandler The error handler to use to show messages if text file could not be opened.
      */
     public TextViewerDialog(final String textFile, final String title, final boolean links,
                             final ImageLoader imageLoader, final ResourceLoader resourceLoader,
-                            final SwingMessages messages, final Settings settings, final ErrorHandler errorHandler) {
+                            final SwingMessages swingMessages, final Settings settings, final ErrorHandler errorHandler) {
         Validate.notEmpty(textFile, "Text file can not be empty");
         Validate.notEmpty(title, "Title can not be empty");
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(resourceLoader, "Resource loader can not be null");
-        Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(swingMessages, "Swing messages can not be null");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
 
         this.textFile = textFile;
         this.resourceLoader = resourceLoader;
-        this.messages = messages;
+        this.messages = swingMessages;
         this.errorHandler = errorHandler;
 
         viewerTP = new JTextPane();
@@ -112,14 +112,14 @@ public class TextViewerDialog extends JDialog {
 
         // Enables the url support
         if (links) {
-            final URLMouseListener urlML = new URLMouseListener(viewerTP, settings, errorHandler, messages);
+            final URLMouseListener urlML = new URLMouseListener(viewerTP, settings, errorHandler, swingMessages);
             viewerTP.addMouseListener(urlML);
             viewerTP.addMouseMotionListener(urlML);
             final AbstractDocument doc = (AbstractDocument) viewerDoc;
             doc.setDocumentFilter(new URLDocumentFilter(true));
         }
 
-        new CopyPopup(viewerTP, messages);
+        new CopyPopup(viewerTP, swingMessages);
         viewerAttr = new SimpleAttributeSet();
         viewerScroll = new JScrollPane(viewerTP);
         viewerScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

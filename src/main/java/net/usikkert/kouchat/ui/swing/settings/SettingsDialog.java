@@ -101,37 +101,37 @@ public class SettingsDialog extends JDialog implements ActionListener {
      * @param imageLoader The image loader.
      * @param settings The settings to use.
      * @param errorHandler The handler to use for showing error messages.
-     * @param messages The messages to use for the dialog.
+     * @param swingMessages The swing messages to use for the dialog.
      */
     public SettingsDialog(final ImageLoader imageLoader, final Settings settings, final ErrorHandler errorHandler,
-                          final SwingMessages messages) {
+                          final SwingMessages swingMessages) {
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
-        Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(swingMessages, "Swing messages can not be null");
 
         this.settings = settings;
         this.errorHandler = errorHandler;
-        this.messages = messages;
+        this.messages = swingMessages;
 
-        final JLabel nickL = new JLabel(messages.getMessage("swing.settings.chooseNick.nickName.label"));
+        final JLabel nickL = new JLabel(swingMessages.getMessage("swing.settings.chooseNick.nickName.label"));
         nickTF = new JTextField(10);
-        new CopyPastePopup(nickTF, messages);
+        new CopyPastePopup(nickTF, swingMessages);
 
         final JPanel nickP = new JPanel(new FlowLayout(FlowLayout.LEFT));
         nickP.add(nickL);
         nickP.add(nickTF);
-        nickP.setBorder(BorderFactory.createTitledBorder(messages.getMessage("swing.settings.chooseNick.border")));
+        nickP.setBorder(BorderFactory.createTitledBorder(swingMessages.getMessage("swing.settings.chooseNick.border")));
 
-        ownColorL = new JLabel(messages.getMessage("swing.settings.chooseLook.ownTextColor.label"));
-        ownColorL.setToolTipText(messages.getMessage("swing.settings.chooseLook.ownTextColor.tooltip"));
+        ownColorL = new JLabel(swingMessages.getMessage("swing.settings.chooseLook.ownTextColor.label"));
+        ownColorL.setToolTipText(swingMessages.getMessage("swing.settings.chooseLook.ownTextColor.tooltip"));
 
-        sysColorL = new JLabel(messages.getMessage("swing.settings.chooseLook.systemTextColor.label"));
-        sysColorL.setToolTipText(messages.getMessage("swing.settings.chooseLook.systemTextColor.tooltip"));
+        sysColorL = new JLabel(swingMessages.getMessage("swing.settings.chooseLook.systemTextColor.label"));
+        sysColorL.setToolTipText(swingMessages.getMessage("swing.settings.chooseLook.systemTextColor.tooltip"));
 
-        chooseOwnColorB = new JButton(messages.getMessage("swing.button.change"));
+        chooseOwnColorB = new JButton(swingMessages.getMessage("swing.button.change"));
         chooseOwnColorB.addActionListener(this);
-        chooseSysColorB = new JButton(messages.getMessage("swing.button.change"));
+        chooseSysColorB = new JButton(swingMessages.getMessage("swing.button.change"));
         chooseSysColorB.addActionListener(this);
 
         final JPanel ownColorP = new JPanel();
@@ -146,8 +146,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
         sysColorP.add(Box.createHorizontalGlue());
         sysColorP.add(chooseSysColorB);
 
-        final JLabel lookAndFeelL = new JLabel(messages.getMessage("swing.settings.chooseLook.lookAndFeel.label"));
-        lookAndFeelL.setToolTipText(messages.getMessage("swing.settings.chooseLook.lookAndFeel.tooltip", Constants.APP_NAME));
+        final JLabel lookAndFeelL = new JLabel(swingMessages.getMessage("swing.settings.chooseLook.lookAndFeel.label"));
+        lookAndFeelL.setToolTipText(swingMessages.getMessage("swing.settings.chooseLook.lookAndFeel.tooltip", Constants.APP_NAME));
         lookAndFeelCB = new JComboBox();
 
         final JPanel lookAndFeelP = new JPanel();
@@ -161,20 +161,20 @@ public class SettingsDialog extends JDialog implements ActionListener {
         lookP.add(sysColorP);
         lookP.add(lookAndFeelP);
         lookP.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createTitledBorder(messages.getMessage("swing.settings.chooseLook.border")),
+                BorderFactory.createTitledBorder(swingMessages.getMessage("swing.settings.chooseLook.border")),
                 BorderFactory.createEmptyBorder(0, 5, 0, 5)));
 
-        soundCB = new JCheckBox(messages.getMessage("swing.settings.misc.enableSound.label"));
-        soundCB.setToolTipText(messages.getMessage("swing.settings.misc.enableSound.tooltip", Constants.APP_NAME));
+        soundCB = new JCheckBox(swingMessages.getMessage("swing.settings.misc.enableSound.label"));
+        soundCB.setToolTipText(swingMessages.getMessage("swing.settings.misc.enableSound.tooltip", Constants.APP_NAME));
 
-        loggingCB = new JCheckBox(messages.getMessage("swing.settings.misc.enableLogging.label"));
-        loggingCB.setToolTipText(messages.getMessage("swing.settings.misc.enableLogging.tooltip", settings.getLogLocation()));
+        loggingCB = new JCheckBox(swingMessages.getMessage("swing.settings.misc.enableLogging.label"));
+        loggingCB.setToolTipText(swingMessages.getMessage("swing.settings.misc.enableLogging.tooltip", settings.getLogLocation()));
 
-        smileysCB = new JCheckBox(messages.getMessage("swing.settings.misc.enableSmileys.label"));
-        smileysCB.setToolTipText(messages.getMessage("swing.settings.misc.enableSmileys.tooltip"));
+        smileysCB = new JCheckBox(swingMessages.getMessage("swing.settings.misc.enableSmileys.label"));
+        smileysCB.setToolTipText(swingMessages.getMessage("swing.settings.misc.enableSmileys.tooltip"));
 
-        balloonCB = new JCheckBox(messages.getMessage("swing.settings.misc.enableBalloons.label"));
-        balloonCB.setToolTipText(messages.getMessage("swing.settings.misc.enableBalloons.tooltip"));
+        balloonCB = new JCheckBox(swingMessages.getMessage("swing.settings.misc.enableBalloons.label"));
+        balloonCB.setToolTipText(swingMessages.getMessage("swing.settings.misc.enableBalloons.tooltip"));
 
         final JPanel miscCheckBoxP = new JPanel(new GridLayout(2, 2));
         miscCheckBoxP.add(soundCB);
@@ -182,8 +182,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
         miscCheckBoxP.add(smileysCB);
         miscCheckBoxP.add(balloonCB);
 
-        final JLabel networkInterfaceL = new JLabel(messages.getMessage("swing.settings.misc.networkInterface.label"));
-        networkInterfaceL.setToolTipText(messages.getMessage("swing.settings.misc.networkInterface.tooltip", Constants.APP_NAME));
+        final JLabel networkInterfaceL = new JLabel(swingMessages.getMessage("swing.settings.misc.networkInterface.label"));
+        networkInterfaceL.setToolTipText(swingMessages.getMessage("swing.settings.misc.networkInterface.tooltip", Constants.APP_NAME));
         networkInterfaceCB = new JComboBox();
         networkInterfaceCB.setRenderer(new NetworkChoiceCellRenderer());
 
@@ -197,21 +197,21 @@ public class SettingsDialog extends JDialog implements ActionListener {
         miscP.add(miscCheckBoxP, BorderLayout.NORTH);
         miscP.add(networkInterfaceP, BorderLayout.SOUTH);
         miscP.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createTitledBorder(messages.getMessage("swing.settings.misc.border")),
+                BorderFactory.createTitledBorder(swingMessages.getMessage("swing.settings.misc.border")),
                 BorderFactory.createEmptyBorder(0, 5, 0, 5)));
 
-        final JLabel browserL = new JLabel(messages.getMessage("swing.settings.chooseBrowser.browser.label"));
+        final JLabel browserL = new JLabel(swingMessages.getMessage("swing.settings.chooseBrowser.browser.label"));
         browserTF = new JTextField(22);
-        browserTF.setToolTipText(messages.getMessage("swing.settings.chooseBrowser.browser.tooltip"));
-        new CopyPastePopup(browserTF, messages);
+        browserTF.setToolTipText(swingMessages.getMessage("swing.settings.chooseBrowser.browser.tooltip"));
+        new CopyPastePopup(browserTF, swingMessages);
 
         final JPanel browserTopP = new JPanel(new FlowLayout(FlowLayout.LEFT));
         browserTopP.add(browserL);
         browserTopP.add(browserTF);
 
-        chooseBrowserB = new JButton(messages.getMessage("swing.button.choose"));
+        chooseBrowserB = new JButton(swingMessages.getMessage("swing.button.choose"));
         chooseBrowserB.addActionListener(this);
-        testBrowserB = new JButton(messages.getMessage("swing.button.test"));
+        testBrowserB = new JButton(swingMessages.getMessage("swing.button.test"));
         testBrowserB.addActionListener(this);
 
         final JPanel browserBottomP = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -221,16 +221,16 @@ public class SettingsDialog extends JDialog implements ActionListener {
         final JPanel browserP = new JPanel(new BorderLayout());
         browserP.add(browserTopP, BorderLayout.NORTH);
         browserP.add(browserBottomP, BorderLayout.SOUTH);
-        browserP.setBorder(BorderFactory.createTitledBorder(messages.getMessage("swing.settings.chooseBrowser.border")));
+        browserP.setBorder(BorderFactory.createTitledBorder(swingMessages.getMessage("swing.settings.chooseBrowser.border")));
 
         final JPanel centerP = new JPanel(new BorderLayout());
         centerP.add(lookP, BorderLayout.CENTER);
         centerP.add(miscP, BorderLayout.SOUTH);
         centerP.add(browserP, BorderLayout.NORTH);
 
-        saveB = new JButton(messages.getMessage("swing.button.ok"));
+        saveB = new JButton(swingMessages.getMessage("swing.button.ok"));
         saveB.addActionListener(this);
-        cancelB = new JButton(messages.getMessage("swing.button.cancel"));
+        cancelB = new JButton(swingMessages.getMessage("swing.button.cancel"));
         cancelB.addActionListener(this);
         saveB.setPreferredSize(cancelB.getPreferredSize());
 
@@ -249,7 +249,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         pack();
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         setIconImage(new StatusIcons(imageLoader).getNormalIcon());
-        setTitle(uiTools.createTitle(messages.getMessage("swing.settings.title")));
+        setTitle(uiTools.createTitle(swingMessages.getMessage("swing.settings.title")));
         setResizable(false);
         setModal(true);
         hideWithEscape();

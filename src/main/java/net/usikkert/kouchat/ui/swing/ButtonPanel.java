@@ -69,31 +69,31 @@ public class ButtonPanel extends JPanel implements ActionListener {
     /**
      * Constructor. Initializes the buttons.
      *
-     * @param messages The messages to use for the buttons.
+     * @param swingMessages The swing messages to use for the buttons.
      */
-    public ButtonPanel(final SwingMessages messages) {
-        Validate.notNull(messages, "Messages can not be null");
+    public ButtonPanel(final SwingMessages swingMessages) {
+        Validate.notNull(swingMessages, "Swing messages can not be null");
 
         setLayout(new GridLayout(4, 1));
 
-        clearB = new JButton(messages.getMessage("swing.buttonBar.clear"));
+        clearB = new JButton(swingMessages.getMessage("swing.buttonBar.clear"));
         clearB.addActionListener(this);
-        clearB.setToolTipText(messages.getMessage("swing.buttonBar.clear.tooltip"));
+        clearB.setToolTipText(swingMessages.getMessage("swing.buttonBar.clear.tooltip"));
         add(clearB);
 
-        awayB = new JButton(messages.getMessage("swing.buttonBar.away"));
+        awayB = new JButton(swingMessages.getMessage("swing.buttonBar.away"));
         awayB.addActionListener(this);
-        awayB.setToolTipText(messages.getMessage("swing.buttonBar.away.tooltip"));
+        awayB.setToolTipText(swingMessages.getMessage("swing.buttonBar.away.tooltip"));
         add(awayB);
 
-        topicB = new JButton(messages.getMessage("swing.buttonBar.topic"));
+        topicB = new JButton(swingMessages.getMessage("swing.buttonBar.topic"));
         topicB.addActionListener(this);
-        topicB.setToolTipText(messages.getMessage("swing.buttonBar.topic.tooltip"));
+        topicB.setToolTipText(swingMessages.getMessage("swing.buttonBar.topic.tooltip"));
         add(topicB);
 
-        minimizeB = new JButton(messages.getMessage("swing.buttonBar.minimize"));
+        minimizeB = new JButton(swingMessages.getMessage("swing.buttonBar.minimize"));
         minimizeB.addActionListener(this);
-        minimizeB.setToolTipText(messages.getMessage("swing.buttonBar.minimize.tooltip"));
+        minimizeB.setToolTipText(swingMessages.getMessage("swing.buttonBar.minimize.tooltip"));
         add(minimizeB);
 
         setBorder(BorderFactory.createEmptyBorder(0, 0, 1, 1));

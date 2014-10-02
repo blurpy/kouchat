@@ -65,31 +65,31 @@ public class CopyPastePopup extends JPopupMenu implements PopupMenuListener, Act
      * Constructor. Creates the menu.
      *
      * @param textfield The text field to use the popup on.
-     * @param messages The messages to use for the menu items.
+     * @param swingMessages The swing messages to use for the menu items.
      */
-    public CopyPastePopup(final JTextField textfield, final SwingMessages messages) {
+    public CopyPastePopup(final JTextField textfield, final SwingMessages swingMessages) {
         Validate.notNull(textfield, "Text field can not be null");
-        Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(swingMessages, "Swing messages can not be null");
 
         this.textfield = textfield;
 
         copyMI = new JMenuItem(new DefaultEditorKit.CopyAction());
-        copyMI.setText(messages.getMessage("swing.rightClickPopup.menu.copy"));
-        copyMI.setMnemonic(keyCode(messages.getMessage("swing.rightClickPopup.menu.copy.mnemonic")));
+        copyMI.setText(swingMessages.getMessage("swing.rightClickPopup.menu.copy"));
+        copyMI.setMnemonic(keyCode(swingMessages.getMessage("swing.rightClickPopup.menu.copy.mnemonic")));
         copyMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK));
 
         cutMI = new JMenuItem(new DefaultEditorKit.CutAction());
-        cutMI.setText(messages.getMessage("swing.rightClickPopup.menu.cut"));
-        cutMI.setMnemonic(keyCode(messages.getMessage("swing.rightClickPopup.menu.cut.mnemonic")));
+        cutMI.setText(swingMessages.getMessage("swing.rightClickPopup.menu.cut"));
+        cutMI.setMnemonic(keyCode(swingMessages.getMessage("swing.rightClickPopup.menu.cut.mnemonic")));
         cutMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_MASK));
 
         pasteMI = new JMenuItem(new DefaultEditorKit.PasteAction());
-        pasteMI.setText(messages.getMessage("swing.rightClickPopup.menu.paste"));
-        pasteMI.setMnemonic(keyCode(messages.getMessage("swing.rightClickPopup.menu.paste.mnemonic")));
+        pasteMI.setText(swingMessages.getMessage("swing.rightClickPopup.menu.paste"));
+        pasteMI.setMnemonic(keyCode(swingMessages.getMessage("swing.rightClickPopup.menu.paste.mnemonic")));
         pasteMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_MASK));
 
-        clearMI = new JMenuItem(messages.getMessage("swing.rightClickPopup.menu.clear"));
-        clearMI.setMnemonic(keyCode(messages.getMessage("swing.rightClickPopup.menu.clear.mnemonic")));
+        clearMI = new JMenuItem(swingMessages.getMessage("swing.rightClickPopup.menu.clear"));
+        clearMI.setMnemonic(keyCode(swingMessages.getMessage("swing.rightClickPopup.menu.clear.mnemonic")));
 
         add(cutMI);
         add(copyMI);

@@ -38,10 +38,10 @@ public class SwingPopupErrorHandler implements ErrorListener {
 
     private final SwingMessages messages;
 
-    public SwingPopupErrorHandler(final SwingMessages messages) {
-        Validate.notNull(messages, "Messages can not be null");
+    public SwingPopupErrorHandler(final SwingMessages swingMessages) {
+        Validate.notNull(swingMessages, "Swing messages can not be null");
 
-        this.messages = messages;
+        this.messages = swingMessages;
     }
 
     /**

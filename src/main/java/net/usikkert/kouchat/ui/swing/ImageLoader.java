@@ -143,19 +143,19 @@ public class ImageLoader {
      * Constructor. Loads and validates the images.
      *
      * @param errorHandler The error handler to use to show messages if image loading fails.
-     * @param messages The messages to use in errors.
+     * @param swingMessages The swing messages to use in errors.
      * @param resourceValidator Validator that verifies that all the images are found.
      * @param resourceLoader Resource loader for the images.
      */
-    public ImageLoader(final ErrorHandler errorHandler, final SwingMessages messages,
+    public ImageLoader(final ErrorHandler errorHandler, final SwingMessages swingMessages,
                        final ResourceValidator resourceValidator, final ResourceLoader resourceLoader) {
         Validate.notNull(errorHandler, "Error handler can not be null");
-        Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(swingMessages, "Swing messages can not be null");
         Validate.notNull(resourceValidator, "Resource validator can not be null");
         Validate.notNull(resourceLoader, "Resource loader can not be null");
 
         this.errorHandler = errorHandler;
-        this.messages = messages;
+        this.messages = swingMessages;
         this.resourceValidator = resourceValidator;
         this.resourceLoader = resourceLoader;
 

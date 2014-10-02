@@ -75,13 +75,13 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer {
      * Default constructor.
      *
      * @param imageLoader The image loader.
-     * @param messages The messages to use.
+     * @param swingMessages The swing messages to use.
      */
-    public UserListCellRenderer(final ImageLoader imageLoader, final SwingMessages messages) {
+    public UserListCellRenderer(final ImageLoader imageLoader, final SwingMessages swingMessages) {
         Validate.notNull(imageLoader, "Image loader can not be null");
-        Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(swingMessages, "Swing messages can not be null");
 
-        this.messages = messages;
+        this.messages = swingMessages;
 
         envelope = imageLoader.getEnvelopeIcon();
         dot = imageLoader.getDotIcon();

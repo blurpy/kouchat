@@ -85,14 +85,14 @@ public class UITools {
      * @param url The url to open in the browser.
      * @param settings The settings to use.
      * @param errorHandler The error handler to use if opening the browser fails.
-     * @param messages The messages to use in errors.
+     * @param swingMessages The swing messages to use in errors.
      */
     public void browse(final String url, final Settings settings, final ErrorHandler errorHandler,
-                       final SwingMessages messages) {
+                       final SwingMessages swingMessages) {
         Validate.notEmpty(url, "Url can not be empty");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
-        Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(swingMessages, "Swing messages can not be null");
 
         final String browser = settings.getBrowser();
 
@@ -106,7 +106,7 @@ public class UITools {
 
             catch (final IOException e) {
                 LOG.log(Level.WARNING, "Failed to run command to open browser from settings: '" + command + "'", e);
-                errorHandler.showError(messages.getMessage("swing.browse.errorPopup.couldNotOpenChosen", browser));
+                errorHandler.showError(swingMessages.getMessage("swing.browse.errorPopup.couldNotOpenChosen", browser));
             }
         }
 
@@ -118,17 +118,17 @@ public class UITools {
 
             catch (final IOException e) {
                 LOG.log(Level.WARNING, "Failed to open '" + url + "' in default browser", e);
-                errorHandler.showError(messages.getMessage("swing.browse.errorPopup.couldNotOpenDefault", url));
+                errorHandler.showError(swingMessages.getMessage("swing.browse.errorPopup.couldNotOpenDefault", url));
             }
 
             catch (final URISyntaxException e) {
                 LOG.log(Level.WARNING, "Failed to open '" + url + "' in default browser", e);
-                errorHandler.showError(messages.getMessage("swing.browse.errorPopup.couldNotOpenUrl", url));
+                errorHandler.showError(swingMessages.getMessage("swing.browse.errorPopup.couldNotOpenUrl", url));
             }
         }
 
         else {
-            errorHandler.showError(messages.getMessage("swing.browse.errorPopup.noBrowserToOpen"));
+            errorHandler.showError(swingMessages.getMessage("swing.browse.errorPopup.noBrowserToOpen"));
         }
     }
 
@@ -154,14 +154,14 @@ public class UITools {
      * @param file A file or directory to open.
      * @param settings The settings to use.
      * @param errorHandler The error handler to use if opening the browser fails.
-     * @param messages The messages to use in errors.
+     * @param swingMessages The messages to use in errors.
      */
     public void open(final File file, final Settings settings, final ErrorHandler errorHandler,
-                     final SwingMessages messages) {
+                     final SwingMessages swingMessages) {
         Validate.notNull(file, "File can not be null");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
-        Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(swingMessages, "Swing messages can not be null");
 
         boolean desktopOpenSuccess = false;
 
@@ -177,7 +177,7 @@ public class UITools {
         }
 
         if (!desktopOpenSuccess) {
-            browse(file.getAbsolutePath(), settings, errorHandler, messages);
+            browse(file.getAbsolutePath(), settings, errorHandler, swingMessages);
         }
     }
 

@@ -87,22 +87,22 @@ public class SwingMediator implements Mediator, UserInterface {
      * @param compHandler An object with references to all the gui components this mediator works with.
      * @param imageLoader The image loader.
      * @param settings The settings to use.
-     * @param messages The messages to use.
+     * @param swingMessages The swing messages to use.
      * @param errorHandler The error handler to use.
      */
     public SwingMediator(final ComponentHandler compHandler, final ImageLoader imageLoader,
-                         final Settings settings, final SwingMessages messages, final ErrorHandler errorHandler) {
+                         final Settings settings, final SwingMessages swingMessages, final ErrorHandler errorHandler) {
         Validate.notNull(compHandler, "Component handler can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
-        Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(swingMessages, "Swing messages can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
 
         compHandler.validate();
 
         this.imageLoader = imageLoader;
         this.settings = settings;
-        this.messages = messages;
+        this.messages = swingMessages;
         this.errorHandler = errorHandler;
 
         final SidePanel sideP = compHandler.getSidePanel();

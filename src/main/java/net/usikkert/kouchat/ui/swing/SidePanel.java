@@ -98,24 +98,24 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
      * @param buttonP The button panel.
      * @param imageLoader The image loader.
      * @param settings The settings to use.
-     * @param messages The messages to use in this panel.
+     * @param swingMessages The swing messages to use in this panel.
      */
     public SidePanel(final ButtonPanel buttonP, final ImageLoader imageLoader, final Settings settings,
-                     final SwingMessages messages) {
+                     final SwingMessages swingMessages) {
         Validate.notNull(buttonP, "Button panel can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
-        Validate.notNull(messages, "Messages can not be null");
+        Validate.notNull(swingMessages, "Swing messages can not be null");
 
         this.buttonP = buttonP;
         this.settings = settings;
-        this.messages = messages;
+        this.messages = swingMessages;
 
         setLayout(new BorderLayout(2, 2));
 
         fileTransferHandler = new FileTransferHandler(this);
         userL = new JList();
-        userL.setCellRenderer(new UserListCellRenderer(imageLoader, messages));
+        userL.setCellRenderer(new UserListCellRenderer(imageLoader, swingMessages));
         userL.addMouseListener(this);
         userL.setTransferHandler(fileTransferHandler);
         userL.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -125,14 +125,14 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
         add(buttonP, BorderLayout.SOUTH);
 
         userMenu = new JPopupMenu();
-        infoMI = new JMenuItem(messages.getMessage("swing.userList.rightClickPopup.menu.info"));
-        infoMI.setMnemonic(keyCode(messages.getMessage("swing.userList.rightClickPopup.menu.info.mnemonic")));
+        infoMI = new JMenuItem(swingMessages.getMessage("swing.userList.rightClickPopup.menu.info"));
+        infoMI.setMnemonic(keyCode(swingMessages.getMessage("swing.userList.rightClickPopup.menu.info.mnemonic")));
         infoMI.addActionListener(this);
-        sendfileMI = new JMenuItem(messages.getMessage("swing.userList.rightClickPopup.menu.sendFile"));
-        sendfileMI.setMnemonic(keyCode(messages.getMessage("swing.userList.rightClickPopup.menu.sendFile.mnemonic")));
+        sendfileMI = new JMenuItem(swingMessages.getMessage("swing.userList.rightClickPopup.menu.sendFile"));
+        sendfileMI.setMnemonic(keyCode(swingMessages.getMessage("swing.userList.rightClickPopup.menu.sendFile.mnemonic")));
         sendfileMI.addActionListener(this);
-        privchatMI = new JMenuItem(messages.getMessage("swing.userList.rightClickPopup.menu.privateChat"));
-        privchatMI.setMnemonic(keyCode(messages.getMessage("swing.userList.rightClickPopup.menu.privateChat.mnemonic")));
+        privchatMI = new JMenuItem(swingMessages.getMessage("swing.userList.rightClickPopup.menu.privateChat"));
+        privchatMI.setMnemonic(keyCode(swingMessages.getMessage("swing.userList.rightClickPopup.menu.privateChat.mnemonic")));
         privchatMI.addActionListener(this);
         privchatMI.setFont(privchatMI.getFont().deriveFont(Font.BOLD)); // default menu item
         userMenu.add(infoMI);
