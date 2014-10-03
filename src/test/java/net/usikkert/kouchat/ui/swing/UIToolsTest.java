@@ -103,7 +103,7 @@ public class UIToolsTest {
     @Test
     public void browseShouldThrowExceptionIfMessagesIsNull() {
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Messages can not be null");
+        expectedException.expectMessage("Swing messages can not be null");
 
         uiTools.browse("url", settings, errorHandler, null);
     }

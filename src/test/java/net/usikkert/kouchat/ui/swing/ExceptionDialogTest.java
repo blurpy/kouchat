@@ -108,7 +108,7 @@ public class ExceptionDialogTest {
     @Test
     public void constructorShouldThrowExceptionIfMessagesIsNull() {
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Messages can not be null");
+        expectedException.expectMessage("Swing messages can not be null");
 
         new ExceptionDialog(mock(ImageLoader.class), null);
     }

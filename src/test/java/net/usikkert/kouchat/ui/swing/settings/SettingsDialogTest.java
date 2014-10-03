@@ -223,7 +223,7 @@ public class SettingsDialogTest  {
     @Test
     public void constructorShouldThrowExceptionIfMessagesIsNull() {
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Messages can not be null");
+        expectedException.expectMessage("Swing messages can not be null");
 
         new SettingsDialog(imageLoader, settings, errorHandler, null);
     }

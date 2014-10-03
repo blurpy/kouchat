@@ -176,7 +176,7 @@ public class TransferDialogTest {
     @Test
     public void constructorShouldThrowExceptionIfMessagesIsNull() {
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Messages can not be null");
+        expectedException.expectMessage("Swing messages can not be null");
 
         new TransferDialog(mediator, fileTransfer, imageLoader, settings, null, errorHandler);
     }

@@ -121,7 +121,7 @@ public class SidePanelTest {
     @Test
     public void constructorShouldThrowExceptionIfMessagesIsNull() {
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Messages can not be null");
+        expectedException.expectMessage("Swing messages can not be null");
 
         new SidePanel(mock(ButtonPanel.class), mock(ImageLoader.class), mock(Settings.class), null);
     }

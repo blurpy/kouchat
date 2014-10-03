@@ -83,7 +83,7 @@ public class CopyPopupTest {
     @Test
     public void constructorShouldThrowExceptionIfMessagesIsNull() {
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Messages can not be null");
+        expectedException.expectMessage("Swing messages can not be null");
 
         new CopyPopup(mock(JTextPane.class), null);
     }

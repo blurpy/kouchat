@@ -80,7 +80,7 @@ public class ImageLoaderTest {
     @Test
     public void constructorShouldThrowExceptionIfMessagesIsNull() {
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Messages can not be null");
+        expectedException.expectMessage("Swing messages can not be null");
 
         new ImageLoader(mock(ErrorHandler.class), null, new ResourceValidator(), new ResourceLoader());
     }

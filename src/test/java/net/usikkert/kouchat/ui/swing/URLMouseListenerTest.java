@@ -71,7 +71,7 @@ public class URLMouseListenerTest {
     @Test
     public void constructorShouldThrowExceptionIfMessagesIsNull() {
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Messages can not be null");
+        expectedException.expectMessage("Swing messages can not be null");
 
         new URLMouseListener(mock(JTextPane.class), mock(Settings.class), mock(ErrorHandler.class), null);
     }

@@ -86,7 +86,7 @@ public class UserListCellRendererTest {
     @Test
     public void constructorShouldThrowExceptionIfMessagesIsNull() {
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Messages can not be null");
+        expectedException.expectMessage("Swing messages can not be null");
 
         new UserListCellRenderer(mock(ImageLoader.class), null);
     }
