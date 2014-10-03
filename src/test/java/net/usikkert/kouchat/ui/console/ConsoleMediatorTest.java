@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import net.usikkert.kouchat.jmx.JMXAgent;
+import net.usikkert.kouchat.message.CoreMessages;
 import net.usikkert.kouchat.misc.ChatLogger;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.ErrorHandler;
@@ -62,16 +63,18 @@ public class ConsoleMediatorTest {
     private Sleeper sleeper;
     private JMXAgent jmxAgent;
     private Settings settings;
-    private ConsoleMessages messages;
+    private ConsoleMessages consoleMessages;
+    private CoreMessages coreMessages;
     private ErrorHandler errorHandler;
 
     @Before
     public void setUp() {
         settings = new Settings();
-        messages = new ConsoleMessages();
+        consoleMessages = new ConsoleMessages();
+        coreMessages = new CoreMessages();
         errorHandler = mock(ErrorHandler.class);
 
-        mediator = new ConsoleMediator(settings, messages, errorHandler);
+        mediator = new ConsoleMediator(settings, consoleMessages, coreMessages, errorHandler);
 
         msgController = TestUtils.setFieldValueWithMock(mediator, "msgController", MessageController.class);
         controller = TestUtils.setFieldValueWithMock(mediator, "controller", Controller.class);
@@ -85,7 +88,7 @@ public class ConsoleMediatorTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new ConsoleMediator(null, messages, errorHandler);
+        new ConsoleMediator(null, consoleMessages, coreMessages, errorHandler);
     }
 
     @Test
@@ -93,7 +96,15 @@ public class ConsoleMediatorTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Console messages can not be null");
 
-        new ConsoleMediator(settings, null, errorHandler);
+        new ConsoleMediator(settings, null, coreMessages, errorHandler);
+    }
+
+    @Test
+    public void constructShouldThrowExceptionIfCoreMessagesIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Core messages can not be null");
+
+        new ConsoleMediator(settings, consoleMessages, null, errorHandler);
     }
 
     @Test
@@ -101,7 +112,7 @@ public class ConsoleMediatorTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Error handler can not be null");
 
-        new ConsoleMediator(settings, messages, null);
+        new ConsoleMediator(settings, consoleMessages, coreMessages, null);
     }
 
     @Test

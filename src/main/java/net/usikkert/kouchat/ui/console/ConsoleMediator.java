@@ -23,6 +23,7 @@
 package net.usikkert.kouchat.ui.console;
 
 import net.usikkert.kouchat.jmx.JMXAgent;
+import net.usikkert.kouchat.message.CoreMessages;
 import net.usikkert.kouchat.misc.ChatLogger;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.ErrorHandler;
@@ -59,12 +60,14 @@ public class ConsoleMediator implements UserInterface {
      *
      * @param settings The settings to use.
      * @param consoleMessages The messages to use for the console ui.
+     * @param coreMessages The core messages to use elsewhere.
      * @param errorHandler The error handler to use.
      */
     public ConsoleMediator(final Settings settings, final ConsoleMessages consoleMessages,
-                           final ErrorHandler errorHandler) {
+                           final CoreMessages coreMessages, final ErrorHandler errorHandler) {
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(consoleMessages, "Console messages can not be null");
+        Validate.notNull(coreMessages, "Core messages can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
 
         this.settings = settings;

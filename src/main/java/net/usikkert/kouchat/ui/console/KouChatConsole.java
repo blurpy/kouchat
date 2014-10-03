@@ -22,6 +22,7 @@
 
 package net.usikkert.kouchat.ui.console;
 
+import net.usikkert.kouchat.message.CoreMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.util.Validate;
@@ -48,7 +49,9 @@ public class KouChatConsole {
         settings.setClient("Console");
 
         final ConsoleMessages consoleMessages = new ConsoleMessages();
-        consoleMediator = new ConsoleMediator(settings, consoleMessages, errorHandler);
+        final CoreMessages coreMessages = new CoreMessages();
+
+        consoleMediator = new ConsoleMediator(settings, consoleMessages, coreMessages, errorHandler);
     }
 
     /**
