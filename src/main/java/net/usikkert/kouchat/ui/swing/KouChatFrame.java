@@ -46,6 +46,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.WindowConstants;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.message.CoreMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.settings.Settings;
@@ -112,6 +113,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
         me = settings.getMe();
 
         final SwingMessages swingMessages = new SwingMessages();
+        final CoreMessages coreMessages = new CoreMessages();
 
         setLookAndFeel();
         errorHandler.addErrorListener(new SwingPopupErrorHandler(swingMessages));
@@ -136,7 +138,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
         compHandler.setSettingsDialog(settingsDialog);
         compHandler.setMenuBar(menuBar);
 
-        mediator = new SwingMediator(compHandler, imageLoader, settings, swingMessages, errorHandler);
+        mediator = new SwingMediator(compHandler, imageLoader, settings, swingMessages, coreMessages, errorHandler);
 
         buttonP.setMediator(mediator);
         sideP.setMediator(mediator);

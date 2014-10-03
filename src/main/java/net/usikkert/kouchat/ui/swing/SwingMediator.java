@@ -28,6 +28,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import net.usikkert.kouchat.jmx.JMXAgent;
+import net.usikkert.kouchat.message.CoreMessages;
 import net.usikkert.kouchat.misc.ChatLogger;
 import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.CommandParser;
@@ -87,15 +88,18 @@ public class SwingMediator implements Mediator, UserInterface {
      * @param compHandler An object with references to all the gui components this mediator works with.
      * @param imageLoader The image loader.
      * @param settings The settings to use.
-     * @param swingMessages The swing messages to use.
+     * @param swingMessages The swing messages to use for the user interface.
+     * @param coreMessages The core messages to use elsewhere.
      * @param errorHandler The error handler to use.
      */
-    public SwingMediator(final ComponentHandler compHandler, final ImageLoader imageLoader,
-                         final Settings settings, final SwingMessages swingMessages, final ErrorHandler errorHandler) {
+    public SwingMediator(final ComponentHandler compHandler, final ImageLoader imageLoader, final Settings settings,
+                         final SwingMessages swingMessages, final CoreMessages coreMessages,
+                         final ErrorHandler errorHandler) {
         Validate.notNull(compHandler, "Component handler can not be null");
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(swingMessages, "Swing messages can not be null");
+        Validate.notNull(coreMessages, "Core messages can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
 
         compHandler.validate();

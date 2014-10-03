@@ -32,6 +32,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import net.usikkert.kouchat.jmx.JMXAgent;
+import net.usikkert.kouchat.message.CoreMessages;
 import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.CommandParser;
 import net.usikkert.kouchat.misc.Controller;
@@ -91,9 +92,10 @@ public class SwingMediatorTest {
     private ButtonPanel buttonP;
     private UserList userList;
     private ErrorHandler errorHandler;
-    private SwingMessages messages;
+    private SwingMessages swingMessages;
     private ImageLoader imageLoader;
     private Settings settings;
+    private CoreMessages coreMessages;
 
     @Before
     public void setUp() {
@@ -125,11 +127,12 @@ public class SwingMediatorTest {
         settings = mock(Settings.class);
         when(settings.getMe()).thenReturn(me);
 
-        messages = new SwingMessages();
+        swingMessages = new SwingMessages();
+        coreMessages = new CoreMessages();
         errorHandler = mock(ErrorHandler.class);
         imageLoader = mock(ImageLoader.class);
 
-        mediator = spy(new SwingMediator(componentHandler, imageLoader, settings, messages, errorHandler));
+        mediator = spy(new SwingMediator(componentHandler, imageLoader, settings, swingMessages, coreMessages, errorHandler));
 
         uiTools = TestUtils.setFieldValueWithMock(mediator, "uiTools", UITools.class);
         controller = TestUtils.setFieldValueWithMock(mediator, "controller", Controller.class);
@@ -153,7 +156,7 @@ public class SwingMediatorTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Component handler can not be null");
 
-        new SwingMediator(null, imageLoader, settings, messages, errorHandler);
+        new SwingMediator(null, imageLoader, settings, swingMessages, coreMessages, errorHandler);
     }
 
     @Test
@@ -161,7 +164,7 @@ public class SwingMediatorTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Image loader can not be null");
 
-        new SwingMediator(componentHandler, null, settings, messages, errorHandler);
+        new SwingMediator(componentHandler, null, settings, swingMessages, coreMessages, errorHandler);
     }
 
     @Test
@@ -169,15 +172,23 @@ public class SwingMediatorTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new SwingMediator(componentHandler, imageLoader, null, messages, errorHandler);
+        new SwingMediator(componentHandler, imageLoader, null, swingMessages, coreMessages, errorHandler);
     }
 
     @Test
-    public void constructorShouldThrowExceptionIfMessagesIsNull() {
+    public void constructorShouldThrowExceptionIfSwingMessagesIsNull() {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Swing messages can not be null");
 
-        new SwingMediator(componentHandler, imageLoader, settings, null, errorHandler);
+        new SwingMediator(componentHandler, imageLoader, settings, null, coreMessages, errorHandler);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfCoreMessagesIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Core messages can not be null");
+
+        new SwingMediator(componentHandler, imageLoader, settings, swingMessages, null, errorHandler);
     }
 
     @Test
@@ -185,7 +196,7 @@ public class SwingMediatorTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Error handler can not be null");
 
-        new SwingMediator(componentHandler, imageLoader, settings, messages, null);
+        new SwingMediator(componentHandler, imageLoader, settings, swingMessages, coreMessages, null);
     }
 
     @Test
