@@ -120,7 +120,8 @@ public class SwingMediator implements Mediator, UserInterface {
         me = settings.getMe();
 
         msgController = new MessageController(mainP, this, settings, errorHandler);
-        final PropertyFileSettingsSaver settingsSaver = new PropertyFileSettingsSaver(settings, errorHandler);
+        final PropertyFileSettingsSaver settingsSaver =
+                new PropertyFileSettingsSaver(settings, coreMessages, errorHandler);
         controller = new Controller(this, settings, settingsSaver, errorHandler);
         cmdParser = new CommandParser(controller, this, settings);
         beeper = new SoundBeeper(settings, new ResourceLoader(), errorHandler);

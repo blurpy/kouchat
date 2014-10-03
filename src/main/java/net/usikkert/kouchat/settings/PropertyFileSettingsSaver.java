@@ -30,6 +30,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.message.CoreMessages;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.util.IOTools;
@@ -52,8 +53,10 @@ public class PropertyFileSettingsSaver implements SettingsSaver {
     private final Settings settings;
     private final ErrorHandler errorHandler;
 
-    public PropertyFileSettingsSaver(final Settings settings, final ErrorHandler errorHandler) {
+    public PropertyFileSettingsSaver(final Settings settings, final CoreMessages coreMessages,
+                                     final ErrorHandler errorHandler) {
         Validate.notNull(settings, "Settings can not be null");
+        Validate.notNull(coreMessages, "Core messages can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
 
         this.settings = settings;
