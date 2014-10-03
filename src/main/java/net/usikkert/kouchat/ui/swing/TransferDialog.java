@@ -88,7 +88,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
 
     private final Mediator mediator;
     private final Settings settings;
-    private final SwingMessages messages;
+    private final SwingMessages swingMessages;
     private final ErrorHandler errorHandler;
 
     /** If the dialog is in a state where it will be closed when clicking the cancel button (with the text "Close"). */
@@ -119,7 +119,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
         this.mediator = mediator;
         this.fileTransfer = fileTransfer;
         this.settings = settings;
-        this.messages = swingMessages;
+        this.swingMessages = swingMessages;
         this.errorHandler = errorHandler;
 
         cancelB = new JButton(swingMessages.getMessage("swing.button.cancel"));
@@ -288,7 +288,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
             mediator.transferCancelled(this);
         } else if (event.getSource() == openB) {
             final File folder = fileTransfer.getFile().getParentFile();
-            uiTools.open(folder, settings, errorHandler, messages);
+            uiTools.open(folder, settings, errorHandler, swingMessages);
         }
     }
 
@@ -304,12 +304,12 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
                 statusL.setForeground(new Color(0, 176, 0));
 
                 if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE) {
-                    statusL.setText(messages.getMessage("swing.transferDialog.status.completed.receive"));
+                    statusL.setText(swingMessages.getMessage("swing.transferDialog.status.completed.receive"));
                     openB.setEnabled(true);
                 }
 
                 else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND) {
-                    statusL.setText(messages.getMessage("swing.transferDialog.status.completed.send"));
+                    statusL.setText(swingMessages.getMessage("swing.transferDialog.status.completed.send"));
                 }
 
                 setAsCloseable();
@@ -326,7 +326,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
         uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
-                statusL.setText(messages.getMessage("swing.transferDialog.status.connecting"));
+                statusL.setText(swingMessages.getMessage("swing.transferDialog.status.connecting"));
             }
         });
     }
@@ -343,9 +343,9 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
                 statusL.setForeground(Color.RED);
 
                 if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE) {
-                    statusL.setText(messages.getMessage("swing.transferDialog.status.failed.receive"));
+                    statusL.setText(swingMessages.getMessage("swing.transferDialog.status.failed.receive"));
                 } else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND) {
-                    statusL.setText(messages.getMessage("swing.transferDialog.status.failed.send"));
+                    statusL.setText(swingMessages.getMessage("swing.transferDialog.status.failed.send"));
                 }
 
                 setAsCloseable();
@@ -363,9 +363,9 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
             @Override
             public void run() {
                 if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE) {
-                    statusL.setText(messages.getMessage("swing.transferDialog.status.transferring.receive"));
+                    statusL.setText(swingMessages.getMessage("swing.transferDialog.status.transferring.receive"));
                 } else if (fileTransfer.getDirection() == FileTransfer.Direction.SEND) {
-                    statusL.setText(messages.getMessage("swing.transferDialog.status.transferring.send"));
+                    statusL.setText(swingMessages.getMessage("swing.transferDialog.status.transferring.send"));
                 }
             }
         });
@@ -385,7 +385,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
                 final User me = settings.getMe();
                 final User other = fileTransfer.getUser();
 
-                statusL.setText(messages.getMessage("swing.transferDialog.status.waiting"));
+                statusL.setText(swingMessages.getMessage("swing.transferDialog.status.waiting"));
 
                 if (fileTransfer.getDirection() == FileTransfer.Direction.RECEIVE) {
                     sourceL.setText(other.getNick() + " (" + other.getIpAddress() + ")");
@@ -441,15 +441,15 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
      * @param percent The percentage of the file transferred.
      */
     private void updateTitle(final int percent) {
-        setTitle(uiTools.createTitle(messages.getMessage("swing.transferDialog.title", percent)));
+        setTitle(uiTools.createTitle(swingMessages.getMessage("swing.transferDialog.title", percent)));
     }
 
     private void setAsCloseable() {
         closeable = true;
-        cancelB.setText(messages.getMessage("swing.button.close"));
+        cancelB.setText(swingMessages.getMessage("swing.button.close"));
     }
 
     private String createTransferStatusText(final String transferred, final String fileSize, final String speed) {
-        return messages.getMessage("swing.transferDialog.transferred.value", transferred, fileSize, speed);
+        return swingMessages.getMessage("swing.transferDialog.transferred.value", transferred, fileSize, speed);
     }
 }

@@ -54,7 +54,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
     private final ImageLoader imageLoader;
     private final Settings settings;
-    private final SwingMessages messages;
+    private final SwingMessages swingMessages;
     private final ErrorHandler errorHandler;
 
     private Mediator mediator;
@@ -77,7 +77,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
         this.imageLoader = imageLoader;
         this.settings = settings;
-        this.messages = swingMessages;
+        this.swingMessages = swingMessages;
         this.errorHandler = errorHandler;
 
         fileMenu = new JMenu(swingMessages.getMessage("swing.menu.file"));
@@ -252,7 +252,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 public void run() {
                     if (faqViewer == null) {
                         faqViewer = createTextViewerDialog(Constants.FILE_FAQ,
-                                messages.getMessage("swing.textViewerDialog.faq.title"), true);
+                                swingMessages.getMessage("swing.textViewerDialog.faq.title"), true);
                     }
 
                     faqViewer.setVisible(true);
@@ -267,7 +267,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 public void run() {
                     if (tipsViewer == null) {
                         tipsViewer = createTextViewerDialog(Constants.FILE_TIPS,
-                                messages.getMessage("swing.textViewerDialog.tipsAndTricks.title"), false);
+                                swingMessages.getMessage("swing.textViewerDialog.tipsAndTricks.title"), false);
                     }
 
                     tipsViewer.setVisible(true);
@@ -306,12 +306,12 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 public void run() {
                     final MessageDialog aboutD = createMessageDialog();
 
-                    aboutD.setTitle(uiTools.createTitle(messages.getMessage("swing.aboutDialog.title")));
-                    aboutD.setTopText(messages.getMessage("swing.aboutDialog.version", Constants.APP_NAME, Constants.APP_VERSION));
-                    aboutD.setContent(messages.getMessage("swing.aboutDialog.content",
-                            Constants.APP_COPYRIGHT_YEARS, Constants.AUTHOR_NAME,
-                            Constants.AUTHOR_MAIL, Constants.APP_WEB,
-                            Constants.APP_LICENSE_NAME));
+                    aboutD.setTitle(uiTools.createTitle(swingMessages.getMessage("swing.aboutDialog.title")));
+                    aboutD.setTopText(swingMessages.getMessage("swing.aboutDialog.version", Constants.APP_NAME, Constants.APP_VERSION));
+                    aboutD.setContent(swingMessages.getMessage("swing.aboutDialog.content",
+                                                               Constants.APP_COPYRIGHT_YEARS, Constants.AUTHOR_NAME,
+                                                               Constants.AUTHOR_MAIL, Constants.APP_WEB,
+                                                               Constants.APP_LICENSE_NAME));
 
                     aboutD.setVisible(true);
                 }
@@ -320,11 +320,12 @@ public class MenuBar extends JMenuBar implements ActionListener {
     }
 
     TextViewerDialog createTextViewerDialog(final String textFile, final String title, final boolean links) {
-        return new TextViewerDialog(textFile, title, links, imageLoader, new ResourceLoader(), messages, settings, errorHandler);
+        return new TextViewerDialog(textFile, title, links, imageLoader, new ResourceLoader(), swingMessages,
+                                    settings, errorHandler);
     }
 
     MessageDialog createMessageDialog() {
-        return new MessageDialog(imageLoader, messages);
+        return new MessageDialog(imageLoader, swingMessages);
     }
 
     private int keyCode(final String key) {

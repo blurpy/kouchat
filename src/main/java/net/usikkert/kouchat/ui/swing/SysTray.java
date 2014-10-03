@@ -68,7 +68,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
 
     private final ImageLoader imageLoader;
 
-    private final SwingMessages messages;
+    private final SwingMessages swingMessages;
 
     /** The icon in the system tray. */
     private TrayIcon trayIcon;
@@ -99,7 +99,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
 
         this.imageLoader = imageLoader;
         this.settings = settings;
-        this.messages = swingMessages;
+        this.swingMessages = swingMessages;
     }
 
     /**
@@ -113,7 +113,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
     public void activate() {
         if (uiTools.isSystemTraySupported()) {
             final PopupMenu menu = new PopupMenu();
-            quitMI = new MenuItem(messages.getMessage("swing.systemTray.menu.quit"));
+            quitMI = new MenuItem(swingMessages.getMessage("swing.systemTray.menu.quit"));
             quitMI.addActionListener(this);
             menu.add(quitMI);
 

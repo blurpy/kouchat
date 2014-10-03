@@ -94,7 +94,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
     private final User me, user;
 
     private final StatusIcons statusIcons;
-    private final SwingMessages messages;
+    private final SwingMessages swingMessages;
 
     /**
      * Creates a new private chat frame. To open the window, use setVisible().
@@ -118,7 +118,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
 
         this.mediator = mediator;
         this.user = user;
-        this.messages = swingMessages;
+        this.swingMessages = swingMessages;
 
         statusIcons = new StatusIcons(imageLoader);
         me = settings.getMe();
@@ -458,7 +458,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
         final String title;
 
         if (user.isAway()) {
-            title = messages.getMessage("swing.privateChat.title.away", user.getNick());
+            title = swingMessages.getMessage("swing.privateChat.title.away", user.getNick());
         } else {
             title = user.getNick();
         }

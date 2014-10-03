@@ -36,12 +36,12 @@ public class SwingPopupErrorHandler implements ErrorListener {
 
     private final UITools uiTools = new UITools();
 
-    private final SwingMessages messages;
+    private final SwingMessages swingMessages;
 
     public SwingPopupErrorHandler(final SwingMessages swingMessages) {
         Validate.notNull(swingMessages, "Swing messages can not be null");
 
-        this.messages = swingMessages;
+        this.swingMessages = swingMessages;
     }
 
     /**
@@ -54,7 +54,7 @@ public class SwingPopupErrorHandler implements ErrorListener {
         uiTools.invokeLater(new Runnable() {
             @Override
             public void run() {
-                uiTools.showErrorMessage(errorMsg, messages.getMessage("swing.errorHandlerPopup.errorReported.title"));
+                uiTools.showErrorMessage(errorMsg, swingMessages.getMessage("swing.errorHandlerPopup.errorReported.title"));
             }
         });
     }
@@ -66,6 +66,6 @@ public class SwingPopupErrorHandler implements ErrorListener {
      */
     @Override
     public void criticalErrorReported(final String criticalErrorMsg) {
-        uiTools.showErrorMessage(criticalErrorMsg, messages.getMessage("swing.errorHandlerPopup.criticalErrorReported.title"));
+        uiTools.showErrorMessage(criticalErrorMsg, swingMessages.getMessage("swing.errorHandlerPopup.criticalErrorReported.title"));
     }
 }

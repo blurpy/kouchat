@@ -91,7 +91,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
     private final Settings settings;
     private final ErrorHandler errorHandler;
-    private final SwingMessages messages;
+    private final SwingMessages swingMessages;
 
     private Mediator mediator;
 
@@ -112,7 +112,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
         this.settings = settings;
         this.errorHandler = errorHandler;
-        this.messages = swingMessages;
+        this.swingMessages = swingMessages;
 
         final JLabel nickL = new JLabel(swingMessages.getMessage("swing.settings.chooseNick.nickName.label"));
         nickTF = new JTextField(10);
@@ -345,7 +345,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
                 @Override
                 public void run() {
                     final Color newColor = uiTools.showColorChooser(
-                            messages.getMessage("swing.settings.chooseLook.ownTextColor.chooseColorDialog.title"),
+                            swingMessages.getMessage("swing.settings.chooseLook.ownTextColor.chooseColorDialog.title"),
                             new Color(settings.getOwnColor()));
 
                     if (newColor != null) {
@@ -360,7 +360,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
                 @Override
                 public void run() {
                     final Color newColor = uiTools.showColorChooser(
-                            messages.getMessage("swing.settings.chooseLook.systemTextColor.chooseColorDialog.title"),
+                            swingMessages.getMessage("swing.settings.chooseLook.systemTextColor.chooseColorDialog.title"),
                             new Color(settings.getSysColor()));
 
                     if (newColor != null) {
@@ -384,8 +384,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
                         catch (final IOException e) {
                             LOG.log(Level.WARNING, e.toString());
                             errorHandler.showError(
-                                    messages.getMessage("swing.settings.chooseBrowser.testButton.errorPopup.couldNotOpenChosen",
-                                                        browser));
+                                    swingMessages.getMessage("swing.settings.chooseBrowser.testButton.errorPopup.couldNotOpenChosen",
+                                                             browser));
                         }
                     }
 
@@ -397,20 +397,20 @@ public class SettingsDialog extends JDialog implements ActionListener {
                         catch (final IOException e) {
                             LOG.log(Level.WARNING, e.toString());
                             errorHandler.showError(
-                                    messages.getMessage("swing.settings.chooseBrowser.testButton.errorPopup.couldNotOpenDefault"));
+                                    swingMessages.getMessage("swing.settings.chooseBrowser.testButton.errorPopup.couldNotOpenDefault"));
                         }
 
                         catch (final URISyntaxException e) {
                             LOG.log(Level.WARNING, e.toString());
                             errorHandler.showError(
-                                    messages.getMessage("swing.settings.chooseBrowser.testButton.errorPopup.invalidUrl",
-                                                        Constants.APP_WEB));
+                                    swingMessages.getMessage("swing.settings.chooseBrowser.testButton.errorPopup.invalidUrl",
+                                                             Constants.APP_WEB));
                         }
                     }
 
                     else {
                         errorHandler.showError(
-                                messages.getMessage("swing.settings.chooseBrowser.testButton.errorPopup.defaultBrowserUnsupported"));
+                                swingMessages.getMessage("swing.settings.chooseBrowser.testButton.errorPopup.defaultBrowserUnsupported"));
                     }
                 }
             });
@@ -418,7 +418,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
         else if (e.getSource() == chooseBrowserB) {
             final JFileChooser chooser = uiTools.createFileChooser(
-                    messages.getMessage("swing.settings.chooseBrowser.chooseBrowserDialog.title"));
+                    swingMessages.getMessage("swing.settings.chooseBrowser.chooseBrowserDialog.title"));
             final int returnVal = chooser.showOpenDialog(null);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -440,8 +440,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
         if (!newLookAndFeel.equals(currentLookAndFeel.getName())) {
             uiTools.showInfoMessage(
-                    messages.getMessage("swing.settings.chooseLook.lookAndFeel.infoPopup.lookAndFeelChanged", Constants.APP_NAME),
-                    messages.getMessage("swing.settings.chooseLook.lookAndFeel.infoPopup.lookAndFeelChanged.title"));
+                    swingMessages.getMessage("swing.settings.chooseLook.lookAndFeel.infoPopup.lookAndFeelChanged", Constants.APP_NAME),
+                    swingMessages.getMessage("swing.settings.chooseLook.lookAndFeel.infoPopup.lookAndFeelChanged.title"));
         }
     }
 
@@ -521,8 +521,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
     private NetworkChoice[] getNetworkChoices() {
         final ArrayList<NetworkChoice> networkChoices = new ArrayList<NetworkChoice>();
         networkChoices.add(new NetworkChoice(
-                messages.getMessage("swing.settings.misc.networkInterface.item.auto"),
-                messages.getMessage("swing.settings.misc.networkInterface.item.auto.tooltip", Constants.APP_NAME)));
+                swingMessages.getMessage("swing.settings.misc.networkInterface.item.auto"),
+                swingMessages.getMessage("swing.settings.misc.networkInterface.item.auto.tooltip", Constants.APP_NAME)));
 
         final List<NetworkInterfaceInfo> usableNetworkInterfaces = networkUtils.getUsableNetworkInterfaces();
 

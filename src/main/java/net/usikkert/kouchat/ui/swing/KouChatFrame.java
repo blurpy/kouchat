@@ -111,20 +111,21 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
         settings.setClient("Swing");
         me = settings.getMe();
 
-        final SwingMessages messages = new SwingMessages();
+        final SwingMessages swingMessages = new SwingMessages();
 
         setLookAndFeel();
-        errorHandler.addErrorListener(new SwingPopupErrorHandler(messages));
-        final ImageLoader imageLoader = new ImageLoader(errorHandler, messages, new ResourceValidator(), new ResourceLoader());
-        uncaughtExceptionLogger.registerUncaughtExceptionListener(new ExceptionDialog(imageLoader, messages));
+        errorHandler.addErrorListener(new SwingPopupErrorHandler(swingMessages));
+        final ImageLoader imageLoader =
+                new ImageLoader(errorHandler, swingMessages, new ResourceValidator(), new ResourceLoader());
+        uncaughtExceptionLogger.registerUncaughtExceptionListener(new ExceptionDialog(imageLoader, swingMessages));
         statusIcons = new StatusIcons(imageLoader);
 
-        final ButtonPanel buttonP = new ButtonPanel(messages);
-        sideP = new SidePanel(buttonP, imageLoader, settings, messages);
-        mainP = new MainPanel(sideP, imageLoader, settings, messages, errorHandler);
-        sysTray = new SysTray(imageLoader, settings, messages);
-        final SettingsDialog settingsDialog = new SettingsDialog(imageLoader, settings, errorHandler, messages);
-        menuBar = new MenuBar(imageLoader, settings, messages, errorHandler);
+        final ButtonPanel buttonP = new ButtonPanel(swingMessages);
+        sideP = new SidePanel(buttonP, imageLoader, settings, swingMessages);
+        mainP = new MainPanel(sideP, imageLoader, settings, swingMessages, errorHandler);
+        sysTray = new SysTray(imageLoader, settings, swingMessages);
+        final SettingsDialog settingsDialog = new SettingsDialog(imageLoader, settings, errorHandler, swingMessages);
+        menuBar = new MenuBar(imageLoader, settings, swingMessages, errorHandler);
 
         final ComponentHandler compHandler = new ComponentHandler();
         compHandler.setGui(this);
@@ -135,7 +136,7 @@ public class KouChatFrame extends JFrame implements WindowListener, FocusListene
         compHandler.setSettingsDialog(settingsDialog);
         compHandler.setMenuBar(menuBar);
 
-        mediator = new SwingMediator(compHandler, imageLoader, settings, messages, errorHandler);
+        mediator = new SwingMediator(compHandler, imageLoader, settings, swingMessages, errorHandler);
 
         buttonP.setMediator(mediator);
         sideP.setMediator(mediator);

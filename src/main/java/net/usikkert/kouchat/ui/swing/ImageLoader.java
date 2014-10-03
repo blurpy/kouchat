@@ -48,7 +48,7 @@ public class ImageLoader {
     private static final Logger LOG = Logger.getLogger(ImageLoader.class.getName());
 
     private final ErrorHandler errorHandler;
-    private final SwingMessages messages;
+    private final SwingMessages swingMessages;
     private final ResourceValidator resourceValidator;
     private final ResourceLoader resourceLoader;
 
@@ -155,7 +155,7 @@ public class ImageLoader {
         Validate.notNull(resourceLoader, "Resource loader can not be null");
 
         this.errorHandler = errorHandler;
-        this.messages = swingMessages;
+        this.swingMessages = swingMessages;
         this.resourceValidator = resourceValidator;
         this.resourceLoader = resourceLoader;
 
@@ -257,7 +257,8 @@ public class ImageLoader {
         final String missing = resourceValidator.validate();
 
         if (missing.length() > 0) {
-            final String error = messages.getMessage("swing.imageLoader.criticalErrorPopup.imagesMissing", missing, Constants.APP_NAME);
+            final String error = swingMessages.getMessage("swing.imageLoader.criticalErrorPopup.imagesMissing", missing,
+                                                          Constants.APP_NAME);
 
             LOG.log(Level.SEVERE, error);
             errorHandler.showCriticalError(error);

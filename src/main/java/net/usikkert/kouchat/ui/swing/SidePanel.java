@@ -81,7 +81,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
     /** The application settings. */
     private final Settings settings;
 
-    private final SwingMessages messages;
+    private final SwingMessages swingMessages;
 
     /** Handles drag and drop of files on users. */
     private final FileTransferHandler fileTransferHandler;
@@ -109,7 +109,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
 
         this.buttonP = buttonP;
         this.settings = settings;
-        this.messages = swingMessages;
+        this.swingMessages = swingMessages;
 
         setLayout(new BorderLayout(2, 2));
 
@@ -210,34 +210,34 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
                     final StringBuilder info = new StringBuilder();
 
                     if (user.isAway()) {
-                        info.append(messages.getMessage("swing.userList.userInfoPopup.topText.away", user.getNick()));
+                        info.append(swingMessages.getMessage("swing.userList.userInfoPopup.topText.away", user.getNick()));
                     } else {
-                        info.append(messages.getMessage("swing.userList.userInfoPopup.topText", user.getNick()));
+                        info.append(swingMessages.getMessage("swing.userList.userInfoPopup.topText", user.getNick()));
                     }
 
                     info.append("\n\n");
-                    info.append(messages.getMessage("swing.userList.userInfoPopup.ipAddress", user.getIpAddress()));
+                    info.append(swingMessages.getMessage("swing.userList.userInfoPopup.ipAddress", user.getIpAddress()));
 
                     if (user.getHostName() != null) {
                         info.append("\n");
-                        info.append(messages.getMessage("swing.userList.userInfoPopup.hostName", user.getHostName()));
+                        info.append(swingMessages.getMessage("swing.userList.userInfoPopup.hostName", user.getHostName()));
                     }
 
                     info.append("\n");
-                    info.append(messages.getMessage("swing.userList.userInfoPopup.client", user.getClient()));
+                    info.append(swingMessages.getMessage("swing.userList.userInfoPopup.client", user.getClient()));
 
                     info.append("\n");
-                    info.append(messages.getMessage("swing.userList.userInfoPopup.operatingSystem", user.getOperatingSystem()));
+                    info.append(swingMessages.getMessage("swing.userList.userInfoPopup.operatingSystem", user.getOperatingSystem()));
 
                     info.append("\n\n");
-                    info.append(messages.getMessage("swing.userList.userInfoPopup.online", Tools.howLongFromNow(user.getLogonTime())));
+                    info.append(swingMessages.getMessage("swing.userList.userInfoPopup.online", Tools.howLongFromNow(user.getLogonTime())));
 
                     if (user.isAway()) {
                         info.append("\n");
-                        info.append(messages.getMessage("swing.userList.userInfoPopup.awayMessage", user.getAwayMsg()));
+                        info.append(swingMessages.getMessage("swing.userList.userInfoPopup.awayMessage", user.getAwayMsg()));
                     }
 
-                    uiTools.showInfoMessage(info.toString(), messages.getMessage("swing.userList.userInfoPopup.title"));
+                    uiTools.showInfoMessage(info.toString(), swingMessages.getMessage("swing.userList.userInfoPopup.title"));
                 }
             });
         }

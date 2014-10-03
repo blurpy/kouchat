@@ -65,7 +65,7 @@ public class TextViewerDialog extends JDialog {
     private final UITools uiTools = new UITools();
 
     private final ResourceLoader resourceLoader;
-    private final SwingMessages messages;
+    private final SwingMessages swingMessages;
     private final ErrorHandler errorHandler;
 
     private final JTextPane viewerTP;
@@ -102,7 +102,7 @@ public class TextViewerDialog extends JDialog {
 
         this.textFile = textFile;
         this.resourceLoader = resourceLoader;
-        this.messages = swingMessages;
+        this.swingMessages = swingMessages;
         this.errorHandler = errorHandler;
 
         viewerTP = new JTextPane();
@@ -167,7 +167,7 @@ public class TextViewerDialog extends JDialog {
         }
 
         else {
-            errorHandler.showError(messages.getMessage("swing.textViewerDialog.errorPopup.openFile", textFile));
+            errorHandler.showError(swingMessages.getMessage("swing.textViewerDialog.errorPopup.openFile", textFile));
         }
     }
 

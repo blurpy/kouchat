@@ -53,7 +53,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
     private final StyledDocument doc;
     private final Settings settings;
     private final ErrorHandler errorHandler;
-    private final SwingMessages messages;
+    private final SwingMessages swingMessages;
 
     /**
      * Constructor.
@@ -73,7 +73,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
         this.textPane = textPane;
         this.settings = settings;
         this.errorHandler = errorHandler;
-        this.messages = swingMessages;
+        this.swingMessages = swingMessages;
 
         doc = textPane.getStyledDocument();
         handCursor = new Cursor(Cursor.HAND_CURSOR);
@@ -174,7 +174,7 @@ public class URLMouseListener implements MouseListener, MouseMotionListener {
                     uiTools.invokeLater(new Runnable() {
                         @Override
                         public void run() {
-                            uiTools.browse(url, settings, errorHandler, messages);
+                            uiTools.browse(url, settings, errorHandler, swingMessages);
                         }
                     });
                 }

@@ -78,7 +78,7 @@ public class SwingMediator implements Mediator, UserInterface {
 
     private final ImageLoader imageLoader;
     private final Settings settings;
-    private final SwingMessages messages;
+    private final SwingMessages swingMessages;
     private final ErrorHandler errorHandler;
 
     /**
@@ -102,7 +102,7 @@ public class SwingMediator implements Mediator, UserInterface {
 
         this.imageLoader = imageLoader;
         this.settings = settings;
-        this.messages = swingMessages;
+        this.swingMessages = swingMessages;
         this.errorHandler = errorHandler;
 
         final SidePanel sideP = compHandler.getSidePanel();
@@ -157,10 +157,10 @@ public class SwingMediator implements Mediator, UserInterface {
     @Override
     public void setAway() {
         if (me.isAway()) {
-            final int choice = uiTools.showOptionDialog(messages.getMessage("swing.away.comeBackPopup.message", me.getAwayMsg()),
-                                                        messages.getMessage("swing.away.comeBackPopup.title"),
-                                                        messages.getMessage("swing.button.yes"),
-                                                        messages.getMessage("swing.button.cancel"));
+            final int choice = uiTools.showOptionDialog(swingMessages.getMessage("swing.away.comeBackPopup.message", me.getAwayMsg()),
+                                                        swingMessages.getMessage("swing.away.comeBackPopup.title"),
+                                                        swingMessages.getMessage("swing.button.yes"),
+                                                        swingMessages.getMessage("swing.button.cancel"));
 
             if (choice == JOptionPane.YES_OPTION) {
                 try {
@@ -168,14 +168,14 @@ public class SwingMediator implements Mediator, UserInterface {
                 }
 
                 catch (final CommandException e) {
-                    uiTools.showWarningMessage(e.getMessage(), messages.getMessage("swing.away.warningPopup.generalError.title"));
+                    uiTools.showWarningMessage(e.getMessage(), swingMessages.getMessage("swing.away.warningPopup.generalError.title"));
                 }
             }
         }
 
         else {
-            final String reason = uiTools.showInputDialog(messages.getMessage("swing.away.goAwayPopup.message"),
-                                                          messages.getMessage("swing.away.goAwayPopup.title"),
+            final String reason = uiTools.showInputDialog(swingMessages.getMessage("swing.away.goAwayPopup.message"),
+                                                          swingMessages.getMessage("swing.away.goAwayPopup.title"),
                                                           null);
 
             if (reason != null && reason.trim().length() > 0) {
@@ -189,7 +189,7 @@ public class SwingMediator implements Mediator, UserInterface {
                 }
 
                 catch (final CommandException e) {
-                    uiTools.showWarningMessage(e.getMessage(), messages.getMessage("swing.away.warningPopup.generalError.title"));
+                    uiTools.showWarningMessage(e.getMessage(), swingMessages.getMessage("swing.away.warningPopup.generalError.title"));
                 }
             }
         }
@@ -203,8 +203,8 @@ public class SwingMediator implements Mediator, UserInterface {
     @Override
     public void setTopic() {
         final Topic topic = controller.getTopic();
-        final String newTopic = uiTools.showInputDialog(messages.getMessage("swing.topic.changeTopicPopup.message"),
-                                                        messages.getMessage("swing.topic.changeTopicPopup.title"),
+        final String newTopic = uiTools.showInputDialog(swingMessages.getMessage("swing.topic.changeTopicPopup.message"),
+                                                        swingMessages.getMessage("swing.topic.changeTopicPopup.title"),
                                                         topic.getTopic());
 
         if (newTopic != null) {
@@ -213,7 +213,7 @@ public class SwingMediator implements Mediator, UserInterface {
             }
 
             catch (final CommandException e) {
-                uiTools.showWarningMessage(e.getMessage(), messages.getMessage("swing.topic.warningPopup.generalError.title"));
+                uiTools.showWarningMessage(e.getMessage(), swingMessages.getMessage("swing.topic.warningPopup.generalError.title"));
             }
         }
 
@@ -244,10 +244,10 @@ public class SwingMediator implements Mediator, UserInterface {
      */
     @Override
     public void quit() {
-        final int choice = uiTools.showOptionDialog(messages.getMessage("swing.quitPopup.message"),
-                                                    messages.getMessage("swing.quitPopup.title"),
-                                                    messages.getMessage("swing.button.yes"),
-                                                    messages.getMessage("swing.button.cancel"));
+        final int choice = uiTools.showOptionDialog(swingMessages.getMessage("swing.quitPopup.message"),
+                                                    swingMessages.getMessage("swing.quitPopup.title"),
+                                                    swingMessages.getMessage("swing.button.yes"),
+                                                    swingMessages.getMessage("swing.button.cancel"));
 
         if (choice == JOptionPane.YES_OPTION) {
             System.exit(0);
@@ -264,25 +264,25 @@ public class SwingMediator implements Mediator, UserInterface {
 
         if (!controller.isConnected()) {
             if (controller.isLoggedOn()) {
-                title = messages.getMessage("swing.mainChat.title.connectionLost", me.getNick());
+                title = swingMessages.getMessage("swing.mainChat.title.connectionLost", me.getNick());
             }
 
             else {
-                title = messages.getMessage("swing.mainChat.title.notConnected", me.getNick());
+                title = swingMessages.getMessage("swing.mainChat.title.notConnected", me.getNick());
             }
         }
 
         else {
             if (me.isAway() && controller.getTopic().hasTopic()) {
-                title = messages.getMessage("swing.mainChat.title.awayAndTopic", me.getNick(), controller.getTopic());
+                title = swingMessages.getMessage("swing.mainChat.title.awayAndTopic", me.getNick(), controller.getTopic());
             }
 
             else if (me.isAway()) {
-                title = messages.getMessage("swing.mainChat.title.away", me.getNick());
+                title = swingMessages.getMessage("swing.mainChat.title.away", me.getNick());
             }
 
             else if (controller.getTopic().hasTopic()) {
-                title = messages.getMessage("swing.mainChat.title.topic", me.getNick(), controller.getTopic());
+                title = swingMessages.getMessage("swing.mainChat.title.topic", me.getNick(), controller.getTopic());
             }
 
             else {
@@ -354,27 +354,27 @@ public class SwingMediator implements Mediator, UserInterface {
         if (user == null) {
             return;
         } else if (user.isMe()) {
-            uiTools.showWarningMessage(messages.getMessage("swing.sendFile.warningPopup.userIsMe"),
-                                       messages.getMessage("swing.sendFile.warningPopup.title"));
+            uiTools.showWarningMessage(swingMessages.getMessage("swing.sendFile.warningPopup.userIsMe"),
+                                       swingMessages.getMessage("swing.sendFile.warningPopup.title"));
         }
 
         else if (me.isAway()) {
-            uiTools.showWarningMessage(messages.getMessage("swing.sendFile.warningPopup.meIsAway"),
-                                       messages.getMessage("swing.sendFile.warningPopup.title"));
+            uiTools.showWarningMessage(swingMessages.getMessage("swing.sendFile.warningPopup.meIsAway"),
+                                       swingMessages.getMessage("swing.sendFile.warningPopup.title"));
         }
 
         else if (user.isAway()) {
-            uiTools.showWarningMessage(messages.getMessage("swing.sendFile.warningPopup.userIsAway", user.getNick()),
-                                       messages.getMessage("swing.sendFile.warningPopup.title"));
+            uiTools.showWarningMessage(swingMessages.getMessage("swing.sendFile.warningPopup.userIsAway", user.getNick()),
+                                       swingMessages.getMessage("swing.sendFile.warningPopup.title"));
         }
 
         else if (!user.isOnline()) {
-            uiTools.showWarningMessage(messages.getMessage("swing.sendFile.warningPopup.userIsOffline", user.getNick()),
-                                       messages.getMessage("swing.sendFile.warningPopup.title"));
+            uiTools.showWarningMessage(swingMessages.getMessage("swing.sendFile.warningPopup.userIsOffline", user.getNick()),
+                                       swingMessages.getMessage("swing.sendFile.warningPopup.title"));
         }
 
         else {
-            final JFileChooser chooser = uiTools.createFileChooser(messages.getMessage("swing.sendFile.chooseFileDialog.title"));
+            final JFileChooser chooser = uiTools.createFileChooser(swingMessages.getMessage("swing.sendFile.chooseFileDialog.title"));
 
             if (selectedFile != null && selectedFile.exists()) {
                 chooser.setSelectedFile(selectedFile);
@@ -391,7 +391,7 @@ public class SwingMediator implements Mediator, UserInterface {
                     }
 
                     catch (final CommandException e) {
-                        uiTools.showWarningMessage(e.getMessage(), messages.getMessage("swing.sendFile.warningPopup.generalError.title"));
+                        uiTools.showWarningMessage(e.getMessage(), swingMessages.getMessage("swing.sendFile.warningPopup.generalError.title"));
                     }
                 }
             }
@@ -479,25 +479,25 @@ public class SwingMediator implements Mediator, UserInterface {
 
         if (!trimNick.equals(me.getNick())) {
             if (controller.isNickInUse(trimNick)) {
-                uiTools.showWarningMessage(messages.getMessage("swing.changeNick.warningPopup.nickInUse"),
-                                           messages.getMessage("swing.changeNick.warningPopup.title"));
+                uiTools.showWarningMessage(swingMessages.getMessage("swing.changeNick.warningPopup.nickInUse"),
+                                           swingMessages.getMessage("swing.changeNick.warningPopup.title"));
             }
 
             else if (!Tools.isValidNick(trimNick)) {
-                uiTools.showWarningMessage(messages.getMessage("swing.changeNick.warningPopup.invalidNick", trimNick),
-                                           messages.getMessage("swing.changeNick.warningPopup.title"));
+                uiTools.showWarningMessage(swingMessages.getMessage("swing.changeNick.warningPopup.invalidNick", trimNick),
+                                           swingMessages.getMessage("swing.changeNick.warningPopup.title"));
             }
 
             else {
                 try {
                     controller.changeMyNick(trimNick);
-                    msgController.showSystemMessage(messages.getMessage("swing.changeNick.systemMessage.nickChanged", me.getNick()));
+                    msgController.showSystemMessage(swingMessages.getMessage("swing.changeNick.systemMessage.nickChanged", me.getNick()));
                     updateTitleAndTray();
                     return true;
                 }
 
                 catch (final CommandException e) {
-                    uiTools.showWarningMessage(e.getMessage(), messages.getMessage("swing.changeNick.warningPopup.title"));
+                    uiTools.showWarningMessage(e.getMessage(), swingMessages.getMessage("swing.changeNick.warningPopup.title"));
                 }
             }
         }
@@ -550,7 +550,7 @@ public class SwingMediator implements Mediator, UserInterface {
                 sysTray.setNormalActivityState();
                 beeper.beep();
                 sysTray.showBalloonMessage(uiTools.createTitle(me.getNick()),
-                                           messages.getMessage("swing.systemTray.balloon.newMessage", user.getNick()));
+                                           swingMessages.getMessage("swing.systemTray.balloon.newMessage", user.getNick()));
             }
         }
 
@@ -610,7 +610,7 @@ public class SwingMediator implements Mediator, UserInterface {
                 sysTray.setNormalActivityState();
                 beeper.beep();
                 sysTray.showBalloonMessage(uiTools.createTitle(me.getNick()),
-                                           messages.getMessage("swing.systemTray.balloon.newPrivateMessage", user.getNick()));
+                                           swingMessages.getMessage("swing.systemTray.balloon.newPrivateMessage", user.getNick()));
             }
 
             // Private chat out of focus - beep, update privchat icon
@@ -659,10 +659,10 @@ public class SwingMediator implements Mediator, UserInterface {
         beeper.beep();
 
         final int choice = uiTools.showOptionDialog(
-                messages.getMessage("swing.receiveFile.askToReceivePopup.message", user, fileName, size),
-                messages.getMessage("swing.receiveFile.askToReceivePopup.title"),
-                messages.getMessage("swing.button.yes"),
-                messages.getMessage("swing.button.cancel"));
+                swingMessages.getMessage("swing.receiveFile.askToReceivePopup.message", user, fileName, size),
+                swingMessages.getMessage("swing.receiveFile.askToReceivePopup.title"),
+                swingMessages.getMessage("swing.button.yes"),
+                swingMessages.getMessage("swing.button.cancel"));
 
         return choice == JOptionPane.YES_OPTION;
     }
@@ -685,7 +685,7 @@ public class SwingMediator implements Mediator, UserInterface {
     }
 
     private void showFileSaveInternal(final FileReceiver fileReceiver) {
-        final JFileChooser chooser = uiTools.createFileChooser(messages.getMessage("swing.receiveFile.saveFileDialog.title"));
+        final JFileChooser chooser = uiTools.createFileChooser(swingMessages.getMessage("swing.receiveFile.saveFileDialog.title"));
         chooser.setSelectedFile(fileReceiver.getFile());
         boolean done = false;
 
@@ -698,10 +698,10 @@ public class SwingMediator implements Mediator, UserInterface {
 
                 if (file.exists()) {
                     final int overwrite = uiTools.showOptionDialog(
-                            messages.getMessage("swing.receiveFile.fileExistPopup.message", file.getName()),
-                            messages.getMessage("swing.receiveFile.fileExistPopup.title"),
-                            messages.getMessage("swing.button.yes"),
-                            messages.getMessage("swing.button.cancel"));
+                            swingMessages.getMessage("swing.receiveFile.fileExistPopup.message", file.getName()),
+                            swingMessages.getMessage("swing.receiveFile.fileExistPopup.title"),
+                            swingMessages.getMessage("swing.button.yes"),
+                            swingMessages.getMessage("swing.button.cancel"));
 
                     if (overwrite != JOptionPane.YES_OPTION) {
                         done = false;
@@ -739,7 +739,7 @@ public class SwingMediator implements Mediator, UserInterface {
             @Override
             public void run() {
                 final TransferDialog transferDialog =
-                        new TransferDialog(SwingMediator.this, fileRes, imageLoader, settings, messages, errorHandler);
+                        new TransferDialog(SwingMediator.this, fileRes, imageLoader, settings, swingMessages, errorHandler);
 
                 transferDialog.open();
             }
@@ -754,7 +754,7 @@ public class SwingMediator implements Mediator, UserInterface {
     @Override
     public void showTransfer(final FileSender fileSend) {
         final TransferDialog transferDialog =
-                new TransferDialog(this, fileSend, imageLoader, settings, messages, errorHandler);
+                new TransferDialog(this, fileSend, imageLoader, settings, swingMessages, errorHandler);
 
         transferDialog.open();
     }
@@ -799,12 +799,12 @@ public class SwingMediator implements Mediator, UserInterface {
                 user.getPrivchat().updateAwayState();
 
                 if (away) {
-                    msgController.showPrivateSystemMessage(user, messages.getMessage(
+                    msgController.showPrivateSystemMessage(user, swingMessages.getMessage(
                             "swing.privateChat.systemMessage.wentAway", me.getAwayMsg()));
                 }
 
                 else {
-                    msgController.showPrivateSystemMessage(user, messages.getMessage(
+                    msgController.showPrivateSystemMessage(user, swingMessages.getMessage(
                             "swing.privateChat.systemMessage.cameBack"));
                 }
             }
@@ -823,7 +823,7 @@ public class SwingMediator implements Mediator, UserInterface {
                 @Override
                 public void run() {
                     user.setPrivchat(new PrivateChatFrame(SwingMediator.this, user, imageLoader,
-                                                          settings, messages, errorHandler));
+                                                          settings, swingMessages, errorHandler));
                 }
             });
         }

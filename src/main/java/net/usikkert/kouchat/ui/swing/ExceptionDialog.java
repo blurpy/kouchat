@@ -63,7 +63,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
     /** The textpane to put stack traces. */
     private final JTextPane exceptionTP;
 
-    private final SwingMessages messages;
+    private final SwingMessages swingMessages;
 
     /**
      * Creates the exception dialog, but does not show it.
@@ -77,7 +77,7 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(swingMessages, "Swing messages can not be null");
 
-        this.messages = swingMessages;
+        this.swingMessages = swingMessages;
 
         final JLabel titleL = new JLabel();
         titleL.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
@@ -141,9 +141,9 @@ public class ExceptionDialog extends JDialog implements UncaughtExceptionListene
             public void run() {
                 final StringWriter stringWriter = new StringWriter();
 
-                stringWriter.append(messages.getMessage("swing.exceptionDialog.details",
-                                                        timestamp(new Date()), thread.getName(),
-                                                        thread.getId(), thread.getPriority()));
+                stringWriter.append(swingMessages.getMessage("swing.exceptionDialog.details",
+                                                             timestamp(new Date()), thread.getName(),
+                                                             thread.getId(), thread.getPriority()));
                 stringWriter.append("\n");
 
                 final PrintWriter printWriter = new PrintWriter(stringWriter);

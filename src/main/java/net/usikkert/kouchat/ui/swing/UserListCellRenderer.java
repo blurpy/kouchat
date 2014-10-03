@@ -69,7 +69,7 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer {
     /** The border to use for unselected list elements. */
     private final Border normalBorder;
 
-    private final SwingMessages messages;
+    private final SwingMessages swingMessages;
 
     /**
      * Default constructor.
@@ -81,7 +81,7 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer {
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(swingMessages, "Swing messages can not be null");
 
-        this.messages = swingMessages;
+        this.swingMessages = swingMessages;
 
         envelope = imageLoader.getEnvelopeIcon();
         dot = imageLoader.getDotIcon();
@@ -153,15 +153,15 @@ public class UserListCellRenderer extends JLabel implements ListCellRenderer {
             }
 
             if (user.isWriting()) {
-                setText(messages.getMessage("swing.userList.userWriting.text", user.getNick()));
-                setToolTipText(messages.getMessage("swing.userList.userWriting.tooltip", user.getNick()));
+                setText(swingMessages.getMessage("swing.userList.userWriting.text", user.getNick()));
+                setToolTipText(swingMessages.getMessage("swing.userList.userWriting.tooltip", user.getNick()));
             }
 
             else {
                 setText(user.getNick());
 
                 if (user.isAway()) {
-                    setToolTipText(messages.getMessage("swing.userList.userAway.tooltip", user.getNick()));
+                    setToolTipText(swingMessages.getMessage("swing.userList.userAway.tooltip", user.getNick()));
                 } else {
                     setToolTipText(user.getNick());
                 }
