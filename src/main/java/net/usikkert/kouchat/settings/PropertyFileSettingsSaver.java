@@ -51,6 +51,7 @@ public class PropertyFileSettingsSaver implements SettingsSaver {
     private final PropertyTools propertyTools = new PropertyTools();
 
     private final Settings settings;
+    private final CoreMessages coreMessages;
     private final ErrorHandler errorHandler;
 
     public PropertyFileSettingsSaver(final Settings settings, final CoreMessages coreMessages,
@@ -60,6 +61,7 @@ public class PropertyFileSettingsSaver implements SettingsSaver {
         Validate.notNull(errorHandler, "Error handler can not be null");
 
         this.settings = settings;
+        this.coreMessages = coreMessages;
         this.errorHandler = errorHandler;
     }
 
@@ -84,12 +86,13 @@ public class PropertyFileSettingsSaver implements SettingsSaver {
 
         try {
             ioTools.createFolder(Constants.APP_FOLDER);
-            propertyTools.saveProperties(PropertyFileSettingsLoader.SETTINGS_FILE, properties, "KouChat Settings");
+            propertyTools.saveProperties(PropertyFileSettingsLoader.SETTINGS_FILE, properties,
+                                         coreMessages.getMessage("core.settings.file.comment", Constants.APP_NAME));
         }
 
         catch (final IOException e) {
             LOG.log(Level.SEVERE, "Failed to save settings" , e);
-            errorHandler.showError("Settings could not be saved:\n " + e);
+            errorHandler.showError(coreMessages.getMessage("core.settings.errorPopup.saveFailed", e));
         }
     }
 }

@@ -120,7 +120,7 @@ public class PropertyFileSettingsSaverTest {
 
         settingsSaver.saveSettings();
 
-        verify(errorHandler).showError("Settings could not be saved:\n java.io.IOException: Don't save");
+        verify(errorHandler).showError("Settings could not be saved:\njava.io.IOException: Don't save");
     }
 
     @Test
