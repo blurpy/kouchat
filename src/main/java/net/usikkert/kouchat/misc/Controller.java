@@ -42,7 +42,7 @@ import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.net.MessageParser;
 import net.usikkert.kouchat.net.MessageResponder;
-import net.usikkert.kouchat.net.Messages;
+import net.usikkert.kouchat.net.NetworkMessages;
 import net.usikkert.kouchat.net.NetworkService;
 import net.usikkert.kouchat.net.PrivateMessageParser;
 import net.usikkert.kouchat.net.PrivateMessageResponder;
@@ -75,7 +75,7 @@ public class Controller implements NetworkConnectionListener {
     private final ChatState chatState;
     private final UserListController userListController;
     private final NetworkService networkService;
-    private final Messages messages;
+    private final NetworkMessages networkMessages;
     private final IdleThread idleThread;
     private final TransferList tList;
     private final WaitingList wList;
@@ -138,7 +138,7 @@ public class Controller implements NetworkConnectionListener {
         networkService.registerMessageReceiverListener(msgParser);
         final PrivateMessageParser privmsgParser = new PrivateMessageParser(privmsgResponder, settings);
         networkService.registerUDPReceiverListener(privmsgParser);
-        messages = new Messages(networkService, settings);
+        networkMessages = new NetworkMessages(networkService, settings);
         networkService.registerNetworkConnectionListener(this);
         msgController = ui.getMessageController();
     }
@@ -202,9 +202,9 @@ public class Controller implements NetworkConnectionListener {
             chatState.setWrote(writing);
 
             if (writing) {
-                messages.sendWritingMessage();
+                networkMessages.sendWritingMessage();
             } else {
-                messages.sendStoppedWritingMessage();
+                networkMessages.sendStoppedWritingMessage();
             }
         }
     }
@@ -278,9 +278,9 @@ public class Controller implements NetworkConnectionListener {
 
         if (code == me.getCode()) {
             if (away) {
-                messages.sendAwayMessage(trimmedAwayMessage);
+                networkMessages.sendAwayMessage(trimmedAwayMessage);
             } else {
-                messages.sendBackMessage();
+                networkMessages.sendBackMessage();
             }
         }
 
@@ -319,7 +319,7 @@ public class Controller implements NetworkConnectionListener {
             throw new CommandException("You can not change nick while away");
         }
 
-        messages.sendNickMessage(newNick);
+        networkMessages.sendNickMessage(newNick);
         changeNick(me.getCode(), newNick);
         saveSettings();
     }
@@ -366,10 +366,10 @@ public class Controller implements NetworkConnectionListener {
      * and query for the users and state.
      */
     private void sendLogOn() {
-        messages.sendLogonMessage();
-        messages.sendClient();
-        messages.sendExposeMessage();
-        messages.sendGetTopicMessage();
+        networkMessages.sendLogonMessage();
+        networkMessages.sendClient();
+        networkMessages.sendExposeMessage();
+        networkMessages.sendGetTopicMessage();
     }
 
     /**
@@ -401,7 +401,7 @@ public class Controller implements NetworkConnectionListener {
      * @param removeUsers Set to true to remove users from the user list.
      */
     public void logOff(final boolean removeUsers) {
-        messages.sendLogoffMessage();
+        networkMessages.sendLogoffMessage();
         chatState.setLoggedOn(false);
         chatState.setLogonCompleted(false);
         networkService.disconnect();
@@ -514,21 +514,21 @@ public class Controller implements NetworkConnectionListener {
      * themselves.
      */
     public void sendExposeMessage() {
-        messages.sendExposeMessage();
+        networkMessages.sendExposeMessage();
     }
 
     /**
      * Sends a message over the network to identify this client.
      */
     public void sendExposingMessage() {
-        messages.sendExposingMessage();
+        networkMessages.sendExposingMessage();
     }
 
     /**
      * Sends a message over the network to ask for the current topic.
      */
     public void sendGetTopicMessage() {
-        messages.sendGetTopicMessage();
+        networkMessages.sendGetTopicMessage();
     }
 
     /**
@@ -537,7 +537,7 @@ public class Controller implements NetworkConnectionListener {
      */
     public void sendIdleMessage() {
         if (isConnected()) {
-            messages.sendIdleMessage();
+            networkMessages.sendIdleMessage();
         }
     }
 
@@ -560,7 +560,7 @@ public class Controller implements NetworkConnectionListener {
         } else if (Tools.getBytes(msg) > Constants.MESSAGE_MAX_BYTES) {
             throw new CommandException("You can not send a chat message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes");
         } else {
-            messages.sendChatMessage(msg);
+            networkMessages.sendChatMessage(msg);
         }
     }
 
@@ -568,7 +568,7 @@ public class Controller implements NetworkConnectionListener {
      * Sends a message over the network with the current topic.
      */
     public void sendTopicRequestedMessage() {
-        messages.sendTopicRequestedMessage(getTopic());
+        networkMessages.sendTopicRequestedMessage(getTopic());
     }
 
     /**
@@ -590,7 +590,7 @@ public class Controller implements NetworkConnectionListener {
 
         final long time = System.currentTimeMillis();
         final Topic newTopicObj = new Topic(newTopic, me.getNick(), time);
-        messages.sendTopicChangeMessage(newTopicObj);
+        networkMessages.sendTopicChangeMessage(newTopicObj);
         final Topic topic = getTopic();
         topic.changeTopic(newTopicObj);
     }
@@ -603,7 +603,7 @@ public class Controller implements NetworkConnectionListener {
      * @param nick The nick that is already in use by the application user.
      */
     public void sendNickCrashMessage(final String nick) {
-        messages.sendNickCrashMessage(nick);
+        networkMessages.sendNickCrashMessage(nick);
     }
 
     /**
@@ -615,7 +615,7 @@ public class Controller implements NetworkConnectionListener {
      * @param fileName The name of the file.
      */
     public void sendFileAbort(final User user, final int fileHash, final String fileName) {
-        messages.sendFileAbort(user, fileHash, fileName);
+        networkMessages.sendFileAbort(user, fileHash, fileName);
     }
 
     /**
@@ -630,7 +630,7 @@ public class Controller implements NetworkConnectionListener {
      * @throws CommandException If the message was not sent successfully.
      */
     public void sendFileAccept(final User user, final int port, final int fileHash, final String fileName) throws CommandException {
-        messages.sendFileAccept(user, port, fileHash, fileName);
+        networkMessages.sendFileAccept(user, port, fileHash, fileName);
     }
 
     /**
@@ -660,7 +660,7 @@ public class Controller implements NetworkConnectionListener {
         } else if (Tools.getBytes(file.getName()) > Constants.MESSAGE_MAX_BYTES) {
             throw new CommandException("You can not send a file with a name with more than " + Constants.MESSAGE_MAX_BYTES + " bytes");
         } else {
-            messages.sendFile(user, file);
+            networkMessages.sendFile(user, file);
         }
     }
 
@@ -689,7 +689,7 @@ public class Controller implements NetworkConnectionListener {
      */
     public void updateAfterTimeout() {
         if (userListController.isTimeoutUsers()) {
-            messages.sendExposeMessage();
+            networkMessages.sendExposeMessage();
         }
     }
 
@@ -697,7 +697,7 @@ public class Controller implements NetworkConnectionListener {
      * Sends a message over the network with more information about this client.
      */
     public void sendClientInfo() {
-        messages.sendClient();
+        networkMessages.sendClient();
     }
 
     /**
@@ -730,7 +730,7 @@ public class Controller implements NetworkConnectionListener {
         } else if (settings.isNoPrivateChat()) {
             throw new CommandException("You can not send a private chat message when private chat is disabled");
         } else {
-            messages.sendPrivateMessage(privmsg, user);
+            networkMessages.sendPrivateMessage(privmsg, user);
         }
     }
 
@@ -840,11 +840,11 @@ public class Controller implements NetworkConnectionListener {
                 msgController.showSystemMessage("You are connected to the network again");
             }
 
-            messages.sendTopicRequestedMessage(getTopic());
-            messages.sendExposingMessage();
-            messages.sendGetTopicMessage();
-            messages.sendExposeMessage();
-            messages.sendIdleMessage();
+            networkMessages.sendTopicRequestedMessage(getTopic());
+            networkMessages.sendExposingMessage();
+            networkMessages.sendGetTopicMessage();
+            networkMessages.sendExposeMessage();
+            networkMessages.sendIdleMessage();
         }
     }
 

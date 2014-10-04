@@ -33,7 +33,7 @@ import net.usikkert.kouchat.event.NetworkConnectionListener;
 import net.usikkert.kouchat.message.CoreMessages;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
-import net.usikkert.kouchat.net.Messages;
+import net.usikkert.kouchat.net.NetworkMessages;
 import net.usikkert.kouchat.net.NetworkService;
 import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.settings.Settings;
@@ -61,7 +61,7 @@ public class ControllerTest {
 
     private Controller controller;
 
-    private Messages messages;
+    private NetworkMessages networkMessages;
     private NetworkService networkService;
     private IdleThread idleThread;
     private DayTimer dayTimer;
@@ -93,7 +93,7 @@ public class ControllerTest {
 
         controller = spy(new Controller(ui, settings, settingsSaver, coreMessages, errorHandler));
 
-        messages = TestUtils.setFieldValueWithMock(controller, "messages", Messages.class);
+        networkMessages = TestUtils.setFieldValueWithMock(controller, "networkMessages", NetworkMessages.class);
         networkService = TestUtils.setFieldValueWithMock(controller, "networkService", NetworkService.class);
 
         // The idle thread makes tests fail randomly, because it sometimes runs in parallel and removes idle users...
@@ -161,27 +161,27 @@ public class ControllerTest {
 
         // Not writing - nothing happens
         controller.updateMeWriting(false);
-        verifyZeroInteractions(messages);
+        verifyZeroInteractions(networkMessages);
         assertFalse(me.isWriting());
 
         // Wrote something - notify others and update me
         controller.updateMeWriting(true);
-        verify(messages).sendWritingMessage();
+        verify(networkMessages).sendWritingMessage();
         assertTrue(me.isWriting());
 
         // Continues to write - nothing happens
         controller.updateMeWriting(true);
-        verifyNoMoreInteractions(messages);
+        verifyNoMoreInteractions(networkMessages);
         assertTrue(me.isWriting());
 
         // Stopped writing - notify others and update me
         controller.updateMeWriting(false);
-        verify(messages).sendStoppedWritingMessage();
+        verify(networkMessages).sendStoppedWritingMessage();
         assertFalse(me.isWriting());
 
         // Still not writing - nothing happens
         controller.updateMeWriting(false);
-        verifyNoMoreInteractions(messages);
+        verifyNoMoreInteractions(networkMessages);
         assertFalse(me.isWriting());
     }
 
@@ -280,14 +280,14 @@ public class ControllerTest {
 
         controller.sendFile(user, file);
 
-        verify(messages).sendFile(user, file);
+        verify(networkMessages).sendFile(user, file);
     }
 
     @Test
     public void beforeNetworkCameUpShouldDoNothing() {
         controller.beforeNetworkCameUp();
 
-        verifyZeroInteractions(networkService, messages);
+        verifyZeroInteractions(networkService, networkMessages);
     }
 
     @Test
@@ -499,7 +499,7 @@ public class ControllerTest {
 
         controller.changeAwayStatus(me.getCode(), true, "this is the message");
 
-        verify(messages).sendAwayMessage("this is the message");
+        verify(networkMessages).sendAwayMessage("this is the message");
         verify(userListController).changeAwayStatus(me.getCode(), true, "this is the message");
     }
 
@@ -511,7 +511,7 @@ public class ControllerTest {
 
         controller.changeAwayStatus(me.getCode(), true, "    trim me    ");
 
-        verify(messages).sendAwayMessage("trim me");
+        verify(networkMessages).sendAwayMessage("trim me");
         verify(userListController).changeAwayStatus(me.getCode(), true, "trim me");
     }
 
@@ -523,7 +523,7 @@ public class ControllerTest {
 
         controller.changeAwayStatus(me.getCode(), false, "");
 
-        verify(messages).sendBackMessage();
+        verify(networkMessages).sendBackMessage();
         verify(userListController).changeAwayStatus(me.getCode(), false, "");
     }
 
@@ -534,7 +534,7 @@ public class ControllerTest {
 
         controller.changeAwayStatus(654, true, "Away message");
 
-        verifyZeroInteractions(messages);
+        verifyZeroInteractions(networkMessages);
         verify(userListController).changeAwayStatus(654, true, "Away message");
     }
 
@@ -545,7 +545,7 @@ public class ControllerTest {
 
         controller.changeAwayStatus(654, false, "");
 
-        verifyZeroInteractions(messages);
+        verifyZeroInteractions(networkMessages);
         verify(userListController).changeAwayStatus(654, false, "");
     }
 
@@ -601,7 +601,7 @@ public class ControllerTest {
     public void changeMyNickShouldSendMessageAndChangeNickAndSave() throws CommandException {
         controller.changeMyNick("kelly");
 
-        verify(messages).sendNickMessage("kelly");
+        verify(networkMessages).sendNickMessage("kelly");
         verify(controller).changeNick(me.getCode(), "kelly");
         verify(controller).saveSettings();
     }
