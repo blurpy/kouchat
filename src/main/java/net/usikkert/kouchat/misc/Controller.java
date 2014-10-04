@@ -150,9 +150,10 @@ public class Controller implements NetworkConnectionListener {
         dayTimer.startTimer();
         idleThread.start();
 
-        msgController.showSystemMessage("Welcome to " + Constants.APP_NAME + " v" + Constants.APP_VERSION + "!");
-        final String date = dateTools.currentDateToString("EEEE, d MMMM yyyy");
-        msgController.showSystemMessage("Today is " + date);
+        msgController.showSystemMessage(coreMessages.getMessage("core.startup.welcome.systemMessage",
+                                                                Constants.APP_NAME, Constants.APP_VERSION));
+        final String date = dateTools.currentDateToString(coreMessages.getMessage("core.dateFormat.long"));
+        msgController.showSystemMessage(coreMessages.getMessage("core.startup.todayIs.systemMessage", date));
     }
 
     /**
