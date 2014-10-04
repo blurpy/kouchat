@@ -35,6 +35,7 @@ import net.usikkert.kouchat.autocomplete.CommandAutoCompleteList;
 import net.usikkert.kouchat.autocomplete.UserAutoCompleteList;
 import net.usikkert.kouchat.event.NetworkConnectionListener;
 import net.usikkert.kouchat.jmx.JMXBeanLoader;
+import net.usikkert.kouchat.message.CoreMessages;
 import net.usikkert.kouchat.net.DefaultMessageResponder;
 import net.usikkert.kouchat.net.DefaultPrivateMessageResponder;
 import net.usikkert.kouchat.net.FileReceiver;
@@ -82,6 +83,7 @@ public class Controller implements NetworkConnectionListener {
     private final SettingsSaver settingsSaver;
     private final DayTimer dayTimer;
     private final Thread shutdownHook;
+    private final CoreMessages coreMessages;
     private final ErrorHandler errorHandler;
 
     /**
@@ -92,18 +94,21 @@ public class Controller implements NetworkConnectionListener {
      * @param ui The active user interface object.
      * @param settings The settings to use.
      * @param settingsSaver The saver to use for storing settings.
+     * @param coreMessages The core messages to use.
      * @param errorHandler The error handler to use.
      */
     public Controller(final UserInterface ui, final Settings settings, final SettingsSaver settingsSaver,
-                      final ErrorHandler errorHandler) {
+                      final CoreMessages coreMessages, final ErrorHandler errorHandler) {
         Validate.notNull(ui, "User interface can not be null");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(settingsSaver, "Settings saver can not be null");
+        Validate.notNull(coreMessages, "Core messages can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
 
         this.ui = ui;
         this.settings = settings;
         this.settingsSaver = settingsSaver;
+        this.coreMessages = coreMessages;
         this.errorHandler = errorHandler;
 
         shutdownHook = new Thread("ControllerShutdownHook") {

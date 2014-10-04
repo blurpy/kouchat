@@ -78,7 +78,7 @@ public class ConsoleMediator implements UserInterface {
         msgController = new MessageController(chat, this, settings, errorHandler);
         final PropertyFileSettingsSaver settingsSaver =
                 new PropertyFileSettingsSaver(settings, coreMessages, errorHandler);
-        controller = new Controller(this, settings, settingsSaver, errorHandler);
+        controller = new Controller(this, settings, settingsSaver, coreMessages, errorHandler);
         jmxAgent = new JMXAgent(controller.createJMXBeanLoader());
         consoleInput = new ConsoleInput(controller, this, settings, consoleMessages);
         sleeper = new Sleeper();
