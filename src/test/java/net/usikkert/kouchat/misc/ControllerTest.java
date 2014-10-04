@@ -91,27 +91,21 @@ public class ControllerTest {
 
         controller = spy(new Controller(ui, settings, settingsSaver, coreMessages, errorHandler));
 
-        messages = mock(Messages.class);
-        TestUtils.setFieldValue(controller, "messages", messages);
-
-        networkService = mock(NetworkService.class);
-        TestUtils.setFieldValue(controller, "networkService", networkService);
+        messages = TestUtils.setFieldValueWithMock(controller, "messages", Messages.class);
+        networkService = TestUtils.setFieldValueWithMock(controller, "networkService", NetworkService.class);
 
         // The idle thread makes tests fail randomly, because it sometimes runs in parallel and removes idle users...
         final IdleThread realIdleThread = TestUtils.getFieldValue(controller, IdleThread.class, "idleThread");
         realIdleThread.stopThread();
 
-        idleThread = mock(IdleThread.class);
-        TestUtils.setFieldValue(controller, "idleThread", idleThread);
+        idleThread = TestUtils.setFieldValueWithMock(controller, "idleThread", IdleThread.class);
+        dayTimer = TestUtils.setFieldValueWithMock(controller, "dayTimer", DayTimer.class);
 
-        dayTimer = mock(DayTimer.class);
-        TestUtils.setFieldValue(controller, "dayTimer", dayTimer);
-
-        final UserListController userListController = TestUtils.getFieldValue(controller, UserListController.class, "userListController");
+        final UserListController userListController =
+                TestUtils.getFieldValue(controller, UserListController.class, "userListController");
         userList = userListController.getUserList();
 
-        transferList = mock(TransferList.class);
-        TestUtils.setFieldValue(controller, "tList", transferList);
+        transferList = TestUtils.setFieldValueWithMock(controller, "tList", TransferList.class);
 
         // The shutdown hook makes tests fail randomly, because it sometimes runs in parallel...
         final Thread shutdownHook = TestUtils.getFieldValue(controller, Thread.class, "shutdownHook");
