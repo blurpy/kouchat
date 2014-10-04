@@ -40,6 +40,7 @@ import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.settings.SettingsSaver;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 import net.usikkert.kouchat.ui.UserInterface;
+import net.usikkert.kouchat.util.DateTools;
 import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.Before;
@@ -71,6 +72,7 @@ public class ControllerTest {
     private SettingsSaver settingsSaver;
     private CoreMessages coreMessages;
     private ErrorHandler errorHandler;
+    private DateTools dateTools;
 
     private User me;
     private UserList userList;
@@ -106,6 +108,7 @@ public class ControllerTest {
         userList = userListController.getUserList();
 
         transferList = TestUtils.setFieldValueWithMock(controller, "tList", TransferList.class);
+        dateTools = TestUtils.setFieldValueWithMock(controller, "dateTools", DateTools.class);
 
         // The shutdown hook makes tests fail randomly, because it sometimes runs in parallel...
         final Thread shutdownHook = TestUtils.getFieldValue(controller, Thread.class, "shutdownHook");
@@ -458,13 +461,16 @@ public class ControllerTest {
 
     @Test
     public void startShouldStartThreadsAndShowWelcomeMessages() {
+        when(dateTools.currentDateToString(anyString())).thenReturn("X-mass");
+
         controller.start();
 
         verify(dayTimer).startTimer();
         verify(idleThread).start();
 
         verify(messageController).showSystemMessage("Welcome to KouChat v" + Constants.APP_VERSION + "!");
-        verify(messageController).showSystemMessage(startsWith("Today is "));
+        verify(messageController).showSystemMessage("Today is X-mass");
+        verify(dateTools).currentDateToString("EEEE, d MMMM yyyy");
     }
 
     @Test

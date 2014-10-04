@@ -50,6 +50,7 @@ import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.settings.SettingsSaver;
 import net.usikkert.kouchat.ui.UserInterface;
+import net.usikkert.kouchat.util.DateTools;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
@@ -68,6 +69,8 @@ public class Controller implements NetworkConnectionListener {
 
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(Controller.class.getName());
+
+    private final DateTools dateTools = new DateTools();
 
     private final ChatState chatState;
     private final UserListController userListController;
@@ -148,7 +151,7 @@ public class Controller implements NetworkConnectionListener {
         idleThread.start();
 
         msgController.showSystemMessage("Welcome to " + Constants.APP_NAME + " v" + Constants.APP_VERSION + "!");
-        final String date = Tools.dateToString(null, "EEEE, d MMMM yyyy");
+        final String date = dateTools.currentDateToString("EEEE, d MMMM yyyy");
         msgController.showSystemMessage("Today is " + date);
     }
 
