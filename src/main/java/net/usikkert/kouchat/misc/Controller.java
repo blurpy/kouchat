@@ -237,13 +237,13 @@ public class Controller implements NetworkConnectionListener {
      */
     public void goAway(final String awayMessage) throws CommandException {
         if (Tools.isEmpty(awayMessage)) {
-            throw new CommandException("You can not go away without an away message");
+            throw new CommandException(coreMessages.getMessage("core.away.missingAwayMessage.error"));
         }
 
         changeAwayStatus(me.getCode(), true, awayMessage);
 
         ui.changeAway(true);
-        msgController.showSystemMessage("You went away: " + me.getAwayMsg());
+        msgController.showSystemMessage(coreMessages.getMessage("core.away.wentAway.systemMessage", me.getAwayMsg()));
     }
 
     /**
