@@ -74,7 +74,7 @@ public class TestUtilsTest {
     @Test
     public void getFieldValueShouldThrowExceptionIfInvalidFieldName() {
         expectedException.expect(RuntimeException.class);
-        expectedException.expectMessage("NoSuchFieldException: wrongField");
+        expectedException.expectMessage("java.lang.NoSuchFieldException: wrongField");
 
         final TestClass testClass = new TestClass(null, null);
 
@@ -125,7 +125,7 @@ public class TestUtilsTest {
     @Test
     public void setFieldValueShouldThrowExceptionIfInvalidFieldName() {
         expectedException.expect(RuntimeException.class);
-        expectedException.expectMessage("NoSuchFieldException: wrongField");
+        expectedException.expectMessage("java.lang.NoSuchFieldException: wrongField");
 
         final TestClass testClass = new TestClass(null, null);
 
