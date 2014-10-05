@@ -32,6 +32,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.border.Border;
 
+import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.TestUtils;
@@ -39,7 +40,6 @@ import net.usikkert.kouchat.util.TestUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Test of {@link UserListCellRenderer}.

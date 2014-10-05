@@ -29,13 +29,13 @@ import java.awt.Component;
 
 import javax.swing.JButton;
 
+import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Test of {@link ButtonPanel}.

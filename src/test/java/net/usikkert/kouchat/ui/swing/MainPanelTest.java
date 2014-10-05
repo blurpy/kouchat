@@ -24,6 +24,7 @@ package net.usikkert.kouchat.ui.swing;
 
 import static org.mockito.Mockito.*;
 
+import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
@@ -31,7 +32,6 @@ import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Test of {@link MainPanel}.

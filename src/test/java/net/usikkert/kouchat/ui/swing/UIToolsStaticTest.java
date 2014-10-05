@@ -36,10 +36,11 @@ import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicLookAndFeel;
 import javax.swing.plaf.synth.SynthLookAndFeel;
 
+import net.usikkert.kouchat.junit.ExpectedException;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;

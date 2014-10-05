@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import net.usikkert.kouchat.jmx.JMXAgent;
+import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.message.CoreMessages;
 import net.usikkert.kouchat.misc.ChatLogger;
 import net.usikkert.kouchat.misc.Controller;
@@ -42,7 +43,6 @@ import net.usikkert.kouchat.util.TestUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Test of {@link ConsoleMediator}.

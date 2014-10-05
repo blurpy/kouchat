@@ -26,10 +26,11 @@ import static org.junit.Assert.*;
 
 import java.util.MissingResourceException;
 
+import net.usikkert.kouchat.junit.ExpectedException;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Test of {@link PropertyFileMessages}.

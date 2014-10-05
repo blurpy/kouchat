@@ -29,6 +29,7 @@ import java.util.Date;
 
 import javax.swing.JMenuItem;
 
+import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.misc.SortedUserList;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.settings.Settings;
@@ -39,7 +40,6 @@ import org.joda.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Test of {@link SidePanel}.

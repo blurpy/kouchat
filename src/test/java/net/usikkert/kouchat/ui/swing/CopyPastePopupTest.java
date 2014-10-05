@@ -33,13 +33,13 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.text.DefaultEditorKit;
 
+import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Test of {@link CopyPastePopup}.

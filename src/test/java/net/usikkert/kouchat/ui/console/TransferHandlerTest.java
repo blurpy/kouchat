@@ -26,6 +26,7 @@ import static org.mockito.Mockito.*;
 
 import java.io.File;
 
+import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.FileReceiver;
@@ -35,7 +36,6 @@ import net.usikkert.kouchat.net.FileTransfer;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Test of {@link TransferHandler}.

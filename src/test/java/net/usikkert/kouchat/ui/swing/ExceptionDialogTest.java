@@ -38,6 +38,7 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.ResourceLoader;
@@ -50,7 +51,6 @@ import org.joda.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.mockito.ArgumentMatcher;
 
 /**

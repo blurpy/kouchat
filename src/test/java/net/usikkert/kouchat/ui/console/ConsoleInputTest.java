@@ -26,6 +26,7 @@ import static org.mockito.Mockito.*;
 
 import java.io.BufferedReader;
 
+import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.junit.ExpectedSystemOut;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.settings.Settings;
@@ -36,7 +37,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
-import org.junit.rules.ExpectedException;
 
 /**
  * Test of {@link ConsoleInput}.

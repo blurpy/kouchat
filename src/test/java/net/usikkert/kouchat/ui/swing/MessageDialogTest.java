@@ -27,6 +27,7 @@ import static org.mockito.Mockito.*;
 
 import javax.swing.JButton;
 
+import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.ResourceLoader;
@@ -35,7 +36,6 @@ import net.usikkert.kouchat.util.ResourceValidator;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Test of {@link MessageDialog}.

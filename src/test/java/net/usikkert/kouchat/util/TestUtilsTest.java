@@ -25,9 +25,10 @@ package net.usikkert.kouchat.util;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import net.usikkert.kouchat.junit.ExpectedException;
+
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.mockito.MockingDetails;
 
 /**

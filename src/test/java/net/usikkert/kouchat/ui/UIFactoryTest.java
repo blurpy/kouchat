@@ -25,12 +25,12 @@ package net.usikkert.kouchat.ui;
 import static org.mockito.Mockito.*;
 
 import net.usikkert.kouchat.argument.ArgumentParser;
+import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.util.UncaughtExceptionLogger;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Test of {@link UIFactory}.

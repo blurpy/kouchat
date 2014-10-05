@@ -33,11 +33,12 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
 
+import net.usikkert.kouchat.junit.ExpectedException;
+
 import org.jetbrains.annotations.NonNls;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 
 /**
