@@ -61,4 +61,11 @@ public class ExpectedException implements TestRule {
     public void expectMessage(@NonNls final String expectedExceptionMessage) {
         expectedException.expectMessage(equalTo(expectedExceptionMessage));
     }
+
+    /**
+     * A part of the exception message to expect.
+     */
+    public void expectMessageContaining(@NonNls final String substring) {
+        expectedException.expectMessage(substring);
+    }
 }

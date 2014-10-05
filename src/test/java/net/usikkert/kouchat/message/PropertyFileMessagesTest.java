@@ -37,6 +37,7 @@ import org.junit.Test;
  *
  * @author Christian Ihle
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class PropertyFileMessagesTest {
 
     @Rule
@@ -68,7 +69,7 @@ public class PropertyFileMessagesTest {
     @Test
     public void constructorShouldThrowExceptionIfBaseNameIsInvalid() {
         expectedException.expect(MissingResourceException.class);
-        expectedException.expectMessage("Can't find bundle for base name wrong");
+        expectedException.expectMessageContaining("Can't find bundle for base name wrong"); // And some locale
 
         new PropertyFileMessages("wrong");
     }

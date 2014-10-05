@@ -103,6 +103,36 @@ public class ExpectedExceptionTest {
         assertNotNull(error);
     }
 
+    @Test
+    public void checkingWithExpectMessageContainingShouldNotThrowAssertionErrorIfExpectedMessageIsIdentical() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessageContaining("the error message");
+
+        final AssertionError error = runTestAndThrow("the error message");
+
+        assertNull(error);
+    }
+
+    @Test
+    public void checkingWithExpectMessageContainingShouldThrowAssertionErrorIfExpectedMessageIsDifferent() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessageContaining("something else");
+
+        final AssertionError error = runTestAndThrow("the error message");
+
+        assertNotNull(error);
+    }
+
+    @Test
+    public void checkingWithExpectMessageContainingShouldNotThrowAssertionErrorIfExpectedMessageOnlyContainsTheText() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessageContaining("the error message");
+
+        final AssertionError error = runTestAndThrow("hello the error message this is");
+
+        assertNull(error);
+    }
+
     private AssertionError runTestAndThrow(@NonNls final String messageToThrow) {
         final Statement statement = expectedException.apply(new Statement() {
             @Override
