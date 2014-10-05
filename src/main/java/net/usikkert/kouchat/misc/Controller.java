@@ -255,7 +255,7 @@ public class Controller implements NetworkConnectionListener {
         changeAwayStatus(me.getCode(), false, "");
 
         ui.changeAway(false);
-        msgController.showSystemMessage("You came back");
+        msgController.showSystemMessage(coreMessages.getMessage("core.away.cameBack.systemMessage"));
     }
 
     /**
