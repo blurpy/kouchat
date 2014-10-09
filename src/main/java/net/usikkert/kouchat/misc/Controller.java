@@ -237,7 +237,7 @@ public class Controller implements NetworkConnectionListener {
      */
     public void goAway(final String awayMessage) throws CommandException {
         if (Tools.isEmpty(awayMessage)) {
-            throw new CommandException(coreMessages.getMessage("core.away.missingAwayMessage.error"));
+            throw new CommandException(coreMessages.getMessage("core.away.error.missingAwayMessage"));
         }
 
         changeAwayStatus(me.getCode(), true, awayMessage);
