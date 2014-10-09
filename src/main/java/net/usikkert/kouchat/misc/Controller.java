@@ -271,7 +271,7 @@ public class Controller implements NetworkConnectionListener {
         if (code == me.getCode() && !isLoggedOn()) {
             throw new CommandException(coreMessages.getMessage("core.away.error.notConnected"));
         } else if (Tools.getBytes(awaymsg) > Constants.MESSAGE_MAX_BYTES) {
-            throw new CommandException(coreMessages.getMessage("core.away.error.awayMessageToLong",
+            throw new CommandException(coreMessages.getMessage("core.away.error.awayMessageTooLong",
                                                                Constants.MESSAGE_MAX_BYTES));
         }
 
@@ -553,13 +553,14 @@ public class Controller implements NetworkConnectionListener {
      */
     public void sendChatMessage(final String msg) throws CommandException {
         if (!isConnected()) {
-            throw new CommandException("You can not send a chat message without being connected");
+            throw new CommandException(coreMessages.getMessage("core.chatMessage.error.notConnected"));
         } else if (me.isAway()) {
-            throw new CommandException("You can not send a chat message while away");
+            throw new CommandException(coreMessages.getMessage("core.chatMessage.error.isAway"));
         } else if (msg.trim().length() == 0) {
-            throw new CommandException("You can not send an empty chat message");
+            throw new CommandException(coreMessages.getMessage("core.chatMessage.error.emptyMessage"));
         } else if (Tools.getBytes(msg) > Constants.MESSAGE_MAX_BYTES) {
-            throw new CommandException("You can not send a chat message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes");
+            throw new CommandException(coreMessages.getMessage("core.chatMessage.error.messageTooLong",
+                                                               Constants.MESSAGE_MAX_BYTES));
         } else {
             networkMessages.sendChatMessage(msg);
         }
