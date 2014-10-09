@@ -429,7 +429,7 @@ public class Controller implements NetworkConnectionListener {
             final User user = userList.get(i);
 
             if (!user.isMe()) {
-                removeUser(user, "You logged off");
+                removeUser(user, coreMessages.getMessage("core.logOff.privateChat.systemMessage"));
                 i--;
             }
         }
