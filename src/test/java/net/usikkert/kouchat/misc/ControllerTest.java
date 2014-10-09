@@ -642,6 +642,56 @@ public class ControllerTest {
         verify(settingsSaver).saveSettings();
     }
 
+    @Test
+    public void sendChatMessageShouldThrowExceptionIfNotConnected() throws CommandException {
+        expectedException.expect(CommandException.class);
+        expectedException.expectMessage("You can not send a chat message without being connected");
+
+        assertFalse(controller.isConnected());
+
+        controller.sendChatMessage("chat message");
+    }
+
+    @Test
+    public void sendChatMessageShouldThrowExceptionIfMeIsAway() throws CommandException {
+        expectedException.expect(CommandException.class);
+        expectedException.expectMessage("You can not send a chat message while away");
+
+        doReturn(true).when(controller).isConnected();
+        me.setAway(true);
+
+        controller.sendChatMessage("chat message");
+    }
+
+    @Test
+    public void sendChatMessageShouldThrowExceptionIfMessageIsEmpty() throws CommandException {
+        expectedException.expect(CommandException.class);
+        expectedException.expectMessage("You can not send an empty chat message");
+
+        doReturn(true).when(controller).isConnected();
+
+        controller.sendChatMessage(" ");
+    }
+
+    @Test
+    public void sendChatMessageShouldThrowExceptionIfMessageIsTooLong() throws CommandException {
+        expectedException.expect(CommandException.class);
+        expectedException.expectMessage("You can not send a chat message with more than 450 bytes");
+
+        doReturn(true).when(controller).isConnected();
+
+        controller.sendChatMessage(createStringOfSize(451));
+    }
+
+    @Test
+    public void sendChatMessageShouldSendMessageUsingNetworkMessages() throws CommandException {
+        doReturn(true).when(controller).isConnected();
+
+        controller.sendChatMessage("the message");
+
+        verify(networkMessages).sendChatMessage("the message");
+    }
+
     private String createStringOfSize(final int size) {
         final StringBuilder sb = new StringBuilder(size);
 
