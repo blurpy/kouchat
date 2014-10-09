@@ -317,7 +317,7 @@ public class Controller implements NetworkConnectionListener {
      */
     public void changeMyNick(final String newNick) throws CommandException {
         if (me.isAway()) {
-            throw new CommandException("You can not change nick while away");
+            throw new CommandException(coreMessages.getMessage("core.nick.error.away"));
         }
 
         networkMessages.sendNickMessage(newNick);
