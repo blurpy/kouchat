@@ -269,9 +269,10 @@ public class Controller implements NetworkConnectionListener {
      */
     public void changeAwayStatus(final int code, final boolean away, final String awaymsg) throws CommandException {
         if (code == me.getCode() && !isLoggedOn()) {
-            throw new CommandException("You can not change away mode without being connected");
+            throw new CommandException(coreMessages.getMessage("core.away.error.notConnected"));
         } else if (Tools.getBytes(awaymsg) > Constants.MESSAGE_MAX_BYTES) {
-            throw new CommandException("You can not set an away message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes");
+            throw new CommandException(coreMessages.getMessage("core.away.error.awayMessageToLong",
+                                                               Constants.MESSAGE_MAX_BYTES));
         }
 
         final String trimmedAwayMessage = awaymsg.trim();
