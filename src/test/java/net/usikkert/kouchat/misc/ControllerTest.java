@@ -85,6 +85,7 @@ public class ControllerTest {
         errorHandler = mock(ErrorHandler.class);
 
         me = new User("TestUser", 123);
+        me.setMe(true);
         when(settings.getMe()).thenReturn(me);
 
         ui = mock(UserInterface.class);
@@ -457,6 +458,34 @@ public class ControllerTest {
 
         verify(transferList).removeFileReceiver(fileReceiver1);
         verify(transferList).removeFileSender(fileSender1);
+    }
+
+    @Test
+    public void logOffShouldRemoveOtherUsersThanMeWhenRemoveUsersIsTrue() {
+        final User user1 = new User("User1", 124);
+        userList.add(user1);
+
+        final User user2 = new User("User2", 125);
+        userList.add(user2);
+
+        controller.logOff(true);
+
+        verify(controller).removeUser(user1, "You logged off");
+        verify(controller).removeUser(user2, "You logged off");
+        verify(controller, never()).removeUser(eq(me), anyString());
+    }
+
+    @Test
+    public void logOffShouldNotRemoveUsersWhenRemoveUsersIsFalse() {
+        final User user1 = new User("User1", 124);
+        userList.add(user1);
+
+        final User user2 = new User("User2", 125);
+        userList.add(user2);
+
+        controller.logOff(false);
+
+        verify(controller, never()).removeUser(any(User.class), anyString());
     }
 
     @Test
