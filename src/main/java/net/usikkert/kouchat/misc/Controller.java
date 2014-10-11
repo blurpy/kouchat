@@ -718,21 +718,22 @@ public class Controller implements NetworkConnectionListener {
      */
     public void sendPrivateMessage(final String privmsg, final User user) throws CommandException {
         if (!isConnected()) {
-            throw new CommandException("You can not send a private chat message without being connected");
+            throw new CommandException(coreMessages.getMessage("core.privateChatMessage.error.notConnected"));
         } else if (me.isAway()) {
-            throw new CommandException("You can not send a private chat message while away");
+            throw new CommandException(coreMessages.getMessage("core.privateChatMessage.error.meIsAway"));
         } else if (privmsg.trim().length() == 0) {
-            throw new CommandException("You can not send an empty private chat message");
+            throw new CommandException(coreMessages.getMessage("core.privateChatMessage.error.emptyMessage"));
         } else if (Tools.getBytes(privmsg) > Constants.MESSAGE_MAX_BYTES) {
-            throw new CommandException("You can not send a private chat message with more than " + Constants.MESSAGE_MAX_BYTES + " bytes");
+            throw new CommandException(coreMessages.getMessage("core.privateChatMessage.error.messageTooLong",
+                                                               Constants.MESSAGE_MAX_BYTES));
         } else if (user.getPrivateChatPort() == 0) {
-            throw new CommandException("You can not send a private chat message to a user with no available port number");
+            throw new CommandException(coreMessages.getMessage("core.privateChatMessage.error.noPortNumber"));
         } else if (user.isAway()) {
-            throw new CommandException("You can not send a private chat message to a user that is away");
+            throw new CommandException(coreMessages.getMessage("core.privateChatMessage.error.userIsAway"));
         } else if (!user.isOnline()) {
-            throw new CommandException("You can not send a private chat message to a user that is offline");
+            throw new CommandException(coreMessages.getMessage("core.privateChatMessage.error.userIsOffline"));
         } else if (settings.isNoPrivateChat()) {
-            throw new CommandException("You can not send a private chat message when private chat is disabled");
+            throw new CommandException(coreMessages.getMessage("core.privateChatMessage.error.privateChatDisabled"));
         } else {
             networkMessages.sendPrivateMessage(privmsg, user);
         }
