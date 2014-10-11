@@ -317,7 +317,7 @@ public class Controller implements NetworkConnectionListener {
      */
     public void changeMyNick(final String newNick) throws CommandException {
         if (me.isAway()) {
-            throw new CommandException(coreMessages.getMessage("core.nick.error.away"));
+            throw new CommandException(coreMessages.getMessage("core.nick.error.isAway"));
         }
 
         networkMessages.sendNickMessage(newNick);
@@ -583,11 +583,12 @@ public class Controller implements NetworkConnectionListener {
      */
     public void changeTopic(final String newTopic) throws CommandException {
         if (!isLoggedOn()) {
-            throw new CommandException("You can not change the topic without being connected");
+            throw new CommandException(coreMessages.getMessage("core.topic.error.notConnected"));
         } else if (me.isAway()) {
-            throw new CommandException("You can not change the topic while away");
+            throw new CommandException(coreMessages.getMessage("core.topic.error.isAway"));
         } else if (Tools.getBytes(newTopic) > Constants.MESSAGE_MAX_BYTES) {
-            throw new CommandException("You can not set a topic with more than " + Constants.MESSAGE_MAX_BYTES + " bytes");
+            throw new CommandException(coreMessages.getMessage("core.topic.error.messageTooLong",
+                                                               Constants.MESSAGE_MAX_BYTES));
         }
 
         final long time = System.currentTimeMillis();
