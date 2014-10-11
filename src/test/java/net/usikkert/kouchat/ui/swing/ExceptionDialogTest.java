@@ -41,12 +41,11 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
+import net.usikkert.kouchat.util.DateTestUtils;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
 import net.usikkert.kouchat.util.TestUtils;
 
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
 import org.joda.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Rule;
@@ -244,11 +243,7 @@ public class ExceptionDialogTest {
             public boolean matches(final Object argument) {
                 final Date dateForTimestamp = (Date) argument;
 
-                // Add some slack, to avoid failing test on slow build servers
-                final Interval nowPlusMinus5Seconds = new Interval(new DateTime().minusSeconds(5),
-                                                                   new DateTime().plusSeconds(5));
-
-                return nowPlusMinus5Seconds.contains(dateForTimestamp.getTime());
+                return DateTestUtils.isNow(dateForTimestamp);
             }
         }));
     }
