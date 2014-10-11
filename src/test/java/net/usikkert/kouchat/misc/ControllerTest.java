@@ -27,6 +27,7 @@ import static org.mockito.Mockito.*;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Date;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.NetworkConnectionListener;
@@ -41,12 +42,14 @@ import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.settings.SettingsSaver;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 import net.usikkert.kouchat.ui.UserInterface;
+import net.usikkert.kouchat.util.DateTestUtils;
 import net.usikkert.kouchat.util.DateTools;
 import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 /**
  * Test of {@link Controller}.
@@ -690,6 +693,59 @@ public class ControllerTest {
         controller.sendChatMessage("the message");
 
         verify(networkMessages).sendChatMessage("the message");
+    }
+
+    @Test
+    public void changeTopicShouldThrowExceptionIfNotLoggedOn() throws CommandException {
+        expectedException.expect(CommandException.class);
+        expectedException.expectMessage("You can not change the topic without being connected");
+
+        assertFalse(controller.isLoggedOn());
+
+        controller.changeTopic("topic");
+    }
+
+    @Test
+    public void changeTopicShouldThrowExceptionIfMeIsAway() throws CommandException {
+        expectedException.expect(CommandException.class);
+        expectedException.expectMessage("You can not change the topic while away");
+
+        doReturn(true).when(controller).isLoggedOn();
+        me.setAway(true);
+
+        controller.changeTopic("topic");
+    }
+
+    @Test
+    public void changeTopicShouldThrowExceptionIfMessageIsTooLong() throws CommandException {
+        expectedException.expect(CommandException.class);
+        expectedException.expectMessage("You can not set a topic with more than 450 bytes");
+
+        doReturn(true).when(controller).isLoggedOn();
+
+        controller.changeTopic(createStringOfSize(451));
+    }
+
+    @Test
+    public void changeTopicShouldUpdateTopicAndSendTopicChangeMessage() throws CommandException {
+        doReturn(true).when(controller).isLoggedOn();
+
+        controller.changeTopic("new topic");
+
+        final ArgumentCaptor<Topic> topicCaptor = ArgumentCaptor.forClass(Topic.class);
+        verify(networkMessages).sendTopicChangeMessage(topicCaptor.capture());
+
+        final Topic messageTopic = topicCaptor.getValue();
+        final Topic controllerTopic = controller.getTopic();
+
+        assertEquals("new topic", messageTopic.getTopic());
+        assertEquals("new topic", controllerTopic.getTopic());
+
+        assertEquals(me.getNick(), messageTopic.getNick());
+        assertEquals(me.getNick(), controllerTopic.getNick());
+
+        assertTrue(DateTestUtils.isNow(new Date(messageTopic.getTime())));
+        assertEquals(messageTopic.getTime(), controllerTopic.getTime());
     }
 
     private String createStringOfSize(final int size) {
