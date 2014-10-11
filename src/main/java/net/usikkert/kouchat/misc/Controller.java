@@ -317,7 +317,7 @@ public class Controller implements NetworkConnectionListener {
      */
     public void changeMyNick(final String newNick) throws CommandException {
         if (me.isAway()) {
-            throw new CommandException(coreMessages.getMessage("core.nick.error.isAway"));
+            throw new CommandException(coreMessages.getMessage("core.nick.error.meIsAway"));
         }
 
         networkMessages.sendNickMessage(newNick);
@@ -555,7 +555,7 @@ public class Controller implements NetworkConnectionListener {
         if (!isConnected()) {
             throw new CommandException(coreMessages.getMessage("core.chatMessage.error.notConnected"));
         } else if (me.isAway()) {
-            throw new CommandException(coreMessages.getMessage("core.chatMessage.error.isAway"));
+            throw new CommandException(coreMessages.getMessage("core.chatMessage.error.meIsAway"));
         } else if (msg.trim().length() == 0) {
             throw new CommandException(coreMessages.getMessage("core.chatMessage.error.emptyMessage"));
         } else if (Tools.getBytes(msg) > Constants.MESSAGE_MAX_BYTES) {
@@ -585,7 +585,7 @@ public class Controller implements NetworkConnectionListener {
         if (!isLoggedOn()) {
             throw new CommandException(coreMessages.getMessage("core.topic.error.notConnected"));
         } else if (me.isAway()) {
-            throw new CommandException(coreMessages.getMessage("core.topic.error.isAway"));
+            throw new CommandException(coreMessages.getMessage("core.topic.error.meIsAway"));
         } else if (Tools.getBytes(newTopic) > Constants.MESSAGE_MAX_BYTES) {
             throw new CommandException(coreMessages.getMessage("core.topic.error.messageTooLong",
                                                                Constants.MESSAGE_MAX_BYTES));
@@ -653,15 +653,16 @@ public class Controller implements NetworkConnectionListener {
         Validate.notNull(file, "File can not be null");
 
         if (user.isMe()) {
-            throw new CommandException("You can not send a file to yourself");
+            throw new CommandException(coreMessages.getMessage("core.sendFile.error.isMe"));
         } else if (!isConnected()) {
-            throw new CommandException("You can not send a file without being connected");
+            throw new CommandException(coreMessages.getMessage("core.sendFile.error.notConnected"));
         } else if (me.isAway()) {
-            throw new CommandException("You can not send a file while away");
+            throw new CommandException(coreMessages.getMessage("core.sendFile.error.meIsAway"));
         } else if (user.isAway()) {
-            throw new CommandException("You can not send a file to a user that is away");
+            throw new CommandException(coreMessages.getMessage("core.sendFile.error.userIsAway"));
         } else if (Tools.getBytes(file.getName()) > Constants.MESSAGE_MAX_BYTES) {
-            throw new CommandException("You can not send a file with a name with more than " + Constants.MESSAGE_MAX_BYTES + " bytes");
+            throw new CommandException(coreMessages.getMessage("core.sendFile.error.messageTooLong",
+                                                               Constants.MESSAGE_MAX_BYTES));
         } else {
             networkMessages.sendFile(user, file);
         }
