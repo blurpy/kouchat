@@ -259,16 +259,8 @@ public class ControllerTest {
         when(networkService.isNetworkUp()).thenReturn(true);
         controller.getChatState().setLoggedOn(true);
 
-        final StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < 45; i++) {
-            sb.append("1234567890");
-        }
-
-        sb.append("1"); // 451 characters with 1 byte each, at least in UTF-8
-
         final File file = mock(File.class);
-        when(file.getName()).thenReturn(sb.toString());
+        when(file.getName()).thenReturn(createStringOfSize(451));
 
         controller.sendFile(mock(User.class), file);
     }
