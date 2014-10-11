@@ -78,18 +78,18 @@ public class ControllerTest {
     private DateTools dateTools;
 
     private User me;
+    private User otherUser;
     private UserList userList;
 
     @Before
     public void setUp() {
-        settings = mock(Settings.class);
+        settings = new Settings();
         settingsSaver = mock(SettingsSaver.class);
         coreMessages = new CoreMessages();
         errorHandler = mock(ErrorHandler.class);
 
-        me = new User("TestUser", 123);
-        me.setMe(true);
-        when(settings.getMe()).thenReturn(me);
+        me = settings.getMe();
+        otherUser = new User("OtherUser", 124);
 
         ui = mock(UserInterface.class);
         messageController = mock(MessageController.class);
@@ -738,6 +738,104 @@ public class ControllerTest {
 
         assertTrue(DateTestUtils.isNow(new Date(messageTopic.getTime())));
         assertEquals(messageTopic.getTime(), controllerTopic.getTime());
+    }
+
+    @Test
+    public void sendPrivateMessageShouldThrowExceptionIfNotConnected() throws CommandException {
+        expectedException.expect(CommandException.class);
+        expectedException.expectMessage("You can not send a private chat message without being connected");
+
+        assertFalse(controller.isConnected());
+
+        controller.sendPrivateMessage("msg", otherUser);
+    }
+
+    @Test
+    public void sendPrivateMessageShouldThrowExceptionIfMeIsAway() throws CommandException {
+        expectedException.expect(CommandException.class);
+        expectedException.expectMessage("You can not send a private chat message while away");
+
+        doReturn(true).when(controller).isConnected();
+        me.setAway(true);
+
+        controller.sendPrivateMessage("msg", otherUser);
+    }
+
+    @Test
+    public void sendPrivateMessageShouldThrowExceptionIfMessageIsEmpty() throws CommandException {
+        expectedException.expect(CommandException.class);
+        expectedException.expectMessage("You can not send an empty private chat message");
+
+        doReturn(true).when(controller).isConnected();
+
+        controller.sendPrivateMessage(" ", otherUser);
+    }
+
+    @Test
+    public void sendPrivateMessageShouldThrowExceptionIfMessageIsTooLong() throws CommandException {
+        expectedException.expect(CommandException.class);
+        expectedException.expectMessage("You can not send a private chat message with more than 450 bytes");
+
+        doReturn(true).when(controller).isConnected();
+
+        controller.sendPrivateMessage(createStringOfSize(451), otherUser);
+    }
+
+    @Test
+    public void sendPrivateMessageShouldThrowExceptionIfUserHasNoPortNumber() throws CommandException {
+        expectedException.expect(CommandException.class);
+        expectedException.expectMessage("You can not send a private chat message to a user with no available port number");
+
+        doReturn(true).when(controller).isConnected();
+        assertEquals(0, otherUser.getPrivateChatPort());
+
+        controller.sendPrivateMessage("msg", otherUser);
+    }
+
+    @Test
+    public void sendPrivateMessageShouldThrowExceptionIfUserIsAway() throws CommandException {
+        expectedException.expect(CommandException.class);
+        expectedException.expectMessage("You can not send a private chat message to a user that is away");
+
+        doReturn(true).when(controller).isConnected();
+        otherUser.setPrivateChatPort(10);
+        otherUser.setAway(true);
+
+        controller.sendPrivateMessage("msg", otherUser);
+    }
+
+    @Test
+    public void sendPrivateMessageShouldThrowExceptionIfUserIsOffline() throws CommandException {
+        expectedException.expect(CommandException.class);
+        expectedException.expectMessage("You can not send a private chat message to a user that is offline");
+
+        doReturn(true).when(controller).isConnected();
+        otherUser.setPrivateChatPort(10);
+        otherUser.setOnline(false);
+
+        controller.sendPrivateMessage("msg", otherUser);
+    }
+
+    @Test
+    public void sendPrivateMessageShouldThrowExceptionIfPrivateChatIsDisabled() throws CommandException {
+        expectedException.expect(CommandException.class);
+        expectedException.expectMessage("You can not send a private chat message when private chat is disabled");
+
+        doReturn(true).when(controller).isConnected();
+        otherUser.setPrivateChatPort(10);
+        settings.setNoPrivateChat(true);
+
+        controller.sendPrivateMessage("msg", otherUser);
+    }
+
+    @Test
+    public void sendPrivateMessageShouldSendUsingNetworkMessages() throws CommandException {
+        doReturn(true).when(controller).isConnected();
+        otherUser.setPrivateChatPort(10);
+
+        controller.sendPrivateMessage("the private message", otherUser);
+
+        verify(networkMessages).sendPrivateMessage("the private message", otherUser);
     }
 
     private String createStringOfSize(final int size) {
