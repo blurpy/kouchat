@@ -45,11 +45,13 @@ import net.usikkert.kouchat.ui.UserInterface;
 import net.usikkert.kouchat.util.DateTestUtils;
 import net.usikkert.kouchat.util.DateTools;
 import net.usikkert.kouchat.util.TestUtils;
+import net.usikkert.kouchat.util.TimerTools;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InOrder;
 
 /**
  * Test of {@link Controller}.
@@ -76,6 +78,7 @@ public class ControllerTest {
     private CoreMessages coreMessages;
     private ErrorHandler errorHandler;
     private DateTools dateTools;
+    private TimerTools timerTools;
 
     private User me;
     private User otherUser;
@@ -113,6 +116,7 @@ public class ControllerTest {
 
         transferList = TestUtils.setFieldValueWithMock(controller, "tList", TransferList.class);
         dateTools = TestUtils.setFieldValueWithMock(controller, "dateTools", DateTools.class);
+        timerTools = TestUtils.setFieldValueWithMock(controller, "timerTools", TimerTools.class);
 
         // The shutdown hook makes tests fail randomly, because it sometimes runs in parallel...
         final Thread shutdownHook = TestUtils.getFieldValue(controller, Thread.class, "shutdownHook");
@@ -836,6 +840,71 @@ public class ControllerTest {
         controller.sendPrivateMessage("the private message", otherUser);
 
         verify(networkMessages).sendPrivateMessage("the private message", otherUser);
+    }
+
+    @Test
+    public void networkCameUpShouldStartDelayedLogOnTimerIfNotLoggedOn() {
+        assertFalse(controller.isLoggedOn());
+
+        controller.networkCameUp(true);
+
+        verify(timerTools).scheduleTimerTask(eq("DelayedLogonTimer"), any(DelayedLogonTask.class), eq(1500L));
+    }
+
+    @Test
+    public void networkCameUpShouldSendLogOnMessagesIfNotLoggedOn() {
+        assertFalse(controller.isLoggedOn());
+
+        controller.networkCameUp(true);
+
+        final InOrder inOrder = inOrder(networkMessages);
+
+        inOrder.verify(networkMessages).sendLogonMessage();
+        inOrder.verify(networkMessages).sendClient();
+        inOrder.verify(networkMessages).sendExposeMessage();
+        inOrder.verify(networkMessages).sendGetTopicMessage();
+    }
+
+    @Test
+    public void networkCameUpShouldUpdateTopicInUiIfLoggedOn() {
+        doReturn(true).when(controller).isLoggedOn();
+
+        controller.networkCameUp(true);
+
+        verify(ui).showTopic();
+    }
+
+    @Test
+    public void networkCameUpShouldShowSystemMessageIfLoggedOnAndSilentIsFalse() {
+        doReturn(true).when(controller).isLoggedOn();
+
+        controller.networkCameUp(false);
+
+        verify(messageController).showSystemMessage("You are connected to the network again");
+    }
+
+    @Test
+    public void networkCameUpShouldNotShowSystemMessageIfLoggedOnAndSilentIsTrue() {
+        doReturn(true).when(controller).isLoggedOn();
+
+        controller.networkCameUp(true);
+
+        verify(messageController, never()).showSystemMessage(anyString());
+    }
+
+    @Test
+    public void networkCameUpShouldSendMessagesToDiscoverChatStateIfLoggedOn() {
+        doReturn(true).when(controller).isLoggedOn();
+
+        controller.networkCameUp(true);
+
+        final InOrder inOrder = inOrder(networkMessages);
+
+        inOrder.verify(networkMessages).sendTopicRequestedMessage(controller.getTopic());
+        inOrder.verify(networkMessages).sendExposingMessage();
+        inOrder.verify(networkMessages).sendGetTopicMessage();
+        inOrder.verify(networkMessages).sendExposeMessage();
+        inOrder.verify(networkMessages).sendIdleMessage();
     }
 
     private String createStringOfSize(final int size) {
