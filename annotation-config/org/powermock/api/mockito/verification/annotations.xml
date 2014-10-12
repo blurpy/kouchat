@@ -1,0 +1,6 @@
+<root>
+  <item
+      name='org.powermock.api.mockito.verification.ConstructorArgumentsVerification void withArguments(java.lang.Object, java.lang.Object...) 0'>
+    <annotation name='org.jetbrains.annotations.NonNls'/>
+  </item>
+</root>
