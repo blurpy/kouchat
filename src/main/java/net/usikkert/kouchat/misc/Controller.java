@@ -426,7 +426,7 @@ public class Controller implements NetworkConnectionListener {
             final User user = userList.get(i);
 
             if (!user.isMe()) {
-                removeUser(user, coreMessages.getMessage("core.logOff.privateChat.systemMessage"));
+                removeUser(user, coreMessages.getMessage("core.network.logOff.systemMessage"));
                 i--;
             }
         }
@@ -810,7 +810,7 @@ public class Controller implements NetworkConnectionListener {
             ui.showTopic();
 
             if (!silent) {
-                msgController.showSystemMessage("You are connected to the network again");
+                msgController.showSystemMessage(coreMessages.getMessage("core.network.connectionBack.systemMessage"));
             }
 
             networkMessages.sendTopicRequestedMessage(getTopic());
@@ -832,12 +832,12 @@ public class Controller implements NetworkConnectionListener {
 
         if (isLoggedOn()) {
             if (!silent) {
-                msgController.showSystemMessage("You lost contact with the network");
+                msgController.showSystemMessage(coreMessages.getMessage("core.network.connectionLost.systemMessage"));
             }
         }
 
         else {
-            msgController.showSystemMessage("You logged off");
+            msgController.showSystemMessage(coreMessages.getMessage("core.network.logOff.systemMessage"));
         }
     }
 
