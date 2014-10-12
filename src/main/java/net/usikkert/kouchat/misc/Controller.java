@@ -25,9 +25,6 @@ package net.usikkert.kouchat.misc;
 import java.io.File;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.autocomplete.AutoCompleter;
@@ -66,9 +63,6 @@ import net.usikkert.kouchat.util.Validate;
  * @author Christian Ihle
  */
 public class Controller implements NetworkConnectionListener {
-
-    /** The logger. */
-    private static final Logger LOG = Logger.getLogger(Controller.class.getName());
 
     private final DateTools dateTools = new DateTools();
 
@@ -378,7 +372,7 @@ public class Controller implements NetworkConnectionListener {
      */
     private void runDelayedLogon() {
         final Timer delayedLogonTimer = new Timer("DelayedLogonTimer");
-        delayedLogonTimer.schedule(new DelayedLogonTask(), 0);
+        delayedLogonTimer.schedule(new DelayedLogonTask(networkService, chatState), 1500);
     }
 
     /**
@@ -774,35 +768,6 @@ public class Controller implements NetworkConnectionListener {
      */
     public boolean isLoggedOn() {
         return chatState.isLoggedOn();
-    }
-
-    /**
-     * This timer task sleeps for 1.5 seconds before updating the
-     * {@link WaitingList} to set the status to logged on if the
-     * client was successful in connecting to the network.
-     *
-     * @author Christian Ihle
-     */
-    private class DelayedLogonTask extends TimerTask {
-        /**
-         * The task runs as a thread.
-         */
-        @Override
-        public void run() {
-            try {
-                Thread.sleep(1500);
-            }
-
-            catch (final InterruptedException e) {
-                LOG.log(Level.SEVERE, e.toString(), e);
-            }
-
-            if (networkService.isNetworkUp()) {
-                chatState.setLogonCompleted(true);
-                // To stop the timer from running in the background
-                cancel();
-            }
-        }
     }
 
     /**
