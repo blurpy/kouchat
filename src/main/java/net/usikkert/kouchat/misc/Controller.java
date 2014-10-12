@@ -24,7 +24,6 @@ package net.usikkert.kouchat.misc;
 
 import java.io.File;
 import java.util.List;
-import java.util.Timer;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.autocomplete.AutoCompleter;
@@ -48,6 +47,7 @@ import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.settings.SettingsSaver;
 import net.usikkert.kouchat.ui.UserInterface;
 import net.usikkert.kouchat.util.DateTools;
+import net.usikkert.kouchat.util.TimerTools;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
@@ -64,7 +64,11 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class Controller implements NetworkConnectionListener {
 
+    /** The time to wait after the network is up before logon is set as completed. */
+    private static final int LOGON_DELAY = 1500;
+
     private final DateTools dateTools = new DateTools();
+    private final TimerTools timerTools = new TimerTools();
 
     private final ChatState chatState;
     private final UserListController userListController;
@@ -371,8 +375,7 @@ public class Controller implements NetworkConnectionListener {
      * This should be run after a successful logon, to update the connection state.
      */
     private void runDelayedLogon() {
-        final Timer delayedLogonTimer = new Timer("DelayedLogonTimer");
-        delayedLogonTimer.schedule(new DelayedLogonTask(networkService, chatState), 1500);
+        timerTools.scheduleTimerTask("DelayedLogonTimer", new DelayedLogonTask(networkService, chatState), LOGON_DELAY);
     }
 
     /**
