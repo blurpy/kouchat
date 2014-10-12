@@ -907,6 +907,38 @@ public class ControllerTest {
         inOrder.verify(networkMessages).sendIdleMessage();
     }
 
+    @Test
+    public void networkWentDownShouldUpdateTopicInUi() {
+        controller.networkWentDown(true);
+
+        verify(ui).showTopic();
+    }
+
+    @Test
+    public void networkWentDownShouldShowLogOffSystemMessageIfNotLoggedOn() {
+        controller.networkWentDown(true);
+
+        verify(messageController).showSystemMessage("You logged off");
+    }
+
+    @Test
+    public void networkWentDownShouldShowLostContactSystemMessageIfLoggedOnAndSilentIsFalse() {
+        doReturn(true).when(controller).isLoggedOn();
+
+        controller.networkWentDown(false);
+
+        verify(messageController).showSystemMessage("You lost contact with the network");
+    }
+
+    @Test
+    public void networkWentDownShouldNotShowSystemMessageIfLoggedOnAndSilentIsTrue() {
+        doReturn(true).when(controller).isLoggedOn();
+
+        controller.networkWentDown(true);
+
+        verify(messageController, never()).showSystemMessage(anyString());
+    }
+
     private String createStringOfSize(final int size) {
         final StringBuilder sb = new StringBuilder(size);
 
