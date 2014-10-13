@@ -34,6 +34,7 @@ import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.UserInterface;
+import net.usikkert.kouchat.util.DateTools;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
@@ -46,6 +47,8 @@ import org.jetbrains.annotations.NonNls;
  * @author Christian Ihle
  */
 public class CommandParser {
+
+    private final DateTools dateTools = new DateTools();
 
     private final Controller controller;
     private final UserInterface ui;
@@ -92,7 +95,7 @@ public class CommandParser {
             }
 
             else {
-                final String date = Tools.dateToString(new Date(topic.getTime()), "HH:mm:ss, dd. MMM. yy");
+                final String date = dateTools.dateToString(new Date(topic.getTime()), "HH:mm:ss, dd. MMM. yy");
                 msgController.showSystemMessage("Topic is: " + topic.getTopic() + " (set by " + topic.getNick() + " at " + date + ")");
             }
         }
