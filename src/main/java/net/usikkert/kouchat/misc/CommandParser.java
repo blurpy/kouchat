@@ -77,8 +77,9 @@ public class CommandParser {
 
     /**
      * Command: <em>/topic &lt;optional new topic&gt;</em>.
-     * Prints the current topic if no arguments are supplied,
-     * or changes the topic. To remove the topic, use a space as the argument.
+     *
+     * <p>Prints the current topic if no arguments are supplied,
+     * or changes the topic. To remove the topic, use a space as the argument.</p>
      *
      * @param args Nothing, or the new topic.
      */
@@ -109,7 +110,8 @@ public class CommandParser {
 
     /**
      * Command: <em>/away &lt;away message&gt;</em>.
-     * Set status to away.
+     *
+     * <p>Set status to away.</p>
      *
      * @param args The away message.
      */
@@ -137,7 +139,8 @@ public class CommandParser {
 
     /**
      * Command: <em>/back</em>.
-     * Set status to not away.
+     *
+     * <p>Set status to not away.</p>
      */
     private void cmdBack() {
         if (me.isAway()) {
@@ -157,7 +160,8 @@ public class CommandParser {
 
     /**
      * Command: <em>/clear</em>.
-     * Clear all the text from the chat.
+     *
+     * <p>Clear all the text from the chat.</p>
      */
     private void cmdClear() {
         ui.clearChat();
@@ -165,7 +169,8 @@ public class CommandParser {
 
     /**
      * Command: <em>/about</em>.
-     * Show information about the application.
+     *
+     * <p>Show information about the application.</p>
      */
     private void cmdAbout() {
         msgController.showSystemMessage("This is " + Constants.APP_NAME + " v" + Constants.APP_VERSION +
@@ -175,7 +180,8 @@ public class CommandParser {
 
     /**
      * Command: <em>/help</em>.
-     * Shows a list of commands.
+     *
+     * <p>Shows a list of commands.</p>
      */
     private void cmdHelp() {
         showCommands();
@@ -183,7 +189,8 @@ public class CommandParser {
 
     /**
      * Command: <em>/whois &lt;nick&gt;</em>.
-     * Show information about a user.
+     *
+     * <p>Show information about a user.</p>
      *
      * @param args The user to show information about.
      */
@@ -230,10 +237,10 @@ public class CommandParser {
 
     /**
      * Command: <em>/send &lt;nick&gt; &lt;file&gt;</em>.
-     * Send a file to a user.
      *
-     * @param args First argument is the user to send to, and the second is
-     * the file to send to the user.
+     * <p>Send a file to a user.</p>
+     *
+     * @param args First argument is the user to send to, and the second is the file to send to the user.
      */
     private void cmdSend(final String args) {
         final String[] argsArray = args.split("\\s");
@@ -285,10 +292,10 @@ public class CommandParser {
 
     /**
      * Command: <em>/receive &lt;nick&gt; &lt;id&gt;</em>.
-     * Accept a file transfer request from a user and start the transfer.
      *
-     * @param args First argument is the other user in the file transfer,
-     * and the second is the id of the file transfer.
+     * <p>Accept a file transfer request from a user and start the transfer.</p>
+     *
+     * @param args First argument is the other user in the file transfer, and the second is the id of the file transfer.
      */
     private void cmdReceive(final String args) {
         final String[] argsArray = args.split("\\s");
@@ -343,10 +350,10 @@ public class CommandParser {
 
     /**
      * Command: <em>/reject &lt;nick&gt; &lt;id&gt;</em>.
-     * Reject a file transfer request from a user and abort the transfer.
      *
-     * @param args First argument is the other user in the file transfer,
-     * and the second is the id of the file transfer.
+     * <p>Reject a file transfer request from a user and abort the transfer.</p>
+     *
+     * @param args First argument is the other user in the file transfer, and the second is the id of the file transfer.
      */
     private void cmdReject(final String args) {
         final String[] argsArray = args.split("\\s");
@@ -393,10 +400,10 @@ public class CommandParser {
 
     /**
      * Command: <em>/cancel &lt;nick&gt; &lt;id&gt;</em>.
-     * Cancel an ongoing file transfer with a user.
      *
-     * @param args First argument is the other user in the file transfer,
-     * and the second is the id of the file transfer.
+     * <p>Cancel an ongoing file transfer with a user.</p>
+     *
+     * @param args First argument is the other user in the file transfer, and the second is the id of the file transfer.
      */
     private void cmdCancel(final String args) {
         final String[] argsArray = args.split("\\s");
@@ -455,10 +462,10 @@ public class CommandParser {
 
     /**
      * Command: <em>/msg &lt;nick&gt; &lt;msg&gt;</em>.
-     * Send a private message to a user.
      *
-     * @param args The first argument is the user to send to, and the
-     * second is the private message to the user.
+     * <p>Send a private message to a user.</p>
+     *
+     * @param args The first argument is the user to send to, and the second is the private message to the user.
      */
     private void cmdMsg(final String args) {
         final String[] argsArray = args.split("\\s");
@@ -510,7 +517,8 @@ public class CommandParser {
 
     /**
      * Command: <em>/nick &lt;new nick&gt;</em>.
-     * Changes your nick name.
+     *
+     * <p>Changes your nick name.</p>
      *
      * @param args The nick to change to.
      */
@@ -553,7 +561,8 @@ public class CommandParser {
 
     /**
      * Command: <em>/users</em>.
-     * Shows a list of connected users.
+     *
+     * <p>Shows a list of connected users.</p>
      */
     private void cmdUsers() {
         final UserList list = controller.getUserList();
@@ -573,7 +582,8 @@ public class CommandParser {
 
     /**
      * Command: <em>/transfers</em>.
-     * Shows a list of all transfers and their status.
+     *
+     * <p>Shows a list of all transfers and their status.</p>
      */
     private void cmdTransfers() {
         final List<FileSender> fsList = tList.getFileSenders();
@@ -606,7 +616,8 @@ public class CommandParser {
 
     /**
      * Command: <em>/quit</em>.
-     * Quits the application.
+     *
+     * <p>Quits the application.</p>
      */
     private void cmdQuit() {
         ui.quit();
@@ -632,7 +643,8 @@ public class CommandParser {
 
     /**
      * Command: <em>//&lt;text&gt;</em>.
-     * Sends the text as a message, instead of parsing it as a command.
+     *
+     * <p>Sends the text as a message, instead of parsing it as a command.</p>
      *
      * @param line The text starting with a slash.
      */
@@ -651,7 +663,8 @@ public class CommandParser {
 
     /**
      * Command: <em>/'anything'</em>.
-     * The command was not recognized by the parser.
+     *
+     * <p>The command was not recognized by the parser.</p>
      *
      * @param command The unknown command.
      */
@@ -750,8 +763,8 @@ public class CommandParser {
 
     /**
      * Parses the line to split the command from the arguments.
-     * The command is then checked against valid options and redirected
-     * to the appropriate method.
+     *
+     * <p>The command is then checked against valid options and redirected to the appropriate method.</p>
      *
      * @param line The command in its raw form.
      */
