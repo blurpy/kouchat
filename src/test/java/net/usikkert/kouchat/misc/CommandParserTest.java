@@ -85,7 +85,7 @@ public class CommandParserTest {
     }
 
     /*
-     * reject
+     * /reject
      */
 
     @Test
@@ -182,7 +182,7 @@ public class CommandParserTest {
     }
 
     /*
-     * receive
+     * /receive
      */
 
     @Test
@@ -300,7 +300,7 @@ public class CommandParserTest {
     }
 
    /*
-    * cancel
+    * /cancel
     */
 
     @Test
@@ -414,7 +414,7 @@ public class CommandParserTest {
     }
 
    /*
-    * away
+    * /away
     */
 
     @Test
@@ -455,7 +455,7 @@ public class CommandParserTest {
     }
 
     /*
-     * back
+     * /back
      */
 
     @Test
@@ -490,8 +490,8 @@ public class CommandParserTest {
         verify(messageController).showSystemMessage("Don't come back");
     }
 
-    /*
-    * topic
+   /*
+    * /topic
     */
 
     @Test
@@ -589,6 +589,17 @@ public class CommandParserTest {
         verify(controller).changeTopic("new topic");
         verify(messageController).showSystemMessage("You changed the topic to: new topic");
         verify(userInterface).showTopic();
+    }
+
+    /*
+     * /clear
+     */
+
+    @Test
+    public void clearShouldUseUserInterface() {
+        parser.parse("/clear");
+
+        verify(userInterface).clearChat();
     }
 
     /*
