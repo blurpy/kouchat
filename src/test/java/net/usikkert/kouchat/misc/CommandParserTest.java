@@ -536,6 +536,61 @@ public class CommandParserTest {
         verify(messageController).showSystemMessage("Don't set the topic!");
     }
 
+    @Test
+    public void fixTopicShouldDoNothingIfTopicIsUnchanged() throws CommandException {
+        topic.changeTopic(new Topic("Hey there", "Peter", 12345678));
+
+        parser.fixTopic("Hey there");
+
+        verify(controller).getTopic();
+        verifyNoMoreInteractions(controller);
+        verifyZeroInteractions(messageController, userInterface);
+    }
+
+    @Test
+    public void fixTopicShouldDoNothingIfTopicIsUnchangedIncludingTrim() throws CommandException {
+        topic.changeTopic(new Topic("Hey there     ", "Peter", 12345678));
+
+        parser.fixTopic("     Hey there");
+
+        verify(controller).getTopic();
+        verifyNoMoreInteractions(controller);
+        verifyZeroInteractions(messageController, userInterface);
+    }
+
+    @Test
+    public void fixTopicShouldChangeAndUpdateAndNotifyRemovedTopic() throws CommandException {
+        topic.changeTopic(new Topic("Topic", "Peter", 12345678));
+
+        parser.fixTopic(" ");
+
+        verify(controller).changeTopic("");
+        verify(messageController).showSystemMessage("You removed the topic");
+        verify(userInterface).showTopic();
+    }
+
+    @Test
+    public void fixTopicShouldChangeAndUpdateAndNotifyNewTopic() throws CommandException {
+        topic.changeTopic(new Topic("Topic", "Peter", 12345678));
+
+        parser.fixTopic(" new topic"); // Includes whitespace from "/topic new topic"
+
+        verify(controller).changeTopic("new topic");
+        verify(messageController).showSystemMessage("You changed the topic to: new topic");
+        verify(userInterface).showTopic();
+    }
+
+    @Test
+    public void fixTopicShouldChangeAndUpdateAndNotifyNewTopicIfTopicIsNotSet() throws CommandException {
+        assertFalse(topic.hasTopic());
+
+        parser.fixTopic(" new topic"); // Includes whitespace from "/topic new topic"
+
+        verify(controller).changeTopic("new topic");
+        verify(messageController).showSystemMessage("You changed the topic to: new topic");
+        verify(userInterface).showTopic();
+    }
+
     /*
      * Reusable test methods.
      */
