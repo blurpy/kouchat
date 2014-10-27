@@ -34,6 +34,7 @@ import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.UserInterface;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -43,6 +44,7 @@ import org.mockito.ArgumentCaptor;
  *
  * @author Christian Ihle
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class CommandParserTest {
 
     private CommandParser parser;
@@ -50,8 +52,10 @@ public class CommandParserTest {
     private MessageController messageController;
     private Controller controller;
     private TransferList transferList;
+    private UserInterface userInterface;
 
     private User me;
+    private Topic topic;
 
     @Before
     public void setUp() {
@@ -60,7 +64,10 @@ public class CommandParserTest {
         transferList = mock(TransferList.class);
         when(controller.getTransferList()).thenReturn(transferList);
 
-        final UserInterface userInterface = mock(UserInterface.class);
+        topic = new Topic();
+        when(controller.getTopic()).thenReturn(topic);
+
+        userInterface = mock(UserInterface.class);
 
         messageController = mock(MessageController.class);
         when(userInterface.getMessageController()).thenReturn(messageController);
@@ -70,10 +77,11 @@ public class CommandParserTest {
         final Settings settings = mock(Settings.class);
         when(settings.getMe()).thenReturn(me);
 
-        parser = new CommandParser(controller, userInterface, settings);
+        parser = spy(new CommandParser(controller, userInterface, settings));
 
-        reset(controller); // controller.getTransferList()
-        reset(userInterface); // ui.getMessageController();
+        // From constructor
+        verify(controller).getTransferList();
+        verify(userInterface).getMessageController();
     }
 
     /*
@@ -483,7 +491,53 @@ public class CommandParserTest {
     }
 
     /*
-     * Rusable test methods.
+    * topic
+    */
+
+    @Test
+    public void topicShouldShowNoTopicSystemMessageIfNoArgumentsAndNoTopicSet() throws CommandException {
+        assertFalse(topic.hasTopic());
+
+        parser.parse("/topic");
+
+        verify(messageController).showSystemMessage("No topic set");
+        verify(parser, never()).fixTopic(anyString());
+    }
+
+    @Test
+    public void topicShouldShowCurrentTopicSystemMessageIfNoArgumentsAndTopicSet() throws CommandException {
+        final long date = new DateTime().withDate(2010, 3, 4).withTime(20, 45, 13, 0).getMillis();
+        topic.changeTopic(new Topic("What a nice day", "Niles", date));
+
+        parser.parse("/topic");
+
+        verify(messageController).showSystemMessage(
+                "Topic is: What a nice day (set by Niles at 20:45:13, 04. Mar. 10)");
+        verify(parser, never()).fixTopic(anyString());
+    }
+
+    @Test
+    public void topicShouldCallFixTopicWhenArgumentsAreSpecified() throws CommandException {
+        doNothing().when(parser).fixTopic(anyString());
+
+        parser.parse("/topic hello");
+
+        verify(parser).fixTopic(" hello");
+        verifyZeroInteractions(messageController);
+    }
+
+    @Test
+    public void topicShouldShowErrorInSystemMessageOnCommandException() throws CommandException {
+        doThrow(new CommandException("Don't set the topic!")).when(controller).changeTopic(anyString());
+
+        parser.parse("/topic hello");
+
+        verify(parser).fixTopic(" hello");
+        verify(messageController).showSystemMessage("Don't set the topic!");
+    }
+
+    /*
+     * Reusable test methods.
      */
 
     private File setupFile(final FileTransfer fileTransfer) {
