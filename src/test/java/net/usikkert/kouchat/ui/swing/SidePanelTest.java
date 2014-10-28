@@ -208,6 +208,7 @@ public class SidePanelTest {
 
         infoMenuItem.doClick();
 
+        // Note: this might fail when logonTime is summer time and current time is not
         verify(uiTools).showInfoMessage("Information about Abby.\n" +
                                                 "\n" +
                                                 "IP address: 192.168.1.1\n" +
@@ -238,6 +239,7 @@ public class SidePanelTest {
 
         infoMenuItem.doClick();
 
+        // Note: this might fail when logonTime is summer time and current time is not
         verify(uiTools).showInfoMessage("Information about Abby (Away).\n" +
                                                 "\n" +
                                                 "IP address: 192.168.1.1\n" +
@@ -268,6 +270,7 @@ public class SidePanelTest {
 
         infoMenuItem.doClick();
 
+        // Note: this might fail when logonTime is summer time and current time is not
         verify(uiTools).showInfoMessage("Information about Dorothy.\n" +
                                                 "\n" +
                                                 "IP address: 192.168.1.2\n" +
@@ -300,6 +303,7 @@ public class SidePanelTest {
 
         infoMenuItem.doClick();
 
+        // Note: this might fail when logonTime is summer time and current time is not
         verify(uiTools).showInfoMessage("Information about Dorothy (Away).\n" +
                                                 "\n" +
                                                 "IP address: 192.168.1.2\n" +
