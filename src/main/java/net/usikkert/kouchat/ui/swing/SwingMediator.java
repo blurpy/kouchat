@@ -123,7 +123,7 @@ public class SwingMediator implements Mediator, UserInterface {
         final PropertyFileSettingsSaver settingsSaver =
                 new PropertyFileSettingsSaver(settings, coreMessages, errorHandler);
         controller = new Controller(this, settings, settingsSaver, coreMessages, errorHandler);
-        cmdParser = new CommandParser(controller, this, settings);
+        cmdParser = new CommandParser(controller, this, settings, coreMessages);
         beeper = new SoundBeeper(settings, new ResourceLoader(), errorHandler);
         jmxAgent = new JMXAgent(controller.createJMXBeanLoader());
 

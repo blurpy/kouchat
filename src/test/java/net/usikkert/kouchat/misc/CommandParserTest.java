@@ -28,6 +28,8 @@ import static org.mockito.Mockito.*;
 import java.io.File;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.junit.ExpectedException;
+import net.usikkert.kouchat.message.CoreMessages;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.net.FileTransfer;
@@ -37,6 +39,7 @@ import net.usikkert.kouchat.ui.UserInterface;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -48,12 +51,17 @@ import org.mockito.ArgumentCaptor;
 @SuppressWarnings("HardCodedStringLiteral")
 public class CommandParserTest {
 
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+
     private CommandParser parser;
 
     private MessageController messageController;
     private Controller controller;
     private TransferList transferList;
     private UserInterface userInterface;
+    private Settings settings;
+    private CoreMessages coreMessages;
 
     private User me;
     private Topic topic;
@@ -75,14 +83,48 @@ public class CommandParserTest {
 
         me = new User("MySelf", 123);
 
-        final Settings settings = mock(Settings.class);
+        settings = mock(Settings.class);
         when(settings.getMe()).thenReturn(me);
 
-        parser = spy(new CommandParser(controller, userInterface, settings));
+        coreMessages = new CoreMessages();
+
+        parser = spy(new CommandParser(controller, userInterface, settings, coreMessages));
 
         // From constructor
         verify(controller).getTransferList();
         verify(userInterface).getMessageController();
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfControllerIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Controller can not be null");
+
+        new CommandParser(null, userInterface, settings, coreMessages);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfUserInterfaceIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("UserInterface can not be null");
+
+        new CommandParser(controller, null, settings, coreMessages);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfSettingsIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Settings can not be null");
+
+        new CommandParser(controller, userInterface, null, coreMessages);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfCoreMessagesIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Core messages can not be null");
+
+        new CommandParser(controller, userInterface, settings, null);
     }
 
     /*

@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.message.CoreMessages;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.net.FileTransfer;
@@ -56,6 +57,7 @@ public class CommandParser {
     private final User me;
     private final TransferList tList;
     private final Settings settings;
+    private final CoreMessages coreMessages;
 
     /**
      * Constructor.
@@ -63,15 +65,19 @@ public class CommandParser {
      * @param controller The controller.
      * @param ui The user interface.
      * @param settings The settings to use.
+     * @param coreMessages The messages to use.
      */
-    public CommandParser(final Controller controller, final UserInterface ui, final Settings settings) {
+    public CommandParser(final Controller controller, final UserInterface ui, final Settings settings,
+                         final CoreMessages coreMessages) {
         Validate.notNull(controller, "Controller can not be null");
         Validate.notNull(ui, "UserInterface can not be null");
         Validate.notNull(settings, "Settings can not be null");
+        Validate.notNull(coreMessages, "Core messages can not be null");
 
         this.controller = controller;
         this.ui = ui;
         this.settings = settings;
+        this.coreMessages = coreMessages;
 
         msgController = ui.getMessageController();
         me = settings.getMe();
