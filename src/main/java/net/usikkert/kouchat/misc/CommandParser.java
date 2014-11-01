@@ -97,12 +97,14 @@ public class CommandParser {
             final Topic topic = controller.getTopic();
 
             if (topic.getTopic().equals("")) {
-                msgController.showSystemMessage("No topic set");
+                msgController.showSystemMessage(coreMessages.getMessage("core.command.topic.noTopic.systemMessage"));
             }
 
             else {
-                final String date = dateTools.dateToString(new Date(topic.getTime()), "HH:mm:ss, dd. MMM. yy");
-                msgController.showSystemMessage("Topic is: " + topic.getTopic() + " (set by " + topic.getNick() + " at " + date + ")");
+                final String date = dateTools.dateToString(new Date(topic.getTime()),
+                                                           coreMessages.getMessage("core.dateFormat.topic"));
+                msgController.showSystemMessage(coreMessages.getMessage("core.command.topic.topicIs.systemMessage",
+                                                                        topic.getTopic(), topic.getNick(), date));
             }
         }
 
@@ -695,9 +697,10 @@ public class CommandParser {
             controller.changeTopic(trimTopic);
 
             if (trimTopic.length() > 0) {
-                msgController.showSystemMessage("You changed the topic to: " + trimTopic);
+                msgController.showSystemMessage(coreMessages.getMessage("core.command.topic.topicChanged.systemMessage",
+                                                                        trimTopic));
             } else {
-                msgController.showSystemMessage("You removed the topic");
+                msgController.showSystemMessage(coreMessages.getMessage("core.command.topic.topicRemoved.systemMessage"));
             }
 
             ui.showTopic();
