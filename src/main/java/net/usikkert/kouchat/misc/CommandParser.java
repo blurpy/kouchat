@@ -128,12 +128,13 @@ public class CommandParser {
      */
     private void cmdAway(final String args) {
         if (me.isAway()) {
-            msgController.showSystemMessage("/away - you are already away: '" + me.getAwayMsg() + "'");
+            msgController.showSystemMessage(coreMessages.getMessage("core.command.away.alreadyAway.systemMessage",
+                                                                    me.getAwayMsg()));
         }
 
         else {
             if (args.trim().length() == 0) {
-                msgController.showSystemMessage("/away - missing argument <away message>");
+                msgController.showSystemMessage(coreMessages.getMessage("core.command.away.missingArgument.systemMessage"));
             }
 
             else {
