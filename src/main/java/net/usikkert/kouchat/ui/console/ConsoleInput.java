@@ -28,6 +28,7 @@ import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.usikkert.kouchat.message.CoreMessages;
 import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.CommandParser;
 import net.usikkert.kouchat.misc.Controller;
@@ -58,13 +59,15 @@ public class ConsoleInput extends Thread {
      * @param ui The user interface to send messages to.
      * @param settings The settings to use.
      * @param consoleMessages The messages to use for the console ui.
+     * @param coreMessages The messages to use for the core components.
      */
     public ConsoleInput(final Controller controller, final UserInterface ui, final Settings settings,
-                        final ConsoleMessages consoleMessages) {
+                        final ConsoleMessages consoleMessages, final CoreMessages coreMessages) {
         Validate.notNull(controller, "Controller can not be null");
         Validate.notNull(ui, "UserInterface can not be null");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(consoleMessages, "Console messages can not be null");
+        Validate.notNull(coreMessages, "Core messages can not be null");
 
         this.controller = controller;
 

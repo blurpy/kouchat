@@ -28,6 +28,7 @@ import java.io.BufferedReader;
 
 import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.junit.ExpectedSystemOut;
+import net.usikkert.kouchat.message.CoreMessages;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.UserInterface;
@@ -60,16 +61,18 @@ public class ConsoleInputTest {
     private Controller controller;
     private UserInterface ui;
     private Settings settings;
-    private ConsoleMessages messages;
+    private ConsoleMessages consoleMessages;
+    private CoreMessages coreMessages;
 
     @Before
     public void setUp() {
         controller = mock(Controller.class);
         ui = mock(UserInterface.class);
         settings = mock(Settings.class);
-        messages = new ConsoleMessages();
+        consoleMessages = new ConsoleMessages();
+        coreMessages = new CoreMessages();
 
-        consoleInput = new ConsoleInput(controller, ui, settings, messages);
+        consoleInput = new ConsoleInput(controller, ui, settings, consoleMessages, coreMessages);
 
         TestUtils.setFieldValueWithMock(consoleInput, "stdin", BufferedReader.class);
     }
@@ -79,7 +82,7 @@ public class ConsoleInputTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Controller can not be null");
 
-        new ConsoleInput(null, ui, settings, messages);
+        new ConsoleInput(null, ui, settings, consoleMessages, coreMessages);
     }
 
     @Test
@@ -87,7 +90,7 @@ public class ConsoleInputTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("UserInterface can not be null");
 
-        new ConsoleInput(controller, null, settings, messages);
+        new ConsoleInput(controller, null, settings, consoleMessages, coreMessages);
     }
 
     @Test
@@ -95,7 +98,7 @@ public class ConsoleInputTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new ConsoleInput(controller, ui, null, messages);
+        new ConsoleInput(controller, ui, null, consoleMessages, coreMessages);
     }
 
     @Test
@@ -103,7 +106,15 @@ public class ConsoleInputTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Console messages can not be null");
 
-        new ConsoleInput(controller, ui, settings, null);
+        new ConsoleInput(controller, ui, settings, null, coreMessages);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfCoreMessagesIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Core messages can not be null");
+
+        new ConsoleInput(controller, ui, settings, consoleMessages, null);
     }
 
     @Test
