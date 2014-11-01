@@ -166,7 +166,7 @@ public class CommandParser {
         }
 
         else {
-            msgController.showSystemMessage("/back - you are not away");
+            msgController.showSystemMessage(coreMessages.getMessage("core.command.back.notAway.systemMessage"));
         }
     }
 
