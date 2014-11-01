@@ -27,6 +27,7 @@ import static org.mockito.Mockito.*;
 
 import java.io.File;
 
+import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
 import net.usikkert.kouchat.net.FileTransfer;
@@ -600,6 +601,19 @@ public class CommandParserTest {
         parser.parse("/clear");
 
         verify(userInterface).clearChat();
+    }
+
+    /*
+     * /about
+     */
+
+    @Test
+    public void about() {
+        parser.parse("/about");
+
+        verify(messageController).showSystemMessage(
+                "This is KouChat v" + Constants.APP_VERSION +
+                        ", by Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
     }
 
     /*
