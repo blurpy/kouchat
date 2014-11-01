@@ -185,9 +185,10 @@ public class CommandParser {
      * <p>Show information about the application.</p>
      */
     private void cmdAbout() {
-        msgController.showSystemMessage("This is " + Constants.APP_NAME + " v" + Constants.APP_VERSION +
-                ", by " + Constants.AUTHOR_NAME + " - " + Constants.AUTHOR_MAIL +
-                " - " + Constants.APP_WEB);
+        msgController.showSystemMessage(coreMessages.getMessage("core.command.about.systemMessage",
+                                                                Constants.APP_NAME, Constants.APP_VERSION,
+                                                                Constants.AUTHOR_NAME , Constants.AUTHOR_MAIL,
+                                                                Constants.APP_WEB));
     }
 
     /**
