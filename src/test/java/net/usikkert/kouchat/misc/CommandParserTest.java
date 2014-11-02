@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.io.File;
+import java.util.Date;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.junit.ExpectedException;
@@ -36,6 +37,8 @@ import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.UserInterface;
+import net.usikkert.kouchat.util.DateTools;
+import net.usikkert.kouchat.util.TestUtils;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -62,6 +65,7 @@ public class CommandParserTest {
     private UserInterface userInterface;
     private Settings settings;
     private CoreMessages coreMessages;
+    private DateTools dateTools;
 
     private User me;
     private Topic topic;
@@ -89,6 +93,8 @@ public class CommandParserTest {
         coreMessages = new CoreMessages();
 
         parser = spy(new CommandParser(controller, userInterface, settings, coreMessages));
+
+        dateTools = TestUtils.setFieldValueWithMock(parser, "dateTools", DateTools.class);
 
         // From constructor
         verify(controller).getTransferList();
@@ -551,6 +557,7 @@ public class CommandParserTest {
     public void topicShouldShowCurrentTopicSystemMessageIfNoArgumentsAndTopicSet() throws CommandException {
         final long date = new DateTime().withDate(2010, 3, 4).withTime(20, 45, 13, 0).getMillis();
         topic.changeTopic(new Topic("What a nice day", "Niles", date));
+        when(dateTools.dateToString(any(Date.class), anyString())).thenCallRealMethod();
 
         parser.parse("/topic");
 
@@ -686,6 +693,92 @@ public class CommandParserTest {
                         "/users - show the user list\n" +
                         "/whois <nick> - show information about a user\n" +
                         "//<text> - send the text as a normal message, with a single slash");
+    }
+
+    /*
+     * /whois
+     */
+
+    @Test
+    public void whoisShouldReturnIfNoArguments() {
+        parser.parse("/whois");
+
+        verify(messageController).showSystemMessage("/whois - missing argument <nick>");
+        verifyNoMoreInteractions(messageController);
+    }
+
+    @Test
+    public void whoisShouldReturnIfUserNotFound() {
+        parser.parse("/whois none");
+
+        verify(messageController).showSystemMessage("/whois - no such user 'none'");
+        verifyNoMoreInteractions(messageController);
+    }
+
+    @Test
+    public void whoisShouldShowUserDetailsForOnlineUser() {
+        final User penny = new User("penny", 123);
+        penny.setClient("TestClient");
+        penny.setOperatingSystem("Red Hat");
+        penny.setIpAddress("10.0.0.80");
+        penny.setLogonTime(56789);
+
+        when(controller.getUser("penny")).thenReturn(penny);
+        when(dateTools.howLongFromNow(anyLong())).thenReturn("Too long");
+
+        parser.parse("/whois penny");
+
+        verify(messageController).showSystemMessage("/whois - penny:\n" +
+                                                            "IP address: 10.0.0.80\n" +
+                                                            "Client: TestClient\n" +
+                                                            "Operating System: Red Hat\n" +
+                                                            "Online: Too long");
+        verifyNoMoreInteractions(messageController);
+        verify(dateTools).howLongFromNow(56789);
+        verify(controller).getUser("penny");
+    }
+
+    @Test
+    public void whoisShouldShowUserDetailsForUserWithHostName() {
+        final User amy = new User("Amy", 123);
+        amy.setClient("JUnit");
+        amy.setOperatingSystem("DOS");
+        amy.setIpAddress("10.0.0.81");
+        amy.setHostName("amy.com");
+
+        when(controller.getUser("amy")).thenReturn(amy);
+        when(dateTools.howLongFromNow(anyLong())).thenReturn("A year");
+
+        parser.parse("/whois amy");
+
+        verify(messageController).showSystemMessage("/whois - Amy:\n" +
+                                                            "IP address: 10.0.0.81\n" +
+                                                            "Host name: amy.com\n" +
+                                                            "Client: JUnit\n" +
+                                                            "Operating System: DOS\n" +
+                                                            "Online: A year");
+    }
+
+    @Test
+    public void whoisShouldShowUserDetailsForUserWhoIsAway() {
+        final User amy = new User("Amy", 123);
+        amy.setClient("JUnit");
+        amy.setOperatingSystem("DOS");
+        amy.setIpAddress("10.0.0.81");
+        amy.setAway(true);
+        amy.setAwayMsg("Gone home");
+
+        when(controller.getUser("amy")).thenReturn(amy);
+        when(dateTools.howLongFromNow(anyLong())).thenReturn("A year");
+
+        parser.parse("/whois amy");
+
+        verify(messageController).showSystemMessage("/whois - Amy (Away):\n" +
+                                                            "IP address: 10.0.0.81\n" +
+                                                            "Client: JUnit\n" +
+                                                            "Operating System: DOS\n" +
+                                                            "Online: A year\n" +
+                                                            "Away message: Gone home");
     }
 
     /*
