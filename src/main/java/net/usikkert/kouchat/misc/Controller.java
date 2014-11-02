@@ -150,7 +150,7 @@ public class Controller implements NetworkConnectionListener {
 
         msgController.showSystemMessage(coreMessages.getMessage("core.startup.welcome.systemMessage",
                                                                 Constants.APP_NAME, Constants.APP_VERSION));
-        final String date = dateTools.currentDateToString(coreMessages.getMessage("core.dateFormat.long"));
+        final String date = dateTools.currentDateToString(coreMessages.getMessage("core.dateFormat.today"));
         msgController.showSystemMessage(coreMessages.getMessage("core.startup.todayIs.systemMessage", date));
     }
 
