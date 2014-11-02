@@ -756,24 +756,24 @@ public class CommandParser {
      */
     public void showCommands() {
         msgController.showSystemMessage(
-                coreMessages.getMessage("core.command.help.commands.systemMessage", Constants.APP_NAME) + "\n" +
+                coreMessages.getMessage("core.command.help.systemMessage.commands", Constants.APP_NAME) + "\n" +
                         coreMessages.getMessage("core.command.about.systemMessage.help", Constants.APP_NAME) + "\n" +
                         coreMessages.getMessage("core.command.away.systemMessage.help") + "\n" +
                         coreMessages.getMessage("core.command.back.systemMessage.help") + "\n" +
                         coreMessages.getMessage("core.command.cancel.systemMessage.help") + "\n" +
-                        coreMessages.getMessage("core.command.clear.help.systemMessage") + "\n" +
-                        coreMessages.getMessage("core.command.help.help.systemMessage") + "\n" +
-                        coreMessages.getMessage("core.command.msg.help.systemMessage") + "\n" +
-                        coreMessages.getMessage("core.command.nick.help.systemMessage") + "\n" +
-                        coreMessages.getMessage("core.command.quit.help.systemMessage") + "\n" +
-                        coreMessages.getMessage("core.command.receive.help.systemMessage") + "\n" +
-                        coreMessages.getMessage("core.command.reject.help.systemMessage") + "\n" +
-                        coreMessages.getMessage("core.command.send.help.systemMessage") + "\n" +
+                        coreMessages.getMessage("core.command.clear.systemMessage.help") + "\n" +
+                        coreMessages.getMessage("core.command.help.systemMessage.help") + "\n" +
+                        coreMessages.getMessage("core.command.msg.systemMessage.help") + "\n" +
+                        coreMessages.getMessage("core.command.nick.systemMessage.help") + "\n" +
+                        coreMessages.getMessage("core.command.quit.systemMessage.help") + "\n" +
+                        coreMessages.getMessage("core.command.receive.systemMessage.help") + "\n" +
+                        coreMessages.getMessage("core.command.reject.systemMessage.help") + "\n" +
+                        coreMessages.getMessage("core.command.send.systemMessage.help") + "\n" +
                         coreMessages.getMessage("core.command.topic.systemMessage.help") + "\n" +
-                        coreMessages.getMessage("core.command.transfers.help.systemMessage") + "\n" +
-                        coreMessages.getMessage("core.command.users.help.systemMessage") + "\n" +
-                        coreMessages.getMessage("core.command.whois.help.systemMessage") + "\n" +
-                        coreMessages.getMessage("core.command.slash.help.systemMessage"));
+                        coreMessages.getMessage("core.command.transfers.systemMessage.help") + "\n" +
+                        coreMessages.getMessage("core.command.users.systemMessage.help") + "\n" +
+                        coreMessages.getMessage("core.command.whois.systemMessage.help") + "\n" +
+                        coreMessages.getMessage("core.command.slash.systemMessage.help"));
     }
 
     /**
