@@ -241,7 +241,7 @@ public class Controller implements NetworkConnectionListener {
         changeAwayStatus(me.getCode(), true, awayMessage);
 
         ui.changeAway(true);
-        msgController.showSystemMessage(coreMessages.getMessage("core.away.wentAway.systemMessage", me.getAwayMsg()));
+        msgController.showSystemMessage(coreMessages.getMessage("core.away.systemMessage.wentAway", me.getAwayMsg()));
     }
 
     /**
@@ -253,7 +253,7 @@ public class Controller implements NetworkConnectionListener {
         changeAwayStatus(me.getCode(), false, "");
 
         ui.changeAway(false);
-        msgController.showSystemMessage(coreMessages.getMessage("core.away.cameBack.systemMessage"));
+        msgController.showSystemMessage(coreMessages.getMessage("core.away.systemMessage.cameBack"));
     }
 
     /**
@@ -426,7 +426,7 @@ public class Controller implements NetworkConnectionListener {
             final User user = userList.get(i);
 
             if (!user.isMe()) {
-                removeUser(user, coreMessages.getMessage("core.network.logOff.systemMessage"));
+                removeUser(user, coreMessages.getMessage("core.network.systemMessage.logOff"));
                 i--;
             }
         }
@@ -810,7 +810,7 @@ public class Controller implements NetworkConnectionListener {
             ui.showTopic();
 
             if (!silent) {
-                msgController.showSystemMessage(coreMessages.getMessage("core.network.connectionBack.systemMessage"));
+                msgController.showSystemMessage(coreMessages.getMessage("core.network.systemMessage.connectionBack"));
             }
 
             networkMessages.sendTopicRequestedMessage(getTopic());
@@ -832,12 +832,12 @@ public class Controller implements NetworkConnectionListener {
 
         if (isLoggedOn()) {
             if (!silent) {
-                msgController.showSystemMessage(coreMessages.getMessage("core.network.connectionLost.systemMessage"));
+                msgController.showSystemMessage(coreMessages.getMessage("core.network.systemMessage.connectionLost"));
             }
         }
 
         else {
-            msgController.showSystemMessage(coreMessages.getMessage("core.network.logOff.systemMessage"));
+            msgController.showSystemMessage(coreMessages.getMessage("core.network.systemMessage.logOff"));
         }
     }
 
