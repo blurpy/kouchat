@@ -237,7 +237,7 @@ public class CommandParser {
 
                 info += "\nClient: " + user.getClient() +
                         "\nOperating System: " + user.getOperatingSystem() +
-                        "\nOnline: " + Tools.howLongFromNow(user.getLogonTime());
+                        "\nOnline: " + dateTools.howLongFromNow(user.getLogonTime());
 
                 if (user.isAway()) {
                     info += "\nAway message: " + user.getAwayMsg();

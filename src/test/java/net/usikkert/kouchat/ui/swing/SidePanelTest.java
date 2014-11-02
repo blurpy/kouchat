@@ -25,8 +25,6 @@ package net.usikkert.kouchat.ui.swing;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Date;
-
 import javax.swing.JMenuItem;
 
 import net.usikkert.kouchat.junit.ExpectedException;
@@ -34,9 +32,9 @@ import net.usikkert.kouchat.misc.SortedUserList;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
+import net.usikkert.kouchat.util.DateTools;
 import net.usikkert.kouchat.util.TestUtils;
 
-import org.joda.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -56,6 +54,7 @@ public class SidePanelTest {
 
     private Mediator mediator;
     private UITools uiTools;
+    private DateTools dateTools;
     private SwingMessages messages;
 
     private JMenuItem infoMenuItem;
@@ -88,6 +87,9 @@ public class SidePanelTest {
 
         uiTools = TestUtils.setFieldValueWithMock(sidePanel, "uiTools", UITools.class);
         doAnswer(new RunArgumentAnswer()).when(uiTools).invokeLater(any(Runnable.class));
+
+        dateTools = TestUtils.setFieldValueWithMock(sidePanel, "dateTools", DateTools.class);
+        when(dateTools.howLongFromNow(anyLong())).thenReturn("A decade");
 
         infoMenuItem = TestUtils.getFieldValue(sidePanel, JMenuItem.class, "infoMI");
         sendfileMenuItem = TestUtils.getFieldValue(sidePanel, JMenuItem.class, "sendfileMI");
@@ -194,59 +196,44 @@ public class SidePanelTest {
     public void clickOnInformationShouldShowInfoAboutSelectedUser() {
         sidePanel.getUserList().setSelectedIndex(0);
 
-        final Date logonTime = new LocalDateTime()
-                .minusDays(1)
-                .minusHours(4)
-                .minusMinutes(12)
-                .minusSeconds(45)
-                .toDate();
-
         abby.setClient("JUnit");
         abby.setOperatingSystem("Solaris");
         abby.setIpAddress("192.168.1.1");
-        abby.setLogonTime(logonTime.getTime());
+        abby.setLogonTime(1234);
 
         infoMenuItem.doClick();
 
-        // Note: this might fail when logonTime is summer time and current time is not
         verify(uiTools).showInfoMessage("Information about Abby.\n" +
                                                 "\n" +
                                                 "IP address: 192.168.1.1\n" +
                                                 "Client: JUnit\n" +
                                                 "Operating System: Solaris\n" +
                                                 "\n" +
-                                                "Online: 1 days, 04:12:45",
+                                                "Online: A decade",
                                         "Info");
+        verify(dateTools).howLongFromNow(1234);
     }
 
     @Test
     public void clickOnInformationShouldIncludeAwayInfoWhenAway() {
         sidePanel.getUserList().setSelectedIndex(0);
 
-        final Date logonTime = new LocalDateTime()
-                .minusDays(1)
-                .minusHours(4)
-                .minusMinutes(12)
-                .minusSeconds(45)
-                .toDate();
-
         abby.setClient("JUnit");
         abby.setOperatingSystem("Solaris");
         abby.setIpAddress("192.168.1.1");
-        abby.setLogonTime(logonTime.getTime());
+        abby.setLogonTime(1234);
         abby.setAway(true);
         abby.setAwayMsg("Gone home");
 
         infoMenuItem.doClick();
 
-        // Note: this might fail when logonTime is summer time and current time is not
         verify(uiTools).showInfoMessage("Information about Abby (Away).\n" +
                                                 "\n" +
                                                 "IP address: 192.168.1.1\n" +
                                                 "Client: JUnit\n" +
                                                 "Operating System: Solaris\n" +
                                                 "\n" +
-                                                "Online: 1 days, 04:12:45\n" +
+                                                "Online: A decade\n" +
                                                 "Away message: Gone home",
                                         "Info");
     }
@@ -255,22 +242,14 @@ public class SidePanelTest {
     public void clickOnInformationShouldIncludeHostNameWhenAvailable() {
         sidePanel.getUserList().setSelectedIndex(1);
 
-        final Date logonTime = new LocalDateTime()
-                .minusDays(2)
-                .minusHours(4)
-                .minusMinutes(12)
-                .minusSeconds(45)
-                .toDate();
-
         dorothy.setClient("PC");
         dorothy.setOperatingSystem("XP");
         dorothy.setIpAddress("192.168.1.2");
-        dorothy.setLogonTime(logonTime.getTime());
+        dorothy.setLogonTime(1234);
         dorothy.setHostName("dorothy.kouchat.net");
 
         infoMenuItem.doClick();
 
-        // Note: this might fail when logonTime is summer time and current time is not
         verify(uiTools).showInfoMessage("Information about Dorothy.\n" +
                                                 "\n" +
                                                 "IP address: 192.168.1.2\n" +
@@ -278,7 +257,7 @@ public class SidePanelTest {
                                                 "Client: PC\n" +
                                                 "Operating System: XP\n" +
                                                 "\n" +
-                                                "Online: 2 days, 04:12:45",
+                                                "Online: A decade",
                                         "Info");
     }
 
@@ -286,24 +265,16 @@ public class SidePanelTest {
     public void clickOnInformationShouldIncludeHostNameAndAwayInfoWhenAvailable() {
         sidePanel.getUserList().setSelectedIndex(1);
 
-        final Date logonTime = new LocalDateTime()
-                .minusDays(2)
-                .minusHours(4)
-                .minusMinutes(12)
-                .minusSeconds(45)
-                .toDate();
-
         dorothy.setClient("PC");
         dorothy.setOperatingSystem("XP");
         dorothy.setIpAddress("192.168.1.2");
-        dorothy.setLogonTime(logonTime.getTime());
+        dorothy.setLogonTime(1234);
         dorothy.setHostName("dorothy.kouchat.net");
         dorothy.setAway(true);
         dorothy.setAwayMsg("Shopping");
 
         infoMenuItem.doClick();
 
-        // Note: this might fail when logonTime is summer time and current time is not
         verify(uiTools).showInfoMessage("Information about Dorothy (Away).\n" +
                                                 "\n" +
                                                 "IP address: 192.168.1.2\n" +
@@ -311,7 +282,7 @@ public class SidePanelTest {
                                                 "Client: PC\n" +
                                                 "Operating System: XP\n" +
                                                 "\n" +
-                                                "Online: 2 days, 04:12:45\n" +
+                                                "Online: A decade\n" +
                                                 "Away message: Shopping",
                                         "Info");
     }

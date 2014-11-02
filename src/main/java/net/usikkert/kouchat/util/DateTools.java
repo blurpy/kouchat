@@ -54,4 +54,14 @@ public class DateTools {
     public String dateToString(final Date date, final String format) {
         return Tools.dateToString(date, format);
     }
+
+    /**
+     * Returns a string showing how long has passed from 'then' to now.
+     *
+     * @param then An earlier time.
+     * @return How long it's been since 'then'.
+     */
+    public String howLongFromNow(final long then) {
+        return Tools.howLongFromNow(then);
+    }
 }

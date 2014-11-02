@@ -44,7 +44,7 @@ import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.UserList;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
-import net.usikkert.kouchat.util.Tools;
+import net.usikkert.kouchat.util.DateTools;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -56,6 +56,7 @@ import net.usikkert.kouchat.util.Validate;
 public class SidePanel extends JPanel implements ActionListener, MouseListener, FileDropSource {
 
     private final UITools uiTools = new UITools();
+    private final DateTools dateTools = new DateTools();
 
     /** The right click popup menu in the user list. */
     private final JPopupMenu userMenu;
@@ -227,10 +228,12 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
                     info.append(swingMessages.getMessage("swing.userList.userInfoPopup.client", user.getClient()));
 
                     info.append("\n");
-                    info.append(swingMessages.getMessage("swing.userList.userInfoPopup.operatingSystem", user.getOperatingSystem()));
+                    info.append(swingMessages.getMessage("swing.userList.userInfoPopup.operatingSystem",
+                                                         user.getOperatingSystem()));
 
                     info.append("\n\n");
-                    info.append(swingMessages.getMessage("swing.userList.userInfoPopup.online", Tools.howLongFromNow(user.getLogonTime())));
+                    info.append(swingMessages.getMessage("swing.userList.userInfoPopup.online",
+                                                         dateTools.howLongFromNow(user.getLogonTime())));
 
                     if (user.isAway()) {
                         info.append("\n");
