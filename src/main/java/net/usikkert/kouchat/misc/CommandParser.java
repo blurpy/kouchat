@@ -97,13 +97,13 @@ public class CommandParser {
             final Topic topic = controller.getTopic();
 
             if (topic.getTopic().equals("")) {
-                msgController.showSystemMessage(coreMessages.getMessage("core.command.topic.noTopic.systemMessage"));
+                msgController.showSystemMessage(coreMessages.getMessage("core.command.topic.systemMessage.noTopic"));
             }
 
             else {
                 final String date = dateTools.dateToString(new Date(topic.getTime()),
                                                            coreMessages.getMessage("core.dateFormat.topic"));
-                msgController.showSystemMessage(coreMessages.getMessage("core.command.topic.topicIs.systemMessage",
+                msgController.showSystemMessage(coreMessages.getMessage("core.command.topic.systemMessage.topicIs",
                                                                         topic.getTopic(), topic.getNick(), date));
             }
         }
@@ -128,13 +128,13 @@ public class CommandParser {
      */
     private void cmdAway(final String args) {
         if (me.isAway()) {
-            msgController.showSystemMessage(coreMessages.getMessage("core.command.away.alreadyAway.systemMessage",
+            msgController.showSystemMessage(coreMessages.getMessage("core.command.away.systemMessage.alreadyAway",
                                                                     me.getAwayMsg()));
         }
 
         else {
             if (args.trim().length() == 0) {
-                msgController.showSystemMessage(coreMessages.getMessage("core.command.away.missingArgument.systemMessage"));
+                msgController.showSystemMessage(coreMessages.getMessage("core.command.away.systemMessage.missingArgument"));
             }
 
             else {
@@ -166,7 +166,7 @@ public class CommandParser {
         }
 
         else {
-            msgController.showSystemMessage(coreMessages.getMessage("core.command.back.notAway.systemMessage"));
+            msgController.showSystemMessage(coreMessages.getMessage("core.command.back.systemMessage.notAway"));
         }
     }
 
@@ -185,7 +185,7 @@ public class CommandParser {
      * <p>Show information about the application.</p>
      */
     private void cmdAbout() {
-        msgController.showSystemMessage(coreMessages.getMessage("core.command.about.systemMessage",
+        msgController.showSystemMessage(coreMessages.getMessage("core.command.about.systemMessage.about",
                                                                 Constants.APP_NAME, Constants.APP_VERSION,
                                                                 Constants.AUTHOR_NAME , Constants.AUTHOR_MAIL,
                                                                 Constants.APP_WEB));
@@ -699,10 +699,10 @@ public class CommandParser {
             controller.changeTopic(trimTopic);
 
             if (trimTopic.length() > 0) {
-                msgController.showSystemMessage(coreMessages.getMessage("core.command.topic.topicChanged.systemMessage",
+                msgController.showSystemMessage(coreMessages.getMessage("core.command.topic.systemMessage.topicChanged",
                                                                         trimTopic));
             } else {
-                msgController.showSystemMessage(coreMessages.getMessage("core.command.topic.topicRemoved.systemMessage"));
+                msgController.showSystemMessage(coreMessages.getMessage("core.command.topic.systemMessage.topicRemoved"));
             }
 
             ui.showTopic();
@@ -757,10 +757,10 @@ public class CommandParser {
     public void showCommands() {
         msgController.showSystemMessage(
                 coreMessages.getMessage("core.command.help.commands.systemMessage", Constants.APP_NAME) + "\n" +
-                        coreMessages.getMessage("core.command.about.help.systemMessage", Constants.APP_NAME) + "\n" +
-                        coreMessages.getMessage("core.command.away.help.systemMessage") + "\n" +
-                        coreMessages.getMessage("core.command.back.help.systemMessage") + "\n" +
-                        coreMessages.getMessage("core.command.cancel.help.systemMessage") + "\n" +
+                        coreMessages.getMessage("core.command.about.systemMessage.help", Constants.APP_NAME) + "\n" +
+                        coreMessages.getMessage("core.command.away.systemMessage.help") + "\n" +
+                        coreMessages.getMessage("core.command.back.systemMessage.help") + "\n" +
+                        coreMessages.getMessage("core.command.cancel.systemMessage.help") + "\n" +
                         coreMessages.getMessage("core.command.clear.help.systemMessage") + "\n" +
                         coreMessages.getMessage("core.command.help.help.systemMessage") + "\n" +
                         coreMessages.getMessage("core.command.msg.help.systemMessage") + "\n" +
@@ -769,7 +769,7 @@ public class CommandParser {
                         coreMessages.getMessage("core.command.receive.help.systemMessage") + "\n" +
                         coreMessages.getMessage("core.command.reject.help.systemMessage") + "\n" +
                         coreMessages.getMessage("core.command.send.help.systemMessage") + "\n" +
-                        coreMessages.getMessage("core.command.topic.help.systemMessage") + "\n" +
+                        coreMessages.getMessage("core.command.topic.systemMessage.help") + "\n" +
                         coreMessages.getMessage("core.command.transfers.help.systemMessage") + "\n" +
                         coreMessages.getMessage("core.command.users.help.systemMessage") + "\n" +
                         coreMessages.getMessage("core.command.whois.help.systemMessage") + "\n" +
