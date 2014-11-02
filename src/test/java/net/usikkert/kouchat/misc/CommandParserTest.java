@@ -650,12 +650,42 @@ public class CommandParserTest {
      */
 
     @Test
-    public void about() {
+    public void aboutShouldShowVersionAndContactDetails() {
         parser.parse("/about");
 
         verify(messageController).showSystemMessage(
                 "This is KouChat v" + Constants.APP_VERSION +
                         ", by Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
+    }
+
+    /*
+     * /help
+     */
+
+    @Test
+    public void helpShouldShowInfoAboutAllCommands() {
+        parser.parse("/help");
+
+        verify(parser).showCommands();
+        verify(messageController).showSystemMessage(
+                "KouChat commands:\n" +
+                        "/about - information about KouChat\n" +
+                        "/away <away message> - set status to away\n" +
+                        "/back - set status to not away\n" +
+                        "/cancel <nick> <id> - cancel an ongoing file transfer with a user\n" +
+                        "/clear - clear all the text from the chat\n" +
+                        "/help - show this help message\n" +
+                        "/msg <nick> <msg> - send a private message to a user\n" +
+                        "/nick <new nick> - changes your nick name\n" +
+                        "/quit - quit from the chat\n" +
+                        "/receive <nick> <id> - accept a file transfer request from a user\n" +
+                        "/reject <nick> <id> - reject a file transfer request from a user\n" +
+                        "/send <nick> <file> - send a file to a user\n" +
+                        "/topic <optional new topic> - prints the current topic, or changes the topic\n" +
+                        "/transfers - shows a list of all file transfers and their status\n" +
+                        "/users - show the user list\n" +
+                        "/whois <nick> - show information about a user\n" +
+                        "//<text> - send the text as a normal message, with a single slash");
     }
 
     /*
