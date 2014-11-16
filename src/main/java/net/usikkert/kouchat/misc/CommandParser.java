@@ -209,7 +209,7 @@ public class CommandParser {
      */
     private void cmdWhois(final String args) {
         if (args.trim().length() == 0) {
-            msgController.showSystemMessage("/whois - missing argument <nick>");
+            msgController.showSystemMessage(coreMessages.getMessage("core.command.whois.systemMessage.missingArgument"));
         }
 
         else {
@@ -219,28 +219,32 @@ public class CommandParser {
             final User user = controller.getUser(nick);
 
             if (user == null) {
-                msgController.showSystemMessage("/whois - no such user '" + nick + "'");
+                msgController.showSystemMessage(coreMessages.getMessage("core.command.whois.systemMessage.noSuchUser",
+                                                                        nick));
             }
 
             else {
-                String info = "/whois - " + user.getNick();
+                String info;
 
                 if (user.isAway()) {
-                    info += " (Away)";
+                    info = coreMessages.getMessage("core.command.whois.systemMessage.whois.away", user.getNick());
+                } else {
+                    info = coreMessages.getMessage("core.command.whois.systemMessage.whois", user.getNick());
                 }
 
-                info += ":\nIP address: " + user.getIpAddress();
+                info += "\n" + coreMessages.getMessage("core.command.whois.ipAddress", user.getIpAddress());
 
                 if (user.getHostName() != null) {
-                    info += "\nHost name: " + user.getHostName();
+                    info += "\n" + coreMessages.getMessage("core.command.whois.hostName", user.getHostName());
                 }
 
-                info += "\nClient: " + user.getClient() +
-                        "\nOperating System: " + user.getOperatingSystem() +
-                        "\nOnline: " + dateTools.howLongFromNow(user.getLogonTime());
+                info += "\n" + coreMessages.getMessage("core.command.whois.client", user.getClient());
+                info += "\n" + coreMessages.getMessage("core.command.whois.operatingSystem", user.getOperatingSystem());
+                info += "\n" + coreMessages.getMessage("core.command.whois.online",
+                                                       dateTools.howLongFromNow(user.getLogonTime()));
 
                 if (user.isAway()) {
-                    info += "\nAway message: " + user.getAwayMsg();
+                    info += "\n" + coreMessages.getMessage("core.command.whois.awayMessage", user.getAwayMsg());
                 }
 
                 msgController.showSystemMessage(info);
