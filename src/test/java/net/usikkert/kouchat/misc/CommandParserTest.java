@@ -88,10 +88,9 @@ public class CommandParserTest {
         messageController = mock(MessageController.class);
         when(userInterface.getMessageController()).thenReturn(messageController);
 
-        me = new User("MySelf", 123);
-
-        settings = mock(Settings.class);
-        when(settings.getMe()).thenReturn(me);
+        settings = new Settings();
+        me = settings.getMe();
+        me.setNick("MySelf");
 
         coreMessages = new CoreMessages();
 
@@ -873,7 +872,7 @@ public class CommandParserTest {
         assertTrue(file.exists());
         assertTrue(file.isFile());
 
-        parser.parse("/send SomeOne src/test/resources/with some space.txt");
+        parser.parse("/send SomeOne src/test/resources/with some space.txt ");
 
         verify(messageController, never()).showSystemMessage(anyString());
         verify(parser).sendFile(someOne, file);
@@ -923,6 +922,91 @@ public class CommandParserTest {
         parser.sendFile(user, file);
 
         verify(messageController).showSystemMessage("Trying to send the file picture.png (#2) [54.00MB] to Kelly");
+    }
+
+    /*
+     * /msg
+     */
+
+    @Test
+    public void msgShouldReturnIfNoArguments() throws CommandException {
+        parser.parse("/msg");
+
+        verify(messageController).showSystemMessage("/msg - missing arguments <nick> <msg>");
+        verify(controller, never()).sendPrivateMessage(anyString(), any(User.class));
+    }
+
+    @Test
+    public void msgShouldReturnIfOneArgument() throws CommandException {
+        parser.parse("/msg niles");
+
+        verify(messageController).showSystemMessage("/msg - missing arguments <nick> <msg>");
+        verify(controller, never()).sendPrivateMessage(anyString(), any(User.class));
+    }
+
+    @Test
+    public void msgShouldReturnIfUserIsMe() throws CommandException {
+        when(controller.getUser("MySelf")).thenReturn(me);
+
+        parser.parse("/msg MySelf hello");
+
+        verify(messageController).showSystemMessage("/msg - no point in doing that!");
+        verify(controller, never()).sendPrivateMessage(anyString(), any(User.class));
+    }
+
+    @Test
+    public void msgShouldReturnIfUserIsNotFound() throws CommandException {
+        parser.parse("/msg NoOne hello");
+
+        verify(messageController).showSystemMessage("/msg - no such user 'NoOne'");
+        verify(controller, never()).sendPrivateMessage(anyString(), any(User.class));
+    }
+
+    @Test
+    public void msgShouldReturnIfPrivateChatIsDisabled() throws CommandException {
+        settings.setNoPrivateChat(true);
+        setupSomeOne();
+
+        parser.parse("/msg SomeOne hello");
+
+        verify(messageController).showSystemMessage(
+                "/msg - can't send private chat message when private chat is disabled");
+        verify(controller, never()).sendPrivateMessage(anyString(), any(User.class));
+    }
+
+    @Test
+    public void msgShouldReturnIfUserHasNoPrivateChatPort() throws CommandException {
+        final User someOne = setupSomeOne();
+        assertEquals(0, someOne.getPrivateChatPort());
+
+        parser.parse("/msg SomeOne hello");
+
+        verify(messageController).showSystemMessage("/msg - SomeOne can't receive private chat messages");
+        verify(controller, never()).sendPrivateMessage(anyString(), any(User.class));
+    }
+
+    @Test
+    public void msgShouldSendWholePrivateMessageToUser() throws CommandException {
+        final User someOne = setupSomeOne();
+        someOne.setPrivateChatPort(1000);
+
+        parser.parse("/msg SomeOne hello there, how are you? ");
+
+        verify(messageController).showPrivateOwnMessage(someOne, "hello there, how are you?");
+        verify(controller).sendPrivateMessage("hello there, how are you?", someOne);
+    }
+
+    @Test
+    public void msgShouldShowSystemMessageIfSendPrivateMessageFails() throws CommandException {
+        final User someOne = setupSomeOne();
+        someOne.setPrivateChatPort(1000);
+
+        doThrow(new CommandException("No message")).when(controller).sendPrivateMessage(anyString(), any(User.class));
+
+        parser.parse("/msg SomeOne hello");
+
+        verify(controller).sendPrivateMessage("hello", someOne);
+        verify(messageController).showSystemMessage("No message");
     }
 
     /*
