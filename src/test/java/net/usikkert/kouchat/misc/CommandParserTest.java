@@ -65,6 +65,7 @@ public class CommandParserTest {
     private MessageController messageController;
     private Controller controller;
     private TransferList transferList;
+    private UserList userList;
     private UserInterface userInterface;
     private Settings settings;
     private CoreMessages coreMessages;
@@ -82,6 +83,9 @@ public class CommandParserTest {
         transferList = mock(TransferList.class);
         when(controller.getTransferList()).thenReturn(transferList);
 
+        userList = new SortedUserList();
+        when(controller.getUserList()).thenReturn(userList);
+
         topic = new Topic();
         when(controller.getTopic()).thenReturn(topic);
 
@@ -93,6 +97,7 @@ public class CommandParserTest {
         settings = new Settings();
         me = settings.getMe();
         me.setNick("MySelf");
+        userList.add(me);
 
         coreMessages = new CoreMessages();
 
@@ -1068,6 +1073,28 @@ public class CommandParserTest {
 
         verify(messageController).showSystemMessage("No!");
         verify(controller).changeMyNick("NewNick");
+    }
+
+    /*
+     * /users
+     */
+
+    @Test
+    public void usersShouldListMeIfOnlyMeConnected() {
+        parser.parse("/users");
+
+        verify(messageController).showSystemMessage("Users: MySelf");
+    }
+
+    @Test
+    public void usersShouldListAllUserSeparatedWithComma() {
+        userList.add(new User("Amy", 1));
+        userList.add(new User("Peter", 2));
+        userList.add(new User("Zelda", 3));
+
+        parser.parse("/users");
+
+        verify(messageController).showSystemMessage("Users: Amy, MySelf, Peter, Zelda");
     }
 
     /*
