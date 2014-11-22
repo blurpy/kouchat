@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
@@ -1098,6 +1099,115 @@ public class CommandParserTest {
     }
 
     /*
+     * /transfers
+     */
+
+    @Test
+    public void transfersShouldShowSystemMessageWhenNoActiveTransfers() {
+        parser.parse("/transfers");
+
+        verify(messageController).showSystemMessage("File transfers: no active file transfers");
+    }
+
+    @Test
+    public void transfersShouldShowSystemMessageWithActiveSender() {
+        final FileSender fileSender = createFileSender(5, "image.png", 500L, 12, 80L, "Amy");
+
+        when(transferList.getFileSenders()).thenReturn(Arrays.asList(fileSender));
+
+        parser.parse("/transfers");
+
+        verify(messageController).showSystemMessage("File transfers:\n" +
+                                                            "- Sending:\n" +
+                                                            "  #5 image.png [500.00KB] (12%, 80.00KB/s) to Amy");
+    }
+
+    @Test
+    public void transfersShouldShowSystemMessageWithMultipleActiveSenders() {
+        final FileSender fileSender1 = createFileSender(1, "video.mp4", 15000L, 44, 56L, "Amy");
+        final FileSender fileSender2 = createFileSender(2, "kou.png", 10L, 80, 5L, "Donald");
+        final FileSender fileSender3 = createFileSender(4, "radiohead.mp3", 3500L, 25, 103L, "Dolly");
+
+        when(transferList.getFileSenders()).thenReturn(Arrays.asList(fileSender1, fileSender2, fileSender3));
+
+        parser.parse("/transfers");
+
+        verify(messageController).showSystemMessage("File transfers:\n" +
+                                                            "- Sending:\n" +
+                                                            "  #1 video.mp4 [14.65MB] (44%, 56.00KB/s) to Amy\n" +
+                                                            "  #2 kou.png [10.00KB] (80%, 5.00KB/s) to Donald\n" +
+                                                            "  #4 radiohead.mp3 [3.42MB] (25%, 103.00KB/s) to Dolly");
+    }
+
+    @Test
+    public void transfersShouldShowSystemMessageWithActiveReceiver() {
+        final FileReceiver fileReceiver = createFileReceiver(5, "image.png", 500L, 12, 80L, "Amy");
+
+        when(transferList.getFileReceivers()).thenReturn(Arrays.asList(fileReceiver));
+
+        parser.parse("/transfers");
+
+        verify(messageController).showSystemMessage("File transfers:\n" +
+                                                            "- Receiving:\n" +
+                                                            "  #5 image.png [500.00KB] (12%, 80.00KB/s) from Amy");
+    }
+
+    @Test
+    public void transfersShouldShowSystemMessageWithMultipleActiveReceivers() {
+        final FileReceiver fileReceiver1 = createFileReceiver(1, "video.mp4", 15000L, 44, 56L, "Amy");
+        final FileReceiver fileReceiver2 = createFileReceiver(2, "kou.png", 10L, 80, 5L, "Donald");
+        final FileReceiver fileReceiver3 = createFileReceiver(4, "radiohead.mp3", 3500L, 25, 103L, "Dolly");
+
+        when(transferList.getFileReceivers()).thenReturn(Arrays.asList(fileReceiver1, fileReceiver2, fileReceiver3));
+
+        parser.parse("/transfers");
+
+        verify(messageController).showSystemMessage("File transfers:\n" +
+                                                            "- Receiving:\n" +
+                                                            "  #1 video.mp4 [14.65MB] (44%, 56.00KB/s) from Amy\n" +
+                                                            "  #2 kou.png [10.00KB] (80%, 5.00KB/s) from Donald\n" +
+                                                            "  #4 radiohead.mp3 [3.42MB] (25%, 103.00KB/s) from Dolly");
+    }
+
+    @Test
+    public void transfersShouldShowSystemMessageWithBothActiveSenderAndReceiver() {
+        final FileSender fileSender = createFileSender(1, "image1.png", 501L, 11, 81L, "Amber");
+        when(transferList.getFileSenders()).thenReturn(Arrays.asList(fileSender));
+
+        final FileReceiver fileReceiver = createFileReceiver(2, "image2.png", 502L, 12, 82L, "Donna");
+        when(transferList.getFileReceivers()).thenReturn(Arrays.asList(fileReceiver));
+
+        parser.parse("/transfers");
+
+        verify(messageController).showSystemMessage("File transfers:\n" +
+                                                            "- Sending:\n" +
+                                                            "  #1 image1.png [501.00KB] (11%, 81.00KB/s) to Amber\n" +
+                                                            "- Receiving:\n" +
+                                                            "  #2 image2.png [502.00KB] (12%, 82.00KB/s) from Donna");
+    }
+
+    @Test
+    public void transfersShouldShowSystemMessageWithMultipleActiveSendersAndReceivers() {
+        final FileSender fileSender1 = createFileSender(1, "image1.png", 501L, 11, 81L, "Amber");
+        final FileSender fileSender2 = createFileSender(3, "image3.png", 503L, 13, 83L, "Lilly");
+        when(transferList.getFileSenders()).thenReturn(Arrays.asList(fileSender1, fileSender2));
+
+        final FileReceiver fileReceiver1 = createFileReceiver(2, "image2.png", 502L, 12, 82L, "Donna");
+        final FileReceiver fileReceiver2 = createFileReceiver(4, "image4.png", 504L, 14, 84L, "Kelly");
+        when(transferList.getFileReceivers()).thenReturn(Arrays.asList(fileReceiver1, fileReceiver2));
+
+        parser.parse("/transfers");
+
+        verify(messageController).showSystemMessage("File transfers:\n" +
+                                                            "- Sending:\n" +
+                                                            "  #1 image1.png [501.00KB] (11%, 81.00KB/s) to Amber\n" +
+                                                            "  #3 image3.png [503.00KB] (13%, 83.00KB/s) to Lilly\n" +
+                                                            "- Receiving:\n" +
+                                                            "  #2 image2.png [502.00KB] (12%, 82.00KB/s) from Donna\n" +
+                                                            "  #4 image4.png [504.00KB] (14%, 84.00KB/s) from Kelly");
+    }
+
+    /*
      * Reusable test methods.
      */
 
@@ -1146,5 +1256,35 @@ public class CommandParserTest {
                 return null;
             }
         };
+    }
+
+    private FileSender createFileSender(final int id, final String fileName, final long fileSize, final int percent,
+                                        final long speed, final String nick) {
+        final FileSender fileSender = spy(new FileSender(new User(nick, 1), createFile(fileName, 1024 * fileSize), id));
+
+        when(fileSender.getPercent()).thenReturn(percent);
+        when(fileSender.getSpeed()).thenReturn(1024 * speed);
+
+        return fileSender;
+    }
+
+    private FileReceiver createFileReceiver(final int id, final String fileName, final long fileSize, final int percent,
+                                            final long speed, final String nick) {
+        final FileReceiver fileReceiver =
+                spy(new FileReceiver(new User(nick, 1), createFile(fileName, 0), 1024 * fileSize, id));
+
+        when(fileReceiver.getPercent()).thenReturn(percent);
+        when(fileReceiver.getSpeed()).thenReturn(1024 * speed);
+
+        return fileReceiver;
+    }
+
+    private File createFile(final String fileName, final long fileSize) {
+        final File file = mock(File.class);
+
+        when(file.getName()).thenReturn(fileName);
+        when(file.length()).thenReturn(fileSize);
+
+        return file;
     }
 }
