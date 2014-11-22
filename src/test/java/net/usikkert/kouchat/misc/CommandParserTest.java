@@ -27,6 +27,7 @@ import static org.mockito.Mockito.*;
 
 import java.io.File;
 import java.util.Date;
+import java.util.Locale;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.junit.ExpectedException;
@@ -72,6 +73,8 @@ public class CommandParserTest {
 
     @Before
     public void setUp() {
+        Locale.setDefault(Locale.US); // To avoid issues with "," and "." in numbers
+
         controller = mock(Controller.class);
 
         transferList = mock(TransferList.class);
@@ -779,6 +782,147 @@ public class CommandParserTest {
                                                             "Operating System: DOS\n" +
                                                             "Online: A year\n" +
                                                             "Away message: Gone home");
+    }
+
+    /*
+     * /send
+     */
+
+    @Test
+    public void sendShouldReturnIfNoArguments() throws CommandException {
+        parser.parse("/send");
+
+        verify(messageController).showSystemMessage("/send - missing arguments <nick> <file>");
+        verify(parser, never()).sendFile(any(User.class), any(File.class));
+    }
+
+    @Test
+    public void sendShouldReturnIfOneArgument() throws CommandException {
+        parser.parse("/send niles");
+
+        verify(messageController).showSystemMessage("/send - missing arguments <nick> <file>");
+        verify(parser, never()).sendFile(any(User.class), any(File.class));
+    }
+
+    @Test
+    public void sendShouldReturnIfUserIsMe() throws CommandException {
+        when(controller.getUser("MySelf")).thenReturn(me);
+
+        parser.parse("/send MySelf image.png");
+
+        verify(messageController).showSystemMessage("/send - no point in doing that!");
+        verify(parser, never()).sendFile(any(User.class), any(File.class));
+    }
+
+    @Test
+    public void sendShouldReturnIfUserIsNotFound() throws CommandException {
+        parser.parse("/send NoOne image.png");
+
+        verify(messageController).showSystemMessage("/send - no such user 'NoOne'");
+        verify(parser, never()).sendFile(any(User.class), any(File.class));
+    }
+
+    @Test
+    public void sendShouldReturnIfFileIsNotFound() throws CommandException {
+        setupSomeOne();
+
+        final File noneExistingFile = new File("image.png");
+        assertFalse(noneExistingFile.exists());
+
+        parser.parse("/send SomeOne image.png");
+
+        verify(messageController).showSystemMessage("/send - no such file 'image.png'");
+        verify(parser, never()).sendFile(any(User.class), any(File.class));
+    }
+
+    @Test
+    public void sendShouldReturnIfFileIsDirectory() throws CommandException {
+        setupSomeOne();
+
+        final File directory = new File("target");
+        assertTrue(directory.exists());
+        assertFalse(directory.isFile());
+
+        parser.parse("/send SomeOne target");
+
+        verify(messageController).showSystemMessage("/send - no such file 'target'");
+        verify(parser, never()).sendFile(any(User.class), any(File.class));
+    }
+
+    @Test
+    public void sendShouldSendFileIfFileIsValid() throws CommandException {
+        final User someOne = setupSomeOne();
+        doNothing().when(parser).sendFile(any(User.class), any(File.class));
+
+        final File file = new File("src/test/resources/test-messages.properties");
+        assertTrue(file.exists());
+        assertTrue(file.isFile());
+
+        parser.parse("/send SomeOne src/test/resources/test-messages.properties");
+
+        verify(messageController, never()).showSystemMessage(anyString());
+        verify(parser).sendFile(someOne, file);
+    }
+
+    @Test
+    public void sendShouldSendFileWithSpaceInName() throws CommandException {
+        final User someOne = setupSomeOne();
+        doNothing().when(parser).sendFile(any(User.class), any(File.class));
+
+        final File file = new File("src/test/resources/with some space.txt");
+        assertTrue(file.exists());
+        assertTrue(file.isFile());
+
+        parser.parse("/send SomeOne src/test/resources/with some space.txt");
+
+        verify(messageController, never()).showSystemMessage(anyString());
+        verify(parser).sendFile(someOne, file);
+    }
+
+    @Test
+    public void sendShouldShowSystemMessageIfSendFileFails() throws CommandException {
+        final User someOne = setupSomeOne();
+        doThrow(new CommandException("Stop that file")).when(parser).sendFile(any(User.class), any(File.class));
+
+        final File file = new File("src/test/resources/test-messages.properties");
+        assertTrue(file.exists());
+        assertTrue(file.isFile());
+
+        parser.parse("/send SomeOne src/test/resources/test-messages.properties");
+
+        verify(messageController).showSystemMessage("Stop that file");
+        verify(parser).sendFile(someOne, file);
+    }
+
+    @Test
+    public void sendFileShouldSendUsingControllerAndAddToTransferListAndShowFileTransfer() throws CommandException {
+        final User user = new User("User", 123456);
+        final File file = new File("");
+        final FileSender fileSender = mock(FileSender.class);
+
+        when(transferList.addFileSender(any(User.class), any(File.class))).thenReturn(fileSender);
+
+        parser.sendFile(user, file);
+
+        verify(controller).sendFile(user, file);
+        verify(transferList).addFileSender(user, file);
+        verify(userInterface).showTransfer(fileSender);
+    }
+
+    @Test
+    public void sendFileShouldShowSystemMessage() throws CommandException {
+        final User user = new User("Kelly", 123456);
+        final File file = mock(File.class);
+        final FileSender fileSender = mock(FileSender.class);
+
+        when(file.getName()).thenReturn("picture.png");
+        when(file.length()).thenReturn(1024 * 1024 * 54L);
+        when(fileSender.getId()).thenReturn(2);
+        when(transferList.addFileSender(any(User.class), any(File.class))).thenReturn(fileSender);
+
+        parser.sendFile(user, file);
+
+        verify(messageController).showSystemMessage("Trying to send the file picture.png (#2) [54.00MB] to Kelly");
     }
 
     /*
