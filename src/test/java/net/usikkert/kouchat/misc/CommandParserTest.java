@@ -1208,6 +1208,57 @@ public class CommandParserTest {
     }
 
     /*
+     * /quit
+     */
+
+    @Test
+    public void quitShouldQuit() {
+        parser.parse("/quit");
+
+        verify(userInterface).quit();
+    }
+
+    /*
+     * /slash
+     */
+
+    @Test
+    public void ekstraSlashShouldBeTreatedAsRegularMessage() throws CommandException {
+        parser.parse("//msg niles hello");
+
+        verify(controller).sendChatMessage("/msg niles hello");
+        verify(messageController).showOwnMessage("/msg niles hello");
+    }
+
+    @Test
+    public void ekstraSlashShouldShowSystemMessageIfChatMessageFails() throws CommandException {
+        doThrow(new CommandException("No slash for you")).when(controller).sendChatMessage(anyString());
+
+        parser.parse("//msg niles hello");
+
+        verify(controller).sendChatMessage("/msg niles hello");
+        verify(messageController).showSystemMessage("No slash for you");
+    }
+
+    /*
+     * /unknown
+     */
+
+    @Test
+    public void unknownCommandShouldShowSystemMessage() {
+        parser.parse("/nope");
+
+        verify(messageController).showSystemMessage("Unknown command 'nope'. Type /help for a list of commands");
+    }
+
+    @Test
+    public void missingCommandShouldShowSystemMessage() {
+        parser.parse("/");
+
+        verify(messageController).showSystemMessage("Unknown command ''. Type /help for a list of commands");
+    }
+
+    /*
      * Reusable test methods.
      */
 
