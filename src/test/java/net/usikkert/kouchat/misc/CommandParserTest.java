@@ -46,6 +46,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 /**
  * Test of {@link CommandParser}.
@@ -1010,6 +1012,65 @@ public class CommandParserTest {
     }
 
     /*
+     * /nick
+     */
+
+    @Test
+    public void nickShouldReturnIfNoArguments() throws CommandException {
+        parser.parse("/nick");
+
+        verify(messageController).showSystemMessage("/nick - missing argument <nick>");
+        verify(controller, never()).changeMyNick(anyString());
+    }
+
+    @Test
+    public void nickShouldReturnIfNickIsUnchanged() throws CommandException {
+        parser.parse("/nick MySelf");
+
+        verify(messageController).showSystemMessage("/nick - you are already called 'MySelf'");
+        verify(controller, never()).changeMyNick(anyString());
+    }
+
+    @Test
+    public void nickShouldReturnIfNickIsInUse() throws CommandException {
+        when(controller.isNickInUse("Other")).thenReturn(true);
+
+        parser.parse("/nick Other");
+
+        verify(messageController).showSystemMessage("/nick - 'Other' is in use by someone else");
+        verify(controller, never()).changeMyNick(anyString());
+    }
+
+    @Test
+    public void nickShouldReturnIfNickIsInvalid() throws CommandException {
+        parser.parse("/nick @Boss");
+
+        verify(messageController).showSystemMessage("/nick - '@Boss' is not a valid nick name. (1-10 letters)");
+        verify(controller, never()).changeMyNick(anyString());
+    }
+
+    @Test
+    public void nickShouldChangeNickNameAndShowSystemMessageAndUpdateUserInterface() throws CommandException {
+        doAnswer(withSetNickNameOnMe()).when(controller).changeMyNick(anyString());
+
+        parser.parse("/nick NewNick");
+
+        verify(messageController).showSystemMessage("You changed nick to NewNick");
+        verify(controller).changeMyNick("NewNick");
+        verify(userInterface).showTopic();
+    }
+
+    @Test
+    public void nickShouldShowSystemMessageIfNickChangeFails() throws CommandException {
+        doThrow(new CommandException("No!")).when(controller).changeMyNick(anyString());
+
+        parser.parse("/nick NewNick");
+
+        verify(messageController).showSystemMessage("No!");
+        verify(controller).changeMyNick("NewNick");
+    }
+
+    /*
      * Reusable test methods.
      */
 
@@ -1046,5 +1107,17 @@ public class CommandParserTest {
         when(controller.getUser("SomeOne")).thenReturn(someOne);
 
         return someOne;
+    }
+
+    private Answer<Void> withSetNickNameOnMe() {
+        return new Answer<Void>() {
+            @Override
+            public Void answer(final InvocationOnMock invocation) throws Throwable {
+                final String newNick = (String) invocation.getArguments()[0];
+                me.setNick(newNick);
+
+                return null;
+            }
+        };
     }
 }
