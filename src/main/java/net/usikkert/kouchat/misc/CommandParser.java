@@ -786,8 +786,8 @@ public class CommandParser {
                 final File file = fs.getFile();
                 final User user = fs.getUser();
 
-                msgController.showSystemMessage("You cancelled sending of " +
-                        file.getName() + " to " + user.getNick());
+                msgController.showSystemMessage(coreMessages.getMessage("core.command.cancel.systemMessage.cancelled",
+                                                                        file.getName(), user.getNick()));
                 tList.removeFileSender(fs);
                 controller.sendFileAbort(user, file.hashCode(), file.getName());
             }
