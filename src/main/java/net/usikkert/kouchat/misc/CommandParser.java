@@ -322,7 +322,8 @@ public class CommandParser {
         final String[] argsArray = args.split(WHITESPACE);
 
         if (argsArray.length != 3) {
-            msgController.showSystemMessage("/receive - wrong number of arguments: <nick> <id>");
+            msgController.showSystemMessage(coreMessages.getMessage(
+                    "core.command.receive.systemMessage.missingArguments"));
             return;
         }
 
@@ -330,31 +331,35 @@ public class CommandParser {
         final User user = controller.getUser(nick);
 
         if (user == null) {
-            msgController.showSystemMessage("/receive - no such user '" + nick + "'");
+            msgController.showSystemMessage(coreMessages.getMessage(
+                    "core.command.receive.systemMessage.noSuchUser", nick));
             return;
         }
 
         if (user == me) {
-            msgController.showSystemMessage("/receive - no point in doing that!");
+            msgController.showSystemMessage(coreMessages.getMessage("core.command.receive.systemMessage.userIsMe"));
             return;
         }
 
         final Integer id = parseFileTransferId(argsArray[2]);
 
         if (id == null) {
-            msgController.showSystemMessage("/receive - invalid file id argument: '" + argsArray[2] + "'");
+            msgController.showSystemMessage(coreMessages.getMessage(
+                    "core.command.receive.systemMessage.invalidFileId", argsArray[2]));
             return;
         }
 
         final FileReceiver fileReceiver = tList.getFileReceiver(user, id);
 
         if (fileReceiver == null) {
-            msgController.showSystemMessage("/receive - no file with id " + id + " offered by " + nick);
+            msgController.showSystemMessage(coreMessages.getMessage(
+                    "core.command.receive.systemMessage.noSuchFileIdForUser", id, nick));
             return;
         }
 
         if (fileReceiver.isAccepted()) {
-            msgController.showSystemMessage("/receive - already receiving '" + fileReceiver.getFileName() + "' from " + nick);
+            msgController.showSystemMessage(coreMessages.getMessage(
+                    "core.command.receive.systemMessage.alreadyReceiving", fileReceiver.getFileName(), nick));
             return;
         }
 
@@ -362,7 +367,8 @@ public class CommandParser {
 
         if (file.exists()) {
             final File newFile = Tools.getFileWithIncrementedName(file);
-            msgController.showSystemMessage("/receive - file '" + file.getName() + "' already exists - renaming to '" + newFile.getName() + "'");
+            msgController.showSystemMessage(coreMessages.getMessage(
+                    "core.command.receive.systemMessage.renamingFile", file.getName(), newFile.getName()));
             fileReceiver.setFile(newFile);
         }
 
