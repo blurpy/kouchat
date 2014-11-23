@@ -265,7 +265,7 @@ public class CommandParser {
         final String[] argsArray = args.split(WHITESPACE);
 
         if (argsArray.length <= 2) {
-            msgController.showSystemMessage("/send - missing arguments <nick> <file>");
+            msgController.showSystemMessage(coreMessages.getMessage("core.command.send.systemMessage.missingArguments"));
         }
 
         else {
@@ -274,7 +274,8 @@ public class CommandParser {
 
             if (user != me) {
                 if (user == null) {
-                    msgController.showSystemMessage("/send - no such user '" + nick + "'");
+                    msgController.showSystemMessage(
+                            coreMessages.getMessage("core.command.send.systemMessage.noSuchUser", nick));
                 }
 
                 else {
@@ -298,13 +299,14 @@ public class CommandParser {
                     }
 
                     else {
-                        msgController.showSystemMessage("/send - no such file '" + file + "'");
+                        msgController.showSystemMessage(
+                                coreMessages.getMessage("core.command.send.systemMessage.noSuchFile", file));
                     }
                 }
             }
 
             else {
-                msgController.showSystemMessage("/send - no point in doing that!");
+                msgController.showSystemMessage(coreMessages.getMessage("core.command.send.systemMessage.userIsMe"));
             }
         }
     }
