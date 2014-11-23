@@ -621,7 +621,7 @@ public class CommandParser {
             }
         }
 
-        msgController.showSystemMessage("Users: " + userList);
+        msgController.showSystemMessage(coreMessages.getMessage("core.command.users.systemMessage.users", userList));
     }
 
     /**
