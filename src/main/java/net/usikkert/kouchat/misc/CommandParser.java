@@ -636,26 +636,30 @@ public class CommandParser {
         final StringBuilder transferInfo = new StringBuilder();
 
         if (fsList.size() > 0) {
-            transferInfo.append("\n- Sending:");
+            transferInfo.append("\n");
+            transferInfo.append(coreMessages.getMessage("core.command.transfers.sending"));
 
             for (final FileSender fs : fsList) {
-                appendTransferInfo(fs, transferInfo, "to");
+                appendTransferInfo(fs, transferInfo);
             }
         }
 
         if (frList.size() > 0) {
-            transferInfo.append("\n- Receiving:");
+            transferInfo.append("\n");
+            transferInfo.append(coreMessages.getMessage("core.command.transfers.receiving"));
 
             for (final FileReceiver fr : frList) {
-                appendTransferInfo(fr, transferInfo, "from");
+                appendTransferInfo(fr, transferInfo);
             }
         }
 
         if (transferInfo.length() == 0) {
-            transferInfo.append(" no active file transfers");
+            msgController.showSystemMessage(coreMessages.getMessage(
+                    "core.command.transfers.systemMessage.noFileTransfers"));
+        } else {
+            msgController.showSystemMessage(coreMessages.getMessage(
+                    "core.command.transfers.systemMessage.activeFileTransfers") + transferInfo.toString());
         }
-
-        msgController.showSystemMessage("File transfers:" + transferInfo.toString());
     }
 
     /**
@@ -672,17 +676,24 @@ public class CommandParser {
      *
      * @param fileTransfer The file transfer to add info about.
      * @param transferInfo The string builder to add the info to.
-     * @param direction To or from.
      */
-    private void appendTransferInfo(final FileTransfer fileTransfer, final StringBuilder transferInfo, final String direction) {
+    private void appendTransferInfo(final FileTransfer fileTransfer, final StringBuilder transferInfo) {
         transferInfo.append("\n  ");
-        transferInfo.append("#" + fileTransfer.getId() + " ");
-        transferInfo.append(fileTransfer.getFile().getName());
-        transferInfo.append(" [" + Tools.byteToString(fileTransfer.getFileSize()) + "]");
-        transferInfo.append(" (" + fileTransfer.getPercent() + "%, ");
-        transferInfo.append(Tools.byteToString(fileTransfer.getSpeed()) + "/s)");
-        transferInfo.append(" " + direction + " ");
-        transferInfo.append(fileTransfer.getUser().getNick());
+
+        final int fileTransferId = fileTransfer.getId();
+        final String fileName = fileTransfer.getFile().getName();
+        final String fileSize = Tools.byteToString(fileTransfer.getFileSize());
+        final int percent = fileTransfer.getPercent();
+        final String speed = Tools.byteToString(fileTransfer.getSpeed());
+        final String user = fileTransfer.getUser().getNick();
+
+        if (fileTransfer.getDirection() == FileTransfer.Direction.SEND) {
+            transferInfo.append(coreMessages.getMessage("core.command.transfers.sendingFile",
+                                                        fileTransferId, fileName, fileSize, percent, speed, user));
+        } else {
+            transferInfo.append(coreMessages.getMessage("core.command.transfers.receivingFile",
+                                                        fileTransferId, fileName, fileSize, percent, speed, user));
+        }
     }
 
     /**
