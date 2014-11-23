@@ -508,7 +508,7 @@ public class CommandParser {
         final String[] argsArray = args.split(WHITESPACE);
 
         if (argsArray.length <= 2) {
-            msgController.showSystemMessage("/msg - missing arguments <nick> <msg>");
+            msgController.showSystemMessage(coreMessages.getMessage("core.command.msg.systemMessage.missingArguments"));
         }
 
         else {
@@ -516,19 +516,22 @@ public class CommandParser {
             final User user = controller.getUser(nick);
 
             if (user == null) {
-                msgController.showSystemMessage("/msg - no such user '" + nick + "'");
+                msgController.showSystemMessage(coreMessages.getMessage(
+                        "core.command.msg.systemMessage.noSuchUser", nick));
             }
 
             else if (user == me) {
-                msgController.showSystemMessage("/msg - no point in doing that!");
+                msgController.showSystemMessage(coreMessages.getMessage("core.command.msg.systemMessage.userIsMe"));
             }
 
             else if (settings.isNoPrivateChat()) {
-                msgController.showSystemMessage("/msg - can't send private chat message when private chat is disabled");
+                msgController.showSystemMessage(coreMessages.getMessage(
+                        "core.command.msg.systemMessage.privateChatDisabled"));
             }
 
             else if (user.getPrivateChatPort() == 0) {
-                msgController.showSystemMessage("/msg - " + user.getNick() + " can't receive private chat messages");
+                msgController.showSystemMessage(coreMessages.getMessage(
+                        "core.command.msg.systemMessage.noPrivateChatPortNumber", user.getNick()));
             }
 
             else {
