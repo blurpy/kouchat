@@ -386,7 +386,8 @@ public class CommandParser {
         final String[] argsArray = args.split(WHITESPACE);
 
         if (argsArray.length != 3) {
-            msgController.showSystemMessage("/reject - missing arguments <nick> <id>");
+            msgController.showSystemMessage(coreMessages.getMessage(
+                    "core.command.reject.systemMessage.missingArguments"));
             return;
         }
 
@@ -394,31 +395,35 @@ public class CommandParser {
         final User user = controller.getUser(nick);
 
         if (user == null) {
-            msgController.showSystemMessage("/reject - no such user '" + nick + "'");
+            msgController.showSystemMessage(coreMessages.getMessage(
+                    "core.command.reject.systemMessage.noSuchUser", nick));
             return;
         }
 
         if (user == me) {
-            msgController.showSystemMessage("/reject - no point in doing that!");
+            msgController.showSystemMessage(coreMessages.getMessage("core.command.reject.systemMessage.userIsMe"));
             return;
         }
 
         final Integer id = parseFileTransferId(argsArray[2]);
 
         if (id == null) {
-            msgController.showSystemMessage("/reject - invalid file id argument: '" + argsArray[2] + "'");
+            msgController.showSystemMessage(coreMessages.getMessage(
+                    "core.command.reject.systemMessage.invalidFileId", argsArray[2]));
             return;
         }
 
         final FileReceiver fileReceiver = tList.getFileReceiver(user, id);
 
         if (fileReceiver == null) {
-            msgController.showSystemMessage("/reject - no file with id " + id + " offered by " + nick);
+            msgController.showSystemMessage(coreMessages.getMessage(
+                    "core.command.reject.systemMessage.noSuchFileIdForUser", id, nick));
             return;
         }
 
         if (fileReceiver.isAccepted()) {
-            msgController.showSystemMessage("/reject - already receiving '" + fileReceiver.getFileName() + "' from " + nick);
+            msgController.showSystemMessage(coreMessages.getMessage(
+                    "core.command.reject.systemMessage.alreadyReceiving", fileReceiver.getFileName(), nick));
             return;
         }
 
