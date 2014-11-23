@@ -564,7 +564,7 @@ public class CommandParser {
      */
     private void cmdNick(final String args) {
         if (args.trim().length() == 0) {
-            msgController.showSystemMessage("/nick - missing argument <nick>");
+            msgController.showSystemMessage(coreMessages.getMessage("core.command.nick.systemMessage.missingArgument"));
         }
 
         else {
@@ -573,17 +573,20 @@ public class CommandParser {
 
             if (!nick.equals(me.getNick())) {
                 if (controller.isNickInUse(nick)) {
-                    msgController.showSystemMessage("/nick - '" + nick + "' is in use by someone else");
+                    msgController.showSystemMessage(coreMessages.getMessage(
+                            "core.command.nick.systemMessage.nickInUse", nick));
                 }
 
                 else if (!Tools.isValidNick(nick)) {
-                    msgController.showSystemMessage("/nick - '" + nick + "' is not a valid nick name. (1-10 letters)");
+                    msgController.showSystemMessage(coreMessages.getMessage(
+                            "core.command.nick.systemMessage.nickInvalid", nick));
                 }
 
                 else {
                     try {
                         controller.changeMyNick(nick);
-                        msgController.showSystemMessage("You changed nick to " + me.getNick());
+                        msgController.showSystemMessage(coreMessages.getMessage(
+                                "core.command.nick.systemMessage.nickChanged", me.getNick()));
                         ui.showTopic();
                     }
 
@@ -594,7 +597,8 @@ public class CommandParser {
             }
 
             else {
-                msgController.showSystemMessage("/nick - you are already called '" + nick + "'");
+                msgController.showSystemMessage(coreMessages.getMessage(
+                        "core.command.nick.systemMessage.nickIdentical", nick));
             }
         }
     }
