@@ -49,6 +49,8 @@ import org.jetbrains.annotations.NonNls;
  */
 public class CommandParser {
 
+    private static final String WHITESPACE = "\\s"; // Any whitespace character
+
     private final DateTools dateTools = new DateTools();
 
     private final Controller controller;
@@ -213,7 +215,7 @@ public class CommandParser {
         }
 
         else {
-            final String[] argsArray = args.split("\\s");
+            final String[] argsArray = args.split(WHITESPACE);
             final String nick = argsArray[1].trim();
 
             final User user = controller.getUser(nick);
@@ -260,7 +262,7 @@ public class CommandParser {
      * @param args First argument is the user to send to, and the second is the file to send to the user.
      */
     private void cmdSend(final String args) {
-        final String[] argsArray = args.split("\\s");
+        final String[] argsArray = args.split(WHITESPACE);
 
         if (argsArray.length <= 2) {
             msgController.showSystemMessage("/send - missing arguments <nick> <file>");
@@ -315,7 +317,7 @@ public class CommandParser {
      * @param args First argument is the other user in the file transfer, and the second is the id of the file transfer.
      */
     private void cmdReceive(final String args) {
-        final String[] argsArray = args.split("\\s");
+        final String[] argsArray = args.split(WHITESPACE);
 
         if (argsArray.length != 3) {
             msgController.showSystemMessage("/receive - wrong number of arguments: <nick> <id>");
@@ -373,7 +375,7 @@ public class CommandParser {
      * @param args First argument is the other user in the file transfer, and the second is the id of the file transfer.
      */
     private void cmdReject(final String args) {
-        final String[] argsArray = args.split("\\s");
+        final String[] argsArray = args.split(WHITESPACE);
 
         if (argsArray.length != 3) {
             msgController.showSystemMessage("/reject - wrong number of arguments: <nick> <id>");
@@ -423,7 +425,7 @@ public class CommandParser {
      * @param args First argument is the other user in the file transfer, and the second is the id of the file transfer.
      */
     private void cmdCancel(final String args) {
-        final String[] argsArray = args.split("\\s");
+        final String[] argsArray = args.split(WHITESPACE);
 
         if (argsArray.length != 3) {
             msgController.showSystemMessage("/cancel - wrong number of arguments: <nick> <id>");
@@ -485,7 +487,7 @@ public class CommandParser {
      * @param args The first argument is the user to send to, and the second is the private message to the user.
      */
     private void cmdMsg(final String args) {
-        final String[] argsArray = args.split("\\s");
+        final String[] argsArray = args.split(WHITESPACE);
 
         if (argsArray.length <= 2) {
             msgController.showSystemMessage("/msg - missing arguments <nick> <msg>");
@@ -545,7 +547,7 @@ public class CommandParser {
         }
 
         else {
-            final String[] argsArray = args.split("\\s");
+            final String[] argsArray = args.split(WHITESPACE);
             final String nick = argsArray[1].trim();
 
             if (!nick.equals(me.getNick())) {
