@@ -441,7 +441,8 @@ public class CommandParser {
         final String[] argsArray = args.split(WHITESPACE);
 
         if (argsArray.length != 3) {
-            msgController.showSystemMessage("/cancel - missing arguments <nick> <id>");
+            msgController.showSystemMessage(coreMessages.getMessage(
+                    "core.command.cancel.systemMessage.missingArguments"));
             return;
         }
 
@@ -449,26 +450,29 @@ public class CommandParser {
         final User user = controller.getUser(nick);
 
         if (user == null) {
-            msgController.showSystemMessage("/cancel - no such user '" + nick + "'");
+            msgController.showSystemMessage(coreMessages.getMessage(
+                    "core.command.cancel.systemMessage.noSuchUser", nick));
             return;
         }
 
         if (user == me) {
-            msgController.showSystemMessage("/cancel - no point in doing that!");
+            msgController.showSystemMessage(coreMessages.getMessage("core.command.cancel.systemMessage.userIsMe"));
             return;
         }
 
         final Integer id = parseFileTransferId(argsArray[2]);
 
         if (id == null) {
-            msgController.showSystemMessage("/cancel - invalid file id argument: '" + argsArray[2] + "'");
+            msgController.showSystemMessage(coreMessages.getMessage(
+                    "core.command.cancel.systemMessage.invalidFileId", argsArray[2]));
             return;
         }
 
         final FileTransfer fileTransfer = tList.getFileTransfer(user, id);
 
         if (fileTransfer == null) {
-            msgController.showSystemMessage("/cancel - no file transfer with id " + id + " going on with " + nick);
+            msgController.showSystemMessage(coreMessages.getMessage(
+                    "core.command.cancel.systemMessage.noSuchFileIdForUser", id, nick));
             return;
         }
 
@@ -476,7 +480,8 @@ public class CommandParser {
             final FileReceiver fileReceiver = (FileReceiver) fileTransfer;
 
             if (!fileReceiver.isAccepted()) {
-                msgController.showSystemMessage("/cancel - transfer of '" + fileReceiver.getFileName() + "' from " + nick + " has not started yet");
+                msgController.showSystemMessage(coreMessages.getMessage(
+                        "core.command.cancel.systemMessage.notStartedYet", fileReceiver.getFileName(), nick));
                 return;
             }
         }
