@@ -724,7 +724,7 @@ public class CommandParser {
      * @param command The unknown command.
      */
     private void cmdUnknown(final String command) {
-        msgController.showSystemMessage("Unknown command '" + command + "'. Type /help for a list of commands");
+        msgController.showSystemMessage(coreMessages.getMessage("core.command.unknown.systemMessage.unknown", command));
     }
 
     /**
