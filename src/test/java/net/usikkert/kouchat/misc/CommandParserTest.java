@@ -151,21 +151,21 @@ public class CommandParserTest {
     public void rejectShouldReturnIfNoArguments() {
         parser.parse("/reject");
 
-        verify(messageController).showSystemMessage("/reject - wrong number of arguments: <nick> <id>");
+        verify(messageController).showSystemMessage("/reject - missing arguments <nick> <id>");
     }
 
     @Test
     public void rejectShouldReturnIfOneArgument() {
         parser.parse("/reject SomeOne");
 
-        verify(messageController).showSystemMessage("/reject - wrong number of arguments: <nick> <id>");
+        verify(messageController).showSystemMessage("/reject - missing arguments <nick> <id>");
     }
 
     @Test
     public void rejectShouldReturnIfThreeArguments() {
         parser.parse("/reject SomeOne some thing");
 
-        verify(messageController).showSystemMessage("/reject - wrong number of arguments: <nick> <id>");
+        verify(messageController).showSystemMessage("/reject - missing arguments <nick> <id>");
     }
 
     @Test
@@ -248,21 +248,21 @@ public class CommandParserTest {
     public void receiveShouldReturnIfNoArguments() {
         parser.parse("/receive");
 
-        verify(messageController).showSystemMessage("/receive - wrong number of arguments: <nick> <id>");
+        verify(messageController).showSystemMessage("/receive - missing arguments <nick> <id>");
     }
 
     @Test
     public void receiveShouldReturnIfOneArgument() {
         parser.parse("/receive SomeOne");
 
-        verify(messageController).showSystemMessage("/receive - wrong number of arguments: <nick> <id>");
+        verify(messageController).showSystemMessage("/receive - missing arguments <nick> <id>");
     }
 
     @Test
     public void receiveShouldReturnIfThreeArguments() {
         parser.parse("/receive SomeOne some thing");
 
-        verify(messageController).showSystemMessage("/receive - wrong number of arguments: <nick> <id>");
+        verify(messageController).showSystemMessage("/receive - missing arguments <nick> <id>");
     }
 
     @Test
@@ -366,21 +366,21 @@ public class CommandParserTest {
     public void cancelShouldReturnIfNoArguments() {
         parser.parse("/cancel");
 
-        verify(messageController).showSystemMessage("/cancel - wrong number of arguments: <nick> <id>");
+        verify(messageController).showSystemMessage("/cancel - missing arguments <nick> <id>");
     }
 
     @Test
     public void cancelShouldReturnIfOneArgument() {
         parser.parse("/cancel SomeOne");
 
-        verify(messageController).showSystemMessage("/cancel - wrong number of arguments: <nick> <id>");
+        verify(messageController).showSystemMessage("/cancel - missing arguments <nick> <id>");
     }
 
     @Test
     public void cancelShouldReturnIfThreeArguments() {
         parser.parse("/cancel SomeOne some thing");
 
-        verify(messageController).showSystemMessage("/cancel - wrong number of arguments: <nick> <id>");
+        verify(messageController).showSystemMessage("/cancel - missing arguments <nick> <id>");
     }
 
     @Test

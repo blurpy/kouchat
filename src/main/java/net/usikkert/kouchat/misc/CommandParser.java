@@ -386,7 +386,7 @@ public class CommandParser {
         final String[] argsArray = args.split(WHITESPACE);
 
         if (argsArray.length != 3) {
-            msgController.showSystemMessage("/reject - wrong number of arguments: <nick> <id>");
+            msgController.showSystemMessage("/reject - missing arguments <nick> <id>");
             return;
         }
 
@@ -436,7 +436,7 @@ public class CommandParser {
         final String[] argsArray = args.split(WHITESPACE);
 
         if (argsArray.length != 3) {
-            msgController.showSystemMessage("/cancel - wrong number of arguments: <nick> <id>");
+            msgController.showSystemMessage("/cancel - missing arguments <nick> <id>");
             return;
         }
 
