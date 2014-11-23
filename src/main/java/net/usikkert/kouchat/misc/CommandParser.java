@@ -764,8 +764,9 @@ public class CommandParser {
         ui.showTransfer(fileSend);
 
         final String size = Tools.byteToString(file.length());
-        msgController.showSystemMessage("Trying to send the file " +
-                file.getName() + " (#" + fileSend.getId() + ") [" + size + "] to " + user.getNick());
+        msgController.showSystemMessage(coreMessages.getMessage(
+                "core.command.send.systemMessage.sendingFile",
+                file.getName(), fileSend.getId(), size, user.getNick()));
     }
 
     /**
