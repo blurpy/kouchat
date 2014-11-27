@@ -47,4 +47,5 @@ public class NetworkMessageType {
     public static final String SENDFILEABORT = "SENDFILEABORT";
     public static final String SENDFILE = "SENDFILE";
     public static final String CLIENT = "CLIENT";
+    public static final String PRIVMSG = "PRIVMSG";
 }
