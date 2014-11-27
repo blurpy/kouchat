@@ -27,25 +27,25 @@ package net.usikkert.kouchat.net;
  *
  * @author Christian Ihle
  */
-public class NetworkMessageType {
+public interface NetworkMessageType {
 
-    public static final String MSG = "MSG";
-    public static final String LOGON = "LOGON";
-    public static final String EXPOSING = "EXPOSING";
-    public static final String LOGOFF = "LOGOFF";
-    public static final String AWAY = "AWAY";
-    public static final String BACK = "BACK";
-    public static final String EXPOSE = "EXPOSE";
-    public static final String NICKCRASH = "NICKCRASH";
-    public static final String WRITING = "WRITING";
-    public static final String STOPPEDWRITING = "STOPPEDWRITING";
-    public static final String GETTOPIC = "GETTOPIC";
-    public static final String TOPIC = "TOPIC";
-    public static final String NICK = "NICK";
-    public static final String IDLE = "IDLE";
-    public static final String SENDFILEACCEPT = "SENDFILEACCEPT";
-    public static final String SENDFILEABORT = "SENDFILEABORT";
-    public static final String SENDFILE = "SENDFILE";
-    public static final String CLIENT = "CLIENT";
-    public static final String PRIVMSG = "PRIVMSG";
+    String MSG = "MSG";
+    String LOGON = "LOGON";
+    String EXPOSING = "EXPOSING";
+    String LOGOFF = "LOGOFF";
+    String AWAY = "AWAY";
+    String BACK = "BACK";
+    String EXPOSE = "EXPOSE";
+    String NICKCRASH = "NICKCRASH";
+    String WRITING = "WRITING";
+    String STOPPEDWRITING = "STOPPEDWRITING";
+    String GETTOPIC = "GETTOPIC";
+    String TOPIC = "TOPIC";
+    String NICK = "NICK";
+    String IDLE = "IDLE";
+    String SENDFILEACCEPT = "SENDFILEACCEPT";
+    String SENDFILEABORT = "SENDFILEABORT";
+    String SENDFILE = "SENDFILE";
+    String CLIENT = "CLIENT";
+    String PRIVMSG = "PRIVMSG";
 }
