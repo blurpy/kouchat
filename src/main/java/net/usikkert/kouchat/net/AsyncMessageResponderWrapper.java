@@ -133,10 +133,24 @@ public class AsyncMessageResponderWrapper implements MessageResponder {
         messageResponder.userIdle(userCode, ipAddress);
     }
 
+    /**
+     * Receives a file transfer, which may take a long time. Needs to run in a different thread.
+     * Handles unidentified users.
+     */
     @Override
     public void fileSend(final int userCode, final long byteSize, final String fileName,
                          final String user, final int fileHash) {
-        messageResponder.fileSend(userCode, byteSize, fileName, user, fileHash);
+        if (controller.isNewUser(userCode)) {
+            askUserToIdentify(userCode);
+        }
+
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                waitForUserToIdentify(userCode);
+                messageResponder.fileSend(userCode, byteSize, fileName, user, fileHash);
+            }
+        });
     }
 
     @Override

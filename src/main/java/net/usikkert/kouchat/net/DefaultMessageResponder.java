@@ -475,9 +475,6 @@ public class DefaultMessageResponder implements MessageResponder {
      * Asks if the application user wants to receive a file from another user,
      * and if so, starts a server listening for a file transfer.
      *
-     * If the user does not exist in the user list, it's asked to identify
-     * itself first.
-     *
      * @param userCode The unique code of the user who is asking to send a file.
      * @param byteSize The size of the file in bytes.
      * @param fileName The name of the file.
@@ -486,81 +483,70 @@ public class DefaultMessageResponder implements MessageResponder {
      */
     @Override
     public void fileSend(final int userCode, final long byteSize, final String fileName, final String user, final int fileHash) {
-        if (controller.isNewUser(userCode)) {
-            askUserToIdentify(userCode);
+        if (!controller.isNewUser(userCode)) {
+            final String size = Tools.byteToString(byteSize);
+            final User tmpUser = controller.getUser(userCode);
+            final File defaultFile = new File(
+                    System.getProperty("user.home") + System.getProperty("file.separator") + fileName);
+            final FileReceiver fileRes = tList.addFileReceiver(tmpUser, defaultFile, byteSize);
+
+            msgController.showSystemMessage(
+                    user + " is trying to send the file " + fileName + " (#" + fileRes.getId() + ") [" + size + "]");
+
+            if (ui.askFileSave(user, fileName, size)) {
+                ui.showFileSave(fileRes);
+
+                if (fileRes.isAccepted() && !fileRes.isCanceled()) {
+                    ui.showTransfer(fileRes);
+
+                    try {
+                        final int port = fileRes.startServer();
+                        controller.sendFileAccept(tmpUser, port, fileHash, fileName);
+
+                        if (fileRes.transfer()) {
+                            msgController.showSystemMessage("Successfully received " + fileName +
+                                                                    " from " + user + ", and saved as " + fileRes.getFile().getName());
+                        }
+
+                        else {
+                            msgController.showSystemMessage("Failed to receive " + fileName + " from " + user);
+                            fileRes.cancel();
+                        }
+                    }
+
+                    // Failed to start the server
+                    catch (final ServerException e) {
+                        LOG.log(Level.SEVERE, e.toString(), e);
+                        msgController.showSystemMessage("Failed to receive " + fileName + " from " + user);
+                        controller.sendFileAbort(tmpUser, fileHash, fileName);
+                        fileRes.cancel();
+                    }
+
+                    // Failed to send the accept message
+                    catch (final CommandException e) {
+                        msgController.showSystemMessage("Failed to receive " + fileName + " from " + user);
+                        fileRes.cancel();
+                    }
+                }
+
+                else if (!fileRes.isCanceled()) {
+                    msgController.showSystemMessage("You declined to receive " + fileName + " from " + user);
+                    controller.sendFileAbort(tmpUser, fileHash, fileName);
+                }
+
+            }
+
+            else if (!fileRes.isCanceled()) {
+                msgController.showSystemMessage("You declined to receive " + fileName + " from " + user);
+                controller.sendFileAbort(tmpUser, fileHash, fileName);
+            }
+
+            tList.removeFileReceiver(fileRes);
         }
 
-        new Thread("DefaultMessageResponderFileSend") {
-            @Override
-            public void run() {
-                waitForUserToIdentify(userCode);
-
-                if (!controller.isNewUser(userCode)) {
-                    final String size = Tools.byteToString(byteSize);
-                    final User tmpUser = controller.getUser(userCode);
-                    final File defaultFile = new File(
-                            System.getProperty("user.home") + System.getProperty("file.separator") + fileName);
-                    final FileReceiver fileRes = tList.addFileReceiver(tmpUser, defaultFile, byteSize);
-
-                    msgController.showSystemMessage(
-                            user + " is trying to send the file " + fileName + " (#" + fileRes.getId() + ") [" + size + "]");
-
-                    if (ui.askFileSave(user, fileName, size)) {
-                        ui.showFileSave(fileRes);
-
-                        if (fileRes.isAccepted() && !fileRes.isCanceled()) {
-                            ui.showTransfer(fileRes);
-
-                            try {
-                                final int port = fileRes.startServer();
-                                controller.sendFileAccept(tmpUser, port, fileHash, fileName);
-
-                                if (fileRes.transfer()) {
-                                    msgController.showSystemMessage("Successfully received " + fileName +
-                                            " from " + user + ", and saved as " + fileRes.getFile().getName());
-                                }
-
-                                else {
-                                    msgController.showSystemMessage("Failed to receive " + fileName + " from " + user);
-                                    fileRes.cancel();
-                                }
-                            }
-
-                            // Failed to start the server
-                            catch (final ServerException e) {
-                                LOG.log(Level.SEVERE, e.toString(), e);
-                                msgController.showSystemMessage("Failed to receive " + fileName + " from " + user);
-                                controller.sendFileAbort(tmpUser, fileHash, fileName);
-                                fileRes.cancel();
-                            }
-
-                            // Failed to send the accept message
-                            catch (final CommandException e) {
-                                msgController.showSystemMessage("Failed to receive " + fileName + " from " + user);
-                                fileRes.cancel();
-                            }
-                        }
-
-                        else if (!fileRes.isCanceled()) {
-                            msgController.showSystemMessage("You declined to receive " + fileName + " from " + user);
-                            controller.sendFileAbort(tmpUser, fileHash, fileName);
-                        }
-
-                    }
-
-                    else if (!fileRes.isCanceled()) {
-                        msgController.showSystemMessage("You declined to receive " + fileName + " from " + user);
-                        controller.sendFileAbort(tmpUser, fileHash, fileName);
-                    }
-
-                    tList.removeFileReceiver(fileRes);
-                }
-
-                else {
-                    LOG.log(Level.SEVERE, "Could not find user: " + user);
-                }
-            }
-        } .start();
+        else {
+            LOG.log(Level.SEVERE, "Could not find user: " + user);
+        }
     }
 
     /**

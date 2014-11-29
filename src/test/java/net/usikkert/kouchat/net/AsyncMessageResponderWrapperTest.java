@@ -64,7 +64,7 @@ public class AsyncMessageResponderWrapperTest {
         waitingList = mock(WaitingList.class);
         when(controller.getWaitingList()).thenReturn(waitingList);
 
-        wrapper = new AsyncMessageResponderWrapper(messageResponder, controller);
+        wrapper = spy(new AsyncMessageResponderWrapper(messageResponder, controller));
 
         executorService = TestUtils.setFieldValueWithMock(wrapper, "executorService", ExecutorService.class);
         sleeper = TestUtils.setFieldValueWithMock(wrapper, "sleeper", Sleeper.class);
@@ -189,9 +189,36 @@ public class AsyncMessageResponderWrapperTest {
     }
 
     @Test
-    public void fileSendShouldPassThrough() {
+    public void fileSendShouldAskUserToIdentifyIfNewUser() {
+        when(controller.isNewUser(100)).thenReturn(true);
+
         wrapper.fileSend(100, 3000, "fileName", "user", 98765);
 
+        verify(wrapper).askUserToIdentify(100);
+    }
+
+    @Test
+    public void fileSendShouldNotAskUserToIdentifyIfExistingUser() {
+        when(controller.isNewUser(100)).thenReturn(false);
+
+        wrapper.fileSend(100, 3000, "fileName", "user", 98765);
+
+        verify(wrapper, never()).askUserToIdentify(anyInt());
+    }
+
+    @Test
+    public void fileSendShouldWaitForUserToIdentifyAndPassThroughUsingExecutor() {
+        wrapper.fileSend(100, 3000, "fileName", "user", 98765);
+
+        final ArgumentCaptor<Runnable> runnableCaptor = ArgumentCaptor.forClass(Runnable.class);
+
+        verifyZeroInteractions(messageResponder);
+        verify(wrapper, never()).waitForUserToIdentify(anyInt());
+
+        verify(executorService).execute(runnableCaptor.capture());
+        runnableCaptor.getValue().run();
+
+        verify(wrapper).waitForUserToIdentify(100);
         verify(messageResponder).fileSend(100, 3000, "fileName", "user", 98765);
     }
 
