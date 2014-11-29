@@ -30,13 +30,13 @@ import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.WaitingList;
-import net.usikkert.kouchat.ui.swing.RunArgumentAnswer;
 import net.usikkert.kouchat.util.Sleeper;
 import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 /**
  * Test of {@link AsyncMessageResponderWrapper}.
@@ -68,8 +68,6 @@ public class AsyncMessageResponderWrapperTest {
 
         executorService = TestUtils.setFieldValueWithMock(wrapper, "executorService", ExecutorService.class);
         sleeper = TestUtils.setFieldValueWithMock(wrapper, "sleeper", Sleeper.class);
-
-        doAnswer(new RunArgumentAnswer()).when(executorService).execute(any(Runnable.class));
     }
 
     @Test
@@ -205,11 +203,17 @@ public class AsyncMessageResponderWrapperTest {
     }
 
     @Test
-    public void fileSendAcceptedShouldPassThroughAsync() {
+    public void fileSendAcceptedShouldPassThroughUsingExecutor() {
         wrapper.fileSendAccepted(100, "fileName", 98765, 1050);
 
+        final ArgumentCaptor<Runnable> runnableCaptor = ArgumentCaptor.forClass(Runnable.class);
+
+        verifyZeroInteractions(messageResponder);
+
+        verify(executorService).execute(runnableCaptor.capture());
+        runnableCaptor.getValue().run();
+
         verify(messageResponder).fileSendAccepted(100, "fileName", 98765, 1050);
-        verify(executorService).execute(any(Runnable.class));
     }
 
     @Test
@@ -246,5 +250,15 @@ public class AsyncMessageResponderWrapperTest {
 
         verify(sleeper, times(3)).sleep(50);
         verify(waitingList, times(4)).isWaitingUser(100);
+    }
+
+    @Test
+    public void waitForUserToIdentifyShouldNeverSleepIfUserIsIdentified() {
+        when(waitingList.isWaitingUser(100)).thenReturn(false);
+
+        wrapper.waitForUserToIdentify(100);
+
+        verifyZeroInteractions(sleeper);
+        verify(waitingList).isWaitingUser(100);
     }
 }
