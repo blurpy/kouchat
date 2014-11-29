@@ -87,9 +87,41 @@ public class AsyncMessageResponderWrapperTest {
     }
 
     @Test
-    public void messageArrivedShouldPassThrough() {
+    public void messageArrivedShouldPassThroughAndNeverAskOrWaitIfExistingUser() {
+        when(controller.isNewUser(100)).thenReturn(false);
+
         wrapper.messageArrived(100, "msg", 200);
 
+        verify(messageResponder).messageArrived(100, "msg", 200);
+        verifyZeroInteractions(executorService);
+        verify(wrapper, never()).askUserToIdentify(anyInt());
+        verify(wrapper, never()).waitForUserToIdentify(anyInt());
+    }
+
+    @Test
+    public void messageArrivedShouldAskUserToIdentifyIfNewUser() {
+        when(controller.isNewUser(100)).thenReturn(true);
+
+        wrapper.messageArrived(100, "msg", 200);
+
+        verify(wrapper).askUserToIdentify(100);
+    }
+
+    @Test
+    public void messageArrivedShouldWaitForUserToIdentifyAndPassThroughUsingExecutorIfNewUser() {
+        when(controller.isNewUser(100)).thenReturn(true);
+
+        wrapper.messageArrived(100, "msg", 200);
+
+        final ArgumentCaptor<Runnable> runnableCaptor = ArgumentCaptor.forClass(Runnable.class);
+
+        verifyZeroInteractions(messageResponder);
+        verify(wrapper, never()).waitForUserToIdentify(anyInt());
+
+        verify(executorService).execute(runnableCaptor.capture());
+        runnableCaptor.getValue().run();
+
+        verify(wrapper).waitForUserToIdentify(100);
         verify(messageResponder).messageArrived(100, "msg", 200);
     }
 

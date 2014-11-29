@@ -63,9 +63,28 @@ public class AsyncMessageResponderWrapper implements MessageResponder {
         this.waitingList = controller.getWaitingList();
     }
 
+    /**
+     * Shows a message. If the user that sent the message does not yet exist in the user list,
+     * the user is asked to identify itself before the message is shown.
+     */
     @Override
     public void messageArrived(final int userCode, final String msg, final int color) {
-        messageResponder.messageArrived(userCode, msg, color);
+        // A little hack to stop messages from showing before the user is logged on
+        if (controller.isNewUser(userCode)) {
+            askUserToIdentify(userCode);
+
+            executorService.execute(new Runnable() {
+                @Override
+                public void run() {
+                    waitForUserToIdentify(userCode);
+                    messageResponder.messageArrived(userCode, msg, color);
+                }
+            });
+        }
+
+        else {
+            messageResponder.messageArrived(userCode, msg, color);
+        }
     }
 
     @Override

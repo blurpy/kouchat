@@ -86,8 +86,6 @@ public class DefaultMessageResponder implements MessageResponder {
 
     /**
      * Shows a message from a user in the user interface.
-     * If the user that sent the message does not yet exist in the user list,
-     * the user is asked to identify itself before the message is shown.
      *
      * @param userCode The unique code of the user who sent the message.
      * @param msg The message.
@@ -95,43 +93,23 @@ public class DefaultMessageResponder implements MessageResponder {
      */
     @Override
     public void messageArrived(final int userCode, final String msg, final int color) {
-        // A little hack to stop messages from showing before the user is logged on
-        final Thread t = new Thread("DefaultMessageResponderMessageArrived") {
-            @Override
-            public void run() {
-                if (isAlive()) {
-                    waitForUserToIdentify(userCode);
+        if (!controller.isNewUser(userCode)) {
+            final User user = controller.getUser(userCode);
+
+            if (!user.isAway()) {
+                msgController.showUserMessage(user.getNick(), msg, color);
+
+                // Visible but not in front
+                if (ui.isVisible() && !ui.isFocused()) {
+                    me.setNewMsg(true);
                 }
 
-                if (!controller.isNewUser(userCode)) {
-                    final User user = controller.getUser(userCode);
-
-                    if (!user.isAway()) {
-                        msgController.showUserMessage(user.getNick(), msg, color);
-
-                        // Visible but not in front
-                        if (ui.isVisible() && !ui.isFocused()) {
-                            me.setNewMsg(true);
-                        }
-
-                        ui.notifyMessageArrived(user);
-                    }
-                }
-
-                else {
-                    LOG.log(Level.SEVERE, "Could not find user: " + userCode);
-                }
+                ui.notifyMessageArrived(user);
             }
-        };
-
-        if (controller.isNewUser(userCode)) {
-            askUserToIdentify(userCode);
-
-            t.start();
         }
 
         else {
-            t.run();
+            LOG.log(Level.SEVERE, "Could not find user: " + userCode);
         }
     }
 
