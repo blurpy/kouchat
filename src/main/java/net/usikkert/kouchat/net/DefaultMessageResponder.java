@@ -100,12 +100,7 @@ public class DefaultMessageResponder implements MessageResponder {
             @Override
             public void run() {
                 if (isAlive()) {
-                    int counter = 0;
-
-                    while (wList.isWaitingUser(userCode) && counter < 40) {
-                        counter++;
-                        sleeper.sleep(50);
-                    }
+                    waitForUserToIdentify(userCode);
                 }
 
                 if (!controller.isNewUser(userCode)) {
@@ -130,9 +125,7 @@ public class DefaultMessageResponder implements MessageResponder {
         };
 
         if (controller.isNewUser(userCode)) {
-            wList.addWaitingUser(userCode);
-            controller.sendExposeMessage();
-            controller.sendGetTopicMessage();
+            askUserToIdentify(userCode);
 
             t.start();
         }
@@ -222,9 +215,7 @@ public class DefaultMessageResponder implements MessageResponder {
     @Override
     public void topicChanged(final int userCode, final String newTopic, final String nick, final long time) {
         if (controller.isNewUser(userCode)) {
-            wList.addWaitingUser(userCode);
-            controller.sendExposeMessage();
-            controller.sendGetTopicMessage();
+            askUserToIdentify(userCode);
         }
 
         else {
@@ -349,9 +340,7 @@ public class DefaultMessageResponder implements MessageResponder {
     @Override
     public void awayChanged(final int userCode, final boolean away, final String awayMsg) {
         if (controller.isNewUser(userCode)) {
-            wList.addWaitingUser(userCode);
-            controller.sendExposeMessage();
-            controller.sendGetTopicMessage();
+            askUserToIdentify(userCode);
         }
 
         else {
@@ -408,9 +397,7 @@ public class DefaultMessageResponder implements MessageResponder {
     @Override
     public void userIdle(final int userCode, final String ipAddress) {
         if (controller.isNewUser(userCode)) {
-            wList.addWaitingUser(userCode);
-            controller.sendExposeMessage();
-            controller.sendGetTopicMessage();
+            askUserToIdentify(userCode);
         }
 
         else {
@@ -461,9 +448,7 @@ public class DefaultMessageResponder implements MessageResponder {
     @Override
     public void nickChanged(final int userCode, final String newNick) {
         if (controller.isNewUser(userCode)) {
-            wList.addWaitingUser(userCode);
-            controller.sendExposeMessage();
-            controller.sendGetTopicMessage();
+            askUserToIdentify(userCode);
         }
 
         else {
@@ -502,20 +487,13 @@ public class DefaultMessageResponder implements MessageResponder {
     @Override
     public void fileSend(final int userCode, final long byteSize, final String fileName, final String user, final int fileHash) {
         if (controller.isNewUser(userCode)) {
-            wList.addWaitingUser(userCode);
-            controller.sendExposeMessage();
-            controller.sendGetTopicMessage();
+            askUserToIdentify(userCode);
         }
 
         new Thread("DefaultMessageResponderFileSend") {
             @Override
             public void run() {
-                int counter = 0;
-
-                while (wList.isWaitingUser(userCode) && counter < 40) {
-                    counter++;
-                    sleeper.sleep(50);
-                }
+                waitForUserToIdentify(userCode);
 
                 if (!controller.isNewUser(userCode)) {
                     final String size = Tools.byteToString(byteSize);
@@ -667,6 +645,21 @@ public class DefaultMessageResponder implements MessageResponder {
 
         else {
             LOG.log(Level.SEVERE, "Could not find user: " + userCode);
+        }
+    }
+
+    private void askUserToIdentify(final int userCode) {
+        wList.addWaitingUser(userCode);
+        controller.sendExposeMessage();
+        controller.sendGetTopicMessage();
+    }
+
+    private void waitForUserToIdentify(final int userCode) {
+        int counter = 0;
+
+        while (wList.isWaitingUser(userCode) && counter < 40) {
+            counter++;
+            sleeper.sleep(50);
         }
     }
 }
