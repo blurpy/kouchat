@@ -36,6 +36,8 @@ import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.WaitingList;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.UserInterface;
+import net.usikkert.kouchat.util.DateTools;
+import net.usikkert.kouchat.util.Sleeper;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
@@ -49,6 +51,8 @@ public class DefaultMessageResponder implements MessageResponder {
     private static final Logger LOG = Logger.getLogger(DefaultMessageResponder.class.getName());
 
     private final NetworkUtils networkUtils = new NetworkUtils();
+    private final Sleeper sleeper = new Sleeper();
+    private final DateTools dateTools = new DateTools();
 
     private final Controller controller;
     private final User me;
@@ -100,7 +104,7 @@ public class DefaultMessageResponder implements MessageResponder {
 
                     while (wList.isWaitingUser(userCode) && counter < 40) {
                         counter++;
-                        Tools.sleep(50);
+                        sleeper.sleep(50);
                     }
                 }
 
@@ -235,7 +239,7 @@ public class DefaultMessageResponder implements MessageResponder {
 
                         // Shown during startup.
                         else {
-                            final String date = Tools.dateToString(new Date(time), "HH:mm:ss, dd. MMM. yy");
+                            final String date = dateTools.dateToString(new Date(time), "HH:mm:ss, dd. MMM. yy");
                             msgController.showSystemMessage("Topic is: " + newTopic + " (set by " + nick + " at " + date + ")");
                         }
 
@@ -510,7 +514,7 @@ public class DefaultMessageResponder implements MessageResponder {
 
                 while (wList.isWaitingUser(userCode) && counter < 40) {
                     counter++;
-                    Tools.sleep(50);
+                    sleeper.sleep(50);
                 }
 
                 if (!controller.isNewUser(userCode)) {
@@ -630,7 +634,7 @@ public class DefaultMessageResponder implements MessageResponder {
                     msgController.showSystemMessage(user.getNick() + " accepted sending of " + fileName);
 
                     // Give the server some time to set up the connection first
-                    Tools.sleep(200);
+                    sleeper.sleep(200);
 
                     if (fileSend.transfer(port)) {
                         msgController.showSystemMessage(fileName + " successfully sent to " + user.getNick());
