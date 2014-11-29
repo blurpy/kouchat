@@ -24,8 +24,12 @@ package net.usikkert.kouchat.net;
 
 import static org.mockito.Mockito.*;
 
+import java.util.concurrent.ExecutorService;
+
 import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.misc.User;
+import net.usikkert.kouchat.ui.swing.RunArgumentAnswer;
+import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -45,12 +49,17 @@ public class AsyncMessageResponderWrapperTest {
     private AsyncMessageResponderWrapper wrapper;
 
     private MessageResponder messageResponder;
+    private ExecutorService executorService;
 
     @Before
     public void setUp() {
         messageResponder = mock(MessageResponder.class);
 
         wrapper = new AsyncMessageResponderWrapper(messageResponder);
+
+        executorService = TestUtils.setFieldValueWithMock(wrapper, "executorService", ExecutorService.class);
+
+        doAnswer(new RunArgumentAnswer()).when(executorService).execute(any(Runnable.class));
     }
 
     @Test
@@ -178,10 +187,11 @@ public class AsyncMessageResponderWrapperTest {
     }
 
     @Test
-    public void fileSendAcceptedShouldPassThrough() {
+    public void fileSendAcceptedShouldPassThroughAsync() {
         wrapper.fileSendAccepted(100, "fileName", 98765, 1050);
 
         verify(messageResponder).fileSendAccepted(100, "fileName", 98765, 1050);
+        verify(executorService).execute(any(Runnable.class));
     }
 
     @Test

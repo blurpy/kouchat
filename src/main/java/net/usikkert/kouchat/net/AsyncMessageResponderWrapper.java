@@ -22,6 +22,9 @@
 
 package net.usikkert.kouchat.net;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.util.Validate;
 
@@ -29,16 +32,26 @@ import net.usikkert.kouchat.util.Validate;
  * Wrapper around a real {@link MessageResponder} that handles operations that need to be async and
  * operations from unknown users.
  *
+ * <p>As a rule, all operations are handled by a single thread, to keep the order they arrive.
+ * Some operations need to wait for a response, and must therefore be handled by a new thread to
+ * avoid locking other operations.</p>
+ *
+ * <p>Some operations handles users appearing unexpectedly, from a timeout, or because of packet loss.
+ * Those will add the user to a waiting list, ask the user to identify, and then wait for it to happen,
+ * before continuing.</p>
+ *
  * @author Christian Ihle
  */
 public class AsyncMessageResponderWrapper implements MessageResponder {
 
     private final MessageResponder messageResponder;
+    private final ExecutorService executorService;
 
     public AsyncMessageResponderWrapper(final MessageResponder messageResponder) {
         Validate.notNull(messageResponder, "MessageResponder can not be null");
 
         this.messageResponder = messageResponder;
+        this.executorService = Executors.newCachedThreadPool();
     }
 
     @Override
@@ -122,9 +135,18 @@ public class AsyncMessageResponderWrapper implements MessageResponder {
         messageResponder.fileSendAborted(userCode, fileName, fileHash);
     }
 
+    /**
+     * Does the actual file transfer to the other user, which may take a long time. Needs to run
+     * in a different thread.
+     */
     @Override
     public void fileSendAccepted(final int userCode, final String fileName, final int fileHash, final int port) {
-        messageResponder.fileSendAccepted(userCode, fileName, fileHash, port);
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                messageResponder.fileSendAccepted(userCode, fileName, fileHash, port);
+            }
+        });
     }
 
     @Override

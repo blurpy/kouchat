@@ -624,30 +624,25 @@ public class DefaultMessageResponder implements MessageResponder {
      */
     @Override
     public void fileSendAccepted(final int userCode, final String fileName, final int fileHash, final int port) {
-        new Thread("DefaultMessageResponderFileSendAccepted") {
-            @Override
-            public void run() {
-                final User user = controller.getUser(userCode);
-                final FileSender fileSend = tList.getFileSender(user, fileName, fileHash);
+        final User user = controller.getUser(userCode);
+        final FileSender fileSend = tList.getFileSender(user, fileName, fileHash);
 
-                if (fileSend != null) {
-                    msgController.showSystemMessage(user.getNick() + " accepted sending of " + fileName);
+        if (fileSend != null) {
+            msgController.showSystemMessage(user.getNick() + " accepted sending of " + fileName);
 
-                    // Give the server some time to set up the connection first
-                    sleeper.sleep(200);
+            // Give the server some time to set up the connection first
+            sleeper.sleep(200);
 
-                    if (fileSend.transfer(port)) {
-                        msgController.showSystemMessage(fileName + " successfully sent to " + user.getNick());
-                    }
-
-                    else {
-                        msgController.showSystemMessage("Failed to send " + fileName + " to " + user.getNick());
-                    }
-
-                    tList.removeFileSender(fileSend);
-                }
+            if (fileSend.transfer(port)) {
+                msgController.showSystemMessage(fileName + " successfully sent to " + user.getNick());
             }
-        } .start();
+
+            else {
+                msgController.showSystemMessage("Failed to send " + fileName + " to " + user.getNick());
+            }
+
+            tList.removeFileSender(fileSend);
+        }
     }
 
     /**
