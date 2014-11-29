@@ -164,12 +164,21 @@ public class AsyncMessageResponderWrapper implements MessageResponder {
         messageResponder.clientInfo(userCode, client, timeSinceLogon, operatingSystem, privateChatPort);
     }
 
+    /**
+     * Asks user with the specified userCode to identify with {@link #userExposing(User)}.
+     * Adds user to waiting list so we know this user sent a message without being known,
+     * and also so we can wait for this user to identify before continuing an operation.
+     */
     void askUserToIdentify(final int userCode) {
         waitingList.addWaitingUser(userCode);
         controller.sendExposeMessage();
         controller.sendGetTopicMessage();
     }
 
+    /**
+     * Waits for user with the specified userCode to identify in {@link #userExposing(User)}.
+     * Gives up after 2 seconds.
+     */
     void waitForUserToIdentify(final int userCode) {
         int counter = 0;
 
