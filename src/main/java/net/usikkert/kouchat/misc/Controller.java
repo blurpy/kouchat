@@ -132,7 +132,7 @@ public class Controller implements NetworkConnectionListener {
         dayTimer = new DayTimer(ui);
         networkService = new NetworkService(settings, errorHandler);
         final MessageResponder msgResponder = new DefaultMessageResponder(this, ui, settings);
-        final AsyncMessageResponderWrapper msgResponderWrapper = new AsyncMessageResponderWrapper(msgResponder);
+        final AsyncMessageResponderWrapper msgResponderWrapper = new AsyncMessageResponderWrapper(msgResponder, this);
         final PrivateMessageResponder privmsgResponder = new DefaultPrivateMessageResponder(this, ui, settings);
         final MessageParser msgParser = new MessageParser(msgResponderWrapper, settings);
         networkService.registerMessageReceiverListener(msgParser);

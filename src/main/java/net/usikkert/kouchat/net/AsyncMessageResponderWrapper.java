@@ -25,7 +25,10 @@ package net.usikkert.kouchat.net;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.User;
+import net.usikkert.kouchat.misc.WaitingList;
+import net.usikkert.kouchat.util.Sleeper;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -44,14 +47,20 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class AsyncMessageResponderWrapper implements MessageResponder {
 
-    private final MessageResponder messageResponder;
-    private final ExecutorService executorService;
+    private final Sleeper sleeper = new Sleeper();
+    private final ExecutorService executorService = Executors.newCachedThreadPool();
 
-    public AsyncMessageResponderWrapper(final MessageResponder messageResponder) {
+    private final MessageResponder messageResponder;
+    private final Controller controller;
+    private final WaitingList waitingList;
+
+    public AsyncMessageResponderWrapper(final MessageResponder messageResponder, final Controller controller) {
         Validate.notNull(messageResponder, "MessageResponder can not be null");
+        Validate.notNull(controller, "Controller can not be null");
 
         this.messageResponder = messageResponder;
-        this.executorService = Executors.newCachedThreadPool();
+        this.controller = controller;
+        this.waitingList = controller.getWaitingList();
     }
 
     @Override
@@ -153,5 +162,20 @@ public class AsyncMessageResponderWrapper implements MessageResponder {
     public void clientInfo(final int userCode, final String client, final long timeSinceLogon,
                            final String operatingSystem, final int privateChatPort) {
         messageResponder.clientInfo(userCode, client, timeSinceLogon, operatingSystem, privateChatPort);
+    }
+
+    void askUserToIdentify(final int userCode) {
+        waitingList.addWaitingUser(userCode);
+        controller.sendExposeMessage();
+        controller.sendGetTopicMessage();
+    }
+
+    void waitForUserToIdentify(final int userCode) {
+        int counter = 0;
+
+        while (waitingList.isWaitingUser(userCode) && counter < 40) {
+            counter++;
+            sleeper.sleep(50);
+        }
     }
 }

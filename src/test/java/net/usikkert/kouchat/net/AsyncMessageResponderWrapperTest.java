@@ -27,8 +27,11 @@ import static org.mockito.Mockito.*;
 import java.util.concurrent.ExecutorService;
 
 import net.usikkert.kouchat.junit.ExpectedException;
+import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.User;
+import net.usikkert.kouchat.misc.WaitingList;
 import net.usikkert.kouchat.ui.swing.RunArgumentAnswer;
+import net.usikkert.kouchat.util.Sleeper;
 import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.Before;
@@ -49,15 +52,22 @@ public class AsyncMessageResponderWrapperTest {
     private AsyncMessageResponderWrapper wrapper;
 
     private MessageResponder messageResponder;
+    private Controller controller;
     private ExecutorService executorService;
+    private Sleeper sleeper;
+    private WaitingList waitingList;
 
     @Before
     public void setUp() {
         messageResponder = mock(MessageResponder.class);
+        controller = mock(Controller.class);
+        waitingList = mock(WaitingList.class);
+        when(controller.getWaitingList()).thenReturn(waitingList);
 
-        wrapper = new AsyncMessageResponderWrapper(messageResponder);
+        wrapper = new AsyncMessageResponderWrapper(messageResponder, controller);
 
         executorService = TestUtils.setFieldValueWithMock(wrapper, "executorService", ExecutorService.class);
+        sleeper = TestUtils.setFieldValueWithMock(wrapper, "sleeper", Sleeper.class);
 
         doAnswer(new RunArgumentAnswer()).when(executorService).execute(any(Runnable.class));
     }
@@ -67,7 +77,15 @@ public class AsyncMessageResponderWrapperTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("MessageResponder can not be null");
 
-        new AsyncMessageResponderWrapper(null);
+        new AsyncMessageResponderWrapper(null, controller);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfControllerIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Controller can not be null");
+
+        new AsyncMessageResponderWrapper(messageResponder, null);
     }
 
     @Test
@@ -199,5 +217,34 @@ public class AsyncMessageResponderWrapperTest {
         wrapper.clientInfo(100, "client", 70000, "os", 4500);
 
         verify(messageResponder).clientInfo(100, "client", 70000, "os", 4500);
+    }
+
+    @Test
+    public void askUserToIdentifyShouldAddWaitingUserAndExposeAndGetTopic() {
+        wrapper.askUserToIdentify(100);
+
+        verify(waitingList).addWaitingUser(100);
+        verify(controller).sendExposeMessage();
+        verify(controller).sendGetTopicMessage();
+    }
+
+    @Test
+    public void waitForUserToIdentifyShouldAbortAfter40SleepsIfUserNeverIdentifies() {
+        when(waitingList.isWaitingUser(100)).thenReturn(true);
+
+        wrapper.waitForUserToIdentify(100);
+
+        verify(sleeper, times(40)).sleep(50);
+        verify(waitingList, times(41)).isWaitingUser(100);
+    }
+
+    @Test
+    public void waitForUserToIdentifyShouldAbortWhenUserHasIdentified() {
+        when(waitingList.isWaitingUser(100)).thenReturn(true, true, true, false);
+
+        wrapper.waitForUserToIdentify(100);
+
+        verify(sleeper, times(3)).sleep(50);
+        verify(waitingList, times(4)).isWaitingUser(100);
     }
 }
