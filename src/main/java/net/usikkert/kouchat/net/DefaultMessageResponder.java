@@ -425,27 +425,26 @@ public class DefaultMessageResponder implements MessageResponder {
      */
     @Override
     public void nickChanged(final int userCode, final String newNick) {
-        if (controller.isNewUser(userCode)) {
-            askUserToIdentify(userCode);
+        final User user = controller.getUser(userCode);
+
+        if (user == null) {
+            LOG.log(Level.SEVERE, "Could not find user: " + userCode);
+            return;
+        }
+
+        if (!controller.isNickInUse(newNick) && Tools.isValidNick(newNick)) {
+            final String oldNick = user.getNick();
+            controller.changeNick(userCode, newNick);
+            msgController.showSystemMessage(oldNick + " changed nick to " + newNick);
+
+            if (user.getPrivchat() != null) {
+                msgController.showPrivateSystemMessage(user, oldNick + " changed nick to " + user.getNick());
+                user.getPrivchat().updateUserInformation();
+            }
         }
 
         else {
-            final User user = controller.getUser(userCode);
-
-            if (!controller.isNickInUse(newNick) && Tools.isValidNick(newNick)) {
-                final String oldNick = user.getNick();
-                controller.changeNick(userCode, newNick);
-                msgController.showSystemMessage(oldNick + " changed nick to " + newNick);
-
-                if (user.getPrivchat() != null) {
-                    msgController.showPrivateSystemMessage(user, oldNick + " changed nick to " + user.getNick());
-                    user.getPrivchat().updateUserInformation();
-                }
-            }
-
-            else {
-                LOG.log(Level.SEVERE, user.getNick() + " tried to change nick to '" + newNick + "', which is invalid");
-            }
+            LOG.log(Level.SEVERE, user.getNick() + " tried to change nick to '" + newNick + "', which is invalid");
         }
     }
 

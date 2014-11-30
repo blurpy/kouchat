@@ -111,9 +111,18 @@ public class AsyncMessageResponderWrapper implements MessageResponder {
         }
     }
 
+    /**
+     * User changed nick name. Asked to identify instead, if unknown.
+     */
     @Override
     public void nickChanged(final int userCode, final String newNick) {
-        messageResponder.nickChanged(userCode, newNick);
+        if (controller.isNewUser(userCode)) {
+            askUserToIdentify(userCode);
+        }
+
+        else {
+            messageResponder.nickChanged(userCode, newNick);
+        }
     }
 
     @Override

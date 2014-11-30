@@ -160,10 +160,23 @@ public class AsyncMessageResponderWrapperTest {
     }
 
     @Test
-    public void nickChangedShouldPassThrough() {
+    public void nickChangedShouldPassThroughIfExistingUser() {
+        when(controller.isNewUser(100)).thenReturn(false);
+
         wrapper.nickChanged(100, "newNick");
 
+        verify(wrapper, never()).askUserToIdentify(anyInt());
         verify(messageResponder).nickChanged(100, "newNick");
+    }
+
+    @Test
+    public void nickChangedShouldAskUserToIdentifyIfNewUser() {
+        when(controller.isNewUser(100)).thenReturn(true);
+
+        wrapper.nickChanged(100, "newNick");
+
+        verify(wrapper).askUserToIdentify(100);
+        verify(messageResponder, never()).nickChanged(anyInt(), anyString());
     }
 
     @Test
