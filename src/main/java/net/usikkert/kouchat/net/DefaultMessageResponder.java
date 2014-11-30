@@ -24,8 +24,6 @@ package net.usikkert.kouchat.net;
 
 import java.io.File;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import net.usikkert.kouchat.misc.ChatState;
 import net.usikkert.kouchat.misc.CommandException;
@@ -37,6 +35,7 @@ import net.usikkert.kouchat.misc.WaitingList;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.UserInterface;
 import net.usikkert.kouchat.util.DateTools;
+import net.usikkert.kouchat.util.Logger;
 import net.usikkert.kouchat.util.Sleeper;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
@@ -48,7 +47,7 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class DefaultMessageResponder implements MessageResponder {
 
-    private static final Logger LOG = Logger.getLogger(DefaultMessageResponder.class.getName());
+    private static final Logger LOG = Logger.getLogger(DefaultMessageResponder.class);
 
     private final NetworkUtils networkUtils = new NetworkUtils();
     private final Sleeper sleeper = new Sleeper();
@@ -109,7 +108,7 @@ public class DefaultMessageResponder implements MessageResponder {
         }
 
         else {
-            LOG.log(Level.SEVERE, "Could not find user: " + userCode);
+            LOG.severe("Could not find user: " + userCode);
         }
     }
 
@@ -314,7 +313,7 @@ public class DefaultMessageResponder implements MessageResponder {
         final User user = controller.getUser(userCode);
 
         if (user == null) {
-            LOG.log(Level.SEVERE, "Could not find user: " + userCode);
+            LOG.severe("Could not find user: " + userCode);
             return;
         }
 
@@ -339,7 +338,7 @@ public class DefaultMessageResponder implements MessageResponder {
         }
 
         catch (final CommandException e) {
-            LOG.log(Level.SEVERE, "Something very strange going on here...\n" + e);
+            LOG.severe("Something very strange going on here...\n" + e);
         }
     }
 
@@ -371,7 +370,7 @@ public class DefaultMessageResponder implements MessageResponder {
         final User user = controller.getUser(userCode);
 
         if (user == null) {
-            LOG.log(Level.SEVERE, "Could not find user: " + userCode);
+            LOG.severe("Could not find user: " + userCode);
             return;
         }
 
@@ -422,7 +421,7 @@ public class DefaultMessageResponder implements MessageResponder {
         final User user = controller.getUser(userCode);
 
         if (user == null) {
-            LOG.log(Level.SEVERE, "Could not find user: " + userCode);
+            LOG.severe("Could not find user: " + userCode);
             return;
         }
 
@@ -438,7 +437,7 @@ public class DefaultMessageResponder implements MessageResponder {
         }
 
         else {
-            LOG.log(Level.SEVERE, user.getNick() + " tried to change nick to '" + newNick + "', which is invalid");
+            LOG.severe(user.getNick() + " tried to change nick to '" + newNick + "', which is invalid");
         }
     }
 
@@ -487,7 +486,7 @@ public class DefaultMessageResponder implements MessageResponder {
 
                     // Failed to start the server
                     catch (final ServerException e) {
-                        LOG.log(Level.SEVERE, e.toString(), e);
+                        LOG.severe(e, e.toString());
                         msgController.showSystemMessage("Failed to receive " + fileName + " from " + user);
                         controller.sendFileAbort(tmpUser, fileHash, fileName);
                         fileRes.cancel();
@@ -516,7 +515,7 @@ public class DefaultMessageResponder implements MessageResponder {
         }
 
         else {
-            LOG.log(Level.SEVERE, "Could not find user: " + user);
+            LOG.severe("Could not find user: " + user);
         }
     }
 
@@ -602,7 +601,7 @@ public class DefaultMessageResponder implements MessageResponder {
         }
 
         else {
-            LOG.log(Level.SEVERE, "Could not find user: " + userCode);
+            LOG.severe("Could not find user: " + userCode);
         }
     }
 }
