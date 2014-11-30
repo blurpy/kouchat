@@ -374,18 +374,18 @@ public class DefaultMessageResponder implements MessageResponder {
      */
     @Override
     public void userIdle(final int userCode, final String ipAddress) {
-        if (controller.isNewUser(userCode)) {
-            askUserToIdentify(userCode);
+        final User user = controller.getUser(userCode);
+
+        if (user == null) {
+            LOG.log(Level.SEVERE, "Could not find user: " + userCode);
+            return;
         }
 
-        else {
-            final User user = controller.getUser(userCode);
-            user.setLastIdle(System.currentTimeMillis());
+        user.setLastIdle(System.currentTimeMillis());
 
-            if (!user.getIpAddress().equals(ipAddress)) {
-                msgController.showSystemMessage(user.getNick() + " changed ip from " + user.getIpAddress() + " to " + ipAddress);
-                user.setIpAddress(ipAddress);
-            }
+        if (!user.getIpAddress().equals(ipAddress)) {
+            msgController.showSystemMessage(user.getNick() + " changed ip from " + user.getIpAddress() + " to " + ipAddress);
+            user.setIpAddress(ipAddress);
         }
     }
 

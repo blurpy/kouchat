@@ -147,9 +147,18 @@ public class AsyncMessageResponderWrapper implements MessageResponder {
         messageResponder.meIdle(ipAddress);
     }
 
+    /**
+     * User reports to be idle. Asked to identify instead, if unknown.
+     */
     @Override
     public void userIdle(final int userCode, final String ipAddress) {
-        messageResponder.userIdle(userCode, ipAddress);
+        if (controller.isNewUser(userCode)) {
+            askUserToIdentify(userCode);
+        }
+
+        else {
+            messageResponder.userIdle(userCode, ipAddress);
+        }
     }
 
     /**

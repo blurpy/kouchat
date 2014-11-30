@@ -214,10 +214,23 @@ public class AsyncMessageResponderWrapperTest {
     }
 
     @Test
-    public void userIdleShouldPassThrough() {
+    public void userIdleShouldPassThroughIfExistingUser() {
+        when(controller.isNewUser(100)).thenReturn(false);
+
         wrapper.userIdle(100, "ipAddress");
 
+        verify(wrapper, never()).askUserToIdentify(anyInt());
         verify(messageResponder).userIdle(100, "ipAddress");
+    }
+
+    @Test
+    public void userIdleShouldAskUserToIdentifyIfNewUser() {
+        when(controller.isNewUser(100)).thenReturn(true);
+
+        wrapper.userIdle(100, "ipAddress");
+
+        verify(wrapper).askUserToIdentify(100);
+        verify(messageResponder, never()).userIdle(anyInt(), anyString());
     }
 
     @Test
