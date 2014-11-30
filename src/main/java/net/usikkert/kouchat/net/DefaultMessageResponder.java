@@ -192,37 +192,31 @@ public class DefaultMessageResponder implements MessageResponder {
      */
     @Override
     public void topicChanged(final int userCode, final String newTopic, final String nick, final long time) {
-        if (controller.isNewUser(userCode)) {
-            askUserToIdentify(userCode);
-        }
+        if (time > 0 && nick.length() > 0) {
+            final Topic topic = controller.getTopic();
 
-        else {
-            if (time > 0 && nick.length() > 0) {
-                final Topic topic = controller.getTopic();
-
-                if (newTopic != null) {
-                    if (!newTopic.equals(topic.getTopic()) && time > topic.getTime()) {
-                        if (chatState.isLogonCompleted()) {
-                            msgController.showSystemMessage(nick + " changed the topic to: " + newTopic);
-                        }
-
-                        // Shown during startup.
-                        else {
-                            final String date = dateTools.dateToString(new Date(time), "HH:mm:ss, dd. MMM. yy");
-                            msgController.showSystemMessage("Topic is: " + newTopic + " (set by " + nick + " at " + date + ")");
-                        }
-
-                        topic.changeTopic(newTopic, nick, time);
-                        ui.showTopic();
+            if (newTopic != null) {
+                if (!newTopic.equals(topic.getTopic()) && time > topic.getTime()) {
+                    if (chatState.isLogonCompleted()) {
+                        msgController.showSystemMessage(nick + " changed the topic to: " + newTopic);
                     }
+
+                    // Shown during startup.
+                    else {
+                        final String date = dateTools.dateToString(new Date(time), "HH:mm:ss, dd. MMM. yy");
+                        msgController.showSystemMessage("Topic is: " + newTopic + " (set by " + nick + " at " + date + ")");
+                    }
+
+                    topic.changeTopic(newTopic, nick, time);
+                    ui.showTopic();
                 }
+            }
 
-                else {
-                    if (!topic.getTopic().equals(newTopic) && time > topic.getTime() && chatState.isLogonCompleted()) {
-                        msgController.showSystemMessage(nick + " removed the topic");
-                        topic.changeTopic("", "", time);
-                        ui.showTopic();
-                    }
+            else {
+                if (!topic.getTopic().equals(newTopic) && time > topic.getTime() && chatState.isLogonCompleted()) {
+                    msgController.showSystemMessage(nick + " removed the topic");
+                    topic.changeTopic("", "", time);
+                    ui.showTopic();
                 }
             }
         }
@@ -610,11 +604,5 @@ public class DefaultMessageResponder implements MessageResponder {
         else {
             LOG.log(Level.SEVERE, "Could not find user: " + userCode);
         }
-    }
-
-    private void askUserToIdentify(final int userCode) {
-        wList.addWaitingUser(userCode);
-        controller.sendExposeMessage();
-        controller.sendGetTopicMessage();
     }
 }

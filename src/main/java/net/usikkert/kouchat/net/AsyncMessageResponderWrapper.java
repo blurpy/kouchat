@@ -87,9 +87,18 @@ public class AsyncMessageResponderWrapper implements MessageResponder {
         }
     }
 
+    /**
+     * Topic changed. Asked to identify instead, if unknown.
+     */
     @Override
     public void topicChanged(final int userCode, final String newTopic, final String nick, final long time) {
-        messageResponder.topicChanged(userCode, newTopic, nick, time);
+        if (controller.isNewUser(userCode)) {
+            askUserToIdentify(userCode);
+        }
+
+        else {
+            messageResponder.topicChanged(userCode, newTopic, nick, time);
+        }
     }
 
     @Override
