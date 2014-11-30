@@ -317,35 +317,35 @@ public class DefaultMessageResponder implements MessageResponder {
      */
     @Override
     public void awayChanged(final int userCode, final boolean away, final String awayMsg) {
-        if (controller.isNewUser(userCode)) {
-            askUserToIdentify(userCode);
+        final User user = controller.getUser(userCode);
+
+        if (user == null) {
+            LOG.log(Level.SEVERE, "Could not find user: " + userCode);
+            return;
         }
 
-        else {
-            try {
-                final User user = controller.getUser(userCode);
-                controller.changeAwayStatus(userCode, away, awayMsg);
+        try {
+            controller.changeAwayStatus(userCode, away, awayMsg);
+
+            if (away) {
+                msgController.showSystemMessage(user.getNick() + " went away: " + user.getAwayMsg());
+            } else {
+                msgController.showSystemMessage(user.getNick() + " came back");
+            }
+
+            if (user.getPrivchat() != null) {
+                user.getPrivchat().updateAwayState();
 
                 if (away) {
-                    msgController.showSystemMessage(user.getNick() + " went away: " + user.getAwayMsg());
+                    msgController.showPrivateSystemMessage(user, user.getNick() + " went away: " + user.getAwayMsg());
                 } else {
-                    msgController.showSystemMessage(user.getNick() + " came back");
-                }
-
-                if (user.getPrivchat() != null) {
-                    user.getPrivchat().updateAwayState();
-
-                    if (away) {
-                        msgController.showPrivateSystemMessage(user, user.getNick() + " went away: " + user.getAwayMsg());
-                    } else {
-                        msgController.showPrivateSystemMessage(user, user.getNick() + " came back");
-                    }
+                    msgController.showPrivateSystemMessage(user, user.getNick() + " came back");
                 }
             }
+        }
 
-            catch (final CommandException e) {
-                LOG.log(Level.SEVERE, "Something very strange going on here...\n" + e);
-            }
+        catch (final CommandException e) {
+            LOG.log(Level.SEVERE, "Something very strange going on here...\n" + e);
         }
     }
 

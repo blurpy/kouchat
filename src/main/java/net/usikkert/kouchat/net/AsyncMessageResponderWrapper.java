@@ -97,9 +97,18 @@ public class AsyncMessageResponderWrapper implements MessageResponder {
         messageResponder.topicRequested();
     }
 
+    /**
+     * User changed away state. Asked to identify instead, if unknown.
+     */
     @Override
     public void awayChanged(final int userCode, final boolean away, final String awayMsg) {
-        messageResponder.awayChanged(userCode, away, awayMsg);
+        if (controller.isNewUser(userCode)) {
+            askUserToIdentify(userCode);
+        }
+
+        else {
+            messageResponder.awayChanged(userCode, away, awayMsg);
+        }
     }
 
     @Override
