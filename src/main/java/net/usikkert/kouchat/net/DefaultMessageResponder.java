@@ -597,7 +597,8 @@ public class DefaultMessageResponder implements MessageResponder {
      * @param privateChatPort The port to use for sending private chat messages to this user.
      */
     @Override
-    public void clientInfo(final int userCode, final String client, final long timeSinceLogon, final String operatingSystem, final int privateChatPort) {
+    public void clientInfo(final int userCode, final String client, final long timeSinceLogon,
+                           final String operatingSystem, final int privateChatPort) {
         final User user = controller.getUser(userCode);
 
         if (user != null) {
@@ -616,14 +617,5 @@ public class DefaultMessageResponder implements MessageResponder {
         wList.addWaitingUser(userCode);
         controller.sendExposeMessage();
         controller.sendGetTopicMessage();
-    }
-
-    private void waitForUserToIdentify(final int userCode) {
-        int counter = 0;
-
-        while (wList.isWaitingUser(userCode) && counter < 40) {
-            counter++;
-            sleeper.sleep(50);
-        }
     }
 }
