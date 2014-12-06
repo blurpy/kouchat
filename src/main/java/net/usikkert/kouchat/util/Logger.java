@@ -23,6 +23,7 @@
 package net.usikkert.kouchat.util;
 
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 
 import org.jetbrains.annotations.NonNls;
 
@@ -33,6 +34,8 @@ import org.jetbrains.annotations.NonNls;
  * @author Christian Ihle
  */
 public final class Logger {
+
+    private static final int CALLING_METHOD_INDEX = 2; // Index in the stack trace to find calling method
 
     private final java.util.logging.Logger logger;
 
@@ -46,7 +49,7 @@ public final class Logger {
 
     public void severe(@NonNls final String message,
                        @NonNls final Object... messageParameters) {
-        log(Level.SEVERE, message, messageParameters);
+        log(Level.SEVERE, message, messageParameters, null);
     }
 
     public void severe(final Throwable throwable,
@@ -55,18 +58,27 @@ public final class Logger {
         log(Level.SEVERE, message, messageParameters, throwable);
     }
 
+    /**
+     * It's necessary to create a {@link LogRecord} manually, otherwise all log output will
+     * have this class and method as "caller". The log manager is allowed to use optimized private APIs,
+     * so this method might be slower, but logging is usually for warnings and debugging,
+     * so it should not have an impact on performance during normal usage.
+     */
     private void log(final Level level, final String message, final Object[] messageParameters,
                      final Throwable throwable) {
         if (logger.isLoggable(level)) {
             final String formattedMessage = String.format(message, messageParameters);
-            logger.log(level, formattedMessage, throwable);
-        }
-    }
+            final LogRecord logRecord = new LogRecord(level, formattedMessage);
 
-    private void log(final Level level, final String message, final Object[] messageParameters) {
-        if (logger.isLoggable(level)) {
-            final String formattedMessage = String.format(message, messageParameters);
-            logger.log(level, formattedMessage);
+            final StackTraceElement[] stackTrace = new Throwable().getStackTrace();
+            final StackTraceElement stackTraceElement = stackTrace[CALLING_METHOD_INDEX];
+
+            logRecord.setSourceMethodName(stackTraceElement.getMethodName());
+            logRecord.setSourceClassName(stackTraceElement.getClassName());
+
+            logRecord.setThrown(throwable);
+
+            logger.log(logRecord);
         }
     }
 }

@@ -22,12 +22,15 @@
 
 package net.usikkert.kouchat.util;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 /**
  * Test of {@link Logger}.
@@ -39,12 +42,14 @@ public class LoggerTest {
     private Logger logger;
 
     private java.util.logging.Logger julLogger;
+    private ArgumentCaptor<LogRecord> logCaptor;
 
     @Before
     public void setUp() {
         logger = Logger.getLogger(LoggerTest.class);
 
         julLogger = TestUtils.setFieldValueWithMock(logger, "logger", java.util.logging.Logger.class);
+        logCaptor = ArgumentCaptor.forClass(LogRecord.class);
     }
 
     @Test
@@ -53,7 +58,12 @@ public class LoggerTest {
 
         logger.severe("message");
 
-        verify(julLogger).log(Level.SEVERE, "message");
+        verify(julLogger).log(logCaptor.capture());
+
+        final LogRecord logRecord = logCaptor.getValue();
+        assertEquals(Level.SEVERE, logRecord.getLevel());
+        assertEquals("message", logRecord.getMessage());
+        assertNull(logRecord.getThrown());
     }
 
     @Test
@@ -62,7 +72,23 @@ public class LoggerTest {
 
         logger.severe("message with %s cookies and %s", 2, "milk");
 
-        verify(julLogger).log(Level.SEVERE, "message with 2 cookies and milk");
+        verify(julLogger).log(logCaptor.capture());
+
+        final LogRecord logRecord = logCaptor.getValue();
+        assertEquals("message with 2 cookies and milk", logRecord.getMessage());
+    }
+
+    @Test
+    public void severeShouldLogMessageWithCorrectClassAndMethod() {
+        when(julLogger.isLoggable(Level.SEVERE)).thenReturn(true);
+
+        logger.severe("message");
+
+        verify(julLogger).log(logCaptor.capture());
+
+        final LogRecord logRecord = logCaptor.getValue();
+        assertEquals("net.usikkert.kouchat.util.LoggerTest", logRecord.getSourceClassName());
+        assertEquals("severeShouldLogMessageWithCorrectClassAndMethod", logRecord.getSourceMethodName());
     }
 
     @Test
@@ -71,7 +97,7 @@ public class LoggerTest {
 
         logger.severe("message");
 
-        verify(julLogger, never()).log(any(Level.class), anyString());
+        verify(julLogger, never()).log(any(LogRecord.class));
     }
 
     @Test
@@ -81,7 +107,12 @@ public class LoggerTest {
 
         logger.severe(exception, "message");
 
-        verify(julLogger).log(Level.SEVERE, "message", exception);
+        verify(julLogger).log(logCaptor.capture());
+
+        final LogRecord logRecord = logCaptor.getValue();
+        assertEquals(Level.SEVERE, logRecord.getLevel());
+        assertEquals("message", logRecord.getMessage());
+        assertEquals(exception, logRecord.getThrown());
     }
 
     @Test
@@ -91,7 +122,24 @@ public class LoggerTest {
 
         logger.severe(exception, "message with %s cookies and %s", 2, "milk");
 
-        verify(julLogger).log(Level.SEVERE, "message with 2 cookies and milk", exception);
+        verify(julLogger).log(logCaptor.capture());
+
+        final LogRecord logRecord = logCaptor.getValue();
+        assertEquals("message with 2 cookies and milk", logRecord.getMessage());
+    }
+
+    @Test
+    public void severeWithExceptionShouldLogMessageWithCorrectClassAndMethod() {
+        when(julLogger.isLoggable(Level.SEVERE)).thenReturn(true);
+        final RuntimeException exception = new RuntimeException();
+
+        logger.severe(exception, "message");
+
+        verify(julLogger).log(logCaptor.capture());
+
+        final LogRecord logRecord = logCaptor.getValue();
+        assertEquals("net.usikkert.kouchat.util.LoggerTest", logRecord.getSourceClassName());
+        assertEquals("severeWithExceptionShouldLogMessageWithCorrectClassAndMethod", logRecord.getSourceMethodName());
     }
 
     @Test
@@ -100,6 +148,6 @@ public class LoggerTest {
 
         logger.severe(new RuntimeException(), "message");
 
-        verify(julLogger, never()).log(any(Level.class), anyString(), any(Throwable.class));
+        verify(julLogger, never()).log(any(LogRecord.class));
     }
 }
