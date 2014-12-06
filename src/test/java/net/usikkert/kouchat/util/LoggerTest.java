@@ -79,6 +79,30 @@ public class LoggerTest {
     }
 
     @Test
+    public void severeShouldHandleNullAsMessage() {
+        when(julLogger.isLoggable(Level.SEVERE)).thenReturn(true);
+
+        logger.severe(null);
+
+        verify(julLogger).log(logCaptor.capture());
+
+        final LogRecord logRecord = logCaptor.getValue();
+        assertNull(logRecord.getMessage());
+    }
+
+    @Test
+    public void severeShouldHandleNullAsParameter() {
+        when(julLogger.isLoggable(Level.SEVERE)).thenReturn(true);
+
+        logger.severe("Message with %s and %s :)", null, null);
+
+        verify(julLogger).log(logCaptor.capture());
+
+        final LogRecord logRecord = logCaptor.getValue();
+        assertEquals("Message with null and null :)", logRecord.getMessage());
+    }
+
+    @Test
     public void severeShouldLogMessageWithCorrectClassAndMethod() {
         when(julLogger.isLoggable(Level.SEVERE)).thenReturn(true);
 

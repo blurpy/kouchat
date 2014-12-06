@@ -67,7 +67,7 @@ public final class Logger {
     private void log(final Level level, final String message, final Object[] messageParameters,
                      final Throwable throwable) {
         if (logger.isLoggable(level)) {
-            final String formattedMessage = String.format(message, messageParameters);
+            final String formattedMessage = getFormattedMessageOrNull(message, messageParameters);
             final LogRecord logRecord = new LogRecord(level, formattedMessage);
 
             final StackTraceElement[] stackTrace = new Throwable().getStackTrace();
@@ -80,5 +80,13 @@ public final class Logger {
 
             logger.log(logRecord);
         }
+    }
+
+    private String getFormattedMessageOrNull(final String message, final Object[] messageParameters) {
+        if (message == null) {
+            return null;
+        }
+
+        return String.format(message, messageParameters);
     }
 }
