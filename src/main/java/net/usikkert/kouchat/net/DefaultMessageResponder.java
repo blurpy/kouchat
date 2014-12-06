@@ -108,7 +108,7 @@ public class DefaultMessageResponder implements MessageResponder {
         }
 
         else {
-            LOG.severe("Could not find user: " + userCode);
+            LOG.severe("Could not find user: %s", userCode);
         }
     }
 
@@ -313,7 +313,7 @@ public class DefaultMessageResponder implements MessageResponder {
         final User user = controller.getUser(userCode);
 
         if (user == null) {
-            LOG.severe("Could not find user: " + userCode);
+            LOG.severe("Could not find user: %s", userCode);
             return;
         }
 
@@ -338,7 +338,7 @@ public class DefaultMessageResponder implements MessageResponder {
         }
 
         catch (final CommandException e) {
-            LOG.severe("Something very strange going on here...\n" + e);
+            LOG.severe("Something very strange going on here: %s", e.getMessage());
         }
     }
 
@@ -370,7 +370,7 @@ public class DefaultMessageResponder implements MessageResponder {
         final User user = controller.getUser(userCode);
 
         if (user == null) {
-            LOG.severe("Could not find user: " + userCode);
+            LOG.severe("Could not find user: %s", userCode);
             return;
         }
 
@@ -421,7 +421,7 @@ public class DefaultMessageResponder implements MessageResponder {
         final User user = controller.getUser(userCode);
 
         if (user == null) {
-            LOG.severe("Could not find user: " + userCode);
+            LOG.severe("Could not find user: %s", userCode);
             return;
         }
 
@@ -437,7 +437,7 @@ public class DefaultMessageResponder implements MessageResponder {
         }
 
         else {
-            LOG.severe(user.getNick() + " tried to change nick to '" + newNick + "', which is invalid");
+            LOG.severe("%s tried to change nick to '%s', which is invalid", user.getNick(), newNick);
         }
     }
 
@@ -486,7 +486,7 @@ public class DefaultMessageResponder implements MessageResponder {
 
                     // Failed to start the server
                     catch (final ServerException e) {
-                        LOG.severe(e, e.toString());
+                        LOG.severe(e, "Failed to start server: %s", e.getMessage());
                         msgController.showSystemMessage("Failed to receive " + fileName + " from " + user);
                         controller.sendFileAbort(tmpUser, fileHash, fileName);
                         fileRes.cancel();
@@ -515,7 +515,7 @@ public class DefaultMessageResponder implements MessageResponder {
         }
 
         else {
-            LOG.severe("Could not find user: " + user);
+            LOG.severe("Could not find user: %s", user);
         }
     }
 
@@ -601,7 +601,7 @@ public class DefaultMessageResponder implements MessageResponder {
         }
 
         else {
-            LOG.severe("Could not find user: " + userCode);
+            LOG.severe("Could not find user: %s", userCode);
         }
     }
 }
