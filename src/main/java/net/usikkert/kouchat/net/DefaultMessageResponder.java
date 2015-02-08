@@ -132,6 +132,10 @@ public class DefaultMessageResponder implements MessageResponder {
             controller.removeUser(user, logOffMessage);
             msgController.showSystemMessage(logOffMessage);
         }
+
+        else {
+            LOG.severe("User is unknown - ignoring logoff. userCode=%s", userCode);
+        }
     }
 
     /**

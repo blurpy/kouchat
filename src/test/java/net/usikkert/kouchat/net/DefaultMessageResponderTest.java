@@ -163,6 +163,26 @@ public class DefaultMessageResponderTest {
         verifyZeroInteractions(messageController, userInterface);
     }
 
+    @Test
+    public void userLogOffShouldDoNothingIfUserIsUnknown() {
+        setUpUnknownUser();
+
+        responder.userLogOff(100);
+
+        verifyZeroInteractions(messageController);
+        verify(controller, never()).removeUser(any(User.class), anyString());
+    }
+
+    @Test
+    public void userLogOffShouldRemoveUserAndShowSystemMessage() {
+        setUpExistingUser();
+
+        responder.userLogOff(100);
+
+        verify(messageController).showSystemMessage("Tester logged off");
+        verify(controller).removeUser(user, "Tester logged off");
+    }
+
     private void setUpExistingUser() {
         when(controller.isNewUser(100)).thenReturn(false);
         when(controller.getUser(100)).thenReturn(user);
