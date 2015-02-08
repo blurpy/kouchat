@@ -148,15 +148,21 @@ public class DefaultMessageResponder implements MessageResponder {
     @Override
     public void userLogOn(final User newUser) {
         if (me.getNick().trim().equalsIgnoreCase(newUser.getNick())) {
+            LOG.severe("User logs on with your nick name - resetting nick and sending nick crash message. " +
+                               "user=%s, userCode=%s", newUser, newUser.getCode());
             controller.sendNickCrashMessage(newUser.getNick());
             newUser.setNick("" + newUser.getCode());
         }
 
         else if (controller.isNickInUse(newUser.getNick())) {
+            LOG.severe("User logs on with someone else's nick name - resetting nick. " +
+                               "user=%s, userCode=%s", newUser, newUser.getCode());
             newUser.setNick("" + newUser.getCode());
         }
 
         else if (!Tools.isValidNick(newUser.getNick())) {
+            LOG.severe("User logs on with invalid nick name - resetting nick. " +
+                               "user=%s, userCode=%s", newUser, newUser.getCode());
             newUser.setNick("" + newUser.getCode());
         }
 

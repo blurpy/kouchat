@@ -28,7 +28,9 @@ import static org.mockito.Mockito.*;
 import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
+import net.usikkert.kouchat.misc.SortedUserList;
 import net.usikkert.kouchat.misc.User;
+import net.usikkert.kouchat.misc.UserList;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.UserInterface;
 
@@ -53,6 +55,7 @@ public class DefaultMessageResponderTest {
     private UserInterface userInterface;
     private Settings settings;
     private MessageController messageController;
+    private UserList userList;
 
     private User user;
     private User me;
@@ -63,13 +66,18 @@ public class DefaultMessageResponderTest {
         userInterface = mock(UserInterface.class);
         settings = new Settings();
         messageController = mock(MessageController.class);
+        userList = new SortedUserList();
 
         when(userInterface.getMessageController()).thenReturn(messageController);
+        when(controller.getUserList()).thenReturn(userList);
 
         responder = new DefaultMessageResponder(controller, userInterface, settings);
 
         user = new User("Tester", 100);
+        user.setIpAddress("192.168.10.123");
+
         me = settings.getMe();
+        me.setNick("Me");
 
         //  Get rid of constructor operations from list of verifications
         verify(controller).getTransferList();
@@ -181,6 +189,47 @@ public class DefaultMessageResponderTest {
 
         verify(messageController).showSystemMessage("Tester logged off");
         verify(controller).removeUser(user, "Tester logged off");
+    }
+
+    @Test
+    public void userLogOnShouldAddUserToListAndShowSystemMessage() {
+        responder.userLogOn(user);
+
+        assertEquals(0, userList.indexOf(user));
+        verify(messageController).showSystemMessage("Tester logged on from 192.168.10.123");
+    }
+
+    @Test
+    public void userLogOnShouldResetNickAndSendNickCrashMessageFirstIfUserHasMyNick() {
+        user.setNick("me");
+
+        responder.userLogOn(user);
+
+        assertEquals(0, userList.indexOf(user));
+        verify(messageController).showSystemMessage("100 logged on from 192.168.10.123");
+        verify(controller).sendNickCrashMessage("me");
+    }
+
+    @Test
+    public void userLogOnShouldResetNickFirstIfUserHasNickNameInUseBySomeoneElse() {
+        when(controller.isNickInUse("Tester")).thenReturn(true);
+
+        responder.userLogOn(user);
+
+        assertEquals(0, userList.indexOf(user));
+        verify(messageController).showSystemMessage("100 logged on from 192.168.10.123");
+        verify(controller, never()).sendNickCrashMessage(anyString());
+    }
+
+    @Test
+    public void userLogOnShouldResetNickFirstIfUserHasInvalidNickName() {
+        user.setNick("No!");
+
+        responder.userLogOn(user);
+
+        assertEquals(0, userList.indexOf(user));
+        verify(messageController).showSystemMessage("100 logged on from 192.168.10.123");
+        verify(controller, never()).sendNickCrashMessage(anyString());
     }
 
     private void setUpExistingUser() {
