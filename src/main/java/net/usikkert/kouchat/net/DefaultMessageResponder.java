@@ -105,10 +105,14 @@ public class DefaultMessageResponder implements MessageResponder {
 
                 ui.notifyMessageArrived(user);
             }
+
+            else {
+                LOG.severe("User is away - ignoring message. user=%s, userCode=%s, message=%s", user, userCode, msg);
+            }
         }
 
         else {
-            LOG.severe("Could not find user: %s", userCode);
+            LOG.severe("User is unknown - ignoring message. userCode=%s, message=%s", userCode, msg);
         }
     }
 
