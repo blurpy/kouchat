@@ -26,14 +26,17 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import net.usikkert.kouchat.junit.ExpectedException;
+import net.usikkert.kouchat.misc.ChatState;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.SortedUserList;
+import net.usikkert.kouchat.misc.Topic;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.UserList;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.UserInterface;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -56,6 +59,7 @@ public class DefaultMessageResponderTest {
     private Settings settings;
     private MessageController messageController;
     private UserList userList;
+    private ChatState chatState;
 
     private User user;
     private User me;
@@ -67,9 +71,11 @@ public class DefaultMessageResponderTest {
         settings = new Settings();
         messageController = mock(MessageController.class);
         userList = new SortedUserList();
+        chatState = mock(ChatState.class);
 
         when(userInterface.getMessageController()).thenReturn(messageController);
         when(controller.getUserList()).thenReturn(userList);
+        when(controller.getChatState()).thenReturn(chatState);
 
         responder = new DefaultMessageResponder(controller, userInterface, settings);
 
@@ -230,6 +236,115 @@ public class DefaultMessageResponderTest {
         assertEquals(0, userList.indexOf(user));
         verify(messageController).showSystemMessage("100 logged on from 192.168.10.123");
         verify(controller, never()).sendNickCrashMessage(anyString());
+    }
+
+    @Test
+    public void topicChangedShouldDoNothingWhenTimeIsZero() {
+        responder.topicChanged(300, "Nothing", "Harry", 0);
+
+        verifyZeroInteractions(messageController, userInterface);
+    }
+
+    @Test
+    public void topicChangedShouldDoNothingWhenNickNameIsEmpty() {
+        responder.topicChanged(300, "Nothing", "", 1000);
+
+        verifyZeroInteractions(messageController, userInterface);
+    }
+
+    @Test
+    public void topicChangedShouldUpdateTopicAndShowTopicIsMessageWhenNotDoneWithLogonYet() {
+        final Topic topic = new Topic();
+        when(controller.getTopic()).thenReturn(topic);
+        when(chatState.isLogonCompleted()).thenReturn(false);
+        final long time = new DateTime().withDate(2013, 8, 22).withTime(13, 45, 5, 0).toDate().getTime();
+
+        responder.topicChanged(300, "See ya!", "Harry", time);
+
+        verify(messageController).showSystemMessage("Topic is: See ya! (set by Harry at 13:45:05, 22. Aug. 13)");
+        verify(userInterface).showTopic();
+        verifyTopic(topic, "See ya!", "Harry", time);
+    }
+
+    @Test
+    public void topicChangedShouldUpdateTopicAndShowTopicChangedMessageWhenDoneWithLogon() {
+        final Topic topic = new Topic();
+        when(controller.getTopic()).thenReturn(topic);
+        when(chatState.isLogonCompleted()).thenReturn(true);
+        final long time = System.currentTimeMillis();
+
+        responder.topicChanged(300, "See ya!", "Harry", time);
+
+        verify(messageController).showSystemMessage("Harry changed the topic to: See ya!");
+        verify(userInterface).showTopic();
+        verifyTopic(topic, "See ya!", "Harry", time);
+    }
+
+    @Test
+    public void topicChangedShouldDoNothingIfNewTopicIsTheSameAsTheOldTopic() {
+        final Topic topic = new Topic("Old topic", "Niles", 1000);
+        when(controller.getTopic()).thenReturn(topic);
+
+        responder.topicChanged(300, "Old topic", "Niles", 2000); // Newer timestamp, same topic
+
+        verifyZeroInteractions(messageController, userInterface);
+        verifyTopic(topic, "Old topic", "Niles", 1000);
+    }
+
+    @Test
+    public void topicChangedShouldDoNothingIfNewTopicHasOlderTimestamp() {
+        final Topic topic = new Topic("Old topic", "Niles", 2000);
+        when(controller.getTopic()).thenReturn(topic);
+
+        responder.topicChanged(300, "Older topic", "Niles", 1000); // Older timestamp, must be old topic
+
+        verifyZeroInteractions(messageController, userInterface);
+        verifyTopic(topic, "Old topic", "Niles", 2000);
+    }
+
+    @Test
+    public void topicChangedShouldUpdateTopicAndShowTopicRemovedMessageWhenTopicIsNull() {
+        final Topic topic = new Topic();
+        when(controller.getTopic()).thenReturn(topic);
+        when(chatState.isLogonCompleted()).thenReturn(true);
+        final long time = System.currentTimeMillis();
+
+        responder.topicChanged(300, null, "Harry", time);
+
+        verify(messageController).showSystemMessage("Harry removed the topic");
+        verify(userInterface).showTopic();
+        verifyTopic(topic, "", "", time);
+    }
+
+    @Test
+    public void topicChangedShouldDoNothingWhenTopicIsNullButNotDoneWithLogonYet() {
+        final Topic topic = new Topic();
+        when(controller.getTopic()).thenReturn(topic);
+        when(chatState.isLogonCompleted()).thenReturn(false);
+
+        responder.topicChanged(300, null, "Harry", System.currentTimeMillis());
+
+        verifyZeroInteractions(messageController, userInterface);
+        verifyTopic(topic, "", "", 0);
+    }
+
+    @Test
+    public void topicChangedShouldDoNothingWhenTopicIsNullButTimeIsOlderThanCurrentTopic() {
+        final Topic topic = new Topic("Current topic", "Harry", 2000);
+        when(controller.getTopic()).thenReturn(topic);
+        when(chatState.isLogonCompleted()).thenReturn(true);
+
+        responder.topicChanged(300, null, "Harry", 1000);
+
+        verifyZeroInteractions(messageController, userInterface);
+        verifyTopic(topic, "Current topic", "Harry", 2000);
+    }
+
+    private void verifyTopic(final Topic topic, final String expectedTopic, final String expectedNick,
+                             final long expectedTime) {
+        assertEquals(expectedTopic, topic.getTopic());
+        assertEquals(expectedNick, topic.getNick());
+        assertEquals(expectedTime, topic.getTime());
     }
 
     private void setUpExistingUser() {
