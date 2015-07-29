@@ -22,6 +22,7 @@
 
 package net.usikkert.kouchat.ui.swing;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -67,14 +68,16 @@ public class CopyPopup extends JPopupMenu implements PopupMenuListener, ActionLi
 
         this.textpane = textpane;
 
+        final int menuShortcutKeyMask = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+
         copyMI = new JMenuItem(new DefaultEditorKit.CopyAction());
         copyMI.setText(swingMessages.getMessage("swing.rightClickPopup.menu.copy"));
         copyMI.setMnemonic(keyCode(swingMessages.getMessage("swing.rightClickPopup.menu.copy.mnemonic")));
-        copyMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK));
+        copyMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, menuShortcutKeyMask));
 
         selectAllMI = new JMenuItem(swingMessages.getMessage("swing.rightClickPopup.menu.selectAll"));
         selectAllMI.setMnemonic(keyCode(swingMessages.getMessage("swing.rightClickPopup.menu.selectAll.mnemonic")));
-        selectAllMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_MASK));
+        selectAllMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, menuShortcutKeyMask));
 
         add(copyMI);
         add(selectAllMI);

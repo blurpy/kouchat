@@ -22,6 +22,7 @@
 
 package net.usikkert.kouchat.ui.swing;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -73,20 +74,22 @@ public class CopyPastePopup extends JPopupMenu implements PopupMenuListener, Act
 
         this.textfield = textfield;
 
+        final int menuShortcutKeyMask = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+
         copyMI = new JMenuItem(new DefaultEditorKit.CopyAction());
         copyMI.setText(swingMessages.getMessage("swing.rightClickPopup.menu.copy"));
         copyMI.setMnemonic(keyCode(swingMessages.getMessage("swing.rightClickPopup.menu.copy.mnemonic")));
-        copyMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK));
+        copyMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, menuShortcutKeyMask));
 
         cutMI = new JMenuItem(new DefaultEditorKit.CutAction());
         cutMI.setText(swingMessages.getMessage("swing.rightClickPopup.menu.cut"));
         cutMI.setMnemonic(keyCode(swingMessages.getMessage("swing.rightClickPopup.menu.cut.mnemonic")));
-        cutMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_MASK));
+        cutMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, menuShortcutKeyMask));
 
         pasteMI = new JMenuItem(new DefaultEditorKit.PasteAction());
         pasteMI.setText(swingMessages.getMessage("swing.rightClickPopup.menu.paste"));
         pasteMI.setMnemonic(keyCode(swingMessages.getMessage("swing.rightClickPopup.menu.paste.mnemonic")));
-        pasteMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_MASK));
+        pasteMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, menuShortcutKeyMask));
 
         clearMI = new JMenuItem(swingMessages.getMessage("swing.rightClickPopup.menu.clear"));
         clearMI.setMnemonic(keyCode(swingMessages.getMessage("swing.rightClickPopup.menu.clear.mnemonic")));

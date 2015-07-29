@@ -35,6 +35,7 @@ import javax.swing.text.DefaultEditorKit;
 
 import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
+import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.After;
 import org.junit.Before;
@@ -107,8 +108,8 @@ public class CopyPastePopupTest {
     }
 
     @Test
-    public void copyMenuItemShouldHaveCtrlCAsAccelerator() {
-        final KeyStroke ctrlC = KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK);
+    public void copyMenuItemShouldHaveCorrectKeyAsAccelerator() {
+        final KeyStroke ctrlC = KeyStroke.getKeyStroke(KeyEvent.VK_C, getMenuKey());
 
         final KeyStroke accelerator = copyMenuItem.getAccelerator();
 
@@ -133,8 +134,8 @@ public class CopyPastePopupTest {
     }
 
     @Test
-    public void cutMenuItemShouldHaveCtrlXAsAccelerator() {
-        final KeyStroke ctrlX = KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_MASK);
+    public void cutMenuItemShouldHaveCorrectKeyAsAccelerator() {
+        final KeyStroke ctrlX = KeyStroke.getKeyStroke(KeyEvent.VK_X, getMenuKey());
 
         final KeyStroke accelerator = cutMenuItem.getAccelerator();
 
@@ -159,8 +160,8 @@ public class CopyPastePopupTest {
     }
 
     @Test
-    public void pasteMenuItemShouldHaveCtrlVAsAccelerator() {
-        final KeyStroke ctrlV = KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_MASK);
+    public void pasteMenuItemShouldHaveCorrectKeyAsAccelerator() {
+        final KeyStroke ctrlV = KeyStroke.getKeyStroke(KeyEvent.VK_V, getMenuKey());
 
         final KeyStroke accelerator = pasteMenuItem.getAccelerator();
 
@@ -274,5 +275,13 @@ public class CopyPastePopupTest {
         copyMenuItem.setEnabled(enabled);
         // pasteMenuItem.setEnabled(enabled); // Always enabled
         clearMenuItem.setEnabled(enabled);
+    }
+
+    private int getMenuKey() {
+        if (TestUtils.isMac()) {
+            return KeyEvent.META_MASK;
+        }
+
+        return KeyEvent.CTRL_MASK;
     }
 }

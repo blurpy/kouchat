@@ -35,6 +35,7 @@ import javax.swing.text.DefaultEditorKit;
 
 import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
+import net.usikkert.kouchat.util.TestUtils;
 
 import org.junit.After;
 import org.junit.Before;
@@ -104,8 +105,8 @@ public class CopyPopupTest {
     }
 
     @Test
-    public void copyMenuItemShouldHaveCtrlCAsAccelerator() {
-        final KeyStroke ctrlC = KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK);
+    public void copyMenuItemShouldHaveCorrectKeyAsAccelerator() {
+        final KeyStroke ctrlC = KeyStroke.getKeyStroke(KeyEvent.VK_C, getMenuKey());
 
         final KeyStroke accelerator = copyMenuItem.getAccelerator();
 
@@ -130,8 +131,8 @@ public class CopyPopupTest {
     }
 
     @Test
-    public void selectAllMenuItemShouldHaveCtrlAAsAccelerator() {
-        final KeyStroke ctrlA = KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_MASK);
+    public void selectAllMenuItemShouldHaveCorrectKeyAsAccelerator() {
+        final KeyStroke ctrlA = KeyStroke.getKeyStroke(KeyEvent.VK_A, getMenuKey());
 
         final KeyStroke accelerator = selectAllMenuItem.getAccelerator();
 
@@ -221,5 +222,13 @@ public class CopyPopupTest {
     private void setMenuItemsEnabled(final boolean enabled) {
         copyMenuItem.setEnabled(enabled);
         selectAllMenuItem.setEnabled(enabled);
+    }
+
+    private int getMenuKey() {
+        if (TestUtils.isMac()) {
+            return KeyEvent.META_MASK;
+        }
+
+        return KeyEvent.CTRL_MASK;
     }
 }
