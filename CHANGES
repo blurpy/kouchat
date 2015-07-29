@@ -1,7 +1,7 @@
 
 - KouChat v1.3.0 CHANGES
 
-* version 1.3.0 (xx.xx.2014):
+* version 1.3.0 (xx.xx.2015):
   - Updated headers to include copyright for 2014.
   - Reorganized JMX support to make it easier to import updated code into Android.
   - Settings is no longer a singleton, to make it easier to mock and test KouChat.
@@ -17,6 +17,7 @@
     on Windows keyboards
   - Fixed bug where the private chat input would activate when coming back from away
     when the other user is still away.
+  - Moved the menubar to the top of the screen on Mac OS X
   - User interface translations (under development)
 
 

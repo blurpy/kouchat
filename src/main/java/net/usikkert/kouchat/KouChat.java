@@ -63,6 +63,8 @@ public final class KouChat {
      * @param arguments The arguments given when starting KouChat.
      */
     public static void main(final String[] arguments) {
+        setSystemProperties();
+
         final ArgumentParser argumentParser = new ArgumentParser(arguments);
         final ArgumentResponder argumentResponder = new ArgumentResponder(argumentParser);
 
@@ -77,6 +79,11 @@ public final class KouChat {
         final Settings settings = loadSettings(argumentParser);
 
         loadUserInterface(argumentParser, settings, uncaughtExceptionLogger);
+    }
+
+    private static void setSystemProperties() {
+        // Move the menubar to the top of the screen on Mac OS X
+        System.setProperty("apple.laf.useScreenMenuBar", "true");
     }
 
     private static Settings loadSettings(final ArgumentParser argumentParser) {
