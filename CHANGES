@@ -17,7 +17,8 @@
     on Windows keyboards
   - Fixed bug where the private chat input would activate when coming back from away
     when the other user is still away.
-  - Moved the menubar to the top of the screen on Mac OS X
+  - Moved the menubar to the top of the screen on Mac OS X.
+  - Fixed menu not appearing when right clicking users in the user list on Mac OS X.
   - User interface translations (under development)
 
 

@@ -297,7 +297,8 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
     /**
      * Handles mouse pressed events on the user list.
      *
-     * <p>If a mouse click happens on a user the user is selected,
+     * <p>Decides which menu items to show on right click on a user (Mac OS X).
+     * Also, if a left mouse click happens on a user the user is selected,
      * else the currently selected user is unselected.</p>
      *
      * {@inheritDoc}
@@ -305,18 +306,24 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
     @Override
     public void mousePressed(final MouseEvent e) {
         if (e.getSource() == userL) {
-            final Point p = e.getPoint();
-            final int index = userL.locationToIndex(p);
+            // Right click
+            if (userMenu.isPopupTrigger(e) && userL.getSelectedIndex() != -1) {
+                showRightClickMenu(e);
+            }
 
-            if (index != -1) {
-                final Rectangle r = userL.getCellBounds(index, index);
+            // Left click
+            else {
+                final Point p = e.getPoint();
+                final int index = userL.locationToIndex(p);
 
-                if (r.x <= p.x && p.x <= r.x + r.width && r.y <= p.y && p.y <= r.y + r.height) {
-                    userL.setSelectedIndex(index);
-                }
+                if (index != -1) {
+                    final Rectangle r = userL.getCellBounds(index, index);
 
-                else {
-                    userL.clearSelection();
+                    if (r.x <= p.x && p.x <= r.x + r.width && r.y <= p.y && p.y <= r.y + r.height) {
+                        userL.setSelectedIndex(index);
+                    } else {
+                        userL.clearSelection();
+                    }
                 }
             }
         }
@@ -335,38 +342,7 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
         if (e.getSource() == userL) {
             // Right click
             if (userMenu.isPopupTrigger(e) && userL.getSelectedIndex() != -1) {
-                final User temp = userListModel.getElementAt(userL.getSelectedIndex()); // TODO getUser() instead?
-
-                if (temp.isMe()) {
-                    sendfileMI.setVisible(false);
-                    privchatMI.setVisible(false);
-                }
-
-                else if (temp.isAway() || me.isAway()) {
-                    sendfileMI.setVisible(true);
-                    sendfileMI.setEnabled(false);
-                    privchatMI.setVisible(true);
-
-                    if (!canPrivateChatWithUser(temp)) {
-                        privchatMI.setEnabled(false);
-                    } else {
-                        privchatMI.setEnabled(true);
-                    }
-                }
-
-                else {
-                    sendfileMI.setVisible(true);
-                    sendfileMI.setEnabled(true);
-                    privchatMI.setVisible(true);
-
-                    if (!canPrivateChatWithUser(temp)) {
-                        privchatMI.setEnabled(false);
-                    } else {
-                        privchatMI.setEnabled(true);
-                    }
-                }
-
-                userMenu.show(userL, e.getX(), e.getY());
+                showRightClickMenu(e);
             }
 
             // Double left click
@@ -378,6 +354,41 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
                 }
             }
         }
+    }
+
+    private void showRightClickMenu(final MouseEvent e) {
+        final User temp = userListModel.getElementAt(userL.getSelectedIndex()); // TODO getUser() instead?
+
+        if (temp.isMe()) {
+            sendfileMI.setVisible(false);
+            privchatMI.setVisible(false);
+        }
+
+        else if (temp.isAway() || me.isAway()) {
+            sendfileMI.setVisible(true);
+            sendfileMI.setEnabled(false);
+            privchatMI.setVisible(true);
+
+            if (!canPrivateChatWithUser(temp)) {
+                privchatMI.setEnabled(false);
+            } else {
+                privchatMI.setEnabled(true);
+            }
+        }
+
+        else {
+            sendfileMI.setVisible(true);
+            sendfileMI.setEnabled(true);
+            privchatMI.setVisible(true);
+
+            if (!canPrivateChatWithUser(temp)) {
+                privchatMI.setEnabled(false);
+            } else {
+                privchatMI.setEnabled(true);
+            }
+        }
+
+        userMenu.show(userL, e.getX(), e.getY());
     }
 
     /**
