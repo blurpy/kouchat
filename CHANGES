@@ -20,6 +20,7 @@
   - Moved the menubar to the top of the screen on Mac OS X.
   - Fixed menu not appearing when right clicking users in the user list on Mac OS X.
   - Switched to using command key instead of control key for keyboard shortcuts on Mac OS X.
+  - Added pre-scaled system tray icons for Mac OS X.
   - Replaced old icons and smileys with the newer ones from KouChat for Android.
   - User interface translations (under development)
 

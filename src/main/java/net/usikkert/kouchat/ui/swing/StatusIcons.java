@@ -120,6 +120,7 @@ public class StatusIcons {
     private ImageIcon chooseNormalIcon(final ImageLoader imageLoader, final StatusIconSize size) {
         switch (size) {
             case SIZE_16x16: return imageLoader.getKouNormal16Icon();
+            case SIZE_20x20: return imageLoader.getKouNormal20Icon();
             case SIZE_22x22: return imageLoader.getKouNormal22Icon();
             case SIZE_24x24: return imageLoader.getKouNormal24Icon();
             case SIZE_32x32: return imageLoader.getKouNormal32Icon();
@@ -130,6 +131,7 @@ public class StatusIcons {
     private ImageIcon chooseNormalActivityIcon(final ImageLoader imageLoader, final StatusIconSize size) {
         switch (size) {
             case SIZE_16x16: return imageLoader.getKouNormalActivity16Icon();
+            case SIZE_20x20: return imageLoader.getKouNormalActivity20Icon();
             case SIZE_22x22: return imageLoader.getKouNormalActivity22Icon();
             case SIZE_24x24: return imageLoader.getKouNormalActivity24Icon();
             case SIZE_32x32: return imageLoader.getKouNormalActivity32Icon();
@@ -140,6 +142,7 @@ public class StatusIcons {
     private ImageIcon chooseAwayIcon(final ImageLoader imageLoader, final StatusIconSize size) {
         switch (size) {
             case SIZE_16x16: return imageLoader.getKouAway16Icon();
+            case SIZE_20x20: return imageLoader.getKouAway20Icon();
             case SIZE_22x22: return imageLoader.getKouAway22Icon();
             case SIZE_24x24: return imageLoader.getKouAway24Icon();
             case SIZE_32x32: return imageLoader.getKouAway32Icon();
@@ -150,6 +153,7 @@ public class StatusIcons {
     private ImageIcon chooseAwayActivityIcon(final ImageLoader imageLoader, final StatusIconSize size) {
         switch (size) {
             case SIZE_16x16: return imageLoader.getKouAwayActivity16Icon();
+            case SIZE_20x20: return imageLoader.getKouAwayActivity20Icon();
             case SIZE_22x22: return imageLoader.getKouAwayActivity22Icon();
             case SIZE_24x24: return imageLoader.getKouAwayActivity24Icon();
             case SIZE_32x32: return imageLoader.getKouAwayActivity32Icon();

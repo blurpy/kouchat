@@ -39,6 +39,9 @@ public interface Images {
     String ICON_KOU_NORMAL_16 = ICON_PATH + "/16x16/kou_normal_16x16.png";
 
     /** The image used when there is no activity, and the user is not away. */
+    String ICON_KOU_NORMAL_20 = ICON_PATH + "/20x20/kou_normal_20x20.png";
+
+    /** The image used when there is no activity, and the user is not away. */
     String ICON_KOU_NORMAL_22 = ICON_PATH + "/22x22/kou_normal_22x22.png";
 
     /** The image used when there is no activity, and the user is not away. */
@@ -49,6 +52,9 @@ public interface Images {
 
     /** The image used when there is activity, and the user is not away. */
     String ICON_KOU_NORMAL_ACT_16 = ICON_PATH + "/16x16/kou_normal_activity_16x16.png";
+
+    /** The image used when there is activity, and the user is not away. */
+    String ICON_KOU_NORMAL_ACT_20 = ICON_PATH + "/20x20/kou_normal_activity_20x20.png";
 
     /** The image used when there is activity, and the user is not away. */
     String ICON_KOU_NORMAL_ACT_22 = ICON_PATH + "/22x22/kou_normal_activity_22x22.png";
@@ -63,6 +69,9 @@ public interface Images {
     String ICON_KOU_AWAY_16 = ICON_PATH + "/16x16/kou_away_16x16.png";
 
     /** The image used when there is no activity, and the user is away. */
+    String ICON_KOU_AWAY_20 = ICON_PATH + "/20x20/kou_away_20x20.png";
+
+    /** The image used when there is no activity, and the user is away. */
     String ICON_KOU_AWAY_22 = ICON_PATH + "/22x22/kou_away_22x22.png";
 
     /** The image used when there is no activity, and the user is away. */
@@ -73,6 +82,9 @@ public interface Images {
 
     /** The image used when there is activity, and the user is away. */
     String ICON_KOU_AWAY_ACT_16 = ICON_PATH + "/16x16/kou_away_activity_16x16.png";
+
+    /** The image used when there is activity, and the user is away. */
+    String ICON_KOU_AWAY_ACT_20 = ICON_PATH + "/20x20/kou_away_activity_20x20.png";
 
     /** The image used when there is activity, and the user is away. */
     String ICON_KOU_AWAY_ACT_22 = ICON_PATH + "/22x22/kou_away_activity_22x22.png";

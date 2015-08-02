@@ -343,6 +343,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      *
      * <ul>
      *   <li>Windows: 16x16px</li>
+     *   <li>Mac OS X: 20x20px</li>
      *   <li>Gnome: 24x24px</li>
      *   <li>KDE: 22x22px (asks for 24x24, but only 22x22 is actually shown, so looks weird)</li>
      *   <li>Others: 32x32, with scaling applied.</li>
@@ -356,6 +357,8 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
 
         if (trayIconSize.getHeight() == 16) {
             return StatusIconSize.SIZE_16x16;
+        } else if (trayIconSize.getHeight() == 20) {
+            return StatusIconSize.SIZE_20x20;
         } else if (trayIconSize.getHeight() == 24) {
             if (uiTools.isRunningOnKDE()) {
                 return StatusIconSize.SIZE_22x22;
