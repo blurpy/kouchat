@@ -22,6 +22,7 @@
   - Switched to using command key instead of control key for keyboard shortcuts on Mac OS X.
   - Added pre-scaled system tray icons for Mac OS X.
   - Replaced old icons and smileys with the newer ones from KouChat for Android.
+  - Added retina icons for Mac OS X.
   - User interface translations (under development)
 
 
