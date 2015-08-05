@@ -40,17 +40,7 @@
           <include>messages/</include>
           <include>sounds/</include>
           <include>icons/</include>
-          <include>smileys/smile.png</include>
-          <include>smileys/sad.png</include>
-          <include>smileys/tongue.png</include>
-          <include>smileys/teeth.png</include>
-          <include>smileys/wink.png</include>
-          <include>smileys/omg.png</include>
-          <include>smileys/angry.png</include>
-          <include>smileys/confused.png</include>
-          <include>smileys/cry.png</include>
-          <include>smileys/embarrassed.png</include>
-          <include>smileys/shade.png</include>
+          <include>smileys/</include>
         </includes>
       </resource>
     </resources>
