@@ -25,6 +25,7 @@ package net.usikkert.kouchat.net;
 import java.io.File;
 import java.util.Date;
 
+import net.usikkert.kouchat.message.CoreMessages;
 import net.usikkert.kouchat.misc.ChatState;
 import net.usikkert.kouchat.misc.CommandException;
 import net.usikkert.kouchat.misc.Controller;
@@ -60,6 +61,7 @@ public class DefaultMessageResponder implements MessageResponder {
     private final UserInterface ui;
     private final MessageController msgController;
     private final ChatState chatState;
+    private final CoreMessages coreMessages;
 
     /**
      * Constructor.
@@ -67,14 +69,18 @@ public class DefaultMessageResponder implements MessageResponder {
      * @param controller The controller to use for communication.
      * @param ui The user interface to update.
      * @param settings The settings to use.
+     * @param coreMessages The core messages to use.
      */
-    public DefaultMessageResponder(final Controller controller, final UserInterface ui, final Settings settings) {
+    public DefaultMessageResponder(final Controller controller, final UserInterface ui, final Settings settings,
+                                   final CoreMessages coreMessages) {
         Validate.notNull(controller, "Controller can not be null");
         Validate.notNull(ui, "UserInterface can not be null");
         Validate.notNull(settings, "Settings can not be null");
+        Validate.notNull(coreMessages, "Core messages can not be null");
 
         this.controller = controller;
         this.ui = ui;
+        this.coreMessages = coreMessages;
 
         msgController = ui.getMessageController();
         me = settings.getMe();

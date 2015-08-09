@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import net.usikkert.kouchat.junit.ExpectedException;
+import net.usikkert.kouchat.message.CoreMessages;
 import net.usikkert.kouchat.misc.ChatState;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.MessageController;
@@ -60,6 +61,7 @@ public class DefaultMessageResponderTest {
     private MessageController messageController;
     private UserList userList;
     private ChatState chatState;
+    private CoreMessages coreMessages;
 
     private User user;
     private User me;
@@ -72,12 +74,13 @@ public class DefaultMessageResponderTest {
         messageController = mock(MessageController.class);
         userList = new SortedUserList();
         chatState = mock(ChatState.class);
+        coreMessages = new CoreMessages();
 
         when(userInterface.getMessageController()).thenReturn(messageController);
         when(controller.getUserList()).thenReturn(userList);
         when(controller.getChatState()).thenReturn(chatState);
 
-        responder = new DefaultMessageResponder(controller, userInterface, settings);
+        responder = new DefaultMessageResponder(controller, userInterface, settings, coreMessages);
 
         user = new User("Tester", 100);
         user.setIpAddress("192.168.10.123");
@@ -97,7 +100,7 @@ public class DefaultMessageResponderTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Controller can not be null");
 
-        new DefaultMessageResponder(null, userInterface, settings);
+        new DefaultMessageResponder(null, userInterface, settings, coreMessages);
     }
 
     @Test
@@ -105,7 +108,7 @@ public class DefaultMessageResponderTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("UserInterface can not be null");
 
-        new DefaultMessageResponder(controller, null, settings);
+        new DefaultMessageResponder(controller, null, settings, coreMessages);
     }
 
     @Test
@@ -113,7 +116,15 @@ public class DefaultMessageResponderTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new DefaultMessageResponder(controller, userInterface, null);
+        new DefaultMessageResponder(controller, userInterface, null, coreMessages);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfCoreMessagesIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Core messages can not be null");
+
+        new DefaultMessageResponder(controller, userInterface, settings, null);
     }
 
     @Test
