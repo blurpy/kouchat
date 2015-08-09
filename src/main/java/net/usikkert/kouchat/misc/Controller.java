@@ -428,7 +428,7 @@ public class Controller implements NetworkConnectionListener {
             final User user = userList.get(i);
 
             if (!user.isMe()) {
-                removeUser(user, coreMessages.getMessage("core.network.systemMessage.logOff"));
+                removeUser(user, coreMessages.getMessage("core.network.systemMessage.meLogOff"));
                 i--;
             }
         }
@@ -839,7 +839,7 @@ public class Controller implements NetworkConnectionListener {
         }
 
         else {
-            msgController.showSystemMessage(coreMessages.getMessage("core.network.systemMessage.logOff"));
+            msgController.showSystemMessage(coreMessages.getMessage("core.network.systemMessage.meLogOff"));
         }
     }
 
