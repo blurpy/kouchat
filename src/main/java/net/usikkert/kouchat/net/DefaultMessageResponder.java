@@ -133,7 +133,8 @@ public class DefaultMessageResponder implements MessageResponder {
         final User user = controller.getUser(userCode);
 
         if (user != null) {
-            final String logOffMessage = user.getNick() + " logged off";
+            final String logOffMessage =
+                    coreMessages.getMessage("core.network.systemMessage.userLogOff", user.getNick());
 
             controller.removeUser(user, logOffMessage);
             msgController.showSystemMessage(logOffMessage);
