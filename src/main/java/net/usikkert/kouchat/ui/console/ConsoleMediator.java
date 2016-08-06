@@ -183,7 +183,7 @@ public class ConsoleMediator implements UserInterface {
      * {@inheritDoc}
      */
     @Override
-    public void notifyPrivateMessageArrived(final User user) {
+    public void notifyPrivateMessageArrived(final User user, final String message) {
 
     }
 

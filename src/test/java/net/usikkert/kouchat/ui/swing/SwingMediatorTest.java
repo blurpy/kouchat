@@ -840,7 +840,7 @@ public class SwingMediatorTest {
         when(privchat.isVisible()).thenReturn(true);
         when(privchat.isFocused()).thenReturn(true);
 
-        mediator.notifyPrivateMessageArrived(user);
+        mediator.notifyPrivateMessageArrived(user, null);
 
         verifyZeroInteractions(sysTray, beeper);
         assertFalse(me.isNewMsg());
@@ -854,7 +854,7 @@ public class SwingMediatorTest {
         when(privchat.isVisible()).thenReturn(false);
         when(privchat.isFocused()).thenReturn(false);
 
-        mediator.notifyPrivateMessageArrived(user);
+        mediator.notifyPrivateMessageArrived(user, null);
 
         verify(sysTray).setNormalActivityState();
         verify(sysTray).showBalloonMessage("Me - KouChat", "New private message from Sally");
@@ -872,7 +872,7 @@ public class SwingMediatorTest {
         when(privchat.isVisible()).thenReturn(true);
         when(privchat.isFocused()).thenReturn(false);
 
-        mediator.notifyPrivateMessageArrived(user);
+        mediator.notifyPrivateMessageArrived(user, null);
 
         verify(privchat).updateUserInformation();
         verify(beeper).beep();
@@ -889,7 +889,7 @@ public class SwingMediatorTest {
         when(privchat.isVisible()).thenReturn(true);
         when(privchat.isFocused()).thenReturn(true);
 
-        mediator.notifyPrivateMessageArrived(user);
+        mediator.notifyPrivateMessageArrived(user, null);
 
         verifyZeroInteractions(sysTray, beeper);
         assertFalse(me.isNewMsg());
@@ -906,7 +906,7 @@ public class SwingMediatorTest {
 
         assertFalse(me.isNewMsg());
 
-        mediator.notifyPrivateMessageArrived(user);
+        mediator.notifyPrivateMessageArrived(user, null);
 
         assertTrue(me.isNewMsg());
         verify(mediator).updateTitleAndTray();
@@ -923,7 +923,7 @@ public class SwingMediatorTest {
         when(privchat.isVisible()).thenReturn(true);
         when(privchat.isFocused()).thenReturn(false);
 
-        mediator.notifyPrivateMessageArrived(user);
+        mediator.notifyPrivateMessageArrived(user, null);
 
         verify(privchat).updateUserInformation();
         verify(beeper).beep();
@@ -943,7 +943,7 @@ public class SwingMediatorTest {
         when(privchat.isVisible()).thenReturn(false);
         when(privchat.isFocused()).thenReturn(false);
 
-        mediator.notifyPrivateMessageArrived(user);
+        mediator.notifyPrivateMessageArrived(user, null);
 
         verifyZeroInteractions(sysTray, beeper);
         assertFalse(me.isNewMsg());
@@ -957,7 +957,7 @@ public class SwingMediatorTest {
         when(privchat.isVisible()).thenReturn(true);
         when(privchat.isFocused()).thenReturn(false);
 
-        mediator.notifyPrivateMessageArrived(user);
+        mediator.notifyPrivateMessageArrived(user, null);
 
         verify(privchat).updateUserInformation();
 

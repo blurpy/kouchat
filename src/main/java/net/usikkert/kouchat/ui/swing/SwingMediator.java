@@ -605,9 +605,10 @@ public class SwingMediator implements Mediator, UserInterface {
      * </ul>
      *
      * @param user The user that sent the private message.
+     * @param message The private message sent by the user.
      */
     @Override
-    public void notifyPrivateMessageArrived(final User user) {
+    public void notifyPrivateMessageArrived(final User user, final String message) {
         final PrivateChatWindow privchat = user.getPrivchat();
 
         // Main chat hidden

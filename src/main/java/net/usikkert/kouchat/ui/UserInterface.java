@@ -102,9 +102,10 @@ public interface UserInterface {
     /**
      * A new private message has arrived. Update the ui if necessary.
      *
-     * @param user The user which sent a message.
+     * @param user The user which sent a private message.
+     * @param message The private message sent by the user.
      */
-    void notifyPrivateMessageArrived(User user);
+    void notifyPrivateMessageArrived(User user, String message);
 
     /**
      * Returns the message controller.
