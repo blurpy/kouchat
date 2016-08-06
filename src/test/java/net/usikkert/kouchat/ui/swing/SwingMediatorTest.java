@@ -769,7 +769,7 @@ public class SwingMediatorTest {
         when(kouChatFrame.isFocused()).thenReturn(false);
         me.setAway(true);
 
-        mediator.notifyMessageArrived(user);
+        mediator.notifyMessageArrived(user, null);
 
         verify(sysTray).setAwayActivityState();
 
@@ -783,7 +783,7 @@ public class SwingMediatorTest {
         when(kouChatFrame.isFocused()).thenReturn(false);
         me.setAway(false);
 
-        mediator.notifyMessageArrived(user);
+        mediator.notifyMessageArrived(user, null);
 
         verify(sysTray).setNormalActivityState();
         verify(sysTray).showBalloonMessage("Me - KouChat", "New message from Sally");
@@ -799,7 +799,7 @@ public class SwingMediatorTest {
         when(kouChatFrame.isFocused()).thenReturn(false);
         me.setAway(true);
 
-        mediator.notifyMessageArrived(user);
+        mediator.notifyMessageArrived(user, null);
 
         verify(mediator).updateTitleAndTray();
 
@@ -813,7 +813,7 @@ public class SwingMediatorTest {
         when(kouChatFrame.isFocused()).thenReturn(false);
         me.setAway(false);
 
-        mediator.notifyMessageArrived(user);
+        mediator.notifyMessageArrived(user, null);
 
         verify(mediator).updateTitleAndTray();
         verify(beeper).beep();
@@ -826,7 +826,7 @@ public class SwingMediatorTest {
         when(kouChatFrame.isVisible()).thenReturn(true);
         when(kouChatFrame.isFocused()).thenReturn(true);
 
-        mediator.notifyMessageArrived(user);
+        mediator.notifyMessageArrived(user, null);
 
         verify(mediator, never()).updateTitleAndTray();
         verifyZeroInteractions(sysTray, beeper);

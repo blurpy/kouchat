@@ -95,8 +95,9 @@ public interface UserInterface {
      * A new message has arrived. Update the ui if necessary.
      *
      * @param user The user which sent a message.
+     * @param message The message sent by the user.
      */
-    void notifyMessageArrived(User user);
+    void notifyMessageArrived(User user, String message);
 
     /**
      * A new private message has arrived. Update the ui if necessary.

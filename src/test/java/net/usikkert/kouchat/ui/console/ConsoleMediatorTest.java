@@ -234,7 +234,7 @@ public class ConsoleMediatorTest {
 
     @Test
     public void notifyMessageArrivedShouldDoNothing() {
-        mediator.notifyMessageArrived(null);
+        mediator.notifyMessageArrived(null, null);
 
         verifyZeroInteractions(msgController, consoleInput, controller);
     }
