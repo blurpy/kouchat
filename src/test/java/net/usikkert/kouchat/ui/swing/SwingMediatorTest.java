@@ -45,6 +45,7 @@ import net.usikkert.kouchat.misc.Topic;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.UserList;
 import net.usikkert.kouchat.net.FileReceiver;
+import net.usikkert.kouchat.net.FileToSend;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
@@ -667,7 +668,7 @@ public class SwingMediatorTest {
 
         verify(uiTools).createFileChooser("Open");
         verify(uiTools, never()).showWarningMessage(anyString(), anyString());
-        verify(cmdParser).sendFile(user, selectedFile.getAbsoluteFile());
+        verify(cmdParser).sendFile(user, new FileToSend(selectedFile.getAbsoluteFile()));
     }
 
     @Test
@@ -682,13 +683,13 @@ public class SwingMediatorTest {
 
         when(uiTools.createFileChooser(anyString())).thenReturn(fileChooser);
 
-        doThrow(new CommandException("Don't send file")).when(cmdParser).sendFile(any(User.class), any(File.class));
+        doThrow(new CommandException("Don't send file")).when(cmdParser).sendFile(any(User.class), any(FileToSend.class));
 
         mediator.sendFile(user, null);
 
         verify(uiTools).createFileChooser("Open");
         verify(uiTools).showWarningMessage("Don't send file", "Send file");
-        verify(cmdParser).sendFile(user, selectedFile.getAbsoluteFile());
+        verify(cmdParser).sendFile(user, new FileToSend(selectedFile.getAbsoluteFile()));
     }
 
     @Test

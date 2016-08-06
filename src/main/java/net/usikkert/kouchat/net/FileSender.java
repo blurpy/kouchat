@@ -22,9 +22,8 @@
 
 package net.usikkert.kouchat.net;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -53,7 +52,7 @@ public class FileSender implements FileTransfer {
     private final User user;
 
     /** The file to send to the user. */
-    private final File file;
+    private final FileToSend file;
 
     /** The unique ID of this file transfer. */
     private final int id;
@@ -80,7 +79,7 @@ public class FileSender implements FileTransfer {
     private FileTransferListener listener;
 
     /** The input stream from the file. */
-    private FileInputStream fis;
+    private InputStream is;
 
     /** The output stream to the other user. */
     private OutputStream os;
@@ -95,7 +94,7 @@ public class FileSender implements FileTransfer {
      * @param file The file to send.
      * @param id The unique ID of this file transfer.
      */
-    public FileSender(final User user, final File file, final int id) {
+    public FileSender(final User user, final FileToSend file, final int id) {
         this.user = user;
         this.file = file;
         this.id = id;
@@ -147,7 +146,7 @@ public class FileSender implements FileTransfer {
 
                 if (sock != null && !cancel) {
                     listener.statusTransferring();
-                    fis = new FileInputStream(file);
+                    is = file.getInputStream();
                     os = sock.getOutputStream();
 
                     final byte[] b = new byte[1024];
@@ -158,7 +157,7 @@ public class FileSender implements FileTransfer {
                     int transCounter = 0;
                     bCounter.prepare();
 
-                    while (!cancel && (tmpTransferred = fis.read(b)) != -1) {
+                    while (!cancel && (tmpTransferred = is.read(b)) != -1) {
                         os.write(b, 0, tmpTransferred);
                         transferred += tmpTransferred;
                         percent = (int) ((transferred * 100) / file.length());
@@ -210,7 +209,7 @@ public class FileSender implements FileTransfer {
      * Sets all connections to null.
      */
     private void cleanupConnections() {
-        fis = null;
+        is = null;
         os = null;
         sock = null;
     }
@@ -220,8 +219,8 @@ public class FileSender implements FileTransfer {
      */
     private void stopSender() {
         try {
-            if (fis != null) {
-                fis.close();
+            if (is != null) {
+                is.close();
             }
         }
 
@@ -321,6 +320,16 @@ public class FileSender implements FileTransfer {
     }
 
     /**
+     * Gets the name of the file being transferred.
+     *
+     * @return The name of the file.
+     */
+    @Override
+    public String getFileName() {
+        return file.getName();
+    }
+
+    /**
      * Gets the size of the file being transferred, in bytes.
      *
      * @return The file size.
@@ -365,8 +374,7 @@ public class FileSender implements FileTransfer {
      *
      * @return The file.
      */
-    @Override
-    public File getFile() {
+    public FileToSend getFile() {
         return file;
     }
 

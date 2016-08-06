@@ -31,6 +31,7 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.message.CoreMessages;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
+import net.usikkert.kouchat.net.FileToSend;
 import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.settings.Settings;
@@ -290,7 +291,7 @@ public class CommandParser {
 
                     if (sendFile.exists() && sendFile.isFile()) {
                         try {
-                            sendFile(user, sendFile);
+                            sendFile(user, new FileToSend(sendFile));
                         }
 
                         catch (final CommandException e) {
@@ -681,7 +682,7 @@ public class CommandParser {
         transferInfo.append("\n  ");
 
         final int fileTransferId = fileTransfer.getId();
-        final String fileName = fileTransfer.getFile().getName();
+        final String fileName = fileTransfer.getFileName();
         final String fileSize = Tools.byteToString(fileTransfer.getFileSize());
         final int percent = fileTransfer.getPercent();
         final String speed = Tools.byteToString(fileTransfer.getSpeed());
@@ -758,7 +759,7 @@ public class CommandParser {
      * @param file The file to send to the user.
      * @throws CommandException If there was a problem sending the file.
      */
-    public void sendFile(final User user, final File file) throws CommandException {
+    public void sendFile(final User user, final FileToSend file) throws CommandException {
         controller.sendFile(user, file);
         final FileSender fileSend = tList.addFileSender(user, file);
         ui.showTransfer(fileSend);
@@ -783,7 +784,7 @@ public class CommandParser {
 
             // This means that the other user has not answered yet
             if (fs.isWaiting()) {
-                final File file = fs.getFile();
+                final FileToSend file = fs.getFile();
                 final User user = fs.getUser();
 
                 msgController.showSystemMessage(coreMessages.getMessage("core.command.cancel.systemMessage.cancelled",

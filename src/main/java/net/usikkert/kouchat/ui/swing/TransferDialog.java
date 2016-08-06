@@ -42,6 +42,7 @@ import javax.swing.WindowConstants;
 import net.usikkert.kouchat.event.FileTransferListener;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.User;
+import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
@@ -287,7 +288,8 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
         if (event.getSource() == cancelB) {
             mediator.transferCancelled(this);
         } else if (event.getSource() == openB) {
-            final File folder = fileTransfer.getFile().getParentFile();
+            final FileReceiver fileReceiver = (FileReceiver) fileTransfer;
+            final File folder = fileReceiver.getFile().getParentFile();
             uiTools.open(folder, settings, errorHandler, swingMessages);
         }
     }
@@ -398,7 +400,7 @@ public class TransferDialog extends JDialog implements FileTransferListener, Act
                     sourceL.setText(me.getNick() + " (" + me.getIpAddress() + ")");
                 }
 
-                final String fileName = fileTransfer.getFile().getName();
+                final String fileName = fileTransfer.getFileName();
                 filenameL.setText(fileName);
                 final double width = uiTools.getTextWidth(fileName, getGraphics(), filenameL.getFont());
 

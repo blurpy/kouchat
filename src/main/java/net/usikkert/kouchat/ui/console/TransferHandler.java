@@ -24,6 +24,7 @@ package net.usikkert.kouchat.ui.console;
 
 import net.usikkert.kouchat.event.FileTransferListener;
 import net.usikkert.kouchat.misc.MessageController;
+import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.net.FileTransfer.Direction;
 import net.usikkert.kouchat.util.Validate;
@@ -95,9 +96,10 @@ public class TransferHandler implements FileTransferListener {
     @Override
     public void statusTransferring() {
         if (fileTransfer.getDirection() == Direction.RECEIVE) {
+            final FileReceiver fileReceiver = (FileReceiver) fileTransfer;
             msgController.showSystemMessage(consoleMessages.getMessage("console.receiveFile.receiving.systemMessage",
-                                                                       fileTransfer.getFile().getName(),
-                                                                       fileTransfer.getUser().getNick()));
+                                                                       fileReceiver.getFile().getName(),
+                                                                       fileReceiver.getUser().getNick()));
         }
     }
 

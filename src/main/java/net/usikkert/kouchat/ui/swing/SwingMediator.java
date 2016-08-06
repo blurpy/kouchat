@@ -41,6 +41,7 @@ import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.UserList;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
+import net.usikkert.kouchat.net.FileToSend;
 import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.settings.PropertyFileSettingsSaver;
 import net.usikkert.kouchat.settings.Settings;
@@ -392,7 +393,7 @@ public class SwingMediator implements Mediator, UserInterface {
 
                 if (file.exists() && file.isFile()) {
                     try {
-                        cmdParser.sendFile(user, file);
+                        cmdParser.sendFile(user, new FileToSend(file));
                     }
 
                     catch (final CommandException e) {

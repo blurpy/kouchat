@@ -31,6 +31,7 @@ import net.usikkert.kouchat.misc.MessageController;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
+import net.usikkert.kouchat.net.FileToSend;
 import net.usikkert.kouchat.net.FileTransfer;
 
 import org.junit.Before;
@@ -120,7 +121,7 @@ public class TransferHandlerTest {
 
     @Test
     public void statusTransferringWhenSendingShouldDoNothing() {
-        final FileSender fileSender = new FileSender(new User("Dude", 1234), new File("sunset.jpg"), 2);
+        final FileSender fileSender = new FileSender(new User("Dude", 1234), new FileToSend(new File("sunset.jpg")), 2);
         final TransferHandler fileSenderTransferHandler = new TransferHandler(fileSender, messageController, messages);
 
         fileSenderTransferHandler.statusTransferring();

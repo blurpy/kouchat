@@ -40,6 +40,7 @@ import javax.swing.WindowConstants;
 import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.User;
+import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileTransfer;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
@@ -98,7 +99,7 @@ public class TransferDialogTest {
 
         mediator = mock(Mediator.class);
         settings = mock(Settings.class);
-        fileTransfer = mock(FileTransfer.class);
+        fileTransfer = mock(FileReceiver.class);
         errorHandler = mock(ErrorHandler.class);
 
         transferDialog = new TransferDialog(mediator, fileTransfer, imageLoader, settings, messages, errorHandler);
@@ -245,7 +246,8 @@ public class TransferDialogTest {
     @Test
     public void openButtonShouldUseUiToolsToOpenFileFromFileTransfer() {
         final File file = new File("files/something.txt");
-        when(fileTransfer.getFile()).thenReturn(file);
+        final FileReceiver fileReceiver = (FileReceiver) fileTransfer;
+        when(fileReceiver.getFile()).thenReturn(file);
 
         openButton.setEnabled(true); // Must be enabled for actionPerformed() to run
 
@@ -446,7 +448,7 @@ public class TransferDialogTest {
 
     @Test
     public void statusWaitingShouldSetCorrectStatusTextAndCorrectFileNameAndZeroPercent() {
-        when(fileTransfer.getFile()).thenReturn(new File("image.png"));
+        when(fileTransfer.getFileName()).thenReturn("image.png");
         when(fileTransfer.getFileSize()).thenReturn((long) (1024 * 1024 * 3.5)); // 3.5MB
 
         transferDialog.statusWaiting();
@@ -461,7 +463,7 @@ public class TransferDialogTest {
 
     @Test
     public void statusWaitingShouldSetToolTipOnFileNameIfLongerThanDialog() {
-        when(fileTransfer.getFile()).thenReturn(new File("image.png"));
+        when(fileTransfer.getFileName()).thenReturn("image.png");
         when(uiTools.getTextWidth(anyString(), any(Graphics.class), any(Font.class))).thenReturn(500.0);
 
         transferDialog.statusWaiting();
@@ -474,7 +476,7 @@ public class TransferDialogTest {
 
     @Test
     public void statusWaitingShouldNotSetToolTipOnFileNameIfShorterThanDialog() {
-        when(fileTransfer.getFile()).thenReturn(new File("image.png"));
+        when(fileTransfer.getFileName()).thenReturn("image.png");
         when(uiTools.getTextWidth(anyString(), any(Graphics.class), any(Font.class))).thenReturn(300.0);
 
         transferDialog.statusWaiting();
@@ -494,7 +496,7 @@ public class TransferDialogTest {
 
         when(settings.getMe()).thenReturn(me);
         when(fileTransfer.getUser()).thenReturn(pedro);
-        when(fileTransfer.getFile()).thenReturn(new File("image.png"));
+        when(fileTransfer.getFileName()).thenReturn("image.png");
         when(fileTransfer.getDirection()).thenReturn(FileTransfer.Direction.RECEIVE);
 
         transferDialog.statusWaiting();
@@ -514,7 +516,7 @@ public class TransferDialogTest {
 
         when(settings.getMe()).thenReturn(me);
         when(fileTransfer.getUser()).thenReturn(pedro);
-        when(fileTransfer.getFile()).thenReturn(new File("image.png"));
+        when(fileTransfer.getFileName()).thenReturn("image.png");
         when(fileTransfer.getDirection()).thenReturn(FileTransfer.Direction.SEND);
 
         transferDialog.statusWaiting();

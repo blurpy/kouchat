@@ -35,7 +35,7 @@ import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.message.CoreMessages;
 import net.usikkert.kouchat.net.FileReceiver;
 import net.usikkert.kouchat.net.FileSender;
-import net.usikkert.kouchat.net.FileTransfer;
+import net.usikkert.kouchat.net.FileToSend;
 import net.usikkert.kouchat.net.TransferList;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.UserInterface;
@@ -460,7 +460,7 @@ public class CommandParserTest {
         final User someOne = setupSomeOne();
         final FileSender fileSender = setupFileSender(someOne);
         when(fileSender.isWaiting()).thenReturn(true);
-        final File file = setupFile(fileSender);
+        final FileToSend file = setupFile(fileSender);
         when(fileSender.getUser()).thenReturn(someOne);
 
         parser.parse("/cancel SomeOne 1");
@@ -800,7 +800,7 @@ public class CommandParserTest {
         parser.parse("/send");
 
         verify(messageController).showSystemMessage("/send - missing arguments <nick> <file>");
-        verify(parser, never()).sendFile(any(User.class), any(File.class));
+        verify(parser, never()).sendFile(any(User.class), any(FileToSend.class));
     }
 
     @Test
@@ -808,7 +808,7 @@ public class CommandParserTest {
         parser.parse("/send niles");
 
         verify(messageController).showSystemMessage("/send - missing arguments <nick> <file>");
-        verify(parser, never()).sendFile(any(User.class), any(File.class));
+        verify(parser, never()).sendFile(any(User.class), any(FileToSend.class));
     }
 
     @Test
@@ -818,7 +818,7 @@ public class CommandParserTest {
         parser.parse("/send MySelf image.png");
 
         verify(messageController).showSystemMessage("/send - no point in doing that!");
-        verify(parser, never()).sendFile(any(User.class), any(File.class));
+        verify(parser, never()).sendFile(any(User.class), any(FileToSend.class));
     }
 
     @Test
@@ -826,7 +826,7 @@ public class CommandParserTest {
         parser.parse("/send NoOne image.png");
 
         verify(messageController).showSystemMessage("/send - no such user 'NoOne'");
-        verify(parser, never()).sendFile(any(User.class), any(File.class));
+        verify(parser, never()).sendFile(any(User.class), any(FileToSend.class));
     }
 
     @Test
@@ -839,7 +839,7 @@ public class CommandParserTest {
         parser.parse("/send SomeOne image.png");
 
         verify(messageController).showSystemMessage("/send - no such file 'image.png'");
-        verify(parser, never()).sendFile(any(User.class), any(File.class));
+        verify(parser, never()).sendFile(any(User.class), any(FileToSend.class));
     }
 
     @Test
@@ -853,13 +853,13 @@ public class CommandParserTest {
         parser.parse("/send SomeOne target");
 
         verify(messageController).showSystemMessage("/send - no such file 'target'");
-        verify(parser, never()).sendFile(any(User.class), any(File.class));
+        verify(parser, never()).sendFile(any(User.class), any(FileToSend.class));
     }
 
     @Test
     public void sendShouldSendFileIfFileIsValid() throws CommandException {
         final User someOne = setupSomeOne();
-        doNothing().when(parser).sendFile(any(User.class), any(File.class));
+        doNothing().when(parser).sendFile(any(User.class), any(FileToSend.class));
 
         final File file = new File("src/test/resources/test-messages.properties");
         assertTrue(file.exists());
@@ -868,13 +868,13 @@ public class CommandParserTest {
         parser.parse("/send SomeOne src/test/resources/test-messages.properties");
 
         verify(messageController, never()).showSystemMessage(anyString());
-        verify(parser).sendFile(someOne, file);
+        verify(parser).sendFile(someOne, new FileToSend(file));
     }
 
     @Test
     public void sendShouldSendFileWithSpaceInName() throws CommandException {
         final User someOne = setupSomeOne();
-        doNothing().when(parser).sendFile(any(User.class), any(File.class));
+        doNothing().when(parser).sendFile(any(User.class), any(FileToSend.class));
 
         final File file = new File("src/test/resources/with some space.txt");
         assertTrue(file.exists());
@@ -883,13 +883,13 @@ public class CommandParserTest {
         parser.parse("/send SomeOne src/test/resources/with some space.txt ");
 
         verify(messageController, never()).showSystemMessage(anyString());
-        verify(parser).sendFile(someOne, file);
+        verify(parser).sendFile(someOne, new FileToSend(file));
     }
 
     @Test
     public void sendShouldShowSystemMessageIfSendFileFails() throws CommandException {
         final User someOne = setupSomeOne();
-        doThrow(new CommandException("Stop that file")).when(parser).sendFile(any(User.class), any(File.class));
+        doThrow(new CommandException("Stop that file")).when(parser).sendFile(any(User.class), any(FileToSend.class));
 
         final File file = new File("src/test/resources/test-messages.properties");
         assertTrue(file.exists());
@@ -898,16 +898,16 @@ public class CommandParserTest {
         parser.parse("/send SomeOne src/test/resources/test-messages.properties");
 
         verify(messageController).showSystemMessage("Stop that file");
-        verify(parser).sendFile(someOne, file);
+        verify(parser).sendFile(someOne, new FileToSend(file));
     }
 
     @Test
     public void sendFileShouldSendUsingControllerAndAddToTransferListAndShowFileTransfer() throws CommandException {
         final User user = new User("User", 123456);
-        final File file = new File("");
+        final FileToSend file = new FileToSend(new File(""));
         final FileSender fileSender = mock(FileSender.class);
 
-        when(transferList.addFileSender(any(User.class), any(File.class))).thenReturn(fileSender);
+        when(transferList.addFileSender(any(User.class), any(FileToSend.class))).thenReturn(fileSender);
 
         parser.sendFile(user, file);
 
@@ -919,13 +919,13 @@ public class CommandParserTest {
     @Test
     public void sendFileShouldShowSystemMessage() throws CommandException {
         final User user = new User("Kelly", 123456);
-        final File file = mock(File.class);
+        final FileToSend file = mock(FileToSend.class);
         final FileSender fileSender = mock(FileSender.class);
 
         when(file.getName()).thenReturn("picture.png");
         when(file.length()).thenReturn(1024 * 1024 * 54L);
         when(fileSender.getId()).thenReturn(2);
-        when(transferList.addFileSender(any(User.class), any(File.class))).thenReturn(fileSender);
+        when(transferList.addFileSender(any(User.class), any(FileToSend.class))).thenReturn(fileSender);
 
         parser.sendFile(user, file);
 
@@ -1262,11 +1262,20 @@ public class CommandParserTest {
      * Reusable test methods.
      */
 
-    private File setupFile(final FileTransfer fileTransfer) {
+    private File setupFile(final FileReceiver fileReceiver) {
         final File file = mock(File.class);
         when(file.getName()).thenReturn("doc.pdf");
 
-        when(fileTransfer.getFile()).thenReturn(file);
+        when(fileReceiver.getFile()).thenReturn(file);
+
+        return file;
+    }
+
+    private FileToSend setupFile(final FileSender fileSender) {
+        final FileToSend file = mock(FileToSend.class);
+        when(file.getName()).thenReturn("doc.pdf");
+
+        when(fileSender.getFile()).thenReturn(file);
 
         return file;
     }
@@ -1311,7 +1320,7 @@ public class CommandParserTest {
 
     private FileSender createFileSender(final int id, final String fileName, final long fileSize, final int percent,
                                         final long speed, final String nick) {
-        final FileSender fileSender = spy(new FileSender(new User(nick, 1), createFile(fileName, 1024 * fileSize), id));
+        final FileSender fileSender = spy(new FileSender(new User(nick, 1), createFileToSend(fileName, 1024 * fileSize), id));
 
         when(fileSender.getPercent()).thenReturn(percent);
         when(fileSender.getSpeed()).thenReturn(1024 * speed);
@@ -1328,6 +1337,15 @@ public class CommandParserTest {
         when(fileReceiver.getSpeed()).thenReturn(1024 * speed);
 
         return fileReceiver;
+    }
+
+    private FileToSend createFileToSend(final String fileName, final long fileSize) {
+        final File file = mock(File.class);
+
+        when(file.getName()).thenReturn(fileName);
+        when(file.length()).thenReturn(fileSize);
+
+        return new FileToSend(file);
     }
 
     private File createFile(final String fileName, final long fileSize) {
