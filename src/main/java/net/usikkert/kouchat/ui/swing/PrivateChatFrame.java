@@ -635,7 +635,7 @@ public class PrivateChatFrame extends JFrame implements ActionListener, KeyListe
          *
          * @param window This window object.
          */
-        public FocusWindowThread(final PrivateChatFrame window) {
+        FocusWindowThread(final PrivateChatFrame window) {
             this.window = window;
             setName("FocusWindowThread");
         }
