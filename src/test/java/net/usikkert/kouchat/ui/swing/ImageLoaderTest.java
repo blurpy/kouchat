@@ -107,8 +107,8 @@ public class ImageLoaderTest {
     }
 
     @Test
-    public void constructorShouldThrowExceptionIfKouAway22IsMissing() {
-        checkMissingImage("/icons/22x22/kou_away_22x22.png");
+    public void constructorShouldThrowExceptionIfKouAway20IsMissing() {
+        checkMissingImage("/icons/20x20/kou_away_20x20.png");
     }
 
     @Test
@@ -127,8 +127,8 @@ public class ImageLoaderTest {
     }
 
     @Test
-    public void constructorShouldThrowExceptionIfKouAwayActivity22IsMissing() {
-        checkMissingImage("/icons/22x22/kou_away_activity_22x22.png");
+    public void constructorShouldThrowExceptionIfKouAwayActivity20IsMissing() {
+        checkMissingImage("/icons/20x20/kou_away_activity_20x20.png");
     }
 
     @Test
@@ -147,8 +147,8 @@ public class ImageLoaderTest {
     }
 
     @Test
-    public void constructorShouldThrowExceptionIfKouNormal22IsMissing() {
-        checkMissingImage("/icons/22x22/kou_normal_22x22.png");
+    public void constructorShouldThrowExceptionIfKouNormal20IsMissing() {
+        checkMissingImage("/icons/20x20/kou_normal_20x20.png");
     }
 
     @Test
@@ -167,8 +167,8 @@ public class ImageLoaderTest {
     }
 
     @Test
-    public void constructorShouldThrowExceptionIfKouNormalActivity22IsMissing() {
-        checkMissingImage("/icons/22x22/kou_normal_activity_22x22.png");
+    public void constructorShouldThrowExceptionIfKouNormalActivity20IsMissing() {
+        checkMissingImage("/icons/20x20/kou_normal_activity_20x20.png");
     }
 
     @Test
@@ -250,7 +250,7 @@ public class ImageLoaderTest {
     public void constructorShouldThrowExceptionWithAllMissingImagesInMessage() {
         final ResourceLoader resourceLoader = spy(new ResourceLoader());
         when(resourceLoader.getResource("/smileys/embarrassed.png")).thenReturn(null);
-        when(resourceLoader.getResource("/icons/22x22/kou_normal_activity_22x22.png")).thenReturn(null);
+        when(resourceLoader.getResource("/icons/24x24/kou_normal_activity_24x24.png")).thenReturn(null);
         when(resourceLoader.getResource("/icons/dot.png")).thenReturn(null);
 
         final ErrorHandler errorHandler = mock(ErrorHandler.class);
@@ -261,7 +261,7 @@ public class ImageLoaderTest {
             public void checkAssertion() throws Exception {
                 verify(errorHandler).showCriticalError("These images were expected, but not found:\n\n" +
                         "/smileys/embarrassed.png\n" +
-                        "/icons/22x22/kou_normal_activity_22x22.png\n" +
+                        "/icons/24x24/kou_normal_activity_24x24.png\n" +
                         "/icons/dot.png\n\n" +
                         "KouChat will now shutdown.");
             }
@@ -294,7 +294,7 @@ public class ImageLoaderTest {
     @Test
     public void constructorShouldLoadCorrectKouNormalIcons() {
         assertThat(imageLoader.getKouNormal16Icon().getDescription(), containsString("kou_normal_16x16.png"));
-        assertThat(imageLoader.getKouNormal22Icon().getDescription(), containsString("kou_normal_22x22.png"));
+        assertThat(imageLoader.getKouNormal20Icon().getDescription(), containsString("kou_normal_20x20.png"));
         assertThat(imageLoader.getKouNormal24Icon().getDescription(), containsString("kou_normal_24x24.png"));
         assertThat(imageLoader.getKouNormal32Icon().getDescription(), containsString("kou_normal_32x32.png"));
     }
@@ -302,7 +302,7 @@ public class ImageLoaderTest {
     @Test
     public void constructorShouldLoadCorrectKouNormalActivityIcons() {
         assertThat(imageLoader.getKouNormalActivity16Icon().getDescription(), containsString("kou_normal_activity_16x16.png"));
-        assertThat(imageLoader.getKouNormalActivity22Icon().getDescription(), containsString("kou_normal_activity_22x22.png"));
+        assertThat(imageLoader.getKouNormalActivity20Icon().getDescription(), containsString("kou_normal_activity_20x20.png"));
         assertThat(imageLoader.getKouNormalActivity24Icon().getDescription(), containsString("kou_normal_activity_24x24.png"));
         assertThat(imageLoader.getKouNormalActivity32Icon().getDescription(), containsString("kou_normal_activity_32x32.png"));
     }
@@ -310,7 +310,7 @@ public class ImageLoaderTest {
     @Test
     public void constructorShouldLoadCorrectKouAwayIcons() {
         assertThat(imageLoader.getKouAway16Icon().getDescription(), containsString("kou_away_16x16.png"));
-        assertThat(imageLoader.getKouAway22Icon().getDescription(), containsString("kou_away_22x22.png"));
+        assertThat(imageLoader.getKouAway20Icon().getDescription(), containsString("kou_away_20x20.png"));
         assertThat(imageLoader.getKouAway24Icon().getDescription(), containsString("kou_away_24x24.png"));
         assertThat(imageLoader.getKouAway32Icon().getDescription(), containsString("kou_away_32x32.png"));
     }
@@ -318,7 +318,7 @@ public class ImageLoaderTest {
     @Test
     public void constructorShouldLoadCorrectKouAwayActivityIcons() {
         assertThat(imageLoader.getKouAwayActivity16Icon().getDescription(), containsString("kou_away_activity_16x16.png"));
-        assertThat(imageLoader.getKouAwayActivity22Icon().getDescription(), containsString("kou_away_activity_22x22.png"));
+        assertThat(imageLoader.getKouAwayActivity20Icon().getDescription(), containsString("kou_away_activity_20x20.png"));
         assertThat(imageLoader.getKouAwayActivity24Icon().getDescription(), containsString("kou_away_activity_24x24.png"));
         assertThat(imageLoader.getKouAwayActivity32Icon().getDescription(), containsString("kou_away_activity_32x32.png"));
     }

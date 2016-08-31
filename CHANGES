@@ -22,6 +22,7 @@
   - Fixed menu not appearing when right clicking users in the user list on Mac OS X.
   - Switched to using command key instead of control key for keyboard shortcuts on Mac OS X.
   - Added pre-scaled system tray icons for Mac OS X.
+  - Removed hack for KDE where system tray icon of 22x22 was required instead of 24x24.
   - Replaced old icons and smileys with the newer ones from KouChat for Android.
   - Added retina icons for Mac OS X.
   - User interface translations (under development).

@@ -31,7 +31,6 @@ public enum StatusIconSize {
 
     SIZE_16x16,
     SIZE_20x20,
-    SIZE_22x22,
     SIZE_24x24,
     SIZE_32x32
 
