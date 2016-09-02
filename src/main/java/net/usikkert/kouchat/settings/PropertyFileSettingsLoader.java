@@ -123,7 +123,10 @@ public class PropertyFileSettingsLoader {
     }
 
     private void setSystemTray(final Settings settings, final Properties fileContents) {
-        settings.setSystemTray(Boolean.valueOf(fileContents.getProperty(SYSTEM_TRAY.getKey())));
+        // Defaults to true
+        if (fileContents.getProperty(SYSTEM_TRAY.getKey()) != null) {
+            settings.setSystemTray(Boolean.valueOf(fileContents.getProperty(SYSTEM_TRAY.getKey())));
+        }
     }
 
     private void setBrowser(final Settings settings, final Properties fileContents) {

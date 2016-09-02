@@ -105,6 +105,7 @@ public class Settings {
         sysColor = -16759040;
         sound = true;
         smileys = true;
+        systemTray = true;
         lookAndFeel = "";
     }
 

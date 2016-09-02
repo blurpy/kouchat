@@ -163,7 +163,7 @@ public class SettingsTest {
         assertFalse(settings.isLogging());
         assertTrue(settings.isSmileys());
         assertFalse(settings.isBalloons());
-        assertFalse(settings.isSystemTray());
+        assertTrue(settings.isSystemTray());
 
         assertEquals("", settings.getBrowser());
         assertEquals("", settings.getLookAndFeel());

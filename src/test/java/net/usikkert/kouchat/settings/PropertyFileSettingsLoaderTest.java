@@ -97,7 +97,7 @@ public class PropertyFileSettingsLoaderTest {
         properties.setProperty(LOGGING.getKey(), "true");
         properties.setProperty(SMILEYS.getKey(), "false");
         properties.setProperty(BALLOONS.getKey(), "true");
-        properties.setProperty(SYSTEM_TRAY.getKey(), "true");
+        properties.setProperty(SYSTEM_TRAY.getKey(), "false");
         properties.setProperty(BROWSER.getKey(), "opera");
         properties.setProperty(LOOK_AND_FEEL.getKey(), "sega");
         properties.setProperty(NETWORK_INTERFACE.getKey(), "eth5");
@@ -117,7 +117,7 @@ public class PropertyFileSettingsLoaderTest {
         assertTrue(settings.isLogging());
         assertFalse(settings.isSmileys());
         assertTrue(settings.isBalloons());
-        assertTrue(settings.isSystemTray());
+        assertFalse(settings.isSystemTray());
 
         assertEquals("opera", settings.getBrowser());
         assertEquals("sega", settings.getLookAndFeel());
