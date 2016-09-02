@@ -86,7 +86,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
     private final JButton saveB, cancelB, chooseOwnColorB, chooseSysColorB, testBrowserB, chooseBrowserB;
     private final JTextField nickTF, browserTF;
     private final JLabel ownColorL, sysColorL;
-    private final JCheckBox soundCB, loggingCB, smileysCB, balloonCB;
+    private final JCheckBox soundCB, loggingCB, smileysCB, balloonCB, systemTrayCB;
     private final JComboBox lookAndFeelCB, networkInterfaceCB; // Java 6 doesn't support generic JComboBox
 
     private final Settings settings;
@@ -176,11 +176,15 @@ public class SettingsDialog extends JDialog implements ActionListener {
         balloonCB = new JCheckBox(swingMessages.getMessage("swing.settings.misc.enableBalloons.label"));
         balloonCB.setToolTipText(swingMessages.getMessage("swing.settings.misc.enableBalloons.tooltip"));
 
-        final JPanel miscCheckBoxP = new JPanel(new GridLayout(2, 2));
+        systemTrayCB = new JCheckBox(swingMessages.getMessage("swing.settings.misc.enableSystemTray.label"));
+        systemTrayCB.setToolTipText(swingMessages.getMessage("swing.settings.misc.enableSystemTray.tooltip"));
+
+        final JPanel miscCheckBoxP = new JPanel(new GridLayout(3, 2));
         miscCheckBoxP.add(soundCB);
-        miscCheckBoxP.add(loggingCB);
+        miscCheckBoxP.add(systemTrayCB);
         miscCheckBoxP.add(smileysCB);
         miscCheckBoxP.add(balloonCB);
+        miscCheckBoxP.add(loggingCB);
 
         final JLabel networkInterfaceL = new JLabel(swingMessages.getMessage("swing.settings.misc.networkInterface.label"));
         networkInterfaceL.setToolTipText(swingMessages.getMessage("swing.settings.misc.networkInterface.tooltip", Constants.APP_NAME));

@@ -108,6 +108,7 @@ public class SettingsDialogTest  {
     private JCheckBox loggingCheckBox;
     private JCheckBox smileysCheckBox;
     private JCheckBox balloonCheckBox;
+    private JCheckBox systemTrayCheckBox;
     private JLabel networkInterfaceLabel;
     private JComboBox networkInterfaceComboBox;
 
@@ -166,9 +167,10 @@ public class SettingsDialogTest  {
         miscPanel = (JPanel) centerPanel.getComponent(1);
         final JPanel miscCheckBoxPanel = (JPanel) miscPanel.getComponent(0);
         soundCheckBox = (JCheckBox) miscCheckBoxPanel.getComponent(0);
-        loggingCheckBox = (JCheckBox) miscCheckBoxPanel.getComponent(1);
+        loggingCheckBox = (JCheckBox) miscCheckBoxPanel.getComponent(4);
         smileysCheckBox = (JCheckBox) miscCheckBoxPanel.getComponent(2);
         balloonCheckBox = (JCheckBox) miscCheckBoxPanel.getComponent(3);
+        systemTrayCheckBox = (JCheckBox) miscCheckBoxPanel.getComponent(1);
         final JPanel networkInterfacePanel = (JPanel) miscPanel.getComponent(1);
         networkInterfaceLabel = (JLabel) networkInterfacePanel.getComponent(0);
         networkInterfaceComboBox = (JComboBox) networkInterfacePanel.getComponent(2);
@@ -397,6 +399,18 @@ public class SettingsDialogTest  {
     }
 
     @Test
+    public void systemTrayCheckBoxShouldHaveCorrectText() {
+        assertEquals("Enable system tray", systemTrayCheckBox.getText());
+    }
+
+    @Test
+    public void systemTrayCheckBoxToolTipShouldHaveCorrectText() {
+        assertEquals(
+                "<html>Shows a system tray icon for hiding KouChat and showing chat activity.</html>",
+                systemTrayCheckBox.getToolTipText());
+    }
+
+    @Test
     public void networkInterfaceLabelShouldHaveCorrectText() {
         assertEquals("Network interface", networkInterfaceLabel.getText());
     }
@@ -504,7 +518,7 @@ public class SettingsDialogTest  {
         final JPanel dialogCenterPanel = (JPanel) dialogMainPanel.getComponent(1);
         final JPanel dialogMiscPanel = (JPanel) dialogCenterPanel.getComponent(1);
         final JPanel dialogMiscCheckBoxPanel = (JPanel) dialogMiscPanel.getComponent(0);
-        final JCheckBox dialogLoggingCheckBox = (JCheckBox) dialogMiscCheckBoxPanel.getComponent(1);
+        final JCheckBox dialogLoggingCheckBox = (JCheckBox) dialogMiscCheckBoxPanel.getComponent(4);
 
         assertFalse(dialogLoggingCheckBox.isEnabled());
     }
