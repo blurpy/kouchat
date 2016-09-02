@@ -65,6 +65,9 @@ public class Settings {
     /** If balloon notifications are enabled. */
     private boolean balloons;
 
+    /** If the system tray icon is enabled. */
+    private boolean systemTray;
+
     /** The choice of browser to open urls with. */
     private String browser;
 
@@ -363,6 +366,24 @@ public class Settings {
      */
     public void setBalloons(final boolean balloons) {
         this.balloons = balloons;
+    }
+
+    /**
+     * If the system tray icon is enabled.
+     *
+     * @return If the system tray icon is enabled.
+     */
+    public boolean isSystemTray() {
+        return systemTray;
+    }
+
+    /**
+     * Sets if the system tray icon should be enabled.
+     *
+     * @param systemTray If the system tray icon should be enabled.
+     */
+    public void setSystemTray(final boolean systemTray) {
+        this.systemTray = systemTray;
     }
 
     /**

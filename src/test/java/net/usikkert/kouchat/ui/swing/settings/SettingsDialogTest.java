@@ -612,6 +612,7 @@ public class SettingsDialogTest  {
         smileysCheckBox.setSelected(false);
         loggingCheckBox.setSelected(true);
         balloonCheckBox.setSelected(false);
+        systemTrayCheckBox.setSelected(true);
 
         okButton.doClick();
 
@@ -619,6 +620,7 @@ public class SettingsDialogTest  {
         verify(settings).setSmileys(false);
         verify(settings).setLogging(true);
         verify(settings).setBalloons(false);
+        verify(settings).setSystemTray(true);
     }
 
     @Test
@@ -919,6 +921,7 @@ public class SettingsDialogTest  {
         when(settings.isLogging()).thenReturn(true);
         when(settings.isSmileys()).thenReturn(true);
         when(settings.isBalloons()).thenReturn(true);
+        when(settings.isSystemTray()).thenReturn(true);
 
         settingsDialog.showSettings();
 
@@ -926,11 +929,13 @@ public class SettingsDialogTest  {
         assertTrue(loggingCheckBox.isSelected());
         assertTrue(smileysCheckBox.isSelected());
         assertTrue(balloonCheckBox.isSelected());
+        assertTrue(systemTrayCheckBox.isSelected());
 
         verify(settings).isSound();
         verify(settings).isLogging();
         verify(settings).isSmileys();
         verify(settings).isBalloons();
+        verify(settings).isSystemTray();
     }
 
     @Test

@@ -320,6 +320,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
                         settings.setBrowser(browserTF.getText());
                         settings.setSmileys(smileysCB.isSelected());
                         settings.setBalloons(balloonCB.isSelected());
+                        settings.setSystemTray(systemTrayCB.isSelected());
                         final LookAndFeelWrapper lnfw = (LookAndFeelWrapper) lookAndFeelCB.getSelectedItem();
                         settings.setLookAndFeel(lnfw.getLookAndFeelInfo().getName());
                         settings.setNetworkInterface(getSelectedNetworkInterface().getDeviceName());
@@ -466,6 +467,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         browserTF.setText(settings.getBrowser());
         smileysCB.setSelected(settings.isSmileys());
         balloonCB.setSelected(settings.isBalloons());
+        systemTrayCB.setSelected(settings.isSystemTray());
 
         balloonCB.setEnabled(systemTrayCB.isSelected());
 
