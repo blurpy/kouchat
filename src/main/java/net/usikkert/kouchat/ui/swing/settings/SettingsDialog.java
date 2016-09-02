@@ -178,6 +178,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
         systemTrayCB = new JCheckBox(swingMessages.getMessage("swing.settings.misc.enableSystemTray.label"));
         systemTrayCB.setToolTipText(swingMessages.getMessage("swing.settings.misc.enableSystemTray.tooltip"));
+        systemTrayCB.addActionListener(this);
 
         final JPanel miscCheckBoxP = new JPanel(new GridLayout(3, 2));
         miscCheckBoxP.add(soundCB);
@@ -430,6 +431,10 @@ public class SettingsDialog extends JDialog implements ActionListener {
                 browserTF.setText(file.getAbsolutePath());
             }
         }
+
+        else if (e.getSource() == systemTrayCB) {
+            balloonCB.setEnabled(systemTrayCB.isSelected());
+        }
     }
 
     /**
@@ -461,6 +466,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
         browserTF.setText(settings.getBrowser());
         smileysCB.setSelected(settings.isSmileys());
         balloonCB.setSelected(settings.isBalloons());
+
+        balloonCB.setEnabled(systemTrayCB.isSelected());
 
         networkInterfaceCB.setModel(new DefaultComboBoxModel(getNetworkChoices()));
         lookAndFeelCB.setModel(new DefaultComboBoxModel(uiTools.getLookAndFeels()));

@@ -411,6 +411,19 @@ public class SettingsDialogTest  {
     }
 
     @Test
+    public void systemTrayCheckBoxShouldDisableBalloonCheckBoxWhenNotSelected() {
+        systemTrayCheckBox.setSelected(true);
+
+        systemTrayCheckBox.doClick();
+        assertFalse(systemTrayCheckBox.isSelected());
+        assertFalse(balloonCheckBox.isEnabled());
+
+        systemTrayCheckBox.doClick();
+        assertTrue(systemTrayCheckBox.isSelected());
+        assertTrue(balloonCheckBox.isEnabled());
+    }
+
+    @Test
     public void networkInterfaceLabelShouldHaveCorrectText() {
         assertEquals("Network interface", networkInterfaceLabel.getText());
     }
@@ -918,6 +931,17 @@ public class SettingsDialogTest  {
         verify(settings).isLogging();
         verify(settings).isSmileys();
         verify(settings).isBalloons();
+    }
+
+    @Test
+    public void showSettingsShouldSetBalloonCheckBoxEnabledStateFromSystemTrayCheckBox() {
+        prepareShowSettings();
+
+        systemTrayCheckBox.setSelected(false);
+
+        settingsDialog.showSettings();
+
+        assertFalse(balloonCheckBox.isEnabled());
     }
 
     @Test
