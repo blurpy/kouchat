@@ -345,7 +345,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
 
         if (icons.length == 0) {
             LOG.log(Level.SEVERE, "System Tray removed. Deactivating System Tray support.");
-            systemTraySupported = false;
+            deactivate();
             mediator.minimizeWindowIfHidden();
         }
     }

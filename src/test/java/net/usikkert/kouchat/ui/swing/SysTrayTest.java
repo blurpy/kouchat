@@ -200,6 +200,10 @@ public class SysTrayTest {
 
     @Test
     public void deactivateShouldHandleBeingCalledWhenAlreadyDeactivated() {
+        when(uiTools.isSystemTraySupported()).thenReturn(true);
+        sysTray.activate();
+        assertTrue(sysTray.isSystemTraySupport());
+
         sysTray.deactivate();
         sysTray.deactivate();
     }
