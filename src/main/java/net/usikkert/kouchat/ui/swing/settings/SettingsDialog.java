@@ -466,10 +466,19 @@ public class SettingsDialog extends JDialog implements ActionListener {
         loggingCB.setSelected(settings.isLogging());
         browserTF.setText(settings.getBrowser());
         smileysCB.setSelected(settings.isSmileys());
-        balloonCB.setSelected(settings.isBalloons());
-        systemTrayCB.setSelected(settings.isSystemTray());
 
-        balloonCB.setEnabled(systemTrayCB.isSelected());
+        if (uiTools.isSystemTraySupported()) {
+            balloonCB.setSelected(settings.isBalloons());
+            systemTrayCB.setSelected(settings.isSystemTray());
+            balloonCB.setEnabled(systemTrayCB.isSelected());
+        }
+
+        else {
+            balloonCB.setSelected(false);
+            balloonCB.setEnabled(false);
+            systemTrayCB.setSelected(false);
+            systemTrayCB.setEnabled(false);
+        }
 
         networkInterfaceCB.setModel(new DefaultComboBoxModel(getNetworkChoices()));
         lookAndFeelCB.setModel(new DefaultComboBoxModel(uiTools.getLookAndFeels()));

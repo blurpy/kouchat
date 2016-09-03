@@ -939,6 +939,20 @@ public class SettingsDialogTest  {
     }
 
     @Test
+    public void showSettingsShouldDisableAndUnselectSystemTrayCheckboxesIfSystemTrayUnsupported() {
+        prepareShowSettings();
+        when(uiTools.isSystemTraySupported()).thenReturn(false);
+
+        settingsDialog.showSettings();
+
+        assertFalse(balloonCheckBox.isSelected());
+        assertFalse(balloonCheckBox.isEnabled());
+
+        assertFalse(systemTrayCheckBox.isSelected());
+        assertFalse(systemTrayCheckBox.isEnabled());
+    }
+
+    @Test
     public void showSettingsShouldSetBalloonCheckBoxEnabledStateFromSystemTrayCheckBox() {
         prepareShowSettings();
 
@@ -1128,6 +1142,7 @@ public class SettingsDialogTest  {
         when(settings.getMe()).thenReturn(new User("Lisa", 1234));
         when(uiTools.getLookAndFeels()).thenReturn(new LookAndFeelWrapper[0]);
         when(uiTools.getCurrentLookAndFeel()).thenReturn(mock(UIManager.LookAndFeelInfo.class));
+        when(uiTools.isSystemTraySupported()).thenReturn(true);
     }
 
     private void prepareClickOnOkButton() {
