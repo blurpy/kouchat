@@ -40,6 +40,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
+import net.usikkert.kouchat.event.SettingsListener;
+import net.usikkert.kouchat.settings.Setting;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.Validate;
@@ -53,7 +55,7 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class SysTray implements ActionListener, MouseListener, PropertyChangeListener {
+public class SysTray implements ActionListener, MouseListener, PropertyChangeListener, SettingsListener {
 
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(SysTray.class.getName());
@@ -100,6 +102,8 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
         this.imageLoader = imageLoader;
         this.settings = settings;
         this.swingMessages = swingMessages;
+
+        settings.addSettingsListener(this);
     }
 
     /**
@@ -150,6 +154,26 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
 
         else {
             LOG.log(Level.SEVERE, "System Tray is not supported. Deactivating System Tray support.");
+        }
+    }
+
+    /**
+     * Removes the system tray icon and cleans up the listeners.
+     */
+    public void deactivate() {
+        if (systemTraySupported) {
+            systemTraySupported = false;
+
+            quitMI.removeActionListener(this);
+            trayIcon.removeMouseListener(this);
+
+            final SystemTray sysTray = uiTools.getSystemTray();
+            sysTray.removePropertyChangeListener(TRAY_ICONS, this);
+            sysTray.remove(trayIcon);
+
+            quitMI = null;
+            statusIcons = null;
+            trayIcon = null;
         }
     }
 
@@ -372,5 +396,22 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
 
     TrayIcon createTrayIcon(final Image icon, final PopupMenu menu) {
         return new TrayIcon(icon, "", menu);
+    }
+
+    /**
+     * Listens for changes to the system tray setting, and activates/deactivates the system tray icon
+     * based on the new value.
+     *
+     * @param setting The setting which was changed.
+     */
+    @Override
+    public void settingChanged(final Setting setting) {
+        if (setting.equals(Setting.SYSTEM_TRAY)) {
+            if (settings.isSystemTray()) {
+                activate();
+            } else {
+                deactivate();
+            }
+        }
     }
 }

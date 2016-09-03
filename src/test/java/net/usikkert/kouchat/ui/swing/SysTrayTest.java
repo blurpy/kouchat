@@ -36,6 +36,7 @@ import java.util.logging.Logger;
 
 import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.misc.ErrorHandler;
+import net.usikkert.kouchat.settings.Setting;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.ResourceLoader;
@@ -62,6 +63,7 @@ public class SysTrayTest {
     private Logger log;
     private SwingMessages messages;
     private Settings settings;
+    private SystemTray systemTray;
 
     @Before
     public void setUp() {
@@ -75,7 +77,7 @@ public class SysTrayTest {
         uiTools = TestUtils.setFieldValueWithMock(sysTray, "uiTools", UITools.class);
         log = TestUtils.setFieldValueWithMock(sysTray, "LOG", Logger.class);
 
-        final SystemTray systemTray = mock(SystemTray.class);
+        systemTray = mock(SystemTray.class);
         when(systemTray.getTrayIconSize()).thenReturn(new Dimension(16, 16));
         when(uiTools.getSystemTray()).thenReturn(systemTray);
         doReturn(mock(TrayIcon.class)).when(sysTray).createTrayIcon(any(Image.class), any(PopupMenu.class));
@@ -104,6 +106,12 @@ public class SysTrayTest {
         expectedException.expectMessage("Swing messages can not be null");
 
         new SysTray(mock(ImageLoader.class), mock(Settings.class), null);
+    }
+
+    @Test
+    public void constructorShouldAddSettingsListener() {
+        final SysTray localSysTray = new SysTray(mock(ImageLoader.class), settings, messages);
+        verify(settings).addSettingsListener(localSysTray);
     }
 
     @Test
@@ -148,5 +156,51 @@ public class SysTrayTest {
 
         final MenuItem quitMI = TestUtils.getFieldValue(sysTray, MenuItem.class, "quitMI");
         assertEquals("Quit", quitMI.getLabel());
+    }
+
+    @Test
+    public void settingChangedShouldDoNothingIfDifferentSettingChanged() {
+        sysTray.settingChanged(Setting.LOGGING);
+
+        verify(sysTray, never()).activate();
+        verify(sysTray, never()).deactivate();
+    }
+
+    @Test
+    public void settingChangedShouldActivateIfSystemTrayEnabledInSettings() {
+        when(settings.isSystemTray()).thenReturn(true);
+
+        sysTray.settingChanged(Setting.SYSTEM_TRAY);
+
+        verify(sysTray).activate();
+        verify(sysTray, never()).deactivate();
+    }
+
+    @Test
+    public void settingChangedShouldDeactivateIfSystemTrayDisabledInSettings() {
+        when(settings.isSystemTray()).thenReturn(false);
+
+        sysTray.settingChanged(Setting.SYSTEM_TRAY);
+
+        verify(sysTray, never()).activate();
+        verify(sysTray).deactivate();
+    }
+
+    @Test
+    public void deactivateShouldRemoveTrayIcon() {
+        when(uiTools.isSystemTraySupported()).thenReturn(true);
+        sysTray.activate();
+        assertTrue(sysTray.isSystemTraySupport());
+
+        sysTray.deactivate();
+
+        assertFalse(sysTray.isSystemTraySupport());
+        assertTrue(TestUtils.fieldValueIsNull(sysTray, "trayIcon"));
+    }
+
+    @Test
+    public void deactivateShouldHandleBeingCalledWhenAlreadyDeactivated() {
+        sysTray.deactivate();
+        sysTray.deactivate();
     }
 }
