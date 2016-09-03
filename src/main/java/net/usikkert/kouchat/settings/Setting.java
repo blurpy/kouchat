@@ -41,6 +41,9 @@ public class Setting {
     /** Maps to {@link Settings#isLogging()}. */
     public static final Setting LOGGING = new Setting("LOGGING");
 
+    /** Maps to {@link Settings#isSystemTray()}. */
+    public static final Setting SYSTEM_TRAY = new Setting("SYSTEM_TRAY");
+
     private final String name; // Must be unique
 
     protected Setting(@NonNls final String name) {

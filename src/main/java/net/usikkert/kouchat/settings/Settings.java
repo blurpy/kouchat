@@ -380,11 +380,15 @@ public class Settings {
 
     /**
      * Sets if the system tray icon should be enabled.
+     * Listeners are notified of the change.
      *
      * @param systemTray If the system tray icon should be enabled.
      */
     public void setSystemTray(final boolean systemTray) {
-        this.systemTray = systemTray;
+        if (this.systemTray != systemTray) {
+            this.systemTray = systemTray;
+            fireSettingChanged(Setting.SYSTEM_TRAY);
+        }
     }
 
     /**

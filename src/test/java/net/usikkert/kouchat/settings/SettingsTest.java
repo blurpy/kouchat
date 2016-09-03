@@ -128,6 +128,26 @@ public class SettingsTest {
     }
 
     @Test
+    public void setSystemTrayShouldNotNotifyListenersIfSettingIsUnchanged() {
+        assertTrue(settings.isSystemTray());
+
+        settings.setSystemTray(true);
+
+        assertTrue(settings.isSystemTray());
+        assertNull(lastChangedSetting);
+    }
+
+    @Test
+    public void setSystemTrayShouldNotifyListenersIfSettingIsChanged() {
+        assertTrue(settings.isSystemTray());
+
+        settings.setSystemTray(false);
+
+        assertFalse(settings.isSystemTray());
+        assertEquals(Setting.SYSTEM_TRAY, lastChangedSetting);
+    }
+
+    @Test
     public void setClientShouldSetClientOnMeWithAppNameAndVersion() {
         final User me = settings.getMe();
         assertEquals("<unknown>", me.getClient());
