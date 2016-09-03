@@ -411,16 +411,19 @@ public class SettingsDialogTest  {
     }
 
     @Test
-    public void systemTrayCheckBoxShouldDisableBalloonCheckBoxWhenNotSelected() {
+    public void systemTrayCheckBoxShouldDisableAndUnselectBalloonCheckBoxWhenNotSelected() {
         systemTrayCheckBox.setSelected(true);
+        balloonCheckBox.setSelected(true);
 
         systemTrayCheckBox.doClick();
         assertFalse(systemTrayCheckBox.isSelected());
         assertFalse(balloonCheckBox.isEnabled());
+        assertFalse(balloonCheckBox.isSelected());
 
         systemTrayCheckBox.doClick();
         assertTrue(systemTrayCheckBox.isSelected());
         assertTrue(balloonCheckBox.isEnabled());
+        assertFalse(balloonCheckBox.isSelected());
     }
 
     @Test
@@ -953,14 +956,16 @@ public class SettingsDialogTest  {
     }
 
     @Test
-    public void showSettingsShouldSetBalloonCheckBoxEnabledStateFromSystemTrayCheckBox() {
+    public void showSettingsShouldSetBalloonCheckBoxStateFromSystemTrayCheckBox() {
         prepareShowSettings();
 
-        systemTrayCheckBox.setSelected(false);
+        when(settings.isSystemTray()).thenReturn(false);
+        when(settings.isBalloons()).thenReturn(true);
 
         settingsDialog.showSettings();
 
         assertFalse(balloonCheckBox.isEnabled());
+        assertFalse(balloonCheckBox.isSelected());
     }
 
     @Test

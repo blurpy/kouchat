@@ -434,7 +434,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         }
 
         else if (e.getSource() == systemTrayCB) {
-            balloonCB.setEnabled(systemTrayCB.isSelected());
+            setBalloonStateBasedOnSystemTrayState();
         }
     }
 
@@ -470,7 +470,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         if (uiTools.isSystemTraySupported()) {
             balloonCB.setSelected(settings.isBalloons());
             systemTrayCB.setSelected(settings.isSystemTray());
-            balloonCB.setEnabled(systemTrayCB.isSelected());
+            setBalloonStateBasedOnSystemTrayState();
         }
 
         else {
@@ -488,6 +488,15 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
         setVisible(true);
         nickTF.requestFocusInWindow();
+    }
+
+    private void setBalloonStateBasedOnSystemTrayState() {
+        if (systemTrayCB.isSelected()) {
+            balloonCB.setEnabled(true);
+        } else {
+            balloonCB.setSelected(false);
+            balloonCB.setEnabled(false);
+        }
     }
 
     /**
