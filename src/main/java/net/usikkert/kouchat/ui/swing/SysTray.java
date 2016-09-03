@@ -103,7 +103,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
     }
 
     /**
-     * Activates the system tray icon, if supported.
+     * Activates the system tray icon, if supported, and enabled in the settings.
      *
      * <p>Not all window managers support a system tray, like TWM. And some window managers support one,
      * but does not have one enabled at all times. Like you can remove the system tray plasma widget in KDE.</p>
@@ -111,6 +111,10 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
      * <p>Use {@link #isSystemTraySupport()} to check if the system tray was activated successfully.</p>
      */
     public void activate() {
+        if (!settings.isSystemTray()) {
+            return;
+        }
+
         if (uiTools.isSystemTraySupported()) {
             final PopupMenu menu = new PopupMenu();
             quitMI = new MenuItem(swingMessages.getMessage("swing.systemTray.menu.quit"));
