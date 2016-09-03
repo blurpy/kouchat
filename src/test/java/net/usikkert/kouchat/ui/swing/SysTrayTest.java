@@ -61,6 +61,7 @@ public class SysTrayTest {
     private UITools uiTools;
     private Logger log;
     private SwingMessages messages;
+    private Settings settings;
 
     @Before
     public void setUp() {
@@ -68,7 +69,8 @@ public class SysTrayTest {
         final ImageLoader imageLoader =
                 new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
 
-        sysTray = spy(new SysTray(imageLoader, mock(Settings.class), messages));
+        settings = mock(Settings.class);
+        sysTray = spy(new SysTray(imageLoader, settings, messages));
 
         uiTools = TestUtils.setFieldValueWithMock(sysTray, "uiTools", UITools.class);
         log = TestUtils.setFieldValueWithMock(sysTray, "LOG", Logger.class);
@@ -77,6 +79,7 @@ public class SysTrayTest {
         when(systemTray.getTrayIconSize()).thenReturn(new Dimension(16, 16));
         when(uiTools.getSystemTray()).thenReturn(systemTray);
         doReturn(mock(TrayIcon.class)).when(sysTray).createTrayIcon(any(Image.class), any(PopupMenu.class));
+        when(settings.isSystemTray()).thenReturn(true);
     }
 
     @Test
@@ -101,6 +104,17 @@ public class SysTrayTest {
         expectedException.expectMessage("Swing messages can not be null");
 
         new SysTray(mock(ImageLoader.class), mock(Settings.class), null);
+    }
+
+    @Test
+    public void activateShouldNotDoAnythingIfSystemTrayIsDisabledInSettings() {
+        when(settings.isSystemTray()).thenReturn(false);
+
+        sysTray.activate();
+
+        verifyZeroInteractions(uiTools, log);
+        assertFalse(sysTray.isSystemTraySupport());
+        assertTrue(TestUtils.fieldValueIsNull(sysTray, "trayIcon"));
     }
 
     @Test
