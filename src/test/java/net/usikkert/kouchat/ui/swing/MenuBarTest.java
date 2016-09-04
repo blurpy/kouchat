@@ -480,12 +480,12 @@ public class MenuBarTest {
         verify(dialog).setTitle("About - KouChat");
         verify(dialog).setTopText("KouChat v" + Constants.APP_VERSION);
         verify(dialog).setContent(
-                "<html>Copyright 2006-2016 by Christian Ihle." +
-                "<br>contact@kouchat.net" +
-                "<br>http://www.kouchat.net/" +
+                "Copyright 2006-2016 by Christian Ihle." +
+                "<br><a href=\"mailto:contact@kouchat.net\">contact@kouchat.net</a>" +
+                "<br><a href=\"http://www.kouchat.net/\">http://www.kouchat.net/</a>" +
                 "<br>" +
                 "<br>Source available under the GNU LGPL v3." +
-                "<br>See the license for details.</html>");
+                "<br>See the license for details.");
 
         verify(dialog).setVisible(true);
     }

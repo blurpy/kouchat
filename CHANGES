@@ -26,6 +26,7 @@
   - Added setting to enable/disable the system tray icon.
   - Replaced old icons and smileys with the newer ones from KouChat for Android.
   - Added retina icons for Mac OS X.
+  - Made links clickable in the About dialog.
   - User interface translations (under development).
 
 

@@ -29,6 +29,7 @@ import javax.swing.JButton;
 
 import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.misc.ErrorHandler;
+import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.ResourceValidator;
@@ -51,13 +52,17 @@ public class MessageDialogTest {
 
     private SwingMessages messages;
     private ImageLoader imageLoader;
+    private ErrorHandler errorHandler;
+    private Settings settings;
 
     @Before
     public void setUp() {
         messages = new SwingMessages();
-        imageLoader = new ImageLoader(mock(ErrorHandler.class), messages, new ResourceValidator(), new ResourceLoader());
+        errorHandler = mock(ErrorHandler.class);
+        settings = mock(Settings.class);
+        imageLoader = new ImageLoader(errorHandler, messages, new ResourceValidator(), new ResourceLoader());
 
-        messageDialog = new MessageDialog(imageLoader, messages);
+        messageDialog = new MessageDialog(imageLoader, messages, settings, errorHandler);
     }
 
     @Test
@@ -65,7 +70,7 @@ public class MessageDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Image loader can not be null");
 
-        new MessageDialog(null, messages);
+        new MessageDialog(null, messages, settings, errorHandler);
     }
 
     @Test
@@ -73,7 +78,23 @@ public class MessageDialogTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Swing messages can not be null");
 
-        new MessageDialog(imageLoader, null);
+        new MessageDialog(imageLoader, null, settings, errorHandler);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfSettingsIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Settings can not be null");
+
+        new MessageDialog(imageLoader, messages, null, errorHandler);
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfErrorHandlerIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Error handler can not be null");
+
+        new MessageDialog(imageLoader, messages, settings, null);
     }
 
     @Test
@@ -87,7 +108,7 @@ public class MessageDialogTest {
     public void okButtonShouldDisposeOnClick() {
         final boolean[] disposed = {false};
 
-        final MessageDialog messageDialog1 = new MessageDialog(imageLoader, messages) {
+        final MessageDialog messageDialog1 = new MessageDialog(imageLoader, messages, settings, errorHandler) {
             @Override
             public void dispose() {
                 disposed[0] = true;

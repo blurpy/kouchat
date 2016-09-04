@@ -37,12 +37,17 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 
+import net.usikkert.kouchat.misc.ErrorHandler;
+import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.Validate;
 
@@ -53,19 +58,27 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class MessageDialog extends JDialog {
 
-    private final JLabel appNameL, contentL;
+    private final JLabel appNameL;
+    private final EditorWithHtmlSupport contentEditor;
 
     /**
      * Creates a new MessageDialog. To open the dialog, use setVisible().
      *
      * @param imageLoader The image loader.
      * @param swingMessages The swing messages to use for the dialog.
+     * @param settings The settings to use when selecting browser.
+     * @param errorHandler The error handler to use if opening url fails.
      */
-    public MessageDialog(final ImageLoader imageLoader, final SwingMessages swingMessages) {
+    public MessageDialog(final ImageLoader imageLoader,
+                         final SwingMessages swingMessages,
+                         final Settings settings,
+                         final ErrorHandler errorHandler) {
         super((Frame) null, true);
 
         Validate.notNull(imageLoader, "Image loader can not be null");
         Validate.notNull(swingMessages, "Swing messages can not be null");
+        Validate.notNull(settings, "Settings can not be null");
+        Validate.notNull(errorHandler, "Error handler can not be null");
 
         final UITools uiTools = new UITools();
 
@@ -115,12 +128,12 @@ public class MessageDialog extends JDialog {
 
         getContentPane().add(leftP, BorderLayout.LINE_START);
 
-        contentL = new JLabel("No content"); // NON-NLS - should be overwritten before use
+        contentEditor = new EditorWithHtmlSupport(uiTools, settings, errorHandler, swingMessages);
 
         final JPanel centerP = new JPanel();
         centerP.setBorder(BorderFactory.createEmptyBorder(12, 2, 0, 12));
         centerP.setLayout(new BorderLayout());
-        centerP.add(contentL, BorderLayout.CENTER);
+        centerP.add(contentEditor, BorderLayout.CENTER);
 
         getContentPane().add(centerP, BorderLayout.CENTER);
 
@@ -148,12 +161,12 @@ public class MessageDialog extends JDialog {
     }
 
     /**
-     * This is the main content.
+     * This is the main content. Send the content of the html body.
      *
      * @param info The text to add.
      */
     public void setContent(final String info) {
-        contentL.setText(info);
+        contentEditor.setText(info);
     }
 
     /**
@@ -166,5 +179,57 @@ public class MessageDialog extends JDialog {
         pack();
         setLocationRelativeTo(getParent());
         super.setVisible(visible);
+    }
+
+    /**
+     * Editor with support for html with clickable links.
+     *
+     * Based on example from
+     * http://stackoverflow.com/questions/8348063/clickable-links-in-joptionpane/8348281
+     */
+    private static class EditorWithHtmlSupport extends JEditorPane {
+
+        private final StringBuffer style;
+
+        EditorWithHtmlSupport(final UITools uiTools,
+                              final Settings settings,
+                              final ErrorHandler errorHandler,
+                              final SwingMessages swingMessages) {
+            super("text/html", "");
+
+            style = createStyle();
+
+            setEditable(false);
+            setBorder(null);
+
+            addHyperlinkListener(new HyperlinkListener() {
+                @Override
+                public void hyperlinkUpdate(final HyperlinkEvent event) {
+                    if (event.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED)) {
+                        uiTools.browse(event.getURL().toString(), settings, errorHandler, swingMessages);
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void setText(final String htmlBody) {
+            super.setText("<html><body style=\"" + style + "\">" + htmlBody + "</body></html>");
+        }
+
+        private StringBuffer createStyle() {
+            // For copying style
+            final JLabel label = new JLabel();
+            final Font font = label.getFont();
+            final Color color = label.getBackground();
+
+            // Create css from the label's font
+            final StringBuffer css = new StringBuffer("font-family:" + font.getFamily() + ";");
+            css.append("font-weight:" + (font.isBold() ? "bold" : "normal") + ";");
+            css.append("font-size:" + font.getSize() + "pt;");
+            css.append("background-color: rgb(" + color.getRed() + "," + color.getGreen() + "," + color.getBlue() + ");");
+
+            return css;
+        }
     }
 }
