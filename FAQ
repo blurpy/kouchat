@@ -1,10 +1,13 @@
 
 - KouChat v1.3.0 Frequently Asked Questions
 
+For the full, up to date FAQ, check out http://www.kouchat.net/help/faq/
+
+
 1. What is Kou?
 
 Kou is a cow character I've made. You can see Kou at the Super Kou
-project page at http://superkou.googlecode.com/
+project page at https://github.com/blurpy/superkou
 Kou is pronounced kind of like the way cows say moooo, but it's OK to
 just call him Cow.
 
@@ -50,15 +53,7 @@ You can double click on a user in the user list, or you can right click on a
 user in the user list and choose "Private chat".
 
 
-7. The file chooser is horribly slow in Windows XP.
-
-This is a Java bug, see
-http://bugs.java.com/bugdatabase/view_bug.do?bug_id=6578753
-As a workaround you can move any zip-files lying on the desktop
-to some other folder.
-
-
-8. How do I enable console mode?
+7. How do I enable console mode?
 
 Run KouChat like this from the command line:
 
@@ -67,14 +62,14 @@ java -jar kouchat-x.x.x.jar --console
 Type /help for a list of commands you can use while in console mode.
 
 
-9. How come some messages don't show up in other clients?
+8. How come some messages don't show up in other clients?
 
 That's probably because of packet loss. KouChat uses the UDP protocol,
 which does not resend lost packets. Packet loss is usually not a problem
 in wired networks, but wireless networks might have some loss.
 
 
-10. Where do the log files go?
+9. Where do the log files go?
 
 The logs are put in .kouchat/logs/ in your home folder, sorted by date and
 time of creation.
@@ -86,7 +81,7 @@ Examples:
 * Linux - /home/username/.kouchat/logs/
 
 
-11. Why do non-ascii characters look wrong when using console mode in Windows?
+10. Why do non-ascii characters look wrong when using console mode in Windows?
 
 That's because the command line in Windows uses the old DOS character set
 instead of the normal Windows character set. A common DOS character set
@@ -104,14 +99,7 @@ to work around this problem:
   starting KouChat: java -Dfile.encoding=850 -jar kouchat-x.x.x.jar --console
 
 
-12. Why don't I have the Nimbus look and feel?
-
-Nimbus is a new look and feel that comes with Java 6 update 10 and newer.
-If you don't see Nimbus in the list, then you need to update to the
-newest version of Java.
-
-
-13. Where can I find an icon to use for shortcuts?
+11. Where can I find an icon to use for shortcuts?
 
 There is an icon available inside kouchat-x.x.x.jar, in two different
 formats:
@@ -123,7 +111,7 @@ To get these, you can just open the jar file in a decompression utility
 like WinZip or 7-Zip.
 
 
-14. Which smileys are available?
+12. Which smileys are available?
 
 There are 11 different smileys available, for different needs. Try them :)
 
@@ -140,20 +128,20 @@ There are 11 different smileys available, for different needs. Try them :)
 * 8)
 
 
-15. Why is the window sometimes only maximized vertically or horizontally
+13. Why is the window sometimes only maximized vertically or horizontally
 after being unhidden from the system tray?
 
 I don't know! But I'm unable to reproduce the problem using early
 versions of Java 7, so I'm guessing it's not my bug ;)
 
 
-16. I have a great suggestion for a new feature. What do I do?
+14. I have a great suggestion for a new feature. What do I do?
 
 Cool :) Just register the suggestion in the issue tracker at
 http://www.kouchat.net/ with "Feature request" in the title.
 
 
-17. KouChat uses the wrong network interface. How can I switch?
+15. KouChat uses the wrong network interface. How can I switch?
 
 Typical use cases include:
 
@@ -168,7 +156,7 @@ over each of the items in the drop down list for more details about the
 network interface, if available.
 
 
-18. How can I get KouChat to open in front of other applications after
+16. How can I get KouChat to open in front of other applications after
 being unhidden from the system tray in KDE?
 
 The window manager in KDE is usually configured with a feature called
@@ -188,7 +176,7 @@ called something like "Workarounds" or "Appearance & Fixes"
 drop down lists, then click OK to save.
 
 
-19. Which ports do I need to have open in the firewall?
+17. Which ports do I need to have open in the firewall?
 
 If your firewall is blocking network traffic then KouChat will show the text
 "Not connected" in the title bar. The following ports needs to be open for
@@ -200,7 +188,7 @@ everything to work correctly:
 * Network detection: UDP port 50050
 
 
-20. The KouChat window is invisible over Remote Desktop. How can I fix it?
+18. The KouChat window is invisible over Remote Desktop. How can I fix it?
 
 This happens on some configurations. Try adding '-Dsun.java2d.noddraw=true'
 to the shortcut command when starting KouChat, like this:
@@ -208,7 +196,7 @@ to the shortcut command when starting KouChat, like this:
 javaw -Dsun.java2d.noddraw=true -jar kouchat-x.x.x.jar
 
 
-21. How can I start KouChat minimized?
+19. How can I start KouChat minimized?
 
 Add the startup argument '--minimized' to the shortcut or script that starts
 KouChat, like this:
