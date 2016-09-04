@@ -24,7 +24,7 @@ then you can try enabling debug output by running KouChat like this:
 
 java -jar kouchat-x.x.x.jar --debug
 
-Please check the wiki at http://www.kouchat.net/ for help as well. When you
+Please check the help section at http://www.kouchat.net/ as well. When you
 can reproduce the problem, report it as an issue with as many details as possible.
 
 
@@ -81,25 +81,7 @@ Examples:
 * Linux - /home/username/.kouchat/logs/
 
 
-10. Why do non-ascii characters look wrong when using console mode in Windows?
-
-That's because the command line in Windows uses the old DOS character set
-instead of the normal Windows character set. A common DOS character set
-is cp850 and a common Windows character set is cp1252. I've found 2 ways
-to work around this problem:
-
-* Change the character set on the command line to match the character set
-  used by Windows. If your Windows character set is cp1252, just run the
-  command 'chcp 1252' before starting KouChat. For this to work you need a
-  console font which supports the chosen character set, like Lucida Console.
-
-* Change the character set used by Java to match the character set on the
-  command line. You can get the current command line character set by
-  running the command 'chcp'. Then use the character set number when
-  starting KouChat: java -Dfile.encoding=850 -jar kouchat-x.x.x.jar --console
-
-
-11. Where can I find an icon to use for shortcuts?
+10. Where can I find an icon to use for shortcuts?
 
 There is an icon available inside kouchat-x.x.x.jar, in two different
 formats:
@@ -111,7 +93,7 @@ To get these, you can just open the jar file in a decompression utility
 like WinZip or 7-Zip.
 
 
-12. Which smileys are available?
+11. Which smileys are available?
 
 There are 11 different smileys available, for different needs. Try them :)
 
@@ -128,20 +110,13 @@ There are 11 different smileys available, for different needs. Try them :)
 * 8)
 
 
-13. Why is the window sometimes only maximized vertically or horizontally
-after being unhidden from the system tray?
-
-I don't know! But I'm unable to reproduce the problem using early
-versions of Java 7, so I'm guessing it's not my bug ;)
-
-
-14. I have a great suggestion for a new feature. What do I do?
+12. I have a great suggestion for a new feature. What do I do?
 
 Cool :) Just register the suggestion in the issue tracker at
 http://www.kouchat.net/ with "Feature request" in the title.
 
 
-15. KouChat uses the wrong network interface. How can I switch?
+13. KouChat uses the wrong network interface. How can I switch?
 
 Typical use cases include:
 
@@ -156,27 +131,7 @@ over each of the items in the drop down list for more details about the
 network interface, if available.
 
 
-16. How can I get KouChat to open in front of other applications after
-being unhidden from the system tray in KDE?
-
-The window manager in KDE is usually configured with a feature called
-"Focus stealing prevention". This feature keeps new windows from opening
-in front and stealing focus. However, when unhiding KouChat from the
-system tray it's usually because one wants to interact with the window, and
-the focus stealing prevention gets in the way.
-
-It can be disabled globally or per application. Here is how to disable for
-KouChat only:
-
-Right click on the title bar of the KouChat window, then click on
-"Advanced/Special Application Settings". Go to the rightmost tab,
-called something like "Workarounds" or "Appearance & Fixes"
-(depends on the version of KDE). Enable the checkbox on
-"Focus stealing prevention", and set it to "Force" and "None" in the 2
-drop down lists, then click OK to save.
-
-
-17. Which ports do I need to have open in the firewall?
+14. Which ports do I need to have open in the firewall?
 
 If your firewall is blocking network traffic then KouChat will show the text
 "Not connected" in the title bar. The following ports needs to be open for
@@ -188,15 +143,7 @@ everything to work correctly:
 * Network detection: UDP port 50050
 
 
-18. The KouChat window is invisible over Remote Desktop. How can I fix it?
-
-This happens on some configurations. Try adding '-Dsun.java2d.noddraw=true'
-to the shortcut command when starting KouChat, like this:
-
-javaw -Dsun.java2d.noddraw=true -jar kouchat-x.x.x.jar
-
-
-19. How can I start KouChat minimized?
+15. How can I start KouChat minimized?
 
 Add the startup argument '--minimized' to the shortcut or script that starts
 KouChat, like this:
