@@ -1,16 +1,4 @@
 
-- KouChat v1.3.0 TODO
+- KouChat TODO
 
-
- - Animated system tray icon (issue 11)
- - Multi-line messages (issue 12)
- - Test KouInject
- - Make the system tray icon optional
- - Clickable links in the about dialog
- - Direct TCP/IP connection to users
- - Switch to json as transport format
- - Point to point encryption (issue 4)
- - Send all files in folder
- - Only see users in specified group
- - Improve console mode with ANSI, to get tab completion, colors and user list (issue 26)
- - Internationalization
+See https://github.com/blurpy/kouchat/issues
