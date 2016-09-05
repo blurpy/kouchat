@@ -132,7 +132,8 @@ public class SoundBeeper {
 
                 if (AudioSystem.isLineSupported(info)) {
                     audioClip = (Clip) AudioSystem.getLine(info);
-                    audioClip.open(audioStream);
+                    final byte[] audioData = readAudioStream(audioStream);
+                    audioClip.open(format, audioData, 0, audioData.length);
                 }
             }
 
@@ -184,6 +185,38 @@ public class SoundBeeper {
             audioClip.close();
             audioClip = null;
         }
+    }
+
+    /**
+     * Reads the content of the stream into a byte array manually, to work around a bug in PulseAudioClip
+     * that only plays the first few frames when loaded from a jar file.
+     *
+     * <p>This happens because {@link org.classpath.icedtea.pulseaudio.PulseAudioClip#open(AudioInputStream)}
+     * calls {@link AudioInputStream#read(byte[], int, int)} exactly one time. When doing this in a jar it
+     * will only load a few bytes. This issue does not happen when run unpacked, or with any
+     * other provider than PulseAudio.</p>
+     */
+    private byte[] readAudioStream(final AudioInputStream audioStream) throws IOException {
+        final int audioSize = (int) audioStream.getFrameLength() * audioStream.getFormat().getFrameSize();
+        final byte[] data = new byte[audioSize];
+        int maxToRead = 512 * audioStream.getFormat().getFrameSize();
+        int readSoFar = 0;
+
+        while (readSoFar != data.length) {
+            if (maxToRead > data.length - readSoFar) {
+                maxToRead = data.length - readSoFar;
+            }
+
+            final int read = audioStream.read(data, readSoFar, maxToRead);
+
+            if (read == -1) {
+                break;
+            }
+
+            readSoFar += read;
+        }
+
+        return data;
     }
 
     /**

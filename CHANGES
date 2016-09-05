@@ -27,6 +27,7 @@
   - Replaced old icons and smileys with the newer ones from KouChat for Android.
   - Added retina icons for Mac OS X.
   - Made links clickable in the About dialog.
+  - Fixed bug with PulseAudio where the notification sound was cut off early.
   - User interface translations (under development).
 
 
