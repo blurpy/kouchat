@@ -496,7 +496,7 @@ public class ControllerTest {
         verify(dayTimer).startTimer();
         verify(idleThread).start();
 
-        verify(messageController).showSystemMessage("Welcome to KouChat v" + Constants.APP_VERSION + "!");
+        verify(messageController).showSystemMessage("Welcome to KouChat!");
         verify(messageController).showSystemMessage("Today is X-mass");
         verify(dateTools).currentDateToString("EEEE, d MMMM yyyy");
     }
