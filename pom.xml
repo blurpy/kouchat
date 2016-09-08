@@ -4,7 +4,7 @@
   <groupId>net.usikkert.kouchat</groupId>
   <artifactId>kouchat</artifactId>
   <packaging>jar</packaging>
-  <version>1.3.0-SNAPSHOT</version>
+  <version>1.3.0</version>
   <name>KouChat</name>
   <url>http://www.kouchat.net/</url>
   <description>
@@ -221,7 +221,7 @@
   <scm>
     <connection>scm:git:file://${basedir}/</connection>
     <url>https://github.com/blurpy/kouchat/</url>
-    <tag>HEAD</tag>
+    <tag>kouchat-1.3.0</tag>
   </scm>
 
   <issueManagement>
