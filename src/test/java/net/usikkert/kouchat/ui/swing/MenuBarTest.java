@@ -1,6 +1,6 @@
 
 /***************************************************************************
- *   Copyright 2006-2016 by Christian Ihle                                 *
+ *   Copyright 2006-2018 by Christian Ihle                                 *
  *   contact@kouchat.net                                                   *
  *                                                                         *
  *   This file is part of KouChat.                                         *
@@ -480,7 +480,7 @@ public class MenuBarTest {
         verify(dialog).setTitle("About - KouChat");
         verify(dialog).setTopText("KouChat v" + Constants.APP_VERSION);
         verify(dialog).setContent(
-                "Copyright 2006-2016 by Christian Ihle." +
+                "Copyright 2006-2018 by Christian Ihle." +
                 "<br>" +
                 "<br><a href=\"mailto:contact@kouchat.net\">contact@kouchat.net</a>" +
                 "<br><a href=\"http://www.kouchat.net/\">http://www.kouchat.net/</a>" +
