@@ -1,7 +1,7 @@
 
 - Frequently Asked Questions
 
-For the full, up to date FAQ, check out http://www.kouchat.net/help/faq/
+For the full, up to date FAQ, check out https://www.kouchat.net/help/faq/
 
 
 1. What is Kou?
@@ -24,7 +24,7 @@ then you can try enabling debug output by running KouChat like this:
 
 java -jar kouchat-x.x.x.jar --debug
 
-Please check the help section at http://www.kouchat.net/ as well. When you
+Please check the help section at https://www.kouchat.net/ as well. When you
 can reproduce the problem, report it as an issue with as many details as possible.
 
 
@@ -113,7 +113,7 @@ There are 11 different smileys available, for different needs. Try them :)
 12. I have a great suggestion for a new feature. What do I do?
 
 Cool :) Just register the suggestion in the issue tracker at
-http://www.kouchat.net/ with "Feature request" in the title.
+https://www.kouchat.net/ with "Feature request" in the title.
 
 
 13. KouChat uses the wrong network interface. How can I switch?

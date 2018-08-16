@@ -6,7 +6,7 @@
   <packaging>jar</packaging>
   <version>1.4.0-SNAPSHOT</version>
   <name>KouChat</name>
-  <url>http://www.kouchat.net/</url>
+  <url>https://www.kouchat.net/</url>
   <description>
     KouChat is a simple serverless chat client for local area networks.
     It's written in Java, and is free software.
@@ -210,7 +210,7 @@
       <id>blurpy</id>
       <name>Christian Ihle</name>
       <email>contact@kouchat.net</email>
-      <url>http://www.kouchat.net/</url>
+      <url>https://www.kouchat.net/</url>
       <roles>
         <role>developer</role>
       </roles>

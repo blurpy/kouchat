@@ -813,7 +813,7 @@ public class SettingsDialogTest  {
 
         testBrowserButton.doClick();
 
-        verify(uiTools).runCommand("chrome http://www.kouchat.net/");
+        verify(uiTools).runCommand("chrome https://www.kouchat.net/");
         verifyZeroInteractions(errorHandler);
     }
 
@@ -824,7 +824,7 @@ public class SettingsDialogTest  {
 
         testBrowserButton.doClick();
 
-        verify(uiTools).runCommand("iexplore.exe http://www.kouchat.net/");
+        verify(uiTools).runCommand("iexplore.exe https://www.kouchat.net/");
         verify(errorHandler).showError("Could not open the browser 'iexplore.exe'. Try using the full path.");
     }
 
@@ -834,7 +834,7 @@ public class SettingsDialogTest  {
 
         testBrowserButton.doClick();
 
-        verify(uiTools).browse("http://www.kouchat.net/");
+        verify(uiTools).browse("https://www.kouchat.net/");
         verifyZeroInteractions(errorHandler);
     }
 
@@ -845,19 +845,19 @@ public class SettingsDialogTest  {
 
         testBrowserButton.doClick();
 
-        verify(uiTools).browse("http://www.kouchat.net/");
+        verify(uiTools).browse("https://www.kouchat.net/");
         verifyZeroInteractions(errorHandler);
     }
 
     @Test
     public void testBrowserButtonShouldShowErrorIfOpeningDefaultBrowserWithInvalidUrl() throws IOException, URISyntaxException {
         when(uiTools.isDesktopActionSupported(Desktop.Action.BROWSE)).thenReturn(true);
-        doThrow(new URISyntaxException("http://www.kouchat.net/", "Invalid url")).when(uiTools).browse(anyString());
+        doThrow(new URISyntaxException("https://www.kouchat.net/", "Invalid url")).when(uiTools).browse(anyString());
 
         testBrowserButton.doClick();
 
-        verify(uiTools).browse("http://www.kouchat.net/");
-        verify(errorHandler).showError("That's strange, could not open http://www.kouchat.net/");
+        verify(uiTools).browse("https://www.kouchat.net/");
+        verify(errorHandler).showError("That's strange, could not open https://www.kouchat.net/");
     }
 
     @Test

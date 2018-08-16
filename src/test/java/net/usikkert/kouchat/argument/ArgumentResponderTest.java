@@ -49,7 +49,7 @@ public class ArgumentResponderTest {
         assertTrue(handler.respond());
 
         verify(System.out).println("KouChat v" + Constants.APP_VERSION);
-        verify(System.out).println("By Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
+        verify(System.out).println("By Christian Ihle - contact@kouchat.net - https://www.kouchat.net/");
         verify(System.out).println("Use --help for more information");
         verifyNoMoreInteractions(System.out);
     }
@@ -62,7 +62,7 @@ public class ArgumentResponderTest {
         assertTrue(handler.respond());
 
         verify(System.out).println("KouChat v" + Constants.APP_VERSION);
-        verify(System.out).println("By Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
+        verify(System.out).println("By Christian Ihle - contact@kouchat.net - https://www.kouchat.net/");
         verifyNoMoreInteractions(System.out);
     }
 
@@ -73,7 +73,7 @@ public class ArgumentResponderTest {
         assertFalse(handler.respond());
 
         verify(System.out).println("KouChat v" + Constants.APP_VERSION);
-        verify(System.out).println("By Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
+        verify(System.out).println("By Christian Ihle - contact@kouchat.net - https://www.kouchat.net/");
         verifyNoMoreInteractions(System.out);
     }
 
@@ -84,7 +84,7 @@ public class ArgumentResponderTest {
         assertFalse(handler.respond());
 
         verify(System.out).println("KouChat v" + Constants.APP_VERSION);
-        verify(System.out).println("By Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
+        verify(System.out).println("By Christian Ihle - contact@kouchat.net - https://www.kouchat.net/");
         verify(System.out).println("\nArguments:");
         verify(System.out).println(Argument.getArgumentsAsString());
         verifyNoMoreInteractions(System.out);
@@ -97,7 +97,7 @@ public class ArgumentResponderTest {
         assertFalse(handler.respond());
 
         verify(System.out).println("KouChat v" + Constants.APP_VERSION);
-        verify(System.out).println("By Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
+        verify(System.out).println("By Christian Ihle - contact@kouchat.net - https://www.kouchat.net/");
         verify(System.out).println("\nArguments:");
         verify(System.out).println(Argument.getArgumentsAsString());
         verifyNoMoreInteractions(System.out);
@@ -110,7 +110,7 @@ public class ArgumentResponderTest {
         assertFalse(handler.respond());
 
         verify(System.out).println("KouChat v" + Constants.APP_VERSION);
-        verify(System.out).println("By Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
+        verify(System.out).println("By Christian Ihle - contact@kouchat.net - https://www.kouchat.net/");
         verify(System.out).println("\nUnknown arguments: [--something, -w]. Use --help for more information");
         verifyNoMoreInteractions(System.out);
     }
@@ -122,7 +122,7 @@ public class ArgumentResponderTest {
         assertFalse(handler.respond());
 
         verify(System.out).println("KouChat v" + Constants.APP_VERSION);
-        verify(System.out).println("By Christian Ihle - contact@kouchat.net - http://www.kouchat.net/");
+        verify(System.out).println("By Christian Ihle - contact@kouchat.net - https://www.kouchat.net/");
         verify(System.out).println("\nUnknown arguments: [--wrong]. Use --help for more information");
         verifyNoMoreInteractions(System.out);
     }
