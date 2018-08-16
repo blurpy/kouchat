@@ -51,7 +51,7 @@ public class ArgumentParser {
      */
     public ArgumentParser(final String[] arguments) {
         this.originalArguments = arguments;
-        this.parsedArguments = new ArrayList<ParsedArgument>();
+        this.parsedArguments = new ArrayList<>();
 
         parseArguments();
     }
@@ -110,7 +110,7 @@ public class ArgumentParser {
      * @return All unknown arguments.
      */
     public List<ParsedArgument> getUnknownArguments() {
-        final ArrayList<ParsedArgument> unknownArguments = new ArrayList<ParsedArgument>();
+        final ArrayList<ParsedArgument> unknownArguments = new ArrayList<>();
 
         for (final ParsedArgument parsedArgument : parsedArguments) {
             if (parsedArgument.isEqualTo(Argument.UNKNOWN)) {

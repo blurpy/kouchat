@@ -52,7 +52,7 @@ public class SmileyMap {
         Validate.notNull(imageLoader, "Image loader can not be null");
 
         // Map smiley codes to icons
-        smileyMap = new HashMap<String, ImageIcon>();
+        smileyMap = new HashMap<>();
         smileyMap.put(":)", imageLoader.getSmileIcon());
         smileyMap.put(":(", imageLoader.getSadIcon());
         smileyMap.put(":p", imageLoader.getTongueIcon());

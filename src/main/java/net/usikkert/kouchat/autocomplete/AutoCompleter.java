@@ -256,9 +256,9 @@ public class AutoCompleter {
     private List<String> getAutoCompleteSuggestions(final String[] wordList, final String word) {
         final List<String> suggestions = new ArrayList<>();
 
-        for (int i = 0; i < wordList.length; i++) {
-            if (wordList[i].toLowerCase().startsWith(word.toLowerCase())) {
-                suggestions.add(wordList[i]);
+        for (final String wordFromList : wordList) {
+            if (wordFromList.toLowerCase().startsWith(word.toLowerCase())) {
+                suggestions.add(wordFromList);
             }
         }
 

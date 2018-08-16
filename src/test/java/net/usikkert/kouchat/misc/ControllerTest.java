@@ -28,7 +28,6 @@ import static org.mockito.Mockito.*;
 import java.util.Arrays;
 import java.util.Date;
 
-import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.event.NetworkConnectionListener;
 import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.message.CoreMessages;

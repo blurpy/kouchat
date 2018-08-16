@@ -34,8 +34,8 @@ import javax.swing.text.ViewFactory;
 
 /**
  * This is almost like the normal <code>StyledViewFactory</code> in
- * {@link StyledEditorKit}, except this uses a {@link MiddleAlignedIconView}
- * instead of the usual {@link IconView}.
+ * {@link javax.swing.text.StyledEditorKit}, except this uses a {@link MiddleAlignedIconView}
+ * instead of the usual {@link javax.swing.text.IconView}.
  *
  * @author Christian Ihle
  */

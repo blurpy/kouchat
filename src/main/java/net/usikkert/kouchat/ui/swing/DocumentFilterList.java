@@ -50,7 +50,7 @@ public class DocumentFilterList extends DocumentFilter {
      * Constructor.
      */
     public DocumentFilterList() {
-        filters = new ArrayList<DocumentFilter>();
+        filters = new ArrayList<>();
     }
 
     /**

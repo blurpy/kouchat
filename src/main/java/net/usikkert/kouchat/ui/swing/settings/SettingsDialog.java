@@ -550,7 +550,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
      * @return Currently available and usable network interfaces to choose from.
      */
     private NetworkChoice[] getNetworkChoices() {
-        final ArrayList<NetworkChoice> networkChoices = new ArrayList<NetworkChoice>();
+        final ArrayList<NetworkChoice> networkChoices = new ArrayList<>();
         networkChoices.add(new NetworkChoice(
                 swingMessages.getMessage("swing.settings.misc.networkInterface.item.auto"),
                 swingMessages.getMessage("swing.settings.misc.networkInterface.item.auto.tooltip", Constants.APP_NAME)));
