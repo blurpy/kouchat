@@ -4,7 +4,7 @@
 KouChat is a simple serverless chat client for local area networks.
 It's written in Java, and is free software.
 
-If you don't have Java installed, go to http://www.java.com/
+If you don't have Java installed, go to https://www.java.com/
 and download Java 6 or newer.
 
 KouChat can usually be started by clicking on the kouchat-x.x.x.jar file,
@@ -23,10 +23,9 @@ https://www.facebook.com/kouchatapp
 Source and graphics available under the GNU LGPL v3.
 See COPYING for details.
 
-error.wav is created by Nuno Povoa
-and is part of the Oxygen theme (http://www.oxygen-icons.org/),
+error.wav is created by Nuno Povoa and is part of the KDE Oxygen theme,
 available under the GNU Lesser General Public License
-(http://www.gnu.org/licenses/lgpl.html).
+(https://www.gnu.org/licenses/lgpl.html).
 
 The smileys are from a GNOME 3 icon theme.
 See README in icons/smileys folder.
