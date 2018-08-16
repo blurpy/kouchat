@@ -48,7 +48,7 @@ public class CommandHistory {
         UP,
         MIDDLE,
         DOWN
-    };
+    }
 
     /** The last direction the user moved in the history. */
     private Direction direction;
@@ -63,7 +63,7 @@ public class CommandHistory {
      * Default constructor.
      */
     public CommandHistory() {
-        history = new ArrayList<String>();
+        history = new ArrayList<>();
         direction = Direction.MIDDLE;
     }
 

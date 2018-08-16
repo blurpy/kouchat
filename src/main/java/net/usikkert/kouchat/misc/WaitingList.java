@@ -41,7 +41,7 @@ public class WaitingList {
      * Constructor.
      */
     public WaitingList() {
-        users = new ArrayList<Integer>();
+        users = new ArrayList<>();
     }
 
     /**
@@ -69,6 +69,6 @@ public class WaitingList {
      * @param userCode The unique code of the user to remove.
      */
     public void removeWaitingUser(final int userCode) {
-        users.remove(new Integer(userCode));
+        users.remove(Integer.valueOf(userCode));
     }
 }
