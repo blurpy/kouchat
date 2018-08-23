@@ -351,6 +351,37 @@ public class DefaultMessageResponderTest {
         verifyTopic(topic, "Current topic", "Harry", 2000);
     }
 
+    @Test
+    public void clientInfoShouldFillDetailsOnKnownUser() {
+        setUpExistingUser();
+
+        responder.clientInfo(100, "swing", 150, "linux",
+                             4000, 5000);
+
+        final long logonTime = System.currentTimeMillis() - 150;
+        // Allow some slack to avoid flaky test
+        assertTrue(user.getLogonTime() <= logonTime && user.getLogonTime() > logonTime - 10);
+
+        assertEquals("swing", user.getClient());
+        assertEquals("linux", user.getOperatingSystem());
+        assertEquals(4000, user.getPrivateChatPort());
+        assertEquals(5000, user.getTcpChatPort());
+    }
+
+    @Test
+    public void clientInfoShouldDoNothingOnUnknownUser() {
+        setUpUnknownUser();
+
+        responder.clientInfo(100, "swing", 150, "linux",
+                             4000, 5000);
+
+        assertEquals(0, user.getLogonTime());
+        assertEquals("<unknown>", user.getClient());
+        assertEquals("<unknown>", user.getOperatingSystem());
+        assertEquals(0, user.getPrivateChatPort());
+        assertEquals(0, user.getTcpChatPort());
+    }
+
     private void verifyTopic(final Topic topic, final String expectedTopic, final String expectedNick,
                              final long expectedTime) {
         assertEquals(expectedTopic, topic.getTopic());

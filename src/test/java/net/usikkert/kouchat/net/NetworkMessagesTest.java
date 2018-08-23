@@ -56,6 +56,9 @@ public class NetworkMessagesTest {
     public NetworkMessagesTest() {
         settings = mock(Settings.class);
         me = new User("TestUser", 123);
+        me.setPrivateChatPort(2222);
+        me.setTcpChatPort(4444);
+
         when(settings.getMe()).thenReturn(me);
 
         service = mock(NetworkService.class);
@@ -104,13 +107,13 @@ public class NetworkMessagesTest {
     /**
      * Tests sendClient().
      *
-     * Expects: 13132531!CLIENT#Christian:(KouChat v0.9.9-dev null)[134]{Linux}<0>
+     * Expects: 13132531!CLIENT#Christian:(KouChat v0.9.9-dev null)[134]{Linux}<2222>/4444\
      */
     @Test
     public void testSendClientMessage() {
         final String startsWith = "(" + me.getClient() + ")[";
         final String middle = ".+\\)\\[\\d+\\]\\{.+"; // like:)[134[{
-        final String endsWidth = "]{" + me.getOperatingSystem() + "}<" + me.getPrivateChatPort() + ">";
+        final String endsWidth = "]{" + me.getOperatingSystem() + "}<2222>/4444\\";
 
         messages.sendClient();
 

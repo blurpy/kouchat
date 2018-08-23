@@ -317,6 +317,7 @@ public class NetworkMessages {
      *   <li>Client uptime.</li>
      *   <li>Operating system.</li>
      *   <li>Port to connect to for private chat.</li>
+     *   <li>Port to connect to for tcp chat.</li>
      * </ul>
      */
     public void sendClient() {
@@ -324,7 +325,8 @@ public class NetworkMessages {
                 "(" + me.getClient() + ")" +
                 "[" + (System.currentTimeMillis() - me.getLogonTime()) + "]" +
                 "{" + me.getOperatingSystem() + "}" +
-                "<" + me.getPrivateChatPort() + ">";
+                "<" + me.getPrivateChatPort() + ">" +
+                "/" + me.getTcpChatPort() + "\\";
 
         networkService.sendMulticastMsg(msg);
     }

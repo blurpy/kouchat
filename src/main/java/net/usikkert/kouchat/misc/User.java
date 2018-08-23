@@ -55,6 +55,9 @@ public class User implements Comparable<User> {
     /** The port to use when connecting to this user's private chat. */
     private int privateChatPort;
 
+    /** The port to use when connecting to this user directly using tcp. */
+    private int tcpChatPort;
+
     /** The time when the last idle message came from this user. */
     private long lastIdle;
 
@@ -107,6 +110,7 @@ public class User implements Comparable<User> {
         hostName = null;
         newMsg = false;
         privateChatPort = 0;
+        tcpChatPort = 0;
         privchat = null;
         online = true;
         newPrivMsg = false;
@@ -123,6 +127,7 @@ public class User implements Comparable<User> {
         hostName = null;
         newMsg = false;
         privateChatPort = 0;
+        tcpChatPort = 0;
         privchat = null;
         newPrivMsg = false;
     }
@@ -368,6 +373,24 @@ public class User implements Comparable<User> {
      */
     public void setPrivateChatPort(final int privateChatPort) {
         this.privateChatPort = privateChatPort;
+    }
+
+    /**
+     * Gets the port to use when sending chat messages to this user using tcp.
+     *
+     * @return The port to use for tcp chat with the user.
+     */
+    public int getTcpChatPort() {
+        return tcpChatPort;
+    }
+
+    /**
+     * Sets the port to use when sending chat messages to this user using tcp.
+     *
+     * @param tcpChatPort The port to use for tcp chat with the user.
+     */
+    public void setTcpChatPort(final int tcpChatPort) {
+        this.tcpChatPort = tcpChatPort;
     }
 
     /**
