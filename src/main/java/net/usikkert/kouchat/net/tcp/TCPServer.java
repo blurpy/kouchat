@@ -67,9 +67,12 @@ public class TCPServer implements Runnable {
     public void run() {
         while (connected && serverSocket != null) {
             try {
-                // TODO use socket
                 final Socket socket = serverSocket.accept();
-                socket.close();
+
+                final TCPClient tcpClient = new TCPClient(socket);
+                tcpClient.startListener();
+                tcpClient.send("Test");
+                tcpClient.disconnect();
             }
 
             // Happens when server socket is closed, or network is down
