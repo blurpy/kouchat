@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 import net.usikkert.kouchat.event.NetworkConnectionListener;
 import net.usikkert.kouchat.event.ReceiverListener;
 import net.usikkert.kouchat.misc.ErrorHandler;
-import net.usikkert.kouchat.net.tcp.TCPServer;
+import net.usikkert.kouchat.net.tcp.TCPNetworkService;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.util.Validate;
 
@@ -57,8 +57,8 @@ public class NetworkService implements NetworkConnectionListener {
     /** The private message receiver. */
     private final UDPReceiver udpReceiver;
 
-    /** The server listening for tcp connections. */
-    private final TCPServer tcpServer;
+    /** The network service for tcp connections. */
+    private final TCPNetworkService tcpNetworkService;
 
     /** If private chat should be enabled. */
     private final boolean privateChatEnabled;
@@ -80,7 +80,7 @@ public class NetworkService implements NetworkConnectionListener {
         messageReceiver = new MessageReceiver(errorHandler);
         messageSender = new MessageSender(errorHandler);
         connectionWorker = new ConnectionWorker(settings, errorHandler);
-        tcpServer = new TCPServer(settings, errorHandler);
+        tcpNetworkService = new TCPNetworkService(settings, errorHandler);
 
         if (privateChatEnabled) {
             udpReceiver = new UDPReceiver(settings, errorHandler);
@@ -216,7 +216,7 @@ public class NetworkService implements NetworkConnectionListener {
 
         messageSender.stopSender();
         messageReceiver.stopReceiver();
-        tcpServer.stopServer();
+        tcpNetworkService.stopService();
     }
 
     @Override
@@ -239,6 +239,6 @@ public class NetworkService implements NetworkConnectionListener {
         final NetworkInterface currentNetworkInterface = connectionWorker.getCurrentNetworkInterface();
         messageSender.startSender(currentNetworkInterface);
         messageReceiver.startReceiver(currentNetworkInterface);
-        tcpServer.startServer();
+        tcpNetworkService.startService();
     }
 }
