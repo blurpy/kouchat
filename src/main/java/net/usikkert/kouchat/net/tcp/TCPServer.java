@@ -74,8 +74,13 @@ public class TCPServer implements Runnable {
 
             // Happens when server socket is closed, or network is down
             catch (final IOException e) {
-                connected = false;
-                LOG.log(Level.WARNING, e.getMessage(), e);
+                if (connected) {
+                    LOG.log(Level.WARNING, e.toString());
+                }
+
+                else {
+                    LOG.log(Level.FINE, e.toString());
+                }
             }
         }
     }
