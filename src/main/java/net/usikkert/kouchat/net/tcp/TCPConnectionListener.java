@@ -22,31 +22,19 @@
 
 package net.usikkert.kouchat.net.tcp;
 
-import net.usikkert.kouchat.misc.ErrorHandler;
-import net.usikkert.kouchat.settings.Settings;
-import net.usikkert.kouchat.util.Validate;
+import java.net.Socket;
 
 /**
- * Network service for administration of tcp communication.
+ * Listener for tcp connections.
  *
  * @author Christian Ihle
  */
-public class TCPNetworkService {
+public interface TCPConnectionListener {
 
-    private final TCPServer tcpServer;
-
-    public TCPNetworkService(final Settings settings, final ErrorHandler errorHandler) {
-        Validate.notNull(settings, "Settings can not be null");
-        Validate.notNull(errorHandler, "Error handler can not be null");
-
-        this.tcpServer = new TCPServer(settings, errorHandler, new TCPConnectionHandler());
-    }
-
-    public void startService() {
-        tcpServer.startServer();
-    }
-
-    public void stopService() {
-        tcpServer.stopServer();
-    }
+    /**
+     * A tcp socket has been established and needs to be identified and handled.
+     *
+     * @param socket The new unknown socket connection.
+     */
+    void socketAdded(Socket socket);
 }

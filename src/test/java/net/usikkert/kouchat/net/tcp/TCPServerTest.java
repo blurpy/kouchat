@@ -46,7 +46,7 @@ public class TCPServerTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Settings can not be null");
 
-        new TCPServer(null, mock(ErrorHandler.class));
+        new TCPServer(null, mock(ErrorHandler.class), mock(TCPConnectionListener.class));
     }
 
     @Test
@@ -54,6 +54,14 @@ public class TCPServerTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Error handler can not be null");
 
-        new TCPServer(mock(Settings.class), null);
+        new TCPServer(mock(Settings.class), null, mock(TCPConnectionListener.class));
+    }
+
+    @Test
+    public void constructorShouldThrowExceptionIfTCPConnectionListenerIsNull() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("TCP connection listener can not be null");
+
+        new TCPServer(mock(Settings.class), mock(ErrorHandler.class), null);
     }
 }

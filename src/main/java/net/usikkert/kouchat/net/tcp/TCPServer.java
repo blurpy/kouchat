@@ -24,7 +24,6 @@ package net.usikkert.kouchat.net.tcp;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,32 +46,31 @@ public class TCPServer implements Runnable {
 
     private static final int MAX_PORT_ATTEMPTS = 50;
 
-    private final ErrorHandler errorHandler;
     private final User me;
+    private final ErrorHandler errorHandler;
+    private final TCPConnectionListener tcpConnectionListener;
 
     private boolean connected;
 
     @Nullable
     private ServerSocket serverSocket;
 
-    public TCPServer(final Settings settings, final ErrorHandler errorHandler) {
+    public TCPServer(final Settings settings, final ErrorHandler errorHandler,
+                     final TCPConnectionListener tcpConnectionListener) {
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
+        Validate.notNull(tcpConnectionListener, "TCP connection listener can not be null");
 
         this.me = settings.getMe();
         this.errorHandler = errorHandler;
+        this.tcpConnectionListener = tcpConnectionListener;
     }
 
     @Override
     public void run() {
         while (connected && serverSocket != null) {
             try {
-                final Socket socket = serverSocket.accept();
-
-                final TCPClient tcpClient = new TCPClient(socket);
-                tcpClient.startListener();
-                tcpClient.send("Test");
-                tcpClient.disconnect();
+                tcpConnectionListener.socketAdded(serverSocket.accept());
             }
 
             // Happens when server socket is closed, or network is down
