@@ -27,6 +27,7 @@ import static org.mockito.Mockito.*;
 
 import net.usikkert.kouchat.junit.ExpectedException;
 import net.usikkert.kouchat.misc.ErrorHandler;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.util.TestUtils;
 
@@ -52,6 +53,9 @@ public class NetworkServiceTest {
     public void setUp() {
         settings = mock(Settings.class);
         errorHandler = mock(ErrorHandler.class);
+        final User me = mock(User.class);
+
+        when(settings.getMe()).thenReturn(me);
     }
 
     @Test
