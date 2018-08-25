@@ -27,6 +27,8 @@ import java.io.File;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * This is the interface for the mediator between the user interface and the controller.
  *
@@ -111,7 +113,7 @@ public interface Mediator {
      *                     that file already selected, or <code>null</code> if the
      *                     file chooser should start fresh.
      */
-    void sendFile(User user, File selectedFile);
+    void sendFile(User user, @Nullable File selectedFile);
 
     /**
      * Gets the text written in the input field and either sends it to

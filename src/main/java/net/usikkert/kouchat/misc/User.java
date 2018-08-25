@@ -330,6 +330,7 @@ public class User implements Comparable<User> {
      *
      * @return The user's private chat window.
      */
+    @Nullable
     public PrivateChatWindow getPrivchat() {
         return privchat;
     }
@@ -438,6 +439,7 @@ public class User implements Comparable<User> {
      *
      * @return The host name.
      */
+    @Nullable
     public String getHostName() {
         return hostName;
     }

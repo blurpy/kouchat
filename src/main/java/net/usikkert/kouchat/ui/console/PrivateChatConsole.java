@@ -90,6 +90,7 @@ public class PrivateChatConsole implements PrivateChatWindow {
      *
      * {@inheritDoc}
      */
+    @Nullable
     @Override
     public User getUser() {
         return user;

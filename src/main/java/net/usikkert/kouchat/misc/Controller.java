@@ -52,6 +52,8 @@ import net.usikkert.kouchat.util.TimerTools;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * This controller gives access to the network and the state of the
  * application, like the user list and the topic.
@@ -348,6 +350,7 @@ public class Controller implements NetworkConnectionListener {
      * @param code The user code for the user.
      * @return The user with the specified user code, or <em>null</em> if not found.
      */
+    @Nullable
     public User getUser(final int code) {
         return userListController.getUser(code);
     }
@@ -358,6 +361,7 @@ public class Controller implements NetworkConnectionListener {
      * @param nick The nick name to check for.
      * @return The user with the specified nick name, or <em>null</em> if not found.
      */
+    @Nullable
     public User getUser(final String nick) {
         return userListController.getUser(nick);
     }

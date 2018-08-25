@@ -145,7 +145,7 @@ public class MessageSender {
      * @param networkInterface The network interface to use, or <code>null</code>.
      * @return If connected to the network or not.
      */
-    public synchronized boolean startSender(final NetworkInterface networkInterface) {
+    public synchronized boolean startSender(@Nullable final NetworkInterface networkInterface) {
         LOG.log(Level.FINE, "Connecting to " + address.getHostAddress() + ":" + port + " on " + networkInterface);
 
         try {

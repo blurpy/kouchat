@@ -75,6 +75,7 @@ public class SimpleReceiverListener implements ReceiverListener {
      *
      * @return The message.
      */
+    @Nullable
     public String getMessage() {
         return message;
     }
@@ -84,6 +85,7 @@ public class SimpleReceiverListener implements ReceiverListener {
      *
      * @return The ip address.
      */
+    @Nullable
     public String getIpAddress() {
         return ipAddress;
     }

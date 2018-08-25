@@ -53,6 +53,8 @@ import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * This class is a mediator for the gui, and gets all the events from the gui layer
  * that needs access to other components, or classes in lower layers. It is also
@@ -356,7 +358,7 @@ public class SwingMediator implements Mediator, UserInterface {
      *                     file chooser should start fresh.
      */
     @Override
-    public void sendFile(final User user, final File selectedFile) {
+    public void sendFile(final User user, @Nullable final File selectedFile) {
         if (user == null) {
             return;
         } else if (user.isMe()) {

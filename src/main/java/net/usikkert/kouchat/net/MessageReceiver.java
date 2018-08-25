@@ -164,7 +164,7 @@ public class MessageReceiver implements Runnable {
      * @param networkInterface The network interface to use, or <code>null</code>.
      * @return If connected to the network or not.
      */
-    public synchronized boolean startReceiver(final NetworkInterface networkInterface) {
+    public synchronized boolean startReceiver(@Nullable final NetworkInterface networkInterface) {
         LOG.log(Level.FINE, "Connecting to " + address.getHostAddress() + ":" + port + " on " + networkInterface);
 
         try {

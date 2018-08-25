@@ -68,6 +68,7 @@ public class ConnectionWorker implements Runnable {
     private NetworkInterface networkInterface;
 
     /** The working thread. */
+    @Nullable
     private Thread worker;
 
     /** A list of connection listeners. */

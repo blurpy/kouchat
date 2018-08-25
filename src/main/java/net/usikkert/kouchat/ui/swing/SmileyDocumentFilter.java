@@ -33,6 +33,8 @@ import javax.swing.text.StyledDocument;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.util.Validate;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * This is a document filter that checks for text smiley codes added to
  * a {@link StyledDocument}, and replaces them with images.
@@ -160,6 +162,7 @@ public class SmileyDocumentFilter extends DocumentFilter {
      * @return The first matching smiley in the text, or <code>null</code> if
      *         none were found.
      */
+    @Nullable
     protected Smiley findSmiley(final String text, final int offset) {
         int firstMatch = -1;
         Smiley smiley = null;
