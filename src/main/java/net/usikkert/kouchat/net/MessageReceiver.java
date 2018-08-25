@@ -35,6 +35,8 @@ import net.usikkert.kouchat.event.ReceiverListener;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.util.Validate;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * This is the thread that listens for multicast messages from
  * the network, and notifies any listeners when messages arrive.
@@ -47,6 +49,7 @@ public class MessageReceiver implements Runnable {
     private static final Logger LOG = Logger.getLogger(MessageReceiver.class.getName());
 
     /** The multicast socket used for receiving messages. */
+    @Nullable
     private MulticastSocket mcSocket;
 
     /** The inetaddress object with the multicast ip address to receive messages from. */

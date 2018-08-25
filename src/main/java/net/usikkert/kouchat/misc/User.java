@@ -24,6 +24,8 @@ package net.usikkert.kouchat.misc;
 
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * This class represents a user in the chat.
  *
@@ -47,6 +49,7 @@ public class User implements Comparable<User> {
     private String client;
 
     /** The user's host name. */
+    @Nullable
     private String hostName;
 
     /** The unique code identifying this user. */
@@ -83,6 +86,7 @@ public class User implements Comparable<User> {
     private boolean newMsg;
 
     /** The private chat window where the chat session with this user happens. */
+    @Nullable
     private PrivateChatWindow privchat;
 
     /** The chat logger used for logging communication with this user. */

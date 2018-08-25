@@ -34,6 +34,8 @@ import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.util.Validate;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * This is the class that sends multicast messages over the network.
  *
@@ -45,6 +47,7 @@ public class MessageSender {
     private static final Logger LOG = Logger.getLogger(MessageSender.class.getName());
 
     /** The multicast socket used for sending messages. */
+    @Nullable
     private MulticastSocket mcSocket;
 
     /** The inetaddress object with the multicast ip address to send messages to. */

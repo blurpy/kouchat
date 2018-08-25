@@ -64,6 +64,7 @@ public class ConnectionWorker implements Runnable {
     private boolean networkUp;
 
     /** The current network interface. */
+    @Nullable
     private NetworkInterface networkInterface;
 
     /** The working thread. */

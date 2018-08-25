@@ -39,6 +39,8 @@ import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.util.ResourceLoader;
 import net.usikkert.kouchat.util.Validate;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Can load an audio file, and play it.
  *
@@ -64,8 +66,11 @@ public class SoundBeeper {
     private final ErrorHandler errorHandler;
     private final ResourceLoader resourceLoader;
 
+    @Nullable
     private Clip audioClip;
+    @Nullable
     private Thread closeTimer;
+
     private long closeTime;
 
     /**

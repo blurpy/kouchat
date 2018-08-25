@@ -26,6 +26,8 @@ import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.ui.PrivateChatWindow;
 import net.usikkert.kouchat.util.Validate;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Very simple console support for private chat sessions.
  *
@@ -36,6 +38,7 @@ public class PrivateChatConsole implements PrivateChatWindow {
     private final ConsoleMessages consoleMessages;
 
     /** The user in this chat session. */
+    @Nullable
     private User user;
 
     /**

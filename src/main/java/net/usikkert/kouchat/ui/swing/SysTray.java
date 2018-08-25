@@ -46,6 +46,8 @@ import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.Validate;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * This is the system tray.
  *
@@ -73,9 +75,11 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
     private final SwingMessages swingMessages;
 
     /** The icon in the system tray. */
+    @Nullable
     private TrayIcon trayIcon;
 
     /** The quit menu item. */
+    @Nullable
     private MenuItem quitMI;
 
     /** The mediator. */
@@ -85,6 +89,7 @@ public class SysTray implements ActionListener, MouseListener, PropertyChangeLis
     private boolean systemTraySupported;
 
     /** The icons to use in the system tray. */
+    @Nullable
     private StatusIcons statusIcons;
 
     /**
