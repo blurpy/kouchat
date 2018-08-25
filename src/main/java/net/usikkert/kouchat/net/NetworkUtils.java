@@ -33,6 +33,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Class containing utility methods for network operations.
  *
@@ -216,6 +218,7 @@ public class NetworkUtils {
      * @return An updated version of the same network interface,
      *         or <code>null</code> if not found.
      */
+    @Nullable
     public NetworkInterface getUpdatedNetworkInterface(final NetworkInterface origNetIf) {
         if (origNetIf == null) {
             return null;
@@ -264,6 +267,7 @@ public class NetworkUtils {
      * @return The first usable network interface, or <code>null</code>.
      * @see #isUsable(NetworkInterface)
      */
+    @Nullable
     public NetworkInterface findFirstUsableNetworkInterface() {
         final Enumeration<NetworkInterface> networkInterfaces = getNetworkInterfaces();
 
@@ -331,6 +335,7 @@ public class NetworkUtils {
      *
      * @return The host name, or <code>null</code> if the host name cannot be determined.
      */
+    @Nullable
     public String getLocalHostName() {
         try {
             return InetAddress.getLocalHost().getHostName();
@@ -350,6 +355,7 @@ public class NetworkUtils {
      * @param name Name of the network interface to return.
      * @return The requested network interface, or <code>null</code>.
      */
+    @Nullable
     public NetworkInterface getNetworkInterfaceByName(final String name) {
         if (name == null) {
             return null;

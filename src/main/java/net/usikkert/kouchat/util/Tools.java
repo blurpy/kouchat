@@ -36,6 +36,8 @@ import java.util.regex.Pattern;
 
 import net.usikkert.kouchat.Constants;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * A collection of static utility methods.
  *
@@ -196,6 +198,7 @@ public final class Tools {
      * @param word The word to capitalize the first letter of.
      * @return The modified word.
      */
+    @Nullable
     public static String capitalizeFirstLetter(final String word) {
         if (word == null) {
             return null;
@@ -215,6 +218,7 @@ public final class Tools {
      * @param length The max number of characters for the word.
      * @return The modified word.
      */
+    @Nullable
     public static String shorten(final String word, final int length) {
         if (word == null) {
             return null;
@@ -237,6 +241,7 @@ public final class Tools {
      * @param filename The file name to get the extension from.
      * @return The file extension, or <code>null</code> if file name is <code>null</code>.
      */
+    @Nullable
     public static String getFileExtension(final String filename) {
         if (filename == null) {
             return null;
@@ -258,6 +263,7 @@ public final class Tools {
      * @param filename The file name to get the base name from.
      * @return The base name, or <code>null</code> if file name is <code>null</code>.
      */
+    @Nullable
     public static String getFileBaseName(final String filename) {
         if (filename == null) {
             return null;

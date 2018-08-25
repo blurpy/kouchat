@@ -53,6 +53,8 @@ import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.swing.messages.SwingMessages;
 import net.usikkert.kouchat.util.Validate;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * This is a collection of practical and reusable methods
  * for ui use.
@@ -296,6 +298,7 @@ public class UITools {
      * @param lnfName The name of the look and feel to look for.
      * @return The LookAndFeelInfo for that name.
      */
+    @Nullable
     public LookAndFeelInfo getLookAndFeel(final String lnfName) {
         final LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
 

@@ -41,6 +41,7 @@ import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
 import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Parses and executes commands. A command starts with a slash, and can
@@ -490,6 +491,7 @@ public class CommandParser {
         cancelFileTransfer(fileTransfer);
     }
 
+    @Nullable
     private Integer parseFileTransferId(final String argument) {
         try {
             return Integer.parseInt(argument);

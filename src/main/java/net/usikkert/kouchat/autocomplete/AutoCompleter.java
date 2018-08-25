@@ -25,6 +25,8 @@ package net.usikkert.kouchat.autocomplete;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * This class can give suggestions for autocompleting words.
  *
@@ -235,6 +237,7 @@ public class AutoCompleter {
      * @return The first {@link AutoCompleteList} to support that word,
      *         or <em>null</em> if none.
      */
+    @Nullable
     private AutoCompleteList getAutoCompleteList(final String word) {
         for (final AutoCompleteList acl : autoCompleteLists) {
             if (acl.acceptsWord(word)) {

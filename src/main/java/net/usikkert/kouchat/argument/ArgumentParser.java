@@ -29,6 +29,8 @@ import java.util.regex.Pattern;
 
 import net.usikkert.kouchat.util.Validate;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Parses the supported startup arguments for the application.
  *
@@ -74,6 +76,7 @@ public class ArgumentParser {
      * @param argument The argument to get a parsed argument for.
      * @return The parsed argument, or <code>null</code> if none was found by the parser.
      */
+    @Nullable
     public ParsedArgument getArgument(final Argument argument) {
         Validate.notNull(argument, "Argument can not be null");
 
@@ -155,6 +158,7 @@ public class ArgumentParser {
         return Argument.UNKNOWN;
     }
 
+    @Nullable
     private String getValue(final String originalArgument) {
         final Matcher valueMatcher = VALUE_REGEX.matcher(originalArgument);
 
