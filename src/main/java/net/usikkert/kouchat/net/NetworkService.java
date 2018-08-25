@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 
 import net.usikkert.kouchat.event.NetworkConnectionListener;
 import net.usikkert.kouchat.event.ReceiverListener;
+import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.net.tcp.TCPNetworkService;
 import net.usikkert.kouchat.settings.Settings;
@@ -66,10 +67,12 @@ public class NetworkService implements NetworkConnectionListener {
     /**
      * Constructor.
      *
+     * @param controller The controller to use.
      * @param settings The settings to use.
      * @param errorHandler The error handler to use.
      */
-    public NetworkService(final Settings settings, final ErrorHandler errorHandler) {
+    public NetworkService(final Controller controller, final Settings settings, final ErrorHandler errorHandler) {
+        Validate.notNull(controller, "Controller can not be null");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
 
@@ -80,7 +83,7 @@ public class NetworkService implements NetworkConnectionListener {
         messageReceiver = new MessageReceiver(errorHandler);
         messageSender = new MessageSender(errorHandler);
         connectionWorker = new ConnectionWorker(settings, errorHandler);
-        tcpNetworkService = new TCPNetworkService(settings, errorHandler);
+        tcpNetworkService = new TCPNetworkService(controller, settings, errorHandler);
 
         if (privateChatEnabled) {
             udpReceiver = new UDPReceiver(settings, errorHandler);

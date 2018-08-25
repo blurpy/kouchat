@@ -22,6 +22,7 @@
 
 package net.usikkert.kouchat.net.tcp;
 
+import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.util.Validate;
@@ -35,7 +36,8 @@ public class TCPNetworkService {
 
     private final TCPServer tcpServer;
 
-    public TCPNetworkService(final Settings settings, final ErrorHandler errorHandler) {
+    public TCPNetworkService(final Controller controller, final Settings settings, final ErrorHandler errorHandler) {
+        Validate.notNull(controller, "Controller can not be null");
         Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(errorHandler, "Error handler can not be null");
 
