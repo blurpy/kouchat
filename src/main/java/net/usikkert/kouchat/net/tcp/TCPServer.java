@@ -24,13 +24,12 @@ package net.usikkert.kouchat.net.tcp;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import net.usikkert.kouchat.Constants;
 import net.usikkert.kouchat.misc.ErrorHandler;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.util.Logger;
 import net.usikkert.kouchat.util.Validate;
 
 import org.jetbrains.annotations.Nullable;
@@ -42,7 +41,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class TCPServer implements Runnable {
 
-    private static final Logger LOG = Logger.getLogger(TCPServer.class.getName());
+    private static final Logger LOG = Logger.getLogger(TCPServer.class);
 
     private static final int MAX_PORT_ATTEMPTS = 50;
 
@@ -76,21 +75,21 @@ public class TCPServer implements Runnable {
             // Happens when server socket is closed, or network is down
             catch (final IOException e) {
                 if (connected) {
-                    LOG.log(Level.WARNING, e.toString());
+                    LOG.warning(e.toString());
                 }
 
                 else {
-                    LOG.log(Level.FINE, e.toString());
+                    LOG.fine(e.toString());
                 }
             }
         }
     }
 
     public void startServer() {
-        LOG.log(Level.FINE, "Connecting...");
+        LOG.fine("Connecting...");
 
         if (connected) {
-            LOG.log(Level.FINE, "Already connected.");
+            LOG.fine("Already connected.");
             return;
         }
 
@@ -107,11 +106,11 @@ public class TCPServer implements Runnable {
                 worker.start();
 
                 me.setTcpChatPort(port);
-                LOG.log(Level.FINE, "Connected to port " + port);
+                LOG.fine("Connected to port: %s", port);
             }
 
             catch (final IOException e) {
-                LOG.log(Level.SEVERE, e.toString() + " " + port);
+                LOG.severe("%s %s", e.toString(), port);
 
                 portAttempt++;
                 port++;
@@ -125,16 +124,16 @@ public class TCPServer implements Runnable {
                     " and " + (port - 1) + "." +
                     "\n\nYou will not be able to receive tcp messages!";
 
-            LOG.log(Level.SEVERE, error);
+            LOG.severe(error);
             errorHandler.showError(error);
         }
     }
 
     public void stopServer() {
-        LOG.log(Level.FINE, "Disconnecting...");
+        LOG.fine("Disconnecting...");
 
         if (!connected) {
-            LOG.log(Level.FINE, "Not connected.");
+            LOG.fine("Not connected.");
             return;
         }
 
@@ -144,10 +143,10 @@ public class TCPServer implements Runnable {
             try {
                 serverSocket.close();
             } catch (final IOException e) {
-                LOG.log(Level.SEVERE, e.toString());
+                LOG.severe(e.toString());
             }
         }
 
-        LOG.log(Level.FINE, "Disconnected.");
+        LOG.fine("Disconnected.");
     }
 }

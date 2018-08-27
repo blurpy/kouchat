@@ -26,9 +26,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import net.usikkert.kouchat.util.Logger;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -38,7 +37,7 @@ import net.usikkert.kouchat.util.Validate;
  */
 public class TCPClient implements Runnable {
 
-    private static final Logger LOG = Logger.getLogger(TCPClient.class.getName());
+    private static final Logger LOG = Logger.getLogger(TCPClient.class);
 
     private final Socket socket;
     private final DataInputStream inputStream;
@@ -49,8 +48,6 @@ public class TCPClient implements Runnable {
     public TCPClient(final Socket socket) {
         Validate.notNull(socket, "Socket can not be null");
 
-        LOG.log(Level.FINE, "Connected to " + socket.getInetAddress() + ":" + socket.getPort());
-
         try {
             this.socket = socket;
             this.inputStream = new DataInputStream(socket.getInputStream());
@@ -60,6 +57,8 @@ public class TCPClient implements Runnable {
         catch (final IOException e) {
             throw new RuntimeException(e);
         }
+
+        LOG.fine("Connected to %s:%s", getIPAddress(), socket.getPort());
     }
 
     @Override
@@ -67,12 +66,12 @@ public class TCPClient implements Runnable {
         try {
             while (connected) {
                 final String message = inputStream.readUTF();
-                LOG.log(Level.FINE, "Received message: " + message);
+                LOG.fine("Received message: %s", message);
             }
         }
 
         catch (final IOException e) {
-            LOG.log(Level.SEVERE, e.toString());
+            LOG.severe(e.toString());
             connected = false;
         }
     }
@@ -83,18 +82,18 @@ public class TCPClient implements Runnable {
         }
 
         try {
-            LOG.log(Level.FINE, "Sending message: " + message);
+            LOG.fine("Sending message: %s", message);
             outputStream.writeUTF(message);
         }
 
         catch (final IOException e) {
-            LOG.log(Level.SEVERE, e.toString());
+            LOG.severe(e.toString());
             connected = false;
         }
     }
 
     public void startListener() {
-        LOG.log(Level.FINE, "Listening on " + socket.getInetAddress() + ":" + socket.getPort());
+        LOG.fine("Listening on %s:%s", getIPAddress(), socket.getPort());
 
         connected = true;
         new Thread(this, getClass().getSimpleName()).start();
@@ -103,12 +102,16 @@ public class TCPClient implements Runnable {
     public void disconnect() {
         try {
             connected = false;
-            LOG.log(Level.FINE, "Disconnected from " + socket.getInetAddress() + ":" + socket.getPort());
+            LOG.fine("Disconnected from %s:%s", getIPAddress(), socket.getPort());
             socket.close();
         }
 
         catch (final IOException e) {
-            LOG.log(Level.WARNING, e.toString());
+            LOG.warning(e.toString());
         }
+    }
+
+    private String getIPAddress() {
+        return socket.getInetAddress().getHostAddress();
     }
 }
