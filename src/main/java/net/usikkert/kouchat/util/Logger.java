@@ -48,6 +48,21 @@ public final class Logger {
         this.logger = logger;
     }
 
+    public void fine(@NonNls final String message,
+                     @NonNls final Object... messageParameters) {
+        log(Level.FINE, message, messageParameters, null);
+    }
+
+    public void info(@NonNls final String message,
+                     @NonNls final Object... messageParameters) {
+        log(Level.INFO, message, messageParameters, null);
+    }
+
+    public void warning(@NonNls final String message,
+                        @NonNls final Object... messageParameters) {
+        log(Level.WARNING, message, messageParameters, null);
+    }
+
     public void severe(@NonNls final String message,
                        @NonNls final Object... messageParameters) {
         log(Level.SEVERE, message, messageParameters, null);
