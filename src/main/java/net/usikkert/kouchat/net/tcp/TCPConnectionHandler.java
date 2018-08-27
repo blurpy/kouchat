@@ -23,6 +23,15 @@
 package net.usikkert.kouchat.net.tcp;
 
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import net.usikkert.kouchat.misc.Controller;
+import net.usikkert.kouchat.misc.User;
+import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.util.Logger;
+import net.usikkert.kouchat.util.Tools;
+import net.usikkert.kouchat.util.Validate;
 
 /**
  * Handles all the tcp connections.
@@ -31,11 +40,70 @@ import java.net.Socket;
  */
 public class TCPConnectionHandler implements TCPConnectionListener {
 
+    private static final Logger LOG = Logger.getLogger(TCPConnectionHandler.class);
+
+    private final Controller controller;
+    private final Settings settings;
+    private final ExecutorService executorService;
+
+    public TCPConnectionHandler(final Controller controller, final Settings settings) {
+        Validate.notNull(controller, "Controller can not be null");
+        Validate.notNull(settings, "Settings can not be null");
+
+        this.controller = controller;
+        this.settings = settings;
+        this.executorService = Executors.newCachedThreadPool();
+    }
+
     @Override
     public void socketAdded(final Socket socket) {
-        final TCPClient tcpClient = new TCPClient(socket);
-        tcpClient.startListener();
-        tcpClient.send("Test");
-        tcpClient.disconnect();
+        executorService.submit(new Runnable() {
+            @Override
+            public void run() {
+                LOG.fine("Add socket start");
+
+                final TCPClient client = new TCPClient(socket);
+                final TCPUserIdentifier userIdentifier = new TCPUserIdentifier(controller, client);
+                client.startListener();
+
+                final User user = userIdentifier.waitForUser();
+
+                if (user == null) {
+                    LOG.fine("Add socket done. No user found.");
+                } else {
+                    LOG.fine("Add socket done. user=%s", user.getNick());
+                    client.send("Test");
+                }
+
+                Tools.sleep(1000);
+                client.disconnect();
+            }
+        });
+    }
+
+    public void userAdded(final User user) {
+        executorService.submit(new Runnable() {
+            @Override
+            public void run() {
+                LOG.fine("Add user start for user=%s", user.getNick());
+
+                final TCPConnector tcpConnector = new TCPConnector(user);
+                final Socket socket = tcpConnector.connect();
+
+                if (socket == null) {
+                    return;
+                }
+
+                final TCPClient client = new TCPClient(socket);
+                client.startListener();
+
+                client.send(String.valueOf(settings.getMe().getCode()));
+
+                LOG.fine("Add user done for user=%s", user.getNick());
+
+                Tools.sleep(1000);
+                client.disconnect();
+            }
+        });
     }
 }

@@ -22,56 +22,12 @@
 
 package net.usikkert.kouchat.net.tcp;
 
-import net.usikkert.kouchat.event.UserListListener;
-import net.usikkert.kouchat.misc.Controller;
-import net.usikkert.kouchat.misc.ErrorHandler;
-import net.usikkert.kouchat.misc.User;
-import net.usikkert.kouchat.settings.Settings;
-import net.usikkert.kouchat.util.Validate;
-
 /**
- * Network service for administration of tcp communication.
+ * Listener for tcp messages.
  *
  * @author Christian Ihle
  */
-public class TCPNetworkService implements UserListListener {
+public interface TCPMessageListener {
 
-    private final TCPConnectionHandler tcpConnectionHandler;
-    private final TCPServer tcpServer;
-
-    public TCPNetworkService(final Controller controller,
-                             final Settings settings,
-                             final ErrorHandler errorHandler) {
-        Validate.notNull(controller, "Controller can not be null");
-        Validate.notNull(settings, "Settings can not be null");
-        Validate.notNull(errorHandler, "Error handler can not be null");
-
-        this.tcpConnectionHandler = new TCPConnectionHandler(controller, settings);
-        this.tcpServer = new TCPServer(settings, errorHandler, tcpConnectionHandler);
-
-        controller.getUserList().addUserListListener(this);
-    }
-
-    public void startService() {
-        tcpServer.startServer();
-    }
-
-    public void stopService() {
-        tcpServer.stopServer();
-    }
-
-    @Override
-    public void userAdded(final int pos, final User user) {
-        tcpConnectionHandler.userAdded(user);
-    }
-
-    @Override
-    public void userChanged(final int pos, final User user) {
-
-    }
-
-    @Override
-    public void userRemoved(final int pos, final User user) {
-
-    }
+    void messageArrived(String message, TCPClient client);
 }

@@ -22,56 +22,68 @@
 
 package net.usikkert.kouchat.net.tcp;
 
-import net.usikkert.kouchat.event.UserListListener;
-import net.usikkert.kouchat.misc.Controller;
-import net.usikkert.kouchat.misc.ErrorHandler;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+
 import net.usikkert.kouchat.misc.User;
-import net.usikkert.kouchat.settings.Settings;
+import net.usikkert.kouchat.util.Logger;
+import net.usikkert.kouchat.util.Sleeper;
 import net.usikkert.kouchat.util.Validate;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
- * Network service for administration of tcp communication.
+ * Creates a tcp connection to a user.
  *
  * @author Christian Ihle
  */
-public class TCPNetworkService implements UserListListener {
+public class TCPConnector {
 
-    private final TCPConnectionHandler tcpConnectionHandler;
-    private final TCPServer tcpServer;
+    private static final Logger LOG = Logger.getLogger(TCPConnector.class);
 
-    public TCPNetworkService(final Controller controller,
-                             final Settings settings,
-                             final ErrorHandler errorHandler) {
-        Validate.notNull(controller, "Controller can not be null");
-        Validate.notNull(settings, "Settings can not be null");
-        Validate.notNull(errorHandler, "Error handler can not be null");
+    private final User user;
+    private final Sleeper sleeper;
 
-        this.tcpConnectionHandler = new TCPConnectionHandler(controller, settings);
-        this.tcpServer = new TCPServer(settings, errorHandler, tcpConnectionHandler);
+    public TCPConnector(final User user) {
+        Validate.notNull(user, "User can not be null");
 
-        controller.getUserList().addUserListListener(this);
+        this.user = user;
+        this.sleeper = new Sleeper();
     }
 
-    public void startService() {
-        tcpServer.startServer();
+    @Nullable
+    public Socket connect() {
+        LOG.fine("Connecting to user=%s", user.getNick());
+
+        waitForPort();
+
+        if (user.getTcpChatPort() <= 0) {
+            LOG.warning("User has no tcp port. Giving up.");
+            return null;
+        }
+
+        try {
+            LOG.fine("Connecting to: %s@%s:%s", user.getNick(), user.getIpAddress(), user.getTcpChatPort());
+            final Socket socket = new Socket(InetAddress.getByName(user.getIpAddress()), user.getTcpChatPort());
+            LOG.fine("Connected to: %s@%s:%s", user.getNick(), socket.getInetAddress().getHostAddress(), socket.getPort());
+
+            return socket;
+        }
+
+        catch (final IOException e) {
+            LOG.severe("Failed to connect to user=%s: %s", user.getNick(), e.getMessage());
+        }
+
+        return null;
     }
 
-    public void stopService() {
-        tcpServer.stopServer();
-    }
+    private void waitForPort() {
+        int tries = 0;
 
-    @Override
-    public void userAdded(final int pos, final User user) {
-        tcpConnectionHandler.userAdded(user);
-    }
-
-    @Override
-    public void userChanged(final int pos, final User user) {
-
-    }
-
-    @Override
-    public void userRemoved(final int pos, final User user) {
-
+        while (user.getTcpChatPort() <= 0 && tries < 50) {
+            sleeper.sleep(50);
+            tries++;
+        }
     }
 }

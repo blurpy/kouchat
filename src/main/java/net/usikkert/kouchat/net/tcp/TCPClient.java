@@ -30,6 +30,8 @@ import java.net.Socket;
 import net.usikkert.kouchat.util.Logger;
 import net.usikkert.kouchat.util.Validate;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Client for communicating over a tcp socket.
  *
@@ -42,6 +44,9 @@ public class TCPClient implements Runnable {
     private final Socket socket;
     private final DataInputStream inputStream;
     private final DataOutputStream outputStream;
+
+    @Nullable
+    private TCPMessageListener messageListener;
 
     private boolean connected;
 
@@ -67,6 +72,10 @@ public class TCPClient implements Runnable {
             while (connected) {
                 final String message = inputStream.readUTF();
                 LOG.fine("Received message: %s", message);
+
+                if (messageListener != null) {
+                    messageListener.messageArrived(message, this);
+                }
             }
         }
 
@@ -113,5 +122,9 @@ public class TCPClient implements Runnable {
 
     private String getIPAddress() {
         return socket.getInetAddress().getHostAddress();
+    }
+
+    public void registerListener(@Nullable final TCPMessageListener theMessageListener) {
+        this.messageListener = theMessageListener;
     }
 }
