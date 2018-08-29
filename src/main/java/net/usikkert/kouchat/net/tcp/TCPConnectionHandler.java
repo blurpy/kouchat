@@ -90,6 +90,11 @@ public class TCPConnectionHandler implements TCPConnectionListener {
             public void run() {
                 LOG.fine("Add user start for user=%s", user.getNick());
 
+                if (userClients.containsKey(user)) {
+                    LOG.fine("Add user done. Already added. user=%s", user.getNick());
+                    return;
+                }
+
                 final TCPConnector tcpConnector = new TCPConnector(user);
                 final Socket socket = tcpConnector.connect();
 
