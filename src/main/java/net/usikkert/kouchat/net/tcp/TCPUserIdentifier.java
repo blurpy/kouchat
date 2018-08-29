@@ -48,6 +48,7 @@ public class TCPUserIdentifier implements TCPMessageListener {
 
     public TCPUserIdentifier(final Controller controller, final TCPClient client) {
         Validate.notNull(controller, "Controller can not be null");
+        Validate.notNull(client, "Client can not be null");
 
         this.controller = controller;
         this.sleeper = new Sleeper();
