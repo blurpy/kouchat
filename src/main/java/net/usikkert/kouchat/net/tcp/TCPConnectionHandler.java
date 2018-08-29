@@ -108,6 +108,14 @@ public class TCPConnectionHandler implements TCPConnectionListener {
         });
     }
 
+    public void userRemoved(final User user) {
+        final TCPUserClient userClient = userClients.remove(user);
+
+        if (userClient != null) {
+            userClient.disconnect();
+        }
+    }
+
     private void addClient(final User user, final TCPClient client) {
         final TCPUserClient userClient = userClients.get(user);
 

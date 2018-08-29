@@ -56,6 +56,14 @@ public class TCPUserClient implements TCPMessageListener {
         client.registerListener(this);
     }
 
+    public void disconnect() {
+        for (final TCPClient client : clients) {
+            client.disconnect();
+        }
+
+        clients.clear();
+    }
+
     @Override
     public void messageArrived(final String message, final TCPClient client) {
         LOG.fine("Received message: %s", message);

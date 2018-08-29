@@ -72,6 +72,6 @@ public class TCPNetworkService implements UserListListener {
 
     @Override
     public void userRemoved(final int pos, final User user) {
-
+        tcpConnectionHandler.userRemoved(user);
     }
 }
