@@ -40,13 +40,16 @@ public class TCPUserClient implements TCPMessageListener {
 
     private final List<TCPClient> clients;
     private final User user;
+    private final TCPMessageListener listener;
 
-    public TCPUserClient(final TCPClient client, final User user) {
+    public TCPUserClient(final TCPClient client, final User user, final TCPMessageListener listener) {
         Validate.notNull(client, "Client can not be null");
         Validate.notNull(user, "User can not be null");
+        Validate.notNull(listener, "TCP message listener can not be null");
 
         this.clients = new ArrayList<>();
         this.user = user;
+        this.listener = listener;
 
         add(client);
     }
@@ -66,7 +69,7 @@ public class TCPUserClient implements TCPMessageListener {
 
     @Override
     public void messageArrived(final String message, final TCPClient client) {
-        LOG.fine("Received message: %s", message);
+        listener.messageArrived(message, client);
     }
 
     public void send(final String message) {

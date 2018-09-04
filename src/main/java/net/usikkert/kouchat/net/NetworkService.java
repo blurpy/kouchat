@@ -156,6 +156,7 @@ public class NetworkService implements NetworkConnectionListener {
      */
     public void registerMessageReceiverListener(final ReceiverListener listener) {
         messageReceiver.registerReceiverListener(listener);
+        tcpNetworkService.registerReceiverListener(listener);
     }
 
     /**

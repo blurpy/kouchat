@@ -120,7 +120,7 @@ public class TCPClient implements Runnable {
         }
     }
 
-    private String getIPAddress() {
+    public String getIPAddress() {
         return socket.getInetAddress().getHostAddress();
     }
 

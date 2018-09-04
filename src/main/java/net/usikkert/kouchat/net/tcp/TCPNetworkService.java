@@ -22,6 +22,7 @@
 
 package net.usikkert.kouchat.net.tcp;
 
+import net.usikkert.kouchat.event.ReceiverListener;
 import net.usikkert.kouchat.event.UserListListener;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.ErrorHandler;
@@ -77,5 +78,9 @@ public class TCPNetworkService implements UserListListener {
 
     public void sendMessageToAll(final String message) {
         tcpConnectionHandler.sendMessageToAll(message);
+    }
+
+    public void registerReceiverListener(final ReceiverListener listener) {
+        tcpConnectionHandler.registerReceiverListener(listener);
     }
 }

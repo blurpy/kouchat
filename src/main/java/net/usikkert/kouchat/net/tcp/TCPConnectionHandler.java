@@ -28,18 +28,21 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import net.usikkert.kouchat.event.ReceiverListener;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.util.Logger;
 import net.usikkert.kouchat.util.Validate;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Handles all the tcp connections.
  *
  * @author Christian Ihle
  */
-public class TCPConnectionHandler implements TCPConnectionListener {
+public class TCPConnectionHandler implements TCPConnectionListener, TCPMessageListener {
 
     private static final Logger LOG = Logger.getLogger(TCPConnectionHandler.class);
 
@@ -47,6 +50,9 @@ public class TCPConnectionHandler implements TCPConnectionListener {
     private final Settings settings;
     private final ExecutorService executorService;
     private final Map<User, TCPUserClient> userClients;
+
+    @Nullable
+    private ReceiverListener listener;
 
     public TCPConnectionHandler(final Controller controller, final Settings settings) {
         Validate.notNull(controller, "Controller can not be null");
@@ -125,7 +131,7 @@ public class TCPConnectionHandler implements TCPConnectionListener {
         final TCPUserClient userClient = userClients.get(user);
 
         if (userClient == null) {
-            userClients.put(user, new TCPUserClient(client, user));
+            userClients.put(user, new TCPUserClient(client, user, this));
         } else {
             userClient.add(client);
         }
@@ -134,6 +140,17 @@ public class TCPConnectionHandler implements TCPConnectionListener {
     public void sendMessageToAll(final String message) {
         for (final TCPUserClient userClient : userClients.values()) {
             userClient.send(message);
+        }
+    }
+
+    public void registerReceiverListener(final ReceiverListener listener) {
+        this.listener = listener;
+    }
+
+    @Override
+    public void messageArrived(final String message, final TCPClient client) {
+        if (listener != null) {
+            listener.messageArrived(message, client.getIPAddress());
         }
     }
 }
