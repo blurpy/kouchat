@@ -74,4 +74,8 @@ public class TCPNetworkService implements UserListListener {
     public void userRemoved(final int pos, final User user) {
         tcpConnectionHandler.userRemoved(user);
     }
+
+    public void sendMessageToAll(final String message) {
+        tcpConnectionHandler.sendMessageToAll(message);
+    }
 }

@@ -68,4 +68,11 @@ public class TCPUserClient implements TCPMessageListener {
     public void messageArrived(final String message, final TCPClient client) {
         LOG.fine("Received message: %s", message);
     }
+
+    public void send(final String message) {
+        for (final TCPClient client : clients) {
+            client.send(message);
+            break;
+        }
+    }
 }

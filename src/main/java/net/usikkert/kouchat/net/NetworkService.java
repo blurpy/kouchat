@@ -176,6 +176,7 @@ public class NetworkService implements NetworkConnectionListener {
      * @return If the message was sent or not.
      */
     public boolean sendMulticastMsg(final String message) {
+        tcpNetworkService.sendMessageToAll(message);
         return messageSender.send(message);
     }
 

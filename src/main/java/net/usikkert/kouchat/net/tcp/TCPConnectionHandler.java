@@ -130,4 +130,10 @@ public class TCPConnectionHandler implements TCPConnectionListener {
             userClient.add(client);
         }
     }
+
+    public void sendMessageToAll(final String message) {
+        for (final TCPUserClient userClient : userClients.values()) {
+            userClient.send(message);
+        }
+    }
 }
