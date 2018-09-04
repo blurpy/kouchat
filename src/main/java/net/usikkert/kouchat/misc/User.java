@@ -61,6 +61,9 @@ public class User implements Comparable<User> {
     /** The port to use when connecting to this user directly using tcp. */
     private int tcpChatPort;
 
+    /** Whether a tcp connection is enabled for this user. */
+    private boolean tcpEnabled;
+
     /** The time when the last idle message came from this user. */
     private long lastIdle;
 
@@ -396,6 +399,24 @@ public class User implements Comparable<User> {
      */
     public void setTcpChatPort(final int tcpChatPort) {
         this.tcpChatPort = tcpChatPort;
+    }
+
+    /**
+     * Gets whether a tcp connection is enabled for this user.
+     *
+     * @return If a tcp connection is enabled for this user.
+     */
+    public boolean isTcpEnabled() {
+        return tcpEnabled;
+    }
+
+    /**
+     * Sets whether a tcp connection is enabled for this user.
+     *
+     * @param tcpEnabled If a tcp connection is enabled for this user.
+     */
+    public void setTcpEnabled(final boolean tcpEnabled) {
+        this.tcpEnabled = tcpEnabled;
     }
 
     /**

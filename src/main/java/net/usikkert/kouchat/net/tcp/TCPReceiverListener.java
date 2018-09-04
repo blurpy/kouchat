@@ -22,63 +22,15 @@
 
 package net.usikkert.kouchat.net.tcp;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.usikkert.kouchat.misc.User;
-import net.usikkert.kouchat.util.Logger;
-import net.usikkert.kouchat.util.Validate;
 
 /**
- * Maps one or more tcp clients to a user.
+ * Listener for tcp messages.
  *
  * @author Christian Ihle
  */
-public class TCPUserClient implements TCPMessageListener {
+public interface TCPReceiverListener {
 
-    private static final Logger LOG = Logger.getLogger(TCPUserClient.class);
+    void messageArrived(String message, String ipAddress, User user);
 
-    private final List<TCPClient> clients;
-    private final User user;
-    private final TCPReceiverListener listener;
-
-    public TCPUserClient(final TCPClient client, final User user, final TCPReceiverListener listener) {
-        Validate.notNull(client, "Client can not be null");
-        Validate.notNull(user, "User can not be null");
-        Validate.notNull(listener, "TCP message listener can not be null");
-
-        this.clients = new ArrayList<>();
-        this.user = user;
-        this.listener = listener;
-
-        add(client);
-    }
-
-    public void add(final TCPClient client) {
-        clients.add(client);
-        client.registerListener(this);
-        user.setTcpEnabled(true);
-    }
-
-    public void disconnect() {
-        user.setTcpEnabled(false);
-
-        for (final TCPClient client : clients) {
-            client.disconnect();
-        }
-
-        clients.clear();
-    }
-
-    @Override
-    public void messageArrived(final String message, final TCPClient client) {
-        listener.messageArrived(message, client.getIPAddress(), user);
-    }
-
-    public void send(final String message) {
-        for (final TCPClient client : clients) {
-            client.send(message);
-            break;
-        }
-    }
 }

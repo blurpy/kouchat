@@ -61,6 +61,9 @@ public class NetworkService implements NetworkConnectionListener {
     /** The network service for tcp connections. */
     private final TCPNetworkService tcpNetworkService;
 
+    /** Proxy for deduplicating multicast and tcp messages. */
+    private final MessageDeduplicator messageDeduplicator;
+
     /** If private chat should be enabled. */
     private final boolean privateChatEnabled;
 
@@ -84,6 +87,7 @@ public class NetworkService implements NetworkConnectionListener {
         messageSender = new MessageSender(errorHandler);
         connectionWorker = new ConnectionWorker(settings, errorHandler);
         tcpNetworkService = new TCPNetworkService(controller, settings, errorHandler);
+        messageDeduplicator = new MessageDeduplicator(controller);
 
         if (privateChatEnabled) {
             udpReceiver = new UDPReceiver(settings, errorHandler);
@@ -155,8 +159,9 @@ public class NetworkService implements NetworkConnectionListener {
      * @param listener The listener to register.
      */
     public void registerMessageReceiverListener(final ReceiverListener listener) {
-        messageReceiver.registerReceiverListener(listener);
-        tcpNetworkService.registerReceiverListener(listener);
+        messageDeduplicator.registerReceiverListener(listener);
+        messageReceiver.registerReceiverListener(messageDeduplicator);
+        tcpNetworkService.registerReceiverListener(messageDeduplicator);
     }
 
     /**
