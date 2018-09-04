@@ -23,11 +23,14 @@
 package net.usikkert.kouchat.net.tcp;
 
 /**
- * Listener for tcp messages.
+ * Listener for tcp client events.
  *
  * @author Christian Ihle
  */
-public interface TCPMessageListener {
+public interface TCPClientListener {
 
     void messageArrived(String message, TCPClient client);
+
+    void disconnected(TCPClient client);
+
 }

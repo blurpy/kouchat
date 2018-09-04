@@ -34,7 +34,7 @@ import net.usikkert.kouchat.util.Validate;
  *
  * @author Christian Ihle
  */
-public class TCPUserClient implements TCPMessageListener {
+public class TCPUserClient implements TCPClientListener {
 
     private static final Logger LOG = Logger.getLogger(TCPUserClient.class);
 
@@ -56,7 +56,7 @@ public class TCPUserClient implements TCPMessageListener {
 
     public void add(final TCPClient client) {
         clients.add(client);
-        client.registerListener(this);
+        client.registerClientListener(this);
         user.setTcpEnabled(true);
     }
 
@@ -64,10 +64,20 @@ public class TCPUserClient implements TCPMessageListener {
         user.setTcpEnabled(false);
 
         for (final TCPClient client : clients) {
+            client.registerClientListener(null);
             client.disconnect();
         }
 
         clients.clear();
+    }
+
+    @Override
+    public void disconnected(final TCPClient client) {
+        clients.remove(client);
+
+        if (clients.isEmpty()) {
+            user.setTcpEnabled(false);
+        }
     }
 
     @Override

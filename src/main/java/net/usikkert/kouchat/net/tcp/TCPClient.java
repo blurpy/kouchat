@@ -46,7 +46,7 @@ public class TCPClient implements Runnable {
     private final DataOutputStream outputStream;
 
     @Nullable
-    private TCPMessageListener messageListener;
+    private TCPClientListener clientListener;
 
     private boolean connected;
 
@@ -73,8 +73,8 @@ public class TCPClient implements Runnable {
                 final String message = inputStream.readUTF();
                 LOG.fine("Received message: %s", message);
 
-                if (messageListener != null) {
-                    messageListener.messageArrived(message, this);
+                if (clientListener != null) {
+                    clientListener.messageArrived(message, this);
                 }
             }
         }
@@ -82,6 +82,10 @@ public class TCPClient implements Runnable {
         catch (final IOException e) {
             LOG.severe(e.toString());
             connected = false;
+
+            if (clientListener != null) {
+                clientListener.disconnected(this);
+            }
         }
     }
 
@@ -98,6 +102,10 @@ public class TCPClient implements Runnable {
         catch (final IOException e) {
             LOG.severe(e.toString());
             connected = false;
+
+            if (clientListener != null) {
+                clientListener.disconnected(this);
+            }
         }
     }
 
@@ -112,6 +120,11 @@ public class TCPClient implements Runnable {
         try {
             connected = false;
             LOG.fine("Disconnected from %s:%s", getIPAddress(), socket.getPort());
+
+            if (clientListener != null) {
+                clientListener.disconnected(this);
+            }
+
             socket.close();
         }
 
@@ -124,7 +137,7 @@ public class TCPClient implements Runnable {
         return socket.getInetAddress().getHostAddress();
     }
 
-    public void registerListener(@Nullable final TCPMessageListener theMessageListener) {
-        this.messageListener = theMessageListener;
+    public void registerClientListener(@Nullable final TCPClientListener theClientListener) {
+        this.clientListener = theClientListener;
     }
 }

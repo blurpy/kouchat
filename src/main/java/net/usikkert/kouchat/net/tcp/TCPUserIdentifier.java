@@ -36,7 +36,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @author Christian Ihle
  */
-public class TCPUserIdentifier implements TCPMessageListener {
+public class TCPUserIdentifier implements TCPClientListener {
 
     private static final Logger LOG = Logger.getLogger(TCPUserIdentifier.class);
 
@@ -53,15 +53,20 @@ public class TCPUserIdentifier implements TCPMessageListener {
         this.controller = controller;
         this.sleeper = new Sleeper();
 
-        client.registerListener(this);
+        client.registerClientListener(this);
     }
 
     @Override
     public void messageArrived(final String theMessage, final TCPClient client) {
-        client.registerListener(null);
+        client.registerClientListener(null);
         LOG.fine("Received message: %s", theMessage);
 
         this.message = theMessage;
+    }
+
+    @Override
+    public void disconnected(final TCPClient client) {
+
     }
 
     @Nullable
