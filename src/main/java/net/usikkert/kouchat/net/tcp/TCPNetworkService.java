@@ -58,6 +58,7 @@ public class TCPNetworkService implements UserListListener {
 
     public void stopService() {
         tcpServer.stopServer();
+        tcpConnectionHandler.disconnect();
     }
 
     @Override
