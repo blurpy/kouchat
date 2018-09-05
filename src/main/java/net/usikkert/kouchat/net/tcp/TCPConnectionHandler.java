@@ -150,8 +150,8 @@ public class TCPConnectionHandler implements TCPConnectionListener, TCPReceiverL
         }
     }
 
-    public void registerReceiverListener(final TCPReceiverListener listener) {
-        this.listener = listener;
+    public void registerReceiverListener(final TCPReceiverListener theListener) {
+        this.listener = theListener;
     }
 
     @Override
