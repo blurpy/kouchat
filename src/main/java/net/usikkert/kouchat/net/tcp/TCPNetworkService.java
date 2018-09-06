@@ -54,6 +54,7 @@ public class TCPNetworkService implements UserListListener {
 
     public void startService() {
         tcpServer.startServer();
+        tcpConnectionHandler.connect();
     }
 
     public void stopService() {

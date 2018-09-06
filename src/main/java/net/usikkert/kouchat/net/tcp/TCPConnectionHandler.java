@@ -54,6 +54,8 @@ public class TCPConnectionHandler implements TCPConnectionListener, TCPReceiverL
     @Nullable
     private TCPReceiverListener listener;
 
+    private boolean connected;
+
     public TCPConnectionHandler(final Controller controller, final Settings settings) {
         Validate.notNull(controller, "Controller can not be null");
         Validate.notNull(settings, "Settings can not be null");
@@ -129,7 +131,13 @@ public class TCPConnectionHandler implements TCPConnectionListener, TCPReceiverL
         }
     }
 
+    public void connect() {
+        connected = true;
+    }
+
     public void disconnect() {
+        connected = false;
+
         for (final TCPUserClient userClient : userClients.values()) {
             userClient.disconnect();
         }
@@ -174,6 +182,10 @@ public class TCPConnectionHandler implements TCPConnectionListener, TCPReceiverL
     public void run() {
         while (true) {
             Tools.sleep(15_000);
+
+            if (!connected) {
+                continue;
+            }
 
             for (final User user : userClients.keySet()) {
                 final TCPUserClient userClient = userClients.get(user);
