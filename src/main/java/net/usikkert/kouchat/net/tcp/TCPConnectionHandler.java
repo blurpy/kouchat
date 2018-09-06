@@ -77,7 +77,7 @@ public class TCPConnectionHandler implements TCPConnectionListener, TCPReceiverL
                 final User user = userIdentifier.waitForUser();
 
                 if (user == null) {
-                    LOG.fine("Add socket done. No user found.");
+                    LOG.warning("Add socket done. No user found.");
                     client.disconnect();
                     return;
                 }

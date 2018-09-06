@@ -41,6 +41,7 @@ public class TCPUserIdentifier implements TCPClientListener {
     private static final Logger LOG = Logger.getLogger(TCPUserIdentifier.class);
 
     private final Controller controller;
+    private final TCPClient client;
     private final Sleeper sleeper;
 
     @Nullable
@@ -51,13 +52,14 @@ public class TCPUserIdentifier implements TCPClientListener {
         Validate.notNull(client, "Client can not be null");
 
         this.controller = controller;
+        this.client = client;
         this.sleeper = new Sleeper();
 
         client.registerClientListener(this);
     }
 
     @Override
-    public void messageArrived(final String theMessage, final TCPClient client) {
+    public void messageArrived(final String theMessage, final TCPClient theClient) {
         client.registerClientListener(null);
         LOG.fine("Received message: %s", theMessage);
 
@@ -65,7 +67,7 @@ public class TCPUserIdentifier implements TCPClientListener {
     }
 
     @Override
-    public void disconnected(final TCPClient client) {
+    public void disconnected(final TCPClient theClient) {
 
     }
 
@@ -73,7 +75,15 @@ public class TCPUserIdentifier implements TCPClientListener {
     public User waitForUser() {
         waitForMessage();
 
-        return userFromMessage();
+        final User user = userFromMessage();
+
+        if (user != null && !user.getIpAddress().equals(client.getIPAddress())) {
+            LOG.warning("Unexpected client ip connected. user=%s, userIP=%s, clientIP=%s",
+                        user.getNick(), user.getIpAddress(), client.getIPAddress());
+            return null;
+        }
+
+        return user;
     }
 
     private void waitForMessage() {
@@ -93,7 +103,7 @@ public class TCPUserIdentifier implements TCPClientListener {
 
         try {
             final int userCode = Integer.valueOf(message);
-            return controller.getUser(userCode); // TODO check ip address?
+            return controller.getUser(userCode);
         }
 
         catch (final NumberFormatException e) {
