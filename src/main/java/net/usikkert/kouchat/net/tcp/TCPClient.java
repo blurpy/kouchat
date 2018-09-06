@@ -60,7 +60,7 @@ public class TCPClient implements Runnable {
         }
 
         catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e); // TODO how to handle?
         }
 
         LOG.fine("Connected to %s:%s", getIPAddress(), socket.getPort());
