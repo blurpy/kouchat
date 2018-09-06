@@ -73,6 +73,7 @@ public class TCPUserClient implements TCPClientListener {
 
     @Override
     public void disconnected(final TCPClient client) {
+        client.registerClientListener(null);
         clients.remove(client);
 
         if (clients.isEmpty()) {
@@ -89,6 +90,17 @@ public class TCPUserClient implements TCPClientListener {
         for (final TCPClient client : clients) {
             client.send(message);
             break;
+        }
+    }
+
+    public int getClientCount() {
+        return clients.size();
+    }
+
+    public void disconnectAdditionalClients() {
+        if (clients.size() > 1) {
+            final TCPClient client = clients.get(0);
+            client.disconnect();
         }
     }
 }

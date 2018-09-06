@@ -32,6 +32,7 @@ import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.util.Logger;
+import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
 import org.jetbrains.annotations.Nullable;
@@ -41,7 +42,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @author Christian Ihle
  */
-public class TCPConnectionHandler implements TCPConnectionListener, TCPReceiverListener {
+public class TCPConnectionHandler implements TCPConnectionListener, TCPReceiverListener, Runnable {
 
     private static final Logger LOG = Logger.getLogger(TCPConnectionHandler.class);
 
@@ -61,6 +62,8 @@ public class TCPConnectionHandler implements TCPConnectionListener, TCPReceiverL
         this.settings = settings;
         this.executorService = Executors.newCachedThreadPool();
         this.userClients = new HashMap<>();
+
+        new Thread(this, TCPConnectionHandler.class.getSimpleName()).start();
     }
 
     @Override
@@ -95,7 +98,7 @@ public class TCPConnectionHandler implements TCPConnectionListener, TCPReceiverL
             public void run() {
                 LOG.fine("Add user start for user=%s", user.getNick());
 
-                if (userClients.containsKey(user)) {
+                if (userAddedAndConnected(user)) {
                     LOG.fine("Add user done. Already added. user=%s", user.getNick());
                     return;
                 }
@@ -158,6 +161,30 @@ public class TCPConnectionHandler implements TCPConnectionListener, TCPReceiverL
     public void messageArrived(final String message, final String ipAddress, final User user) {
         if (listener != null) {
             listener.messageArrived(message, ipAddress, user);
+        }
+    }
+
+    private boolean userAddedAndConnected(final User user) {
+        final TCPUserClient userClient = userClients.get(user);
+
+        return userClient != null && userClient.getClientCount() > 0;
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            Tools.sleep(15_000);
+
+            for (final User user : userClients.keySet()) {
+                final TCPUserClient userClient = userClients.get(user);
+                final int clientCount = userClient.getClientCount();
+
+                if (clientCount == 0) {
+                    userAdded(user);
+                } else if (clientCount > 1) {
+                    userClient.disconnectAdditionalClients();
+                }
+            }
         }
     }
 }

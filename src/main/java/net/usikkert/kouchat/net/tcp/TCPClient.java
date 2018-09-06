@@ -118,8 +118,8 @@ public class TCPClient implements Runnable {
 
     public void disconnect() {
         try {
-            connected = false;
             LOG.fine("Disconnected from %s:%s", getIPAddress(), socket.getPort());
+            connected = false;
 
             if (clientListener != null) {
                 clientListener.disconnected(this);
