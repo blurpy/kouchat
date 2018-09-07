@@ -107,12 +107,12 @@ public class NetworkServiceTest {
     }
 
     @Test
-    public void registerUDPReceiverListenerShouldNotFailWhenPrivateChatDisabled() {
+    public void registerPrivateChatReceiverListenerShouldNotFailWhenPrivateChatDisabled() {
         when(settings.isNoPrivateChat()).thenReturn(true);
 
         final NetworkService networkService = new NetworkService(controller, settings, errorHandler);
 
-        networkService.registerUDPReceiverListener(null);
+        networkService.registerPrivateChatReceiverListener(null);
     }
 
     @Test

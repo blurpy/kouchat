@@ -137,9 +137,9 @@ public class Controller implements NetworkConnectionListener {
         final AsyncMessageResponderWrapper msgResponderWrapper = new AsyncMessageResponderWrapper(msgResponder, this);
         final PrivateMessageResponder privmsgResponder = new DefaultPrivateMessageResponder(this, ui, settings);
         final MessageParser msgParser = new MessageParser(msgResponderWrapper, settings);
-        networkService.registerMessageReceiverListener(msgParser);
+        networkService.registerMainChatMessageReceiverListener(msgParser);
         final PrivateMessageParser privmsgParser = new PrivateMessageParser(privmsgResponder, settings);
-        networkService.registerUDPReceiverListener(privmsgParser);
+        networkService.registerPrivateChatReceiverListener(privmsgParser);
         networkMessages = new NetworkMessages(networkService, settings);
         networkService.registerNetworkConnectionListener(this);
         msgController = ui.getMessageController();

@@ -155,22 +155,22 @@ public class NetworkService implements NetworkConnectionListener {
     }
 
     /**
-     * Register a listener for incoming messages from the network.
+     * Register a listener for incoming main chat messages from the network.
      *
      * @param listener The listener to register.
      */
-    public void registerMessageReceiverListener(final ReceiverListener listener) {
+    public void registerMainChatMessageReceiverListener(final ReceiverListener listener) {
         messageDeduplicator.registerMainChatReceiverListener(listener);
         messageReceiver.registerReceiverListener(messageDeduplicator);
         tcpNetworkService.registerReceiverListener(messageDeduplicator);
     }
 
     /**
-     * Register a listener for incoming UDP messages from the network.
+     * Register a listener for incoming private chat messages from the network.
      *
      * @param listener The listener to register.
      */
-    public void registerUDPReceiverListener(final ReceiverListener listener) {
+    public void registerPrivateChatReceiverListener(final ReceiverListener listener) {
         if (privateChatEnabled) {
             messageDeduplicator.registerPrivateChatReceiverListener(listener);
             udpReceiver.registerReceiverListener(messageDeduplicator);
