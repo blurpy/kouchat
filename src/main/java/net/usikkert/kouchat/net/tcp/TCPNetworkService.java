@@ -81,6 +81,10 @@ public class TCPNetworkService implements UserListListener {
         tcpConnectionHandler.sendMessageToAll(message);
     }
 
+    public void sendMessageToUser(final String message, final User user) {
+        tcpConnectionHandler.sendMessageToUser(message, user);
+    }
+
     public void registerReceiverListener(final TCPReceiverListener listener) {
         tcpConnectionHandler.registerReceiverListener(listener);
     }

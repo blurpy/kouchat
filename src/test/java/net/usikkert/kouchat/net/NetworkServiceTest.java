@@ -143,10 +143,11 @@ public class NetworkServiceTest {
     @Test
     public void sendUDPMsgShouldNotSendMessageWhenPrivateChatDisabled() {
         when(settings.isNoPrivateChat()).thenReturn(true);
+        final User user = new User("User", 111);
 
         final NetworkService networkService = new NetworkService(controller, settings, errorHandler);
 
-        final boolean messageSent = networkService.sendUDPMsg("Nothing", "192.168.1.1", 1234);
+        final boolean messageSent = networkService.sendUDPMsg("Nothing", user);
         assertFalse(messageSent);
     }
 }

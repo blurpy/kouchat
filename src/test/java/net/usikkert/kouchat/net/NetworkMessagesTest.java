@@ -63,7 +63,7 @@ public class NetworkMessagesTest {
 
         service = mock(NetworkService.class);
         when(service.sendMulticastMsg(anyString())).thenReturn(true);
-        when(service.sendUDPMsg(anyString(), anyString(), anyInt())).thenReturn(true);
+        when(service.sendUDPMsg(anyString(), any(User.class))).thenReturn(true);
         messages = new NetworkMessages(service, settings);
     }
 
@@ -310,7 +310,7 @@ public class NetworkMessagesTest {
         user.setIpAddress(userIP);
 
         messages.sendPrivateMessage(privmsg, user);
-        verify(service).sendUDPMsg(createMessage("PRIVMSG") + message, userIP, userPort);
+        verify(service).sendUDPMsg(createMessage("PRIVMSG") + message, user);
     }
 
     /**

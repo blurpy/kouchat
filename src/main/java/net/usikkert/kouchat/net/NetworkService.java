@@ -29,6 +29,7 @@ import net.usikkert.kouchat.event.NetworkConnectionListener;
 import net.usikkert.kouchat.event.ReceiverListener;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.ErrorHandler;
+import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.net.tcp.TCPNetworkService;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.util.Validate;
@@ -190,13 +191,13 @@ public class NetworkService implements NetworkConnectionListener {
      * Send a message with UDP, to a single user.
      *
      * @param message The message to send.
-     * @param ip The ip address of the user.
-     * @param port The port to send the message to.
+     * @param user The user to send the message to.
      * @return If the message was sent or not.
      */
-    public boolean sendUDPMsg(final String message, final String ip, final int port) {
+    public boolean sendUDPMsg(final String message, final User user) {
         if (privateChatEnabled) {
-            return udpSender.send(message, ip, port);
+            tcpNetworkService.sendMessageToUser(message, user);
+            return udpSender.send(message, user.getIpAddress(), user.getPrivateChatPort());
         }
 
         else {

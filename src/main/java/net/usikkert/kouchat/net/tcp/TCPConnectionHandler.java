@@ -161,6 +161,14 @@ public class TCPConnectionHandler implements TCPConnectionListener, TCPReceiverL
         }
     }
 
+    public void sendMessageToUser(final String message, final User user) {
+        final TCPUserClient userClient = userClients.get(user);
+
+        if (userClient != null) {
+            userClient.send(message);
+        }
+    }
+
     public void registerReceiverListener(final TCPReceiverListener theListener) {
         this.listener = theListener;
     }

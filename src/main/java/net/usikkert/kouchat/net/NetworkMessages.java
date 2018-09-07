@@ -346,7 +346,7 @@ public class NetworkMessages {
                 "[" + settings.getOwnColor() + "]" +
                 privMsg;
 
-        final boolean sent = networkService.sendUDPMsg(msg, user.getIpAddress(), user.getPrivateChatPort());
+        final boolean sent = networkService.sendUDPMsg(msg, user);
 
         if (!sent) {
             checkNetwork();
