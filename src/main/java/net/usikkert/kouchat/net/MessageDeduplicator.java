@@ -22,6 +22,9 @@
 
 package net.usikkert.kouchat.net;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.usikkert.kouchat.event.ReceiverListener;
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.User;
@@ -42,25 +45,31 @@ public class MessageDeduplicator implements ReceiverListener, TCPReceiverListene
     private static final Logger LOG = Logger.getLogger(MessageDeduplicator.class);
 
     private final Controller controller;
+    private final Pattern privateMessagePattern;
 
     @Nullable
-    private ReceiverListener listener;
+    private ReceiverListener mainChatListener;
+
+    @Nullable
+    private ReceiverListener privateChatListener;
 
     public MessageDeduplicator(final Controller controller) {
         Validate.notNull(controller, "Controller can not be null");
+
         this.controller = controller;
+        this.privateMessagePattern = Pattern.compile("^(\\d+)!(PRIVMSG)#.+");
     }
 
-    public void registerReceiverListener(final ReceiverListener theListener) {
-        this.listener = theListener;
+    public void registerMainChatReceiverListener(final ReceiverListener theListener) {
+        this.mainChatListener = theListener;
+    }
+
+    public void registerPrivateChatReceiverListener(final ReceiverListener theListener) {
+        this.privateChatListener = theListener;
     }
 
     @Override
     public void messageArrived(final String message, final String ipAddress) {
-        if (listener == null) {
-            return;
-        }
-
         final User user = parseUserFromMessage(message);
 
         if (user == null || !user.isTcpEnabled()) {
@@ -68,19 +77,31 @@ public class MessageDeduplicator implements ReceiverListener, TCPReceiverListene
                 LOG.fine("Multicast message: " + message);
             }
 
-            listener.messageArrived(message, ipAddress);
+            forwardMessageToListener(message, ipAddress);
         }
     }
 
     @Override
     public void messageArrived(final String message, final String ipAddress, final User user) {
-        if (listener == null) {
-            return;
-        }
-
         if (user.isTcpEnabled()) {
             LOG.fine("TCP message: " + message);
-            listener.messageArrived(message, ipAddress);
+            forwardMessageToListener(message, ipAddress);
+        }
+    }
+
+    private void forwardMessageToListener(final String message, final String ipAddress) {
+        final Matcher privateMessageMatcher = privateMessagePattern.matcher(message);
+
+        if (privateMessageMatcher.matches()) {
+            if (privateChatListener != null) {
+                privateChatListener.messageArrived(message, ipAddress);
+            }
+        }
+
+        else {
+            if (mainChatListener != null) {
+                mainChatListener.messageArrived(message, ipAddress);
+            }
         }
     }
 

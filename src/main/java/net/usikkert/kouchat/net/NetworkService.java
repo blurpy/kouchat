@@ -160,7 +160,7 @@ public class NetworkService implements NetworkConnectionListener {
      * @param listener The listener to register.
      */
     public void registerMessageReceiverListener(final ReceiverListener listener) {
-        messageDeduplicator.registerReceiverListener(listener);
+        messageDeduplicator.registerMainChatReceiverListener(listener);
         messageReceiver.registerReceiverListener(messageDeduplicator);
         tcpNetworkService.registerReceiverListener(messageDeduplicator);
     }
@@ -172,7 +172,8 @@ public class NetworkService implements NetworkConnectionListener {
      */
     public void registerUDPReceiverListener(final ReceiverListener listener) {
         if (privateChatEnabled) {
-            udpReceiver.registerReceiverListener(listener);
+            messageDeduplicator.registerPrivateChatReceiverListener(listener);
+            udpReceiver.registerReceiverListener(messageDeduplicator);
         }
     }
 
