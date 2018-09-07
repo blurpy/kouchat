@@ -24,7 +24,9 @@ package net.usikkert.kouchat.net.tcp;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.util.Logger;
@@ -41,6 +43,7 @@ import org.jetbrains.annotations.Nullable;
 public class TCPConnector {
 
     private static final Logger LOG = Logger.getLogger(TCPConnector.class);
+    private static final int SOCKET_CONNECT_TIMEOUT = 10_000;
 
     private final User user;
     private final Sleeper sleeper;
@@ -65,7 +68,9 @@ public class TCPConnector {
 
         try {
             LOG.fine("Connecting to: %s@%s:%s", user.getNick(), user.getIpAddress(), user.getTcpChatPort());
-            final Socket socket = new Socket(InetAddress.getByName(user.getIpAddress()), user.getTcpChatPort());
+            final Socket socket = new Socket();
+            final SocketAddress address = new InetSocketAddress(InetAddress.getByName(user.getIpAddress()), user.getTcpChatPort());
+            socket.connect(address, SOCKET_CONNECT_TIMEOUT);
             LOG.fine("Connected to: %s@%s:%s", user.getNick(), socket.getInetAddress().getHostAddress(), socket.getPort());
 
             return socket;
