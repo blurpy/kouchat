@@ -71,7 +71,7 @@ public class TCPClient implements Runnable {
         try {
             while (connected) {
                 final String message = inputStream.readUTF();
-                LOG.fine("Received message: %s", message);
+                LOG.fine("Message arrived from %s: %s", getIPAddress(), message);
 
                 if (clientListener != null) {
                     clientListener.messageArrived(message, this);
@@ -95,8 +95,8 @@ public class TCPClient implements Runnable {
         }
 
         try {
-            LOG.fine("Sending message: %s", message);
             outputStream.writeUTF(message);
+            LOG.fine("Sent message: %s", message);
         }
 
         catch (final IOException e) {
