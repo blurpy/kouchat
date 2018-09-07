@@ -178,24 +178,24 @@ public class NetworkService implements NetworkConnectionListener {
     }
 
     /**
-     * Send a message with multicast, to all users.
+     * Send a message to all users.
      *
      * @param message The message to send.
      * @return If the message was sent or not.
      */
-    public boolean sendMulticastMsg(final String message) {
+    public boolean sendMessageToAllUsers(final String message) {
         tcpNetworkService.sendMessageToAll(message);
         return messageSender.send(message);
     }
 
     /**
-     * Send a message with UDP, to a single user.
+     * Send a message to a single user.
      *
      * @param message The message to send.
      * @param user The user to send the message to.
      * @return If the message was sent or not.
      */
-    public boolean sendUDPMsg(final String message, final User user) {
+    public boolean sendMessageToUser(final String message, final User user) {
         if (privateChatEnabled) {
             tcpNetworkService.sendMessageToUser(message, user);
             return udpSender.send(message, user.getIpAddress(), user.getPrivateChatPort());

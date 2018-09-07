@@ -62,8 +62,8 @@ public class NetworkMessagesTest {
         when(settings.getMe()).thenReturn(me);
 
         service = mock(NetworkService.class);
-        when(service.sendMulticastMsg(anyString())).thenReturn(true);
-        when(service.sendUDPMsg(anyString(), any(User.class))).thenReturn(true);
+        when(service.sendMessageToAllUsers(anyString())).thenReturn(true);
+        when(service.sendMessageToUser(anyString(), any(User.class))).thenReturn(true);
         messages = new NetworkMessages(service, settings);
     }
 
@@ -76,7 +76,7 @@ public class NetworkMessagesTest {
     public void testSendAwayMessage() {
         final String awayMsg = "I am away";
         messages.sendAwayMessage(awayMsg);
-        verify(service).sendMulticastMsg(createMessage("AWAY") + awayMsg);
+        verify(service).sendMessageToAllUsers(createMessage("AWAY") + awayMsg);
     }
 
     /**
@@ -87,7 +87,7 @@ public class NetworkMessagesTest {
     @Test
     public void testSendBackMessage() {
         messages.sendBackMessage();
-        verify(service).sendMulticastMsg(createMessage("BACK"));
+        verify(service).sendMessageToAllUsers(createMessage("BACK"));
     }
 
     /**
@@ -101,7 +101,7 @@ public class NetworkMessagesTest {
     public void testSendChatMessage() throws CommandException {
         final String msg = "Some chat message";
         messages.sendChatMessage(msg);
-        verify(service).sendMulticastMsg(createMessage("MSG") + "[" + settings.getOwnColor() + "]" + msg);
+        verify(service).sendMessageToAllUsers(createMessage("MSG") + "[" + settings.getOwnColor() + "]" + msg);
     }
 
     /**
@@ -117,9 +117,9 @@ public class NetworkMessagesTest {
 
         messages.sendClient();
 
-        verify(service).sendMulticastMsg(startsWith(createMessage("CLIENT") + startsWith));
-        verify(service).sendMulticastMsg(matches(middle));
-        verify(service).sendMulticastMsg(endsWith(endsWidth));
+        verify(service).sendMessageToAllUsers(startsWith(createMessage("CLIENT") + startsWith));
+        verify(service).sendMessageToAllUsers(matches(middle));
+        verify(service).sendMessageToAllUsers(endsWith(endsWidth));
     }
 
     /**
@@ -130,7 +130,7 @@ public class NetworkMessagesTest {
     @Test
     public void testSendExposeMessage() {
         messages.sendExposeMessage();
-        verify(service).sendMulticastMsg(createMessage("EXPOSE"));
+        verify(service).sendMessageToAllUsers(createMessage("EXPOSE"));
     }
 
     /**
@@ -141,7 +141,7 @@ public class NetworkMessagesTest {
     @Test
     public void testSendExposingMessage() {
         messages.sendExposingMessage();
-        verify(service).sendMulticastMsg(createMessage("EXPOSING"));
+        verify(service).sendMessageToAllUsers(createMessage("EXPOSING"));
     }
 
     /**
@@ -170,7 +170,7 @@ public class NetworkMessagesTest {
         final User user = new User("TestUser", userCode);
 
         messages.sendFile(user, file);
-        verify(service).sendMulticastMsg(createMessage("SENDFILE") + info);
+        verify(service).sendMessageToAllUsers(createMessage("SENDFILE") + info);
     }
 
     /**
@@ -191,7 +191,7 @@ public class NetworkMessagesTest {
         final User user = new User("TestUser", userCode);
 
         messages.sendFileAbort(user, fileHash, fileName);
-        verify(service).sendMulticastMsg(createMessage("SENDFILEABORT") + info);
+        verify(service).sendMessageToAllUsers(createMessage("SENDFILEABORT") + info);
     }
 
     /**
@@ -216,7 +216,7 @@ public class NetworkMessagesTest {
         final User user = new User("TestUser", userCode);
 
         messages.sendFileAccept(user, port, fileHash, fileName);
-        verify(service).sendMulticastMsg(createMessage("SENDFILEACCEPT") + info);
+        verify(service).sendMessageToAllUsers(createMessage("SENDFILEACCEPT") + info);
     }
 
     /**
@@ -227,7 +227,7 @@ public class NetworkMessagesTest {
     @Test
     public void testSendGetTopicMessage() {
         messages.sendGetTopicMessage();
-        verify(service).sendMulticastMsg(createMessage("GETTOPIC"));
+        verify(service).sendMessageToAllUsers(createMessage("GETTOPIC"));
     }
 
     /**
@@ -238,7 +238,7 @@ public class NetworkMessagesTest {
     @Test
     public void testSendIdleMessage() {
         messages.sendIdleMessage();
-        verify(service).sendMulticastMsg(createMessage("IDLE"));
+        verify(service).sendMessageToAllUsers(createMessage("IDLE"));
     }
 
     /**
@@ -249,7 +249,7 @@ public class NetworkMessagesTest {
     @Test
     public void testSendLogoffMessage() {
         messages.sendLogoffMessage();
-        verify(service).sendMulticastMsg(createMessage("LOGOFF"));
+        verify(service).sendMessageToAllUsers(createMessage("LOGOFF"));
     }
 
     /**
@@ -260,7 +260,7 @@ public class NetworkMessagesTest {
     @Test
     public void testSendLogonMessage() {
         messages.sendLogonMessage();
-        verify(service).sendMulticastMsg(createMessage("LOGON"));
+        verify(service).sendMessageToAllUsers(createMessage("LOGON"));
     }
 
     /**
@@ -272,7 +272,7 @@ public class NetworkMessagesTest {
     public void testSendNickCrashMessage() {
         final String nick = "niles";
         messages.sendNickCrashMessage(nick);
-        verify(service).sendMulticastMsg(createMessage("NICKCRASH") + nick);
+        verify(service).sendMessageToAllUsers(createMessage("NICKCRASH") + nick);
     }
 
     /**
@@ -284,7 +284,7 @@ public class NetworkMessagesTest {
     public void testSendNickMessage() {
         final String newNick = "Cookie";
         messages.sendNickMessage(newNick);
-        verify(service).sendMulticastMsg(createMessage("NICK", newNick));
+        verify(service).sendMessageToAllUsers(createMessage("NICK", newNick));
     }
 
     /**
@@ -310,7 +310,7 @@ public class NetworkMessagesTest {
         user.setIpAddress(userIP);
 
         messages.sendPrivateMessage(privmsg, user);
-        verify(service).sendUDPMsg(createMessage("PRIVMSG") + message, user);
+        verify(service).sendMessageToUser(createMessage("PRIVMSG") + message, user);
     }
 
     /**
@@ -321,7 +321,7 @@ public class NetworkMessagesTest {
     @Test
     public void testSendStoppedWritingMessage() {
         messages.sendStoppedWritingMessage();
-        verify(service).sendMulticastMsg(createMessage("STOPPEDWRITING"));
+        verify(service).sendMessageToAllUsers(createMessage("STOPPEDWRITING"));
     }
 
     /**
@@ -337,7 +337,7 @@ public class NetworkMessagesTest {
                 topic.getTopic();
 
         messages.sendTopicChangeMessage(topic);
-        verify(service).sendMulticastMsg(createMessage("TOPIC") + message);
+        verify(service).sendMessageToAllUsers(createMessage("TOPIC") + message);
     }
 
     /**
@@ -353,7 +353,7 @@ public class NetworkMessagesTest {
                 topic.getTopic();
 
         messages.sendTopicRequestedMessage(topic);
-        verify(service).sendMulticastMsg(createMessage("TOPIC") + message);
+        verify(service).sendMessageToAllUsers(createMessage("TOPIC") + message);
     }
 
     /**
@@ -364,7 +364,7 @@ public class NetworkMessagesTest {
     @Test
     public void testSendWritingMessage() {
         messages.sendWritingMessage();
-        verify(service).sendMulticastMsg(createMessage("WRITING"));
+        verify(service).sendMessageToAllUsers(createMessage("WRITING"));
     }
 
     /**
