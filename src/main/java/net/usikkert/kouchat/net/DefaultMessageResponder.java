@@ -173,6 +173,7 @@ public class DefaultMessageResponder implements MessageResponder {
             newUser.setNick("" + newUser.getCode());
         }
 
+        wList.removeWaitingUser(newUser.getCode());
         controller.getUserList().add(newUser);
         msgController.showSystemMessage(newUser.getNick() + " logged on from " + newUser.getIpAddress());
     }
@@ -198,6 +199,7 @@ public class DefaultMessageResponder implements MessageResponder {
             newUser.setNick("" + newUser.getCode());
         }
 
+        wList.removeWaitingUser(newUser.getCode());
         controller.getUserList().add(newUser);
         msgController.showSystemMessage(newUser.getNick() + " showed up unexpectedly from " + newUser.getIpAddress());
     }
@@ -253,15 +255,12 @@ public class DefaultMessageResponder implements MessageResponder {
         if (controller.isNewUser(user.getCode())) {
             // Usually this happens when someone returns from a timeout
             if (chatState.isLogonCompleted()) {
-                if (wList.isWaitingUser(user.getCode())) {
-                    wList.removeWaitingUser(user.getCode());
-                }
-
                 userShowedUp(user);
             }
 
             // This should ONLY happen during logon
             else {
+                wList.removeWaitingUser(user.getCode());
                 controller.getUserList().add(user);
             }
         }

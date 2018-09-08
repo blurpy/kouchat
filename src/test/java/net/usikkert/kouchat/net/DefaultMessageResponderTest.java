@@ -34,6 +34,7 @@ import net.usikkert.kouchat.misc.SortedUserList;
 import net.usikkert.kouchat.misc.Topic;
 import net.usikkert.kouchat.misc.User;
 import net.usikkert.kouchat.misc.UserList;
+import net.usikkert.kouchat.misc.WaitingList;
 import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.ui.UserInterface;
 
@@ -62,6 +63,7 @@ public class DefaultMessageResponderTest {
     private UserList userList;
     private ChatState chatState;
     private CoreMessages coreMessages;
+    private WaitingList waitingList;
 
     private User user;
     private User me;
@@ -75,10 +77,12 @@ public class DefaultMessageResponderTest {
         userList = new SortedUserList();
         chatState = mock(ChatState.class);
         coreMessages = new CoreMessages();
+        waitingList = mock(WaitingList.class);
 
         when(userInterface.getMessageController()).thenReturn(messageController);
         when(controller.getUserList()).thenReturn(userList);
         when(controller.getChatState()).thenReturn(chatState);
+        when(controller.getWaitingList()).thenReturn(waitingList);
 
         responder = new DefaultMessageResponder(controller, userInterface, settings, coreMessages);
 
@@ -214,6 +218,7 @@ public class DefaultMessageResponderTest {
 
         assertEquals(0, userList.indexOf(user));
         verify(messageController).showSystemMessage("Tester logged on from 192.168.10.123");
+        verify(waitingList).removeWaitingUser(user.getCode());
     }
 
     @Test

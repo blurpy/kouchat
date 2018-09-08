@@ -22,53 +22,53 @@
 
 package net.usikkert.kouchat.misc;
 
-import java.util.HashSet;
-import java.util.Set;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
- * This waiting list is used to store unknown users while asking them to
- * identify. Usually it's users that timed out at some point, and are returning.
- * By doing this, messages from unknown users can be held back until they
- * have identified themselves.
+ * Test of {@link WaitingList}.
  *
  * @author Christian Ihle
  */
-public class WaitingList {
+public class WaitingListTest {
 
-    private final Set<Integer> users;
+    private WaitingList waitingList;
 
-    /**
-     * Constructor.
-     */
-    public WaitingList() {
-        users = new HashSet<>();
+    @Before
+    public void setUp() {
+        waitingList = new WaitingList();
     }
 
-    /**
-     * Adds a user to the waiting list.
-     *
-     * @param userCode The unique code of the user to add.
-     */
-    public void addWaitingUser(final int userCode) {
-        users.add(userCode);
+    @Test
+    public void addAndRemoveWaitingUserShouldWork() {
+        final int userCode = 123;
+
+        waitingList.addWaitingUser(userCode);
+        assertTrue(waitingList.isWaitingUser(userCode));
+
+        waitingList.removeWaitingUser(userCode);
+        assertFalse(waitingList.isWaitingUser(userCode));
     }
 
-    /**
-     * Checks if a user is on the waiting list.
-     *
-     * @param userCode The unique code of the user to check for.
-     * @return If the user is on the waiting list.
-     */
-    public boolean isWaitingUser(final int userCode) {
-        return users.contains(userCode);
+    @Test
+    public void removeWaitingUserShouldRemoveEvenWhenAddedMultipleTimes() {
+        final int userCode = 124;
+
+        waitingList.addWaitingUser(userCode);
+        waitingList.addWaitingUser(userCode);
+        assertTrue(waitingList.isWaitingUser(userCode));
+
+        waitingList.removeWaitingUser(userCode);
+        assertFalse(waitingList.isWaitingUser(userCode));
     }
 
-    /**
-     * Removes a user from the waiting list.
-     *
-     * @param userCode The unique code of the user to remove.
-     */
-    public void removeWaitingUser(final int userCode) {
-        users.remove(userCode);
+    @Test
+    public void removeWaitingUserShouldIgnoreUnknownUser() {
+        final int userCode = 125;
+
+        assertFalse(waitingList.isWaitingUser(userCode));
+        waitingList.removeWaitingUser(userCode);
     }
 }
