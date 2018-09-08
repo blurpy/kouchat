@@ -22,8 +22,12 @@
 
 package net.usikkert.kouchat.net.tcp;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.usikkert.kouchat.misc.Controller;
 import net.usikkert.kouchat.misc.User;
+import net.usikkert.kouchat.settings.Settings;
 import net.usikkert.kouchat.util.Logger;
 import net.usikkert.kouchat.util.Sleeper;
 import net.usikkert.kouchat.util.Validate;
@@ -40,18 +44,28 @@ public class TCPUserIdentifier implements TCPClientListener {
 
     private static final Logger LOG = Logger.getLogger(TCPUserIdentifier.class);
 
+    /**
+     * Identification format consisting of both the user sending the message and the user expected
+     * to receive the message. This is to avoid issues where client is restarted but one side hasn't
+     * noticed yet, and connects to both on the same ip and port. This makes sure only one of the connections succeed.
+     */
+    private final Pattern messagePattern = Pattern.compile("^SYS-IDENTIFY:(\\d+):(\\d+)$");
+
     private final Controller controller;
+    private final Settings settings;
     private final TCPClient client;
     private final Sleeper sleeper;
 
     @Nullable
     private String message;
 
-    public TCPUserIdentifier(final Controller controller, final TCPClient client) {
+    public TCPUserIdentifier(final Controller controller, final Settings settings, final TCPClient client) {
         Validate.notNull(controller, "Controller can not be null");
+        Validate.notNull(settings, "Settings can not be null");
         Validate.notNull(client, "Client can not be null");
 
         this.controller = controller;
+        this.settings = settings;
         this.client = client;
         this.sleeper = new Sleeper();
 
@@ -101,8 +115,24 @@ public class TCPUserIdentifier implements TCPClientListener {
             return null;
         }
 
+        final Matcher messageMatcher = messagePattern.matcher(message);
+
+        if (!messageMatcher.matches()) {
+            LOG.warning("Unexpected format of identification. message=%s, clientIP=%s",
+                    message, client.getIPAddress());
+            return null;
+        }
+
         try {
-            final int userCode = Integer.valueOf(message);
+            final int userCode = Integer.valueOf(messageMatcher.group(1));
+            final int recipientCode = Integer.valueOf(messageMatcher.group(2));
+
+            if (recipientCode != settings.getMe().getCode()) {
+                LOG.warning("Unexpected recipient code. userCode=%s, recipientCode=%s, clientIP=%s",
+                        userCode, recipientCode, client.getIPAddress());
+                return null;
+            }
+
             return controller.getUser(userCode);
         }
 

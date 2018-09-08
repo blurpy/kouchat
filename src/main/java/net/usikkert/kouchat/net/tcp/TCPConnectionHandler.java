@@ -76,7 +76,7 @@ public class TCPConnectionHandler implements TCPConnectionListener, TCPReceiverL
                 LOG.fine("Add socket start");
 
                 final TCPClient client = new TCPClient(socket);
-                final TCPUserIdentifier userIdentifier = new TCPUserIdentifier(controller, client);
+                final TCPUserIdentifier userIdentifier = new TCPUserIdentifier(controller, settings, client);
                 client.startListener();
 
                 final User user = userIdentifier.waitForUser();
@@ -117,7 +117,7 @@ public class TCPConnectionHandler implements TCPConnectionListener, TCPReceiverL
                 client.startListener();
 
                 addClient(user, client);
-                client.send(String.valueOf(settings.getMe().getCode()));
+                client.send("SYS-IDENTIFY:" + settings.getMe().getCode() + ":" + user.getCode());
 
                 LOG.fine("Add user done for user=%s", user.getNick());
             }
