@@ -55,6 +55,7 @@ public class TCPClient implements Runnable {
 
         try {
             this.socket = socket;
+            // TODO how is this outside of Java?
             this.inputStream = new DataInputStream(socket.getInputStream());
             this.outputStream = new DataOutputStream(socket.getOutputStream());
         }
