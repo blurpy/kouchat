@@ -109,6 +109,7 @@ public class TCPConnectionHandler implements TCPConnectionListener, TCPReceiverL
                 final Socket socket = tcpConnector.connect();
 
                 if (socket == null) {
+                    LOG.warning("Add user done. Unable to connect using tcp. Giving up."); // Never tries again
                     return;
                 }
 
@@ -200,8 +201,11 @@ public class TCPConnectionHandler implements TCPConnectionListener, TCPReceiverL
                 final int clientCount = userClient.getClientCount();
 
                 if (clientCount == 0) {
+                    LOG.warning("User %s has lost all tcp connections. Trying to reconnect.", user.getNick());
                     userAdded(user);
                 } else if (clientCount > 1) {
+                    LOG.warning("User %s has too many (%d) tcp connections. Trying to close.",
+                                user.getNick(), clientCount);
                     userClient.disconnectAdditionalClients();
                 }
             }

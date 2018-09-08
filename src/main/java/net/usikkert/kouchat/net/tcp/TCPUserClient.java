@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.usikkert.kouchat.misc.User;
-import net.usikkert.kouchat.util.Logger;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -35,8 +34,6 @@ import net.usikkert.kouchat.util.Validate;
  * @author Christian Ihle
  */
 public class TCPUserClient implements TCPClientListener {
-
-    private static final Logger LOG = Logger.getLogger(TCPUserClient.class);
 
     private final List<TCPClient> clients;
     private final User user;
