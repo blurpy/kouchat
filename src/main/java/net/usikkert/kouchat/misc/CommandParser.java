@@ -243,6 +243,11 @@ public class CommandParser {
                 }
 
                 info += "\n" + coreMessages.getMessage("core.command.whois.client", user.getClient());
+
+                if (user.isTcpEnabled()) {
+                    info += " " + coreMessages.getMessage("core.command.whois.tcp");
+                }
+
                 info += "\n" + coreMessages.getMessage("core.command.whois.operatingSystem", user.getOperatingSystem());
                 info += "\n" + coreMessages.getMessage("core.command.whois.online",
                                                        dateTools.howLongFromNow(user.getLogonTime()));

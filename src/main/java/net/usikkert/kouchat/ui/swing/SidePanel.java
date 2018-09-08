@@ -227,6 +227,11 @@ public class SidePanel extends JPanel implements ActionListener, MouseListener, 
                     info.append("\n");
                     info.append(swingMessages.getMessage("swing.userList.userInfoPopup.client", user.getClient()));
 
+                    if (user.isTcpEnabled()) {
+                        info.append(" ");
+                        info.append(swingMessages.getMessage("swing.userList.userInfoPopup.tcp"));
+                    }
+
                     info.append("\n");
                     info.append(swingMessages.getMessage("swing.userList.userInfoPopup.operatingSystem",
                                                          user.getOperatingSystem()));

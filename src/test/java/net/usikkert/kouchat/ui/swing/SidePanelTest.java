@@ -215,6 +215,29 @@ public class SidePanelTest {
     }
 
     @Test
+    public void clickOnInformationShouldIncludeTCPWhenEnabled() {
+        sidePanel.getUserList().setSelectedIndex(0);
+
+        abby.setClient("JUnit");
+        abby.setOperatingSystem("Solaris");
+        abby.setIpAddress("192.168.1.1");
+        abby.setLogonTime(1234);
+        abby.setTcpEnabled(true);
+
+        infoMenuItem.doClick();
+
+        verify(uiTools).showInfoMessage("Information about Abby.\n" +
+                                                "\n" +
+                                                "IP address: 192.168.1.1\n" +
+                                                "Client: JUnit TCP\n" +
+                                                "Operating System: Solaris\n" +
+                                                "\n" +
+                                                "Online: A decade",
+                                        "Info");
+        verify(dateTools).howLongFromNow(1234);
+    }
+
+    @Test
     public void clickOnInformationShouldIncludeAwayInfoWhenAway() {
         sidePanel.getUserList().setSelectedIndex(0);
 
