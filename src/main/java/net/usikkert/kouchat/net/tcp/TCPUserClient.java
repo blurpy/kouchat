@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.usikkert.kouchat.misc.User;
+import net.usikkert.kouchat.util.Logger;
+import net.usikkert.kouchat.util.Tools;
 import net.usikkert.kouchat.util.Validate;
 
 /**
@@ -34,6 +36,9 @@ import net.usikkert.kouchat.util.Validate;
  * @author Christian Ihle
  */
 public class TCPUserClient implements TCPClientListener {
+
+    private static final Logger LOG = Logger.getLogger(TCPUserClient.class);
+    private static final String MESSAGE_DISCONNECT_ADDITIONAL = "SYS-DISCONNECT-ADDITIONAL";
 
     private final List<TCPClient> clients;
     private final User user;
@@ -80,13 +85,35 @@ public class TCPUserClient implements TCPClientListener {
 
     @Override
     public void messageArrived(final String message, final TCPClient client) {
-        listener.messageArrived(message, client.getIPAddress(), user);
+        if (message.equals(MESSAGE_DISCONNECT_ADDITIONAL)) {
+            LOG.fine("Client for %s asked to disconnect", user.getNick());
+
+            if (clients.size() <= 1) {
+                LOG.fine("Not enough clients left for %s to disconnect", user.getNick());
+                return;
+            }
+
+            for (final TCPClient tcpClient : clients) {
+                if (tcpClient.isDisconnecting()) {
+                    LOG.fine("Another client for %s is already waiting to be disconnected", user.getNick());
+                    return;
+                }
+            }
+
+            client.disconnect();
+        }
+
+        else {
+            listener.messageArrived(message, client.getIPAddress(), user);
+        }
     }
 
     public void send(final String message) {
         for (final TCPClient client : clients) {
-            client.send(message);
-            break;
+            if (!client.isDisconnecting()) {
+                client.send(message);
+                return;
+            }
         }
     }
 
@@ -94,10 +121,40 @@ public class TCPUserClient implements TCPClientListener {
         return clients.size();
     }
 
+    /**
+     * Using a two step process to try to avoid a situation where clients on both side disconnect
+     * different sockets at the same time.
+     *
+     * This works by marking a client as "disconnecting". If a request arrives from the other side to
+     * disconnect it will be ignored if only 1 client left, or if this side has already sent a request to
+     * disconnect. This may end up with none of the sides disconnecting, but hopefully resolving on the next attempt.
+     */
     public void disconnectAdditionalClients() {
-        if (clients.size() > 1) {
-            final TCPClient client = clients.get(0);
-            client.disconnect();
+        if (clients.size() <= 1) {
+            LOG.fine("Not enough clients left for %s to ask to disconnect", user.getNick());
+            return;
         }
+
+        for (final TCPClient client : clients) {
+            if (client.isDisconnecting()) {
+                LOG.fine("A client for %s is already waiting to be disconnected", user.getNick());
+                return;
+            }
+        }
+
+        final TCPClient client = clients.get(0);
+        client.setDisconnecting(true);
+        client.send(MESSAGE_DISCONNECT_ADDITIONAL);
+
+        for (int i = 0; i < 50; i++) {
+            Tools.sleep(50);
+
+            if (!client.isConnected()) {
+                return;
+            }
+        }
+
+        LOG.warning("Client for %s didn't disconnect as expected", user.getNick());
+        client.setDisconnecting(false);
     }
 }

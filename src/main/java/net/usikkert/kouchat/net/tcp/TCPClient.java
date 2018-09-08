@@ -49,6 +49,7 @@ public class TCPClient implements Runnable {
     private TCPClientListener clientListener;
 
     private boolean connected;
+    private boolean disconnecting;
 
     public TCPClient(final Socket socket) {
         Validate.notNull(socket, "Socket can not be null");
@@ -121,6 +122,7 @@ public class TCPClient implements Runnable {
         try {
             LOG.fine("Disconnected from %s:%s", getIPAddress(), socket.getPort());
             connected = false;
+            disconnecting = true;
 
             if (clientListener != null) {
                 clientListener.disconnected(this);
@@ -140,5 +142,17 @@ public class TCPClient implements Runnable {
 
     public void registerClientListener(@Nullable final TCPClientListener theClientListener) {
         this.clientListener = theClientListener;
+    }
+
+    public void setDisconnecting(final boolean isDisconnecting) {
+        disconnecting = isDisconnecting;
+    }
+
+    public boolean isDisconnecting() {
+        return disconnecting;
+    }
+
+    public boolean isConnected() {
+        return connected;
     }
 }
