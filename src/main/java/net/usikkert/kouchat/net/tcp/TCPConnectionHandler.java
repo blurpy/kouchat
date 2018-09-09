@@ -77,7 +77,12 @@ public class TCPConnectionHandler implements TCPConnectionListener, TCPReceiverL
 
                 final TCPClient client = new TCPClient(socket);
                 final TCPUserIdentifier userIdentifier = new TCPUserIdentifier(controller, settings, client);
-                client.startListener();
+
+                if (!client.connect()) {
+                    LOG.warning("Add socket done. Connection failed.");
+                    client.disconnect();
+                    return;
+                }
 
                 final User user = userIdentifier.waitForUser();
 
@@ -114,7 +119,12 @@ public class TCPConnectionHandler implements TCPConnectionListener, TCPReceiverL
                 }
 
                 final TCPClient client = new TCPClient(socket);
-                client.startListener();
+
+                if (!client.connect()) {
+                    LOG.warning("Add user done. Connection failed. Giving up."); // Never tries again
+                    client.disconnect();
+                    return;
+                }
 
                 addClient(user, client);
                 client.send("SYS-IDENTIFY:" + settings.getMe().getCode() + ":" + user.getCode());

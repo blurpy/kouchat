@@ -42,8 +42,12 @@ public class TCPClient implements Runnable {
     private static final Logger LOG = Logger.getLogger(TCPClient.class);
 
     private final Socket socket;
-    private final DataInputStream inputStream;
-    private final DataOutputStream outputStream;
+
+    @Nullable
+    private DataInputStream inputStream;
+
+    @Nullable
+    private DataOutputStream outputStream; // TODO how is this outside of Java?
 
     @Nullable
     private TCPClientListener clientListener;
@@ -53,25 +57,13 @@ public class TCPClient implements Runnable {
 
     public TCPClient(final Socket socket) {
         Validate.notNull(socket, "Socket can not be null");
-
-        try {
-            this.socket = socket;
-            // TODO how is this outside of Java?
-            this.inputStream = new DataInputStream(socket.getInputStream());
-            this.outputStream = new DataOutputStream(socket.getOutputStream());
-        }
-
-        catch (final IOException e) {
-            throw new RuntimeException(e); // TODO how to handle?
-        }
-
-        LOG.fine("Connected to %s:%s", getIPAddress(), socket.getPort());
+        this.socket = socket;
     }
 
     @Override
     public void run() {
         try {
-            while (connected) {
+            while (connected && inputStream != null) {
                 final String message = inputStream.readUTF();
                 LOG.fine("Message arrived from %s: %s", getIPAddress(), message);
 
@@ -92,7 +84,7 @@ public class TCPClient implements Runnable {
     }
 
     public void send(final String message) {
-        if (!connected) {
+        if (!connected || outputStream == null) {
             return;
         }
 
@@ -111,11 +103,23 @@ public class TCPClient implements Runnable {
         }
     }
 
-    public void startListener() {
-        LOG.fine("Listening on %s:%s", getIPAddress(), socket.getPort());
+    public boolean connect() {
+        try {
+            inputStream = new DataInputStream(socket.getInputStream());
+            outputStream = new DataOutputStream(socket.getOutputStream());
 
-        connected = true;
-        new Thread(this, getClass().getSimpleName()).start();
+            LOG.fine("Connected to %s:%s", getIPAddress(), socket.getPort());
+
+            connected = true;
+            new Thread(this, getClass().getSimpleName()).start();
+
+            return true;
+        }
+
+        catch (final IOException e) {
+            LOG.severe(e.getMessage());
+            return false;
+        }
     }
 
     public void disconnect() {
@@ -132,7 +136,7 @@ public class TCPClient implements Runnable {
         }
 
         catch (final IOException e) {
-            LOG.warning(e.toString());
+            LOG.warning(e.getMessage());
         }
     }
 
