@@ -22,6 +22,8 @@
 
 package net.usikkert.kouchat.net;
 
+import static net.usikkert.kouchat.net.NetworkUtils.IPTOS_RELIABILITY;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
@@ -161,6 +163,8 @@ public class MessageSender {
                 if (networkInterface != null) {
                     mcSocket.setNetworkInterface(networkInterface);
                 }
+
+                mcSocket.setTrafficClass(IPTOS_RELIABILITY);
 
                 mcSocket.joinGroup(address);
                 mcSocket.setTimeToLive(64);

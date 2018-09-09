@@ -45,6 +45,9 @@ public class NetworkUtils {
     /** The logger. */
     private static final Logger LOG = Logger.getLogger(NetworkUtils.class.getName());
 
+    /** Traffic class: IPTOS_RELIABILITY (0x04) - optimize for reliability. */
+    public static final int IPTOS_RELIABILITY = 0x04;
+
     /**
      * Checks if the network interface is up, and usable.
      *
