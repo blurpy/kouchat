@@ -4,7 +4,7 @@
   <groupId>net.usikkert.kouchat</groupId>
   <artifactId>kouchat</artifactId>
   <packaging>jar</packaging>
-  <version>1.4.0-SNAPSHOT</version>
+  <version>1.5.0-SNAPSHOT</version>
   <name>KouChat</name>
   <url>https://www.kouchat.net/</url>
   <description>
