@@ -240,9 +240,7 @@ public class ExceptionDialogTest {
 
         verify(exceptionDialog).timestamp(argThat(new ArgumentMatcher<Date>() {
             @Override
-            public boolean matches(final Object argument) {
-                final Date dateForTimestamp = (Date) argument;
-
+            public boolean matches(final Date dateForTimestamp) {
                 return DateTestUtils.isNow(dateForTimestamp);
             }
         }));

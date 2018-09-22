@@ -207,7 +207,7 @@ public class SwingMediatorTest {
 
     @Test
     public void setAwayWhenBackShouldAskAwayMessageAndGoAway() throws CommandException {
-        when(uiTools.showInputDialog(anyString(), anyString(), anyString())).thenReturn("Going away");
+        when(uiTools.showInputDialog(anyString(), anyString(), nullable(String.class))).thenReturn("Going away");
 
         mediator.setAway();
 
@@ -218,7 +218,7 @@ public class SwingMediatorTest {
 
     @Test
     public void setAwayWhenBackShouldUpdateWritingStatusAndClearInputFieldIfCurrentlyWriting() {
-        when(uiTools.showInputDialog(anyString(), anyString(), anyString())).thenReturn("Going away");
+        when(uiTools.showInputDialog(anyString(), anyString(), nullable(String.class))).thenReturn("Going away");
         when(controller.isWrote()).thenReturn(true);
 
         mediator.setAway();
@@ -229,7 +229,7 @@ public class SwingMediatorTest {
 
     @Test
     public void setAwayWhenBackShouldNotUpdateWritingStatusAndClearInputFieldIfNotCurrentlyWriting() {
-        when(uiTools.showInputDialog(anyString(), anyString(), anyString())).thenReturn("Going away");
+        when(uiTools.showInputDialog(anyString(), anyString(), nullable(String.class))).thenReturn("Going away");
         when(controller.isWrote()).thenReturn(false);
 
         mediator.setAway();
@@ -240,7 +240,7 @@ public class SwingMediatorTest {
 
     @Test
     public void setAwayWhenBackShouldShowWarningMessageIfChangeFails() throws CommandException {
-        when(uiTools.showInputDialog(anyString(), anyString(), anyString())).thenReturn("Leaving");
+        when(uiTools.showInputDialog(anyString(), anyString(), nullable(String.class))).thenReturn("Leaving");
         doThrow(new CommandException("Don't go away")).when(controller).goAway(anyString());
 
         mediator.setAway();
@@ -251,7 +251,7 @@ public class SwingMediatorTest {
 
     @Test
     public void setAwayWhenBackShouldAskAwayMessageAndDoNothingIfMessageIsNull() {
-        when(uiTools.showInputDialog(anyString(), anyString(), anyString())).thenReturn(null);
+        when(uiTools.showInputDialog(anyString(), anyString(), nullable(String.class))).thenReturn(null);
 
         mediator.setAway();
 
@@ -260,7 +260,7 @@ public class SwingMediatorTest {
 
     @Test
     public void setAwayWhenBackShouldAskAwayMessageAndDoNothingIfMessageIsBlank() {
-        when(uiTools.showInputDialog(anyString(), anyString(), anyString())).thenReturn(" ");
+        when(uiTools.showInputDialog(anyString(), anyString(), nullable(String.class))).thenReturn(" ");
 
         mediator.setAway();
 
@@ -346,7 +346,7 @@ public class SwingMediatorTest {
     @Test
     public void setTopicShouldNotChangeTopicIfDialogWasCancelled() {
         when(controller.getTopic()).thenReturn(new Topic("Initial topic", "Niles", System.currentTimeMillis()));
-        when(uiTools.showInputDialog(anyString(), anyString(), anyString())).thenReturn(null);
+        when(uiTools.showInputDialog(anyString(), anyString(), nullable(String.class))).thenReturn(null);
 
         mediator.setTopic();
 
@@ -357,7 +357,7 @@ public class SwingMediatorTest {
     @Test
     public void setTopicShouldChangeTopicIfDialogWasAccepted() throws CommandException {
         when(controller.getTopic()).thenReturn(new Topic("Initial topic", "Niles", System.currentTimeMillis()));
-        when(uiTools.showInputDialog(anyString(), anyString(), anyString())).thenReturn("new topic");
+        when(uiTools.showInputDialog(anyString(), anyString(), nullable(String.class))).thenReturn("new topic");
 
         mediator.setTopic();
 
@@ -369,7 +369,7 @@ public class SwingMediatorTest {
     @Test
     public void setTopicShouldShowWarningMessageIfChangingTopicFails() throws CommandException {
         when(controller.getTopic()).thenReturn(new Topic("Initial topic", "Niles", System.currentTimeMillis()));
-        when(uiTools.showInputDialog(anyString(), anyString(), anyString())).thenReturn("new topic");
+        when(uiTools.showInputDialog(anyString(), anyString(), nullable(String.class))).thenReturn("new topic");
         doThrow(new CommandException("Topic error")).when(cmdParser).fixTopic(anyString());
 
         mediator.setTopic();
