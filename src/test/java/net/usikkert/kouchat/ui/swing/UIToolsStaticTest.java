@@ -46,7 +46,6 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-
 /**
  * Test of {@link UITools} using {@link PowerMockito} to mock statics.
  *
@@ -157,37 +156,5 @@ public class UIToolsStaticTest {
         final SystemTray systemTrayFromUiTools = uiTools.getSystemTray();
 
         assertSame(mockSystemTray, systemTrayFromUiTools);
-    }
-
-    /**
-     * Need a third look and feel, as Nimbus is in a different package in Java 6 and 7, and
-     * the others are platform specific.
-     */
-    private static class KouLookAndFeel extends BasicLookAndFeel {
-
-        @Override
-        public String getName() {
-            return null;
-        }
-
-        @Override
-        public String getID() {
-            return null;
-        }
-
-        @Override
-        public String getDescription() {
-            return null;
-        }
-
-        @Override
-        public boolean isNativeLookAndFeel() {
-            return false;
-        }
-
-        @Override
-        public boolean isSupportedLookAndFeel() {
-            return false;
-        }
     }
 }
