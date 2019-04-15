@@ -139,6 +139,7 @@ everything to work correctly:
 
 * Main chat: UDP port 40556
 * Private chat: UDP port 40656 (increased by one for each running instance)
+* TCP chat: port 40656 (increased by one for each running instance)
 * File transfer: TCP port 40756
 * Network detection: UDP port 50050
 
